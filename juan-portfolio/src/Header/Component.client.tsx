@@ -1,9 +1,11 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
+import { useLocale } from '@/providers/Locale'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { ChevronDown, Menu } from 'lucide-react'
+import { ChevronDown, Menu, Globe } from 'lucide-react'
+import { t } from '@/i18n/translations'
 
 import type { Header } from '@/payload-types'
 
@@ -19,7 +21,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isLangOpen, setIsLangOpen] = useState<boolean>(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
+  const { locale, setLocale } = useLocale()
   const pathname = usePathname()
 
   useEffect(() => {
@@ -48,12 +52,36 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               <button
-                className="flex items-center space-x-1 text-sm font-medium"
-                id="lang-switcher"
+                className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors"
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                aria-label="Change language"
               >
-                <span>ES</span>
+                <Globe size={16} />
+                <span className="uppercase">{locale}</span>
                 <ChevronDown size={16} />
               </button>
+              {isLangOpen && (
+                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-slate-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 rounded-t-md"
+                    onClick={() => {
+                      setLocale('en')
+                      setIsLangOpen(false)
+                    }}
+                  >
+                    English
+                  </button>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 rounded-b-md"
+                    onClick={() => {
+                      setLocale('es')
+                      setIsLangOpen(false)
+                    }}
+                  >
+                    Español
+                  </button>
+                </div>
+              )}
             </div>
             {/* ThemeToggle uses the ThemeProvider client */}
             <ThemeToggle className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" />
@@ -93,7 +121,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               <button
                 className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800"
                 onClick={() => setIsOpen(false)}
-                aria-label="Cerrar menú"
+                aria-label={t(locale, 'header.closeMenu')}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -8,7 +8,7 @@ module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
   // Do not exclude site sections like /case-studies or /authors so they are discoverable
-  exclude: ['/admin/*', '/api/*'],
+  exclude: ['/admin/*', '/api/*', '/next-sitemap.xml', '/server-sitemap.xml'],
   robotsTxtOptions: {
     policies: [
       {
@@ -16,6 +16,11 @@ module.exports = {
         disallow: '/admin/*',
       },
     ],
-    additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/posts-sitemap.xml`],
+    additionalSitemaps: [
+      `${SITE_URL}/pages-sitemap.xml`,
+      `${SITE_URL}/posts-sitemap.xml`,
+      `${SITE_URL}/case-studies-sitemap.xml`,
+      `${SITE_URL}/authors-sitemap.xml`,
+    ],
   },
 }

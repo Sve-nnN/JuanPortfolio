@@ -20,6 +20,9 @@ import CaseStudies from './collections/CaseStudies'
 import Clients from './collections/Clients'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { Home } from './globals/Home/config'
+import { BlogListing } from './globals/BlogListing/config'
+import { CaseStudiesListing } from './globals/CaseStudiesListing/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -92,7 +95,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Works, CaseStudies, Clients],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder

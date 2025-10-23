@@ -1,12 +1,11 @@
 import React from 'react'
 import type { Page } from '@/payload-types'
 import Image from 'next/image'
-import RichText from '@/components/RichText'
-import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import { ArrowRight } from 'lucide-react'
 import { getServerSideURL } from '@/utilities/getURL'
+import { t, type Locale } from '@/i18n/translations'
 
-const Hero = ({ hero }: { hero?: Page['hero'] }) => {
+const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale }) => {
   if (!hero) return null
 
   // hero.media can be either an id (string) or populated upload object
@@ -23,29 +22,20 @@ const Hero = ({ hero }: { hero?: Page['hero'] }) => {
           {/* Badge */}
           <div className="mb-4">
             <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
-              Disponible para trabajar
+              {t(locale, 'home.hero.badge')}
             </span>
           </div>
 
-          {/* Heading (using richText if available) */}
-          {hero.richText ? (
-            <div className="prose prose-lg max-w-none font-khand">
-              <RichText data={hero.richText as DefaultTypedEditorState} />
-            </div>
-          ) : (
-            <>
-              <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4 leading-tight">
-                Juan Carlos Angulo
-              </h1>
-              <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
-                <span className="gradient-text">Desarrollador Web &amp; Especialista SEO</span>
-              </h2>
-            </>
-          )}
+          {/* Heading */}
+          <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4 leading-tight">
+            {t(locale, 'home.hero.title')}
+          </h1>
+          <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
+            <span className="gradient-text">{t(locale, 'home.hero.subtitle')}</span>
+          </h2>
 
           <p className="max-w-xl text-lg text-muted mb-8">
-            Transformo ideas en sitios web rápidos, responsivos y optimizados para motores de
-            búsqueda que impulsan el crecimiento de tu negocio.
+            {t(locale, 'home.hero.description')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -54,14 +44,14 @@ const Hero = ({ hero }: { hero?: Page['hero'] }) => {
                 href={hero.links[0].link?.url || '#'}
                 className="bg-primary text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors inline-block"
               >
-                {hero.links[0].link?.label || 'Contáctame'}
+                {hero.links[0].link?.label || t(locale, 'home.hero.contact')}
               </a>
             ) : (
               <a
                 href="#contact"
                 className="bg-primary text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors inline-block"
               >
-                Contáctame
+                {t(locale, 'home.hero.contact')}
               </a>
             )}
 
@@ -71,8 +61,8 @@ const Hero = ({ hero }: { hero?: Page['hero'] }) => {
             >
               <span>
                 {hero.links && hero.links[1]
-                  ? hero.links[1].link?.label || 'Mi Trabajo'
-                  : 'Mi Trabajo'}
+                  ? hero.links[1].link?.label || t(locale, 'home.hero.work')
+                  : t(locale, 'home.hero.work')}
               </span>
               <ArrowRight className="ml-2" size={18} />
             </a>

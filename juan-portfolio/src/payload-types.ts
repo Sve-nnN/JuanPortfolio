@@ -109,10 +109,16 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    home: Home;
+    'blog-listing': BlogListing;
+    'case-studies-listing': CaseStudiesListing;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
+    'blog-listing': BlogListingSelect<false> | BlogListingSelect<true>;
+    'case-studies-listing': CaseStudiesListingSelect<false> | CaseStudiesListingSelect<true>;
   };
   locale: 'en' | 'es';
   user: User & {
@@ -451,17 +457,41 @@ export interface User {
 export interface CaseStudy {
   id: string;
   title: string;
-  excerpt?: string | null;
-  cover?: (string | null) | Media;
-  tags?:
-    | {
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  caseStudyUrl?: string | null;
+  heroImage?: (string | null) | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (string | CaseStudy)[] | null;
+  categories?: (string | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1529,17 +1559,23 @@ export interface WorksSelect<T extends boolean = true> {
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
-  excerpt?: T;
-  cover?: T;
-  tags?:
+  heroImage?: T;
+  content?: T;
+  relatedPosts?: T;
+  categories?: T;
+  meta?:
     | T
     | {
-        label?: T;
-        id?: T;
+        title?: T;
+        image?: T;
+        description?: T;
       };
-  caseStudyUrl?: T;
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1868,6 +1904,67 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: string;
+  heroTitle: string;
+  heroSubtitle?: string | null;
+  worksTitle?: string | null;
+  worksDescription?: string | null;
+  /**
+   * Select featured case studies to display on the homepage
+   */
+  featuredWorks?: (string | CaseStudy)[] | null;
+  clientsTitle?: string | null;
+  /**
+   * Select featured clients to display on the homepage
+   */
+  featuredClients?: (string | Client)[] | null;
+  blogTitle?: string | null;
+  blogDescription?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-listing".
+ */
+export interface BlogListing {
+  id: string;
+  title: string;
+  description?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies-listing".
+ */
+export interface CaseStudiesListing {
+  id: string;
+  title: string;
+  description?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1914,6 +2011,67 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  worksTitle?: T;
+  worksDescription?: T;
+  featuredWorks?: T;
+  clientsTitle?: T;
+  featuredClients?: T;
+  blogTitle?: T;
+  blogDescription?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-listing_select".
+ */
+export interface BlogListingSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies-listing_select".
+ */
+export interface CaseStudiesListingSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -1928,6 +2086,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'case-studies';
+          value: string | CaseStudy;
         } | null);
     global?: string | null;
     user?: (string | null) | User;

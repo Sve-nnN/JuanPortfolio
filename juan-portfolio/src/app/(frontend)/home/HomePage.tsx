@@ -1,6 +1,5 @@
 import React from 'react'
 import type { RequiredDataFromCollectionSlug } from 'payload'
-// payload imports removed: not used in the static composition (can be re-added for dynamic blog)
 import Hero from '@/components/home/Hero'
 import Intro from '@/components/home/Intro'
 import WorkCards from '@/components/home/WorkCards'
@@ -9,13 +8,14 @@ import BlogList from '@/components/home/BlogList'
 import ContactForm from '@/components/home/ContactForm'
 import CTA from '@/components/home/CTA'
 import About from '@/components/home/About'
+import { t, type Locale } from '@/i18n/translations'
 
-const HomePage = async ({ page }: { page: RequiredDataFromCollectionSlug<'pages'> }) => {
+const HomePage = async ({ page, locale = 'es' }: { page: RequiredDataFromCollectionSlug<'pages'>; locale?: Locale }) => {
   // (Opcional) podemos consultar posts desde Payload aquí si queremos hacer BlogList dinámico
 
   return (
     <div>
-      <Hero hero={page.hero} />
+      <Hero hero={page.hero} locale={locale} />
       <About page={page} />
       <Intro page={page} />
 
@@ -23,9 +23,9 @@ const HomePage = async ({ page }: { page: RequiredDataFromCollectionSlug<'pages'
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-current">
-              Casos de Estudio
+              {t(locale, 'home.work.title')}
             </h2>
-            <p className="mt-4 text-lg text-muted">Una selección de mis trabajos más recientes.</p>
+            <p className="mt-4 text-lg text-muted">{t(locale, 'home.work.description')}</p>
           </div>
           <WorkCards />
           <div className="text-center mt-12">
@@ -33,7 +33,7 @@ const HomePage = async ({ page }: { page: RequiredDataFromCollectionSlug<'pages'
               className="bg-primary text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
               href="#"
             >
-              Ver todos los casos de estudio
+              {t(locale, 'home.work.viewAll')}
             </a>
           </div>
         </div>
@@ -45,10 +45,10 @@ const HomePage = async ({ page }: { page: RequiredDataFromCollectionSlug<'pages'
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-current">
-              Desde mi Blog
+              {t(locale, 'home.blog.title')}
             </h2>
             <p className="mt-4 text-lg text-muted">
-              Artículos y tutoriales sobre desarrollo web y SEO.
+              {t(locale, 'home.blog.description')}
             </p>
           </div>
           <BlogList />
@@ -57,7 +57,7 @@ const HomePage = async ({ page }: { page: RequiredDataFromCollectionSlug<'pages'
               className="bg-primary text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
               href="#"
             >
-              Visitar el blog
+              {t(locale, 'home.blog.visitBlog')}
             </a>
           </div>
         </div>
@@ -69,7 +69,7 @@ const HomePage = async ({ page }: { page: RequiredDataFromCollectionSlug<'pages'
         </div>
       </section>
 
-      <CTA data={{ label: 'Contacta conmigo', url: '/contact' }} />
+      <CTA data={{ label: t(locale, 'home.contact.cta'), url: '/contact' }} />
     </div>
   )
 }

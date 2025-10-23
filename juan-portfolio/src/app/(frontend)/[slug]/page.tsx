@@ -80,7 +80,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
         {/* HomePage will render hero, blocks and latest posts */}
-        <HomePage page={page} />
+        <HomePage page={page} locale={locale} />
       </article>
     )
   }

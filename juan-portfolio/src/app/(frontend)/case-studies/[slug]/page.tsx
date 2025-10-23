@@ -198,7 +198,7 @@ const queryCaseBySlug = cache(async ({ slug }: { slug: string }) => {
   const payload = await getPayload({ config: configPromise })
 
   // Try find by slug first
-  let result = await payload.find({
+  const result = await payload.find({
     collection: 'case-studies',
     draft,
     limit: 1,

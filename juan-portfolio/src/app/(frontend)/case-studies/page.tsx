@@ -116,7 +116,7 @@ const CaseStudiesPage = async () => {
                 key={p.id}
                 className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
               >
-                <a
+                <Link
                   className="block aspect-[4/3] overflow-hidden"
                   href={`/case-studies/${p.slug || p.id}`}
                 >
@@ -134,7 +134,7 @@ const CaseStudiesPage = async () => {
                       style={{ minHeight: 200 }}
                     />
                   )}
-                </a>
+                </Link>
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="mb-3">
                     {(p.categories as (CategoryRef | string)[] | undefined)?.map((c) => {
@@ -178,33 +178,33 @@ const CaseStudiesPage = async () => {
               <nav aria-label="Paginación de casos de estudio">
                 <ul className="inline-flex items-center -space-x-px">
                   <li>
-                    <a
+                    <Link
                       className="py-2 px-3 ml-0 leading-tight text-muted bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                       href={`/case-studies/page/${Math.max(1, posts.page - 1)}`}
                     >
                       Anterior
-                    </a>
+                    </Link>
                   </li>
 
                   {Array.from({ length: posts.totalPages }).map((_, i) => (
                     <li key={i}>
-                      <a
+                      <Link
                         aria-current={posts.page === i + 1 ? 'page' : undefined}
                         className={`py-2 px-3 leading-tight ${posts.page === i + 1 ? 'text-blue-600 bg-blue-50' : 'text-muted bg-white'} border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white`}
                         href={`/case-studies/page/${i + 1}`}
                       >
                         {i + 1}
-                      </a>
+                      </Link>
                     </li>
                   ))}
 
                   <li>
-                    <a
+                    <Link
                       className="py-2 px-3 leading-tight text-muted bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                       href={`/case-studies/page/${Math.min(posts.totalPages, posts.page + 1)}`}
                     >
                       Siguiente
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>

@@ -10,8 +10,10 @@ import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ThemeProvider } from '@/providers/Theme/ThemeProvider.client'
+import { LocaleProvider } from '@/providers/Locale'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
+import { draftMode, headers } from 'next/headers'
+import type { Locale } from '@/i18n/translations'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -38,6 +40,12 @@ const Khand = localFont({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  
+  // Detect locale from Accept-Language header
+  const hdrs = await headers()
+  const acceptLanguage = hdrs.get('accept-language') || undefined
+  const rawLocale = acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : undefined
+  const initialLocale: Locale = (rawLocale && ['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as Locale
 
   return (
     <html className={cn(Khand.variable, ArrayFont.variable)} lang="en" suppressHydrationWarning>
@@ -49,15 +57,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <Providers>
           <ThemeProvider>
-            <AdminBar
-              adminBarProps={{
-                preview: isEnabled,
-              }}
-            />
+            <LocaleProvider initialLocale={initialLocale}>
+              <AdminBar
+                adminBarProps={{
+                  preview: isEnabled,
+                }}
+              />
 
-            <Header />
-            {children}
-            <Footer />
+              <Header />
+              {children}
+              <Footer />
+            </LocaleProvider>
           </ThemeProvider>
         </Providers>
       </body>

@@ -1,0 +1,42 @@
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { Card, CardPostData } from '../../../src/components/Card';
+
+describe('Card component', () => {
+  const mockDoc: CardPostData = {
+    slug: 'test-post',
+    title: 'Test Post',
+    categories: [{ id: '1', title: 'Category 1' }],
+    meta: {
+      description: 'This is a test post.',
+      image: {
+        id: '1',
+        filename: 'test.jpg',
+        alt: 'Test Image',
+        url: '/test.jpg',
+      },
+    },
+  };
+
+  it('renders the card with all props', () => {
+    render(<Card doc={mockDoc} relationTo="posts" showCategories />);
+
+    expect(screen.getByText('Test Post')).toBeInTheDocument();
+    expect(screen.getByText('This is a test post.')).toBeInTheDocument();
+    expect(screen.getByText('Category 1')).toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/posts/test-post');
+  });
+
+  it('renders the card with minimal props', () => {
+    const minimalDoc: CardPostData = {
+      slug: 'minimal-post',
+      title: 'Minimal Post',
+    };
+    render(<Card doc={minimalDoc} relationTo="posts" />);
+
+    expect(screen.getByText('Minimal Post')).toBeInTheDocument();
+    expect(screen.queryByText('This is a test post.')).not.toBeInTheDocument();
+    expect(screen.queryByText('Category 1')).not.toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/posts/minimal-post');
+  });
+});

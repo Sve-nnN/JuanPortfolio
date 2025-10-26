@@ -36,6 +36,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme])
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = prev
+      }
+    }
+  }, [isOpen])
+
   return (
     <header
       className="sticky top-0 z-50 bg-background-light/80 dark:bg-black/60 backdrop-blur-sm"
@@ -101,7 +112,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* Mobile menu panel */}
       <div
         id="mobile-menu"
-        className={`md:hidden fixed inset-0 z-[100] transition-all ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`md:hidden fixed inset-0 z-[100] transition-all overflow-x-hidden ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         aria-hidden={!isOpen}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setIsOpen(false)
@@ -138,7 +149,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               </button>
             </div>
             <div className="flex-1 overflow-auto" tabIndex={-1}>
-              <HeaderNav data={data} mobile />
+              <HeaderNav data={data} mobile onItemClick={() => setIsOpen(false)} />
             </div>
             <div className="mt-6">
               <ThemeToggle className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" />

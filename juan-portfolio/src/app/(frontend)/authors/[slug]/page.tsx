@@ -4,7 +4,7 @@ import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-type Params = { params: { slug?: string } }
+type Params = { params: Promise<{ slug?: string }> }
 
 const queryUserBySlug = async (slug: string) => {
   const payload = await getPayload({ config: configPromise })
@@ -33,7 +33,7 @@ const queryPostsByAuthor = async (authorId: string) => {
 }
 
 export default async function AuthorPage({ params }: Params) {
-  const slug = params.slug || ''
+  const { slug = '' } = await params
   const user = await queryUserBySlug(slug)
   if (!user) return <p>Autor no encontrado</p>
 

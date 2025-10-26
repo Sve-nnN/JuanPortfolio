@@ -18,6 +18,7 @@ type CMSLinkType = {
   size?: ButtonProps['size'] | null
   type?: 'custom' | 'reference' | null
   url?: string | null
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -31,16 +32,38 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     reference,
     size: sizeFromProps,
     url,
+    onClick,
   } = props
 
-  const href =
-    type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
-      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
-          reference.value.slug
-        }`
-      : url
+  // Resolve href consistently with site routes
+  const href: string | null = (() => {
+    if (type === 'reference' && reference?.value && typeof reference.value === 'object') {
+      const slug = (reference.value as { slug?: string }).slug || ''
+      if (!slug) return null
+      // Posts use /blog/[slug]; pages use /[slug]
+      return reference.relationTo === 'posts' ? `/blog/${slug}` : `/${slug}`
+    }
+    if (url) return url
+    return null
+  })()
 
   if (!href) return null
+
+  // Derive label if not provided
+  const derivedLabel: string | undefined = (() => {
+    if (label && typeof label === 'string') return label
+    if (type === 'reference' && reference?.value && typeof reference.value === 'object') {
+      const title = (reference.value as { title?: string }).title
+      if (title) return title
+    }
+    try {
+      const path = href.split('?')[0]
+      const seg = path.split('/').filter(Boolean).pop()
+      return seg ? decodeURIComponent(seg).replace(/-/g, ' ') : undefined
+    } catch {
+      return undefined
+    }
+  })()
 
   const size = appearance === 'link' ? 'clear' : sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}
@@ -48,18 +71,18 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
-        {children && children}
+      <Link className={cn(className)} href={href} aria-label={derivedLabel} {...newTabProps} onClick={onClick}>
+        {derivedLabel}
+        {children}
       </Link>
     )
   }
 
   return (
     <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
-        {children && children}
+      <Link className={cn(className)} href={href} aria-label={derivedLabel} {...newTabProps} onClick={onClick}>
+        {derivedLabel}
+        {children}
       </Link>
     </Button>
   )

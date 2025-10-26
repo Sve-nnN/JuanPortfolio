@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
-import { slugField } from 'payload'
+import { slugField } from '@/fields/slug'
 import type { CollectionBeforeChangeHook } from 'payload'
 
 const slugify = (s: string) =>
@@ -12,7 +12,12 @@ const slugify = (s: string) =>
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
 
-const ensureUniqueSlug: CollectionBeforeChangeHook = async ({ data, req, operation, originalDoc }) => {
+const ensureUniqueSlug: CollectionBeforeChangeHook = async ({
+  data,
+  req,
+  operation,
+  originalDoc,
+}) => {
   // Only run for create/update
   const payload = req.payload
   const payloadData = data as Record<string, unknown>
@@ -38,7 +43,11 @@ const ensureUniqueSlug: CollectionBeforeChangeHook = async ({ data, req, operati
     let i = 1
     while (i <= 5) {
       const alt = `${desired}-${i}`
-      const res = await payload.find({ collection: 'users', where: { slug: { equals: alt } }, limit: 1 })
+      const res = await payload.find({
+        collection: 'users',
+        where: { slug: { equals: alt } },
+        limit: 1,
+      })
       if (!res || res.totalDocs === 0) {
         desired = alt
         break

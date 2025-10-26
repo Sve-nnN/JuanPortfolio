@@ -1,35 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+export const deepMerge = <T extends object, U extends object>(obj1: T, obj2: U): T & U => {
+  const result = { ...obj1 } as T & U;
 
-/**
- * Simple object check.
- * @param item
- * @returns {boolean}
- */
-export function isObject(item: unknown): item is object {
-  return typeof item === 'object' && !Array.isArray(item)
-}
+  for (const key in obj2) {
+    if (Object.prototype.hasOwnProperty.call(obj2, key)) {
+      const val2 = obj2[key];
+      const val1 = result[key];
 
-/**
- * Deep merge two objects.
- * @param target
- * @param ...sources
- */
-export default function deepMerge<T, R>(target: T, source: R): T {
-  const output = { ...target }
-  if (isObject(target) && isObject(source)) {
-    Object.keys(source).forEach((key) => {
-      if (isObject(source[key])) {
-        if (!(key in target)) {
-          Object.assign(output, { [key]: source[key] })
-        } else {
-          output[key] = deepMerge(target[key], source[key])
-        }
+      if (isObject(val1) && isObject(val2)) {
+        result[key] = deepMerge(val1, val2);
       } else {
-        Object.assign(output, { [key]: source[key] })
+        result[key] = val2;
       }
-    })
+    }
   }
 
-  return output
-}
+  return result;
+};
+
+const isObject = (item: any): item is object => {
+  return item && typeof item === 'object' && !Array.isArray(item);
+};

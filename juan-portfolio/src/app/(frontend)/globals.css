@@ -46,6 +46,11 @@
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     /* Use design tokens for background and text so components match the provided HTML */
     background-color: var(--color-bg);
@@ -128,6 +133,20 @@ h6 {
   border-color: var(--color-border);
 }
 
+/* Hero gradient that adapts to theme colors */
+.hero-gradient {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.35), transparent 30%),
+    radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.25), transparent 40%);
+}
+
+/* dark mode adjustments */
+.dark .hero-gradient {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(96, 165, 250, 0.25), transparent 30%),
+    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.18), transparent 40%);
+}
+
 /* Small helper to match primary/10 usage (approximated with CSS variable + opacity) */
 .bg-primary\/10 {
   background-color: rgba(59, 130, 246, 0.1);
@@ -153,4 +172,18 @@ h6 {
   font-size: 1.125rem;
   color: var(--color-muted);
   line-height: 1.6;
+}
+
+/* Marquee infinite animation for clients carousel */
+@keyframes marquee-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-infinite {
+  animation: marquee-infinite 30s linear infinite;
 }

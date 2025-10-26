@@ -75,6 +75,7 @@ export interface Config {
     works: Work;
     'case-studies': CaseStudy;
     clients: Client;
+    'ad-banners': AdBanner;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     works: WorksSelect<false> | WorksSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
+    'ad-banners': AdBannersSelect<false> | AdBannersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -161,8 +163,120 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
-    richText?: {
+    hero: {
+      type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+      richText?: {
+        root: {
+          type: string;
+          children: {
+            type: any;
+            version: number;
+            [k: string]: unknown;
+          }[];
+          direction: ('ltr' | 'rtl') | null;
+          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+          indent: number;
+          version: number;
+        };
+        [k: string]: unknown;
+      } | null;
+      links?:
+        | {
+            link: {
+              type?: ('reference' | 'custom') | null;
+              newTab?: boolean | null;
+              reference?:
+                | ({
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null)
+                | ({
+                    relationTo: 'posts';
+                    value: string | Post;
+                  } | null);
+              url?: string | null;
+              label: string;
+              /**
+               * Choose how the link should be rendered.
+               */
+              appearance?: ('default' | 'outline') | null;
+            };
+            id?: string | null;
+          }[]
+        | null;
+      media?: (string | null) | Media;
+    };
+  };
+  homeSections?: {
+    /**
+     * Selecciona los trabajos destacados que aparecerán en la home
+     */
+    featuredWorks?: (string | CaseStudy)[] | null;
+    /**
+     * Selecciona los clientes destacados para la sección de empresas
+     */
+    featuredClients?: (string | Client)[] | null;
+    blogTitle?: string | null;
+    blogDescription?: string | null;
+  };
+  content: {
+    layout: (
+      | HeroHomeBlock
+      | AboutSectionBlock
+      | FeaturedWorksBlock
+      | FeaturedClientsBlock
+      | FeaturedBlogBlock
+      | ContactFormBlock
+      | SimpleCtaBlock
+      | ListingHeroBlock
+      | PostsGridBlock
+      | CaseStudiesGridBlock
+      | PostSidebarBlock
+      | RelatedPostsBlockType
+      | TableOfContentsBlock
+      | TestimonialSectionBlock
+      | ResultsSectionBlock
+      | CaseStudyHeaderBlock
+      | PostArticleHeaderBlock
+      | BlogArchiveHeaderBlock
+      | FeaturedBlogPostsBlock
+      | FeaturedCaseStudiesBlock
+      | AboutWithFeaturesBlock
+      | SectionBlock
+      | CallToActionBlock
+      | ContentBlock
+      | MediaBlock
+      | ArchiveBlock
+      | FormBlock
+      | IntroBlock
+      | WorkCardsBlock
+      | ClientsCarousel
+    )[];
+  };
+  publishedAt?: string | null;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  content: {
+    heroImage?: (string | null) | Media;
+    content: {
       root: {
         type: string;
         children: {
@@ -176,103 +290,15 @@ export interface Page {
         version: number;
       };
       [k: string]: unknown;
-    } | null;
-    links?:
-      | {
-          link: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null)
-              | ({
-                  relationTo: 'posts';
-                  value: string | Post;
-                } | null);
-            url?: string | null;
-            label: string;
-            /**
-             * Choose how the link should be rendered.
-             */
-            appearance?: ('default' | 'outline') | null;
-          };
-          id?: string | null;
-        }[]
-      | null;
-    media?: (string | null) | Media;
-  };
-  /**
-   * Selecciona los trabajos destacados que aparecerán en la home
-   */
-  featuredWorks?: (string | CaseStudy)[] | null;
-  /**
-   * Selecciona los clientes destacados para la sección de empresas
-   */
-  featuredClients?: (string | Client)[] | null;
-  blogTitle?: string | null;
-  blogDescription?: string | null;
-  layout: (
-    | CallToActionBlock
-    | ContentBlock
-    | MediaBlock
-    | ArchiveBlock
-    | FormBlock
-    | IntroBlock
-    | WorkCardsBlock
-    | ClientsCarousel
-  )[];
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string;
-  title: string;
-  heroImage?: (string | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
     };
-    [k: string]: unknown;
   };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
-  meta?: {
-    title?: string | null;
+  metaExtras?: {
+    relatedPosts?: (string | Post)[] | null;
+    categories?: (string | Category)[] | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Select banners to show in the right sidebar for this post.
      */
-    image?: (string | null) | Media;
-    description?: string | null;
+    sidebarBanners?: (string | AdBanner)[] | null;
   };
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
@@ -282,11 +308,15 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -390,11 +420,7 @@ export interface Media {
 export interface Category {
   id: string;
   title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
+  slug?: string | null;
   parent?: (string | null) | Category;
   breadcrumbs?:
     | {
@@ -404,6 +430,22 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ad-banners".
+ */
+export interface AdBanner {
+  id: string;
+  title: string;
+  image: string | Media;
+  /**
+   * Optional: link to open when the banner is clicked
+   */
+  url?: string | null;
+  openInNewTab?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -427,11 +469,7 @@ export interface User {
       }[]
     | null;
   avatar?: (string | null) | Media;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -457,38 +495,34 @@ export interface User {
 export interface CaseStudy {
   id: string;
   title: string;
-  heroImage?: (string | null) | Media;
   content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
+    heroImage?: (string | null) | Media;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
         version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
+      };
+      [k: string]: unknown;
     };
-    [k: string]: unknown;
   };
-  relatedPosts?: (string | CaseStudy)[] | null;
-  categories?: (string | Category)[] | null;
+  publishedAt?: string | null;
+  slug?: string | null;
   meta?: {
     title?: string | null;
+    description?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (string | null) | Media;
-    description?: string | null;
   };
-  publishedAt?: string | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -505,6 +539,696 @@ export interface Client {
   order?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroHomeBlock".
+ */
+export interface HeroHomeBlock {
+  /**
+   * Pequeño badge o etiqueta que aparece sobre el título
+   */
+  badge?: string | null;
+  /**
+   * Título principal del hero
+   */
+  title: string;
+  /**
+   * Subtítulo con gradiente
+   */
+  subtitle?: string | null;
+  /**
+   * Descripción debajo del título
+   */
+  description?: string | null;
+  /**
+   * Rich text alternativo (reemplaza título/subtítulo/descripción si se usa)
+   */
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Botón principal (CTA primario)
+   */
+  primaryCta: {
+    label: string;
+    url: string;
+  };
+  /**
+   * Botón secundario (opcional)
+   */
+  secondaryCta?: {
+    label?: string | null;
+    url?: string | null;
+  };
+  /**
+   * Imagen o video del hero
+   */
+  media?: (string | null) | Media;
+  /**
+   * Posición de la imagen en desktop
+   */
+  mediaPosition?: ('left' | 'right') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroHome';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutSectionBlock".
+ */
+export interface AboutSectionBlock {
+  /**
+   * Texto pequeño sobre el título (ej: "Sobre mí")
+   */
+  eyebrow?: string | null;
+  /**
+   * Título de la sección
+   */
+  title: string;
+  /**
+   * Párrafos de texto
+   */
+  paragraphs?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Texto del CTA (ej: "Hablemos de tu proyecto")
+   */
+  ctaLabel?: string | null;
+  /**
+   * URL del CTA
+   */
+  ctaUrl?: string | null;
+  /**
+   * Características o beneficios mostrados en grid
+   */
+  features?:
+    | {
+        /**
+         * Icono para la característica
+         */
+        icon: 'zap' | 'monitor' | 'lightbulb' | 'trending-up' | 'rocket' | 'shield';
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedWorksBlock".
+ */
+export interface FeaturedWorksBlock {
+  /**
+   * Título de la sección (ej: "Proyectos Destacados")
+   */
+  title?: string | null;
+  /**
+   * Descripción de la sección
+   */
+  description?: string | null;
+  /**
+   * Selecciona los casos de estudio destacados
+   */
+  works?: (string | CaseStudy)[] | null;
+  /**
+   * Número máximo de trabajos a mostrar
+   */
+  limit?: number | null;
+  /**
+   * Texto del botón CTA (ej: "Ver todos los proyectos")
+   */
+  ctaLabel?: string | null;
+  /**
+   * URL del botón CTA
+   */
+  ctaUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredWorks';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedClientsBlock".
+ */
+export interface FeaturedClientsBlock {
+  /**
+   * Título de la sección de clientes
+   */
+  title?: string | null;
+  /**
+   * Selecciona los clientes destacados
+   */
+  clients?: (string | Client)[] | null;
+  /**
+   * Activar scroll automático del carrusel
+   */
+  autoScroll?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredClients';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedBlogBlock".
+ */
+export interface FeaturedBlogBlock {
+  /**
+   * Título de la sección de blog
+   */
+  title?: string | null;
+  /**
+   * Descripción de la sección
+   */
+  description?: string | null;
+  /**
+   * Selecciona posts específicos o déjalo vacío para mostrar los más recientes
+   */
+  posts?: (string | Post)[] | null;
+  /**
+   * Número de posts a mostrar
+   */
+  limit?: number | null;
+  /**
+   * Texto del botón CTA
+   */
+  ctaLabel?: string | null;
+  /**
+   * URL del botón CTA
+   */
+  ctaUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredBlog';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock".
+ */
+export interface ContactFormBlock {
+  /**
+   * Texto pequeño sobre el título
+   */
+  eyebrow?: string | null;
+  /**
+   * Título del formulario
+   */
+  title: string;
+  /**
+   * Descripción del formulario
+   */
+  description?: string | null;
+  /**
+   * Texto del botón de enviar
+   */
+  submitLabel?: string | null;
+  /**
+   * Información de contacto mostrada al lado del formulario
+   */
+  contactInfo?:
+    | {
+        icon: 'mail' | 'phone' | 'map-pin' | 'linkedin' | 'github';
+        title: string;
+        value: string;
+        /**
+         * URL o enlace (ej: mailto:, tel:, https://)
+         */
+        href?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SimpleCtaBlock".
+ */
+export interface SimpleCtaBlock {
+  /**
+   * Texto del CTA (opcional)
+   */
+  text?: string | null;
+  /**
+   * Texto del botón
+   */
+  label: string;
+  /**
+   * URL del botón
+   */
+  url: string;
+  /**
+   * Color de fondo de la sección
+   */
+  backgroundColor?: ('black' | 'primary' | 'gray') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'simpleCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ListingHeroBlock".
+ */
+export interface ListingHeroBlock {
+  /**
+   * Título principal de la página de listado
+   */
+  title: string;
+  /**
+   * Descripción debajo del título
+   */
+  description?: string | null;
+  /**
+   * Breadcrumbs (migas de pan) personalizados
+   */
+  breadcrumbs?:
+    | {
+        label: string;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'listingHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostsGridBlock".
+ */
+export interface PostsGridBlock {
+  /**
+   * Número de posts por página
+   */
+  postsPerPage?: number | null;
+  /**
+   * Mostrar filtros de categorías
+   */
+  showCategories?: boolean | null;
+  /**
+   * Número de columnas en el grid (desktop)
+   */
+  gridColumns?: ('2' | '3' | '4') | null;
+  /**
+   * Mostrar extracto/descripción del post
+   */
+  showExcerpt?: boolean | null;
+  /**
+   * Mostrar fecha de publicación
+   */
+  showDate?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'postsGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudiesGridBlock".
+ */
+export interface CaseStudiesGridBlock {
+  /**
+   * Número de casos de estudio por página
+   */
+  itemsPerPage?: number | null;
+  /**
+   * Mostrar filtros de categorías
+   */
+  showCategories?: boolean | null;
+  /**
+   * Número de columnas en el grid (desktop)
+   */
+  gridColumns?: ('2' | '3' | '4') | null;
+  /**
+   * Mostrar extracto/descripción del caso
+   */
+  showExcerpt?: boolean | null;
+  /**
+   * Mostrar fecha de publicación
+   */
+  showDate?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'caseStudiesGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostSidebarBlock".
+ */
+export interface PostSidebarBlock {
+  /**
+   * Banners publicitarios para el sidebar
+   */
+  banners?: (string | AdBanner)[] | null;
+  /**
+   * Posición del sidebar
+   */
+  position?: ('left' | 'right') | null;
+  /**
+   * Hacer el sidebar sticky (pegado al scroll)
+   */
+  sticky?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'postSidebar';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RelatedPostsBlockType".
+ */
+export interface RelatedPostsBlockType {
+  /**
+   * Título de la sección (ej: "Artículos relacionados")
+   */
+  title?: string | null;
+  /**
+   * Posts relacionados específicos (opcional)
+   */
+  posts?: (string | Post)[] | null;
+  /**
+   * Auto-seleccionar posts por categoría si no hay posts manuales
+   */
+  autoSelect?: boolean | null;
+  /**
+   * Número máximo de posts relacionados
+   */
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'relatedPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableOfContentsBlock".
+ */
+export interface TableOfContentsBlock {
+  /**
+   * Título de la tabla de contenidos
+   */
+  title?: string | null;
+  /**
+   * Posición del TOC en desktop
+   */
+  position?: ('left' | 'right' | 'top') | null;
+  /**
+   * Hacer el TOC sticky (pegado al scroll)
+   */
+  sticky?: boolean | null;
+  /**
+   * Nivel mínimo de encabezado a incluir
+   */
+  minHeadingLevel?: ('2' | '3') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tableOfContents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialSectionBlock".
+ */
+export interface TestimonialSectionBlock {
+  /**
+   * Título de la sección (ej: "Testimonio del Cliente")
+   */
+  title?: string | null;
+  /**
+   * Cita textual del testimonio
+   */
+  quote: string;
+  /**
+   * Nombre del autor del testimonio
+   */
+  authorName: string;
+  /**
+   * Cargo y empresa del autor (ej: "CEO, Moda-Vanguardia")
+   */
+  authorRole: string;
+  /**
+   * Foto del autor del testimonio
+   */
+  authorImage?: (string | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonialSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResultsSectionBlock".
+ */
+export interface ResultsSectionBlock {
+  /**
+   * Título de la sección (ej: "Resultados Cuantificables")
+   */
+  title: string;
+  /**
+   * Descripción opcional debajo del título
+   */
+  description?: string | null;
+  stats: {
+    /**
+     * Valor de la estadística (ej: "40%", "3x", "+50K")
+     */
+    value: string;
+    /**
+     * Descripción de la estadística
+     */
+    label: string;
+    id?: string | null;
+  }[];
+  /**
+   * Color de fondo de la sección
+   */
+  backgroundColor?: ('gray' | 'white' | 'primary') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'resultsSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyHeaderBlock".
+ */
+export interface CaseStudyHeaderBlock {
+  /**
+   * Texto pequeño sobre el título (ej: "Caso de Estudio de E-commerce")
+   */
+  eyebrow?: string | null;
+  /**
+   * Título principal del caso de estudio
+   */
+  title: string;
+  /**
+   * Descripción breve del caso de estudio
+   */
+  description?: string | null;
+  /**
+   * Imagen principal del caso de estudio
+   */
+  featuredImage: string | Media;
+  /**
+   * Información del proyecto (Cliente, Servicios, Duración, Tecnologías, etc.)
+   */
+  projectInfo?:
+    | {
+        /**
+         * Etiqueta (ej: "Cliente", "Servicios", "Duración")
+         */
+        label: string;
+        /**
+         * Valor (ej: "Moda-Vanguardia", "3 Meses")
+         */
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'caseStudyHeader';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostArticleHeaderBlock".
+ */
+export interface PostArticleHeaderBlock {
+  /**
+   * Categoría principal del artículo
+   */
+  category?: (string | null) | Category;
+  /**
+   * Título del artículo
+   */
+  title: string;
+  /**
+   * Autor del artículo
+   */
+  author?: (string | null) | User;
+  /**
+   * Fecha de publicación
+   */
+  publishedDate?: string | null;
+  /**
+   * Tiempo estimado de lectura (ej: "5 min de lectura")
+   */
+  readTime?: string | null;
+  /**
+   * Imagen destacada del artículo (16:9)
+   */
+  featuredImage: string | Media;
+  /**
+   * Mostrar botones para compartir en redes sociales
+   */
+  showSocialShare?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'postArticleHeader';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogArchiveHeaderBlock".
+ */
+export interface BlogArchiveHeaderBlock {
+  /**
+   * Título de la página de archivo
+   */
+  title: string;
+  /**
+   * Descripción de la página
+   */
+  description?: string | null;
+  /**
+   * Mostrar filtros de categorías
+   */
+  showCategoryFilters?: boolean | null;
+  /**
+   * Categorías a mostrar en los filtros (dejar vacío para mostrar todas)
+   */
+  categories?: (string | Category)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blogArchiveHeader';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedBlogPostsBlock".
+ */
+export interface FeaturedBlogPostsBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Select up to 3 posts to feature
+   */
+  posts?: (string | Post)[] | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  backgroundColor?: ('white' | 'gray' | 'primary') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredBlogPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedCaseStudiesBlock".
+ */
+export interface FeaturedCaseStudiesBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Select case studies to feature
+   */
+  caseStudies?: (string | CaseStudy)[] | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredCaseStudies';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutWithFeaturesBlock".
+ */
+export interface AboutWithFeaturesBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  features?:
+    | {
+        icon?: ('Zap' | 'Monitor' | 'Lightbulb' | 'TrendingUp' | 'Code' | 'Palette' | 'Shield' | 'Rocket') | null;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutWithFeatures';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock".
+ */
+export interface SectionBlock {
+  container?: ('container' | 'full') | null;
+  paddingY?: ('none' | 'sm' | 'md' | 'lg') | null;
+  backgroundStyle?: ('none' | 'color' | 'image') | null;
+  backgroundColor?: ('bg-transparent' | 'bg-gray-50 dark:bg-card-dark' | 'bg-blue-50' | 'bg-card') | null;
+  backgroundMedia?: (string | null) | Media;
+  /**
+   * ID de ancla para navegación (#mi-seccion)
+   */
+  anchorId?: string | null;
+  /**
+   * Clases CSS adicionales (Tailwind)
+   */
+  className?: string | null;
+  blocks?:
+    | (
+        | CallToActionBlock
+        | ContentBlock
+        | MediaBlock
+        | ArchiveBlock
+        | FormBlock
+        | IntroBlock
+        | WorkCardsBlock
+        | ClientsCarousel
+      )[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1113,6 +1837,10 @@ export interface PayloadLockedDocument {
         value: string | Client;
       } | null)
     | ({
+        relationTo: 'ad-banners';
+        value: string | AdBanner;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1183,30 +1911,429 @@ export interface PagesSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        type?: T;
-        richText?: T;
-        links?:
+        hero?:
           | T
           | {
-              link?:
+              type?: T;
+              richText?: T;
+              links?:
                 | T
                 | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                    appearance?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    id?: T;
                   };
-              id?: T;
+              media?: T;
             };
-        media?: T;
       };
-  featuredWorks?: T;
-  featuredClients?: T;
-  blogTitle?: T;
-  blogDescription?: T;
-  layout?:
+  homeSections?:
+    | T
+    | {
+        featuredWorks?: T;
+        featuredClients?: T;
+        blogTitle?: T;
+        blogDescription?: T;
+      };
+  content?:
+    | T
+    | {
+        layout?:
+          | T
+          | {
+              heroHome?: T | HeroHomeBlockSelect<T>;
+              aboutSection?: T | AboutSectionBlockSelect<T>;
+              featuredWorks?: T | FeaturedWorksBlockSelect<T>;
+              featuredClients?: T | FeaturedClientsBlockSelect<T>;
+              featuredBlog?: T | FeaturedBlogBlockSelect<T>;
+              contactForm?: T | ContactFormBlockSelect<T>;
+              simpleCta?: T | SimpleCtaBlockSelect<T>;
+              listingHero?: T | ListingHeroBlockSelect<T>;
+              postsGrid?: T | PostsGridBlockSelect<T>;
+              caseStudiesGrid?: T | CaseStudiesGridBlockSelect<T>;
+              postSidebar?: T | PostSidebarBlockSelect<T>;
+              relatedPosts?: T | RelatedPostsBlockTypeSelect<T>;
+              tableOfContents?: T | TableOfContentsBlockSelect<T>;
+              testimonialSection?: T | TestimonialSectionBlockSelect<T>;
+              resultsSection?: T | ResultsSectionBlockSelect<T>;
+              caseStudyHeader?: T | CaseStudyHeaderBlockSelect<T>;
+              postArticleHeader?: T | PostArticleHeaderBlockSelect<T>;
+              blogArchiveHeader?: T | BlogArchiveHeaderBlockSelect<T>;
+              featuredBlogPosts?: T | FeaturedBlogPostsBlockSelect<T>;
+              featuredCaseStudies?: T | FeaturedCaseStudiesBlockSelect<T>;
+              aboutWithFeatures?: T | AboutWithFeaturesBlockSelect<T>;
+              section?: T | SectionBlockSelect<T>;
+              cta?: T | CallToActionBlockSelect<T>;
+              content?: T | ContentBlockSelect<T>;
+              mediaBlock?: T | MediaBlockSelect<T>;
+              archive?: T | ArchiveBlockSelect<T>;
+              formBlock?: T | FormBlockSelect<T>;
+              intro?: T | IntroBlockSelect<T>;
+              workCards?: T | WorkCardsBlockSelect<T>;
+              clientsCarousel?: T | ClientsCarouselSelect<T>;
+            };
+      };
+  publishedAt?: T;
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroHomeBlock_select".
+ */
+export interface HeroHomeBlockSelect<T extends boolean = true> {
+  badge?: T;
+  title?: T;
+  subtitle?: T;
+  description?: T;
+  richText?: T;
+  primaryCta?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  secondaryCta?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  media?: T;
+  mediaPosition?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutSectionBlock_select".
+ */
+export interface AboutSectionBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  paragraphs?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  ctaLabel?: T;
+  ctaUrl?: T;
+  features?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedWorksBlock_select".
+ */
+export interface FeaturedWorksBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  works?: T;
+  limit?: T;
+  ctaLabel?: T;
+  ctaUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedClientsBlock_select".
+ */
+export interface FeaturedClientsBlockSelect<T extends boolean = true> {
+  title?: T;
+  clients?: T;
+  autoScroll?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedBlogBlock_select".
+ */
+export interface FeaturedBlogBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  posts?: T;
+  limit?: T;
+  ctaLabel?: T;
+  ctaUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock_select".
+ */
+export interface ContactFormBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  submitLabel?: T;
+  contactInfo?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        value?: T;
+        href?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SimpleCtaBlock_select".
+ */
+export interface SimpleCtaBlockSelect<T extends boolean = true> {
+  text?: T;
+  label?: T;
+  url?: T;
+  backgroundColor?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ListingHeroBlock_select".
+ */
+export interface ListingHeroBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  breadcrumbs?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostsGridBlock_select".
+ */
+export interface PostsGridBlockSelect<T extends boolean = true> {
+  postsPerPage?: T;
+  showCategories?: T;
+  gridColumns?: T;
+  showExcerpt?: T;
+  showDate?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudiesGridBlock_select".
+ */
+export interface CaseStudiesGridBlockSelect<T extends boolean = true> {
+  itemsPerPage?: T;
+  showCategories?: T;
+  gridColumns?: T;
+  showExcerpt?: T;
+  showDate?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostSidebarBlock_select".
+ */
+export interface PostSidebarBlockSelect<T extends boolean = true> {
+  banners?: T;
+  position?: T;
+  sticky?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RelatedPostsBlockType_select".
+ */
+export interface RelatedPostsBlockTypeSelect<T extends boolean = true> {
+  title?: T;
+  posts?: T;
+  autoSelect?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableOfContentsBlock_select".
+ */
+export interface TableOfContentsBlockSelect<T extends boolean = true> {
+  title?: T;
+  position?: T;
+  sticky?: T;
+  minHeadingLevel?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialSectionBlock_select".
+ */
+export interface TestimonialSectionBlockSelect<T extends boolean = true> {
+  title?: T;
+  quote?: T;
+  authorName?: T;
+  authorRole?: T;
+  authorImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ResultsSectionBlock_select".
+ */
+export interface ResultsSectionBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  backgroundColor?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyHeaderBlock_select".
+ */
+export interface CaseStudyHeaderBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  featuredImage?: T;
+  projectInfo?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostArticleHeaderBlock_select".
+ */
+export interface PostArticleHeaderBlockSelect<T extends boolean = true> {
+  category?: T;
+  title?: T;
+  author?: T;
+  publishedDate?: T;
+  readTime?: T;
+  featuredImage?: T;
+  showSocialShare?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogArchiveHeaderBlock_select".
+ */
+export interface BlogArchiveHeaderBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  showCategoryFilters?: T;
+  categories?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedBlogPostsBlock_select".
+ */
+export interface FeaturedBlogPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  posts?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  backgroundColor?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedCaseStudiesBlock_select".
+ */
+export interface FeaturedCaseStudiesBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  caseStudies?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutWithFeaturesBlock_select".
+ */
+export interface AboutWithFeaturesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  features?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock_select".
+ */
+export interface SectionBlockSelect<T extends boolean = true> {
+  container?: T;
+  paddingY?: T;
+  backgroundStyle?: T;
+  backgroundColor?: T;
+  backgroundMedia?: T;
+  anchorId?: T;
+  className?: T;
+  blocks?:
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
@@ -1218,19 +2345,8 @@ export interface PagesSelect<T extends boolean = true> {
         workCards?: T | WorkCardsBlockSelect<T>;
         clientsCarousel?: T | ClientsCarouselSelect<T>;
       };
-  meta?:
-    | T
-    | {
-        title?: T;
-        image?: T;
-        description?: T;
-      };
-  publishedAt?: T;
-  generateSlug?: T;
-  slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1359,16 +2475,18 @@ export interface ClientsCarouselSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  heroImage?: T;
-  content?: T;
-  relatedPosts?: T;
-  categories?: T;
-  meta?:
+  content?:
     | T
     | {
-        title?: T;
-        image?: T;
-        description?: T;
+        heroImage?: T;
+        content?: T;
+      };
+  metaExtras?:
+    | T
+    | {
+        relatedPosts?: T;
+        categories?: T;
+        sidebarBanners?: T;
       };
   publishedAt?: T;
   authors?: T;
@@ -1378,8 +2496,14 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
-  generateSlug?: T;
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1483,7 +2607,6 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
-  generateSlug?: T;
   slug?: T;
   parent?: T;
   breadcrumbs?:
@@ -1516,7 +2639,6 @@ export interface UsersSelect<T extends boolean = true> {
         id?: T;
       };
   avatar?: T;
-  generateSlug?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1559,20 +2681,21 @@ export interface WorksSelect<T extends boolean = true> {
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
-  heroImage?: T;
-  content?: T;
-  relatedPosts?: T;
-  categories?: T;
+  content?:
+    | T
+    | {
+        heroImage?: T;
+        content?: T;
+      };
+  publishedAt?: T;
+  slug?: T;
   meta?:
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
+        image?: T;
       };
-  publishedAt?: T;
-  generateSlug?: T;
-  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1586,6 +2709,18 @@ export interface ClientsSelect<T extends boolean = true> {
   logo?: T;
   url?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ad-banners_select".
+ */
+export interface AdBannersSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  url?: T;
+  openInNewTab?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1908,26 +3043,25 @@ export interface Footer {
  */
 export interface Home {
   id: string;
-  heroTitle: string;
-  heroSubtitle?: string | null;
-  worksTitle?: string | null;
-  worksDescription?: string | null;
   /**
-   * Select featured case studies to display on the homepage
+   * Construye la página home agregando bloques
    */
-  featuredWorks?: (string | CaseStudy)[] | null;
-  clientsTitle?: string | null;
-  /**
-   * Select featured clients to display on the homepage
-   */
-  featuredClients?: (string | Client)[] | null;
-  blogTitle?: string | null;
-  blogDescription?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-  };
+  layout: (
+    | HeroHomeBlock
+    | AboutSectionBlock
+    | AboutWithFeaturesBlock
+    | FeaturedWorksBlock
+    | FeaturedClientsBlock
+    | FeaturedBlogBlock
+    | FeaturedBlogPostsBlock
+    | FeaturedCaseStudiesBlock
+    | ClientsCarousel
+    | ContactFormBlock
+    | TestimonialSectionBlock
+    | ResultsSectionBlock
+    | CallToActionBlock
+    | ContentBlock
+  )[];
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1939,11 +3073,10 @@ export interface BlogListing {
   id: string;
   title: string;
   description?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-  };
+  /**
+   * Bloques personalizables para la página de blog
+   */
+  layout?: (ListingHeroBlock | PostsGridBlock)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1955,11 +3088,10 @@ export interface CaseStudiesListing {
   id: string;
   title: string;
   description?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-  };
+  /**
+   * Bloques personalizables para la página de casos de estudio
+   */
+  layout?: (ListingHeroBlock | CaseStudiesGridBlock)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2014,21 +3146,23 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "home_select".
  */
 export interface HomeSelect<T extends boolean = true> {
-  heroTitle?: T;
-  heroSubtitle?: T;
-  worksTitle?: T;
-  worksDescription?: T;
-  featuredWorks?: T;
-  clientsTitle?: T;
-  featuredClients?: T;
-  blogTitle?: T;
-  blogDescription?: T;
-  meta?:
+  layout?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
+        heroHome?: T | HeroHomeBlockSelect<T>;
+        aboutSection?: T | AboutSectionBlockSelect<T>;
+        aboutWithFeatures?: T | AboutWithFeaturesBlockSelect<T>;
+        featuredWorks?: T | FeaturedWorksBlockSelect<T>;
+        featuredClients?: T | FeaturedClientsBlockSelect<T>;
+        featuredBlog?: T | FeaturedBlogBlockSelect<T>;
+        featuredBlogPosts?: T | FeaturedBlogPostsBlockSelect<T>;
+        featuredCaseStudies?: T | FeaturedCaseStudiesBlockSelect<T>;
+        clientsCarousel?: T | ClientsCarouselSelect<T>;
+        contactForm?: T | ContactFormBlockSelect<T>;
+        testimonialSection?: T | TestimonialSectionBlockSelect<T>;
+        resultsSection?: T | ResultsSectionBlockSelect<T>;
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2041,12 +3175,11 @@ export interface HomeSelect<T extends boolean = true> {
 export interface BlogListingSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  meta?:
+  layout?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
+        listingHero?: T | ListingHeroBlockSelect<T>;
+        postsGrid?: T | PostsGridBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2059,12 +3192,11 @@ export interface BlogListingSelect<T extends boolean = true> {
 export interface CaseStudiesListingSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  meta?:
+  layout?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
+        listingHero?: T | ListingHeroBlockSelect<T>;
+        caseStudiesGrid?: T | CaseStudiesGridBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;

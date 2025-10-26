@@ -18,6 +18,7 @@ import { Users } from './collections/Users'
 import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
 import Clients from './collections/Clients'
+import { AdBanners } from './collections/AdBanners'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
@@ -26,6 +27,7 @@ import { CaseStudiesListing } from './globals/CaseStudiesListing/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { resendAdapter } from '@payloadcms/email-resend'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -33,12 +35,10 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      // beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -93,13 +93,23 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Works, CaseStudies, Clients],
+  collections: [Pages, Posts, Media, Categories, Users, Works, CaseStudies, Clients, AdBanners],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
   ],
+  // Email via official Resend adapter
+  email: (() => {
+    const apiKey = process.env.RESEND_SECRET
+    if (!apiKey) return undefined
+    return resendAdapter({
+      defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@example.com',
+      defaultFromName: process.env.EMAIL_FROM_NAME || 'Website',
+      apiKey,
+    })
+  })(),
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

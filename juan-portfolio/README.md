@@ -2,6 +2,30 @@
 
 This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
 
+---
+
+## Page Builder (MVP tipo Elementor)
+
+Este proyecto ahora incluye un MVP de constructor de páginas basado en Blocks que permite crear páginas totalmente editables y personalizables.
+
+- Bloque Section: controla ancho (container o full), padding, fondo (color o imagen), id de ancla y clases personalizadas, y admite bloques internos.
+- Bloques disponibles dentro de Section y a nivel de página: Content, Media, Call To Action, Form, Archive, Intro, WorkCards, ClientsCarousel.
+- Renderizado recursivo: puedes anidar cuantos bloques desees dentro de una Section.
+
+Cómo usarlo:
+1. Crea o edita una Page en el admin.
+2. En la pestaña Content, añade un bloque Section y configura estilo (ancho, padding, fondo, id, clases).
+3. Dentro de Section, agrega bloques internos (Content, Media, CTA, etc.). Reordena para diseñar tu layout.
+4. Guarda en draft y usa Live Preview para ver cambios en tiempo real. Publica cuando esté listo.
+
+Extender el builder:
+- Para crear un nuevo bloque, añade `src/blocks/MiBloque/config.ts` y `src/blocks/MiBloque/Component.tsx`, exporta `slug` e `interfaceName`, y mapea el `slug` en `src/blocks/RenderBlocks.tsx`.
+- Opcional: agrega el nuevo bloque a `src/collections/Pages/index.ts` (lista `layout.blocks`).
+
+Notas:
+- SEO, Draft/Versions, Live Preview y Revalidation ya están integrados.
+- El bloque Section no se puede anidar dentro de otro Section en este MVP para evitar bucles.
+
 This template is right for you if you are working on:
 
 - A personal or enterprise-grade website, blog, or portfolio

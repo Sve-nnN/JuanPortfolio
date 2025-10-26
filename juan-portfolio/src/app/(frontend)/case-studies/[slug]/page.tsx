@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -8,7 +7,7 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 
-import type { Post } from '@/payload-types'
+// Note: Related posts/categories not used in this page
 
 import { PostHero } from '@/heros/PostHero'
 import { estimateReadingTimeFromLexical } from '@/utilities/estimateReadingTime'
@@ -18,7 +17,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import TOCClient from '@/components/TableOfContents/client'
 import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { headers } from 'next/headers'
+// import { headers } from 'next/headers'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -53,78 +52,15 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
   const url = '/case-studies/' + slug
   const post = await queryCaseBySlug({ slug })
 
+  // If post not found, redirect/handle before accessing fields
+  if (!post) return <PayloadRedirects url={url} />
+
   // Calculate reading time and excerpt
-  const { minutes } = post?.content ? estimateReadingTimeFromLexical(post.content) : { minutes: 1 }
-  const excerpt = post?.meta?.description || undefined
-  const headings = post?.content ? extractHeadingsFromLexical(post.content) : []
+  const { minutes } = post.content ? estimateReadingTimeFromLexical(post.content) : { minutes: 1 }
+  const excerpt = post.meta?.description || undefined
+  const headings = post.content ? extractHeadingsFromLexical(post.content) : []
 
-  // detect locale from Accept-Language header for simple i18n
-  const hdrs = await headers()
-  const acceptLanguage = hdrs.get('accept-language') || undefined
-  const rawLocale = acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : undefined
-  const locale = rawLocale && ['en', 'es'].includes(rawLocale) ? (rawLocale as 'en' | 'es') : 'es'
-
-  // Small i18n helper for the related posts heading
-  const relatedHeadingPrefix: Record<string, string> = {
-    en: 'Read more about',
-    es: 'Lee más sobre',
-  }
-
-  // If the author didn't manually set relatedPosts, query for up to 3 posts
-  // that share any category with the current post (exclude current post)
-  let fallbackRelated: Post[] | undefined = undefined
-  if (
-    (!post.relatedPosts || post.relatedPosts.length === 0) &&
-    post.categories &&
-    post.categories.length > 0
-  ) {
-    try {
-      const configPromise = (await import('@payload-config')).default
-      const { getPayload } = await import('payload')
-      const payload = await getPayload({ config: configPromise })
-
-      const categoryIds = (post.categories || [])
-        .map((c: unknown) => {
-          if (typeof c === 'string') return c
-          if (c && typeof c === 'object')
-            return (
-              (c as { id?: string; value?: string }).id ||
-              (c as { id?: string; value?: string }).value
-            )
-          return undefined
-        })
-        .filter(Boolean) as string[]
-
-      if (categoryIds.length > 0) {
-        const res = await payload.find({
-          collection: 'case-studies',
-          limit: 3,
-          depth: 1,
-          sort: '-publishedAt',
-          where: {
-            and: [
-              {
-                id: {
-                  not_equals: post.id,
-                },
-              },
-              {
-                or: categoryIds.map((id: string) => ({
-                  categories: {
-                    contains: id,
-                  },
-                })),
-              },
-            ],
-          },
-        })
-
-        fallbackRelated = (res.docs as Post[]) || []
-      }
-    } catch {
-      // ignore and keep fallback undefined
-    }
-  }
+  // Related posts feature disabled (no relatedPosts/categories in schema)
 
   if (!post) return <PayloadRedirects url={url} />
 
@@ -141,44 +77,58 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          {headings && headings.length > 0 && (
-            <div className="max-w-[60ch] mx-auto">
-              <TableOfContents headings={headings} />
-            </div>
-          )}
-          <div className="prose prose-lg dark:prose-invert max-w-[60ch] mx-auto">
-            <RichText className="" data={post.content} enableGutter={false} />
-          </div>
-          <TOCClient />
-          {(post.relatedPosts && post.relatedPosts.length > 0) ||
-          (fallbackRelated && fallbackRelated.length > 0) ? (
-            <div className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]">
-              {/* Heading with i18n prefix and category name (use first category) */}
-              <h3 className="text-2xl font-display font-bold mb-4">
-                {relatedHeadingPrefix[locale]}{' '}
+          <div className="grid grid-cols-1 lg:grid-cols-[18rem_minmax(0,75ch)] gap-8 items-start">
+            {/* LEFT: TOC sticky on desktop */}
+            <aside className="hidden lg:block lg:col-start-1 lg:col-span-1">
+              <div className="sticky top-24 max-h-[calc(100vh-6rem)] overflow-auto">
+                {headings && headings.length > 0 && <TableOfContents headings={headings} />}
+              </div>
+            </aside>
+
+            {/* Main content */}
+            <div className="lg:col-start-2 lg:col-span-1">
+              {/* Mobile/tablet TOC above content */}
+              {headings && headings.length > 0 && (
+                <div className="lg:hidden mb-4">
+                  <TableOfContents headings={headings} />
+                </div>
+              )}
+              <div className="prose prose-lg dark:prose-invert max-w-none">
                 {(() => {
-                  const first =
-                    post.categories && post.categories.length > 0 ? post.categories[0] : undefined
-                  if (!first) return ''
-                  if (typeof first === 'string') return first
+                  type Lexical = import('@/payload-types').CaseStudy['content']['content']
+                  const contentNode = post?.content as unknown
+                  const contentData: Lexical | undefined =
+                    contentNode &&
+                    typeof contentNode === 'object' &&
+                    'content' in (contentNode as Record<string, unknown>)
+                      ? ((contentNode as { content?: Lexical }).content as Lexical | undefined)
+                      : (contentNode as Lexical | undefined)
+                  const hasNodes = Boolean(
+                    (contentData as { root?: { children?: unknown[] } } | undefined)?.root
+                      ?.children &&
+                      (
+                        (contentData as { root?: { children?: unknown[] } } | undefined)!.root!
+                          .children as unknown[]
+                      ).length > 0,
+                  )
+                  if (hasNodes) {
+                    // @ts-expect-error accept Lexical JSON
+                    return <RichText className="" data={contentData} enableGutter={false} />
+                  }
                   return (
-                    (first as { title?: string; label?: string }).title ||
-                    (first as { title?: string; label?: string }).label ||
-                    ''
+                    <div className="text-muted text-center py-12">
+                      <p>Este artículo aún no tiene contenido.</p>
+                      <p className="text-sm mt-2">
+                        Agrega contenido desde el panel de administración.
+                      </p>
+                    </div>
                   )
                 })()}
-              </h3>
-
-              <RelatedPosts
-                className=""
-                docs={
-                  post.relatedPosts && post.relatedPosts.length > 0
-                    ? (post.relatedPosts.filter((p) => typeof p === 'object') as Post[])
-                    : fallbackRelated || []
-                }
-              />
+              </div>
+              <TOCClient />
+              {/* Related posts disabled */}
             </div>
-          ) : null}
+          </div>
         </div>
       </div>
     </article>
@@ -218,7 +168,7 @@ const queryCaseBySlug = cache(async ({ slug }: { slug: string }) => {
   if (!doc && looksLikeId) {
     try {
       const byId = await payload.findByID({ id: slug, collection: 'case-studies', depth: 0 })
-      if (byId) doc = byId as any
+      if (byId) doc = byId as unknown as import('@/payload-types').CaseStudy
     } catch {
       // ignore
     }

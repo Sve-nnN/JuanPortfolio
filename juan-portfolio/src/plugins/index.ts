@@ -2,25 +2,25 @@ import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
+// Volver al plugin SEO oficial de Payload
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
-import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+// import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
-
-import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+// Generadores simples para el plugin oficial
+// Nota: el plugin oficial puede funcionar sin estos, pero ayudan con valores por defecto.
+const generateTitle = ({ doc }: { doc: { title?: string } }) => {
+  return doc?.title ? `${doc.title} | Juan Portfolio` : 'Juan Portfolio'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
-  const url = getServerSideURL()
-
+const generateURL = ({ doc }: { doc: { slug?: string } }) => {
+  const url = getServerSideURL() || 'http://localhost:3000'
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
@@ -52,8 +52,12 @@ export const plugins: Plugin[] = [
     generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
   }),
   seoPlugin({
+    collections: ['pages', 'posts', 'case-studies'],
+    uploadsCollection: 'media',
     generateTitle,
     generateURL,
+    // Render SEO in its own Admin tab (if supported by this plugin version)
+    tabbedUI: true,
   }),
   formBuilderPlugin({
     fields: {

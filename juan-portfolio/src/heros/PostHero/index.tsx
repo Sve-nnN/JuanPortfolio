@@ -39,8 +39,20 @@ export const PostHero: React.FC<{
 
     // Join with commas and an 'and' before the last author
     if (nodes.length === 1) return nodes[0]
-    if (nodes.length === 2) return <>{nodes[0]} and {nodes[1]}</>
-    return <>{nodes.slice(0, -1).map((n, idx) => <React.Fragment key={idx}>{n}, </React.Fragment>)}and {nodes[nodes.length - 1]}</>
+    if (nodes.length === 2)
+      return (
+        <>
+          {nodes[0]} and {nodes[1]}
+        </>
+      )
+    return (
+      <>
+        {nodes.slice(0, -1).map((n, idx) => (
+          <React.Fragment key={idx}>{n}, </React.Fragment>
+        ))}
+        and {nodes[nodes.length - 1]}
+      </>
+    )
   }
 
   return (

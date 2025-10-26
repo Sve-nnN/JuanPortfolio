@@ -1,19 +1,24 @@
 import React from 'react'
 import type { Page } from '@/payload-types'
-import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
-import { getServerSideURL } from '@/utilities/getURL'
 import { t, type Locale } from '@/i18n/translations'
+// RichText is rendered client-side via HeroRichText to avoid hydration issues
+import HeroRichText from './HeroRichText.client'
+import HeroMedia from './HeroMedia.client'
 
 const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale }) => {
   if (!hero) return null
 
   // hero.media can be either an id (string) or populated upload object
-  const mediaUrl =
-    hero.media && typeof hero.media === 'object' && 'url' in hero.media && hero.media.url
-      ? // populated upload object
-        hero.media.url
-      : null
+  let mediaUrl: string | null = null
+  if (hero.media) {
+    if (typeof hero.media === 'string') {
+      // Assume it's an upload id; Payload exposes uploads at /api/uploads/:id
+      mediaUrl = `/api/uploads/${hero.media}`
+    } else if (typeof hero.media === 'object' && 'url' in hero.media && hero.media.url) {
+      mediaUrl = hero.media.url
+    }
+  }
 
   return (
     <header className="bg-background-light dark:bg-card-dark">
@@ -22,21 +27,82 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
           {/* Badge */}
           <div className="mb-4">
             <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
-              {t(locale, 'home.hero.badge')}
+              {hero?.richText ? '' : t(locale, 'home.hero.badge')}
             </span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4 leading-tight">
-            {t(locale, 'home.hero.title')}
-          </h1>
-          <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
-            <span className="gradient-text">{t(locale, 'home.hero.subtitle')}</span>
-          </h2>
+          {/* Heading / rich text (editable in Payload) */}
+          {hero.richText ? (
+            (() => {
+              // Server-safe extraction of first heading and paragraph to avoid hydration mismatches
+              try {
+                const root = (hero.richText as Record<string, unknown>)?.root as
+                  | Record<string, unknown>
+                  | undefined
+                const children = Array.isArray(root?.children) ? (root?.children as unknown[]) : []
+                let firstHeading = ''
+                let headingIndex = -1
+                for (let i = 0; i < children.length; i++) {
+                  const c = children[i] as Record<string, unknown>
+                  if (
+                    headingIndex === -1 &&
+                    typeof c?.tag === 'string' &&
+                    /^h[1-6]$/.test(String(c.tag)) &&
+                    Array.isArray(c.children)
+                  ) {
+                    const arr = c.children as unknown[]
+                    firstHeading = arr
+                      .map((x) => (x as Record<string, unknown>)?.['text'] || '')
+                      .join('')
+                    headingIndex = i
+                  }
+                  if (headingIndex !== -1) break
+                }
 
-          <p className="max-w-xl text-lg text-muted mb-8">
-            {t(locale, 'home.hero.description')}
-          </p>
+                // Calculate how many top-level nodes we consumed so the client renderer can skip them
+                // Only skip the heading node (if present). We intentionally do NOT render the
+                // first paragraph server-side to avoid duplication and layout jitter.
+                const skipCount = headingIndex === -1 ? 0 : headingIndex + 1
+
+                return (
+                  <div className="mb-6">
+                    {firstHeading ? (
+                      <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4 leading-tight">
+                        {firstHeading}
+                      </h1>
+                    ) : null}
+                    {/* Full rich text renderer (client-only) — skip the heading node to avoid duplication */}
+                    <HeroRichText data={hero.richText} skipFirstNodes={skipCount} />
+                  </div>
+                )
+              } catch {
+                // fallback to i18n text if anything goes wrong
+                return (
+                  <>
+                    <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4 leading-tight">
+                      {t(locale, 'home.hero.title')}
+                    </h1>
+                    <p className="max-w-xl text-lg text-muted mb-8">
+                      {t(locale, 'home.hero.description')}
+                    </p>
+                  </>
+                )
+              }
+            })()
+          ) : (
+            <>
+              <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4 leading-tight">
+                {t(locale, 'home.hero.title')}
+              </h1>
+              <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
+                <span className="gradient-text">{t(locale, 'home.hero.subtitle')}</span>
+              </h2>
+
+              <p className="max-w-xl text-lg text-muted mb-8">
+                {t(locale, 'home.hero.description')}
+              </p>
+            </>
+          )}
 
           <div className="flex flex-col sm:flex-row gap-4">
             {hero.links && hero.links[0] ? (
@@ -70,21 +136,10 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
         </div>
 
         <div className="relative flex justify-center items-center">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-500 rounded-full blur-3xl opacity-30 dark:opacity-20" />
-          {mediaUrl ? (
-            <div className="relative rounded-full p-2 bg-transparent shadow-2xl">
-              <div className="rounded-full bg-white border-8 border-white dark:border-card-dark overflow-hidden w-72 h-72 md:w-96 md:h-96">
-                {mediaUrl ? (
-                  <Image
-                    src={getServerSideURL().replace(/\/$/, '') + mediaUrl}
-                    alt={hero.media && typeof hero.media === 'object' ? hero.media.alt || '' : ''}
-                    fill
-                    className="object-cover rounded-full"
-                  />
-                ) : null}
-              </div>
-            </div>
-          ) : null}
+          {/* gradient ring behind the image, uses CSS vars for light/dark harmony */}
+          <div className="absolute -inset-6 hero-gradient rounded-full blur-3xl opacity-70 dark:opacity-40" />
+          {/* HeroMedia is client-only and resolves upload ids or populated objects */}
+          <HeroMedia media={hero.media} />
         </div>
       </div>
     </header>

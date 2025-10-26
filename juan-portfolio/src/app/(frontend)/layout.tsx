@@ -40,21 +40,27 @@ const Khand = localFont({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
-  
+
   // Detect locale from Accept-Language header
   const hdrs = await headers()
   const acceptLanguage = hdrs.get('accept-language') || undefined
   const rawLocale = acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : undefined
-  const initialLocale: Locale = (rawLocale && ['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as Locale
+  const initialLocale: Locale = (
+    rawLocale && ['en', 'es'].includes(rawLocale) ? rawLocale : 'es'
+  ) as Locale
 
   return (
-    <html className={cn(Khand.variable, ArrayFont.variable)} lang="en" suppressHydrationWarning>
+    <html
+      className={cn(Khand.variable, ArrayFont.variable, 'dark')}
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body>
+      <body className="dark">
         <Providers>
           <ThemeProvider>
             <LocaleProvider initialLocale={initialLocale}>

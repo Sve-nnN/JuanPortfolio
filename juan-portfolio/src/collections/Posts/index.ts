@@ -18,14 +18,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
-import { slugField } from 'payload'
+import { slugField } from '@/fields/slug'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -41,11 +34,7 @@ export const Posts: CollectionConfig<'posts'> = {
   defaultPopulate: {
     title: true,
     slug: true,
-    categories: true,
-    meta: {
-      image: true,
-      description: true,
-    },
+    authors: true,
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
@@ -80,6 +69,8 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'tabs',
       tabs: [
         {
+          label: 'Content',
+          name: 'content',
           fields: [
             {
               name: 'heroImage',
@@ -106,9 +97,10 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
         },
         {
+          label: 'Meta',
+          name: 'metaExtras',
           fields: [
             {
               name: 'relatedPosts',
@@ -135,35 +127,16 @@ export const Posts: CollectionConfig<'posts'> = {
               hasMany: true,
               relationTo: 'categories',
             },
-          ],
-          label: 'Meta',
-        },
-        {
-          name: 'meta',
-          label: 'SEO',
-          localized: true,
-          fields: [
-            OverviewField({
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
-            }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
-            }),
-
-            MetaDescriptionField({}),
-            PreviewField({
-              // if the `generateUrl` function is configured
-              hasGenerateFn: true,
-
-              // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-            }),
+            {
+              name: 'sidebarBanners',
+              label: 'Sidebar Banners',
+              type: 'relationship',
+              relationTo: 'ad-banners',
+              hasMany: true,
+              admin: {
+                description: 'Select banners to show in the right sidebar for this post.',
+              },
+            },
           ],
         },
       ],

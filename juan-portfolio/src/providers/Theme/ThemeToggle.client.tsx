@@ -1,14 +1,20 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from './ThemeProvider.client'
 import { Sun, Moon } from 'lucide-react'
 
 const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => {
   const { theme, toggle } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Render a neutral button on server to avoid mismatch. Icon is shown after mount.
   return (
     <button className={className} onClick={toggle} aria-label="Toggle theme">
-      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+      {mounted ? theme === 'dark' ? <Sun size={18} /> : <Moon size={18} /> : null}
     </button>
   )
 }

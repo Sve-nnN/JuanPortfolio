@@ -5,7 +5,6 @@ import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode, headers } from 'next/headers'
 import React, { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
@@ -49,8 +48,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
-
   // detect locale from Accept-Language header
   const hdrs = await headers()
   const acceptLanguage = hdrs.get('accept-language') || undefined
@@ -58,31 +55,34 @@ export default async function Page({ params: paramsPromise }: Args) {
   const locale =
     rawLocale && ['en', 'es'].includes(rawLocale) ? (rawLocale as 'en' | 'es') : undefined
 
-  page = await queryPageBySlug({
-    slug,
-    locale,
-  })
-
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
-  }
-
-  if (!page) {
-    return <PayloadRedirects url={url} />
-  }
-
-  // If this is the home slug, use the dedicated HomePage server component
+  // If this is the home slug, use the global 'home' instead of pages collection
   if (slug === 'home') {
+    const payload = await getPayload({ config: configPromise })
+    const homeGlobal = await payload.findGlobal({
+      slug: 'home',
+      draft,
+      locale,
+    })
+
     return (
       <article className="pb-24">
         <PageClient />
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
-        {/* HomePage will render hero, blocks and latest posts */}
-        <HomePage page={page} locale={locale} />
+        {/* HomePage will render content from the home global */}
+        <HomePage homeGlobal={homeGlobal} locale={locale} />
       </article>
     )
+  }
+
+  // For other pages, use the pages collection
+  const page = await queryPageBySlug({
+    slug,
+    locale,
+  })
+
+  if (!page) {
+    return <PayloadRedirects url={url} />
   }
 
   const { hero, layout } = page

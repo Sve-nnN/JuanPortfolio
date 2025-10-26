@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
+// Related posts UI removed: schema does not include relatedPosts/categories
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
+import { Media } from '@/components/Media'
+import type { Media as PayloadMedia } from '@/payload-types'
 
 import type { Post } from '@/payload-types'
 
@@ -18,7 +20,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import TOCClient from '@/components/TableOfContents/client'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { headers } from 'next/headers'
+// import { headers } from 'next/headers'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -52,78 +54,15 @@ export default async function Post({ params: paramsPromise }: Args) {
   const url = '/blog/' + slug
   const post = await queryPostBySlug({ slug })
 
+  // If post not found, redirect/handle before accessing fields
+  if (!post) return <PayloadRedirects url={url} />
+
   // Calculate reading time and excerpt
-  const { minutes } = post?.content ? estimateReadingTimeFromLexical(post.content) : { minutes: 1 }
-  const excerpt = post?.meta?.description || undefined
-  const headings = post?.content ? extractHeadingsFromLexical(post.content) : []
+  const { minutes } = post.content ? estimateReadingTimeFromLexical(post.content) : { minutes: 1 }
+  const excerpt = post.meta?.description || undefined
+  const headings = post.content ? extractHeadingsFromLexical(post.content) : []
 
-  // detect locale from Accept-Language header for simple i18n
-  const hdrs = await headers()
-  const acceptLanguage = hdrs.get('accept-language') || undefined
-  const rawLocale = acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : undefined
-  const locale = rawLocale && ['en', 'es'].includes(rawLocale) ? (rawLocale as 'en' | 'es') : 'es'
-
-  // Small i18n helper for the related posts heading
-  const relatedHeadingPrefix: Record<string, string> = {
-    en: 'Read more about',
-    es: 'Lee más sobre',
-  }
-
-  // If the author didn't manually set relatedPosts, query for up to 3 posts
-  // that share any category with the current post (exclude current post)
-  let fallbackRelated: Post[] | undefined = undefined
-  if (
-    (!post.relatedPosts || post.relatedPosts.length === 0) &&
-    post.categories &&
-    post.categories.length > 0
-  ) {
-    try {
-      const configPromise = (await import('@payload-config')).default
-      const { getPayload } = await import('payload')
-      const payload = await getPayload({ config: configPromise })
-
-      const categoryIds = (post.categories || [])
-        .map((c: unknown) => {
-          if (typeof c === 'string') return c
-          if (c && typeof c === 'object')
-            return (
-              (c as { id?: string; value?: string }).id ||
-              (c as { id?: string; value?: string }).value
-            )
-          return undefined
-        })
-        .filter(Boolean) as string[]
-
-      if (categoryIds.length > 0) {
-        const res = await payload.find({
-          collection: 'posts',
-          limit: 3,
-          depth: 1,
-          sort: '-publishedAt',
-          where: {
-            and: [
-              {
-                id: {
-                  not_equals: post.id,
-                },
-              },
-              {
-                or: categoryIds.map((id: string) => ({
-                  categories: {
-                    contains: id,
-                  },
-                })),
-              },
-            ],
-          },
-        })
-
-        fallbackRelated = (res.docs as Post[]) || []
-      }
-    } catch {
-      // ignore and keep fallback undefined
-    }
-  }
+  // Related posts feature disabled (no relatedPosts/categories in schema)
 
   if (!post) return <PayloadRedirects url={url} />
 
@@ -138,46 +77,205 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
+      <div className="pt-8">
         <div className="container">
-          {headings && headings.length > 0 && (
-            <div className="max-w-[60ch] mx-auto">
-              <TableOfContents headings={headings} />
-            </div>
-          )}
-          <div className="prose prose-lg dark:prose-invert max-w-[60ch] mx-auto">
-            <RichText className="" data={post.content} enableGutter={false} />
-          </div>
-          <TOCClient />
-          {(post.relatedPosts && post.relatedPosts.length > 0) ||
-          (fallbackRelated && fallbackRelated.length > 0) ? (
-            <div className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]">
-              {/* Heading with i18n prefix and category name (use first category) */}
-              <h3 className="text-2xl font-display font-bold mb-4">
-                {relatedHeadingPrefix[locale]}{' '}
-                {(() => {
-                  const first =
-                    post.categories && post.categories.length > 0 ? post.categories[0] : undefined
-                  if (!first) return ''
-                  if (typeof first === 'string') return first
-                  return (
-                    (first as { title?: string; label?: string }).title ||
-                    (first as { title?: string; label?: string }).label ||
-                    ''
-                  )
-                })()}
-              </h3>
+          {(() => {
+            const raw = (post as unknown as { sidebarBanners?: unknown })?.['sidebarBanners']
+            const hasSidebarBanners = Array.isArray(raw) && raw.length > 0
 
-              <RelatedPosts
-                className=""
-                docs={
-                  post.relatedPosts && post.relatedPosts.length > 0
-                    ? (post.relatedPosts.filter((p) => typeof p === 'object') as Post[])
-                    : fallbackRelated || []
-                }
-              />
-            </div>
-          ) : null}
+            return (
+              <div
+                className={`grid grid-cols-1 gap-8 items-start ${
+                  hasSidebarBanners
+                    ? 'lg:grid-cols-[18rem_minmax(0,75ch)_22rem]'
+                    : 'lg:grid-cols-[18rem_minmax(0,min(75ch,100%))_18rem]'
+                }`}
+              >
+                {/* LEFT: TOC sticky on desktop */}
+                <aside className="hidden lg:block lg:col-start-1 lg:col-span-1">
+                  <div className="sticky top-24 max-h-[calc(100vh-6rem)] overflow-auto">
+                    {headings && headings.length > 0 && <TableOfContents headings={headings} />}
+                  </div>
+                </aside>
+
+                {/* Main content */}
+                <div
+                  className={`${
+                    hasSidebarBanners
+                      ? 'lg:col-start-2 lg:col-span-1'
+                      : 'lg:col-start-2 lg:col-span-2'
+                  }`}
+                >
+                  {/* Mobile/tablet TOC above content */}
+                  {headings && headings.length > 0 && (
+                    <div className="lg:hidden mb-4">
+                      <TableOfContents headings={headings} />
+                    </div>
+                  )}
+
+                  <div className="prose prose-lg dark:prose-invert max-w-none">
+                    {(() => {
+                      type Lexical = Post['content']['content']
+                      const contentNode = post?.content as unknown
+                      const contentData: Lexical | undefined =
+                        contentNode &&
+                        typeof contentNode === 'object' &&
+                        'content' in (contentNode as Record<string, unknown>)
+                          ? ((contentNode as { content?: Lexical }).content as Lexical | undefined)
+                          : (contentNode as Lexical | undefined)
+                      const hasNodes = Boolean(
+                        (contentData as { root?: { children?: unknown[] } } | undefined)?.root
+                          ?.children &&
+                          (
+                            (contentData as { root?: { children?: unknown[] } } | undefined)!.root!
+                              .children as unknown[]
+                          ).length > 0,
+                      )
+                      if (hasNodes) {
+                        // @ts-expect-error accept Lexical JSON
+                        return <RichText className="" data={contentData} enableGutter={false} />
+                      }
+                      return (
+                        <div className="text-muted text-center py-12">
+                          <p>Este artículo aún no tiene contenido.</p>
+                          <p className="text-sm mt-2">
+                            Agrega contenido desde el panel de administración.
+                          </p>
+                        </div>
+                      )
+                    })()}
+                  </div>
+
+                  {/* Mobile/tablet banners below content */}
+                  {(() => {
+                    const raw = (post as unknown as { sidebarBanners?: unknown })?.[
+                      'sidebarBanners'
+                    ]
+                    const sidebarBanners = Array.isArray(raw) ? raw : []
+                    return sidebarBanners.length > 0 ? (
+                      <div className="lg:hidden mt-8 space-y-4">
+                        {sidebarBanners.map((banner: unknown, i: number) => {
+                          const b =
+                            banner && typeof banner === 'object'
+                              ? (banner as Record<string, unknown>)
+                              : undefined
+                          const img = b && 'image' in b ? (b.image as unknown) : null
+                          const href = b && typeof b.url === 'string' ? (b.url as string) : '#'
+                          const title = b && typeof b.title === 'string' ? (b.title as string) : ''
+                          const newTab =
+                            b && typeof b.openInNewTab === 'boolean'
+                              ? (b.openInNewTab as boolean)
+                              : false
+                          const key =
+                            b && (typeof b.id === 'string' || typeof b.id === 'number')
+                              ? String(b.id)
+                              : String(i)
+                          const imgObj =
+                            img && typeof img === 'object'
+                              ? (img as Record<string, unknown>)
+                              : undefined
+
+                          return (
+                            <a
+                              key={key}
+                              href={href}
+                              target={newTab ? '_blank' : undefined}
+                              rel={newTab ? 'noopener noreferrer' : undefined}
+                              className="block border rounded overflow-hidden hover:shadow-lg transition-shadow"
+                              aria-label={title || undefined}
+                            >
+                              {img && typeof img !== 'string' ? (
+                                <Media htmlElement={null} resource={img as PayloadMedia} />
+                              ) : null}
+                              {imgObj && typeof imgObj.url === 'string' && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={imgObj.url as string}
+                                  alt={(imgObj.alt as string) || title || ''}
+                                  className="w-full h-auto"
+                                />
+                              )}
+                              {!img && title && (
+                                <div className="p-4 text-sm font-medium">{title}</div>
+                              )}
+                            </a>
+                          )
+                        })}
+                      </div>
+                    ) : null
+                  })()}
+
+                  {/* Related posts disabled */}
+                </div>
+
+                {/* RIGHT: Sidebar banners */}
+                <aside className="hidden lg:block lg:col-start-3 lg:col-span-1">
+                  {(() => {
+                    const raw = (post as unknown as { sidebarBanners?: unknown })?.[
+                      'sidebarBanners'
+                    ]
+                    const sidebarBanners = Array.isArray(raw) ? raw : []
+                    return sidebarBanners.length > 0 ? (
+                      <div className="sticky top-24 space-y-4 max-h-[calc(100vh-6rem)] overflow-auto">
+                        {sidebarBanners.map((banner: unknown, i: number) => {
+                          const b =
+                            banner && typeof banner === 'object'
+                              ? (banner as Record<string, unknown>)
+                              : undefined
+                          const img = b && 'image' in b ? (b.image as unknown) : null
+                          const href = b && typeof b.url === 'string' ? (b.url as string) : '#'
+                          const title = b && typeof b.title === 'string' ? (b.title as string) : ''
+                          const newTab =
+                            b && typeof b.openInNewTab === 'boolean'
+                              ? (b.openInNewTab as boolean)
+                              : false
+                          const key =
+                            b && (typeof b.id === 'string' || typeof b.id === 'number')
+                              ? String(b.id)
+                              : String(i)
+                          const imgObj =
+                            img && typeof img === 'object'
+                              ? (img as Record<string, unknown>)
+                              : undefined
+                          return (
+                            <a
+                              key={key}
+                              href={href}
+                              target={newTab ? '_blank' : undefined}
+                              rel={newTab ? 'noopener noreferrer' : undefined}
+                              className="block border rounded overflow-hidden hover:shadow-lg transition-shadow"
+                              aria-label={title || undefined}
+                            >
+                              {/* Use Media for payload-managed image */}
+                              {img && typeof img !== 'string' ? (
+                                <Media htmlElement={null} resource={img as PayloadMedia} />
+                              ) : null}
+                              {/* Fallback simple img if Media is not usable */}
+                              {imgObj && typeof imgObj.url === 'string' && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={imgObj.url as string}
+                                  alt={(imgObj.alt as string) || title || ''}
+                                  className="w-full h-auto"
+                                />
+                              )}
+                              {/* Basic text fallback */}
+                              {!img && title && (
+                                <div className="p-4 text-sm font-medium">{title}</div>
+                              )}
+                            </a>
+                          )
+                        })}
+                      </div>
+                    ) : null
+                  })()}
+                </aside>
+              </div>
+            )
+          })()}
+
+          {/* Client TOC enhancer */}
+          <TOCClient />
         </div>
       </div>
     </article>
@@ -202,6 +300,7 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
     limit: 1,
     overrideAccess: draft,
     pagination: false,
+    depth: 2,
     where: {
       slug: {
         equals: slug,

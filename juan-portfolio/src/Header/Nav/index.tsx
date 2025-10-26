@@ -7,7 +7,9 @@ import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 // Link and icons not required here
 
-export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ data, mobile }) => {
+type Props = { data: HeaderType; mobile?: boolean; onItemClick?: () => void }
+
+export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
   const navItems = data?.navItems || []
 
   if (mobile) {
@@ -17,7 +19,8 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
           <div key={i}>
             <CMSLink
               {...link}
-              className="block text-lg font-medium py-3 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800"
+              className="block text-lg font-medium py-3 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800 text-black dark:text-white"
+              onClick={onItemClick}
             />
           </div>
         ))}
@@ -32,7 +35,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
           <CMSLink
             key={i}
             {...link}
-            className="text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors text-black dark:text-white"
           />
         )
       })}

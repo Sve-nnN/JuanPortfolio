@@ -10,19 +10,33 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { WorkCards } from '../../blocks/WorkCards/config'
 import { ClientsCarousel } from '../../blocks/ClientsCarousel/config'
 import { Intro } from '../../blocks/Intro/config'
+import { HeroHome } from '../../blocks/HeroHome/config'
+import { AboutSection } from '../../blocks/AboutSection/config'
+import { FeaturedWorks } from '../../blocks/FeaturedWorks/config'
+import { FeaturedClients } from '../../blocks/FeaturedClients/config'
+import { FeaturedBlog } from '../../blocks/FeaturedBlog/config'
+import { ContactFormBlock } from '../../blocks/ContactFormBlock/config'
+import { SimpleCTA } from '../../blocks/SimpleCTA/config'
+import { ListingHero } from '../../blocks/ListingHero/config'
+import { PostsGrid } from '../../blocks/PostsGrid/config'
+import { CaseStudiesGrid } from '../../blocks/CaseStudiesGrid/config'
+import { PostSidebar } from '../../blocks/PostSidebar/config'
+import { RelatedPostsBlock } from '../../blocks/RelatedPostsBlock/config'
+import { TableOfContentsBlock } from '../../blocks/TableOfContentsBlock/config'
+import { TestimonialSection } from '../../blocks/TestimonialSection/config'
+import { ResultsSection } from '../../blocks/ResultsSection/config'
+import { CaseStudyHeader } from '../../blocks/CaseStudyHeader/config'
+import { PostArticleHeader } from '../../blocks/PostArticleHeader/config'
+import { BlogArchiveHeader } from '../../blocks/BlogArchiveHeader/config'
+import { FeaturedBlogPosts } from '../../blocks/FeaturedBlogPosts/config'
+import { FeaturedCaseStudies } from '../../blocks/FeaturedCaseStudies/config'
+import { AboutWithFeatures } from '../../blocks/AboutWithFeatures/config'
 import { hero } from '@/heros/config'
-import { slugField } from 'payload'
+import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
-
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
+import { Section } from '../../blocks/Section/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -72,6 +86,7 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'tabs',
       tabs: [
         {
+          name: 'hero',
           fields: [hero],
           label: {
             en: 'Hero',
@@ -79,6 +94,7 @@ export const Pages: CollectionConfig<'pages'> = {
           },
         },
         {
+          name: 'homeSections',
           label: {
             en: 'Home Sections',
             es: 'Secciones Home',
@@ -118,11 +134,47 @@ export const Pages: CollectionConfig<'pages'> = {
           ],
         },
         {
+          name: 'content',
           fields: [
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Intro, WorkCards, ClientsCarousel],
+              blocks: [
+                // Bloques para Home
+                HeroHome,
+                AboutSection,
+                FeaturedWorks,
+                FeaturedClients,
+                FeaturedBlog,
+                ContactFormBlock,
+                SimpleCTA,
+                // Bloques para páginas de listado
+                ListingHero,
+                PostsGrid,
+                CaseStudiesGrid,
+                // Bloques para single post/case study
+                PostSidebar,
+                RelatedPostsBlock,
+                TableOfContentsBlock,
+                TestimonialSection,
+                ResultsSection,
+                CaseStudyHeader,
+                PostArticleHeader,
+                BlogArchiveHeader,
+                FeaturedBlogPosts,
+                FeaturedCaseStudies,
+                AboutWithFeatures,
+                // Section permite estilos de sección y bloques anidados (MVP page builder)
+                Section,
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                Intro,
+                WorkCards,
+                ClientsCarousel,
+              ],
               required: true,
               // localize layout so pages can have different block content per locale
               localized: true,
@@ -132,38 +184,6 @@ export const Pages: CollectionConfig<'pages'> = {
             },
           ],
           label: 'Content',
-        },
-        {
-          name: 'meta',
-          label: {
-            en: 'SEO',
-            es: 'SEO',
-          },
-          // Localize meta so title/description/image can be different per locale
-          localized: true,
-          fields: [
-            OverviewField({
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
-            }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
-            }),
-
-            MetaDescriptionField({}),
-            PreviewField({
-              // if the `generateUrl` function is configured
-              hasGenerateFn: true,
-
-              // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-            }),
-          ],
         },
       ],
     },

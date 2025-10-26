@@ -69,6 +69,36 @@ const CaseStudies: CollectionConfig = {
         es: 'Título',
       },
     },
+    // Grupo SEO
+    {
+      type: 'group',
+      name: 'meta_group',
+      label: 'SEO',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Meta título',
+          localized: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Meta descripción',
+          localized: true,
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Imagen para compartir (OpenGraph)',
+        },
+      ],
+      admin: {
+        description:
+          'Campos para SEO: título, descripción e imagen para compartir en redes sociales.',
+      },
+    },
     {
       type: 'tabs',
       tabs: [

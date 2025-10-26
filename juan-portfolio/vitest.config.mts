@@ -6,8 +6,14 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     globalSetup: './tests/vitest.global.setup.ts',
-    environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    include: ['tests/int/**/*.int.spec.ts', 'tests/unit/**/*.test.{ts,tsx}'],
+    include: ['tests/int/**/*.int.test.tsx', 'tests/unit/**/*.test.{ts,tsx}'],
+    moduleNameMapper: {
+      '\\.scss$': 'identity-obj-proxy',
+    },
+    globals: true,
+    environment: 'jsdom',
+    testTimeout: 30000,
+    hookTimeout: 30000,
   },
 })

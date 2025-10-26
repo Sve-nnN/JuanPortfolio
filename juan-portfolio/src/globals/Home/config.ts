@@ -13,6 +13,9 @@ import { TestimonialSection } from '../../blocks/TestimonialSection/config'
 import { ResultsSection } from '../../blocks/ResultsSection/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
+import { LatestBlogPosts } from '../../blocks/LatestBlogPosts/config'
+import { LatestCaseStudies } from '../../blocks/LatestCaseStudies/config'
+import { TestimonialsCarousel } from '../../blocks/TestimonialsCarousel/config'
 
 export const Home: GlobalConfig = {
   slug: 'home',
@@ -38,6 +41,9 @@ export const Home: GlobalConfig = {
         ContactFormBlock,
         TestimonialSection,
         ResultsSection,
+        LatestBlogPosts,
+        LatestCaseStudies,
+        TestimonialsCarousel,
         // Bloques generales
         CallToAction,
         Content,

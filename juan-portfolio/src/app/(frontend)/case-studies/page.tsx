@@ -26,7 +26,7 @@ const CaseStudiesPage = async () => {
 
   // Fallback UI if no blocks configured
   return (
-    <main className="py-20">
+    <main className="py-8">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-8">
           {caseStudiesGlobal?.title || 'Casos de estudio'}

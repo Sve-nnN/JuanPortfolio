@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { getPayload } from 'payload'
 import { draftMode, headers } from 'next/headers'
 import React, { cache } from 'react'
 
@@ -110,11 +110,32 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const locale =
     rawLocale2 && ['en', 'es'].includes(rawLocale2) ? (rawLocale2 as 'en' | 'es') : undefined
 
+  const payload = await getPayload({ config: configPromise })
+  if (slug === 'home') {
+    const homeGlobal = await payload.findGlobal({
+      slug: 'home',
+      locale,
+    })
+    return generateMeta({ doc: homeGlobal, locale })
+  }
+  if (slug === 'blog-listing') {
+    const blogListingGlobal = await payload.findGlobal({
+      slug: 'blog-listing',
+      locale,
+    })
+    return generateMeta({ doc: blogListingGlobal, locale })
+  }
+  if (slug === 'case-studies-listing') {
+    const caseStudiesListingGlobal = await payload.findGlobal({
+      slug: 'case-studies-listing',
+      locale,
+    })
+    return generateMeta({ doc: caseStudiesListingGlobal, locale })
+  }
   const page = await queryPageBySlug({
     slug,
     locale,
   })
-
   return generateMeta({ doc: page, locale })
 }
 

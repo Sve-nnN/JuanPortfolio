@@ -19,6 +19,7 @@ import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
 import Clients from './collections/Clients'
 import { AdBanners } from './collections/AdBanners'
+import Testimonials from './collections/Testimonials'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
@@ -93,7 +94,18 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Works, CaseStudies, Clients, AdBanners],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Works,
+    CaseStudies,
+    Clients,
+    AdBanners,
+    Testimonials,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing],
   plugins: [

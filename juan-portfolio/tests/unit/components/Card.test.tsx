@@ -1,6 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Card, CardPostData } from '../../../src/components/Card';
+
+// Mock the useRouter hook
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
 
 describe('Card component', () => {
   const mockDoc: CardPostData = {
@@ -20,7 +25,7 @@ describe('Card component', () => {
 
   it('renders the card with all props', () => {
     render(<Card doc={mockDoc} relationTo="posts" showCategories />);
-
+    screen.debug();
     expect(screen.getByText('Test Post')).toBeInTheDocument();
     expect(screen.getByText('This is a test post.')).toBeInTheDocument();
     expect(screen.getByText('Category 1')).toBeInTheDocument();
@@ -33,7 +38,7 @@ describe('Card component', () => {
       title: 'Minimal Post',
     };
     render(<Card doc={minimalDoc} relationTo="posts" />);
-
+    screen.debug();
     expect(screen.getByText('Minimal Post')).toBeInTheDocument();
     expect(screen.queryByText('This is a test post.')).not.toBeInTheDocument();
     expect(screen.queryByText('Category 1')).not.toBeInTheDocument();

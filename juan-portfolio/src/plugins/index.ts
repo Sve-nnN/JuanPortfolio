@@ -53,10 +53,11 @@ export const plugins: Plugin[] = [
   }),
   seoPlugin({
     collections: ['pages', 'posts', 'case-studies'],
+    globals: ['home', 'blog-listing', 'case-studies-listing'],
     uploadsCollection: 'media',
     generateTitle,
     generateURL,
-    // Render SEO in its own Admin tab (if supported by this plugin version)
+    // Render SEO in its own Admin tab (if supported by esta version del plugin)
     tabbedUI: true,
   }),
   formBuilderPlugin({

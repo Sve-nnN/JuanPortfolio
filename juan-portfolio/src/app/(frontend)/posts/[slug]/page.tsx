@@ -50,6 +50,11 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
+  // Obtener la categoría principal del post
+  const mainCategory = Array.isArray(post.categories) && post.categories.length > 0
+    ? (typeof post.categories[0] === 'string' ? post.categories[0] : post.categories[0]?.id)
+    : null
+
   return (
     <article className="pb-16">
       <PageClient />
@@ -101,6 +106,14 @@ export default async function Post({ params: paramsPromise }: Args) {
                       )
                     })()}
                   </div>
+
+                  {/* Componente de posts relacionados */}
+                  {mainCategory && (
+                    <div className="mt-12">
+                      {/* @ts-expect-error Async Server Component */}
+                      <import('@/components/RelatedPostsServer').then(m => m.default) currentPostId={post.id} categoryId={mainCategory} />
+                    </div>
+                  )}
 
                   {/* Mobile banners below content */}
                   {hasBanners && (

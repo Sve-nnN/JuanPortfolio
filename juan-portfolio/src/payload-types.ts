@@ -76,6 +76,7 @@ export interface Config {
     'case-studies': CaseStudy;
     clients: Client;
     'ad-banners': AdBanner;
+    testimonials: Testimonial;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,6 +97,7 @@ export interface Config {
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     'ad-banners': AdBannersSelect<false> | AdBannersSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -162,6 +164,14 @@ export interface UserAuthOperations {
 export interface Page {
   id: string;
   title: string;
+  /**
+   * Campos para SEO: título, descripción e imagen para compartir en redes sociales.
+   */
+  meta_group?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   hero: {
     hero: {
       type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -269,60 +279,6 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string;
-  title: string;
-  content: {
-    heroImage?: (string | null) | Media;
-    content: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-  };
-  metaExtras?: {
-    relatedPosts?: (string | Post)[] | null;
-    categories?: (string | Category)[] | null;
-    /**
-     * Select banners to show in the right sidebar for this post.
-     */
-    sidebarBanners?: (string | AdBanner)[] | null;
-  };
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -415,6 +371,60 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  content: {
+    heroImage?: (string | null) | Media;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  meta_extras?: {
+    relatedPosts?: (string | Post)[] | null;
+    categories?: (string | Category)[] | null;
+    /**
+     * Select banners to show in the right sidebar for this post.
+     */
+    sidebarBanners?: (string | AdBanner)[] | null;
+  };
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -495,6 +505,14 @@ export interface User {
 export interface CaseStudy {
   id: string;
   title: string;
+  /**
+   * Campos para SEO: título, descripción e imagen para compartir en redes sociales.
+   */
+  meta_group?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   content: {
     heroImage?: (string | null) | Media;
     content: {
@@ -1633,6 +1651,21 @@ export interface Work {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  author: string;
+  company?: string | null;
+  role?: string | null;
+  testimonial: string;
+  avatar?: (string | null) | Media;
+  rating?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1841,6 +1874,10 @@ export interface PayloadLockedDocument {
         value: string | AdBanner;
       } | null)
     | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1908,6 +1945,13 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  meta_group?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   hero?:
     | T
     | {
@@ -2481,7 +2525,7 @@ export interface PostsSelect<T extends boolean = true> {
         heroImage?: T;
         content?: T;
       };
-  metaExtras?:
+  meta_extras?:
     | T
     | {
         relatedPosts?: T;
@@ -2681,6 +2725,13 @@ export interface WorksSelect<T extends boolean = true> {
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
+  meta_group?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   content?:
     | T
     | {
@@ -2721,6 +2772,20 @@ export interface AdBannersSelect<T extends boolean = true> {
   image?: T;
   url?: T;
   openInNewTab?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  author?: T;
+  company?: T;
+  role?: T;
+  testimonial?: T;
+  avatar?: T;
+  rating?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3059,11 +3124,56 @@ export interface Home {
     | ContactFormBlock
     | TestimonialSectionBlock
     | ResultsSectionBlock
+    | LatestBlogPostsBlock
+    | LatestCaseStudiesBlock
+    | TestimonialsCarouselBlock
     | CallToActionBlock
     | ContentBlock
   )[];
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestBlogPostsBlock".
+ */
+export interface LatestBlogPostsBlock {
+  title?: string | null;
+  count?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestBlogPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestCaseStudiesBlock".
+ */
+export interface LatestCaseStudiesBlock {
+  title?: string | null;
+  count?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestCaseStudies';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsCarouselBlock".
+ */
+export interface TestimonialsCarouselBlock {
+  title?: string | null;
+  showRating?: boolean | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonialsCarousel';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3076,7 +3186,15 @@ export interface BlogListing {
   /**
    * Bloques personalizables para la página de blog
    */
-  layout?: (ListingHeroBlock | PostsGridBlock)[] | null;
+  layout?: (ListingHeroBlock | PostsGridBlock | LatestBlogPostsBlock)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3091,7 +3209,15 @@ export interface CaseStudiesListing {
   /**
    * Bloques personalizables para la página de casos de estudio
    */
-  layout?: (ListingHeroBlock | CaseStudiesGridBlock)[] | null;
+  layout?: (ListingHeroBlock | CaseStudiesGridBlock | LatestCaseStudiesBlock)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3161,12 +3287,53 @@ export interface HomeSelect<T extends boolean = true> {
         contactForm?: T | ContactFormBlockSelect<T>;
         testimonialSection?: T | TestimonialSectionBlockSelect<T>;
         resultsSection?: T | ResultsSectionBlockSelect<T>;
+        latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
+        latestCaseStudies?: T | LatestCaseStudiesBlockSelect<T>;
+        testimonialsCarousel?: T | TestimonialsCarouselBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestBlogPostsBlock_select".
+ */
+export interface LatestBlogPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  count?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestCaseStudiesBlock_select".
+ */
+export interface LatestCaseStudiesBlockSelect<T extends boolean = true> {
+  title?: T;
+  count?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsCarouselBlock_select".
+ */
+export interface TestimonialsCarouselBlockSelect<T extends boolean = true> {
+  title?: T;
+  showRating?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3180,6 +3347,14 @@ export interface BlogListingSelect<T extends boolean = true> {
     | {
         listingHero?: T | ListingHeroBlockSelect<T>;
         postsGrid?: T | PostsGridBlockSelect<T>;
+        latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -3197,6 +3372,14 @@ export interface CaseStudiesListingSelect<T extends boolean = true> {
     | {
         listingHero?: T | ListingHeroBlockSelect<T>;
         caseStudiesGrid?: T | CaseStudiesGridBlockSelect<T>;
+        latestCaseStudies?: T | LatestCaseStudiesBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

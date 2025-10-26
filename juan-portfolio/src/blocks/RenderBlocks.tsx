@@ -1,6 +1,42 @@
+import { TestimonialsCarouselBlock } from '@/blocks/TestimonialsCarousel/Component'
 import React, { Fragment } from 'react'
 
-import type { Page } from '@/payload-types'
+import type {
+  Page,
+  HeroHomeBlock,
+  AboutSectionBlock,
+  FeaturedWorksBlock,
+  FeaturedClientsBlock,
+  FeaturedBlogBlock,
+  ContactFormBlock,
+  SimpleCtaBlock,
+  ListingHeroBlock,
+  PostsGridBlock,
+  CaseStudiesGridBlock,
+  PostSidebarBlock,
+  RelatedPostsBlockType,
+  TableOfContentsBlock,
+  TestimonialSectionBlock,
+  ResultsSectionBlock,
+  CaseStudyHeaderBlock,
+  PostArticleHeaderBlock,
+  BlogArchiveHeaderBlock,
+  FeaturedBlogPostsBlock,
+  FeaturedCaseStudiesBlock,
+  AboutWithFeaturesBlock,
+  SectionBlock,
+  CallToActionBlock,
+  ContentBlock,
+  MediaBlock,
+  ArchiveBlock,
+  FormBlock,
+  IntroBlock,
+  WorkCardsBlock,
+  ClientsCarousel,
+  LatestBlogPostsBlock,
+  LatestCaseStudiesBlock,
+  TestimonialsCarouselBlock,
+} from '@/payload-types'
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
@@ -32,8 +68,45 @@ import { BlogArchiveHeaderBlock } from '@/blocks/BlogArchiveHeader/Component'
 import { FeaturedBlogPostsBlock } from '@/blocks/FeaturedBlogPosts/Component'
 import { FeaturedCaseStudiesBlock } from '@/blocks/FeaturedCaseStudies/Component'
 import { AboutWithFeaturesBlock } from '@/blocks/AboutWithFeatures/Component'
+import { LatestBlogPostsBlock } from '@/blocks/LatestBlogPosts/Component'
+import { LatestCaseStudiesBlock } from '@/blocks/LatestCaseStudies/Component'
 
-const blockComponents: Record<string, React.ComponentType<any>> = {
+type BlockType =
+  | HeroHomeBlock
+  | AboutSectionBlock
+  | FeaturedWorksBlock
+  | FeaturedClientsBlock
+  | FeaturedBlogBlock
+  | ContactFormBlock
+  | SimpleCtaBlock
+  | ListingHeroBlock
+  | PostsGridBlock
+  | CaseStudiesGridBlock
+  | PostSidebarBlock
+  | RelatedPostsBlockType
+  | TableOfContentsBlock
+  | TestimonialSectionBlock
+  | ResultsSectionBlock
+  | CaseStudyHeaderBlock
+  | PostArticleHeaderBlock
+  | BlogArchiveHeaderBlock
+  | FeaturedBlogPostsBlock
+  | FeaturedCaseStudiesBlock
+  | AboutWithFeaturesBlock
+  | SectionBlock
+  | CallToActionBlock
+  | ContentBlock
+  | MediaBlock
+  | ArchiveBlock
+  | FormBlock
+  | IntroBlock
+  | WorkCardsBlock
+  | ClientsCarousel
+  | LatestBlogPostsBlock
+  | LatestCaseStudiesBlock
+  | TestimonialsCarouselBlock
+
+const blockComponents: Record<string, React.ComponentType<BlockType>> = {
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
@@ -64,6 +137,9 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   featuredBlogPosts: FeaturedBlogPostsBlock,
   featuredCaseStudies: FeaturedCaseStudiesBlock,
   aboutWithFeatures: AboutWithFeaturesBlock,
+  latestBlogPosts: LatestBlogPostsBlock,
+  latestCaseStudies: LatestCaseStudiesBlock,
+  testimonialsCarousel: TestimonialsCarouselBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -77,15 +153,12 @@ export const RenderBlocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const { blockType } = block as any
-
+          const blockType = (block as { blockType?: string }).blockType
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
-
             if (Block) {
               return (
                 <div className="my-16" key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} />
                 </div>
               )

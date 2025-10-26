@@ -100,7 +100,7 @@ export const Posts: CollectionConfig<'posts'> = {
         },
         {
           label: 'Meta',
-          name: 'metaExtras',
+          name: 'meta_extras',
           fields: [
             {
               name: 'relatedPosts',

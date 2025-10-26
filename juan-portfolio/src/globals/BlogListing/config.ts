@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { ListingHero } from '@/blocks/ListingHero/config'
 import { PostsGrid } from '@/blocks/PostsGrid/config'
+import { LatestBlogPosts } from '@/blocks/LatestBlogPosts/config'
 
 export const BlogListing: GlobalConfig = {
   slug: 'blog-listing',
@@ -13,7 +14,7 @@ export const BlogListing: GlobalConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [ListingHero, PostsGrid],
+      blocks: [ListingHero, PostsGrid, LatestBlogPosts],
       admin: {
         description: 'Bloques personalizables para la página de blog',
       },

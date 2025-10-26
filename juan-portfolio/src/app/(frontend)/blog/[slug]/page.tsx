@@ -75,6 +75,18 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
+      {/* Breadcrumbs */}
+      <div className="container mt-4">
+        {/* @ts-expect-error Async Server Component */}
+        {(await import('@/components/Breadcrumbs')).default({
+          items: [
+            { label: 'Inicio', href: '/' },
+            { label: 'Blog', href: '/blog' },
+            { label: post.title || 'Post' },
+          ],
+        })}
+      </div>
+
       <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} />
 
       <div className="pt-8">

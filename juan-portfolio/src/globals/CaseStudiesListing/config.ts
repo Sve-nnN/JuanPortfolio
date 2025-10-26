@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { ListingHero } from '@/blocks/ListingHero/config'
 import { CaseStudiesGrid } from '@/blocks/CaseStudiesGrid/config'
+import { LatestCaseStudies } from '@/blocks/LatestCaseStudies/config'
 
 export const CaseStudiesListing: GlobalConfig = {
   slug: 'case-studies-listing',
@@ -13,7 +14,7 @@ export const CaseStudiesListing: GlobalConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [ListingHero, CaseStudiesGrid],
+      blocks: [ListingHero, CaseStudiesGrid, LatestCaseStudies],
       admin: {
         description: 'Bloques personalizables para la página de casos de estudio',
       },

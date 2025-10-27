@@ -1,9 +1,9 @@
 import React from 'react'
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
-import type { RelatedPostsBlockType, Post } from '@/payload-types'
+import type { RelatedPostsBlockType, Post, Category } from '@/payload-types'
 
 export const RelatedPostsBlockComponent: React.FC<
-  RelatedPostsBlockType & { currentPostId?: string; categories?: any[] }
+  RelatedPostsBlockType & { currentPostId?: string; categories?: (string | Category)[] }
 > = async (props) => {
   const { title, posts, autoSelect = true, limit = 3, currentPostId, categories } = props
 
@@ -11,7 +11,7 @@ export const RelatedPostsBlockComponent: React.FC<
 
   // If specific posts are selected, use them
   if (posts && Array.isArray(posts) && posts.length > 0) {
-    displayPosts = posts.filter((p) => typeof p === 'object').slice(0, limit) as Post[]
+    displayPosts = posts.filter((p) => typeof p === 'object').slice(0, limit || 3) as Post[]
   } else if (autoSelect && categories && categories.length > 0) {
     // Auto-select posts by category
     try {
@@ -20,17 +20,17 @@ export const RelatedPostsBlockComponent: React.FC<
       const payload = await getPayload({ config: configPromise })
 
       const categoryIds = categories
-        .map((c: any) => {
+        .map((c: string | Category) => {
           if (typeof c === 'string') return c
-          if (c && typeof c === 'object') return c.id || c.value
+          if (c && typeof c === 'object') return c.id
           return undefined
         })
-        .filter(Boolean)
+        .filter(Boolean) as string[]
 
       if (categoryIds.length > 0) {
         const res = await payload.find({
           collection: 'posts',
-          limit,
+          limit: limit || 3,
           depth: 1,
           sort: '-publishedAt',
           where: {

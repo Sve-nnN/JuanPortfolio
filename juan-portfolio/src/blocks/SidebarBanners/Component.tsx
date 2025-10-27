@@ -1,8 +1,13 @@
 import React from 'react'
-import type { SidebarBannersBlock, AdBanner } from '@/payload-types'
+import type { AdBanner } from '@/payload-types'
 import { Media } from '@/components/Media'
 
-export const SidebarBannersComponent: React.FC<SidebarBannersBlock> = (props) => {
+interface SidebarBannersBlockType {
+  banners?: (string | AdBanner)[] | null
+  sticky?: boolean
+}
+
+export const SidebarBannersComponent: React.FC<SidebarBannersBlockType> = (props) => {
   const { banners, sticky = true } = props
 
   const bannerList =

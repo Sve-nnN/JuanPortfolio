@@ -1,0 +1,121 @@
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { draftMode } from 'next/headers'
+import Breadcrumbs from '@/components/Breadcrumbs'
+import { PostHero } from '@/heros/PostHero'
+import { estimateReadingTimeFromLexical } from '@/utilities/estimateReadingTime'
+import { extractHeadingsFromLexical } from '@/utilities/extractHeadings'
+import { TableOfContents } from '@/components/TableOfContents'
+import RichText from '@/components/RichText'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { Metadata } from 'next'
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const posts = await payload.find({
+    collection: 'posts',
+    limit: 1000,
+    depth: 2, // Necesitamos depth para obtener las categorías
+  })
+
+  const params: Array<{ category: string; slug: string }> = []
+
+  for (const post of posts.docs) {
+    const categories = post.meta_extras?.categories
+    let categorySlug = 'general'
+
+    if (categories && categories.length > 0) {
+      const firstCategory = categories[0]
+      if (typeof firstCategory === 'object' && firstCategory.slug) {
+        categorySlug = firstCategory.slug
+      } else if (typeof firstCategory === 'string') {
+        categorySlug = firstCategory
+      }
+    }
+
+    params.push({
+      category: categorySlug,
+      slug: post.slug || post.id || '',
+    })
+  }
+
+  return params
+}
+
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ category: string; slug: string }>
+}) {
+  const { category, slug } = await params
+  const { isEnabled: draft } = await draftMode()
+  const payload = await getPayload({ config: configPromise })
+  const postRes = await payload.find({
+    collection: 'posts',
+    where: { slug: { equals: slug } },
+    draft,
+    limit: 1,
+    depth: 2,
+  })
+  const post = postRes.docs[0]
+  if (!post) return notFound()
+
+  const { minutes } = post.content ? estimateReadingTimeFromLexical(post.content) : { minutes: 1 }
+  const excerpt = post.meta?.description || undefined
+  const headings = post.content ? extractHeadingsFromLexical(post.content) : []
+
+  const categories = post.meta_extras?.categories || []
+  const firstCategory =
+    Array.isArray(categories) && categories.length > 0
+      ? typeof categories[0] === 'string'
+        ? { title: category }
+        : categories[0]
+      : { title: category }
+
+  return (
+    <article className="pb-16">
+      <LivePreviewListener />
+      <PayloadRedirects disableNotFound url={`/blog/${category}/${slug}`} />
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: '/' },
+          { label: 'Blog', href: '/blog' },
+          {
+            label: firstCategory.title || category,
+            href: `/blog/${category}`,
+          },
+          { label: post.title || 'Post' },
+        ]}
+      />
+      <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} />
+      <div className="pt-8 container">
+        {headings && headings.length > 0 && <TableOfContents headings={headings} />}
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          {post.content?.content && <RichText data={post.content.content} enableGutter={false} />}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string; slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const payload = await getPayload({ config: configPromise })
+  const postRes = await payload.find({
+    collection: 'posts',
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 2,
+  })
+  const post = postRes.docs[0]
+  return {
+    title: post?.meta?.title || post?.title || 'Post',
+    description: post?.meta?.description || '',
+  }
+}

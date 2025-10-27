@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import nodemailer from 'nodemailer'
-import type { EmailTransport } from 'payload/config'
 import { Resend } from 'resend'
 
 // Minimal Resend-backed Nodemailer transport for Payload
@@ -9,6 +9,12 @@ import { Resend } from 'resend'
 // - EMAIL_FROM_NAME (optional)
 
 type TransportArgs = Parameters<typeof nodemailer.createTransport>[0]
+
+type EmailTransport = {
+  fromAddress: string
+  fromName: string
+  transport: any
+}
 
 type ResendError = {
   name: string
@@ -26,7 +32,7 @@ export function createResendTransport({ apiKey }: { apiKey: string }): EmailTran
   const transportConfig: TransportArgs = {
     name: 'resend-transport',
     version: '1.0.0',
-    send: async (mail, callback) => {
+    send: async (mail: any, callback: any) => {
       try {
         const { from, to, subject, html, text, cc, bcc, replyTo } = mail.data
 
@@ -69,8 +75,7 @@ export function createResendTransport({ apiKey }: { apiKey: string }): EmailTran
         const bodyHtml = (html || text) as string | undefined
 
         // Resend SDK supports .emails.send in latest versions
-        // Fallback to sendEmail if needed
-        const sender: any = (resend as any).emails || resend
+        const sender = (resend as any).emails || resend
         const sendMethod = sender.send || sender.sendEmail
 
         const result = await sendMethod.call(sender, {

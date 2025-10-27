@@ -28,7 +28,7 @@ const iconMap = {
   Rocket: Rocket,
 }
 
-export const AboutWithFeaturesBlock: React.FC<AboutWithFeaturesBlock> = (props) => {
+export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock> = (props) => {
   const { eyebrow, title, description, ctaText, ctaLink, features } = props
 
   return (

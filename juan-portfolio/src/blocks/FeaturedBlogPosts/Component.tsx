@@ -4,9 +4,9 @@ import React from 'react'
 import type { FeaturedBlogPostsBlock } from '@/payload-types'
 import Link from 'next/link'
 import { Media } from '@/components/Media'
-import { Clock } from 'lucide-react'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
-export const FeaturedBlogPostsBlock: React.FC<FeaturedBlogPostsBlock> = (props) => {
+export const FeaturedBlogPosts: React.FC<FeaturedBlogPostsBlock> = (props) => {
   const { title, description, posts, ctaText, ctaLink, backgroundColor } = props
 
   // Get posts list
@@ -30,7 +30,7 @@ export const FeaturedBlogPostsBlock: React.FC<FeaturedBlogPostsBlock> = (props) 
   }
 
   // Calculate read time (assuming ~200 words per minute)
-  const calculateReadTime = (content: any): number => {
+  const calculateReadTime = (content: unknown): number => {
     if (!content) return 5
     const text = JSON.stringify(content)
     const wordCount = text.split(/\s+/).length
@@ -45,38 +45,42 @@ export const FeaturedBlogPostsBlock: React.FC<FeaturedBlogPostsBlock> = (props) 
           <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">{description}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {postsList.map((post) => (
-            <div
-              key={post.id}
-              className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
-            >
-              <Link href={`/blog/${post.slug}`}>
-                {post.heroImage && (
-                  <div className="w-full h-48 overflow-hidden">
-                    <Media
-                      resource={post.heroImage}
-                      className="w-full h-full object-cover"
-                      imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                )}
-                <div className="p-6">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                    {post.publishedAt && formatDate(post.publishedAt)} ·{' '}
-                    {calculateReadTime(post.content)} min de lectura
-                  </p>
-                  <h3 className="text-lg font-bold text-current mb-2 group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h3>
-                  {post.meta?.description && (
-                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
-                      {post.meta.description}
-                    </p>
+          {postsList.map((post) => {
+            if (!post) return null
+            const postUrl = getPostUrl(post)
+            const heroImage = post.content?.heroImage
+            return (
+              <div
+                key={post.id}
+                className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+              >
+                <Link href={postUrl}>
+                  {heroImage && typeof heroImage === 'object' && 'url' in heroImage && (
+                    <div className="w-full h-48 overflow-hidden">
+                      <Media
+                        resource={heroImage}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
                   )}
-                </div>
-              </Link>
-            </div>
-          ))}
+                  <div className="p-6">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      {post.publishedAt && formatDate(post.publishedAt)} ·{' '}
+                      {calculateReadTime(post.content)} min de lectura
+                    </p>
+                    <h3 className="text-lg font-bold text-current mb-2 group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
+                    {post.meta?.description && (
+                      <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+                        {post.meta.description}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              </div>
+            )
+          })}
         </div>
         {ctaText && ctaLink && (
           <div className="text-center mt-12">

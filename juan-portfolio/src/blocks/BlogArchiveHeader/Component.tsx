@@ -5,7 +5,7 @@ import type { BlogArchiveHeaderBlock } from '@/payload-types'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
-export const BlogArchiveHeaderBlock: React.FC<BlogArchiveHeaderBlock> = (props) => {
+export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = (props) => {
   const { title, description, showCategoryFilters, categories } = props
   const [activeCategory, setActiveCategory] = useState<string>('all')
 
@@ -61,19 +61,21 @@ export const BlogArchiveHeaderBlock: React.FC<BlogArchiveHeaderBlock> = (props) 
             >
               Todo
             </button>
-            {categoriesList.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                  activeCategory === category.id
-                    ? 'text-white bg-primary'
-                    : 'text-gray-600 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                }`}
-              >
-                {category.title}
-              </button>
-            ))}
+            {categoriesList
+              .filter((cat) => cat !== null)
+              .map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+                    activeCategory === category.id
+                      ? 'text-white bg-primary'
+                      : 'text-gray-600 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  {category.title}
+                </button>
+              ))}
           </div>
         )}
       </div>

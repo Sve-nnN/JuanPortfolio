@@ -32,7 +32,33 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     throw new Error('Expected value to be an object')
   }
   const slug = value.slug
-  return relationTo === 'posts' ? `/blog/${slug}` : `/${slug}`
+
+  // Para posts, usar /blog/{category}/{slug}
+  if (relationTo === 'posts') {
+    // Intentar obtener la categoría del post
+    const post = value as {
+      slug?: string
+      meta_extras?: {
+        categories?: Array<string | { slug?: string; title?: string }>
+      }
+    }
+
+    const categories = post.meta_extras?.categories
+    let categorySlug = 'general' // Categoría por defecto
+
+    if (categories && categories.length > 0) {
+      const firstCategory = categories[0]
+      if (typeof firstCategory === 'object' && firstCategory.slug) {
+        categorySlug = firstCategory.slug
+      } else if (typeof firstCategory === 'string') {
+        categorySlug = firstCategory
+      }
+    }
+
+    return `/blog/${categorySlug}/${slug}`
+  }
+
+  return `/${slug}`
 }
 
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({

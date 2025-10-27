@@ -10,7 +10,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const saved = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
       if (saved === 'dark') return 'dark'
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
     return 'light'
@@ -21,7 +21,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       document.documentElement.classList.toggle('dark', theme === 'dark')
       try {
         localStorage.setItem('theme', theme)
-      } catch (e) {}
+      } catch (_e) {
+        // ignore
+      }
     }
   }, [theme])
 

@@ -1,7 +1,7 @@
-import type { PayloadHandler } from 'payload'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { analyzeSEO } from '../utils/seoAnalyzer'
 
-export const seoAnalyzer: PayloadHandler = async (req, res) => {
+export const seoAnalyzer: any = async (req: any, res: any) => {
   try {
     const { title, content, meta, slug } = req.body
 

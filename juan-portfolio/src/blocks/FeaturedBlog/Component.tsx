@@ -4,21 +4,21 @@ import type { FeaturedBlogBlock, Post } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
-export const FeaturedBlogBlock: React.FC<FeaturedBlogBlock> = async (props) => {
+export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
   const { title, description, posts, limit = 3, ctaLabel, ctaUrl } = props
 
   let displayPosts: Post[] = []
 
   // If specific posts are selected, use them
   if (posts && Array.isArray(posts) && posts.length > 0) {
-    displayPosts = posts.filter((p) => typeof p === 'object').slice(0, limit) as Post[]
+    displayPosts = posts.filter((p) => typeof p === 'object').slice(0, limit || 3) as Post[]
   } else {
     // Otherwise, fetch the latest posts
     try {
       const payload = await getPayload({ config: configPromise })
       const res = await payload.find({
         collection: 'posts',
-        limit,
+        limit: limit || 3,
         pagination: false,
         sort: '-publishedAt',
       })
@@ -47,13 +47,17 @@ export const FeaturedBlogBlock: React.FC<FeaturedBlogBlock> = async (props) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {displayPosts.map((p) => {
               const heroUrl =
-                p.heroImage && typeof p.heroImage === 'object' && 'url' in p.heroImage
-                  ? p.heroImage.url
+                p.content?.heroImage &&
+                typeof p.content.heroImage === 'object' &&
+                'url' in p.content.heroImage
+                  ? p.content.heroImage.url
                   : null
 
               const heroAlt =
-                p.heroImage && typeof p.heroImage === 'object' && 'alt' in p.heroImage
-                  ? p.heroImage.alt
+                p.content?.heroImage &&
+                typeof p.content.heroImage === 'object' &&
+                'alt' in p.content.heroImage
+                  ? p.content.heroImage.alt
                   : p.title || ''
 
               return (

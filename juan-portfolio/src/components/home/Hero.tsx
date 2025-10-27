@@ -9,16 +9,8 @@ import HeroMedia from './HeroMedia.client'
 const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale }) => {
   if (!hero) return null
 
-  // hero.media can be either an id (string) or populated upload object
-  let mediaUrl: string | null = null
-  if (hero.media) {
-    if (typeof hero.media === 'string') {
-      // Assume it's an upload id; Payload exposes uploads at /api/uploads/:id
-      mediaUrl = `/api/uploads/${hero.media}`
-    } else if (typeof hero.media === 'object' && 'url' in hero.media && hero.media.url) {
-      mediaUrl = hero.media.url
-    }
-  }
+  // Extract the actual hero data from hero.hero
+  const heroData = hero.hero
 
   return (
     <header className="bg-background-light dark:bg-card-dark">
@@ -27,16 +19,16 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
           {/* Badge */}
           <div className="mb-4">
             <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
-              {hero?.richText ? '' : t(locale, 'home.hero.badge')}
+              {heroData?.richText ? '' : t(locale, 'home.hero.badge')}
             </span>
           </div>
 
           {/* Heading / rich text (editable in Payload) */}
-          {hero.richText ? (
+          {heroData.richText ? (
             (() => {
               // Server-safe extraction of first heading and paragraph to avoid hydration mismatches
               try {
-                const root = (hero.richText as Record<string, unknown>)?.root as
+                const root = (heroData.richText as Record<string, unknown>)?.root as
                   | Record<string, unknown>
                   | undefined
                 const children = Array.isArray(root?.children) ? (root?.children as unknown[]) : []
@@ -72,7 +64,7 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
                       </h1>
                     ) : null}
                     {/* Full rich text renderer (client-only) — skip the heading node to avoid duplication */}
-                    <HeroRichText data={hero.richText} skipFirstNodes={skipCount} />
+                    <HeroRichText data={heroData.richText} skipFirstNodes={skipCount} />
                   </div>
                 )
               } catch {
@@ -105,12 +97,12 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
           )}
 
           <div className="flex flex-col sm:flex-row gap-4">
-            {hero.links && hero.links[0] ? (
+            {heroData.links && heroData.links[0] ? (
               <a
-                href={hero.links[0].link?.url || '#'}
+                href={heroData.links[0].link?.url || '#'}
                 className="bg-primary text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors inline-block"
               >
-                {hero.links[0].link?.label || t(locale, 'home.hero.contact')}
+                {heroData.links[0].link?.label || t(locale, 'home.hero.contact')}
               </a>
             ) : (
               <a
@@ -122,12 +114,16 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
             )}
 
             <a
-              href={hero.links && hero.links[1] ? hero.links[1].link?.url || '#work' : '#work'}
+              href={
+                heroData.links && heroData.links[1]
+                  ? heroData.links[1].link?.url || '#work'
+                  : '#work'
+              }
               className="bg-gray-200 dark:bg-gray-700 text-current font-medium py-3 px-8 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors inline-flex items-center"
             >
               <span>
-                {hero.links && hero.links[1]
-                  ? hero.links[1].link?.label || t(locale, 'home.hero.work')
+                {heroData.links && heroData.links[1]
+                  ? heroData.links[1].link?.label || t(locale, 'home.hero.work')
                   : t(locale, 'home.hero.work')}
               </span>
               <ArrowRight className="ml-2" size={18} />
@@ -139,7 +135,7 @@ const Hero = ({ hero, locale = 'es' }: { hero?: Page['hero']; locale?: Locale })
           {/* gradient ring behind the image, uses CSS vars for light/dark harmony */}
           <div className="absolute -inset-6 hero-gradient rounded-full blur-3xl opacity-70 dark:opacity-40" />
           {/* HeroMedia is client-only and resolves upload ids or populated objects */}
-          <HeroMedia media={hero.media} />
+          <HeroMedia media={heroData.media} />
         </div>
       </div>
     </header>

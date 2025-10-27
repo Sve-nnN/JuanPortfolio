@@ -4,7 +4,7 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import type { HeroHomeBlock } from '@/payload-types'
 
-export const HeroHomeBlock: React.FC<HeroHomeBlock> = (props) => {
+export const HeroHome: React.FC<HeroHomeBlock> = (props) => {
   const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media } = props
 
   return (
@@ -67,11 +67,7 @@ export const HeroHomeBlock: React.FC<HeroHomeBlock> = (props) => {
             <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-500 rounded-full blur-3xl opacity-30 dark:opacity-20"></div>
             {media && typeof media === 'object' && (
               <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-8 border-white dark:border-card-dark shadow-2xl">
-                <Media
-                  resource={media}
-                  className="w-full h-full object-cover"
-                  imgClassName="w-full h-full object-cover"
-                />
+                <Media resource={media} className="w-full h-full object-cover" />
               </div>
             )}
           </div>

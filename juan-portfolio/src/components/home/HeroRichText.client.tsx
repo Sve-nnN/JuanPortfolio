@@ -1,9 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import RichText from '@/components/RichText'
+import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 type Props = {
-  data: any
+  data: DefaultTypedEditorState
   skipFirstNodes?: number
 }
 
@@ -44,7 +45,7 @@ export default function HeroRichText({ data, skipFirstNodes }: Props) {
   }
 
   // If skipFirstNodes is provided, remove those top-level nodes before rendering
-  let renderData = data
+  let renderData: DefaultTypedEditorState = data
   try {
     if (mounted && typeof skipFirstNodes === 'number' && data?.root && Array.isArray(data.root.children)) {
       const root = { ...data.root }

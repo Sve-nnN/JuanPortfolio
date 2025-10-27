@@ -2,8 +2,14 @@ import React from 'react'
 import { TableOfContents } from '@/components/TableOfContents'
 import type { TableOfContentsBlock } from '@/payload-types'
 
+type Heading = {
+  id: string
+  text: string
+  level: number
+}
+
 export const TableOfContentsBlockComponent: React.FC<
-  TableOfContentsBlock & { headings?: any[] }
+  TableOfContentsBlock & { headings?: Heading[] }
 > = (props) => {
   const { title, sticky = true, headings = [] } = props
 

@@ -3,7 +3,7 @@ import type { TestimonialSectionBlock } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { Quote } from 'lucide-react'
 
-export const TestimonialSectionBlock: React.FC<TestimonialSectionBlock> = (props) => {
+export const TestimonialSection: React.FC<TestimonialSectionBlock> = (props) => {
   const { title, quote, authorName, authorRole, authorImage } = props
 
   return (
@@ -28,11 +28,7 @@ export const TestimonialSectionBlock: React.FC<TestimonialSectionBlock> = (props
             <div className="mt-8 flex items-center">
               {authorImage && typeof authorImage === 'object' && (
                 <div className="w-16 h-16 rounded-full overflow-hidden shadow-md flex-shrink-0">
-                  <Media
-                    resource={authorImage}
-                    className="w-full h-full object-cover"
-                    imgClassName="w-full h-full object-cover"
-                  />
+                  <Media resource={authorImage} className="w-full h-full object-cover" />
                 </div>
               )}
               <div className="ml-4">

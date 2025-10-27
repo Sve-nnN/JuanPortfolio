@@ -5,7 +5,7 @@ import type { CaseStudiesGridBlock, CaseStudy, Category } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
-export const CaseStudiesGridBlock: React.FC<CaseStudiesGridBlock & { page?: number }> = async (
+export const CaseStudiesGrid: React.FC<CaseStudiesGridBlock & { page?: number }> = async (
   props,
 ) => {
   const {
@@ -25,7 +25,7 @@ export const CaseStudiesGridBlock: React.FC<CaseStudiesGridBlock & { page?: numb
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
       collection: 'case-studies',
-      limit: itemsPerPage,
+      limit: itemsPerPage || 6,
       page,
       depth: 1,
       sort: '-publishedAt',
@@ -56,7 +56,7 @@ export const CaseStudiesGridBlock: React.FC<CaseStudiesGridBlock & { page?: numb
     '2': 'lg:grid-cols-2',
     '3': 'lg:grid-cols-3',
     '4': 'lg:grid-cols-4',
-  }[gridColumns]
+  }[gridColumns || '3']
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,13 +81,17 @@ export const CaseStudiesGridBlock: React.FC<CaseStudiesGridBlock & { page?: numb
       <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
         {cases.map((c) => {
           const heroUrl =
-            c.heroImage && typeof c.heroImage === 'object' && 'url' in c.heroImage
-              ? c.heroImage.url
+            c.content?.heroImage &&
+            typeof c.content.heroImage === 'object' &&
+            'url' in c.content.heroImage
+              ? c.content.heroImage.url
               : null
 
           const heroAlt =
-            c.heroImage && typeof c.heroImage === 'object' && 'alt' in c.heroImage
-              ? c.heroImage.alt
+            c.content?.heroImage &&
+            typeof c.content.heroImage === 'object' &&
+            'alt' in c.content.heroImage
+              ? c.content.heroImage.alt
               : c.title || ''
 
           return (
@@ -115,25 +119,6 @@ export const CaseStudiesGridBlock: React.FC<CaseStudiesGridBlock & { page?: numb
                 )}
               </Link>
               <div className="p-6 flex flex-col flex-grow">
-                {/* Categories */}
-                <div className="mb-3">
-                  {c.categories &&
-                    Array.isArray(c.categories) &&
-                    c.categories.slice(0, 2).map((cat, i) => {
-                      const category = typeof cat === 'object' ? cat : null
-                      const catTitle =
-                        category && 'title' in category ? (category.title as string) : String(cat)
-                      return (
-                        <span
-                          key={i}
-                          className="inline-block bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full mr-2"
-                        >
-                          {catTitle}
-                        </span>
-                      )
-                    })}
-                </div>
-
                 {/* Date */}
                 {showDate && c.publishedAt && (
                   <p className="text-sm text-muted mb-2">

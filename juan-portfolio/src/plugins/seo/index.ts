@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * SEO Suite Plugin for Payload CMS
  * Similar to Rank Math for WordPress
@@ -167,13 +168,13 @@ export const seoPlugin =
                     data.alt = data.filename
                       .replace(/\.[^/.]+$/, '')
                       .replace(/[-_]/g, ' ')
-                      .replace(/\b\w/g, (l) => l.toUpperCase())
+                      .replace(/\b\w/g, (l: string) => l.toUpperCase())
                   }
                   if (!data.title && data.filename) {
                     data.title = data.filename
                       .replace(/\.[^/.]+$/, '')
                       .replace(/[-_]/g, ' ')
-                      .replace(/\b\w/g, (l) => l.toUpperCase())
+                      .replace(/\b\w/g, (l: string) => l.toUpperCase())
                   }
                   return data
                 },
@@ -204,7 +205,7 @@ export const seoPlugin =
           method: 'get',
           handler: gscIntegration(gsc),
         },
-      ].filter(Boolean),
+      ].filter(Boolean) as any[],
       globals: [
         ...(config.globals || []),
         {

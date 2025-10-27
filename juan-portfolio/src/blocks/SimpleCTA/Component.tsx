@@ -1,20 +1,20 @@
 import React from 'react'
 import type { SimpleCtaBlock } from '@/payload-types'
 
-export const SimpleCtaBlock: React.FC<SimpleCtaBlock> = (props) => {
+export const SimpleCta: React.FC<SimpleCtaBlock> = (props) => {
   const { text, label, url, backgroundColor = 'black' } = props
 
   const bgColorClass = {
     black: 'bg-black text-white',
     primary: 'bg-primary text-white',
     gray: 'bg-gray-100 dark:bg-gray-800 text-current',
-  }[backgroundColor]
+  }[backgroundColor || 'black']
 
   const buttonClass = {
     black: 'bg-white text-black hover:bg-gray-100',
     primary: 'bg-white text-primary hover:bg-gray-100',
     gray: 'bg-primary text-white hover:bg-blue-700',
-  }[backgroundColor]
+  }[backgroundColor || 'black']
 
   return (
     <section className={`py-12 ${bgColorClass}`}>

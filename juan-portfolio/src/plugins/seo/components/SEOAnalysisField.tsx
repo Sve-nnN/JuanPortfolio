@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react'
-import { useFieldProps } from '@payloadcms/ui'
+import { useField } from '@payloadcms/ui'
 
 interface SEOIssue {
   type: 'error' | 'warning' | 'success' | 'info'
@@ -34,7 +34,7 @@ interface SEOAnalysisFieldProps {
 }
 
 export function SEOAnalysisField({ path }: SEOAnalysisFieldProps) {
-  const { value } = useFieldProps({ path })
+  const { value } = useField({ path })
   const [expandedSuggestions, setExpandedSuggestions] = useState(false)
 
   const analysis: SEOAnalysis =

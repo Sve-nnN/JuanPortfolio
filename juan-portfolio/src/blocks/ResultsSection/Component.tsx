@@ -1,7 +1,7 @@
 import React from 'react'
 import type { ResultsSectionBlock } from '@/payload-types'
 
-export const ResultsSectionBlock: React.FC<ResultsSectionBlock> = (props) => {
+export const ResultsSection: React.FC<ResultsSectionBlock> = (props) => {
   const { title, description, stats, backgroundColor = 'gray' } = props
 
   const bgColorClass =

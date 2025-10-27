@@ -42,7 +42,8 @@ const HomePage = async ({ homeGlobal }: { homeGlobal: Home }) => {
 
   return (
     <div>
-      <RenderBlocks blocks={homeGlobal.layout} />
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <RenderBlocks blocks={homeGlobal.layout as any} />
     </div>
   )
 }

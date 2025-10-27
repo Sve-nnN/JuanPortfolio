@@ -3,9 +3,12 @@ const SITE_URL =
   process.env.VERCEL_PROJECT_PRODUCTION_URL ||
   'https://example.com'
 
+// Remove trailing slash if present
+const normalizedUrl = SITE_URL.replace(/\/$/, '')
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: SITE_URL,
+  siteUrl: normalizedUrl,
   generateRobotsTxt: true,
   // Do not exclude site sections like /case-studies or /authors so they are discoverable
   exclude: ['/admin/*', '/api/*', '/next-sitemap.xml', '/server-sitemap.xml'],
@@ -17,10 +20,10 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      `${SITE_URL}/pages-sitemap.xml`,
-      `${SITE_URL}/posts-sitemap.xml`,
-      `${SITE_URL}/case-studies-sitemap.xml`,
-      `${SITE_URL}/authors-sitemap.xml`,
+      `${normalizedUrl}/pages-sitemap.xml`,
+      `${normalizedUrl}/posts-sitemap.xml`,
+      `${normalizedUrl}/case-studies-sitemap.xml`,
+      `${normalizedUrl}/authors-sitemap.xml`,
     ],
   },
 }

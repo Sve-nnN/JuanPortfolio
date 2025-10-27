@@ -1,14 +1,21 @@
+type LexicalNode = {
+  text?: string
+  children?: unknown[]
+  [key: string]: unknown
+}
+
 export function extractText(node: unknown): string {
   if (!node) return ''
   if (typeof node === 'string') return node
   if (Array.isArray(node)) return node.map((n) => extractText(n)).join(' ')
   if (typeof node === 'object' && node !== null) {
+    const nodeObj = node as LexicalNode
     // Common lexical shape: { type: 'root', children: [...] } or paragraph nodes with children
-    if ('text' in (node as any) && typeof (node as any).text === 'string') return (node as any).text
-    if ('children' in (node as any) && Array.isArray((node as any).children))
-      return (node as any).children.map(extractText).join(' ')
+    if ('text' in nodeObj && typeof nodeObj.text === 'string') return nodeObj.text
+    if ('children' in nodeObj && Array.isArray(nodeObj.children))
+      return nodeObj.children.map(extractText).join(' ')
     // fallback: join values
-    return Object.values(node as any)
+    return Object.values(nodeObj)
       .map(extractText)
       .join(' ')
   }

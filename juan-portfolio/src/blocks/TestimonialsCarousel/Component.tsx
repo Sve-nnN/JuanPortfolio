@@ -5,9 +5,7 @@ import configPromise from '@payload-config'
 import { Media } from '@/components/Media'
 import { Star } from 'lucide-react'
 
-interface Props extends TestimonialsCarouselBlock {}
-
-export const TestimonialsCarouselBlock: React.FC<Props> = async ({
+export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock> = async ({
   title = 'Testimonios',
   showRating = true,
   limit = 8,
@@ -17,7 +15,7 @@ export const TestimonialsCarouselBlock: React.FC<Props> = async ({
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
       collection: 'testimonials',
-      limit,
+      limit: limit || 10,
       sort: '-createdAt',
       depth: 1,
     })
@@ -43,11 +41,7 @@ export const TestimonialsCarouselBlock: React.FC<Props> = async ({
               >
                 {t.avatar && (
                   <div className="w-16 h-16 mb-4 rounded-full overflow-hidden border-2 border-primary">
-                    <Media
-                      resource={t.avatar}
-                      className="w-full h-full object-cover"
-                      imgClassName="w-full h-full object-cover"
-                    />
+                    <Media resource={t.avatar} className="w-full h-full object-cover" />
                   </div>
                 )}
                 <blockquote className="italic text-lg text-muted mb-4">
@@ -72,4 +66,4 @@ export const TestimonialsCarouselBlock: React.FC<Props> = async ({
   )
 }
 
-export default TestimonialsCarouselBlock
+export default TestimonialsCarousel

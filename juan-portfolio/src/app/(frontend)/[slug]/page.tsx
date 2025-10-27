@@ -70,7 +70,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
         {/* HomePage will render content from the home global */}
-        <HomePage homeGlobal={homeGlobal} locale={locale} />
+        <HomePage homeGlobal={homeGlobal} />
       </article>
     )
   }
@@ -85,7 +85,8 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { hero, content } = page
+  const layout = content?.layout || []
 
   return (
     <article className="pb-24">
@@ -116,21 +117,24 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       slug: 'home',
       locale,
     })
-    return generateMeta({ doc: homeGlobal, locale })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return generateMeta({ doc: homeGlobal as any, locale })
   }
   if (slug === 'blog-listing') {
     const blogListingGlobal = await payload.findGlobal({
       slug: 'blog-listing',
       locale,
     })
-    return generateMeta({ doc: blogListingGlobal, locale })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return generateMeta({ doc: blogListingGlobal as any, locale })
   }
   if (slug === 'case-studies-listing') {
     const caseStudiesListingGlobal = await payload.findGlobal({
       slug: 'case-studies-listing',
       locale,
     })
-    return generateMeta({ doc: caseStudiesListingGlobal, locale })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return generateMeta({ doc: caseStudiesListingGlobal as any, locale })
   }
   const page = await queryPageBySlug({
     slug,

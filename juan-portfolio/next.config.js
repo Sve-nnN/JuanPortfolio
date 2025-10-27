@@ -34,3 +34,6 @@ const nextConfig = {
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
+
+// Habilita configuración explícita de Turbopack
+export const turbo = {}

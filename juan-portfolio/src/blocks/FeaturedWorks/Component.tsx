@@ -3,11 +3,13 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import type { FeaturedWorksBlock, CaseStudy } from '@/payload-types'
 
-export const FeaturedWorksBlock: React.FC<FeaturedWorksBlock> = (props) => {
+export const FeaturedWorks: React.FC<FeaturedWorksBlock> = (props) => {
   const { title, description, works, limit = 6, ctaLabel, ctaUrl } = props
 
   const displayWorks =
-    works && Array.isArray(works) ? works.filter((w) => typeof w === 'object').slice(0, limit) : []
+    works && Array.isArray(works)
+      ? works.filter((w) => typeof w === 'object').slice(0, limit || 6)
+      : []
 
   return (
     <section id="work" className="py-20 md:py-28">
@@ -28,13 +30,17 @@ export const FeaturedWorksBlock: React.FC<FeaturedWorksBlock> = (props) => {
             {displayWorks.map((w) => {
               const work = w as CaseStudy
               const coverUrl =
-                work.heroImage && typeof work.heroImage === 'object' && 'url' in work.heroImage
-                  ? work.heroImage.url
+                work.content?.heroImage &&
+                typeof work.content.heroImage === 'object' &&
+                'url' in work.content.heroImage
+                  ? work.content.heroImage.url
                   : null
 
               const coverAlt =
-                work.heroImage && typeof work.heroImage === 'object' && 'alt' in work.heroImage
-                  ? work.heroImage.alt
+                work.content?.heroImage &&
+                typeof work.content.heroImage === 'object' &&
+                'alt' in work.content.heroImage
+                  ? work.content.heroImage.alt
                   : work.title || ''
 
               return (
@@ -57,25 +63,6 @@ export const FeaturedWorksBlock: React.FC<FeaturedWorksBlock> = (props) => {
                       <h3 className="text-xl font-bold text-current mb-2">{work.title}</h3>
                       {work.meta?.description && (
                         <p className="text-muted mb-4">{work.meta.description}</p>
-                      )}
-                      {work.categories && work.categories.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {work.categories.map((cat, i) => {
-                            const category = typeof cat === 'object' ? cat : null
-                            const catTitle =
-                              category && 'title' in category
-                                ? (category.title as string)
-                                : String(cat)
-                            return (
-                              <span
-                                key={i}
-                                className="bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full"
-                              >
-                                {catTitle}
-                              </span>
-                            )
-                          })}
-                        </div>
                       )}
                       <span className="text-primary font-semibold group-hover:underline">
                         Ver caso de estudio <ArrowRight className="inline align-middle" size={16} />

@@ -10,10 +10,11 @@ async function migrate() {
 
     for (const w of works.docs || []) {
       // Map fields directly; adjust if your documents have more fields
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payloadData: any = {
         title: w.title,
         excerpt: w.excerpt,
-        cover: w.cover && w.cover.id ? w.cover.id : w.cover,
+        cover: w.cover && typeof w.cover === 'object' && 'id' in w.cover ? w.cover.id : w.cover,
         tags: w.tags,
         caseStudyUrl: w.caseStudyUrl,
       }

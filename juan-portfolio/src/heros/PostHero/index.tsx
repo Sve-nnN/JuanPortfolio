@@ -1,18 +1,26 @@
 import { formatDateTime } from 'src/utilities/formatDateTime'
 import React from 'react'
 
-import type { Post } from '@/payload-types'
+import type { Post, Category } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
 import Link from 'next/link'
+
+interface PopulatedAuthor {
+  id?: string | null
+  name?: string | null
+  slug?: string
+}
 
 export const PostHero: React.FC<{
   post: Post
   excerpt?: string | null
   readingTime?: number | null
 }> = ({ post, excerpt = null, readingTime = null }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
+  const { meta_extras, content, populatedAuthors, publishedAt, title } = post
+  const categories = meta_extras?.categories
+  const heroImage = content?.heroImage
 
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
@@ -23,7 +31,7 @@ export const PostHero: React.FC<{
     // Render each author as a link if slug is present
     const nodes = populatedAuthors.map((a, i) => {
       const name = a.name
-      const slug = (a as any).slug
+      const slug = (a as PopulatedAuthor).slug
       const element = slug ? (
         <Link key={a.id || i} href={`/authors/${slug}`} className="font-medium hover:underline">
           {name}
@@ -60,7 +68,7 @@ export const PostHero: React.FC<{
       <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
         <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
           <div className="mb-4 flex flex-wrap gap-2">
-            {categories?.map((category, index) => {
+            {categories?.map((category: string | Category, index: number) => {
               if (typeof category === 'object' && category !== null) {
                 const { title: categoryTitle } = category
 
@@ -121,7 +129,7 @@ export const PostHero: React.FC<{
       </div>
       <div className="min-h-[60vh] select-none w-full">
         {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
+          <Media className="-z-10" resource={heroImage} />
         )}
         <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
       </div>

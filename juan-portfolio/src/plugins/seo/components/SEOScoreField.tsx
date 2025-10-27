@@ -6,14 +6,14 @@
  */
 
 import React from 'react'
-import { useFieldProps } from '@payloadcms/ui'
+import { useField } from '@payloadcms/ui'
 
 interface SEOScoreFieldProps {
   path: string
 }
 
 export function SEOScoreField({ path }: SEOScoreFieldProps) {
-  const { value } = useFieldProps({ path })
+  const { value } = useField({ path })
   const score = typeof value === 'number' ? value : 0
 
   // Determine color based on score

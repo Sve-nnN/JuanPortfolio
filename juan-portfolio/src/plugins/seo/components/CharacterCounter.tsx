@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import { useFieldProps } from '@payloadcms/ui'
+import { useField } from '@payloadcms/ui'
 
 interface CharacterCounterProps {
   path: string
@@ -16,7 +16,7 @@ interface CharacterCounterProps {
 }
 
 export function CharacterCounter({ path, min, max, optimal }: CharacterCounterProps) {
-  const { value } = useFieldProps({ path })
+  const { value } = useField({ path })
   const length = typeof value === 'string' ? value.length : 0
 
   // Determine color based on length

@@ -14,7 +14,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, 
     .filter(
       (post) =>
         post.id !== currentPostId &&
-        post.categories?.some((cat: string | Category) => {
+        post.meta_extras?.categories?.some((cat: string | Category) => {
           if (!cat) return false
           if (typeof cat === 'string') return cat === categoryId
           return cat.id === categoryId
@@ -33,7 +33,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, 
           // Aseguramos que Card recibe solo las props requeridas
           const cardData: CardPostData = {
             slug: post.slug ?? '',
-            categories: post.categories ?? [],
+            categories: post.meta_extras?.categories ?? [],
             meta: post.meta ?? {},
             title: post.title ?? '',
           }

@@ -4,7 +4,7 @@ import { Media } from '@/components/Media'
 import Link from 'next/link'
 import { ChevronRight, Home, Clock, Facebook, Twitter, Linkedin, Mail } from 'lucide-react'
 
-export const PostArticleHeaderBlock: React.FC<PostArticleHeaderBlock> = (props) => {
+export const PostArticleHeader: React.FC<PostArticleHeaderBlock> = (props) => {
   const { category, title, author, publishedDate, readTime, featuredImage, showSocialShare } = props
 
   // Format date
@@ -85,11 +85,7 @@ export const PostArticleHeaderBlock: React.FC<PostArticleHeaderBlock> = (props) 
               <div className="flex items-center space-x-2">
                 {authorImage && (
                   <div className="w-8 h-8 rounded-full overflow-hidden">
-                    <Media
-                      resource={authorImage}
-                      className="w-full h-full object-cover"
-                      imgClassName="w-full h-full object-cover"
-                    />
+                    <Media resource={authorImage} className="w-full h-full object-cover" />
                   </div>
                 )}
                 <span>{authorName}</span>
@@ -97,7 +93,7 @@ export const PostArticleHeaderBlock: React.FC<PostArticleHeaderBlock> = (props) 
               {formattedDate && (
                 <>
                   <span className="hidden sm:inline">|</span>
-                  <time dateTime={publishedDate}>{formattedDate}</time>
+                  <time dateTime={publishedDate || undefined}>{formattedDate}</time>
                 </>
               )}
               {readTime && (
@@ -116,11 +112,7 @@ export const PostArticleHeaderBlock: React.FC<PostArticleHeaderBlock> = (props) 
           {featuredImage && typeof featuredImage === 'object' && (
             <figure className="mb-16">
               <div className="w-full h-auto rounded-lg shadow-lg aspect-video overflow-hidden">
-                <Media
-                  resource={featuredImage}
-                  className="w-full h-full object-cover"
-                  imgClassName="w-full h-full object-cover"
-                />
+                <Media resource={featuredImage} className="w-full h-full object-cover" />
               </div>
             </figure>
           )}

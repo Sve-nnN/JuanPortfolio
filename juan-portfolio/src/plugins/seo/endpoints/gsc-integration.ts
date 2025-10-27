@@ -1,5 +1,4 @@
-import type { PayloadHandler } from 'payload'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface GSCConfig {
   enabled: boolean
   clientEmail?: string
@@ -7,8 +6,8 @@ interface GSCConfig {
   propertyUrl?: string
 }
 
-export const gscIntegration = (config: GSCConfig): PayloadHandler => {
-  return async (req, res) => {
+export const gscIntegration = (config: GSCConfig): any => {
+  return async (req: any, res: any) => {
     if (!config.enabled) {
       return res.status(403).json({
         error: 'Google Search Console integration is not enabled',

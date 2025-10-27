@@ -430,7 +430,48 @@ export interface Post {
 export interface Category {
   id: string;
   title: string;
+  description?: string | null;
   slug?: string | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string | null;
+  };
+  canonical?: string | null;
+  noindex?: boolean | null;
+  nofollow?: boolean | null;
+  og?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+    type?: ('website' | 'article') | null;
+  };
+  twitter?: {
+    card?: ('summary' | 'summary_large_image') | null;
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  seoScore?: number | null;
+  seoAnalysis?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  schema?: {
+    type?: ('WebPage' | 'Article') | null;
+  };
   parent?: (string | null) | Category;
   breadcrumbs?:
     | {
@@ -480,6 +521,39 @@ export interface User {
     | null;
   avatar?: (string | null) | Media;
   slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string | null;
+  };
+  canonical?: string | null;
+  noindex?: boolean | null;
+  nofollow?: boolean | null;
+  og?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+    type?: ('website' | 'article') | null;
+  };
+  twitter?: {
+    card?: ('summary' | 'summary_large_image') | null;
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  seoScore?: number | null;
+  seoAnalysis?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  schema?: {
+    type?: ('WebPage' | 'Article') | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -2651,7 +2725,48 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   slug?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  canonical?: T;
+  noindex?: T;
+  nofollow?: T;
+  og?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        type?: T;
+      };
+  twitter?:
+    | T
+    | {
+        card?: T;
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  seoScore?: T;
+  seoAnalysis?: T;
+  schema?:
+    | T
+    | {
+        type?: T;
+      };
   parent?: T;
   breadcrumbs?:
     | T
@@ -2684,6 +2799,39 @@ export interface UsersSelect<T extends boolean = true> {
       };
   avatar?: T;
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  canonical?: T;
+  noindex?: T;
+  nofollow?: T;
+  og?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        type?: T;
+      };
+  twitter?:
+    | T
+    | {
+        card?: T;
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  seoScore?: T;
+  seoAnalysis?: T;
+  schema?:
+    | T
+    | {
+        type?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;

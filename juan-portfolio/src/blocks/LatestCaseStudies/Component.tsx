@@ -5,7 +5,7 @@ import configPromise from '@payload-config'
 import Link from 'next/link'
 import { Media } from '@/components/Media'
 
-export const LatestCaseStudiesBlock: React.FC<LatestCaseStudiesBlock> = async ({
+export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock> = async ({
   title = 'Últimos casos de estudio',
   count = 3,
 }) => {
@@ -14,7 +14,7 @@ export const LatestCaseStudiesBlock: React.FC<LatestCaseStudiesBlock> = async ({
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
       collection: 'case-studies',
-      limit: count,
+      limit: count || 3,
       sort: '-publishedAt',
       depth: 1,
     })
@@ -44,12 +44,11 @@ export const LatestCaseStudiesBlock: React.FC<LatestCaseStudiesBlock> = async ({
               className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
             >
               <Link href={`/case-studies/${cs.slug}`}>
-                {cs.heroImage && (
+                {cs.content?.heroImage && (
                   <div className="w-full h-48 overflow-hidden">
                     <Media
-                      resource={cs.heroImage}
-                      className="w-full h-full object-cover"
-                      imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      resource={cs.content.heroImage}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 )}
@@ -75,4 +74,4 @@ export const LatestCaseStudiesBlock: React.FC<LatestCaseStudiesBlock> = async ({
   )
 }
 
-export default LatestCaseStudiesBlock
+export default LatestCaseStudies

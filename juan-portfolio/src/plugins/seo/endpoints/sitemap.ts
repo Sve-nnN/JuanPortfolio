@@ -1,5 +1,4 @@
-import type { PayloadHandler } from 'payload'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface SitemapConfig {
   collections: string[]
   site: {
@@ -15,8 +14,8 @@ interface SitemapEntry {
   priority?: number
 }
 
-export const generateSitemap = ({ collections, site }: SitemapConfig): PayloadHandler => {
-  return async (req, res) => {
+export const generateSitemap = ({ collections, site }: SitemapConfig): any => {
+  return async (req: any, res: any) => {
     try {
       const { payload } = req
 
@@ -54,7 +53,7 @@ export const generateSitemap = ({ collections, site }: SitemapConfig): PayloadHa
             },
           })
 
-          docs.docs.forEach((doc) => {
+          docs.docs.forEach((doc: any) => {
             // Skip if noindex is enabled
             if (doc.meta?.noindex) return
 

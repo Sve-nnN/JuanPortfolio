@@ -11,7 +11,7 @@ const iconMap = {
   shield: Shield,
 }
 
-export const AboutSectionBlock: React.FC<AboutSectionBlock> = (props) => {
+export const AboutSection: React.FC<AboutSectionBlock> = (props) => {
   const { eyebrow, title, paragraphs, ctaLabel, ctaUrl, features } = props
 
   return (

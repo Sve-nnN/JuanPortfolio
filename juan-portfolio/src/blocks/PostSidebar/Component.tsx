@@ -2,7 +2,7 @@ import React from 'react'
 import { Media } from '@/components/Media'
 import type { PostSidebarBlock, AdBanner } from '@/payload-types'
 
-export const PostSidebarBlock: React.FC<PostSidebarBlock> = (props) => {
+export const PostSidebar: React.FC<PostSidebarBlock> = (props) => {
   const { banners, sticky = true } = props
 
   const displayBanners =

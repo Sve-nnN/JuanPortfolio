@@ -1,149 +1,80 @@
-import { TestimonialsCarouselBlock } from '@/blocks/TestimonialsCarousel/Component'
 import React, { Fragment } from 'react'
 
-import type {
-  Page,
-  HeroHomeBlock,
-  AboutSectionBlock,
-  FeaturedWorksBlock,
-  FeaturedClientsBlock,
-  FeaturedBlogBlock,
-  ContactFormBlock,
-  SimpleCtaBlock,
-  ListingHeroBlock,
-  PostsGridBlock,
-  CaseStudiesGridBlock,
-  PostSidebarBlock,
-  RelatedPostsBlockType,
-  TableOfContentsBlock,
-  TestimonialSectionBlock,
-  ResultsSectionBlock,
-  CaseStudyHeaderBlock,
-  PostArticleHeaderBlock,
-  BlogArchiveHeaderBlock,
-  FeaturedBlogPostsBlock,
-  FeaturedCaseStudiesBlock,
-  AboutWithFeaturesBlock,
-  SectionBlock,
-  CallToActionBlock,
-  ContentBlock,
-  MediaBlock,
-  ArchiveBlock,
-  FormBlock,
-  IntroBlock,
-  WorkCardsBlock,
-  ClientsCarousel,
-  LatestBlogPostsBlock,
-  LatestCaseStudiesBlock,
-  TestimonialsCarouselBlock,
-} from '@/payload-types'
+import type { Page } from '@/payload-types'
 
-import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
-import { ContentBlock } from '@/blocks/Content/Component'
-import { FormBlock } from '@/blocks/Form/Component'
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { IntroBlock } from '@/blocks/Intro/Component'
-import { WorkCardsBlock } from '@/blocks/WorkCards/Component'
-import ClientsCarousel from '@/blocks/ClientsCarousel/Component'
-import { SectionBlock } from '@/blocks/Section/Component'
-import { HeroHomeBlock } from '@/blocks/HeroHome/Component'
-import { AboutSectionBlock } from '@/blocks/AboutSection/Component'
-import { FeaturedWorksBlock } from '@/blocks/FeaturedWorks/Component'
-import { FeaturedClientsBlock } from '@/blocks/FeaturedClients/Component'
-import { FeaturedBlogBlock } from '@/blocks/FeaturedBlog/Component'
+import { ArchiveBlock as ArchiveBlockComponent } from '@/blocks/ArchiveBlock/Component'
+import { CallToActionBlock as CallToActionBlockComponent } from '@/blocks/CallToAction/Component'
+import { ContentBlock as ContentBlockComponent } from '@/blocks/Content/Component'
+import { FormBlock as FormBlockComponent } from '@/blocks/Form/Component'
+import { MediaBlock as MediaBlockComponent } from '@/blocks/MediaBlock/Component'
+import { IntroBlock as IntroBlockComponent } from '@/blocks/Intro/Component'
+import { WorkCardsBlock as WorkCardsBlockComponent } from '@/blocks/WorkCards/Component'
+import ClientsCarouselComponent from '@/blocks/ClientsCarousel/Component'
+import { SectionBlock as SectionBlockComponent } from '@/blocks/Section/Component'
+import { HeroHome as HeroHomeBlockComponent } from '@/blocks/HeroHome/Component'
+import { AboutSection as AboutSectionBlockComponent } from '@/blocks/AboutSection/Component'
+import { FeaturedWorks as FeaturedWorksBlockComponent } from '@/blocks/FeaturedWorks/Component'
+import { FeaturedClients as FeaturedClientsBlockComponent } from '@/blocks/FeaturedClients/Component'
+import { FeaturedBlog as FeaturedBlogBlockComponent } from '@/blocks/FeaturedBlog/Component'
 import { ContactFormBlockComponent } from '@/blocks/ContactFormBlock/Component'
-import { SimpleCtaBlock } from '@/blocks/SimpleCTA/Component'
-import { ListingHeroBlock } from '@/blocks/ListingHero/Component'
-import { PostsGridBlock } from '@/blocks/PostsGrid/Component'
-import { CaseStudiesGridBlock } from '@/blocks/CaseStudiesGrid/Component'
-import { PostSidebarBlock } from '@/blocks/PostSidebar/Component'
+import { SimpleCta as SimpleCtaBlockComponent } from '@/blocks/SimpleCTA/Component'
+import { ListingHero as ListingHeroBlockComponent } from '@/blocks/ListingHero/Component'
+import { PostsGrid as PostsGridBlockComponent } from '@/blocks/PostsGrid/Component'
+import { CaseStudiesGrid as CaseStudiesGridBlockComponent } from '@/blocks/CaseStudiesGrid/Component'
+import { PostSidebar as PostSidebarBlockComponent } from '@/blocks/PostSidebar/Component'
 import { RelatedPostsBlockComponent } from '@/blocks/RelatedPostsBlock/Component'
 import { TableOfContentsBlockComponent } from '@/blocks/TableOfContentsBlock/Component'
-import { TestimonialSectionBlock } from '@/blocks/TestimonialSection/Component'
-import { ResultsSectionBlock } from '@/blocks/ResultsSection/Component'
-import { CaseStudyHeaderBlock } from '@/blocks/CaseStudyHeader/Component'
-import { PostArticleHeaderBlock } from '@/blocks/PostArticleHeader/Component'
-import { BlogArchiveHeaderBlock } from '@/blocks/BlogArchiveHeader/Component'
-import { FeaturedBlogPostsBlock } from '@/blocks/FeaturedBlogPosts/Component'
-import { FeaturedCaseStudiesBlock } from '@/blocks/FeaturedCaseStudies/Component'
-import { AboutWithFeaturesBlock } from '@/blocks/AboutWithFeatures/Component'
-import { LatestBlogPostsBlock } from '@/blocks/LatestBlogPosts/Component'
-import { LatestCaseStudiesBlock } from '@/blocks/LatestCaseStudies/Component'
+import { TestimonialSection as TestimonialSectionBlockComponent } from '@/blocks/TestimonialSection/Component'
+import { ResultsSection as ResultsSectionBlockComponent } from '@/blocks/ResultsSection/Component'
+import { CaseStudyHeader as CaseStudyHeaderBlockComponent } from '@/blocks/CaseStudyHeader/Component'
+import { PostArticleHeader as PostArticleHeaderBlockComponent } from '@/blocks/PostArticleHeader/Component'
+import { BlogArchiveHeader as BlogArchiveHeaderBlockComponent } from '@/blocks/BlogArchiveHeader/Component'
+import { FeaturedBlogPosts as FeaturedBlogPostsBlockComponent } from '@/blocks/FeaturedBlogPosts/Component'
+import { FeaturedCaseStudies as FeaturedCaseStudiesBlockComponent } from '@/blocks/FeaturedCaseStudies/Component'
+import { AboutWithFeatures as AboutWithFeaturesBlockComponent } from '@/blocks/AboutWithFeatures/Component'
+import LatestBlogPostsBlockComponent from '@/blocks/LatestBlogPosts/Component'
+import { LatestCaseStudies as LatestCaseStudiesBlockComponent } from '@/blocks/LatestCaseStudies/Component'
+import { TestimonialsCarousel as TestimonialsCarouselBlockComponent } from '@/blocks/TestimonialsCarousel/Component'
 
-type BlockType =
-  | HeroHomeBlock
-  | AboutSectionBlock
-  | FeaturedWorksBlock
-  | FeaturedClientsBlock
-  | FeaturedBlogBlock
-  | ContactFormBlock
-  | SimpleCtaBlock
-  | ListingHeroBlock
-  | PostsGridBlock
-  | CaseStudiesGridBlock
-  | PostSidebarBlock
-  | RelatedPostsBlockType
-  | TableOfContentsBlock
-  | TestimonialSectionBlock
-  | ResultsSectionBlock
-  | CaseStudyHeaderBlock
-  | PostArticleHeaderBlock
-  | BlogArchiveHeaderBlock
-  | FeaturedBlogPostsBlock
-  | FeaturedCaseStudiesBlock
-  | AboutWithFeaturesBlock
-  | SectionBlock
-  | CallToActionBlock
-  | ContentBlock
-  | MediaBlock
-  | ArchiveBlock
-  | FormBlock
-  | IntroBlock
-  | WorkCardsBlock
-  | ClientsCarousel
-  | LatestBlogPostsBlock
-  | LatestCaseStudiesBlock
-  | TestimonialsCarouselBlock
-
-const blockComponents: Record<string, React.ComponentType<BlockType>> = {
-  archive: ArchiveBlock,
-  content: ContentBlock,
-  cta: CallToActionBlock,
-  formBlock: FormBlock,
-  mediaBlock: MediaBlock,
-  intro: IntroBlock,
-  workCards: WorkCardsBlock,
-  clientsCarousel: ClientsCarousel,
-  section: SectionBlock,
-  heroHome: HeroHomeBlock,
-  aboutSection: AboutSectionBlock,
-  featuredWorks: FeaturedWorksBlock,
-  featuredClients: FeaturedClientsBlock,
-  featuredBlog: FeaturedBlogBlock,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const blockComponents: Record<string, React.ComponentType<any>> = {
+  archive: ArchiveBlockComponent,
+  content: ContentBlockComponent,
+  cta: CallToActionBlockComponent,
+  formBlock: FormBlockComponent,
+  mediaBlock: MediaBlockComponent,
+  intro: IntroBlockComponent,
+  workCards: WorkCardsBlockComponent,
+  clientsCarousel: ClientsCarouselComponent,
+  section: SectionBlockComponent,
+  heroHome: HeroHomeBlockComponent,
+  aboutSection: AboutSectionBlockComponent,
+  featuredWorks: FeaturedWorksBlockComponent,
+  featuredClients: FeaturedClientsBlockComponent,
+  featuredBlog: FeaturedBlogBlockComponent,
   contactForm: ContactFormBlockComponent,
-  simpleCta: SimpleCtaBlock,
-  listingHero: ListingHeroBlock,
-  postsGrid: PostsGridBlock,
-  caseStudiesGrid: CaseStudiesGridBlock,
-  postSidebar: PostSidebarBlock,
+  simpleCta: SimpleCtaBlockComponent,
+  listingHero: ListingHeroBlockComponent,
+  postsGrid: PostsGridBlockComponent,
+  caseStudiesGrid: CaseStudiesGridBlockComponent,
+  postSidebar: PostSidebarBlockComponent,
   relatedPosts: RelatedPostsBlockComponent,
   tableOfContents: TableOfContentsBlockComponent,
-  testimonialSection: TestimonialSectionBlock,
-  resultsSection: ResultsSectionBlock,
-  caseStudyHeader: CaseStudyHeaderBlock,
-  postArticleHeader: PostArticleHeaderBlock,
-  blogArchiveHeader: BlogArchiveHeaderBlock,
-  featuredBlogPosts: FeaturedBlogPostsBlock,
-  featuredCaseStudies: FeaturedCaseStudiesBlock,
-  aboutWithFeatures: AboutWithFeaturesBlock,
-  latestBlogPosts: LatestBlogPostsBlock,
-  latestCaseStudies: LatestCaseStudiesBlock,
-  testimonialsCarousel: TestimonialsCarouselBlock,
+  testimonialSection: TestimonialSectionBlockComponent,
+  resultsSection: ResultsSectionBlockComponent,
+  caseStudyHeader: CaseStudyHeaderBlockComponent,
+  postArticleHeader: PostArticleHeaderBlockComponent,
+  blogArchiveHeader: BlogArchiveHeaderBlockComponent,
+  featuredBlogPosts: FeaturedBlogPostsBlockComponent,
+  featuredCaseStudies: FeaturedCaseStudiesBlockComponent,
+  aboutWithFeatures: AboutWithFeaturesBlockComponent,
+  latestBlogPosts: LatestBlogPostsBlockComponent,
+  latestCaseStudies: LatestCaseStudiesBlockComponent,
+  testimonialsCarousel: TestimonialsCarouselBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
-  blocks: Page['layout'][0][]
+  blocks: Page['content']['layout']
 }> = (props) => {
   const { blocks } = props
 

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Media } from '@/components/Media'
 import { ArrowRight } from 'lucide-react'
 
-export const FeaturedCaseStudiesBlock: React.FC<FeaturedCaseStudiesBlock> = (props) => {
+export const FeaturedCaseStudies: React.FC<FeaturedCaseStudiesBlock> = (props) => {
   const { title, description, caseStudies, ctaText, ctaLink } = props
 
   // Get case studies list
@@ -31,12 +31,11 @@ export const FeaturedCaseStudiesBlock: React.FC<FeaturedCaseStudiesBlock> = (pro
                 className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group"
               >
                 <Link href={`/casos-de-estudio/${caseStudy.slug}`}>
-                  {caseStudy.heroImage && (
+                  {caseStudy.content?.heroImage && (
                     <div className="w-full h-64 overflow-hidden">
                       <Media
-                        resource={caseStudy.heroImage}
-                        className="w-full h-full object-cover"
-                        imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        resource={caseStudy.content.heroImage}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   )}
@@ -46,22 +45,6 @@ export const FeaturedCaseStudiesBlock: React.FC<FeaturedCaseStudiesBlock> = (pro
                       <p className="text-gray-600 dark:text-gray-400 mb-4">
                         {caseStudy.meta.description}
                       </p>
-                    )}
-                    {caseStudy.categories && caseStudy.categories.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {caseStudy.categories.map((cat, index) => {
-                          const category = typeof cat === 'object' ? cat : null
-                          if (!category) return null
-                          return (
-                            <span
-                              key={index}
-                              className="bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full"
-                            >
-                              {category.title}
-                            </span>
-                          )
-                        })}
-                      </div>
                     )}
                     <span className="text-primary font-semibold group-hover:underline inline-flex items-center">
                       Ver caso de estudio <ArrowRight className="w-4 h-4 ml-1" />

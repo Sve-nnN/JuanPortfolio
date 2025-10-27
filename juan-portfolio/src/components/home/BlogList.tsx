@@ -36,11 +36,13 @@ const BlogList = async () => {
           className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
         >
           <a href={`/blog/${p.slug}`}>
-            {p.heroImage && typeof p.heroImage === 'object' && p.heroImage.url ? (
+            {p.content?.heroImage &&
+            typeof p.content.heroImage === 'object' &&
+            p.content.heroImage.url ? (
               <div className="relative w-full h-48">
                 <Image
-                  src={p.heroImage.url}
-                  alt={p.heroImage.alt || p.title || ''}
+                  src={p.content.heroImage.url}
+                  alt={p.content.heroImage.alt || p.title || ''}
                   fill
                   className="object-cover"
                 />

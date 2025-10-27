@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import type { ListingHeroBlock } from '@/payload-types'
 
-export const ListingHeroBlock: React.FC<ListingHeroBlock> = (props) => {
+export const ListingHero: React.FC<ListingHeroBlock> = (props) => {
   const { title, description, breadcrumbs } = props
 
   return (

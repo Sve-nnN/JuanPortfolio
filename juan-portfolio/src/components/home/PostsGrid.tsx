@@ -11,10 +11,12 @@ const PostsGrid = ({ posts }: { posts: Array<Partial<Post>> }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((p) => {
             const imgUrl =
-              p.heroImage && typeof p.heroImage === 'object' && p.heroImage.url
-                ? getServerSideURL().replace(/\/$/, '') + p.heroImage.url
-                : typeof p.heroImage === 'string'
-                  ? p.heroImage
+              p.content?.heroImage &&
+              typeof p.content.heroImage === 'object' &&
+              p.content.heroImage.url
+                ? getServerSideURL().replace(/\/$/, '') + p.content.heroImage.url
+                : typeof p.content?.heroImage === 'string'
+                  ? p.content.heroImage
                   : null
             return (
               <article key={p.id} className="bg-white border rounded overflow-hidden">
@@ -23,7 +25,9 @@ const PostsGrid = ({ posts }: { posts: Array<Partial<Post>> }) => {
                     <Image
                       src={imgUrl}
                       alt={
-                        (p.heroImage && typeof p.heroImage === 'object' && p.heroImage.alt) ||
+                        (p.content?.heroImage &&
+                          typeof p.content.heroImage === 'object' &&
+                          p.content.heroImage.alt) ||
                         p.title ||
                         ''
                       }

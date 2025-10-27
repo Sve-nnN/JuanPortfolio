@@ -4,6 +4,11 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 
 type BgMedia = { url?: string }
 
+type Block = {
+  blockType?: string
+  [key: string]: unknown
+}
+
 type Props = {
   container?: 'container' | 'full'
   paddingY?: 'none' | 'sm' | 'md' | 'lg'
@@ -12,7 +17,7 @@ type Props = {
   backgroundMedia?: BgMedia | number | null
   anchorId?: string
   className?: string
-  blocks?: any[]
+  blocks?: Block[]
 }
 
 const paddingMap: Record<NonNullable<Props['paddingY']>, string> = {
@@ -36,7 +41,12 @@ export const SectionBlock: React.FC<Props> = ({
     const py = paddingMap[paddingY]
     const base = `${py} ${className || ''}`.trim()
 
-    if (backgroundStyle === 'image' && backgroundMedia && typeof backgroundMedia === 'object' && backgroundMedia.url) {
+    if (
+      backgroundStyle === 'image' &&
+      backgroundMedia &&
+      typeof backgroundMedia === 'object' &&
+      backgroundMedia.url
+    ) {
       return (
         <section id={anchorId} className={`${base} relative`}>
           <div
@@ -44,9 +54,7 @@ export const SectionBlock: React.FC<Props> = ({
             style={{ backgroundImage: `url(${backgroundMedia.url})` }}
             aria-hidden
           />
-          <div className="relative">
-            {children}
-          </div>
+          <div className="relative">{children}</div>
         </section>
       )
     }
@@ -62,7 +70,7 @@ export const SectionBlock: React.FC<Props> = ({
   return (
     <Wrapper>
       <div className={container === 'container' ? 'container mx-auto px-4 sm:px-6 lg:px-8' : ''}>
-        {/* @ts-expect-error - block typing from generated payload-types may not match */}
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <RenderBlocks blocks={blocks as any} />
       </div>
     </Wrapper>

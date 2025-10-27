@@ -7,9 +7,9 @@ export const deepMerge = <T extends object, U extends object>(obj1: T, obj2: U):
       const val1 = result[key];
 
       if (isObject(val1) && isObject(val2)) {
-        result[key] = deepMerge(val1, val2);
+        (result as Record<string, unknown>)[key] = deepMerge(val1, val2);
       } else {
-        result[key] = val2;
+        (result as Record<string, unknown>)[key] = val2;
       }
     }
   }
@@ -17,6 +17,6 @@ export const deepMerge = <T extends object, U extends object>(obj1: T, obj2: U):
   return result;
 };
 
-const isObject = (item: any): item is object => {
-  return item && typeof item === 'object' && !Array.isArray(item);
+const isObject = (item: unknown): item is object => {
+  return Boolean(item && typeof item === 'object' && !Array.isArray(item));
 };

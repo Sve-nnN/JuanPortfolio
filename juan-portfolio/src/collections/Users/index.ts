@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { slugField } from '@/fields/slug'
+import { seoFields } from '@/plugins/seo/fields/seoFields'
+
 import type { CollectionBeforeChangeHook } from 'payload'
 
 const slugify = (s: string) =>
@@ -79,42 +81,51 @@ export const Users: CollectionConfig = {
   auth: true,
   fields: [
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'role',
-      type: 'text',
-      label: 'Cargo / Role',
-    },
-    {
-      name: 'bio',
-      type: 'textarea',
-      localized: true,
-      label: { en: 'Bio', es: 'Biografía' },
-    },
-    {
-      name: 'experience',
-      type: 'array',
-      label: 'Experiencia',
-      fields: [
-        { name: 'company', type: 'text' },
-        { name: 'role', type: 'text' },
-        { name: 'startDate', type: 'date' },
-        { name: 'endDate', type: 'date' },
-        { name: 'description', type: 'textarea' },
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Perfil',
+          fields: [
+            { name: 'name', type: 'text', required: true },
+            { name: 'role', type: 'text', label: 'Cargo / Role' },
+            { name: 'bio', type: 'textarea', localized: true, label: { en: 'Bio', es: 'Biografía' } },
+            {
+              name: 'experience',
+              type: 'array',
+              label: 'Experiencia',
+              fields: [
+                { name: 'company', type: 'text' },
+                { name: 'role', type: 'text' },
+                { name: 'startDate', type: 'date' },
+                { name: 'endDate', type: 'date' },
+                { name: 'description', type: 'textarea' },
+              ],
+            },
+            { name: 'avatar', type: 'upload', relationTo: 'media' },
+            slugField(),
+            {
+              name: 'liveUrl',
+              type: 'ui',
+              admin: {
+                position: 'sidebar',
+                components: {
+                  Field: '@/components/admin/LiveUrlLink',
+                },
+              },
+            },
+          ],
+        },
+        {
+          label: 'SEO',
+          fields: [...seoFields()],
+        },
       ],
     },
-    {
-      name: 'avatar',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    slugField(),
   ],
   hooks: {
     beforeChange: [ensureUniqueSlug],
   },
   timestamps: true,
 }
+
+export default Users

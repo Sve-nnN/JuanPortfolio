@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import type { Page, Post } from '@/payload-types'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
 type CMSLinkType = {
   appearance?: 'inline' | ButtonProps['variant']
@@ -38,10 +39,14 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   // Resolve href consistently with site routes
   const href: string | null = (() => {
     if (type === 'reference' && reference?.value && typeof reference.value === 'object') {
-      const slug = (reference.value as { slug?: string }).slug || ''
+      const value = reference.value
+      const slug = (value as { slug?: string }).slug || ''
       if (!slug) return null
-      // Posts use /blog/[slug]; pages use /[slug]
-      return reference.relationTo === 'posts' ? `/blog/${slug}` : `/${slug}`
+      // Posts use /blog/{category}/[slug]; pages use /[slug]
+      if (reference.relationTo === 'posts') {
+        return getPostUrl(value as Post)
+      }
+      return `/${slug}`
     }
     if (url) return url
     return null
@@ -71,7 +76,13 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
-      <Link className={cn(className)} href={href} aria-label={derivedLabel} {...newTabProps} onClick={onClick}>
+      <Link
+        className={cn(className)}
+        href={href}
+        aria-label={derivedLabel}
+        {...newTabProps}
+        onClick={onClick}
+      >
         {derivedLabel}
         {children}
       </Link>
@@ -80,7 +91,13 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   return (
     <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} href={href} aria-label={derivedLabel} {...newTabProps} onClick={onClick}>
+      <Link
+        className={cn(className)}
+        href={href}
+        aria-label={derivedLabel}
+        {...newTabProps}
+        onClick={onClick}
+      >
         {derivedLabel}
         {children}
       </Link>

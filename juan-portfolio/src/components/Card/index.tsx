@@ -7,8 +7,11 @@ import React, { Fragment } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
+export type CardPostData = Pick<Post, 'slug' | 'meta' | 'title' | 'meta_extras'> & {
+  categories?: Array<{ id: string; title: string } | string>
+}
 
 export const Card: React.FC<{
   alignItems?: 'center'
@@ -27,7 +30,9 @@ export const Card: React.FC<{
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
-  const href = `/${relationTo}/${slug}`
+
+  // Use getPostUrl for posts to get /blog/{category}/{slug} format
+  const href = relationTo === 'posts' && doc ? getPostUrl(doc) : `/${relationTo}/${slug}`
 
   return (
     <article

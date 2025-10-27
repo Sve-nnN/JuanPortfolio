@@ -59,7 +59,7 @@ const AuthorsPage = async () => {
                 {a.role ? <p className="text-sm text-muted mb-3">{a.role}</p> : null}
                 <Link
                   className="text-primary font-semibold mt-auto"
-                  href={`/authors/${a.slug || a.id}`}
+                  href={`/author/${a.slug || a.id}`}
                 >
                   Ver perfil
                 </Link>

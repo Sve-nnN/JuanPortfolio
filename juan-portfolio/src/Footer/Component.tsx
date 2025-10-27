@@ -3,9 +3,8 @@ import React from 'react'
 import type { Footer } from '@/payload-types'
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)()
-
-  const navItems = footerData?.navItems || []
+  // Footer data available for future use
+  const _footerData: Footer = await getCachedGlobal('footer', 1)()
 
   return (
     <footer className="bg-card dark:bg-card-dark text-muted">

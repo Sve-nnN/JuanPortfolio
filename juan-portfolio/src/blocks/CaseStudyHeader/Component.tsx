@@ -4,7 +4,7 @@ import { Media } from '@/components/Media'
 import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'
 
-export const CaseStudyHeaderBlock: React.FC<CaseStudyHeaderBlock> = (props) => {
+export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock> = (props) => {
   const { eyebrow, title, description, featuredImage, projectInfo } = props
 
   return (
@@ -57,11 +57,7 @@ export const CaseStudyHeaderBlock: React.FC<CaseStudyHeaderBlock> = (props) => {
           {/* Featured image */}
           {featuredImage && typeof featuredImage === 'object' && (
             <div className="w-full h-auto rounded-lg shadow-2xl mb-16 aspect-video overflow-hidden">
-              <Media
-                resource={featuredImage}
-                className="w-full h-full object-cover"
-                imgClassName="w-full h-full object-cover"
-              />
+              <Media resource={featuredImage} className="w-full h-full object-cover" />
             </div>
           )}
 

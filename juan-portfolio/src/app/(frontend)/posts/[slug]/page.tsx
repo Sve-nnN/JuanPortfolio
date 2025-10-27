@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
@@ -15,6 +16,8 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+
+const RelatedPostsServer = dynamic(() => import('@/components/RelatedPostsServer'))
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -51,9 +54,30 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   // Obtener la categoría principal del post
-  const mainCategory = Array.isArray(post.categories) && post.categories.length > 0
-    ? (typeof post.categories[0] === 'string' ? post.categories[0] : post.categories[0]?.id)
-    : null
+  const categories = post.meta_extras?.categories || []
+  const mainCategory =
+    Array.isArray(categories) && categories.length > 0
+      ? typeof categories[0] === 'string'
+        ? categories[0]
+        : categories[0]?.id
+      : null
+
+  const raw = (post as unknown as { sidebarBanners?: unknown })?.sidebarBanners
+  const sidebarBanners = Array.isArray(raw) ? raw : []
+  const hasBanners = sidebarBanners.length > 0
+
+  // Procesar contenido
+  type Lexical = Post['content']['content']
+  const contentNode = post?.content as unknown
+  const contentData: Lexical | undefined =
+    contentNode &&
+    typeof contentNode === 'object' &&
+    'content' in (contentNode as Record<string, unknown>)
+      ? ((contentNode as { content?: Lexical }).content as Lexical | undefined)
+      : (contentNode as Lexical | undefined)
+  const hasNodes = Boolean(
+    (contentData as { root?: { children?: unknown[] } } | undefined)?.root?.children?.length,
+  )
 
   return (
     <article className="pb-16">
@@ -68,163 +92,125 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <div className="pt-8">
         <div className="container">
-          {(() => {
-            const raw = (post as unknown as { sidebarBanners?: unknown })?.sidebarBanners
-            const sidebarBanners = Array.isArray(raw) ? raw : []
-            const hasBanners = sidebarBanners.length > 0
-            return (
-              <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-start`}>
-                {/* Main content */}
-                <div className={hasBanners ? 'lg:col-span-8' : 'lg:col-span-12'}>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    {(() => {
-                      type Lexical = Post['content']['content']
-                      const contentNode = post?.content as unknown
-                      const contentData: Lexical | undefined =
-                        contentNode &&
-                        typeof contentNode === 'object' &&
-                        'content' in (contentNode as Record<string, unknown>)
-                          ? ((contentNode as { content?: Lexical }).content as Lexical | undefined)
-                          : (contentNode as Lexical | undefined)
-                      const hasNodes = Boolean(
-                        (contentData as { root?: { children?: unknown[] } } | undefined)?.root
-                          ?.children?.length,
-                      )
-                      if (hasNodes) {
-                        return (
-                          // @ts-expect-error Accept Lexical JSON shape
-                          <RichText className="" data={contentData} enableGutter={false} />
-                        )
-                      }
-                      return (
-                        <div className="text-muted text-center py-12">
-                          <p>Este artículo aún no tiene contenido.</p>
-                          <p className="text-sm mt-2">
-                            Agrega contenido desde el panel de administración.
-                          </p>
-                        </div>
-                      )
-                    })()}
+          <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-start`}>
+            {/* Main content */}
+            <div className={hasBanners ? 'lg:col-span-8' : 'lg:col-span-12'}>
+              <div className="prose prose-lg dark:prose-invert max-w-none">
+                {hasNodes && contentData ? (
+                  <RichText className="" data={contentData} enableGutter={false} />
+                ) : (
+                  <div className="text-muted text-center py-12">
+                    <p>Este artículo aún no tiene contenido.</p>
+                    <p className="text-sm mt-2">
+                      Agrega contenido desde el panel de administración.
+                    </p>
                   </div>
-
-                  {/* Componente de posts relacionados */}
-                  {mainCategory && (
-                    <div className="mt-12">
-                      {/* @ts-expect-error Async Server Component */}
-                      <import('@/components/RelatedPostsServer').then(m => m.default) currentPostId={post.id} categoryId={mainCategory} />
-                    </div>
-                  )}
-
-                  {/* Mobile banners below content */}
-                  {hasBanners && (
-                    <div className="lg:hidden mt-8 space-y-4">
-                      {sidebarBanners.map((banner: unknown, i: number) => {
-                        const b =
-                          banner && typeof banner === 'object'
-                            ? (banner as Record<string, unknown>)
-                            : undefined
-                        const img = b && 'image' in b ? (b.image as unknown) : null
-                        const href = b && typeof b.url === 'string' ? (b.url as string) : '#'
-                        const title = b && typeof b.title === 'string' ? (b.title as string) : ''
-                        const newTab =
-                          b && typeof b.openInNewTab === 'boolean'
-                            ? (b.openInNewTab as boolean)
-                            : false
-                        const key =
-                          b && (typeof b.id === 'string' || typeof b.id === 'number')
-                            ? String(b.id)
-                            : String(i)
-                        const imgObj =
-                          img && typeof img === 'object'
-                            ? (img as Record<string, unknown>)
-                            : undefined
-
-                        return (
-                          <a
-                            key={key}
-                            href={href}
-                            target={newTab ? '_blank' : undefined}
-                            rel={newTab ? 'noopener noreferrer' : undefined}
-                            className="block border rounded overflow-hidden hover:shadow-lg transition-shadow"
-                            aria-label={title || undefined}
-                          >
-                            {img && typeof img !== 'string' ? (
-                              <Media htmlElement={null} resource={img as PayloadMedia} />
-                            ) : null}
-                            {imgObj && typeof imgObj.url === 'string' && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={imgObj.url as string}
-                                alt={(imgObj.alt as string) || title || ''}
-                                className="w-full h-auto"
-                              />
-                            )}
-                            {!img && title && (
-                              <div className="p-4 text-sm font-medium">{title}</div>
-                            )}
-                          </a>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* Sidebar banners on desktop */}
-                {hasBanners && (
-                  <aside className="hidden lg:block lg:col-span-4">
-                    <div className="sticky top-24 space-y-4 max-h-[calc(100vh-6rem)] overflow-auto">
-                      {sidebarBanners.map((banner: unknown, i: number) => {
-                        const b =
-                          banner && typeof banner === 'object'
-                            ? (banner as Record<string, unknown>)
-                            : undefined
-                        const img = b && 'image' in b ? (b.image as unknown) : null
-                        const href = b && typeof b.url === 'string' ? (b.url as string) : '#'
-                        const title = b && typeof b.title === 'string' ? (b.title as string) : ''
-                        const newTab =
-                          b && typeof b.openInNewTab === 'boolean'
-                            ? (b.openInNewTab as boolean)
-                            : false
-                        const key =
-                          b && (typeof b.id === 'string' || typeof b.id === 'number')
-                            ? String(b.id)
-                            : String(i)
-                        const imgObj =
-                          img && typeof img === 'object'
-                            ? (img as Record<string, unknown>)
-                            : undefined
-                        return (
-                          <a
-                            key={key}
-                            href={href}
-                            target={newTab ? '_blank' : undefined}
-                            rel={newTab ? 'noopener noreferrer' : undefined}
-                            className="block border rounded overflow-hidden hover:shadow-lg transition-shadow"
-                            aria-label={title || undefined}
-                          >
-                            {img && typeof img !== 'string' ? (
-                              <Media htmlElement={null} resource={img as PayloadMedia} />
-                            ) : null}
-                            {imgObj && typeof imgObj.url === 'string' && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={imgObj.url as string}
-                                alt={(imgObj.alt as string) || title || ''}
-                                className="w-full h-auto"
-                              />
-                            )}
-                            {!img && title && (
-                              <div className="p-4 text-sm font-medium">{title}</div>
-                            )}
-                          </a>
-                        )
-                      })}
-                    </div>
-                  </aside>
                 )}
               </div>
-            )
-          })()}
+
+              {/* Componente de posts relacionados */}
+              {mainCategory && (
+                <div className="mt-12">
+                  <RelatedPostsServer currentPostId={post.id} categoryId={mainCategory} />
+                </div>
+              )}
+            </div>
+
+            {/* Mobile banners below content */}
+            {hasBanners && (
+              <div className="lg:hidden mt-8 space-y-4">
+                {sidebarBanners.map((banner: unknown, i: number) => {
+                  const b =
+                    banner && typeof banner === 'object'
+                      ? (banner as Record<string, unknown>)
+                      : undefined
+                  const img = b && 'image' in b ? (b.image as unknown) : null
+                  const href = b && typeof b.url === 'string' ? (b.url as string) : '#'
+                  const title = b && typeof b.title === 'string' ? (b.title as string) : ''
+                  const newTab =
+                    b && typeof b.openInNewTab === 'boolean' ? (b.openInNewTab as boolean) : false
+                  const key =
+                    b && (typeof b.id === 'string' || typeof b.id === 'number')
+                      ? String(b.id)
+                      : String(i)
+                  const imgObj =
+                    img && typeof img === 'object' ? (img as Record<string, unknown>) : undefined
+
+                  return (
+                    <a
+                      key={key}
+                      href={href}
+                      target={newTab ? '_blank' : undefined}
+                      rel={newTab ? 'noopener noreferrer' : undefined}
+                      className="block border rounded overflow-hidden hover:shadow-lg transition-shadow"
+                      aria-label={title || undefined}
+                    >
+                      {img && typeof img !== 'string' ? (
+                        <Media htmlElement={null} resource={img as PayloadMedia} />
+                      ) : null}
+                      {imgObj && typeof imgObj.url === 'string' && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={imgObj.url as string}
+                          alt={(imgObj.alt as string) || title || ''}
+                          className="w-full h-auto"
+                        />
+                      )}
+                      {!img && title && <div className="p-4 text-sm font-medium">{title}</div>}
+                    </a>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Sidebar banners on desktop */}
+            {hasBanners && (
+              <aside className="hidden lg:block lg:col-span-4">
+                <div className="sticky top-24 space-y-4 max-h-[calc(100vh-6rem)] overflow-auto">
+                  {sidebarBanners.map((banner: unknown, i: number) => {
+                    const b =
+                      banner && typeof banner === 'object'
+                        ? (banner as Record<string, unknown>)
+                        : undefined
+                    const img = b && 'image' in b ? (b.image as unknown) : null
+                    const href = b && typeof b.url === 'string' ? (b.url as string) : '#'
+                    const title = b && typeof b.title === 'string' ? (b.title as string) : ''
+                    const newTab =
+                      b && typeof b.openInNewTab === 'boolean' ? (b.openInNewTab as boolean) : false
+                    const key =
+                      b && (typeof b.id === 'string' || typeof b.id === 'number')
+                        ? String(b.id)
+                        : String(i)
+                    const imgObj =
+                      img && typeof img === 'object' ? (img as Record<string, unknown>) : undefined
+                    return (
+                      <a
+                        key={key}
+                        href={href}
+                        target={newTab ? '_blank' : undefined}
+                        rel={newTab ? 'noopener noreferrer' : undefined}
+                        className="block border rounded overflow-hidden hover:shadow-lg transition-shadow"
+                        aria-label={title || undefined}
+                      >
+                        {img && typeof img !== 'string' ? (
+                          <Media htmlElement={null} resource={img as PayloadMedia} />
+                        ) : null}
+                        {imgObj && typeof imgObj.url === 'string' && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={imgObj.url as string}
+                            alt={(imgObj.alt as string) || title || ''}
+                            className="w-full h-auto"
+                          />
+                        )}
+                        {!img && title && <div className="p-4 text-sm font-medium">{title}</div>}
+                      </a>
+                    )
+                  })}
+                </div>
+              </aside>
+            )}
+          </div>
         </div>
       </div>
     </article>

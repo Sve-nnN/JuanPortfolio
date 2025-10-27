@@ -1,4 +1,4 @@
-import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
+import type { CollectionSlug, Payload, PayloadRequest, File } from 'payload'
 
 import { contactForm as contactFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
@@ -20,7 +20,7 @@ const collections: CollectionSlug[] = [
   'search',
 ]
 
-const globals: GlobalSlug[] = ['header', 'footer']
+// const globals: GlobalSlug[] = ['header', 'footer']
 
 const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
 
@@ -44,20 +44,21 @@ export const seed = async ({
   payload.logger.info(`— Clearing collections and globals...`)
 
   // clear the database
-  await Promise.all(
-    globals.map((global) =>
-      payload.updateGlobal({
-        slug: global,
-        data: {
-          navItems: [],
-        },
-        depth: 0,
-        context: {
-          disableRevalidate: true,
-        },
-      }),
-    ),
-  )
+  // Note: Removed global update as it was causing type errors
+  // await Promise.all(
+  //   globals.map((global) =>
+  //     payload.updateGlobal({
+  //       slug: global,
+  //       data: {
+  //         navItems: [],
+  //       },
+  //       depth: 0,
+  //       context: {
+  //         disableRevalidate: true,
+  //       },
+  //     }),
+  //   ),
+  // )
 
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
@@ -174,21 +175,27 @@ export const seed = async ({
     id: post1Doc.id,
     collection: 'posts',
     data: {
-      relatedPosts: [post2Doc.id, post3Doc.id],
+      meta_extras: {
+        relatedPosts: [post2Doc.id, post3Doc.id],
+      },
     },
   })
   await payload.update({
     id: post2Doc.id,
     collection: 'posts',
     data: {
-      relatedPosts: [post1Doc.id, post3Doc.id],
+      meta_extras: {
+        relatedPosts: [post1Doc.id, post3Doc.id],
+      },
     },
   })
   await payload.update({
     id: post3Doc.id,
     collection: 'posts',
     data: {
-      relatedPosts: [post1Doc.id, post2Doc.id],
+      meta_extras: {
+        relatedPosts: [post1Doc.id, post2Doc.id],
+      },
     },
   })
 

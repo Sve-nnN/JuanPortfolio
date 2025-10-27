@@ -15,7 +15,8 @@ const seed = async () => {
   console.log('✅ Payload connected\n')
 
   // Helper para crear/actualizar página
-  const upsertPage = async (slug, data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const upsertPage = async (slug: string, data: any) => {
     try {
       // Buscar si existe
       const existing = await payload.find({
@@ -41,7 +42,7 @@ const seed = async () => {
         console.log(`   ✅ Created\n`)
       }
     } catch (error) {
-      console.error(`   ❌ Error with ${slug}:`, error.message)
+      console.error(`   ❌ Error with ${slug}:`, error instanceof Error ? error.message : error)
     }
   }
 

@@ -63,6 +63,7 @@ async function seedPagesWithPayload() {
     )
 
     // 3. Función helper para crear o actualizar página
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async function upsertPage(slug: string, data: any) {
       // Buscar si existe
       const existing = await payload.find({
@@ -310,33 +311,22 @@ async function seedPagesWithPayload() {
 
     // Blog listing global
     await payload.updateGlobal({
-data: {
+      slug: 'blog-listing',
+      data: {
         layout: [
-            {
-              blockType: 'listingHero',
-              blockName: 'Blog Hero',
-              heading: 'Blog',
-              description: 'Latest articles',
-            },
-            {
-              blockType: 'postsGrid',
-              blockName: 'Posts Grid',
-            },
-          ],
-          es: [
-            {
-              blockType: 'listingHero',
-              blockName: 'Hero del Blog',
-              heading: 'Blog',
-              description: 'Últimos artículos',
-            },
-            {
-              blockType: 'postsGrid',
-              blockName: 'Grid de Posts',
-            },
-          ],
-        },
-      },
+          {
+            blockType: 'listingHero',
+            blockName: 'Blog Hero',
+            heading: 'Blog',
+            description: 'Latest articles',
+          },
+          {
+            blockType: 'postsGrid',
+            blockName: 'Posts Grid',
+          },
+        ],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any,
     })
     console.log('   ✅ Blog global updated')
 
@@ -344,33 +334,20 @@ data: {
     await payload.updateGlobal({
       slug: 'case-studies-listing',
       data: {
-        layout: {
-          en: [
-            {
-              blockType: 'listingHero',
-              blockName: 'CS Hero',
-              heading: 'Case Studies',
-              description: 'Our work',
-            },
-            {
-              blockType: 'caseStudiesGrid',
-              blockName: 'CS Grid',
-            },
-          ],
-          es: [
-            {
-              blockType: 'listingHero',
-              blockName: 'Hero de Casos',
-              heading: 'Casos de Estudio',
-              description: 'Nuestro trabajo',
-            },
-            {
-              blockType: 'caseStudiesGrid',
-              blockName: 'Grid de Casos',
-            },
-          ],
-        },
-      },
+        layout: [
+          {
+            blockType: 'listingHero',
+            blockName: 'CS Hero',
+            heading: 'Case Studies',
+            description: 'Our work',
+          },
+          {
+            blockType: 'caseStudiesGrid',
+            blockName: 'CS Grid',
+          },
+        ],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any,
     })
     console.log('   ✅ Case Studies global updated')
 

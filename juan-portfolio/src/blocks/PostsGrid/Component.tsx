@@ -4,8 +4,9 @@ import Link from 'next/link'
 import type { PostsGridBlock, Post, Category } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
-export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = async (props) => {
+export const PostsGrid: React.FC<PostsGridBlock & { page?: number }> = async (props) => {
   const {
     postsPerPage = 12,
     showCategories = true,
@@ -17,20 +18,18 @@ export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = asyn
 
   // Fetch posts
   let posts: Post[] = []
-  let totalDocs = 0
   let totalPages = 1
 
   try {
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
       collection: 'posts',
-      limit: postsPerPage,
+      limit: postsPerPage || 6,
       page,
       depth: 1,
       sort: '-publishedAt',
     })
     posts = (res.docs as Post[]) || []
-    totalDocs = res.totalDocs
     totalPages = res.totalPages
   } catch {
     // Fallback mock
@@ -57,7 +56,7 @@ export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = asyn
     '2': 'lg:grid-cols-2',
     '3': 'lg:grid-cols-3',
     '4': 'lg:grid-cols-4',
-  }[gridColumns]
+  }[gridColumns || '3']
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -82,21 +81,27 @@ export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = asyn
       <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
         {posts.map((p) => {
           const heroUrl =
-            p.heroImage && typeof p.heroImage === 'object' && 'url' in p.heroImage
-              ? p.heroImage.url
+            p.content?.heroImage &&
+            typeof p.content.heroImage === 'object' &&
+            'url' in p.content.heroImage
+              ? p.content.heroImage.url
               : null
 
           const heroAlt =
-            p.heroImage && typeof p.heroImage === 'object' && 'alt' in p.heroImage
-              ? p.heroImage.alt
+            p.content?.heroImage &&
+            typeof p.content.heroImage === 'object' &&
+            'alt' in p.content.heroImage
+              ? p.content.heroImage.alt
               : p.title || ''
+
+          const postUrl = getPostUrl(p)
 
           return (
             <article
               key={p.id}
               className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
             >
-              <Link className="block aspect-[4/3] overflow-hidden" href={`/blog/${p.slug || p.id}`}>
+              <Link className="block aspect-[4/3] overflow-hidden" href={postUrl}>
                 {heroUrl ? (
                   <Image
                     src={heroUrl}
@@ -115,9 +120,9 @@ export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = asyn
               <div className="p-6 flex flex-col flex-grow">
                 {/* Categories */}
                 <div className="mb-3">
-                  {p.categories &&
-                    Array.isArray(p.categories) &&
-                    p.categories.slice(0, 2).map((cat, i) => {
+                  {p.meta_extras?.categories &&
+                    Array.isArray(p.meta_extras.categories) &&
+                    p.meta_extras.categories.slice(0, 2).map((cat, i) => {
                       const category = typeof cat === 'object' ? cat : null
                       const catTitle =
                         category && 'title' in category ? (category.title as string) : String(cat)
@@ -141,7 +146,7 @@ export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = asyn
 
                 {/* Title */}
                 <h2 className="text-xl font-bold text-current mb-2 group-hover:text-primary transition-colors">
-                  <Link href={`/blog/${p.slug || p.id}`}>{p.title}</Link>
+                  <Link href={postUrl}>{p.title}</Link>
                 </h2>
 
                 {/* Excerpt */}
@@ -151,7 +156,7 @@ export const PostsGridBlock: React.FC<PostsGridBlock & { page?: number }> = asyn
 
                 {/* Read more */}
                 <Link
-                  href={`/blog/${p.slug || p.id}`}
+                  href={postUrl}
                   className="text-primary font-semibold group-hover:underline mt-auto"
                 >
                   Leer más →

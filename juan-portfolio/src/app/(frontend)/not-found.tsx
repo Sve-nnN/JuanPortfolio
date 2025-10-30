@@ -1,8 +1,16 @@
+/**
+ * @file Defines the 404 Not Found page.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import Link from 'next/link'
 import React from 'react'
 
 import { Button } from '@/components/ui/button'
 
+/**
+ * The 404 Not Found page component.
+ * @returns {React.ReactElement} The 404 page component.
+ */
 export default function NotFound() {
   return (
     <div className="container py-28">

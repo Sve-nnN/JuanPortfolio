@@ -1,3 +1,7 @@
+/**
+ * @file Defines the route handler for entering preview mode.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import type { CollectionSlug, PayloadRequest } from 'payload'
 import { getPayload } from 'payload'
 
@@ -7,6 +11,12 @@ import { NextRequest } from 'next/server'
 
 import configPromise from '@payload-config'
 
+/**
+ * The GET handler for the preview route.
+ * It enables draft mode and redirects to the specified path.
+ * @param {NextRequest} req - The Next.js request object.
+ * @returns {Promise<Response>} A promise that resolves to a response object.
+ */
 export async function GET(req: NextRequest): Promise<Response> {
   const payload = await getPayload({ config: configPromise })
 

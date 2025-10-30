@@ -1,3 +1,7 @@
+/**
+ * @file Defines the page for a specific page of blog posts.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
@@ -11,12 +15,21 @@ import { notFound } from 'next/navigation'
 
 export const revalidate = 600
 
+/**
+ * @typedef {object} Args
+ * @property {Promise<{ pageNumber: string }>} params - The page parameters.
+ */
 type Args = {
   params: Promise<{
     pageNumber: string
   }>
 }
 
+/**
+ * The page component for a specific page of blog posts.
+ * @param {Args} props - The component props.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the page component.
+ */
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
@@ -62,6 +75,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
+/**
+ * Generates metadata for the page.
+ * @param {Args} props - The component props.
+ * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
+ */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
@@ -69,6 +87,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   }
 }
 
+/**
+ * Generates static parameters for all pages of blog posts.
+ * @returns {Promise<Array<{ pageNumber: string }>>} A promise that resolves to an array of page numbers.
+ */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const { totalDocs } = await payload.count({

@@ -1,7 +1,17 @@
+/**
+ * @file Defines the main case studies listing page.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 
+/**
+ * The main case studies listing page component.
+ * It fetches the 'case-studies-listing' global from the CMS and renders its blocks.
+ * If no blocks are configured, it displays a fallback message.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the case studies page component.
+ */
 const CaseStudiesPage = async () => {
   // Get case studies listing global with blocks
   const caseStudiesGlobal = await getCachedGlobal('case-studies-listing')().catch(() => null)

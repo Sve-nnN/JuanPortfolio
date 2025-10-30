@@ -1,7 +1,21 @@
+/**
+ * @file Defines the authors listing page.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
+/**
+ * @typedef {object} AuthorRef
+ * @property {string} [id] - The author's ID.
+ * @property {string} [name] - The author's name.
+ * @property {string} [slug] - The author's slug.
+ * @property {object} [avatar] - The author's avatar.
+ * @property {string} [avatar.url] - The URL of the avatar image.
+ * @property {string} [avatar.alt] - The alt text for the avatar image.
+ * @property {string} [role] - The author's role.
+ */
 type AuthorRef = {
   id?: string
   name?: string
@@ -10,6 +24,10 @@ type AuthorRef = {
   role?: string
 }
 
+/**
+ * Fetches all authors from the CMS.
+ * @returns {Promise<AuthorRef[]>} A promise that resolves to an array of authors.
+ */
 const getAuthors = async () => {
   try {
     const configPromise = (await import('@payload-config')).default
@@ -22,6 +40,10 @@ const getAuthors = async () => {
   }
 }
 
+/**
+ * The authors listing page component.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the authors page component.
+ */
 const AuthorsPage = async () => {
   const authors = (await getAuthors()) as AuthorRef[]
 

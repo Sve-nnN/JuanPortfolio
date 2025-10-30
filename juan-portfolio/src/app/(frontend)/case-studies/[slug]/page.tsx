@@ -1,3 +1,7 @@
+/**
+ * @file Defines the page for a single case study.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
@@ -19,6 +23,10 @@ import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 // import { headers } from 'next/headers'
 
+/**
+ * Generates static parameters for all case studies.
+ * @returns {Promise<Array<{ slug: string }>>} A promise that resolves to an array of case study slugs.
+ */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({
@@ -40,12 +48,21 @@ export async function generateStaticParams() {
   return params as { slug: string }[]
 }
 
+/**
+ * @typedef {object} Args
+ * @property {Promise<{ slug?: string }>} params - The page parameters.
+ */
 type Args = {
   params: Promise<{
     slug?: string
   }>
 }
 
+/**
+ * The page component for a single case study.
+ * @param {Args} props - The component props.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the case study page component.
+ */
 export default async function CaseStudy({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
@@ -147,6 +164,11 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
   )
 }
 
+/**
+ * Generates metadata for the case study page.
+ * @param {Args} props - The component props.
+ * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
+ */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const post = await queryCaseBySlug({ slug })
@@ -154,6 +176,12 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return generateMeta({ doc: post })
 }
 
+/**
+ * Queries a case study by its slug.
+ * @param {object} args - The arguments.
+ * @param {string} args.slug - The case study slug.
+ * @returns {Promise<any>} A promise that resolves to the case study data.
+ */
 const queryCaseBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
 

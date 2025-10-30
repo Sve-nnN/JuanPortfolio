@@ -1,7 +1,17 @@
+/**
+ * @file Defines the main blog listing page.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 
+/**
+ * The main blog listing page component.
+ * It fetches the 'blog-listing' global from the CMS and renders its blocks.
+ * If no blocks are configured, it displays a fallback message.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the blog page component.
+ */
 const BlogPage = async () => {
   // Get blog listing global with blocks
   const blogGlobal = await getCachedGlobal('blog-listing')().catch(() => null)

@@ -1,3 +1,7 @@
+/**
+ * @file Defines the author page.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import { Metadata } from 'next'
 import React from 'react'
 import Image from 'next/image'
@@ -5,10 +9,19 @@ import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
+/**
+ * @typedef {object} Props
+ * @property {Promise<{ slug: string }>} params - The page parameters.
+ */
 type Props = {
   params: Promise<{ slug: string }>
 }
 
+/**
+ * Queries a user by their slug.
+ * @param {string} slug - The user slug.
+ * @returns {Promise<any>} A promise that resolves to the user data.
+ */
 const queryUserBySlug = async (slug: string) => {
   const payload = await getPayload({ config: configPromise })
   let res = await payload.find({
@@ -28,6 +41,11 @@ const queryUserBySlug = async (slug: string) => {
   return res.docs?.[0] || null
 }
 
+/**
+ * Queries posts by a specific author.
+ * @param {string} authorId - The author's ID.
+ * @returns {Promise<any[]>} A promise that resolves to an array of posts.
+ */
 const queryPostsByAuthor = async (authorId: string) => {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
@@ -41,6 +59,12 @@ const queryPostsByAuthor = async (authorId: string) => {
   return res.docs || []
 }
 
+/**
+ * Generates metadata for the author page.
+ * @param {object} props - The component props.
+ * @param {Promise<{ slug: string }>} props.params - The page parameters.
+ * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -61,6 +85,11 @@ export async function generateMetadata({
   }
 }
 
+/**
+ * The author page component.
+ * @param {Props} props - The component props.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the author page component.
+ */
 export default async function AuthorPage({ params }: Props) {
   const { slug = '' } = await params
   if (!slug) return <p>Autor no encontrado</p>

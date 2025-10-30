@@ -1,3 +1,7 @@
+/**
+ * @file Defines the root layout for the frontend application.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
@@ -18,6 +22,10 @@ import type { Locale } from '@/i18n/translations'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
+/**
+ * Local font configuration for the 'Array' font family.
+ * @type {object}
+ */
 const ArrayFont = localFont({
   src: [
     { path: '../../fonts/array/Array-Regular.woff2', weight: '400', style: 'normal' },
@@ -28,6 +36,10 @@ const ArrayFont = localFont({
   display: 'swap',
 })
 
+/**
+ * Local font configuration for the 'Khand' font family.
+ * @type {object}
+ */
 const Khand = localFont({
   src: [
     { path: '../../fonts/khand/Khand-Regular.woff2', weight: '400', style: 'normal' },
@@ -38,6 +50,12 @@ const Khand = localFont({
   display: 'swap',
 })
 
+/**
+ * The root layout component for the frontend.
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The children to render.
+ * @returns {Promise<React.ReactElement>} The root layout component.
+ */
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
@@ -81,6 +99,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 }
 
+/**
+ * The metadata for the root layout.
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   openGraph: mergeOpenGraph(),

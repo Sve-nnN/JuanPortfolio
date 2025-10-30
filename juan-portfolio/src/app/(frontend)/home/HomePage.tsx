@@ -1,8 +1,20 @@
+/**
+ * @file Defines the home page component.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import React from 'react'
 import type { Home } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import Link from 'next/link'
 
+/**
+ * The home page component.
+ * It renders the blocks defined in the 'home' global from the CMS.
+ * If no blocks are configured, it displays a setup guide.
+ * @param {object} props - The component props.
+ * @param {Home} props.homeGlobal - The 'home' global data.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the home page component.
+ */
 const HomePage = async ({ homeGlobal }: { homeGlobal: Home }) => {
   const hasLayout = homeGlobal.layout && homeGlobal.layout.length > 0
 

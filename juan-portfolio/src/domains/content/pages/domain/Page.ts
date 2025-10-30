@@ -1,0 +1,243 @@
+import type { CollectionConfig, CollectionSlug } from 'payload'
+
+import { authenticated } from '../../../../access/authenticated'
+import { authenticatedOrPublished } from '../../../../access/authenticatedOrPublished'
+import { Archive } from '../../../../blocks/ArchiveBlock/config'
+import { CallToAction } from '../../../../blocks/CallToAction/config'
+import { Content } from '../../../../blocks/Content/config'
+import { FormBlock } from '../../../../blocks/Form/config'
+import { MediaBlock } from '../../../../blocks/MediaBlock/config'
+import { WorkCards } from '../../../../blocks/WorkCards/config'
+import { ClientsCarousel } from '../../../../blocks/ClientsCarousel/config'
+import { Intro } from '../../../../blocks/Intro/config'
+import { HeroHome } from '../../../../blocks/HeroHome/config'
+import { AboutSection } from '../../../../blocks/AboutSection/config'
+import { FeaturedWorks } from '../../../../blocks/FeaturedWorks/config'
+import { FeaturedClients } from '../../../../blocks/FeaturedClients/config'
+import { FeaturedBlog } from '../../../../blocks/FeaturedBlog/config'
+import { ContactFormBlock } from '../../../../blocks/ContactFormBlock/config'
+import { SimpleCTA } from '../../../../blocks/SimpleCTA/config'
+import { ListingHero } from '../../../../blocks/ListingHero/config'
+import { PostsGrid } from '../../../../blocks/PostsGrid/config'
+import { CaseStudiesGrid } from '../../../../blocks/CaseStudiesGrid/config'
+import { PostSidebar } from '../../../../blocks/PostSidebar/config'
+import { RelatedPostsBlock } from '../../../../blocks/RelatedPostsBlock/config'
+import { TableOfContentsBlock } from '../../../../blocks/TableOfContentsBlock/config'
+import { TestimonialSection } from '../../../../blocks/TestimonialSection/config'
+import { ResultsSection } from '../../../../blocks/ResultsSection/config'
+import { CaseStudyHeader } from '../../../../blocks/CaseStudyHeader/config'
+import { PostArticleHeader } from '../../../../blocks/PostArticleHeader/config'
+import { BlogArchiveHeader } from '../../../../blocks/BlogArchiveHeader/config'
+import { FeaturedBlogPosts } from '../../../../blocks/FeaturedBlogPosts/config'
+import { FeaturedCaseStudies } from '../../../../blocks/FeaturedCaseStudies/config'
+import { AboutWithFeatures } from '../../../../blocks/AboutWithFeatures/config'
+import { hero } from '@/heros/config'
+import { slugField } from '@/fields/slug'
+import { populatePublishedAt } from '../../../../hooks/populatePublishedAt'
+import { generatePreviewPath } from '../../../../utilities/generatePreviewPath'
+import { revalidateDelete, revalidatePage } from '../infrastructure/hooks/revalidatePage'
+import { Section } from '../../../../blocks/Section/config'
+
+export const PagesCollection: CollectionConfig<'pages'> = {
+  slug: 'pages',
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: authenticatedOrPublished,
+    update: authenticated,
+  },
+  // This config controls what's populated by default when a page is referenced
+  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
+  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
+  defaultPopulate: {
+    title: true,
+    slug: true,
+  },
+  admin: {
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    livePreview: {
+      url: ({ data, req }) =>
+        generatePreviewPath({
+          slug: data?.slug,
+          collection: 'pages',
+          req,
+        }),
+    },
+    preview: (data, { req }) =>
+      generatePreviewPath({
+        slug: data?.slug as string,
+        collection: 'pages',
+        req,
+      }),
+    useAsTitle: 'title',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      localized: true,
+      label: {
+        en: 'Title',
+        es: 'Título',
+      },
+    },
+    // Grupo SEO
+    {
+      type: 'group',
+      name: 'meta_group',
+      label: 'SEO',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Meta título',
+          localized: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Meta descripción',
+          localized: true,
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Imagen para compartir (OpenGraph)',
+        },
+      ],
+      admin: {
+        description:
+          'Campos para SEO: título, descripción e imagen para compartir en redes sociales.',
+      },
+    },
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          name: 'hero',
+          fields: [hero],
+          label: {
+            en: 'Hero',
+            es: 'Hero',
+          },
+        },
+        {
+          name: 'homeSections',
+          label: {
+            en: 'Home Sections',
+            es: 'Secciones Home',
+          },
+          fields: [
+            {
+              name: 'featuredWorks',
+              type: 'relationship',
+              // Cast to CollectionSlug to satisfy typing until payload-types are regenerated
+              relationTo: 'case-studies' as CollectionSlug,
+              hasMany: true,
+              admin: {
+                description: 'Selecciona los trabajos destacados que aparecerán en la home',
+              },
+            },
+            {
+              name: 'featuredClients',
+              type: 'relationship',
+              relationTo: 'clients',
+              hasMany: true,
+              admin: {
+                description: 'Selecciona los clientes destacados para la sección de empresas',
+              },
+            },
+            {
+              name: 'blogTitle',
+              type: 'text',
+              localized: true,
+              label: { en: 'Blog Title', es: 'Título del Blog' },
+            },
+            {
+              name: 'blogDescription',
+              type: 'textarea',
+              localized: true,
+              label: { en: 'Blog Description', es: 'Descripción del Blog' },
+            },
+          ],
+        },
+        {
+          name: 'content',
+          fields: [
+            {
+              name: 'layout',
+              type: 'blocks',
+              blocks: [
+                // Bloques para Home
+                HeroHome,
+                AboutSection,
+                FeaturedWorks,
+                FeaturedClients,
+                FeaturedBlog,
+                ContactFormBlock,
+                SimpleCTA,
+                // Bloques para páginas de listado
+                ListingHero,
+                PostsGrid,
+                CaseStudiesGrid,
+                // Bloques para single post/case study
+                PostSidebar,
+                RelatedPostsBlock,
+                TableOfContentsBlock,
+                TestimonialSection,
+                ResultsSection,
+                CaseStudyHeader,
+                PostArticleHeader,
+                BlogArchiveHeader,
+                FeaturedBlogPosts,
+                FeaturedCaseStudies,
+                AboutWithFeatures,
+                // Section permite estilos de sección y bloques anidados (MVP page builder)
+                Section,
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                Intro,
+                WorkCards,
+                ClientsCarousel,
+              ],
+              required: true,
+              // localize layout so pages can have different block content per locale
+              localized: true,
+              admin: {
+                initCollapsed: true,
+              },
+            },
+          ],
+          label: 'Content',
+        },
+      ],
+    },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    slugField(),
+  ],
+  hooks: {
+    afterChange: [revalidatePage],
+    beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+      schedulePublish: true,
+    },
+    maxPerDoc: 50,
+  },
+}

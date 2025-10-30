@@ -1,3 +1,4 @@
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
@@ -18,7 +19,7 @@ import { Users } from './collections/Users'
 import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
 import Clients from './collections/Clients'
-import { AdBanners } from './collections/AdBanners'
+import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanner'
 import Testimonials from './collections/Testimonials'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -103,7 +104,7 @@ export default buildConfig({
     Works,
     CaseStudies,
     Clients,
-    AdBanners,
+    AdBannersCollection,
     Testimonials,
   ],
   cors: [getServerSideURL()].filter(Boolean),
@@ -111,17 +112,19 @@ export default buildConfig({
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
+    vercelBlobStorage({
+      collections: {
+        [Media.slug]: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN || '',
+      enabled: !!process.env.BLOB_READ_WRITE_TOKEN,
+    }),
   ],
-  // Email via official Resend adapter
-  email: (() => {
-    const apiKey = process.env.RESEND_SECRET
-    if (!apiKey) return undefined
-    return resendAdapter({
-      defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@example.com',
-      defaultFromName: process.env.EMAIL_FROM_NAME || 'Website',
-      apiKey,
-    })
-  })(),
+  email: resendAdapter({
+    defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@example.com',
+    defaultFromName: process.env.EMAIL_FROM_NAME || 'Website',
+    apiKey: process.env.RESEND_SECRET || '',
+  }),
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

@@ -1,3 +1,7 @@
+/**
+ * @file Defines the server-side component for dynamic pages.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
@@ -13,6 +17,10 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+/**
+ * Generates static parameters for all pages.
+ * @returns {Promise<Array<{ slug: string }>>} A promise that resolves to an array of page slugs.
+ */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -37,12 +45,21 @@ export async function generateStaticParams() {
   return params
 }
 
+/**
+ * @typedef {object} Args
+ * @property {Promise<{ slug?: string }>} params - The page parameters.
+ */
 type Args = {
   params: Promise<{
     slug?: string
   }>
 }
 
+/**
+ * The main component for rendering a page.
+ * @param {Args} props - The component props.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the page component.
+ */
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
@@ -102,6 +119,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
+/**
+ * Generates metadata for the page.
+ * @param {Args} props - The component props.
+ * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
+ */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = 'home' } = await paramsPromise
   // detect locale from headers (loose cast)
@@ -143,6 +165,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return generateMeta({ doc: page, locale })
 }
 
+/**
+ * Queries a page by its slug.
+ * @param {object} args - The arguments.
+ * @param {string} args.slug - The page slug.
+ * @param {'en' | 'es' | 'all' | undefined} args.locale - The locale.
+ * @returns {Promise<any>} A promise that resolves to the page data.
+ */
 const queryPageBySlug = cache(
   async ({ slug, locale }: { slug: string; locale?: 'en' | 'es' | 'all' | undefined }) => {
     const { isEnabled: draft } = await draftMode()

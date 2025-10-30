@@ -1,3 +1,7 @@
+/**
+ * @file Defines the page for a single blog post.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
@@ -12,6 +16,10 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { Metadata } from 'next'
 
+/**
+ * Generates static parameters for all blog posts.
+ * @returns {Promise<Array<{ category: string; slug: string }>>} A promise that resolves to an array of post slugs with their categories.
+ */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({
@@ -44,6 +52,12 @@ export async function generateStaticParams() {
   return params
 }
 
+/**
+ * The page component for a single blog post.
+ * @param {object} props - The component props.
+ * @param {Promise<{ category: string; slug: string }>} props.params - The page parameters.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the post page component.
+ */
 export default async function PostPage({
   params,
 }: {
@@ -100,6 +114,12 @@ export default async function PostPage({
   )
 }
 
+/**
+ * Generates metadata for the post page.
+ * @param {object} props - The component props.
+ * @param {Promise<{ category: string; slug: string }>} props.params - The page parameters.
+ * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
+ */
 export async function generateMetadata({
   params,
 }: {

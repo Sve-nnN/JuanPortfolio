@@ -1,3 +1,7 @@
+/**
+ * @file Defines the page for a specific blog category.
+ * @author Juan Carlos Angulo <juan@jcangulo.com>
+ */
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
@@ -8,6 +12,10 @@ import { CategoryFAQ } from '@/components/CategoryFAQ'
 import { CategoryExplore } from '@/components/CategoryExplore'
 import { Metadata } from 'next'
 
+/**
+ * Generates static parameters for all blog categories.
+ * @returns {Promise<Array<{ category: string }>>} A promise that resolves to an array of category slugs.
+ */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const categories = await payload.find({
@@ -18,6 +26,12 @@ export async function generateStaticParams() {
   return categories.docs.map(({ slug }) => ({ category: slug }))
 }
 
+/**
+ * The page component for a specific blog category.
+ * @param {object} props - The component props.
+ * @param {Promise<{ category: string }>} props.params - The page parameters.
+ * @returns {Promise<React.ReactElement>} A promise that resolves to the category page component.
+ */
 export default async function CategoryPage({ 
   params 
 }: { 
@@ -74,6 +88,12 @@ export default async function CategoryPage({
   )
 }
 
+/**
+ * Generates metadata for the category page.
+ * @param {object} props - The component props.
+ * @param {Promise<{ category: string }>} props.params - The page parameters.
+ * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
+ */
 export async function generateMetadata({
   params,
 }: {

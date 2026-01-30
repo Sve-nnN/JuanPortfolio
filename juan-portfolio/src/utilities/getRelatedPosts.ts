@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Post, Category } from '@/payload-types'
+import type { Post } from '@/payload-types'
 import { unstable_cache } from 'next/cache'
 
 type Args = {

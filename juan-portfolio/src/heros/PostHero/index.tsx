@@ -6,6 +6,7 @@ import type { Post, Category } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
 import Link from 'next/link'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 
 interface PopulatedAuthor {
   id?: string | null
@@ -17,9 +18,10 @@ export const PostHero: React.FC<{
   post: Post
   excerpt?: string | null
   readingTime?: number | null
-}> = ({ post, excerpt = null, readingTime = null }) => {
-  const { meta_extras, content, populatedAuthors, publishedAt, title } = post
-  const categories = meta_extras?.categories
+  mainCategory?: { title: string; href?: string } | null
+}> = ({ post, excerpt = null, readingTime = null, mainCategory = null }) => {
+  const { categories: postCategories, content, populatedAuthors, publishedAt, title } = post
+  const categories = postCategories
   const heroImage = content?.heroImage
 
   const hasAuthors =
@@ -64,74 +66,102 @@ export const PostHero: React.FC<{
   }
 
   return (
-    <div className="relative flex items-end pt-8">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
-        <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
-          <div className="mb-4 flex flex-wrap gap-2">
-            {categories?.map((category: string | Category, index: number) => {
+
+    <div className="relative min-h-[80vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20">
+      <div className="container z-10 relative flex flex-col items-end text-right text-white">
+        <div className="max-w-4xl w-full flex flex-col items-end gap-6 animate-fade-in-up">
+
+          {/* Categories / Breadcrumbs */}
+          {/* Breadcrumbs */}
+          <nav aria-label="Breadcrumb" className="flex flex-wrap justify-end gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80">
+            <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
+            <span className="text-white/40">/</span>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+
+            {mainCategory && (
+              <>
+                <span className="text-white/40">/</span>
+                <Link href={mainCategory.href || '/blog'} className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20 hover:bg-primary/30 transition-colors">
+                  {mainCategory.title}
+                </Link>
+              </>
+            )}
+
+            {/* Fallback to list if no mainCategory provided */}
+            {!mainCategory && categories?.map((category: string | Category, index: number) => {
               if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
-
-                const titleToUse = categoryTitle || 'Untitled category'
-
                 return (
-                  <span
-                    key={index}
-                    className="inline-block bg-primary/10 text-primary text-xs sm:text-sm font-semibold mr-2 px-3 py-1 rounded-full border border-primary/20"
-                  >
-                    {titleToUse}
-                  </span>
+                  <React.Fragment key={index}>
+                    <span className="text-white/40">/</span>
+                    <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20">
+                      {category.title || 'Untitled'}
+                    </span>
+                  </React.Fragment>
                 )
               }
               return null
             })}
+          </nav>
+
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white drop-shadow-sm">
+            {title}
+          </h1>
+
+          {/* Excerpt */}
+          {excerpt && (
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
+              {excerpt}
+            </p>
+          )}
+
+          {/* Meta Info Row */}
+          <div className="flex flex-wrap justify-end items-center gap-6 text-sm text-gray-300 font-medium tracking-wide mt-4 border-t border-white/20 pt-6 w-full md:w-auto pl-8">
+
+            {/* Author */}
+            {hasAuthors && (
+              <div className="flex items-center gap-2">
+                <span className="text-white/50 uppercase text-xs">Escrito por</span>
+                <span className="text-white">{renderAuthors()}</span>
+              </div>
+            )}
+
+            {/* Date */}
+            {publishedAt && (
+              <div className="flex items-center gap-2">
+                <span className="text-white/50 uppercase text-xs">Publicado</span>
+                <time dateTime={publishedAt} className="text-white">
+                  {formatDateTime(publishedAt)}
+                </time>
+              </div>
+            )}
+
+            {/* Reading Time */}
+            {readingTime && (
+              <div className="flex items-center gap-2">
+                <span className="text-white/50 uppercase text-xs">Lectura</span>
+                <span className="text-white">{readingTime} min</span>
+              </div>
+            )}
           </div>
 
-          <div className="">
-            <h1 className="mb-4 text-3xl md:text-5xl lg:text-6xl font-display leading-tight max-w-3xl">
-              {title}
-            </h1>
-            {excerpt && <p className="lead text-white/90 mb-4 max-w-2xl">{excerpt}</p>}
-          </div>
-
-          <div className="mt-2 flex flex-col md:flex-row gap-6 md:gap-12 items-start text-sm text-white/80">
-            <div className="flex items-center gap-4">
-              {hasAuthors && (
-                <div className="text-sm">
-                  <span className="block text-xs text-white/60 uppercase tracking-wider">
-                    Autor
-                  </span>
-                  <span className="font-medium inline">{renderAuthors()}</span>
-                </div>
-              )}
-              {publishedAt && (
-                <div className="text-sm">
-                  <span className="block text-xs text-white/60 uppercase tracking-wider">
-                    Fecha
-                  </span>
-                  <time className="font-medium" dateTime={publishedAt}>
-                    {formatDateTime(publishedAt)}
-                  </time>
-                </div>
-              )}
-              {readingTime && (
-                <div className="text-sm">
-                  <span className="block text-xs text-white/60 uppercase tracking-wider">
-                    Lectura
-                  </span>
-                  <span className="font-medium">{readingTime} min</span>
-                </div>
-              )}
-            </div>
-            {/* excerpt already shown under the H1; avoid duplicate rendering here */}
-          </div>
         </div>
       </div>
-      <div className="min-h-[60vh] select-none w-full">
-        {heroImage && typeof heroImage !== 'string' && (
-          <Media className="-z-10" resource={heroImage} />
+
+      {/* Background Image & Overlay */}
+      <div className="absolute inset-0 z-0 select-none">
+        {!heroImage && (
+          <img
+            src={getFallbackBySlug(post.slug ?? '')}
+            alt="Hero Background"
+            className="object-cover w-full h-full"
+          />
         )}
-        <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
+        {heroImage && typeof heroImage !== 'string' && (
+          <Media className="object-cover w-full h-full" resource={heroImage} />
+        )}
+        {/* Stronger gradient for readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/20 to-black/60" />
       </div>
     </div>
   )

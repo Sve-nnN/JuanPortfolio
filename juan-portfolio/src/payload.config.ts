@@ -1,4 +1,5 @@
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { mcpPlugin } from '@payloadcms/plugin-mcp'
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
@@ -38,9 +39,6 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
-      // beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -111,6 +109,58 @@ export default buildConfig({
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing],
   plugins: [
     ...plugins,
+    mcpPlugin({
+      collections: {
+        [Pages.slug]: {
+          enabled: true,
+          description: 'Website pages',
+        },
+        [Posts.slug]: {
+          enabled: true,
+          description: 'Blog posts and articles',
+        },
+        [Media.slug]: {
+          enabled: true,
+          description: 'Media assets and uploads',
+        },
+        [Categories.slug]: {
+          enabled: true,
+          description: 'Blog categories',
+        },
+        [Users.slug]: {
+          enabled: true,
+          description: 'System users and admins',
+        },
+        [Works.slug]: {
+          enabled: true,
+          description: 'Portfolio works and projects',
+        },
+        [CaseStudies.slug]: {
+          enabled: true,
+          description: 'Detailed case studies',
+        },
+        [Clients.slug]: {
+          enabled: true,
+          description: 'Client logos and info',
+        },
+        [AdBannersCollection.slug]: {
+          enabled: true,
+          description: 'Advertising sidebar banners',
+        },
+        [Testimonials.slug]: {
+          enabled: true,
+          description: 'Customer testimonials',
+        },
+      },
+      mcp: {
+        serverOptions: {
+          serverInfo: {
+            name: 'Juan Portfolio MCP',
+            version: '1.0.0',
+          },
+        },
+      },
+    }),
     // storage-adapter-placeholder
     vercelBlobStorage({
       collections: {

@@ -5,6 +5,7 @@
 import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { JsonLd } from '@/components/JsonLd'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode, headers } from 'next/headers'
@@ -105,8 +106,35 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { hero, content } = page
   const layout = content?.layout || []
 
+  // Calculate JSON-LD
+  // @ts-ignore
+  const customJsonLd = page.meta_group?.jsonLD
+  let schema = customJsonLd
+
+  if (!schema) {
+    const metaTitle = page.meta_group?.title || page.title
+    const metaDesc = page.meta_group?.description
+    // @ts-ignore
+    const metaImage = page.meta_group?.image?.url || page.meta_group?.image?.sizes?.og?.url
+
+    schema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: metaTitle,
+      description: metaDesc,
+      image: metaImage ? `${process.env.NEXT_PUBLIC_SERVER_URL}${metaImage}` : undefined,
+      datePublished: page.publishedAt,
+      dateModified: page.updatedAt,
+      publisher: {
+        '@type': 'Organization',
+        name: 'Juan Tech', // Should be dynamic from global settings
+      }
+    }
+  }
+
   return (
     <article className="pb-24">
+      <JsonLd schema={schema} />
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />

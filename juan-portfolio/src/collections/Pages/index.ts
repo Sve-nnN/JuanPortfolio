@@ -36,6 +36,7 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { createRedirectOnSlugChange } from '../../hooks/createRedirectOnSlugChange'
 import { Section } from '../../blocks/Section/config'
 
 export const Pages: CollectionConfig<'pages'> = {
@@ -105,6 +106,14 @@ export const Pages: CollectionConfig<'pages'> = {
           type: 'upload',
           relationTo: 'media',
           label: 'Imagen para compartir (OpenGraph)',
+        },
+        {
+          name: 'jsonLD',
+          type: 'json',
+          label: 'Schema JSON-LD Customizado',
+          admin: {
+            description: 'Sobreescribe o añade Schema.org JSON-LD para esta página.',
+          },
         },
       ],
       admin: {
@@ -227,7 +236,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePage],
+    afterChange: [revalidatePage, createRedirectOnSlugChange],
     beforeChange: [populatePublishedAt],
     afterDelete: [revalidateDelete],
   },

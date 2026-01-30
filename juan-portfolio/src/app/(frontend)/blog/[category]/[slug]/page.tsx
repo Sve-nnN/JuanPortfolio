@@ -31,7 +31,7 @@ export async function generateStaticParams() {
   const params: Array<{ category: string; slug: string }> = []
 
   for (const post of posts.docs) {
-    const categories = post.meta_extras?.categories
+    const categories = post.categories
     let categorySlug = 'general'
 
     if (categories && categories.length > 0) {
@@ -80,7 +80,7 @@ export default async function PostPage({
   const excerpt = post.meta?.description || undefined
   const headings = post.content ? extractHeadingsFromLexical(post.content) : []
 
-  const categories = post.meta_extras?.categories || []
+  const categories = post.categories || []
   const firstCategory =
     Array.isArray(categories) && categories.length > 0
       ? typeof categories[0] === 'string'
@@ -92,18 +92,16 @@ export default async function PostPage({
     <article className="pb-16">
       <LivePreviewListener />
       <PayloadRedirects disableNotFound url={`/blog/${category}/${slug}`} />
-      <Breadcrumbs
-        items={[
-          { label: 'Inicio', href: '/' },
-          { label: 'Blog', href: '/blog' },
-          {
-            label: firstCategory.title || category,
-            href: `/blog/${category}`,
-          },
-          { label: post.title || 'Post' },
-        ]}
+
+      <PostHero
+        post={post}
+        excerpt={excerpt as string | null}
+        readingTime={minutes}
+        mainCategory={{
+          title: firstCategory.title || category,
+          href: `/blog/${category}`
+        }}
       />
-      <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} />
       <div className="pt-8 container">
         {headings && headings.length > 0 && <TableOfContents headings={headings} />}
         <div className="prose prose-lg dark:prose-invert max-w-none">

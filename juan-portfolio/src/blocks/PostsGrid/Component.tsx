@@ -1,12 +1,11 @@
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import type { PostsGridBlock, Post, Category } from '@/payload-types'
+import { Card } from '@/components/Card'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { getPostUrl } from '@/utilities/getPostUrl'
+import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 
-export const PostsGrid: React.FC<PostsGridBlock & { page?: number }> = async (props) => {
+export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts?: Post[] }> = async (props) => {
   const {
     postsPerPage = 12,
     showCategories = true,
@@ -14,26 +13,31 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number }> = async (pr
     showExcerpt = true,
     showDate = true,
     page = 1,
+    animation,
   } = props
 
   // Fetch posts
   let posts: Post[] = []
   let totalPages = 1
 
-  try {
-    const payload = await getPayload({ config: configPromise })
-    const res = await payload.find({
-      collection: 'posts',
-      limit: postsPerPage || 6,
-      page,
-      depth: 1,
-      sort: '-publishedAt',
-    })
-    posts = (res.docs as Post[]) || []
-    totalPages = res.totalPages
-  } catch {
-    // Fallback mock
-    posts = []
+  if (props.overridePosts) {
+    posts = props.overridePosts
+  } else {
+    try {
+      const payload = await getPayload({ config: configPromise })
+      const res = await payload.find({
+        collection: 'posts',
+        limit: postsPerPage || 6,
+        page,
+        depth: 1,
+        sort: '-publishedAt',
+      })
+      posts = (res.docs as Post[]) || []
+      totalPages = res.totalPages
+    } catch {
+      // Fallback mock
+      posts = []
+    }
   }
 
   // Fetch categories if needed
@@ -59,7 +63,7 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number }> = async (pr
   }[gridColumns || '3']
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8">
       {/* Category Filters */}
       {showCategories && categories.length > 0 && (
         <div className="mb-12 flex flex-wrap justify-center gap-2">
@@ -80,89 +84,18 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number }> = async (pr
       {/* Posts Grid */}
       <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
         {posts.map((p) => {
-          const heroUrl =
-            p.content?.heroImage &&
-            typeof p.content.heroImage === 'object' &&
-            'url' in p.content.heroImage
-              ? p.content.heroImage.url
-              : null
-
-          const heroAlt =
-            p.content?.heroImage &&
-            typeof p.content.heroImage === 'object' &&
-            'alt' in p.content.heroImage
-              ? p.content.heroImage.alt
-              : p.title || ''
-
-          const postUrl = getPostUrl(p)
-
           return (
-            <article
+            <div
               key={p.id}
-              className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
+              className="group flex flex-col h-full"
             >
-              <Link className="block aspect-[4/3] overflow-hidden" href={postUrl}>
-                {heroUrl ? (
-                  <Image
-                    src={heroUrl}
-                    alt={heroAlt || ''}
-                    width={1200}
-                    height={800}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                ) : (
-                  <div
-                    className="bg-gray-100 dark:bg-card-dark w-full h-full"
-                    style={{ minHeight: 200 }}
-                  />
-                )}
-              </Link>
-              <div className="p-6 flex flex-col flex-grow">
-                {/* Categories */}
-                <div className="mb-3">
-                  {p.meta_extras?.categories &&
-                    Array.isArray(p.meta_extras.categories) &&
-                    p.meta_extras.categories.slice(0, 2).map((cat, i) => {
-                      const category = typeof cat === 'object' ? cat : null
-                      const catTitle =
-                        category && 'title' in category ? (category.title as string) : String(cat)
-                      return (
-                        <span
-                          key={i}
-                          className="inline-block bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full mr-2"
-                        >
-                          {catTitle}
-                        </span>
-                      )
-                    })}
-                </div>
-
-                {/* Date */}
-                {showDate && p.publishedAt && (
-                  <p className="text-sm text-muted mb-2">
-                    {new Date(p.publishedAt).toLocaleDateString()}
-                  </p>
-                )}
-
-                {/* Title */}
-                <h2 className="text-xl font-bold text-current mb-2 group-hover:text-primary transition-colors">
-                  <Link href={postUrl}>{p.title}</Link>
-                </h2>
-
-                {/* Excerpt */}
-                {showExcerpt && p.meta?.description && (
-                  <p className="text-muted flex-grow mb-4 line-clamp-3">{p.meta.description}</p>
-                )}
-
-                {/* Read more */}
-                <Link
-                  href={postUrl}
-                  className="text-primary font-semibold group-hover:underline mt-auto"
-                >
-                  Leer más →
-                </Link>
-              </div>
-            </article>
+              <Card
+                className="h-full"
+                doc={p}
+                relationTo="posts"
+                showCategories={Boolean(showCategories)}
+              />
+            </div>
           )
         })}
       </div>
@@ -175,6 +108,6 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number }> = async (pr
           </p>
         </div>
       )}
-    </div>
+    </AnimateOnScroll>
   )
 }

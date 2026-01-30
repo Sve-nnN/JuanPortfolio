@@ -29,12 +29,13 @@ export const generateMeta = async (args: {
   // Try to read localized meta first, then fallback to top-level.
   const meta = (() => {
     if (!doc) return undefined
-    const m = doc.meta
+    // @ts-ignore
+    const m = doc.meta || doc.meta_group
     if (!m) return undefined
     // If meta has keys for locales, pick the locale or default to 'en'
     if (typeof m === 'object' && ('en' in m || 'es' in m)) {
       const key = locale || 'en'
-      // @ts-expect-error - meta may be localized object keyed by locale
+      // @ts-ignore - meta may be localized object keyed by locale
       return m[key] || m['en']
     }
     return m
@@ -50,10 +51,10 @@ export const generateMeta = async (args: {
       description: meta?.description || doc?.meta?.description || '',
       images: ogImage
         ? [
-            {
-              url: ogImage,
-            },
-          ]
+          {
+            url: ogImage,
+          },
+        ]
         : undefined,
       title,
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',

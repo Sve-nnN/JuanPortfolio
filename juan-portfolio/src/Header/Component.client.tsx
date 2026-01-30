@@ -49,7 +49,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header
-      className="sticky top-0 z-50 bg-background-light/80 dark:bg-black/60 backdrop-blur-sm"
+      className="sticky top-0 z-50 bg-background/70 dark:bg-black/80 backdrop-blur-md border-b border-white/10 dark:border-white/5 transition-colors duration-300"
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -120,9 +120,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       >
         <div className="absolute inset-0 bg-black/60" onClick={() => setIsOpen(false)} />
         <div
-          className={`absolute right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 text-current dark:text-white shadow-2xl transform transition-transform duration-300 ${
-            isOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          className={`absolute right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 text-current dark:text-white shadow-2xl transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
         >
           <div className="p-6 h-full flex flex-col">
             <div className="flex items-center justify-between mb-6">

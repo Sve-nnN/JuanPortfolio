@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { animationField } from '@/fields/animation'
+
 export const PostsGrid: Block = {
   slug: 'postsGrid',
   interfaceName: 'PostsGridBlock',
@@ -17,7 +19,7 @@ export const PostsGrid: Block = {
     {
       name: 'showCategories',
       type: 'checkbox',
-      defaultValue: true,
+      defaultValue: false,
       admin: {
         description: 'Mostrar filtros de categorías',
       },
@@ -51,6 +53,7 @@ export const PostsGrid: Block = {
         description: 'Mostrar fecha de publicación',
       },
     },
+    animationField(),
   ],
   labels: {
     singular: {

@@ -104,9 +104,9 @@ export default async function AuthorPage({ params }: Props) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             {user.avatar &&
-            typeof user.avatar === 'object' &&
-            'url' in user.avatar &&
-            user.avatar.url ? (
+              typeof user.avatar === 'object' &&
+              'url' in user.avatar &&
+              user.avatar.url ? (
               <div className="w-36 h-36 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
                   src={user.avatar.url as string}
@@ -145,7 +145,7 @@ export default async function AuthorPage({ params }: Props) {
               <h3 className="text-2xl font-semibold mb-4">Posts por {user.name}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {posts.map((post) => {
-                  const categories = post.meta_extras?.categories || []
+                  const categories = post.categories || []
                   const cat =
                     Array.isArray(categories) && categories.length > 0
                       ? typeof categories[0] === 'string'

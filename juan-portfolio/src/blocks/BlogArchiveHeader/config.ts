@@ -7,7 +7,7 @@ export const BlogArchiveHeader: Block = {
     {
       name: 'title',
       type: 'text',
-      required: true,
+      // required: true, // Relaxed validation to prevent save errors
       localized: true,
       defaultValue: 'Desde mi Blog',
       admin: {
@@ -28,6 +28,27 @@ export const BlogArchiveHeader: Block = {
       defaultValue: true,
       admin: {
         description: 'Mostrar filtros de categorías',
+      },
+    },
+    {
+      name: 'heroImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Imagen de fondo (usará fallback si no se selecciona)',
+      },
+    },
+    {
+      name: 'alignment',
+      type: 'select',
+      defaultValue: 'end',
+      options: [
+        { label: 'Izquierda', value: 'start' },
+        { label: 'Centro', value: 'center' },
+        { label: 'Derecha', value: 'end' },
+      ],
+      admin: {
+        description: 'Alineación del contenido',
       },
     },
     {

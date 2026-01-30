@@ -8,9 +8,10 @@ import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { getPostUrl } from '@/utilities/getPostUrl'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 
-export type CardPostData = Pick<Post, 'slug' | 'meta' | 'title' | 'meta_extras'> & {
-  categories?: Array<{ id: string; title: string } | string>
+export type CardPostData = Pick<Post, 'slug' | 'meta' | 'title' | 'categories'> & {
+  categories?: Array<{ id: string; title: string } | string> | null
 }
 
 export const Card: React.FC<{
@@ -42,9 +43,15 @@ export const Card: React.FC<{
       )}
       ref={card.ref}
     >
-      <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+      <div className="relative w-full aspect-video overflow-hidden">
+        {!metaImage && (
+          <img
+            src={getFallbackBySlug(slug || '')}
+            alt={titleToUse || 'Post Image'}
+            className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+          />
+        )}
+        {metaImage && typeof metaImage !== 'string' && <Media className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" resource={metaImage} size="33vw" />}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (

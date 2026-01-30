@@ -100,7 +100,6 @@ export const Posts: CollectionConfig<'posts'> = {
         },
         {
           label: 'Meta',
-          name: 'meta_extras',
           fields: [
             {
               name: 'relatedPosts',
@@ -135,6 +134,38 @@ export const Posts: CollectionConfig<'posts'> = {
               hasMany: true,
               admin: {
                 description: 'Select banners to show in the right sidebar for this post.',
+              },
+            },
+          ],
+        },
+        {
+          label: 'SEO',
+          name: 'meta',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              label: 'Meta título',
+              localized: true,
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Meta descripción',
+              localized: true,
+            },
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Imagen para compartir (OpenGraph)',
+            },
+            {
+              name: 'jsonLD',
+              type: 'json',
+              label: 'Schema JSON-LD Customizado',
+              admin: {
+                description: 'Sobreescribe o añade Schema.org JSON-LD para este post.',
               },
             },
           ],

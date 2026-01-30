@@ -7,6 +7,7 @@ import RichText from '@/components/RichText'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
 import { Media } from '@/components/Media/index'
+import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 
 type Props = MediaBlockProps & {
   breakout?: boolean
@@ -27,13 +28,15 @@ export const MediaBlock: React.FC<Props> = (props) => {
     media,
     staticImage,
     disableInnerContainer,
+    animation,
   } = props
 
   let caption
   if (media && typeof media === 'object') caption = media.caption
 
   return (
-    <div
+    <AnimateOnScroll
+      config={animation}
       className={cn(
         '',
         {
@@ -62,6 +65,6 @@ export const MediaBlock: React.FC<Props> = (props) => {
           <RichText data={caption} enableGutter={false} />
         </div>
       )}
-    </div>
+    </AnimateOnScroll>
   )
 }

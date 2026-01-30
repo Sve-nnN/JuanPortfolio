@@ -64,6 +64,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {};
   collections: {
@@ -81,6 +82,7 @@ export interface Config {
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -102,6 +104,7 @@ export interface Config {
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -125,9 +128,13 @@ export interface Config {
     'case-studies-listing': CaseStudiesListingSelect<false> | CaseStudiesListingSelect<true>;
   };
   locale: 'en' | 'es';
-  user: User & {
-    collection: 'users';
-  };
+  user:
+    | (User & {
+        collection: 'users';
+      })
+    | (PayloadMcpApiKey & {
+        collection: 'payload-mcp-api-keys';
+      });
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -140,6 +147,24 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface PayloadMcpApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -171,6 +196,18 @@ export interface Page {
     title?: string | null;
     description?: string | null;
     image?: (string | null) | Media;
+    /**
+     * Sobreescribe o añade Schema.org JSON-LD para esta página.
+     */
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   hero: {
     hero: {
@@ -299,6 +336,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  imgbbUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -394,13 +432,19 @@ export interface Post {
       [k: string]: unknown;
     };
   };
-  meta_extras?: {
-    relatedPosts?: (string | Post)[] | null;
-    categories?: (string | Category)[] | null;
+  relatedPosts?: (string | Post)[] | null;
+  categories?: (string | Category)[] | null;
+  /**
+   * Select banners to show in the right sidebar for this post.
+   */
+  sidebarBanners?: (string | AdBanner)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
     /**
-     * Select banners to show in the right sidebar for this post.
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    sidebarBanners?: (string | AdBanner)[] | null;
+    image?: (string | null) | Media;
   };
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
@@ -411,14 +455,6 @@ export interface Post {
       }[]
     | null;
   slug?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -949,6 +985,25 @@ export interface PostsGridBlock {
    * Mostrar fecha de publicación
    */
   showDate?: boolean | null;
+  /**
+   * Configura cómo se animará este elemento al hacer scroll
+   */
+  animation?: {
+    enabled?: boolean | null;
+    type?: ('fade' | 'slide' | 'scale' | 'rotate' | 'bounce') | null;
+    direction?: ('up' | 'down' | 'left' | 'right' | 'none') | null;
+    duration?: number | null;
+    delay?: number | null;
+    easing?: ('ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear') | null;
+    /**
+     * Retraso entre animaciones de elementos hijos
+     */
+    staggerChildren?: number | null;
+    /**
+     * Porcentaje del elemento que debe ser visible para activar la animación
+     */
+    viewportAmount?: number | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'postsGrid';
@@ -1200,7 +1255,7 @@ export interface BlogArchiveHeaderBlock {
   /**
    * Título de la página de archivo
    */
-  title: string;
+  title?: string | null;
   /**
    * Descripción de la página
    */
@@ -1209,6 +1264,14 @@ export interface BlogArchiveHeaderBlock {
    * Mostrar filtros de categorías
    */
   showCategoryFilters?: boolean | null;
+  /**
+   * Imagen de fondo (usará fallback si no se selecciona)
+   */
+  heroImage?: (string | null) | Media;
+  /**
+   * Alineación del contenido
+   */
+  alignment?: ('start' | 'center' | 'end') | null;
   /**
    * Categorías a mostrar en los filtros (dejar vacío para mostrar todas)
    */
@@ -1366,6 +1429,25 @@ export interface CallToActionBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Configura cómo se animará este elemento al hacer scroll
+   */
+  animation?: {
+    enabled?: boolean | null;
+    type?: ('fade' | 'slide' | 'scale' | 'rotate' | 'bounce') | null;
+    direction?: ('up' | 'down' | 'left' | 'right' | 'none') | null;
+    duration?: number | null;
+    delay?: number | null;
+    easing?: ('ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear') | null;
+    /**
+     * Retraso entre animaciones de elementos hijos
+     */
+    staggerChildren?: number | null;
+    /**
+     * Porcentaje del elemento que debe ser visible para activar la animación
+     */
+    viewportAmount?: number | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
@@ -1416,6 +1498,25 @@ export interface ContentBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Configura cómo se animará este elemento al hacer scroll
+   */
+  animation?: {
+    enabled?: boolean | null;
+    type?: ('fade' | 'slide' | 'scale' | 'rotate' | 'bounce') | null;
+    direction?: ('up' | 'down' | 'left' | 'right' | 'none') | null;
+    duration?: number | null;
+    delay?: number | null;
+    easing?: ('ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear') | null;
+    /**
+     * Retraso entre animaciones de elementos hijos
+     */
+    staggerChildren?: number | null;
+    /**
+     * Porcentaje del elemento que debe ser visible para activar la animación
+     */
+    viewportAmount?: number | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
@@ -1426,6 +1527,25 @@ export interface ContentBlock {
  */
 export interface MediaBlock {
   media: string | Media;
+  /**
+   * Configura cómo se animará este elemento al hacer scroll
+   */
+  animation?: {
+    enabled?: boolean | null;
+    type?: ('fade' | 'slide' | 'scale' | 'rotate' | 'bounce') | null;
+    direction?: ('up' | 'down' | 'left' | 'right' | 'none') | null;
+    duration?: number | null;
+    delay?: number | null;
+    easing?: ('ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear') | null;
+    /**
+     * Retraso entre animaciones de elementos hijos
+     */
+    staggerChildren?: number | null;
+    /**
+     * Porcentaje del elemento que debe ser visible para activar la animación
+     */
+    viewportAmount?: number | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1814,6 +1934,210 @@ export interface Search {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys".
+ */
+export interface PayloadMcpApiKey {
+  id: string;
+  /**
+   * The user that the API key is associated with.
+   */
+  user: string | User;
+  /**
+   * A useful label for the API key.
+   */
+  label?: string | null;
+  /**
+   * The purpose of the API key.
+   */
+  description?: string | null;
+  pages?: {
+    /**
+     * Allow clients to find pages.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create pages.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update pages.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete pages.
+     */
+    delete?: boolean | null;
+  };
+  posts?: {
+    /**
+     * Allow clients to find posts.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create posts.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update posts.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete posts.
+     */
+    delete?: boolean | null;
+  };
+  media?: {
+    /**
+     * Allow clients to find media.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create media.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update media.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete media.
+     */
+    delete?: boolean | null;
+  };
+  categories?: {
+    /**
+     * Allow clients to find categories.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create categories.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update categories.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete categories.
+     */
+    delete?: boolean | null;
+  };
+  users?: {
+    /**
+     * Allow clients to find users.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create users.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update users.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete users.
+     */
+    delete?: boolean | null;
+  };
+  works?: {
+    /**
+     * Allow clients to find works.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create works.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update works.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete works.
+     */
+    delete?: boolean | null;
+  };
+  caseStudies?: {
+    /**
+     * Allow clients to find case-studies.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create case-studies.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update case-studies.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete case-studies.
+     */
+    delete?: boolean | null;
+  };
+  clients?: {
+    /**
+     * Allow clients to find clients.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create clients.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update clients.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete clients.
+     */
+    delete?: boolean | null;
+  };
+  adBanners?: {
+    /**
+     * Allow clients to find ad-banners.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create ad-banners.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update ad-banners.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete ad-banners.
+     */
+    delete?: boolean | null;
+  };
+  testimonials?: {
+    /**
+     * Allow clients to find testimonials.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create testimonials.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update testimonials.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete testimonials.
+     */
+    delete?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
@@ -1968,14 +2292,23 @@ export interface PayloadLockedDocument {
         value: string | Search;
       } | null)
     | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
+      } | null)
+    | ({
         relationTo: 'payload-jobs';
         value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -1985,10 +2318,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
+      };
   key?: string | null;
   value?:
     | {
@@ -2025,6 +2363,7 @@ export interface PagesSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   hero?:
     | T
@@ -2263,6 +2602,18 @@ export interface PostsGridBlockSelect<T extends boolean = true> {
   gridColumns?: T;
   showExcerpt?: T;
   showDate?: T;
+  animation?:
+    | T
+    | {
+        enabled?: T;
+        type?: T;
+        direction?: T;
+        duration?: T;
+        delay?: T;
+        easing?: T;
+        staggerChildren?: T;
+        viewportAmount?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2387,6 +2738,8 @@ export interface BlogArchiveHeaderBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   showCategoryFilters?: T;
+  heroImage?: T;
+  alignment?: T;
   categories?: T;
   id?: T;
   blockName?: T;
@@ -2487,6 +2840,18 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  animation?:
+    | T
+    | {
+        enabled?: T;
+        type?: T;
+        direction?: T;
+        duration?: T;
+        delay?: T;
+        easing?: T;
+        staggerChildren?: T;
+        viewportAmount?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2513,6 +2878,18 @@ export interface ContentBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  animation?:
+    | T
+    | {
+        enabled?: T;
+        type?: T;
+        direction?: T;
+        duration?: T;
+        delay?: T;
+        easing?: T;
+        staggerChildren?: T;
+        viewportAmount?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2522,6 +2899,18 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  animation?:
+    | T
+    | {
+        enabled?: T;
+        type?: T;
+        direction?: T;
+        duration?: T;
+        delay?: T;
+        easing?: T;
+        staggerChildren?: T;
+        viewportAmount?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2599,12 +2988,15 @@ export interface PostsSelect<T extends boolean = true> {
         heroImage?: T;
         content?: T;
       };
-  meta_extras?:
+  relatedPosts?: T;
+  categories?: T;
+  sidebarBanners?: T;
+  meta?:
     | T
     | {
-        relatedPosts?: T;
-        categories?: T;
-        sidebarBanners?: T;
+        title?: T;
+        description?: T;
+        image?: T;
       };
   publishedAt?: T;
   authors?: T;
@@ -2615,13 +3007,6 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   slug?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2633,6 +3018,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  imgbbUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -3131,6 +3517,100 @@ export interface SearchSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys_select".
+ */
+export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
+  user?: T;
+  label?: T;
+  description?: T;
+  pages?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  posts?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  media?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  categories?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  users?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  works?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  caseStudies?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  clients?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  adBanners?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs_select".
  */
 export interface PayloadJobsSelect<T extends boolean = true> {
@@ -3227,6 +3707,40 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  columns?:
+    | {
+        title: string;
+        navItems?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  socialLinks?:
+    | {
+        platform: 'github' | 'linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  copyright?: string | null;
   navItems?:
     | {
         link: {
@@ -3329,12 +3843,12 @@ export interface TestimonialsCarouselBlock {
  */
 export interface BlogListing {
   id: string;
-  title: string;
+  title?: string | null;
   description?: string | null;
   /**
    * Bloques personalizables para la página de blog
    */
-  layout?: (ListingHeroBlock | PostsGridBlock | LatestBlogPostsBlock)[] | null;
+  layout?: (ListingHeroBlock | PostsGridBlock | LatestBlogPostsBlock | BlogArchiveHeaderBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -3397,6 +3911,34 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  columns?:
+    | T
+    | {
+        title?: T;
+        navItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  copyright?: T;
   navItems?:
     | T
     | {
@@ -3496,6 +4038,7 @@ export interface BlogListingSelect<T extends boolean = true> {
         listingHero?: T | ListingHeroBlockSelect<T>;
         postsGrid?: T | PostsGridBlockSelect<T>;
         latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
+        blogArchiveHeader?: T | BlogArchiveHeaderBlockSelect<T>;
       };
   meta?:
     | T

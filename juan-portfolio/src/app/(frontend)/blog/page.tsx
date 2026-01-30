@@ -12,6 +12,8 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
  * If no blocks are configured, it displays a fallback message.
  * @returns {Promise<React.ReactElement>} A promise that resolves to the blog page component.
  */
+
+
 const BlogPage = async () => {
   // Get blog listing global with blocks
   const blogGlobal = await getCachedGlobal('blog-listing')().catch(() => null)

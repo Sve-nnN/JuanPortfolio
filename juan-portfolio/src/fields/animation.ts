@@ -113,7 +113,7 @@ export const animationField = (): Field => ({
         {
             name: 'viewportAmount',
             type: 'number',
-            label: 'Porcentaje de Visibilidad para Activar',
+            label: 'Fracción de Visibilidad para Activar',
             defaultValue: 0.3,
             min: 0,
             max: 1,

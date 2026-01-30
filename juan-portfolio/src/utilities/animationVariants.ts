@@ -111,11 +111,7 @@ export function getAnimationVariants(config?: AnimationConfig | null): Variants 
 
 // Viewport options based on config
 export function getViewportOptions(config?: AnimationConfig | null) {
-    if (!config?.enabled) {
-        return {}
-    }
-
-    const viewportAmount = ((config.viewportAmount ?? 20) / 100)
+    const viewportAmount = config?.viewportAmount ?? 0.3
 
     return {
         once: true, // Only animate once for better performance

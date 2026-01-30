@@ -8,6 +8,7 @@ import type { Footer as FooterType, Post, CaseStudy } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Github, Linkedin, Twitter, Instagram, Facebook, Youtube, ArrowUpRight } from 'lucide-react'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
 export async function Footer() {
   const footer: FooterType = await getCachedGlobal('footer', 1)()
@@ -17,7 +18,7 @@ export async function Footer() {
   const latestPosts = await payload.find({
     collection: 'posts',
     limit: 4,
-    depth: 0,
+    depth: 1,
     where: {
       _status: {
         equals: 'published',
@@ -130,7 +131,7 @@ export async function Footer() {
                 {latestPosts.docs.map((post) => (
                   <li key={post.id}>
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={getPostUrl(post)}
                       className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
                     >
                       <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />

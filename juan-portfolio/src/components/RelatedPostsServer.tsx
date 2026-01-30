@@ -1,8 +1,6 @@
 import React from 'react'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import RelatedPosts from '@/components/RelatedPosts'
-import type { Post } from '@/payload-types'
+import { getRelatedPosts } from '@/utilities/getRelatedPosts'
 
 interface RelatedPostsServerProps {
   currentPostId: string | number
@@ -10,19 +8,12 @@ interface RelatedPostsServerProps {
 }
 
 const RelatedPostsServer = async ({ currentPostId, categoryId }: RelatedPostsServerProps) => {
-  const payload = await getPayload({ config })
-  const postsRes = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 10,
-    sort: '-createdAt',
-    where: {
-      'meta_extras.categories': {
-        equals: categoryId,
-      },
-    },
+  const posts = await getRelatedPosts({
+    currentPostId: String(currentPostId),
+    categoryIds: [String(categoryId)],
+    limit: 3
   })
-  const posts = postsRes.docs as Post[]
+
   return <RelatedPosts currentPostId={currentPostId} categoryId={categoryId} posts={posts} />
 }
 

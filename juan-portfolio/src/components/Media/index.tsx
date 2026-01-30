@@ -17,11 +17,11 @@ export function Media(props: Props) {
     <Tag
       {...(htmlElement !== null
         ? {
-            className,
-          }
+          className,
+        }
         : {})}
     >
-      {isVideo ? <VideoMedia {...props} /> : <ImageMedia {...props} />}
+      {isVideo ? <VideoMedia {...props} /> : <ImageMedia {...props} fill={props.fill} />}
     </Tag>
   )
 }

@@ -16,6 +16,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { JsonLd } from '@/components/JsonLd'
 
 const RelatedPostsServer = dynamic(() => import('@/components/RelatedPostsServer'))
 
@@ -54,7 +55,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   // Obtener la categoría principal del post
-  const categories = post.meta_extras?.categories || []
+  const categories = post.categories || []
   const mainCategory =
     Array.isArray(categories) && categories.length > 0
       ? typeof categories[0] === 'string'
@@ -71,16 +72,43 @@ export default async function Post({ params: paramsPromise }: Args) {
   const contentNode = post?.content as unknown
   const contentData: Lexical | undefined =
     contentNode &&
-    typeof contentNode === 'object' &&
-    'content' in (contentNode as Record<string, unknown>)
+      typeof contentNode === 'object' &&
+      'content' in (contentNode as Record<string, unknown>)
       ? ((contentNode as { content?: Lexical }).content as Lexical | undefined)
       : (contentNode as Lexical | undefined)
   const hasNodes = Boolean(
     (contentData as { root?: { children?: unknown[] } } | undefined)?.root?.children?.length,
   )
 
+  // Calculate JSON-LD
+  // @ts-ignore
+  const customJsonLd = post.meta?.jsonLD
+  let schema = customJsonLd
+
+  if (!schema) {
+    const metaTitle = post.meta?.title || post.title
+    const metaDesc = post.meta?.description
+    // @ts-ignore
+    const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url
+
+    schema = {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: metaTitle,
+      description: metaDesc,
+      image: metaImage ? `${process.env.NEXT_PUBLIC_SERVER_URL}${metaImage}` : undefined,
+      datePublished: post.publishedAt,
+      dateModified: post.updatedAt,
+      author: {
+        '@type': 'Person',
+        name: 'Juan Carlos Angulo', // Fallback or fetch specific author
+      },
+    }
+  }
+
   return (
     <article className="pb-16">
+      <JsonLd schema={schema} />
       <PageClient />
 
       {/* Allows redirects for valid pages too */}

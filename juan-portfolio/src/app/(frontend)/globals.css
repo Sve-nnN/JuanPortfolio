@@ -15,30 +15,30 @@
 
   :root {
     /* Design color tokens (light theme) */
-    --color-primary: #3b82f6;
-    --color-bg: #f9fafb;
-    --color-bg-2: #ffffff;
-    --color-text: #0f172a; /* darker gray for texts */
-    --color-muted: #6b7280;
+    --color-primary: #2563eb; /* Stronger blue */
+    --color-bg: #ffffff;
+    --color-bg-2: #f8fafc;
+    --color-text: #0f172a;
+    --color-muted: #64748b;
     --color-card: #ffffff;
-    --color-border: #e6e9ee;
+    --color-border: #e2e8f0;
 
     /* keep legacy tokens (if some code refers to them) but avoid overriding main colors */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    --radius: 0.2rem;
+    --radius: 0.5rem; /* Rounder corners = more modern */
   }
 
   /* Toggle dark mode via the `dark` class on <html> (project's ThemeProvider uses this) */
   .dark {
-    /* Dark theme color tokens */
-    --color-primary: #60a5fa;
-    --color-bg: #0b1220; /* dark background */
-    --color-bg-2: #0f1724;
-    --color-text: #e6eef8; /* light text */
-    --color-muted: #94a3b8;
-    --color-card: #0f1724;
-    --color-border: #172335;
+    /* Dark theme color tokens - Premium Tech Look */
+    --color-primary: #3b82f6; /* Bright Blue */
+    --color-bg: #020617; /* Very deep slate/black */
+    --color-bg-2: #0f172a; /* Slate 900 */
+    --color-text: #f8fafc; /* Slate 50 */
+    --color-muted: #94a3b8; /* Slate 400 */
+    --color-card: #0f172a; /* Card background match bg-2 usually or slightly lighter */
+    --color-border: #1e293b; /* Slate 800 */
   }
 }
 

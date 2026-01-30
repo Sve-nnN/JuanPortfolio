@@ -28,12 +28,31 @@ const nextConfig = {
         hostname: 'lh3.googleusercontent.com',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
+
+  // Performance optimizations
   reactStrictMode: true,
+  compress: true, // Enable gzip compression
+
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['framer-motion', 'lucide-react'],
+    optimizeCss: true,
+  },
+
+  // Modularize imports to reduce bundle size
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+      preventFullImport: true,
+    },
+  },
+
   redirects,
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
-
-// Habilita configuración explícita de Turbopack
-export const turbo = {}

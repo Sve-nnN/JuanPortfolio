@@ -1,6 +1,7 @@
 import React from 'react'
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import type { RelatedPostsBlockType, Post, Category } from '@/payload-types'
+import { getRelatedPosts } from '@/utilities/getRelatedPosts'
 
 export const RelatedPostsBlockComponent: React.FC<
   RelatedPostsBlockType & { currentPostId?: string; categories?: (string | Category)[] }
@@ -11,50 +12,25 @@ export const RelatedPostsBlockComponent: React.FC<
 
   // If specific posts are selected, use them
   if (posts && Array.isArray(posts) && posts.length > 0) {
-    displayPosts = posts.filter((p) => typeof p === 'object').slice(0, limit || 3) as Post[]
+    displayPosts = posts
+      .filter((p): p is Post => typeof p === 'object')
+      .slice(0, limit || 3)
   } else if (autoSelect && categories && categories.length > 0) {
     // Auto-select posts by category
-    try {
-      const configPromise = (await import('@payload-config')).default
-      const { getPayload } = await import('payload')
-      const payload = await getPayload({ config: configPromise })
+    const categoryIds = categories
+      .map((c: string | Category) => {
+        if (typeof c === 'string') return c
+        if (c && typeof c === 'object') return c.id
+        return undefined
+      })
+      .filter(Boolean) as string[]
 
-      const categoryIds = categories
-        .map((c: string | Category) => {
-          if (typeof c === 'string') return c
-          if (c && typeof c === 'object') return c.id
-          return undefined
-        })
-        .filter(Boolean) as string[]
-
-      if (categoryIds.length > 0) {
-        const res = await payload.find({
-          collection: 'posts',
-          limit: limit || 3,
-          depth: 1,
-          sort: '-publishedAt',
-          where: {
-            and: [
-              {
-                id: {
-                  not_equals: currentPostId,
-                },
-              },
-              {
-                or: categoryIds.map((id: string) => ({
-                  categories: {
-                    contains: id,
-                  },
-                })),
-              },
-            ],
-          },
-        })
-
-        displayPosts = (res.docs as Post[]) || []
-      }
-    } catch {
-      // Ignore errors
+    if (categoryIds.length > 0) {
+      displayPosts = await getRelatedPosts({
+        currentPostId,
+        categoryIds,
+        limit: limit || 3
+      })
     }
   }
 

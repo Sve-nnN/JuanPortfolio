@@ -1,25 +1,22 @@
-/**
- * @file Defines the 404 Not Found page.
- * @author Juan Carlos Angulo <juan@jcangulo.com>
- */
 import Link from 'next/link'
 import React from 'react'
 
 import { Button } from '@/components/ui/button'
 
-/**
- * The 404 Not Found page component.
- * @returns {React.ReactElement} The 404 page component.
- */
 export default function NotFound() {
   return (
-    <div className="container py-28">
-      <div className="prose max-w-none">
-        <h1 style={{ marginBottom: 0 }}>404</h1>
-        <p className="mb-4">This page could not be found.</p>
+    <div className="container py-28 flex flex-col items-center justify-center text-center min-h-[60vh]">
+      <div className="prose max-w-none mb-8">
+        <h1 style={{ marginBottom: '1rem', fontSize: '6rem', lineHeight: 1 }}>404</h1>
+        <h2 className="text-2xl font-semibold mb-4">Página no encontrada</h2>
+        <p className="mb-8 text-muted-foreground max-w-md mx-auto">
+          Lo sentimos, la página que estás buscando no existe o ha sido movida.
+        </p>
       </div>
-      <Button asChild variant="default">
-        <Link href="/">Go home</Link>
+      <Button asChild variant="default" size="lg">
+        <Link href="/">
+          Volver al Inicio
+        </Link>
       </Button>
     </div>
   )

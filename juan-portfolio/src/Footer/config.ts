@@ -10,20 +10,78 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
+      name: 'columns',
+      type: 'array',
+      label: 'Columnas de Navegación',
+      minRows: 1,
+      maxRows: 4,
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          label: 'Título de Columna',
+        },
+        {
+          name: 'navItems',
+          type: 'array',
+          fields: [
+            link({
+              appearances: false,
+            }),
+          ],
+          admin: {
+            components: {
+              RowLabel: '@/Footer/RowLabel#RowLabel',
+            },
+          },
+        },
+      ],
+    },
+    {
+      name: 'socialLinks',
+      type: 'array',
+      label: 'Redes Sociales',
+      fields: [
+        {
+          name: 'platform',
+          type: 'select',
+          options: [
+            { label: 'GitHub', value: 'github' },
+            { label: 'LinkedIn', value: 'linkedin' },
+            { label: 'Twitter', value: 'twitter' },
+            { label: 'Instagram', value: 'instagram' },
+            { label: 'Facebook', value: 'facebook' },
+            { label: 'YouTube', value: 'youtube' },
+          ],
+          required: true,
+        },
+        {
+          name: 'url',
+          type: 'text',
+          required: true,
+          label: 'URL',
+        },
+      ],
+    },
+    {
+      name: 'copyright',
+      type: 'text',
+      label: 'Texto de Copyright',
+      defaultValue: 'Juan Carlos Angulo. Todos los derechos reservados.',
+    },
+    // Legacy support
+    {
       name: 'navItems',
       type: 'array',
+      admin: {
+        hidden: true,
+      },
       fields: [
         link({
           appearances: false,
         }),
       ],
-      maxRows: 6,
-      admin: {
-        initCollapsed: true,
-        components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
-        },
-      },
     },
   ],
   hooks: {

@@ -1,83 +1,118 @@
-'use client'
-
-import React, { useState } from 'react'
-import type { BlogArchiveHeaderBlock } from '@/payload-types'
+import React from 'react'
+import type { BlogArchiveHeaderBlock, Category } from '@/payload-types'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
+import { getCategories } from '@/utilities/getCategories'
 
-export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = (props) => {
-  const { title, description, showCategoryFilters, categories } = props
-  const [activeCategory, setActiveCategory] = useState<string>('all')
+export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props) => {
+  const { title, description, showCategoryFilters, categories: selectedCategories, alignment = 'end' } = props
 
-  // Get categories list
-  const categoriesList =
-    categories && Array.isArray(categories)
-      ? categories.map((cat) => (typeof cat === 'object' ? cat : null)).filter(Boolean)
-      : []
+  let categoriesList: Category[] = []
+
+  if (selectedCategories && Array.isArray(selectedCategories) && selectedCategories.length > 0) {
+    categoriesList = selectedCategories
+      .map((cat) => (typeof cat === 'object' ? cat : null))
+      .filter((cat): cat is Category => Boolean(cat))
+  } else {
+    // Fetch all categories if none selected
+    categoriesList = await getCategories()
+  }
+
+  // Determine background image (fallback hardcoded for now or from props if added)
+  // The config has 'heroImage' but explicit prop wasn't in original Component destructuring?
+  // Let's ensure we use the props fully.
+  // Note: The previous Component didn't use 'heroImage'. We should add it.
+  const { heroImage } = props
+  const fallbackImage = getFallbackBySlug('blog-archive')
+
+  // Resolve alignment classes
+  const alignClass =
+    alignment === 'start'
+      ? 'items-start text-left'
+      : alignment === 'center'
+        ? 'items-center text-center'
+        : 'items-end text-right'
+
+  const justifyClass =
+    alignment === 'start'
+      ? 'justify-start'
+      : alignment === 'center'
+        ? 'justify-center'
+        : 'justify-end'
 
   return (
-    <section className="py-20 md:py-28">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <div className="mb-8">
+    <section className="relative min-h-[60vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20">
+
+      {/* Background & Overlay */}
+      <div className="absolute inset-0 z-0 select-none">
+        {heroImage && typeof heroImage === 'object' && 'url' in heroImage ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={heroImage.url as string}
+            alt={heroImage.alt as string || 'Hero Background'}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={fallbackImage}
+            alt="Hero Background"
+            className="object-cover w-full h-full"
+          />
+        )}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/20 to-black/60" />
+      </div>
+
+      <div className={`container z-10 relative flex flex-col ${alignClass} text-white`}>
+        <div className={`max-w-4xl w-full flex flex-col ${alignClass} gap-6 animate-fade-in-up`}>
+
+          {/* Breadcrumb */}
           <nav
             aria-label="Breadcrumb"
-            className="text-sm font-medium text-gray-600 dark:text-gray-400"
+            className={`flex flex-wrap gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80 ${justifyClass}`}
           >
-            <ol className="list-none p-0 inline-flex">
-              <li className="flex items-center">
-                <Link className="hover:text-primary" href="/">
-                  Inicio
-                </Link>
-                <ChevronRight className="w-4 h-4 mx-2" />
-              </li>
-              <li className="flex items-center">
-                <span className="text-current">Blog</span>
-              </li>
-            </ol>
+            <Link className="hover:text-white transition-colors" href="/">
+              Inicio
+            </Link>
+            <span className="text-white/40">/</span>
+            <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20">
+              Blog
+            </span>
           </nav>
-        </div>
 
-        {/* Title and Description */}
-        <div className="text-center mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4">{title}</h1>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white drop-shadow-sm leading-tight">
+            {title}
+          </h1>
+
           {description && (
-            <p className="max-w-3xl mx-auto text-lg text-gray-700 dark:text-gray-300">
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
               {description}
             </p>
           )}
-        </div>
 
-        {/* Category Filters */}
-        {showCategoryFilters && (
-          <div className="mb-12 flex flex-wrap justify-center gap-2">
-            <button
-              onClick={() => setActiveCategory('all')}
-              className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                activeCategory === 'all'
-                  ? 'text-white bg-primary'
-                  : 'text-gray-600 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-              }`}
-            >
-              Todo
-            </button>
-            {categoriesList
-              .filter((cat) => cat !== null)
-              .map((category) => (
-                <button
+          {/* Category Filters as Links */}
+          {showCategoryFilters && (
+            <div className={`flex flex-wrap gap-2 mt-4 ${justifyClass}`}>
+              <Link
+                href="/blog"
+                className="px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border bg-primary/80 border-primary text-white"
+              >
+                Todo
+              </Link>
+              {categoriesList.map((category) => (
+                <Link
                   key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                    activeCategory === category.id
-                      ? 'text-white bg-primary'
-                      : 'text-gray-600 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                  }`}
+                  href={`/blog/${category.slug}`}
+                  className="px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border bg-white/10 border-white/20 text-white hover:bg-white/20"
                 >
                   {category.title}
-                </button>
+                </Link>
               ))}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )

@@ -37,12 +37,59 @@ export const Media: CollectionConfig = {
         },
       }),
     },
+    {
+      name: 'imgbbUrl',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+    },
   ],
+  hooks: {
+    beforeChange: [
+      async ({ data, req, operation }) => {
+        if (operation === 'create' && req.file) {
+          try {
+            const formData = new FormData()
+            // @ts-ignore
+            const fileData = req.file.data
+            // @ts-ignore
+            const fileName = req.file.name
+
+            if (fileData) {
+              const blob = new Blob([fileData as unknown as BlobPart])
+              formData.append('image', blob, fileName)
+
+              if (process.env.IMGBB_API_KEY) {
+                formData.append('key', process.env.IMGBB_API_KEY)
+
+                const res = await fetch('https://api.imgbb.com/1/upload', {
+                  method: 'POST',
+                  body: formData,
+                })
+
+                const json = await res.json()
+                if (json.success && json.data) {
+                  data.imgbbUrl = json.data.url
+                  // Optionally override the main URL if desired, 
+                  // but Payload might overwrite it with its own URL generation.
+                  // We will use imgbbUrl in the frontend.
+                }
+              }
+            }
+          } catch (error) {
+            console.error('Error uploading to ImgBB:', error)
+          }
+        }
+        return data
+      },
+    ],
+  },
   upload: {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: ({ doc }) =>
-      `https://cdn.juanes.xyz/${doc.filename as string}`,
+      (doc.imgbbUrl as string) || `https://cdn.juanes.xyz/${doc.filename as string}`,
     focalPoint: true,
     imageSizes: [
       {

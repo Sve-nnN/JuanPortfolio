@@ -32,11 +32,13 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
     <nav className="hidden md:flex items-center space-x-8">
       {navItems.map(({ link }, i) => {
         return (
-          <CMSLink
-            key={i}
-            {...link}
-            className="text-sm font-medium hover:text-primary transition-colors text-black dark:text-white"
-          />
+          <div key={i} className="relative group">
+            <CMSLink
+              {...link}
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors flex items-center gap-1"
+            />
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+          </div>
         )
       })}
     </nav>

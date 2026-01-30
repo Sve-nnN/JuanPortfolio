@@ -4,7 +4,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import type { Footer as FooterType, Post, CaseStudy } from '@/payload-types'
+import type { Footer as FooterType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Github, Linkedin, Twitter, Instagram, Facebook, Youtube, ArrowUpRight } from 'lucide-react'

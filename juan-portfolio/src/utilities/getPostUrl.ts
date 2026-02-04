@@ -6,14 +6,16 @@ import type { Category } from '@/payload-types'
 export function getPostUrl(post: {
   slug?: string | null
   id?: string
+  categories?: Array<string | Category> | null
+  // Keep meta_extras for backward compatibility if needed, but prioritize root categories
   meta_extras?: {
     categories?: Array<string | Category> | null
   }
 }): string {
   const slug = post.slug || post.id || ''
 
-  // Obtener la primera categoría
-  const categories = post.meta_extras?.categories
+  // Obtener la primera categoría (priorizando root categories)
+  const categories = post.categories || post.meta_extras?.categories
   let categorySlug = 'general' // Categoría por defecto
 
   if (categories && categories.length > 0) {
@@ -22,6 +24,9 @@ export function getPostUrl(post: {
       // Usar slug si existe, sino usar id
       categorySlug = firstCategory.slug || firstCategory.id || 'general'
     } else if (typeof firstCategory === 'string') {
+      // Si es un ID, no podemos obtener el slug sin un fetch adicional, 
+      // pero el usuario quiere el formato /blog/category/slug.
+      // Si depth > 0, debería ser un objeto.
       categorySlug = firstCategory
     }
   }

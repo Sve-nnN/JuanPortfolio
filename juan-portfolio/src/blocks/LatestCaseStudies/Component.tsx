@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
 import { Media } from '@/components/Media'
+import { ArrowRight } from 'lucide-react'
 
 export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock> = async ({
   title = 'Últimos casos de estudio',
@@ -16,14 +17,14 @@ export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock> = async ({
       collection: 'case-studies',
       limit: count || 3,
       sort: '-publishedAt',
-      depth: 1,
+      depth: 2,
     })
     cases = (res.docs as CaseStudy[]) || []
   } catch {
     cases = []
   }
 
-  if (!cases.length) return null
+  // if (!cases.length) return null
 
   // Formato de fecha
   const formatDate = (dateString: string) => {
@@ -32,43 +33,58 @@ export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock> = async ({
   }
 
   return (
-    <section className="py-20 md:py-28" id="latest-case-studies">
+    <section className="py-24 md:py-32" id="latest-case-studies">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-current">{title}</h2>
+        <div className="mb-16">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6 leading-tight">
+            {title}
+          </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cases.map((cs) => (
-            <div
-              key={cs.id}
-              className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
-            >
-              <Link href={`/case-studies/${cs.slug}`}>
-                {cs.content?.heroImage && (
-                  <div className="w-full h-48 overflow-hidden">
+
+        {cases.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {cases.map((cs) => (
+              <div key={cs.id} className="group flex flex-col h-full">
+                <Link href={`/case-studies/${cs.slug}`} className="block overflow-hidden rounded-2xl mb-6 relative aspect-[4/3] bg-muted">
+                  {cs.content?.heroImage && (
                     <Media
                       resource={cs.content.heroImage}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      className="w-full h-full object-cover transition-transform duration-700 ease-&lsqb;cubic-bezier(0.25,1,0.5,1)&rsqb; group-hover:scale-105"
                     />
-                  </div>
-                )}
-                <div className="p-6">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  )}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                </Link>
+
+                <div className="flex flex-col flex-grow">
+                  <div className="text-sm text-primary font-medium mb-3">
                     {cs.publishedAt && formatDate(cs.publishedAt)}
-                  </p>
-                  <h3 className="text-lg font-bold text-current mb-2 group-hover:text-primary transition-colors">
-                    {cs.title}
+                  </div>
+                  <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                    <Link href={`/case-studies/${cs.slug}`}>{cs.title}</Link>
                   </h3>
                   {cs.meta?.description && (
-                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+                    <p className="text-muted-foreground mb-6 line-clamp-3">
                       {cs.meta.description}
                     </p>
                   )}
+                  <div className="mt-auto">
+                    <Link href={`/case-studies/${cs.slug}`} className="inline-flex items-center text-primary font-semibold group/link">
+                      <span className="border-b-2 border-transparent group-hover/link:border-primary transition-colors pb-0.5">
+                        Leer caso
+                      </span>
+                      <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" />
+                    </Link>
+                  </div>
                 </div>
-              </Link>
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 bg-muted/30 rounded-2xl">
+            <p className="text-muted-foreground text-lg">No se encontraron casos de estudio recientes.</p>
+          </div>
+        )}
       </div>
     </section>
   )

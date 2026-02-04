@@ -32,43 +32,56 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock> = (props) => {
   const { eyebrow, title, description, ctaText, ctaLink, features } = props
 
   return (
-    <section className="py-20 md:py-28" id="about">
+    <section className="py-24 md:py-32 bg-secondary" id="about">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            {eyebrow && <span className="text-primary font-semibold">{eyebrow}</span>}
-            {title && (
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-current mt-2 mb-6">
-                {title}
-              </h2>
-            )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          <div className="space-y-8 sticky top-24">
+            <div>
+              {eyebrow && (
+                <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">
+                  {eyebrow}
+                </span>
+              )}
+              {title && (
+                <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-tight">
+                  {title}
+                </h2>
+              )}
+            </div>
+
             {description && (
-              <div className="text-muted mb-6 text-lg prose dark:prose-invert max-w-none">
+              <div className="text-muted-foreground text-lg md:text-xl leading-relaxed prose-lg">
                 <RichText data={description} enableGutter={false} />
               </div>
             )}
+
             {ctaText && ctaLink && (
               <Link
-                className="text-primary font-semibold hover:underline inline-flex items-center"
+                className="group text-primary font-semibold text-lg inline-flex items-center hover:text-primary/80 transition-colors"
                 href={ctaLink}
               >
-                <span>{ctaText}</span>
-                <ArrowRight className="w-5 h-5 ml-1" />
+                <span className="border-b-2 border-primary/20 group-hover:border-primary transition-colors pb-1">
+                  {ctaText}
+                </span>
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             )}
           </div>
-          <div className="grid grid-cols-2 grid-rows-2 gap-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {features &&
               features.map((feature, index) => {
                 const IconComponent = iconMap[feature.icon as keyof typeof iconMap] || Zap
                 return (
                   <div
                     key={index}
-                    className="p-6 bg-card rounded-lg shadow-md flex flex-col items-center text-center hover:shadow-lg transition-shadow"
+                    className="p-8 bg-card rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
                   >
-                    <IconComponent className="w-10 h-10 text-primary mb-3" />
-                    <h3 className="text-lg font-bold text-current mb-1">{feature.title}</h3>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                      <IconComponent className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">
                       {feature.description}
                     </p>
                   </div>

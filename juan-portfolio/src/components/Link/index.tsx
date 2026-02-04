@@ -77,7 +77,10 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   if (appearance === 'inline') {
     return (
       <Link
-        className={cn(className)}
+        className={cn(
+          'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm transition-colors hover:text-primary',
+          className
+        )}
         href={href}
         aria-label={derivedLabel}
         {...newTabProps}

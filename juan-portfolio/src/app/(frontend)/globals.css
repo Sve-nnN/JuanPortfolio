@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+
   h1,
   h2,
   h3,
@@ -15,30 +16,83 @@
 
   :root {
     /* Design color tokens (light theme) */
-    --color-primary: #2563eb; /* Stronger blue */
+    /* Primary: Blue 600 - Contrast 5.6:1 on white */
+    --primary: 221 83% 53%;
+    /* #2563eb */
+    --primary-foreground: 210 40% 98%;
+
+    /* Backgrounds */
+    --background: 0 0% 100%;
+    /* #ffffff */
+    --foreground: 222.2 84% 4.9%;
+    /* #0f172a */
+
+    /* Secondary: Slate 100 - Used for subtle backgrounds */
+    --secondary: 210 40% 96.1%;
+    /* #f1f5f9 */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* #0f172a */
+
+    /* Muted: Slate 600 - Darkened for AA compliance (7:1) */
+    --muted: 215 16% 47%;
+    /* #64748b is too light, using darken(#64748b, 10%) -> #475569 approx */
+    /* Actually #475569 is 215 25% 27% in HSL? No. */
+    /* Let's use specific HSL for #475569 (Slate 600) */
+    --muted: 215 25% 35%;
+    --muted-foreground: 215 25% 35%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --border: 214.3 31.8% 91.4%;
+    /* Slate 200 */
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+
+    /* Legacy/Direct mappings for existing css usage */
+    --color-primary: #2563eb;
     --color-bg: #ffffff;
     --color-bg-2: #f8fafc;
     --color-text: #0f172a;
-    --color-muted: #64748b;
+    --color-muted: #475569;
+    /* Slate 600 */
     --color-card: #ffffff;
     --color-border: #e2e8f0;
-
-    /* keep legacy tokens (if some code refers to them) but avoid overriding main colors */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --radius: 0.5rem; /* Rounder corners = more modern */
   }
 
-  /* Toggle dark mode via the `dark` class on <html> (project's ThemeProvider uses this) */
   .dark {
-    /* Dark theme color tokens - Premium Tech Look */
-    --color-primary: #3b82f6; /* Bright Blue */
-    --color-bg: #020617; /* Very deep slate/black */
-    --color-bg-2: #0f172a; /* Slate 900 */
-    --color-text: #f8fafc; /* Slate 50 */
-    --color-muted: #94a3b8; /* Slate 400 */
-    --color-card: #0f172a; /* Card background match bg-2 usually or slightly lighter */
-    --color-border: #1e293b; /* Slate 800 */
+    /* Dark theme color tokens */
+    /* Primary: Blue 500 - Contrast 8.6:1 on bg */
+    --primary: 217 91% 60%;
+    /* #3b82f6 */
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    /* Backgrounds: Slate 950 */
+    --background: 222.2 84% 4.9%;
+    /* #020617 */
+    --foreground: 210 40% 98%;
+    /* #f8fafc */
+
+    /* Secondary: Slate 800 */
+    --secondary: 217.2 32.6% 17.5%;
+    /* #1e293b */
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted: Slate 400 */
+    --muted: 215 20.2% 65.1%;
+    /* #94a3b8 */
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --card: 222.2 84% 4.9%;
+    /* Match bg */
+    --card-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    /* Slate 800 */
+    --input: 217.2 32.6% 17.5%;
+    --ring: 217 91% 60%;
   }
 }
 
@@ -52,23 +106,8 @@
   }
 
   body {
-    /* Use design tokens for background and text so components match the provided HTML */
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    /* Use Khand as the base UI font (variable set by next/font/local)
-       The variable contains a fallback font name; provide sensible fallbacks. */
-    font-family:
-      var(--font-khand),
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial;
+    @apply bg-background text-foreground min-h-screen flex flex-col;
+    font-family: var(--font-khand), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   }
 }
 
@@ -97,12 +136,12 @@ h6 {
     Roboto,
     'Helvetica Neue',
     Arial;
-  color: var(--color-text);
+  color: var(--foreground);
 }
 
 /* Utilities and helpers to match the provided HTML design */
 .gradient-text {
-  background: linear-gradient(to right, #a78bfa, var(--primary));
+  background: linear-gradient(to right, #a78bfa, hsl(var(--primary)));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -116,21 +155,25 @@ h6 {
   font-family: var(--font-khand) !important;
 }
 
-/* Color helper classes used throughout the project components */
+/* Helper classes map to new variables */
 .text-primary {
-  color: var(--color-primary);
+  color: hsl(var(--primary));
 }
+
 .text-muted {
-  color: var(--color-muted);
+  color: hsl(var(--muted));
 }
+
 .bg-page {
-  background-color: var(--color-bg);
+  background-color: hsl(var(--background));
 }
+
 .bg-card {
-  background-color: var(--color-card);
+  background-color: hsl(var(--card));
 }
+
 .border-default {
-  border-color: var(--color-border);
+  border-color: hsl(var(--border));
 }
 
 /* Hero gradient that adapts to theme colors */
@@ -153,9 +196,9 @@ h6 {
 }
 
 /* Post specific styles */
-.prose > p:first-of-type {
+.prose>p:first-of-type {
   font-size: 1.125rem;
-  color: var(--color-muted);
+  color: hsl(var(--muted));
   margin-top: 0.75rem;
   margin-bottom: 1rem;
 }
@@ -179,6 +222,7 @@ h6 {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }

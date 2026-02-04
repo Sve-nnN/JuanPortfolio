@@ -23,20 +23,30 @@ export const HighImpactHero: React.FC<Page['hero']> = (props) => {
     >
       <div className="absolute inset-0 z-0">
         {media && typeof media === 'object' && (
-          <Media className="object-cover w-full h-full" resource={media} />
+          <Media
+            className="object-cover w-full h-full opacity-60 transition-opacity duration-1000 ease-in-out"
+            resource={media}
+            priority
+          />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
       </div>
 
       <div className="container relative z-10 flex flex-col items-center justify-center pt-20">
-        <div className="max-w-[50rem] md:text-center space-y-6 animate-fade-in-up">
-          {richText && <RichText className="hero-text text-lg md:text-xl text-gray-200" data={richText} enableGutter={false} />}
+        <div className="max-w-[60rem] md:text-center space-y-8 animate-fade-in-up">
+          {richText && (
+            <RichText
+              className="hero-text text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-100 mix-blend-plus-lighter"
+              data={richText}
+              enableGutter={false}
+            />
+          )}
           {Array.isArray(links) && links.length > 0 && (
-            <ul className="flex flex-wrap md:justify-center gap-4 mt-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <ul className="flex flex-wrap md:justify-center gap-6 mt-10 animate-fade-in" style={{ animationDelay: '0.3s' }}>
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
-                    <CMSLink {...link} className="btn-primary" />
+                    <CMSLink {...link} className="btn-primary text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" />
                   </li>
                 )
               })}

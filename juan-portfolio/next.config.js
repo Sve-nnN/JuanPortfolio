@@ -21,6 +21,14 @@ const nextConfig = {
       // Common external hosts used by the project (seed images, avatars, etc.)
       {
         protocol: 'https',
+        hostname: 'juan-tech.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+      },
+      {
+        protocol: 'https',
         hostname: 'raw.githubusercontent.com',
       },
       {

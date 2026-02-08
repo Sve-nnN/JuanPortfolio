@@ -67,7 +67,7 @@ async function fetchRedirects() {
 
         // Resolve chains and detect loops
         rawRedirects.forEach((r) => {
-            let currentPath = r.source
+            const currentPath = r.source
             let currentDest = r.destination
             const visited = new Set<string>([currentPath])
             let isLoop = false

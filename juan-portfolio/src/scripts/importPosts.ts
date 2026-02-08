@@ -72,14 +72,15 @@ const convertMarkdownToLexical = (markdown: string): SerializedEditorState => {
                         mode: 0,
                         style: '',
                         version: 1
-                    })
+                    } as any)
                 }
             } else if (token.type === 'strong') {
                 // Bold
                 const children = parseInline(token.tokens)
                 children.forEach(child => {
                     if (child.type === 'text') {
-                        child.format = (child.format || 0) | 1 // IS_BOLD
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (child as any).format = ((child as any).format || 0) | 1 // IS_BOLD
                     }
                 })
                 nodes.push(...children)
@@ -88,7 +89,8 @@ const convertMarkdownToLexical = (markdown: string): SerializedEditorState => {
                 const children = parseInline(token.tokens)
                 children.forEach(child => {
                     if (child.type === 'text') {
-                        child.format = (child.format || 0) | 2 // IS_ITALIC
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (child as any).format = ((child as any).format || 0) | 2 // IS_ITALIC
                     }
                 })
                 nodes.push(...children)
@@ -102,7 +104,7 @@ const convertMarkdownToLexical = (markdown: string): SerializedEditorState => {
                     mode: 0,
                     style: '',
                     version: 1
-                })
+                } as any)
             } else if (token.type === 'link') {
                 // Link
                 nodes.push({
@@ -135,7 +137,7 @@ const convertMarkdownToLexical = (markdown: string): SerializedEditorState => {
                 version: 1,
                 children: parseInline((token as any).tokens || []),
                 direction: 'ltr'
-            })
+            } as any)
         } else if (token.type === 'paragraph') {
             // Paragraphs have 'tokens'
             rootChildren.push({
@@ -145,7 +147,7 @@ const convertMarkdownToLexical = (markdown: string): SerializedEditorState => {
                 version: 1,
                 children: parseInline((token as any).tokens || []),
                 direction: 'ltr'
-            })
+            } as any)
         } else if (token.type === 'list') {
             const listNode = {
                 type: 'list',
@@ -484,7 +486,7 @@ class PostImporter {
         }
     }
 
-    private async resolveAuthors(authors?: string[]): Promise<string[]> {
+    private async resolveAuthors(_authors?: string[]): Promise<string[]> {
         // If authors provided, try to find them. 
         // For now, if no authors or invalid, stick to ANY existing user (e.g. the first one)
         // just to satisfy the field if needed, or leave empty if strict.
@@ -499,7 +501,7 @@ class PostImporter {
             if (allUsers.docs.length > 0) {
                 return [allUsers.docs[0].id]
             }
-        } catch (e) {
+        } catch (_e) {
             console.warn('Could not resolve any users for authors.')
         }
         return []

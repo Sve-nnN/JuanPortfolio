@@ -1,6 +1,5 @@
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import type { FeaturedWorksBlock, CaseStudy } from '@/payload-types'
 import { Media } from '@/components/Media'
 

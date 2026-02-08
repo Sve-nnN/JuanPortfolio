@@ -58,7 +58,7 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL,
     // Add custom jsonLD field to all SEO tabs
-    // @ts-expect-error
+    // @ts-expect-error - payload-plugin-seo types might vary
     fields: [
       {
         name: 'jsonLD',

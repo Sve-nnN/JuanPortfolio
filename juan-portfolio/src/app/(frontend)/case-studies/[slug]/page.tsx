@@ -83,16 +83,16 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   // Calculate JSON-LD
-  // @ts-expect-error
+  // @ts-expect-error - URLSearchParams type mismatch
   const customJsonLd = post.meta?.jsonLD || post.meta_group?.jsonLD
   let schema = customJsonLd
 
   if (!schema) {
-    // @ts-expect-error
+    // @ts-expect-error - URLSearchParams type mismatch
     const metaTitle = post.meta?.title || post.meta_group?.title || post.title
-    // @ts-expect-error
+    // @ts-expect-error - URLSearchParams type mismatch
     const metaDesc = post.meta?.description || post.meta_group?.description
-    // @ts-expect-error
+    // @ts-expect-error - URLSearchParams type mismatch
     const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url || post.meta_group?.image?.url
 
     schema = {

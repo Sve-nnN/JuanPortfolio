@@ -150,6 +150,7 @@ export const PostHero: React.FC<{
       {/* Background Image & Overlay */}
       <div className="absolute inset-0 z-0 select-none">
         {!heroImage && (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={getFallbackBySlug(post.slug ?? '')}
             alt="Hero Background"

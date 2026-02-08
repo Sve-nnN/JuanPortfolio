@@ -5,13 +5,15 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 
-export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts?: Post[] }> = async (props) => {
+// Define PostsGridProps type based on used props
+type PostsGridProps = PostsGridBlock & { page?: number; overridePosts?: Post[] }
+
+export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
   const {
     postsPerPage = 12,
     showCategories = true,
     gridColumns = '3',
-    showExcerpt = true,
-    showDate = true,
+
     page = 1,
     animation,
   } = props

@@ -107,16 +107,16 @@ export default async function Page({ params: paramsPromise }: Args) {
   const layout = content?.layout || []
 
   // Calculate JSON-LD
-  // @ts-expect-error
+  // @ts-expect-error - URLSearchParams type mismatch in Next.js types
   const customJsonLd = page.meta?.jsonLD || page.meta_group?.jsonLD
   let schema = customJsonLd
 
   if (!schema) {
-    // @ts-expect-error
+    // @ts-expect-error - URLSearchParams type mismatch
     const metaTitle = page.meta?.title || page.meta_group?.title || page.title
-    // @ts-expect-error
+    // @ts-expect-error - URLSearchParams type mismatch
     const metaDesc = page.meta?.description || page.meta_group?.description
-    // @ts-expect-error
+    // @ts-expect-error - URLSearchParams type mismatch
     const metaImage = page.meta?.image?.url || page.meta?.image?.sizes?.og?.url || page.meta_group?.image?.url
 
     schema = {

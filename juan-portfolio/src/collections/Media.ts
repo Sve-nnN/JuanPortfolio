@@ -51,9 +51,9 @@ export const Media: CollectionConfig = {
         if (operation === 'create' && req.file) {
           try {
             const formData = new FormData()
-            // @ts-ignore
+
             const fileData = req.file.data
-            // @ts-ignore
+
             const fileName = req.file.name
 
             if (fileData) {

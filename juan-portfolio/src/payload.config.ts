@@ -22,6 +22,7 @@ import CaseStudies from './collections/CaseStudies'
 import Clients from './collections/Clients'
 import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanner'
 import Testimonials from './collections/Testimonials'
+import { KeywordMetrics } from './collections/KeywordMetrics'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
@@ -104,6 +105,7 @@ export default buildConfig({
     Clients,
     AdBannersCollection,
     Testimonials,
+    KeywordMetrics,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing],

@@ -138,6 +138,133 @@ metaDescription: A comprehensive guide to building scalable systems.
 Content goes here...
 ```
 
+## SEO Metrics Script
+
+### Overview
+
+The `update-seo-metrics.ts` script fetches SEO data from various providers and updates the `content/keywords.md` file with comprehensive keyword intelligence, including volume, difficulty, and advanced SERP features analysis.
+
+### Features
+
+The script captures the following data points:
+
+| Field | Description | Use Case |
+|-------|-------------|----------|
+| **Volume** | Estimated monthly search volume | Prioritize high-traffic opportunities |
+| **Difficulty** | Keyword difficulty score (0-100) | Assess competition level |
+| **Related Searches** | Up to 8 related query suggestions | Discover long-tail keywords and content clusters |
+| **PAA Count** | Number of "People Also Ask" questions | Identify featured snippet opportunities |
+| **Top Domain** | Domain ranking first for the keyword | Competitive analysis and authority benchmarking |
+| **Has AI Overview** | Presence of AI-generated summaries | Adjust content strategy for AI-influenced SERPs |
+| **SERP Features** | Active features (videos, knowledge graph, shopping, etc.) | Determine optimal content formats |
+
+### Usage
+
+```bash
+# Auto-detect best available source
+npx tsx src/scripts/update-seo-metrics.ts
+
+# Force specific source
+npx tsx src/scripts/update-seo-metrics.ts --source=google-ads
+npx tsx src/scripts/update-seo-metrics.ts --source=serpapi
+npx tsx src/scripts/update-seo-metrics.ts --source=dataforseo
+npx tsx src/scripts/update-seo-metrics.ts --source=mock
+```
+
+### Supported Data Providers
+
+#### 1. Google Ads API (`google-ads`)
+
+- **Status**: Production-ready.
+- **Requires**: `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_ADS_CLIENT_ID`, `GOOGLE_ADS_CLIENT_SECRET`, `GOOGLE_ADS_REFRESH_TOKEN`, `GOOGLE_ADS_CUSTOMER_ID`.
+- **Notes**: Uses v18 API. Provides accurate volume and difficulty data. Limited SERP features.
+
+#### 2. SerpApi (`serpapi`)
+
+- **Status**: Production-ready with enhanced SERP features.
+- **Requires**: `SERPAPI_API_KEY`.
+- **Features**: Full support for all SERP features including Related Searches, PAA, Top Domain, AI Overview, and active SERP features.
+- **Notes**: Recommended for comprehensive competitive intelligence.
+
+#### 3. DataForSEO (`dataforseo`)
+
+- **Status**: Implemented (Sandbox & Live).
+- **Requires**: `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`.
+- **Config**: Set `DATAFORSEO_SANDBOX=true` to use the free sandbox endpoint.
+- **Notes**: Limited SERP features support.
+
+#### 4. Mock (`mock`)
+
+- **Status**: Development only.
+- **Requires**: None. Generates fake data for testing.
+
+### SERP Features Extraction
+
+When using SerpApi, the script automatically extracts:
+
+**Related Searches:**
+- Maximum 8 related query suggestions
+- Sourced from `related_searches[]` API response
+- Format: Semicolon-separated list in markdown
+
+**PAA Count:**
+- Counts number of "People Also Ask" questions
+- Sourced from `people_also_ask.length`
+- Higher count indicates featured snippet opportunities
+
+**Top Domain:**
+- Extracts hostname from first organic result
+- Sourced from `organic_results[0].link`
+- Useful for competitive analysis
+
+**AI Overview:**
+- Boolean detection of AI-generated summaries
+- Sourced from `ai_overview` presence
+- Indicates need for unique, authoritative content
+
+**SERP Features:**
+- Detects: videos, knowledge_graph, featured_snippet, shopping, local_pack, top_stories
+- Informs content format strategy (video, structured data, etc.)
+
+### Output Format
+
+The script updates `content/keywords.md` with a 13-column markdown table:
+
+```markdown
+| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features |
+```
+
+**Example row:**
+```markdown
+| technical seo for developers | /tech-seo/guide | 20400000 | 0 |  |  | 2026-02-08 | SerpApi | Technical seo checklist; Off-page SEO; Technical SEO techniques | 0 | developers.google.com | Yes | videos |
+```
+
+### Caching & Smart Updates
+
+- **Database Caching**: Results cached in Payload CMS `keyword-metrics` collection for 24 hours.
+- **Smart Updates**: Keywords updated today are skipped automatically to minimize API costs.
+- **Source Tracking**: Each row tracks data provider for transparency.
+
+### Strategic Use Cases
+
+**High PAA Count (>3)**
+- Create comprehensive FAQ sections targeting these questions
+- Optimize for featured snippet eligibility (position zero)
+
+**AI Overview Present**
+- Focus content on unique insights and original data
+- Differentiate from AI-generated summaries
+
+**Video SERP Feature Detected**
+- Prioritize video content creation for the keyword
+- Optimize for video carousel placement
+
+**Related Searches Analysis**
+- Build content clusters around suggested topics
+- Discover long-tail keyword opportunities
+
+---
+
 ## Documentation
 
 -   [Payload CMS Documentation](https://payloadcms.com/docs)

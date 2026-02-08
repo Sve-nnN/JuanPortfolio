@@ -78,6 +78,7 @@ export interface Config {
     clients: Client;
     'ad-banners': AdBanner;
     testimonials: Testimonial;
+    'keyword-metrics': KeywordMetric;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -100,6 +101,7 @@ export interface Config {
     clients: ClientsSelect<false> | ClientsSelect<true>;
     'ad-banners': AdBannersSelect<false> | AdBannersSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    'keyword-metrics': KeywordMetricsSelect<false> | KeywordMetricsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1832,6 +1834,19 @@ export interface Testimonial {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "keyword-metrics".
+ */
+export interface KeywordMetric {
+  id: string;
+  keyword: string;
+  volume: number;
+  difficulty: number;
+  source: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -2246,6 +2261,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonials';
         value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'keyword-metrics';
+        value: string | KeywordMetric;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -3277,6 +3296,18 @@ export interface TestimonialsSelect<T extends boolean = true> {
   testimonial?: T;
   avatar?: T;
   rating?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "keyword-metrics_select".
+ */
+export interface KeywordMetricsSelect<T extends boolean = true> {
+  keyword?: T;
+  volume?: T;
+  difficulty?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }

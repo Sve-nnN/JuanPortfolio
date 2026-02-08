@@ -265,6 +265,68 @@ The script updates `content/keywords.md` with a 13-column markdown table:
 
 ---
 
+## Internal Linking System
+
+### Overview
+
+The `build-internal-links.ts` script automates the generation of internal links between blog posts and identifies content gaps based on keyword analysis. It is located at `src/scripts/build-internal-links.ts`.
+
+### Core Capabilities
+
+#### 1. Automated Linking Engine
+The script identifies keyword mentions within post content and injects markdown links to the most relevant target posts.
+- **Relevance Scoring**: Prioritizes links based on keyword match type, cross-category diversity, and proximity to related terms.
+- **Context Awareness**: Automatically excludes headings, code blocks, frontmatter, and existing links to prevent broken markdown or over-optimization.
+- **Case Preservation**: Maintains the original capitalization of keywords when converting them to links.
+
+#### 2. Semantic Variation Generation
+The system generates variations for each keyword to increase matching coverage:
+- **Pluralization**: Handles singular and plural forms (e.g., "metric" and "metrics").
+- **Case Sensitivity**: Generates lowercase, uppercase, and title-case variations.
+- **Hyphenation**: Reconciles differences between hyphenated and spaced keywords (e.g., "next-js" and "next js").
+
+#### 3. Content Gap Analysis
+The script identifies keywords referenced in existing content that do not have dedicated posts.
+- **Detection**: Flags keywords mentioned multiple times across the codebase that lack a corresponding target URL in the existing collection.
+- **Recommendations**: Automatically appends content opportunities to `content/keywords.md` with the source attribute set to "Internal Linking Script".
+- **Mention Tracking**: Records how many times and in which posts a potential keyword was found.
+
+### Usage
+
+```bash
+# Preview proposed changes and gap analysis
+npx tsx src/scripts/build-internal-links.ts --dry-run --verbose
+
+# Apply links to all posts and record recommendations
+npx tsx src/scripts/build-internal-links.ts
+
+# Process a specific category with custom link limits
+npx tsx src/scripts/build-internal-links.ts --category tech-seo --max-links 5
+```
+
+### CLI Configuration
+
+| Option | Description | Default |
+| :--- | :--- | :--- |
+| `--dry-run` | Preview matches and recommendations without modifying files. | `false` |
+| `--category <name>` | Limit processing to a specific post category. | `All` |
+| `--max-links <n>` | Set the maximum number of links allowed per keyword per post. | `3` |
+| `--verbose` | Output detailed matching logic and skipping reasons. | `false` |
+
+### Content Gap Recommendations
+
+When content gaps are identified, the script appends them to the `keywords.md` table using the following format:
+
+| Keyword | Target URL | ... | Status | Last Updated | Related Searches | Source |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| example keyword | /category/example | ... | recommended | [Today's Date] | Mentioned in: Post A, Post B | Internal Linking Script |
+
+- **Status**: Set to "recommended" for new opportunities.
+- **Source**: Explicitly attributed to "Internal Linking Script" for transparency in content planning.
+- **Threshold**: Only recommends keywords mentioned in at least 3 separate contexts.
+
+---
+
 ## Documentation
 
 -   [Payload CMS Documentation](https://payloadcms.com/docs)

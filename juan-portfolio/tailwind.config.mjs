@@ -52,6 +52,7 @@ const config = {
         'fade-in': 'fade-in 0.5s ease-out',
         'fade-in-up': 'fade-in-up 0.5s ease-out',
         'slide-up': 'slide-up 0.5s ease-out',
+        'pulse-slow': 'pulse-slow 8s ease-in-out infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -125,6 +126,10 @@ const config = {
         'slide-up': {
           '0%': { transform: 'translateY(100%)' },
           '100%': { transform: 'translateY(0)' },
+        },
+        'pulse-slow': {
+          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+          '50%': { opacity: '0.8', transform: 'scale(1.1)' },
         },
       },
       typography: () => ({

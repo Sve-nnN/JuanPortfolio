@@ -97,9 +97,60 @@ export default function RichText(props: Props) {
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-lg dark:prose-invert prose-headings:font-normal prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl':
-            enableProse,
         },
+        enableProse && [
+          // Base prose styles
+          'prose prose-lg dark:prose-invert',
+          'max-w-none',
+          // Headings - scroll offset and improved hierarchy
+          'prose-headings:scroll-mt-24', // Offset for sticky header when navigating via TOC
+          'prose-headings:font-semibold',
+          'prose-headings:tracking-tight',
+          'prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4',
+          'prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3',
+          'prose-h4:text-xl prose-h4:mt-6 prose-h4:mb-2',
+          // Links - enhanced treatment
+          'prose-a:text-primary',
+          'prose-a:no-underline',
+          'prose-a:font-medium',
+          'hover:prose-a:underline',
+          'prose-a:decoration-primary/30',
+          'prose-a:underline-offset-4',
+          'prose-a:transition-all',
+          // Paragraphs - improved readability
+          'prose-p:leading-relaxed',
+          'prose-p:text-foreground/90',
+          // Code blocks
+          'prose-code:text-sm',
+          'prose-code:font-mono',
+          'prose-code:bg-muted',
+          'prose-code:px-1.5',
+          'prose-code:py-0.5',
+          'prose-code:rounded',
+          'prose-code:before:content-none',
+          'prose-code:after:content-none',
+          'prose-pre:bg-slate-900',
+          'dark:prose-pre:bg-slate-950',
+          'prose-pre:border',
+          'prose-pre:border-border',
+          // Images - polished presentation
+          'prose-img:rounded-xl',
+          'prose-img:shadow-lg',
+          'prose-img:my-8',
+          // Lists - better spacing
+          'prose-li:my-1.5',
+          'prose-ul:my-6',
+          'prose-ol:my-6',
+          // Blockquotes - enhanced style
+          'prose-blockquote:border-l-4',
+          'prose-blockquote:border-l-primary',
+          'prose-blockquote:italic',
+          'prose-blockquote:text-muted-foreground',
+          'prose-blockquote:pl-6',
+          // Strong text
+          'prose-strong:text-foreground',
+          'prose-strong:font-semibold',
+        ],
         className,
       )}
       {...rest}

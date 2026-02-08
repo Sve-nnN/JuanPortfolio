@@ -237,10 +237,16 @@ export async function Footer() {
                 Términos
               </Link>
               <Link
-                href="/sitemap.xml"
+                href="/sitemap"
                 className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
               >
                 Sitemap
+              </Link>
+              <Link
+                href="/sitemap.xml"
+                className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
+              >
+                Sitemap XML
               </Link>
             </div>
           </div>

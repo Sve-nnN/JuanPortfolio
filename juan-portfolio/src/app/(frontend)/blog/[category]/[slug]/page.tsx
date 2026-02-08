@@ -102,10 +102,27 @@ export default async function PostPage({
           href: `/blog/${category}`
         }}
       />
-      <div className="pt-8 container">
-        {headings && headings.length > 0 && <TableOfContents headings={headings} />}
-        <div className="prose prose-lg dark:prose-invert max-w-none">
-          {post.content?.content && <RichText data={post.content.content} enableGutter={false} />}
+      {/* Mobile/Tablet TOC - Collapsible */}
+      <div className="container pt-8 lg:hidden">
+        <TableOfContents headings={headings} variant="mobile" />
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="pt-8 lg:pt-12 container">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 lg:gap-12 items-start">
+          {/* Main Article Content */}
+          <article className="prose prose-lg dark:prose-invert max-w-none min-w-0">
+            {post.content?.content && <RichText data={post.content.content} enableGutter={false} />}
+          </article>
+
+          {/* Sticky TOC Sidebar (Desktop Only) */}
+          {headings && headings.length > 0 && (
+            <aside className="hidden lg:block">
+              <div className="sticky top-24">
+                <TableOfContents headings={headings} variant="desktop" />
+              </div>
+            </aside>
+          )}
         </div>
       </div>
     </article>

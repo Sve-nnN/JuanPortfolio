@@ -229,5 +229,5 @@ h6 {
 }
 
 .animate-marquee-infinite {
-  animation: marquee-infinite 30s linear infinite;
+  animation: marquee-infinite 60s linear infinite;
 }

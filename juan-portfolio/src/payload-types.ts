@@ -189,26 +189,6 @@ export interface PayloadMcpApiKeyAuthOperations {
 export interface Page {
   id: string;
   title: string;
-  /**
-   * Campos para SEO: título, descripción e imagen para compartir en redes sociales.
-   */
-  meta_group?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-    /**
-     * Sobreescribe o añade Schema.org JSON-LD para esta página.
-     */
-    jsonLD?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
   hero: {
     hero: {
       type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -316,6 +296,58 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  content: {
+    heroImage?: (string | null) | Media;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  relatedPosts?: (string | Post)[] | null;
+  categories?: (string | Category)[] | null;
+  /**
+   * Select banners to show in the right sidebar for this post.
+   */
+  sidebarBanners?: (string | AdBanner)[] | null;
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -406,58 +438,6 @@ export interface Media {
       filename?: string | null;
     };
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string;
-  title: string;
-  content: {
-    heroImage?: (string | null) | Media;
-    content: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-  };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
-  /**
-   * Select banners to show in the right sidebar for this post.
-   */
-  sidebarBanners?: (string | AdBanner)[] | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -615,14 +595,6 @@ export interface User {
 export interface CaseStudy {
   id: string;
   title: string;
-  /**
-   * Campos para SEO: título, descripción e imagen para compartir en redes sociales.
-   */
-  meta_group?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-  };
   content: {
     heroImage?: (string | null) | Media;
     content: {
@@ -2357,14 +2329,6 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  meta_group?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-        jsonLD?: T;
-      };
   hero?:
     | T
     | {
@@ -2991,13 +2955,6 @@ export interface PostsSelect<T extends boolean = true> {
   relatedPosts?: T;
   categories?: T;
   sidebarBanners?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -3007,6 +2964,13 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3259,13 +3223,6 @@ export interface WorksSelect<T extends boolean = true> {
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
-  meta_group?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   content?:
     | T
     | {
@@ -4129,14 +4086,14 @@ export interface BannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CodeBlock".
+ * via the `definition` "CodeBlockProps".
  */
-export interface CodeBlock {
+export interface CodeBlockProps {
   language?: ('typescript' | 'javascript' | 'css') | null;
   code: string;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'code';
+  blockType: 'code-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

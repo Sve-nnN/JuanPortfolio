@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { RichText } from '../../../src/components/RichText'
+import RichText from '../../../src/components/RichText'
 
 describe('RichText component', () => {
   it('renders basic text content', () => {
@@ -32,7 +32,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     expect(container.textContent).toContain('Hello, world!')
@@ -68,7 +68,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     const heading = container.querySelector('h2')
@@ -127,7 +127,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     const link = container.querySelector('a')
@@ -187,7 +187,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     const link = container.querySelector('a')
@@ -243,7 +243,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     const link = container.querySelector('a')
@@ -294,7 +294,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     const link = container.querySelector('a')
@@ -350,7 +350,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     expect(container.querySelector('strong')).toBeTruthy()
@@ -418,7 +418,7 @@ describe('RichText component', () => {
         indent: 0,
         direction: null,
       },
-    }
+    } as any
 
     const { container } = render(<RichText data={richText} enableGutter={false} />)
     const list = container.querySelector('ul')

@@ -1,9 +1,41 @@
 import React from 'react'
-import type { FeaturedClientsBlock } from '@/payload-types'
+import type { FeaturedClientsBlock, Client } from '@/payload-types'
 import ClientsMarquee from '@/components/home/ClientsMarquee'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
-export const FeaturedClients: React.FC<FeaturedClientsBlock> = (props) => {
-  const { title } = props
+export const FeaturedClients: React.FC<FeaturedClientsBlock> = async (props) => {
+  const { title, clients: selectedClients } = props
+
+  let clients: Client[] = []
+
+  if (selectedClients && selectedClients.length > 0) {
+    // We already have the IDs or the objects depending on depth
+    // In this template usually relationship fields are just IDs unless depth is set.
+    // However, blocks often come with populated data if called through the right utility.
+    // Let's ensure we have full objects.
+    const payload = await getPayload({ config: configPromise })
+    const fetchedClients = await payload.find({
+      collection: 'clients',
+      where: {
+        id: {
+          in: selectedClients.map((c) => (typeof c === 'string' ? c : c.id)),
+        },
+      },
+      sort: 'order',
+    })
+    clients = fetchedClients.docs
+  } else {
+    // Fallback: fetch all if none selected
+    const payload = await getPayload({ config: configPromise })
+    const fetchedClients = await payload.find({
+      collection: 'clients',
+      limit: 50,
+      pagination: false,
+      sort: 'order',
+    })
+    clients = fetchedClients.docs
+  }
 
   return (
     <section className="py-20 md:py-32 bg-secondary/10 border-y border-border/50">
@@ -13,13 +45,14 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock> = (props) => {
             <span className="text-primary font-bold tracking-wider uppercase text-xs mb-3 block">
               Trusted By
             </span>
-            <h2 className="text-2xl md:text-3xl font-display font-semibold text-foreground opacity-90">
+            <h2 className="text-3xl md:text-4xl font-display font-semibold text-foreground opacity-90">
               {title}
             </h2>
           </div>
         )}
-        <ClientsMarquee />
+        <ClientsMarquee clients={clients} />
       </div>
     </section>
   )
 }
+

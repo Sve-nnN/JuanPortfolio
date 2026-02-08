@@ -107,15 +107,17 @@ export default async function Page({ params: paramsPromise }: Args) {
   const layout = content?.layout || []
 
   // Calculate JSON-LD
-  // @ts-ignore
-  const customJsonLd = page.meta_group?.jsonLD
+  // @ts-expect-error
+  const customJsonLd = page.meta?.jsonLD || page.meta_group?.jsonLD
   let schema = customJsonLd
 
   if (!schema) {
-    const metaTitle = page.meta_group?.title || page.title
-    const metaDesc = page.meta_group?.description
-    // @ts-ignore
-    const metaImage = page.meta_group?.image?.url || page.meta_group?.image?.sizes?.og?.url
+    // @ts-expect-error
+    const metaTitle = page.meta?.title || page.meta_group?.title || page.title
+    // @ts-expect-error
+    const metaDesc = page.meta?.description || page.meta_group?.description
+    // @ts-expect-error
+    const metaImage = page.meta?.image?.url || page.meta?.image?.sizes?.og?.url || page.meta_group?.image?.url
 
     schema = {
       '@context': 'https://schema.org',

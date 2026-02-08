@@ -8,7 +8,7 @@ describe('AnimateOnScroll', () => {
     let mockIntersectionObserver: any
 
     beforeEach(() => {
-        mockIntersectionObserver = vi.fn(function (callback: IntersectionObserverCallback) {
+        mockIntersectionObserver = vi.fn(function (this: any, callback: IntersectionObserverCallback) {
             this.observe = vi.fn()
             this.unobserve = vi.fn()
             this.disconnect = vi.fn()
@@ -27,7 +27,7 @@ describe('AnimateOnScroll', () => {
     describe('Disabled state', () => {
         it('should render plain div when config is null', () => {
             render(
-                <AnimateOnScroll config={null}>
+                <AnimateOnScroll config={undefined}>
                     <div data-testid="child">Test Content</div>
                 </AnimateOnScroll>,
             )

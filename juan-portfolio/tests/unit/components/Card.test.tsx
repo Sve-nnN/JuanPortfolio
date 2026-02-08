@@ -8,13 +8,10 @@ vi.mock('next/navigation', () => ({
 }))
 
 describe('Card component', () => {
-  const mockDoc: CardPostData = {
+  const mockDoc: any = {
     slug: 'test-post',
     title: 'Test Post',
-    categories: [{ id: 'tech', title: 'Category 1' }],
-    meta_extras: {
-      categories: [{ id: 'tech', slug: 'tech', title: 'Tech', updatedAt: '', createdAt: '' }],
-    },
+    categories: [{ id: 'tech', title: 'Category 1', slug: 'tech' }],
     meta: {
       description: 'This is a test post.',
       image: {
@@ -22,6 +19,8 @@ describe('Card component', () => {
         filename: 'test.jpg',
         alt: 'Test Image',
         url: '/test.jpg',
+        width: 1000,
+        height: 800,
         updatedAt: '',
         createdAt: '',
       },
@@ -41,11 +40,6 @@ describe('Card component', () => {
     const minimalDoc: CardPostData = {
       slug: 'minimal-post',
       title: 'Minimal Post',
-      meta_extras: {
-        categories: [
-          { id: 'general', slug: 'general', title: 'General', updatedAt: '', createdAt: '' },
-        ],
-      },
     }
     render(<Card doc={minimalDoc} relationTo="posts" />)
     screen.debug()

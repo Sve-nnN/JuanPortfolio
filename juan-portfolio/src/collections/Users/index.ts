@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
 import { slugField } from '@/fields/slug'
 import { seoFields } from '@/plugins/seo/fields/seoFields'
 
@@ -65,14 +64,17 @@ const ensureUniqueSlug: CollectionBeforeChangeHook = async ({
   return { ...data, slug: desired }
 }
 
+import { admins, adminsField } from '../../access/admins'
+import { adminsAndUser } from '../../access/adminsAndUser'
+
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    admin: admins,
+    create: admins,
+    delete: admins,
+    read: adminsAndUser,
+    update: adminsAndUser,
   },
   admin: {
     defaultColumns: ['name', 'email'],
@@ -87,7 +89,17 @@ export const Users: CollectionConfig = {
           label: 'Perfil',
           fields: [
             { name: 'name', type: 'text', required: true },
-            { name: 'role', type: 'text', label: 'Cargo / Role' },
+
+            {
+              name: 'role',
+              type: 'text',
+              access: {
+                create: adminsField,
+                read: adminsField,
+                update: adminsField,
+              },
+              label: 'Cargo / Role',
+            },
             { name: 'bio', type: 'textarea', localized: true, label: { en: 'Bio', es: 'Biografía' } },
             {
               name: 'experience',

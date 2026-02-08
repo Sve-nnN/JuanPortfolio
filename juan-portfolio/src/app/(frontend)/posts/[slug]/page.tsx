@@ -81,15 +81,17 @@ export default async function Post({ params: paramsPromise }: Args) {
   )
 
   // Calculate JSON-LD
-  // @ts-ignore
-  const customJsonLd = post.meta?.jsonLD
+  // @ts-expect-error
+  const customJsonLd = post.meta?.jsonLD || post.meta_group?.jsonLD
   let schema = customJsonLd
 
   if (!schema) {
-    const metaTitle = post.meta?.title || post.title
-    const metaDesc = post.meta?.description
-    // @ts-ignore
-    const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url
+    // @ts-expect-error
+    const metaTitle = post.meta?.title || post.meta_group?.title || post.title
+    // @ts-expect-error
+    const metaDesc = post.meta?.description || post.meta_group?.description
+    // @ts-expect-error
+    const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url || post.meta_group?.image?.url
 
     schema = {
       '@context': 'https://schema.org',

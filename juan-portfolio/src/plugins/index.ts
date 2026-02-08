@@ -57,7 +57,18 @@ export const plugins: Plugin[] = [
     uploadsCollection: 'media',
     generateTitle,
     generateURL,
-    // Render SEO in its own Admin tab (if supported by esta version del plugin)
+    // Add custom jsonLD field to all SEO tabs
+    // @ts-expect-error
+    fields: [
+      {
+        name: 'jsonLD',
+        type: 'json',
+        label: 'Schema JSON-LD Customizado',
+        admin: {
+          description: 'Sobreescribe o añade Schema.org JSON-LD para esta página.',
+        },
+      },
+    ],
     tabbedUI: true,
   }),
   formBuilderPlugin({

@@ -2,9 +2,10 @@ import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
-import type { HeroHomeBlock } from '@/payload-types'
+import type { HeroHomeBlock as HeroHomeBlockType } from '@/payload-types'
+export type { HeroHomeBlockType as HeroHomeBlock }
 
-export const HeroHome: React.FC<HeroHomeBlock> = (props) => {
+export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
   const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media } = props
 
   return (

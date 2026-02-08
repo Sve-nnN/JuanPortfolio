@@ -1,4 +1,3 @@
-import { getGlobalStyles } from '@/utilities/getGlobalStyles'
 import { getPayload } from 'payload'
 import { vi, expect, describe, it, beforeEach, afterEach } from 'vitest'
 
@@ -22,7 +21,7 @@ const mockFindGlobal = vi.fn().mockResolvedValue({
 })
 
 vi.mock('payload', async (importOriginal) => {
-  const actual = await importOriginal()
+  const actual = await importOriginal() as any
   return {
     ...actual,
     getPayload: vi.fn(() => ({
@@ -32,9 +31,14 @@ vi.mock('payload', async (importOriginal) => {
 })
 
 describe('getGlobalStyles', () => {
-  beforeEach(() => {
+  let getGlobalStyles: typeof import('@/utilities/getGlobalStyles').getGlobalStyles
+
+  beforeEach(async () => {
+    vi.resetModules()
     mockFindGlobal.mockClear()
     vi.useFakeTimers()
+    const mod = await import('@/utilities/getGlobalStyles')
+    getGlobalStyles = mod.getGlobalStyles
   })
 
   afterEach(() => {

@@ -21,6 +21,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import TOCClient from '@/components/TableOfContents/client'
 import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { JsonLd } from '@/components/JsonLd'
 // import { headers } from 'next/headers'
 
 /**
@@ -81,8 +82,37 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
+  // Calculate JSON-LD
+  // @ts-expect-error
+  const customJsonLd = post.meta?.jsonLD || post.meta_group?.jsonLD
+  let schema = customJsonLd
+
+  if (!schema) {
+    // @ts-expect-error
+    const metaTitle = post.meta?.title || post.meta_group?.title || post.title
+    // @ts-expect-error
+    const metaDesc = post.meta?.description || post.meta_group?.description
+    // @ts-expect-error
+    const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url || post.meta_group?.image?.url
+
+    schema = {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle', // Good for case studies
+      headline: metaTitle,
+      description: metaDesc,
+      image: metaImage ? `${process.env.NEXT_PUBLIC_SERVER_URL}${metaImage}` : undefined,
+      datePublished: post.publishedAt,
+      dateModified: post.updatedAt,
+      author: {
+        '@type': 'Person',
+        name: 'Juan Carlos Angulo',
+      },
+    }
+  }
+
   return (
     <article className="pb-16">
+      <JsonLd schema={schema} />
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -128,17 +158,17 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
                   const contentNode = post?.content as unknown
                   const contentData: Lexical | undefined =
                     contentNode &&
-                    typeof contentNode === 'object' &&
-                    'content' in (contentNode as Record<string, unknown>)
+                      typeof contentNode === 'object' &&
+                      'content' in (contentNode as Record<string, unknown>)
                       ? ((contentNode as { content?: Lexical }).content as Lexical | undefined)
                       : (contentNode as Lexical | undefined)
                   const hasNodes = Boolean(
                     (contentData as { root?: { children?: unknown[] } } | undefined)?.root
                       ?.children &&
-                      (
-                        (contentData as { root?: { children?: unknown[] } } | undefined)!.root!
-                          .children as unknown[]
-                      ).length > 0,
+                    (
+                      (contentData as { root?: { children?: unknown[] } } | undefined)!.root!
+                        .children as unknown[]
+                    ).length > 0,
                   )
                   if (hasNodes) {
                     // @ts-expect-error accept Lexical JSON

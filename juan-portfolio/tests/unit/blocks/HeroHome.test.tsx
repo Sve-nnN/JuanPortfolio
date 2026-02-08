@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { HeroHomeBlock } from '../../../src/blocks/HeroHome/Component';
+import { HeroHome } from '../../../src/blocks/HeroHome/Component';
 
 describe('HeroHomeBlock component', () => {
   const mockMedia = {
@@ -12,7 +12,7 @@ describe('HeroHomeBlock component', () => {
 
   it('renders with all props', () => {
     render(
-      <HeroHomeBlock
+      <HeroHome
         badge="Test Badge"
         title="Test Title"
         subtitle="Test Subtitle"
@@ -33,13 +33,13 @@ describe('HeroHomeBlock component', () => {
   });
 
   it('renders with minimal props', () => {
-    render(<HeroHomeBlock title="Minimal Title" />);
+    render(<HeroHome title="Minimal Title" />);
     expect(screen.getByText('Minimal Title')).toBeInTheDocument();
   });
 
   it('renders with richText instead of description', () => {
     const richText = { root: { type: 'root', version: 1, children: [] } };
-    render(<HeroHomeBlock title="Rich Text Title" richText={richText} />);
+    render(<HeroHome title="Rich Text Title" richText={richText as any} />); // Cast richText to any
     expect(screen.getByText('Rich Text Title')).toBeInTheDocument();
   });
 });

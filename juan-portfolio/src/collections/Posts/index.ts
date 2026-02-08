@@ -7,6 +7,11 @@ import {
   HorizontalRuleFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  OrderedListFeature,
+  UnorderedListFeature,
+  ChecklistFeature,
+  BlockquoteFeature,
+  LinkFeature,
 } from '@payloadcms/richtext-lexical'
 
 import { authenticated } from '../../access/authenticated'
@@ -28,9 +33,6 @@ export const Posts: CollectionConfig<'posts'> = {
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  // This config controls what's populated by default when a post is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
   defaultPopulate: {
     title: true,
     slug: true,
@@ -90,6 +92,32 @@ export const Posts: CollectionConfig<'posts'> = {
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
+                    OrderedListFeature(),
+                    UnorderedListFeature(),
+                    ChecklistFeature(),
+                    BlockquoteFeature(),
+                    LinkFeature({
+                      enabledCollections: ['pages', 'posts'],
+                      fields: ({ defaultFields }) => {
+                        const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
+                          if ('name' in field && field.name === 'url') return false
+                          return true
+                        })
+
+                        return [
+                          ...defaultFieldsWithoutUrl,
+                          {
+                            name: 'url',
+                            type: 'text',
+                            admin: {
+                              condition: (_data, siblingData) => siblingData?.linkType !== 'internal',
+                            },
+                            label: ({ t }) => t('fields:enterURL'),
+                            required: true,
+                          },
+                        ]
+                      },
+                    }),
                   ]
                 },
               }),
@@ -138,38 +166,6 @@ export const Posts: CollectionConfig<'posts'> = {
             },
           ],
         },
-        {
-          label: 'SEO',
-          name: 'meta',
-          fields: [
-            {
-              name: 'title',
-              type: 'text',
-              label: 'Meta título',
-              localized: true,
-            },
-            {
-              name: 'description',
-              type: 'textarea',
-              label: 'Meta descripción',
-              localized: true,
-            },
-            {
-              name: 'image',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Imagen para compartir (OpenGraph)',
-            },
-            {
-              name: 'jsonLD',
-              type: 'json',
-              label: 'Schema JSON-LD Customizado',
-              admin: {
-                description: 'Sobreescribe o añade Schema.org JSON-LD para este post.',
-              },
-            },
-          ],
-        },
       ],
     },
     {
@@ -201,9 +197,6 @@ export const Posts: CollectionConfig<'posts'> = {
       hasMany: true,
       relationTo: 'users',
     },
-    // This field is only used to populate the user data via the `populateAuthors` hook
-    // This is because the `user` collection has access control locked to protect user privacy
-    // GraphQL will also not return mutated user data that differs from the underlying schema
     {
       name: 'populatedAuthors',
       type: 'array',
@@ -235,7 +228,7 @@ export const Posts: CollectionConfig<'posts'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 100,
       },
       schedulePublish: true,
     },

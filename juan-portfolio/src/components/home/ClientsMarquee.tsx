@@ -1,51 +1,77 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
 import type { Client } from '@/payload-types'
+import Link from 'next/link'
 
-const ClientsMarquee = async () => {
-  const configPromise = (await import('@payload-config')).default
-  const { getPayload } = await import('payload')
+interface ClientsMarqueeProps {
+  clients?: Client[]
+}
 
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'clients',
-    limit: 50,
-    pagination: false,
-    sort: 'order',
-  })
-  const clients = res.docs || []
+const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
+  // If no clients provided, we might want to show a message or fetch them.
+  // For now, assume they are passed from the server component block.
+  if (!clients || clients.length === 0) return null
 
-  // Duplicate clients to ensure smooth infinite loop if we have enough items
-  // If few items, duplicate more times
-  const repeatCount = clients.length < 5 ? 4 : 2
+  // Duplicate clients to ensure smooth infinite loop
+  const repeatCount = clients.length < 6 ? 4 : 2
   const displayClients = Array(repeatCount).fill(clients).flat()
 
   return (
-    <div className="w-full relative overflow-hidden">
+    <div className="w-full relative overflow-hidden group">
       {/* Gradient masks for smooth fade edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-background to-transparent" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-background to-transparent" />
+      <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none" />
 
-      <div className="flex animate-marquee-infinite space-x-12 md:space-x-24 w-max hover:[animation-play-state:paused]">
-        {displayClients.map((c: Client, i) => (
-          <div key={`${c.id}-${i}`} className="flex justify-center items-center flex-shrink-0 w-32 md:w-40 grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100 cursor-pointer">
-            {c.logo && typeof c.logo === 'object' && c.logo.url ? (
-              <Image
-                src={c.logo.url}
-                alt={c.name || 'Logo'}
-                width={160}
-                height={60}
-                className="h-8 md:h-12 w-auto object-contain dark:invert"
-              />
-            ) : (
-              <span className="h-8 md:h-12 flex items-center font-bold text-xl">{c.name}</span>
-            )}
-          </div>
-        ))}
+      <div className="flex animate-marquee-infinite space-x-16 md:space-x-32 w-max py-8 hover:[animation-play-state:paused]">
+        {displayClients.map((c: Client, i) => {
+          const content = (
+            <div
+              className="flex justify-center items-center flex-shrink-0 w-48 md:w-80 h-32 md:h-48 
+                         grayscale hover:grayscale-0 transition-all duration-700 ease-in-out 
+                         opacity-40 hover:opacity-100 transform hover:scale-105"
+            >
+              {c.logo && typeof c.logo === 'object' && c.logo.url ? (
+                <div className="relative w-full h-full flex items-center justify-center p-6">
+                  <Image
+                    src={c.logo.url}
+                    alt={c.name || 'Logo'}
+                    width={320}
+                    height={180}
+                    className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-500"
+                  />
+                </div>
+              ) : (
+                <span className="h-12 md:h-20 flex items-center font-display font-bold text-2xl md:text-3xl text-foreground/50 hover:text-primary transition-colors">
+                  {c.name}
+                </span>
+              )}
+            </div>
+          )
+
+          if (c.url) {
+            return (
+              <Link
+                key={`${c.id}-${i}`}
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                {content}
+              </Link>
+            )
+          }
+
+          return <div key={`${c.id}-${i}`}>{content}</div>
+        })}
       </div>
-      <style>{`@keyframes marquee-infinite { 0% { transform: translateX(0);} 100% { transform: translateX(-50%);} } .animate-marquee-infinite { animation: marquee-infinite 30s linear infinite; }`}</style>
+
+
     </div>
   )
 }
 
 export default ClientsMarquee
+

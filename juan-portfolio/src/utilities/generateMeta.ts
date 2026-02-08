@@ -43,7 +43,7 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(meta?.image ?? doc?.meta?.image)
 
-  const title = meta?.title || ''
+  const title = meta?.title || doc?.title || 'Juan Carlos Angulo'
 
   return {
     description: meta?.description ?? doc?.meta?.description,

@@ -10,6 +10,7 @@ import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { getOptimizedCloudinaryUrl } from '@/utilities/cloudinaryUrl'
 
 const { breakpoints } = cssVariables
 
@@ -31,22 +32,27 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     loading: loadingFromProps,
   } = props
 
-  let width: number | undefined
-  let height: number | undefined
+  let width: number | undefined = props.width
+  let height: number | undefined = props.height
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
 
   if (!src && resource && typeof resource === 'object') {
-    const { alt: altFromResource, height: fullHeight, url, width: fullWidth, imgbbUrl } = resource
+    const { alt: altFromResource, height: fullHeight, url, width: fullWidth, cloudinaryUrl } = resource
 
-    width = fullWidth!
-    height = fullHeight!
+    width = width || fullWidth!
+    height = height || fullHeight!
     alt = altFromResource || ''
 
     const cacheTag = resource.updatedAt
 
-    // Priorize imgbbUrl if available, otherwise use standard payload URL
-    src = imgbbUrl || getMediaUrl(url, cacheTag)
+    // Priorize cloudinaryUrl, then standard payload URL
+    src = cloudinaryUrl 
+      ? getOptimizedCloudinaryUrl(cloudinaryUrl, {
+          width: props.width,
+          height: props.height,
+        }) 
+      : getMediaUrl(url, cacheTag)
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
@@ -59,7 +65,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       .join(', ')
 
   return (
-    <picture className={cn(pictureClassName)}>
+    <picture className={cn(fill && 'relative block h-full w-full', pictureClassName)}>
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName, className)}

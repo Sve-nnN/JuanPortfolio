@@ -68,7 +68,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock> = async (
                 <div className="flex items-center gap-4 mt-auto">
                   {t.avatar && (
                     <div className="relative w-12 h-12 rounded-full overflow-hidden bg-muted">
-                      <Media resource={t.avatar} className="w-full h-full object-cover" />
+                      <Media resource={t.avatar} className="w-full h-full object-cover" width={96} height={96} />
                     </div>
                   )}
                   <div>

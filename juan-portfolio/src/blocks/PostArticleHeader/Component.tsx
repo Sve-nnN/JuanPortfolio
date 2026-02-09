@@ -85,7 +85,7 @@ export const PostArticleHeader: React.FC<PostArticleHeaderBlock> = (props) => {
               <div className="flex items-center space-x-2">
                 {authorImage && (
                   <div className="w-8 h-8 rounded-full overflow-hidden">
-                    <Media resource={authorImage} className="w-full h-full object-cover" />
+                    <Media resource={authorImage} className="w-full h-full object-cover" width={64} height={64} />
                   </div>
                 )}
                 <span>{authorName}</span>
@@ -112,7 +112,7 @@ export const PostArticleHeader: React.FC<PostArticleHeaderBlock> = (props) => {
           {featuredImage && typeof featuredImage === 'object' && (
             <figure className="mb-16">
               <div className="w-full h-auto rounded-lg shadow-lg aspect-video overflow-hidden">
-                <Media resource={featuredImage} className="w-full h-full object-cover" />
+                <Media resource={featuredImage} className="w-full h-full object-cover" width={1200} />
               </div>
             </figure>
           )}

@@ -370,7 +370,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  imgbbUrl?: string | null;
+  cloudinaryUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -3002,7 +3002,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
-  imgbbUrl?: T;
+  cloudinaryUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

@@ -57,7 +57,7 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock> = (props) => {
           {/* Featured image */}
           {featuredImage && typeof featuredImage === 'object' && (
             <div className="w-full h-auto rounded-lg shadow-2xl mb-16 aspect-video overflow-hidden">
-              <Media resource={featuredImage} className="w-full h-full object-cover" />
+              <Media resource={featuredImage} className="w-full h-full object-cover" width={1200} />
             </div>
           )}
 

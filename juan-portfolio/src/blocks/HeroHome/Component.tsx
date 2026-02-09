@@ -93,7 +93,7 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 rounded-full blur-3xl opacity-60 animate-pulse-slow"></div>
             {media && typeof media === 'object' && (
               <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[30rem] lg:h-[30rem] rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-500 ease-out overflow-hidden border border-border/50 shadow-2xl bg-card">
-                <Media resource={media} fill priority className="w-full h-full object-cover aspect-square" />
+                <Media resource={media} fill priority className="w-full h-full object-cover aspect-square" width={1000} height={1000} />
               </div>
             )}
           </div>

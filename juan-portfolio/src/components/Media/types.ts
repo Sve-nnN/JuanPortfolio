@@ -18,4 +18,6 @@ export interface Props {
   size?: string
   src?: StaticImageData
   videoClassName?: string
+  width?: number
+  height?: number
 }

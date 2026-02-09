@@ -19,6 +19,9 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode, headers } from 'next/headers'
 import type { Locale } from '@/i18n/translations'
 
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
@@ -94,6 +97,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </LocaleProvider>
           </ThemeProvider>
         </Providers>
+        <SpeedInsights />
+        <Analytics/>
       </body>
     </html>
   )

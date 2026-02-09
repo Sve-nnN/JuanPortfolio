@@ -33,11 +33,11 @@ Nuestra estrategia se basa en tres pilares fundamentales para cubrir todo el esp
 
 Para mejorar la organización semántica y el SEO, utilizaremos la estructura de URLs: `juan-tech.com/[category]/[slug]`.
 
-| Categoría | Slug | Descripción | Pilar Relacionado |
-| :--- | :--- | :--- | :--- |
-| **Technical SEO** | `tech-seo` | Guías avanzadas de SEO técnico, performance y optimización. | Pilar A |
-| **CS Fundamentals** | `cs-fundamentals` | Artículos académicos sobre algoritmos, estructuras de datos y teoría. | Pilar B |
-| **Development** | `development` | Tutoriales de Next.js, PayloadCMS y desarrollo web moderno. | Pilar C |
+| Categoría           | Slug              | Descripción                                                           | Pilar Relacionado |
+| :------------------ | :---------------- | :-------------------------------------------------------------------- | :---------------- |
+| **Technical SEO**   | `tech-seo`        | Guías avanzadas de SEO técnico, performance y optimización.           | Pilar A           |
+| **CS Fundamentals** | `cs-fundamentals` | Artículos académicos sobre algoritmos, estructuras de datos y teoría. | Pilar B           |
+| **Development**     | `development`     | Tutoriales de Next.js, PayloadCMS y desarrollo web moderno.           | Pilar C           |
 
 ---
 

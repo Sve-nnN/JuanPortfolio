@@ -45,10 +45,6 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'i.ibb.co',
-      },
-      {
-        protocol: 'https',
         hostname: 'raw.githubusercontent.com',
       },
       {
@@ -95,9 +91,10 @@ const nextConfig = {
   headers: async () => {
     const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline';
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com;
+      connect-src 'self' https://juan-tech.com https://va.vercel-scripts.com https://vitals.vercel-analytics.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://juan-tech.com https://i.ibb.co https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com;
+      img-src 'self' blob: data: https://juan-tech.com https://res.cloudinary.com https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com;
       font-src 'self';
       object-src 'none';
       base-uri 'self';

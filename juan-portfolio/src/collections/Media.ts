@@ -8,6 +8,9 @@ import {
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import { cloudinaryService } from '../utilities/cloudinary'
+import { getOptimizedCloudinaryUrl } from '../utilities/cloudinaryUrl'
+
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 
@@ -38,7 +41,7 @@ export const Media: CollectionConfig = {
       }),
     },
     {
-      name: 'imgbbUrl',
+      name: 'cloudinaryUrl',
       type: 'text',
       admin: {
         readOnly: true,
@@ -50,35 +53,21 @@ export const Media: CollectionConfig = {
       async ({ data, req, operation }) => {
         if (operation === 'create' && req.file) {
           try {
-            const formData = new FormData()
-
             const fileData = req.file.data
-
             const fileName = req.file.name
 
             if (fileData) {
-              const blob = new Blob([fileData as unknown as BlobPart])
-              formData.append('image', blob, fileName)
-
-              if (process.env.IMGBB_API_KEY) {
-                formData.append('key', process.env.IMGBB_API_KEY)
-
-                const res = await fetch('https://api.imgbb.com/1/upload', {
-                  method: 'POST',
-                  body: formData,
-                })
-
-                const json = await res.json()
-                if (json.success && json.data) {
-                  data.imgbbUrl = json.data.url
-                  // Optionally override the main URL if desired, 
-                  // but Payload might overwrite it with its own URL generation.
-                  // We will use imgbbUrl in the frontend.
-                }
+              // Upload to Cloudinary
+              const cloudinaryUrl = await cloudinaryService.uploadImage(
+                fileData as Buffer,
+                fileName,
+              )
+              if (cloudinaryUrl) {
+                data.cloudinaryUrl = cloudinaryUrl
               }
             }
           } catch (error) {
-            console.error('Error uploading to ImgBB:', error)
+            console.error('Error uploading media:', error)
           }
         }
         return data
@@ -88,13 +77,22 @@ export const Media: CollectionConfig = {
   upload: {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
-    adminThumbnail: ({ doc }) =>
-      (doc.imgbbUrl as string) || (doc.url as string) || `/media/${doc.filename}`,
+    adminThumbnail: ({ doc }) => {
+      if (doc.cloudinaryUrl) {
+        return getOptimizedCloudinaryUrl(doc.cloudinaryUrl as string, {
+          width: 80,
+          height: 80,
+          crop: 'thumb',
+          format: 'auto',
+        })
+      }
+      return (doc.url as string) || `/media/${doc.filename}`
+    },
     focalPoint: true,
     imageSizes: [
       {
         name: 'thumbnail',
-        width: 300,
+        width: 80,
       },
       {
         name: 'square',

@@ -4,170 +4,201 @@ import { useLocale } from '@/providers/Locale'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { ChevronDown, Menu, Globe } from 'lucide-react'
-import { t } from '@/i18n/translations'
+import { Globe, X, Menu, ChevronDown } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/utilities/ui'
 
-import type { Header } from '@/payload-types'
-
-// Logo moved to text initials
+import type { Header as HeaderType } from '@/payload-types'
 import { HeaderNav } from './Nav'
 import { CMSLink } from '@/components/Link'
 
 interface HeaderClientProps {
-  data: Header
+  data: HeaderType
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
-  const [theme, setTheme] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isLangOpen, setIsLangOpen] = useState<boolean>(false)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
+  const [scrolled, setScrolled] = useState(false)
+  const { setHeaderTheme } = useHeaderTheme()
   const { locale, setLocale } = useLocale()
   const pathname = usePathname()
 
   useEffect(() => {
     setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+    setIsOpen(false)
+    setIsLangOpen(false)
+  }, [pathname, setHeaderTheme])
 
   useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
-      const prev = document.body.style.overflow
       document.body.style.overflow = 'hidden'
-      return () => {
-        document.body.style.overflow = prev
-      }
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
     }
   }, [isOpen])
 
   return (
     <header
-      className="sticky top-0 z-50 bg-background/70 dark:bg-black/80 backdrop-blur-md border-b border-white/10 dark:border-white/5 transition-colors duration-300"
-      {...(theme ? { 'data-theme': theme } : {})}
+      className={cn(
+        'fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out',
+        scrolled 
+          ? 'py-3 bg-background/80 dark:bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-lg' 
+          : 'py-6 bg-transparent border-transparent'
+      )}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-xl font-bold font-array text-current">
-            JCA
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="flex items-center justify-between">
+          <Link 
+            href="/" 
+            className="group flex items-center space-x-2 text-2xl font-bold font-array tracking-tighter"
+          >
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-foreground transition-colors group-hover:text-primary"
+            >
+              JCA
+            </motion.span>
           </Link>
-          <div className="hidden md:flex items-center">
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
             <HeaderNav data={data} />
           </div>
-          <div className="flex items-center space-x-3">
+
+          <div className="flex items-center space-x-4">
+            {/* Language Switcher */}
             <div className="relative">
               <button
-                className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-secondary/50 hover:bg-secondary transition-all text-xs font-semibold uppercase"
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 aria-label="Change language"
               >
-                <Globe size={16} />
-                <span className="uppercase">{locale}</span>
-                <ChevronDown size={16} />
+                <Globe size={14} className="text-primary" />
+                <span>{locale}</span>
+                <ChevronDown size={14} className={cn("transition-transform duration-300", isLangOpen && "rotate-180")} />
               </button>
-              {isLangOpen && (
-                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-slate-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 rounded-t-md"
-                    onClick={() => {
-                      setLocale('en')
-                      setIsLangOpen(false)
-                    }}
+              
+              <AnimatePresence>
+                {isLangOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute right-0 mt-3 w-36 bg-background/95 backdrop-blur-md border border-border shadow-2xl rounded-2xl overflow-hidden z-50 p-1"
                   >
-                    English
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 rounded-b-md"
-                    onClick={() => {
-                      setLocale('es')
-                      setIsLangOpen(false)
-                    }}
-                  >
-                    Español
-                  </button>
-                </div>
-              )}
+                    {[
+                      { id: 'en', label: 'English' },
+                      { id: 'es', label: 'Español' }
+                    ].map((lang) => (
+                      <button
+                        key={lang.id}
+                        className={cn(
+                          "w-full text-left px-4 py-2.5 text-sm font-medium transition-colors rounded-xl",
+                          locale === lang.id ? "bg-primary/10 text-primary" : "hover:bg-secondary text-foreground/70 hover:text-foreground"
+                        )}
+                        onClick={() => {
+                          setLocale(lang.id as 'en' | 'es')
+                          setIsLangOpen(false)
+                        }}
+                      >
+                        {lang.label}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Primary CTA Button */}
+            {/* CTA Button */}
             {data?.cta?.link && (
-              <CMSLink
-                {...data.cta.link}
-                className="hidden md:inline-flex items-center px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
-              />
+              <div className="hidden sm:block">
+                <CMSLink
+                  {...data.cta.link}
+                  className="px-6 py-2.5 bg-primary text-primary-foreground text-sm font-bold rounded-full hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] transition-all transform hover:scale-105 active:scale-95"
+                />
+              </div>
             )}
 
-            {/* Mobile menu toggle */}
+            {/* Mobile Toggle */}
             <button
-              className="md:hidden p-2"
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              onClick={() => setIsOpen((v) => !v)}
+              className="p-2.5 bg-secondary/50 hover:bg-secondary rounded-full md:hidden transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle Menu"
             >
-              <Menu size={18} />
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </div>
-      {/* Mobile menu panel */}
-      <div
-        id="mobile-menu"
-        className={`md:hidden fixed inset-0 z-[100] transition-all overflow-x-hidden ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        aria-hidden={!isOpen}
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') setIsOpen(false)
-        }}
-      >
-        <div className="absolute inset-0 bg-black/60" onClick={() => setIsOpen(false)} />
-        <div
-          className={`absolute right-0 top-0 h-full w-80 bg-white dark:bg-slate-900 text-current dark:text-white shadow-2xl transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}
-        >
-          <div className="p-6 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-6">
-              <Link href="/" className="text-xl font-bold font-array text-current">
-                JCA
-              </Link>
-              <button
-                className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800"
-                onClick={() => setIsOpen(false)}
-                aria-label={t(locale, 'header.closeMenu')}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-            {/* Primary CTA in mobile menu */}
-            {data?.cta?.link && (
-              <CMSLink
-                {...data.cta.link}
-                className="w-full inline-flex items-center justify-center px-6 py-3.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-lg mb-6"
-                onClick={() => setIsOpen(false)}
-              />
-            )}
 
-            <div className="flex-1 overflow-auto" tabIndex={-1}>
-              <HeaderNav data={data} mobile onItemClick={() => setIsOpen(false)} />
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[90] md:hidden"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 h-[100dvh] w-full max-w-sm bg-background border-l border-border z-[150] shadow-2xl md:hidden"
+            >
+              <div className="flex flex-col h-full p-8">
+                <div className="flex items-center justify-between mb-12">
+                  <span className="text-2xl font-bold font-array tracking-tighter">JCA</span>
+                  <button 
+                    onClick={() => setIsOpen(false)}
+                    className="p-2 bg-secondary/50 rounded-full"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                <div className="flex-1">
+                  <HeaderNav 
+                    data={data} 
+                    mobile 
+                    onItemClick={() => setIsOpen(false)} 
+                  />
+                </div>
+
+                <div className="mt-auto space-y-6">
+                  {data?.cta?.link && (
+                    <CMSLink
+                      {...data.cta.link}
+                      className="w-full flex items-center justify-center py-4 bg-primary text-primary-foreground font-bold rounded-2xl shadow-xl active:scale-95 transition-transform"
+                      onClick={() => setIsOpen(false)}
+                    />
+                  )}
+                  <p className="text-center text-xs text-muted-foreground font-medium uppercase tracking-widest opacity-50">
+                    © {new Date().getFullYear()} Juan Carlos Angulo
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

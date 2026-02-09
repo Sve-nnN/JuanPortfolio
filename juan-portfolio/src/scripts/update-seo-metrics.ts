@@ -7,7 +7,6 @@ import { DataForSeoAdapter } from './seo/adapters/DataForSeoAdapter';
 import { GoogleAdsAdapter } from './seo/adapters/GoogleAdsAdapter';
 import { SerpApiAdapter } from './seo/adapters/SerpApiAdapter';
 import { SeoAdapter } from './seo/types';
-import { SeoService } from './seo/SeoService';
 
 // --- Configuration ---
 const KEYWORDS_FILE_PATH = path.join(process.cwd(), 'content', 'keywords.md');
@@ -160,7 +159,7 @@ function formatLine(data: KeywordData): string {
 
 async function updateKeywords() {
     // Initialize Payload
-    const payload = await getPayload({ config });
+    await getPayload({ config });
 
     if (!fs.existsSync(KEYWORDS_FILE_PATH)) {
         console.error(`Error: File not found at ${KEYWORDS_FILE_PATH}`);

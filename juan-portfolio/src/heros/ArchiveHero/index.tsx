@@ -76,7 +76,7 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
 
             <div className={`container z-10 relative flex flex-col ${alignClass} text-white`}>
                 {/* Alignment Wrapper */}
-                <div className={`max-w-4xl w-full flex flex-col ${alignClass} gap-6 animate-fade-in-up`}>
+                <div className={`max-w-4xl w-full flex flex-col ${alignClass} gap-3 animate-fade-in-up pt-32 md:pt-40`}>
 
                     {/* Breadcrumbs */}
                     {breadcrumbs && breadcrumbs.length > 0 && (
@@ -91,13 +91,13 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
                                     <React.Fragment key={index}>
                                         {index > 0 && <span className="text-white/40">/</span>}
                                         {isLast ? (
-                                            <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20">
+                                            <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20 tracking-wider">
                                                 {crumb.label}
                                             </span>
                                         ) : (
                                             <Link
                                                 href={crumb.href || '#'}
-                                                className="hover:text-white transition-colors"
+                                                className="hover:text-white transition-colors text-xs opacity-70"
                                             >
                                                 {crumb.label}
                                             </Link>
@@ -109,8 +109,8 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
                     )}
 
                     <h1
-                        className="font-display font-bold text-white drop-shadow-sm leading-tight pt-20 md:pt-24"
-                        style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
+                        className="font-display font-bold text-white drop-shadow-md leading-[1.1] tracking-tighter"
+                        style={{ fontSize: 'clamp(2.25rem, 6vw, 3.75rem)' }}
                     >
                         {title}
                     </h1>

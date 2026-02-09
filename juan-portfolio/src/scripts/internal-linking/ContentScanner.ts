@@ -21,7 +21,7 @@ export class ContentScanner {
     /**
      * Scan a post for linking opportunities.
      */
-    scanPost(post: PostMetadata, allPosts: PostMetadata[]): LinkOpportunity[] {
+    scanPost(post: PostMetadata, _allPosts: PostMetadata[]): LinkOpportunity[] {
         const content = fs.readFileSync(post.filePath, 'utf-8');
         const { content: body } = matter(content);
 

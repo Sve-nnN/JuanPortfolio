@@ -69,19 +69,19 @@ export const PostHero: React.FC<{
 
     <div className="relative min-h-[80vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20">
       <div className="container z-10 relative flex flex-col items-end text-right text-white">
-        <div className="max-w-4xl w-full flex flex-col items-end gap-6 animate-fade-in-up">
+        <div className="max-w-4xl w-full flex flex-col items-end gap-3 animate-fade-in-up pt-32 md:pt-40">
 
           {/* Categories / Breadcrumbs */}
           {/* Breadcrumbs */}
           <nav aria-label="Breadcrumb" className="flex flex-wrap justify-end gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80">
-            <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
-            <span className="text-white/40">/</span>
-            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+            <Link href="/" className="hover:text-white transition-colors text-xs opacity-70">Inicio</Link>
+            <span className="text-white/40 text-xs text-xs">/</span>
+            <Link href="/blog" className="hover:text-white transition-colors text-xs opacity-70">Blog</Link>
 
             {mainCategory && (
               <>
-                <span className="text-white/40">/</span>
-                <Link href={mainCategory.href || '/blog'} className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20 hover:bg-primary/30 transition-colors">
+                <span className="text-white/40 text-xs">/</span>
+                <Link href={mainCategory.href || '/blog'} className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20 hover:bg-primary/30 transition-colors">
                   {mainCategory.title}
                 </Link>
               </>
@@ -92,8 +92,8 @@ export const PostHero: React.FC<{
               if (typeof category === 'object' && category !== null) {
                 return (
                   <React.Fragment key={index}>
-                    <span className="text-white/40">/</span>
-                    <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20">
+                    <span className="text-white/40 text-xs">/</span>
+                    <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20">
                       {category.title || 'Untitled'}
                     </span>
                   </React.Fragment>
@@ -104,8 +104,8 @@ export const PostHero: React.FC<{
           </nav>
 
           <h1
-            className="font-bold leading-tight tracking-tight text-white drop-shadow-sm pt-20 md:pt-24"
-            style={{ fontSize: 'clamp(2.5rem, 5vw + 1rem, 5rem)' }}
+            className="font-bold leading-[1.1] tracking-tighter text-white drop-shadow-md text-right"
+            style={{ fontSize: 'clamp(2.25rem, 6vw, 4rem)' }}
           >
             {title}
           </h1>

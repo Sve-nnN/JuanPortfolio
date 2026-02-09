@@ -16,7 +16,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock> = async (props) => 
     // Let's ensure we have full objects.
     const payload = await getPayload({ config: configPromise })
     const fetchedClients = await payload.find({
-      collection: 'clientes' as any, // TODO: Update to 'clientes' after type generation
+      collection: 'clientes',
       where: {
         id: {
           in: selectedClients.map((c) => (typeof c === 'string' ? c : c.id)),
@@ -29,7 +29,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock> = async (props) => 
     // Fallback: fetch all if none selected
     const payload = await getPayload({ config: configPromise })
     const fetchedClients = await payload.find({
-      collection: 'clientes' as any, // TODO: Update to 'clientes' after type generation
+      collection: 'clientes',
       limit: 50,
       pagination: false,
       // sort: 'order',

@@ -14,7 +14,7 @@ const ClientsCarousel = async () => {
   try {
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
-      collection: 'clientes' as any, // TODO: Remove cast after generating types
+      collection: 'clientes',
       limit: 50,
       pagination: false,
       // sort: 'order',

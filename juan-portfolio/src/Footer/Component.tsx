@@ -12,7 +12,7 @@ import { getPostUrl } from '@/utilities/getPostUrl'
 import { Media as MediaComponent } from '@/components/Media'
 
 export async function Footer() {
-  const footer: FooterType = await getCachedGlobal('footer', 1)()
+  const footer = await getCachedGlobal('footer', 1)() as FooterType
   const payload = await getPayload({ config })
 
   const {
@@ -26,7 +26,7 @@ export async function Footer() {
   } = footer || {}
 
   // Fetch latest blog posts if enabled
-  let latestPostsDocs = []
+  let latestPostsDocs: any[] = []
   if (latestPostsConfig?.show) {
     const latestPosts = await payload.find({
       collection: 'posts',
@@ -44,7 +44,7 @@ export async function Footer() {
   }
 
   // Fetch latest case studies if enabled
-  let latestCaseStudiesDocs = []
+  let latestCaseStudiesDocs: any[] = []
   if (caseStudiesConfig?.show) {
     const latestCaseStudies = await payload.find({
       collection: 'case-studies',

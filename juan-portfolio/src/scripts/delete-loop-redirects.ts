@@ -40,11 +40,9 @@ async function cleanupRedirectLoops() {
                 const value = to.reference.value
 
                 if (relationTo === 'pages' && value) {
-                    // @ts-expect-error Payload types mismatch
                     const slug = value.slug
                     destination = slug === 'home' ? '/' : `/${slug}`
                 } else if (relationTo === 'posts' && value) {
-                    // @ts-expect-error Payload types mismatch
                     destination = getPostUrl(value)
                 }
             }

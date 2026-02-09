@@ -6,7 +6,7 @@ import type { Header } from '@/payload-types'
 
 export async function Header() {
   // Use depth 2 so nested link.reference gets populated (slug, etc.)
-  const headerData: Header = await getCachedGlobal('header', 2)()
+  const headerData = await getCachedGlobal('header', 2)() as Header
 
   return <HeaderClient data={headerData} />
 }

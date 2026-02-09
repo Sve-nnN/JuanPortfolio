@@ -20,7 +20,6 @@ import { Users } from './collections/Users'
 import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
 import Clientes from './collections/Clientes'
-// import Clients from './collections/Clients' // Deprecated due to "dni" error
 import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanner'
 import Testimonials from './collections/Testimonials'
 import { KeywordMetrics } from './collections/KeywordMetrics'
@@ -104,7 +103,6 @@ export default buildConfig({
     Works,
     CaseStudies,
     Clientes,
-    // Clients,
     AdBannersCollection,
     Testimonials,
     KeywordMetrics,
@@ -147,10 +145,6 @@ export default buildConfig({
           enabled: true,
           description: 'Client logos and info',
         },
-        /* [Clients.slug]: {
-          enabled: true,
-          description: 'Client logos and info',
-        }, */
         [AdBannersCollection.slug]: {
           enabled: true,
           description: 'Advertising sidebar banners',

@@ -8,14 +8,6 @@ export type { HeroHomeBlockType as HeroHomeBlock }
 export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
   const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media } = props
   const titleLength = title ? title.length : 0
-  let titleSizeClass = 'text-5xl md:text-6xl lg:text-[5.5rem]' // Default (Medium-Long)
-
-  if (titleLength < 20) {
-    titleSizeClass = 'text-6xl md:text-7xl lg:text-[7rem]' // Short & Massive
-  } else if (titleLength > 40) {
-    titleSizeClass = 'text-4xl md:text-5xl lg:text-6xl' // Long
-  }
-
   return (
     <section className="min-h-[calc(100vh-80px)] flex items-center pt-32 pb-20 relative overflow-hidden" id="home">
       {/* Background Ambience */}

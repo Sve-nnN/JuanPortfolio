@@ -33,11 +33,19 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
         className="flex flex-col space-y-2"
       >
         {navItems.map(({ link }, i) => (
-          <motion.div key={i} variants={itemVariants}>
+          <motion.div 
+            key={i} 
+            variants={itemVariants}
+            whileTap={{ scale: 0.98, x: 5 }}
+            className="w-full"
+          >
             <CMSLink
               {...link}
-              className="block text-3xl font-bold font-array py-4 transition-all active:pl-4 text-foreground hover:text-primary border-b border-border/50"
-              onClick={onItemClick}
+              className="block text-3xl font-bold font-array py-4 transition-colors text-foreground hover:text-primary border-b border-border/50 w-full"
+              onClick={() => {
+                // Instantly trigger closure without blocking navigation
+                setTimeout(() => onItemClick?.(), 100)
+              }}
             />
           </motion.div>
         ))}
@@ -49,7 +57,11 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
     <nav className="flex items-center space-x-1">
       {navItems.map(({ link }, i) => {
         return (
-          <div key={i} className="relative px-4 py-2 group">
+          <motion.div 
+            key={i} 
+            className="relative px-4 py-2 group"
+            whileTap={{ scale: 0.95 }}
+          >
             <CMSLink
               {...link}
               className="text-sm font-semibold text-foreground/70 group-hover:text-foreground transition-colors relative z-10"
@@ -59,7 +71,7 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
               className="absolute inset-0 bg-secondary/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               initial={false}
             />
-          </div>
+          </motion.div>
         )
       })}
     </nav>

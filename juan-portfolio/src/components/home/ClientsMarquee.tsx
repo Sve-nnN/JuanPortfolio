@@ -36,7 +36,7 @@ const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
                 <div
                   className={`
                     relative w-full h-full flex items-center justify-center p-6 
-                    ${(c as any).forceWhiteBackground ? 'bg-white rounded-lg' : ''}
+                    ${c.forceWhiteBackground ? 'bg-white rounded-lg' : ''}
                   `}
                 >
                   <Image
@@ -46,7 +46,7 @@ const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
                     height={180}
                     className={`
                       max-w-full max-h-full w-auto h-auto object-contain transition-all duration-500
-                      ${(c as any).invertInDark ? 'dark:invert' : ''}
+                      ${c.invertInDark ? 'dark:invert' : ''}
                     `}
                   />
                 </div>

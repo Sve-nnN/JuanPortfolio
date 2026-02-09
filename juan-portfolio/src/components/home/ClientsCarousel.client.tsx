@@ -36,7 +36,7 @@ export default function ClientsCarousel({ clients }: { clients: Cliente[] }) {
               <div
                 className={`
                   flex justify-center items-center h-20 p-2 
-                  ${(c as any).forceWhiteBackground ? 'bg-white rounded-md' : ''}
+                  ${c.forceWhiteBackground ? 'bg-white rounded-md' : ''}
                 `}
               >
                 {c.logo && typeof c.logo === 'object' && c.logo.url ? (
@@ -47,7 +47,7 @@ export default function ClientsCarousel({ clients }: { clients: Cliente[] }) {
                     height={40}
                     className={`
                       h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity 
-                      ${(c as any).invertInDark ? 'dark:invert' : ''}
+                      ${c.invertInDark ? 'dark:invert' : ''}
                     `}
                   />
                 ) : (

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import type { Footer as FooterType, Media } from '@/payload-types'
+import type { Footer as FooterType, Post, CaseStudy } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Github, Linkedin, Twitter, Instagram, Facebook, Youtube, ArrowUpRight } from 'lucide-react'
@@ -26,7 +26,7 @@ export async function Footer() {
   } = footer || {}
 
   // Fetch latest blog posts if enabled
-  let latestPostsDocs: any[] = []
+  let latestPostsDocs: Post[] = []
   if (latestPostsConfig?.show) {
     const latestPosts = await payload.find({
       collection: 'posts',
@@ -44,7 +44,7 @@ export async function Footer() {
   }
 
   // Fetch latest case studies if enabled
-  let latestCaseStudiesDocs: any[] = []
+  let latestCaseStudiesDocs: CaseStudy[] = []
   if (caseStudiesConfig?.show) {
     const latestCaseStudies = await payload.find({
       collection: 'case-studies',

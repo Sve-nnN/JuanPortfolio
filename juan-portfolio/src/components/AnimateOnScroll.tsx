@@ -35,7 +35,7 @@ export function AnimateOnScroll({
     }
 
     const variants = getAnimationVariants(config)
-    const MotionComponent = motion[as] as any
+    const MotionComponent = motion[as] as React.ElementType
 
     return (
         <MotionComponent

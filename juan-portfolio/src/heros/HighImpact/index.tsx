@@ -32,11 +32,12 @@ export const HighImpactHero: React.FC<Page['hero']> = (props) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
       </div>
 
-      <div className="container relative z-10 flex flex-col items-center justify-center pt-20">
+      <div className="container relative z-10 flex flex-col items-center justify-center pt-20 md:pt-32">
         <div className="max-w-[60rem] md:text-center space-y-8 animate-fade-in-up">
           {richText && (
             <RichText
-              className="hero-text text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-100 mix-blend-plus-lighter"
+              className="hero-text font-light tracking-wide text-gray-100 mix-blend-plus-lighter"
+              style={{ fontSize: 'clamp(1.5rem, 3vw, 3.5rem)' }}
               data={richText}
               enableGutter={false}
             />

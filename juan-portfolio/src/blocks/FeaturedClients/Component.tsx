@@ -1,5 +1,5 @@
 import React from 'react'
-import type { FeaturedClientsBlock, Client } from '@/payload-types'
+import type { FeaturedClientsBlock, Cliente } from '@/payload-types'
 import ClientsMarquee from '@/components/home/ClientsMarquee'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -7,7 +7,7 @@ import { getPayload } from 'payload'
 export const FeaturedClients: React.FC<FeaturedClientsBlock> = async (props) => {
   const { title, clients: selectedClients } = props
 
-  let clients: Client[] = []
+  let clients: Cliente[] = []
 
   if (selectedClients && selectedClients.length > 0) {
     // We already have the IDs or the objects depending on depth
@@ -16,25 +16,25 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock> = async (props) => 
     // Let's ensure we have full objects.
     const payload = await getPayload({ config: configPromise })
     const fetchedClients = await payload.find({
-      collection: 'clients',
+      collection: 'clientes' as any, // TODO: Update to 'clientes' after type generation
       where: {
         id: {
           in: selectedClients.map((c) => (typeof c === 'string' ? c : c.id)),
         },
       },
-      sort: 'order',
+      // sort: 'order',
     })
-    clients = fetchedClients.docs
+    clients = fetchedClients.docs as unknown as Cliente[]
   } else {
     // Fallback: fetch all if none selected
     const payload = await getPayload({ config: configPromise })
     const fetchedClients = await payload.find({
-      collection: 'clients',
+      collection: 'clientes' as any, // TODO: Update to 'clientes' after type generation
       limit: 50,
       pagination: false,
-      sort: 'order',
+      // sort: 'order',
     })
-    clients = fetchedClients.docs
+    clients = fetchedClients.docs as unknown as Cliente[]
   }
 
   return (

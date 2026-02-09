@@ -9,6 +9,21 @@ const Clients: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  hooks: {
+    beforeValidate: [
+      ({ data, req, operation }) => {
+        if ('dni' in data) {
+          delete data['dni']
+        }
+        return data
+      },
+    ],
+    beforeChange: [
+      ({ data, operation }) => {
+        return data
+      }
+    ],
+  },
   access: {
     read: () => true,
   },
@@ -17,21 +32,23 @@ const Clients: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Nombre (Título)',
     },
     {
       name: 'logo',
       type: 'upload',
       relationTo: 'media',
+      required: true,
+      label: 'Logo (Imagen)',
     },
     {
       name: 'url',
       type: 'text',
-    },
-    {
-      name: 'order',
-      type: 'number',
+      label: 'URL',
     },
   ],
 }
+
+
 
 export default Clients

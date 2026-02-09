@@ -15,7 +15,7 @@ export const FeaturedClients: Block = {
     {
       name: 'clients',
       type: 'relationship',
-      relationTo: 'clients',
+      relationTo: 'clientes',
       hasMany: true,
       admin: {
         description: 'Selecciona los clientes destacados',

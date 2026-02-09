@@ -6,7 +6,7 @@ export const ListingHero: React.FC<ListingHeroBlock> = (props) => {
   const { title, description, breadcrumbs } = props
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="pb-20 md:pb-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
@@ -33,7 +33,10 @@ export const ListingHero: React.FC<ListingHeroBlock> = (props) => {
         {/* Title and Description */}
         <div className="text-center mb-12 md:mb-16">
           {title && (
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4">
+            <h1
+              className="font-display font-bold text-current mb-4 pt-24"
+              style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)' }}
+            >
               {title}
             </h1>
           )}

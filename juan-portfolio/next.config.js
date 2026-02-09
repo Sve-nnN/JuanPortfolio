@@ -55,6 +55,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.juanes.xyz',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.gravatar.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -89,7 +97,7 @@ const nextConfig = {
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://juan-tech.com https://i.ibb.co https://raw.githubusercontent.com https://lh3.googleusercontent.com;
+      img-src 'self' blob: data: https://juan-tech.com https://i.ibb.co https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com;
       font-src 'self';
       object-src 'none';
       base-uri 'self';

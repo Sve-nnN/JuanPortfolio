@@ -103,7 +103,10 @@ export const PostHero: React.FC<{
             })}
           </nav>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white drop-shadow-sm">
+          <h1
+            className="font-bold leading-tight tracking-tight text-white drop-shadow-sm pt-20 md:pt-24"
+            style={{ fontSize: 'clamp(2.5rem, 5vw + 1rem, 5rem)' }}
+          >
             {title}
           </h1>
 

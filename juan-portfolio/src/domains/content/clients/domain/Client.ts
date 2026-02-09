@@ -27,9 +27,9 @@ export const ClientsCollection: CollectionConfig = {
       name: 'url',
       type: 'text',
     },
-    {
+    /* {
       name: 'order',
       type: 'number',
-    },
+    }, */
   ],
 }

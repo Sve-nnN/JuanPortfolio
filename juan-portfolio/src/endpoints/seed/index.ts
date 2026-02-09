@@ -241,6 +241,13 @@ export const seed = async ({
             },
           },
         ],
+        cta: {
+          link: {
+            type: 'custom',
+            label: 'Start Project',
+            url: '#contact',
+          },
+        },
       },
     }),
     payload.updateGlobal({

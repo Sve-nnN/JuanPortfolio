@@ -3,44 +3,63 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import type { Footer as FooterType } from '@/payload-types'
+import type { Footer as FooterType, Media } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Github, Linkedin, Twitter, Instagram, Facebook, Youtube, ArrowUpRight } from 'lucide-react'
 
 import { getPostUrl } from '@/utilities/getPostUrl'
+import { Media as MediaComponent } from '@/components/Media'
 
 export async function Footer() {
   const footer: FooterType = await getCachedGlobal('footer', 1)()
   const payload = await getPayload({ config })
 
-  // Fetch latest blog posts
-  const latestPosts = await payload.find({
-    collection: 'posts',
-    limit: 4,
-    depth: 1, // Increased depth for categories
-    where: {
-      _status: {
-        equals: 'published',
-      },
-    },
-    sort: '-publishedAt',
-  })
+  const {
+    brand,
+    mainNav,
+    latestPosts: latestPostsConfig,
+    caseStudies: caseStudiesConfig,
+    bottomNav,
+    socialLinks,
+    copyright,
+  } = footer || {}
 
-  // Fetch latest case studies
-  const latestCaseStudies = await payload.find({
-    collection: 'case-studies',
-    limit: 4,
-    depth: 0,
-    where: {
-      _status: {
-        equals: 'published',
-      },
-    },
-    sort: '-publishedAt',
-  })
+  // Fetch latest blog posts if enabled
+  let latestPostsDocs = []
+  if (latestPostsConfig?.show) {
+    const latestPosts = await payload.find({
+      collection: 'posts',
+      limit: latestPostsConfig.limit || 4,
+      depth: 1,
+      // Debugging: removed status filter to see if posts exist at all
+      // where: {
+      //   _status: {
+      //     equals: 'published',
+      //   },
+      // },
+      sort: '-publishedAt',
+    })
+    latestPostsDocs = latestPosts.docs
+  }
 
-  const { columns, socialLinks, copyright } = footer || {}
+  // Fetch latest case studies if enabled
+  let latestCaseStudiesDocs = []
+  if (caseStudiesConfig?.show) {
+    const latestCaseStudies = await payload.find({
+      collection: 'case-studies',
+      limit: caseStudiesConfig.limit || 4,
+      depth: 0,
+      // Debugging: removed status filter
+      // where: {
+      //   _status: {
+      //     equals: 'published',
+      //   },
+      // },
+      sort: '-publishedAt',
+    })
+    latestCaseStudiesDocs = latestCaseStudies.docs
+  }
 
   const socialIcons = {
     github: Github,
@@ -50,15 +69,6 @@ export async function Footer() {
     facebook: Facebook,
     youtube: Youtube,
   }
-
-  // Main navigation links
-  const mainNavLinks = [
-    { href: '/', label: 'Inicio' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/case-studies', label: 'Casos de Estudio' },
-    { href: '/works', label: 'Trabajos' },
-    { href: '/contact', label: 'Contacto' },
-  ]
 
   return (
     <footer className="bg-slate-900 dark:bg-black text-slate-100 border-t border-slate-800 dark:border-slate-900">
@@ -72,10 +82,17 @@ export async function Footer() {
               className="inline-block text-3xl font-bold font-array text-white hover:text-blue-400 transition-colors"
               aria-label="Ir al inicio"
             >
-              JCA
+              {brand?.logoImage && typeof brand.logoImage !== 'string' ? (
+                <div className="relative w-32 h-12">
+                  <MediaComponent resource={brand.logoImage} fill className="object-contain object-left" />
+                </div>
+              ) : (
+                <span className="font-array">{brand?.logoText || 'JCA'}</span>
+              )}
             </Link>
             <p className="text-sm leading-relaxed text-slate-300 max-w-xs">
-              Desarrollador Web &amp; Especialista SEO. Creando experiencias digitales rápidas, accesibles y de alto impacto.
+              {brand?.description ||
+                'Desarrollador Web & Especialista SEO. Creando experiencias digitales rápidas, accesibles y de alto impacto.'}
             </p>
             {socialLinks && socialLinks.length > 0 && (
               <div className="flex gap-3">
@@ -101,120 +118,106 @@ export async function Footer() {
           {/* Main Navigation - Takes 2 cols */}
           <div className="lg:col-span-2 space-y-4">
             <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-              Navegación
+              {mainNav?.title || 'Navegación'}
               <span className="inline-block w-8 h-px bg-blue-500"></span>
             </h3>
-            <ul className="space-y-2.5">
-              {mainNavLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-slate-300 hover:text-blue-400 transition-all inline-flex items-center gap-1 group"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform inline-block">
-                      {link.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {mainNav?.navItems && mainNav.navItems.length > 0 ? (
+              <ul className="space-y-2.5">
+                {mainNav.navItems.map(({ link }, i) => (
+                  <li key={i}>
+                    {/* Removed children to avoid double text rendering. CMSLink renders the label. */}
+                    <CMSLink
+                      {...link}
+                      className="text-sm text-slate-300 hover:text-blue-400 transition-all inline-flex items-center gap-1 group hover:translate-x-1"
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              // Fallback if no navItems configured yet
+              <ul className="space-y-2.5">
+                <li className="text-slate-500 italic text-sm">No navigation configured</li>
+              </ul>
+            )}
           </div>
 
           {/* Latest Blog Posts - Takes 3 cols */}
-          <div className="lg:col-span-3 space-y-4">
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-              Últimos Posts
-              <span className="inline-block w-8 h-px bg-blue-500"></span>
-            </h3>
-            {latestPosts.docs.length > 0 ? (
-              <ul className="space-y-3">
-                {latestPosts.docs.map((post) => (
-                  <li key={post.id}>
-                    <Link
-                      href={getPostUrl(post)}
-                      className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
-                    >
-                      <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <span className="line-clamp-2 group-hover:underline underline-offset-2">
-                        {post.title}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-slate-400">No hay posts disponibles</p>
-            )}
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all"
-            >
-              Ver todos los posts
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-          </div>
+          {latestPostsConfig?.show && (
+            <div className="lg:col-span-3 space-y-4">
+              <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
+                {latestPostsConfig.title || 'Últimos Posts'}
+                <span className="inline-block w-8 h-px bg-blue-500"></span>
+              </h3>
+              {latestPostsDocs.length > 0 ? (
+                <ul className="space-y-3">
+                  {latestPostsDocs.map((post) => (
+                    <li key={post.id}>
+                      <Link
+                        href={getPostUrl(post)}
+                        className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
+                      >
+                        <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <span className="line-clamp-2 group-hover:underline underline-offset-2">
+                          {post.title}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-slate-400">No hay posts disponibles</p>
+              )}
+              {latestPostsConfig.viewAllLink && (
+                <CMSLink
+                  {...latestPostsConfig.viewAllLink}
+                  label={latestPostsConfig.viewAllText || 'Ver todos los posts'}
+                  className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all mt-2"
+                >
+                  <ArrowUpRight className="w-4 h-4" />
+                </CMSLink>
+              )}
+            </div>
+          )}
 
           {/* Latest Case Studies - Takes 2 cols */}
-          <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-              Casos
-              <span className="inline-block w-8 h-px bg-blue-500"></span>
-            </h3>
-            {latestCaseStudies.docs.length > 0 ? (
-              <ul className="space-y-3">
-                {latestCaseStudies.docs.map((caseStudy) => (
-                  <li key={caseStudy.id}>
-                    <Link
-                      href={`/case-studies/${caseStudy.slug}`}
-                      className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
-                    >
-                      <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <span className="line-clamp-2 group-hover:underline underline-offset-2">
-                        {caseStudy.title}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-slate-400">No hay casos disponibles</p>
-            )}
-            <Link
-              href="/case-studies"
-              className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all"
-            >
-              Ver todos
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-          </div>
+          {caseStudiesConfig?.show && (
+            <div className="lg:col-span-2 space-y-4">
+              <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
+                {caseStudiesConfig.title || 'Casos'}
+                <span className="inline-block w-8 h-px bg-blue-500"></span>
+              </h3>
+              {latestCaseStudiesDocs.length > 0 ? (
+                <ul className="space-y-3">
+                  {latestCaseStudiesDocs.map((caseStudy) => (
+                    <li key={caseStudy.id}>
+                      <Link
+                        href={`/case-studies/${caseStudy.slug}`}
+                        className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
+                      >
+                        <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <span className="line-clamp-2 group-hover:underline underline-offset-2">
+                          {caseStudy.title}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-slate-400">No hay casos disponibles</p>
+              )}
+              {caseStudiesConfig.viewAllLink && (
+                <CMSLink
+                  {...caseStudiesConfig.viewAllLink}
+                  label={caseStudiesConfig.viewAllText || 'Ver todos'}
+                  className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all mt-2"
+                >
+                  <ArrowUpRight className="w-4 h-4" />
+                </CMSLink>
+              )}
+            </div>
+          )}
 
-          {/* Dynamic Columns - Takes 2 cols */}
-          <div className="lg:col-span-2 space-y-8">
-            {columns?.map((col, i) => (
-              <div key={i} className="space-y-4">
-                <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-                  {col.title}
-                  <span className="inline-block w-8 h-px bg-blue-500"></span>
-                </h3>
-                {col.navItems && col.navItems.length > 0 && (
-                  <ul className="space-y-2.5">
-                    {col.navItems.map(({ link }, j) => (
-                      <li key={j}>
-                        <CMSLink
-                          {...link}
-                          className="text-sm text-slate-300 hover:text-blue-400 transition-all inline-flex items-center gap-1 group"
-                        >
-                          <span className="group-hover:translate-x-1 transition-transform inline-block">
-                            {link.label}
-                          </span>
-                        </CMSLink>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </div>
+          {/* Removed Legacy Dynamic Columns */}
         </div>
 
         {/* Bottom Bar */}
@@ -224,30 +227,42 @@ export async function Footer() {
               {copyright || '© 2024 Juan Carlos Angulo. Todos los derechos reservados.'}
             </p>
             <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-              <Link
-                href="/privacy"
-                className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
-              >
-                Privacidad
-              </Link>
-              <Link
-                href="/terms"
-                className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
-              >
-                Términos
-              </Link>
-              <Link
-                href="/sitemap"
-                className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
-              >
-                Sitemap
-              </Link>
-              <Link
-                href="/sitemap.xml"
-                className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
-              >
-                Sitemap XML
-              </Link>
+              {bottomNav && bottomNav.length > 0 ? (
+                bottomNav.map(({ link }, i) => (
+                  <CMSLink
+                    key={i}
+                    {...link}
+                    className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
+                  />
+                ))
+              ) : (
+                <>
+                  <Link
+                    href="/privacy"
+                    className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
+                  >
+                    Privacidad
+                  </Link>
+                  <Link
+                    href="/terms"
+                    className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
+                  >
+                    Términos
+                  </Link>
+                  <Link
+                    href="/sitemap"
+                    className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
+                  >
+                    Sitemap
+                  </Link>
+                  <Link
+                    href="/sitemap.xml"
+                    className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
+                  >
+                    Sitemap XML
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

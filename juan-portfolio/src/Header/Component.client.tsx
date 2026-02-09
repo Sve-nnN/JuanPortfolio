@@ -11,7 +11,7 @@ import type { Header } from '@/payload-types'
 
 // Logo moved to text initials
 import { HeaderNav } from './Nav'
-import ThemeToggle from '@/providers/Theme/ThemeToggle.client'
+import { CMSLink } from '@/components/Link'
 
 interface HeaderClientProps {
   data: Header
@@ -60,7 +60,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <div className="hidden md:flex items-center">
             <HeaderNav data={data} />
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors"
@@ -94,8 +94,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 </div>
               )}
             </div>
-            {/* ThemeToggle uses the ThemeProvider client */}
-            <ThemeToggle className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" />
+
+            {/* Primary CTA Button */}
+            {data?.cta?.link && (
+              <CMSLink
+                {...data.cta.link}
+                className="hidden md:inline-flex items-center px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+              />
+            )}
 
             {/* Mobile menu toggle */}
             <button
@@ -147,11 +153,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 </svg>
               </button>
             </div>
+            {/* Primary CTA in mobile menu */}
+            {data?.cta?.link && (
+              <CMSLink
+                {...data.cta.link}
+                className="w-full inline-flex items-center justify-center px-6 py-3.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-lg mb-6"
+                onClick={() => setIsOpen(false)}
+              />
+            )}
+
             <div className="flex-1 overflow-auto" tabIndex={-1}>
               <HeaderNav data={data} mobile onItemClick={() => setIsOpen(false)} />
-            </div>
-            <div className="mt-6">
-              <ThemeToggle className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" />
             </div>
           </div>
         </div>

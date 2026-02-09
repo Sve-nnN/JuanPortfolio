@@ -16,12 +16,13 @@ type LowImpactHeroType =
 
 export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText }) => {
   return (
-    <div className="container py-16 md:py-24">
+    <div className="container pt-16 pb-16 md:pt-20 md:pb-24">
       <div className="max-w-[48rem]">
         {children || (
           richText && (
             <RichText
-              className="mb-6 text-lg md:text-xl font-light tracking-wide"
+              className="mb-6 font-light tracking-wide"
+              style={{ fontSize: 'clamp(1.25rem, 2.5vw, 2.5rem)' }}
               data={richText}
               enableGutter={false}
             />

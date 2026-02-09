@@ -17,7 +17,7 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
   }
 
   return (
-    <section className="min-h-[calc(100vh-80px)] flex items-center py-20 relative overflow-hidden" id="home">
+    <section className="min-h-[calc(100vh-80px)] flex items-center pt-32 pb-20 relative overflow-hidden" id="home">
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow" />
@@ -35,14 +35,17 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
             )}
 
             <h1
-              className={`${titleSizeClass} font-display font-extrabold text-foreground mb-6 leading-tight lg:leading-[1.1] tracking-tight animate-fade-in-up`}
-              style={{ animationDelay: '0.1s' }}
+              className={`font-display font-extrabold text-foreground mb-6 leading-tight lg:leading-[1.1] tracking-tight animate-fade-in-up`}
+              style={{ animationDelay: '0.1s', fontSize: 'clamp(3rem, 5vw, 5rem)' }}
             >
               {title || 'Juan Carlos Angulo'}
               {subtitle && (
                 <>
                   <br />
-                  <span className="text-3xl md:text-5xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 block mt-2 font-normal">
+                  <span
+                    className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 block mt-2 font-normal"
+                    style={{ fontSize: 'clamp(1.2rem, 2vw, 2.5rem)' }}
+                  >
                     {subtitle}
                   </span>
                 </>

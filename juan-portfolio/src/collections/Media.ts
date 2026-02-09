@@ -89,7 +89,7 @@ export const Media: CollectionConfig = {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: ({ doc }) =>
-      (doc.imgbbUrl as string) || `https://cdn.juanes.xyz/${doc.filename as string}`,
+      (doc.imgbbUrl as string) || (doc.url as string) || `/media/${doc.filename}`,
     focalPoint: true,
     imageSizes: [
       {

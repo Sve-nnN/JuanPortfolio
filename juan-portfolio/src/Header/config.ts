@@ -25,6 +25,22 @@ export const Header: GlobalConfig = {
         },
       },
     },
+    {
+      name: 'cta',
+      type: 'group',
+      label: 'Call to Action',
+      admin: {
+        description: 'Primary CTA button displayed in the header',
+      },
+      fields: [
+        link({
+          appearances: false,
+          overrides: {
+            label: 'CTA Link',
+          },
+        }),
+      ],
+    },
   ],
   hooks: {
     afterChange: [revalidateHeader],

@@ -2,11 +2,11 @@
 
 import React from 'react'
 import Image from 'next/image'
-import type { Client } from '@/payload-types'
+import type { Cliente } from '@/payload-types'
 import Link from 'next/link'
 
 interface ClientsMarqueeProps {
-  clients?: Client[]
+  clients?: Cliente[]
 }
 
 const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
@@ -25,7 +25,7 @@ const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
       <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none" />
 
       <div className="flex animate-marquee-infinite space-x-16 md:space-x-32 w-max py-8 hover:[animation-play-state:paused]">
-        {displayClients.map((c: Client, i) => {
+        {displayClients.map((c: Cliente, i) => {
           const content = (
             <div
               className="flex justify-center items-center flex-shrink-0 w-48 md:w-80 h-32 md:h-48 
@@ -33,13 +33,21 @@ const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
                          opacity-40 hover:opacity-100 transform hover:scale-105"
             >
               {c.logo && typeof c.logo === 'object' && c.logo.url ? (
-                <div className="relative w-full h-full flex items-center justify-center p-6">
+                <div
+                  className={`
+                    relative w-full h-full flex items-center justify-center p-6 
+                    ${(c as any).forceWhiteBackground ? 'bg-white rounded-lg' : ''}
+                  `}
+                >
                   <Image
                     src={c.logo.url}
                     alt={c.name || 'Logo'}
                     width={320}
                     height={180}
-                    className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-500"
+                    className={`
+                      max-w-full max-h-full w-auto h-auto object-contain transition-all duration-500
+                      ${(c as any).invertInDark ? 'dark:invert' : ''}
+                    `}
                   />
                 </div>
               ) : (

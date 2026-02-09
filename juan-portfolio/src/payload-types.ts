@@ -75,7 +75,7 @@ export interface Config {
     users: User;
     works: Work;
     'case-studies': CaseStudy;
-    clients: Client;
+    clientes: Cliente;
     'ad-banners': AdBanner;
     testimonials: Testimonial;
     'keyword-metrics': KeywordMetric;
@@ -98,7 +98,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     works: WorksSelect<false> | WorksSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
-    clients: ClientsSelect<false> | ClientsSelect<true>;
+    clientes: ClientesSelect<false> | ClientesSelect<true>;
     'ad-banners': AdBannersSelect<false> | AdBannersSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'keyword-metrics': KeywordMetricsSelect<false> | KeywordMetricsSelect<true>;
@@ -244,7 +244,7 @@ export interface Page {
     /**
      * Selecciona los clientes destacados para la sección de empresas
      */
-    featuredClients?: (string | Client)[] | null;
+    featuredClients?: (string | Cliente)[] | null;
     blogTitle?: string | null;
     blogDescription?: string | null;
   };
@@ -631,14 +631,15 @@ export interface CaseStudy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
+ * via the `definition` "clientes".
  */
-export interface Client {
+export interface Cliente {
   id: string;
   name: string;
-  logo?: (string | null) | Media;
+  logo: string | Media;
   url?: string | null;
-  order?: number | null;
+  invertInDark?: boolean | null;
+  forceWhiteBackground?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -800,7 +801,7 @@ export interface FeaturedClientsBlock {
   /**
    * Selecciona los clientes destacados
    */
-  clients?: (string | Client)[] | null;
+  clients?: (string | Cliente)[] | null;
   /**
    * Activar scroll automático del carrusel
    */
@@ -2063,21 +2064,21 @@ export interface PayloadMcpApiKey {
      */
     delete?: boolean | null;
   };
-  clients?: {
+  clientes?: {
     /**
-     * Allow clients to find clients.
+     * Allow clients to find clientes.
      */
     find?: boolean | null;
     /**
-     * Allow clients to create clients.
+     * Allow clients to create clientes.
      */
     create?: boolean | null;
     /**
-     * Allow clients to update clients.
+     * Allow clients to update clientes.
      */
     update?: boolean | null;
     /**
-     * Allow clients to delete clients.
+     * Allow clients to delete clientes.
      */
     delete?: boolean | null;
   };
@@ -2251,8 +2252,8 @@ export interface PayloadLockedDocument {
         value: string | CaseStudy;
       } | null)
     | ({
-        relationTo: 'clients';
-        value: string | Client;
+        relationTo: 'clientes';
+        value: string | Cliente;
       } | null)
     | ({
         relationTo: 'ad-banners';
@@ -3263,13 +3264,14 @@ export interface CaseStudiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients_select".
+ * via the `definition` "clientes_select".
  */
-export interface ClientsSelect<T extends boolean = true> {
+export interface ClientesSelect<T extends boolean = true> {
   name?: T;
   logo?: T;
   url?: T;
-  order?: T;
+  invertInDark?: T;
+  forceWhiteBackground?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3567,7 +3569,7 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         update?: T;
         delete?: T;
       };
-  clients?:
+  clientes?:
     | T
     | {
         find?: T;
@@ -3686,6 +3688,26 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Primary CTA button displayed in the header
+   */
+  cta: {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3695,6 +3717,107 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  brand: {
+    logoText: string;
+    logoImage?: (string | null) | Media;
+    description?: string | null;
+  };
+  mainNav?: {
+    title?: string | null;
+    navItems?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  latestPosts?: {
+    show?: boolean | null;
+    title?: string | null;
+    limit?: number | null;
+    viewAllText?: string | null;
+    viewAllLink?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
+  caseStudies?: {
+    show?: boolean | null;
+    title?: string | null;
+    limit?: number | null;
+    viewAllText?: string | null;
+    viewAllLink?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
+  socialLinks?:
+    | {
+        platform: 'github' | 'linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  copyright?: string | null;
+  bottomNav?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Use las pestañas principales para configurar las columnas estándar. Use esto solo si necesita columnas adicionales personalizadas.
+   */
   columns?:
     | {
         title: string;
@@ -3721,14 +3844,6 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  socialLinks?:
-    | {
-        platform: 'github' | 'linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube';
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
-  copyright?: string | null;
   navItems?:
     | {
         link: {
@@ -3890,6 +4005,19 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  cta?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -3899,6 +4027,88 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  brand?:
+    | T
+    | {
+        logoText?: T;
+        logoImage?: T;
+        description?: T;
+      };
+  mainNav?:
+    | T
+    | {
+        title?: T;
+        navItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  latestPosts?:
+    | T
+    | {
+        show?: T;
+        title?: T;
+        limit?: T;
+        viewAllText?: T;
+        viewAllLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  caseStudies?:
+    | T
+    | {
+        show?: T;
+        title?: T;
+        limit?: T;
+        viewAllText?: T;
+        viewAllLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  copyright?: T;
+  bottomNav?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
   columns?:
     | T
     | {
@@ -3919,14 +4129,6 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  socialLinks?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
-  copyright?: T;
   navItems?:
     | T
     | {

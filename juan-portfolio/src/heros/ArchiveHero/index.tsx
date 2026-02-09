@@ -108,12 +108,18 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
                         </nav>
                     )}
 
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white drop-shadow-sm leading-tight">
+                    <h1
+                        className="font-display font-bold text-white drop-shadow-sm leading-tight pt-20 md:pt-24"
+                        style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
+                    >
                         {title}
                     </h1>
 
                     {description && (
-                        <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
+                        <p
+                            className="text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm"
+                            style={{ fontSize: 'clamp(1.125rem, 1.5vw, 1.25rem)' }}
+                        >
                             {description}
                         </p>
                     )}

@@ -36,8 +36,8 @@ export async function getGlobalStyles(): Promise<Styles> {
   })
 
   const styles = await payload.findGlobal({
-    slug: 'styles' as any,
-  })
+    slug: 'styles',
+  }) as unknown as Styles;
 
   cachedStyles = styles
   lastFetched = now

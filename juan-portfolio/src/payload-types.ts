@@ -121,6 +121,7 @@ export interface Config {
     home: Home;
     'blog-listing': BlogListing;
     'case-studies-listing': CaseStudiesListing;
+    styles: Style;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -128,6 +129,7 @@ export interface Config {
     home: HomeSelect<false> | HomeSelect<true>;
     'blog-listing': BlogListingSelect<false> | BlogListingSelect<true>;
     'case-studies-listing': CaseStudiesListingSelect<false> | CaseStudiesListingSelect<true>;
+    styles: StylesSelect<false> | StylesSelect<true>;
   };
   locale: 'en' | 'es';
   user:
@@ -3988,6 +3990,30 @@ export interface CaseStudiesListing {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "styles".
+ */
+export interface Style {
+  id: string;
+  colors?: {
+    accent?: string | null;
+    text?: string | null;
+    muted?: string | null;
+    border?: string | null;
+    buttonBackground?: string | null;
+    buttonText?: string | null;
+    secondaryButtonBackground?: string | null;
+    secondaryButtonText?: string | null;
+  };
+  fonts?: {
+    primary?: string | null;
+    secondary?: string | null;
+  };
+  borderRadius?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -4262,6 +4288,34 @@ export interface CaseStudiesListingSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "styles_select".
+ */
+export interface StylesSelect<T extends boolean = true> {
+  colors?:
+    | T
+    | {
+        accent?: T;
+        text?: T;
+        muted?: T;
+        border?: T;
+        buttonBackground?: T;
+        buttonText?: T;
+        secondaryButtonBackground?: T;
+        secondaryButtonText?: T;
+      };
+  fonts?:
+    | T
+    | {
+        primary?: T;
+        secondary?: T;
+      };
+  borderRadius?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

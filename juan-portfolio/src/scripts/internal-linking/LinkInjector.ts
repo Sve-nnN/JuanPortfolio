@@ -22,7 +22,7 @@ export class LinkInjector {
         const allSkipped: Array<{ opportunity: LinkOpportunity; reason: string }> = [];
         const errors: Array<{ post: string; error: string }> = [];
 
-        for (const [slug, ops] of opportunities.entries()) {
+        for (const [_slug, ops] of opportunities.entries()) {
             if (ops.length === 0) continue;
 
             const sourcePost = ops[0].sourcePost;

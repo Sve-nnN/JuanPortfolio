@@ -177,8 +177,6 @@ async function updateKeywords() {
     const adapter = getSeoAdapter(options.source);
     console.log(`Using SEO Adapter: ${adapter.providerName}`);
 
-    const service = new SeoService(adapter, payload);
-
     const fileContent = fs.readFileSync(KEYWORDS_FILE_PATH, 'utf-8');
     const lines = fileContent.split('\n');
     const updatedLines: string[] = [];

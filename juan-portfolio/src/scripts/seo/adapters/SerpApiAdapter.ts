@@ -65,7 +65,7 @@ export class SerpApiAdapter implements SeoAdapter {
             if (data.related_searches && Array.isArray(data.related_searches)) {
                 relatedSearches.push(
                     ...data.related_searches
-                        .map((item: any) => item.query)
+                        .map((item: { query: string }) => item.query)
                         .filter((q: string) => q)
                         .slice(0, 8)
                 );
@@ -81,7 +81,7 @@ export class SerpApiAdapter implements SeoAdapter {
                     const topLink = data.organic_results[0].link;
                     const url = new URL(topLink);
                     topDomain = url.hostname;
-                } catch (e) {
+                } catch (_e) {
                     // Invalid URL, keep empty
                 }
             }

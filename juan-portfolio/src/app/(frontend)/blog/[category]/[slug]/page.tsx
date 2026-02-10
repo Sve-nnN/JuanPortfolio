@@ -15,6 +15,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 import { Metadata } from 'next'
+import { AuthorCard } from '@/components/AuthorCard'
 
 /**
  * Generates static parameters for all blog posts.
@@ -129,6 +130,19 @@ export default async function PostPage({
             </aside>
           )}
         </div>
+
+        {/* Author Attribution */}
+        {post.authors && post.authors.length > 0 && (() => {
+          const firstAuthor = post.authors[0]
+          if (typeof firstAuthor === 'object' && firstAuthor) {
+            return (
+              <div className="max-w-3xl mx-auto mt-12">
+                <AuthorCard author={firstAuthor} />
+              </div>
+            )
+          }
+          return null
+        })()}
       </AnimateOnScroll>
     </article>
   )

@@ -4,6 +4,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { Card } from '@/components/Card'
+import { generatePersonSchema } from '@/utilities/schema/generatePersonSchema'
+import { mergeSchemas } from '@/utilities/schema/mergeSchemas'
+import Script from 'next/script'
+import RichText from '@/components/RichText'
+import { Calendar, Building, GraduationCap, Briefcase } from 'lucide-react'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -11,12 +17,12 @@ type Props = {
 
 const queryUserBySlug = async (slug: string) => {
   const payload = await getPayload({ config: configPromise })
-  // Buscar por slug primero, si no existe, buscar por id
   let res = await payload.find({
     collection: 'users',
     limit: 1,
     where: { slug: { equals: slug } },
     pagination: false,
+    depth: 2,
   })
   if (!res.docs?.[0]) {
     res = await payload.find({
@@ -24,6 +30,7 @@ const queryUserBySlug = async (slug: string) => {
       limit: 1,
       where: { id: { equals: slug } },
       pagination: false,
+      depth: 2,
     })
   }
   return res.docs?.[0] || null
@@ -36,6 +43,7 @@ const queryPostsByAuthor = async (authorId: string) => {
     limit: 50,
     where: {
       authors: { contains: authorId },
+      _status: { equals: 'published' },
     },
     sort: '-publishedAt',
   })
@@ -48,17 +56,17 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'users',
-    limit: 1,
-    where: { slug: { equals: slug } },
-    depth: 2,
-  })
-  const user = res.docs[0]
+  const user = await queryUserBySlug(slug)
+
+  if (!user) {
+    return {
+      title: 'Autor no encontrado',
+    }
+  }
+
   return {
-    title: user?.meta?.title || user?.name || 'Autor',
-    description: user?.meta?.description || user?.bio || '',
+    title: user.meta?.title || `${user.name} - Autor`,
+    description: user.meta?.description || user.bio || `Perfil de ${user.name}`,
   }
 }
 
@@ -70,77 +78,353 @@ export default async function AuthorPage({ params }: Props) {
 
   const posts = await queryPostsByAuthor(user.id)
 
+  // Generate Person schema for E-E-A-T
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
+  const authorUrl = `${baseUrl}/authors/${user.slug}`
+
+  // Get avatar URL from cloudinaryUrl or fallback to url
+  const avatarUrl =
+    user.avatar && typeof user.avatar === 'object'
+      ? (user.avatar.cloudinaryUrl as string | undefined) || (user.avatar.url as string | undefined)
+      : undefined
+
+  const socialLinks: string[] = []
+  if (user.socialMedia?.linkedin) socialLinks.push(user.socialMedia.linkedin)
+  if (user.socialMedia?.github) socialLinks.push(user.socialMedia.github)
+  if (user.socialMedia?.twitter) socialLinks.push(user.socialMedia.twitter)
+  if (user.socialMedia?.website) socialLinks.push(user.socialMedia.website)
+
+  const expertise = user.expertise?.map((e) => (typeof e === 'object' ? e.topic : e)).filter(Boolean) || []
+
+  // Map education for schema
+  const alumniOf = user.education?.map(edu => ({
+    name: edu.institution || 'Unknown Institution',
+    degree: edu.degree,
+  })).filter(edu => edu.name && edu.degree) || []
+
+  const personSchema = generatePersonSchema({
+    name: user.name || '',
+    jobTitle: user.jobTitle || undefined,
+    description: user.bio || undefined,
+    image: avatarUrl,
+    url: authorUrl,
+    sameAs: socialLinks,
+    knowsAbout: expertise as string[],
+    alumniOf,
+  })
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Autores',
+        item: `${baseUrl}/authors`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: user.name,
+        item: authorUrl,
+      },
+    ],
+  }
+
+  const combinedSchema = mergeSchemas([personSchema, breadcrumbSchema])
+
   return (
-    <main>
-      <section className="py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            {user.avatar &&
-              typeof user.avatar === 'object' &&
-              'url' in user.avatar &&
-              user.avatar.url ? (
-              <div className="w-36 h-36 rounded-full overflow-hidden mx-auto mb-4">
-                <Image
-                  src={user.avatar.url as string}
-                  alt={user.avatar.alt || user.name || ''}
-                  width={144}
-                  height={144}
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-            <h1 className="text-3xl font-display font-bold mb-2">{user.name}</h1>
-            {user.role ? <p className="text-muted mb-4">{user.role}</p> : null}
-            {user.bio ? <p className="text-lg text-muted mb-6">{user.bio}</p> : null}
+    <>
+      <Script
+        id="author-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(combinedSchema),
+        }}
+      />
+      <main className="bg-background">
+        {/* Hero Section */}
+        <section className="relative py-16 md:py-24 bg-gradient-to-br from-muted/50 to-muted/20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              {/* Avatar */}
+              {avatarUrl && (
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-background shadow-xl">
+                  <Image
+                    src={avatarUrl}
+                    alt={user.name || 'Author'}
+                    width={160}
+                    height={160}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              )}
 
-            {user.experience && user.experience.length > 0 && (
-              <div className="mb-8 text-left">
-                <h3 className="text-2xl font-semibold mb-3">Experiencia</h3>
-                <ul className="space-y-4">
-                  {user.experience.map((e, i) => (
-                    <li key={i}>
-                      <div className="font-semibold">
-                        {e.role} — {e.company}
-                      </div>
-                      <div className="text-sm text-muted">
-                        {e.startDate ? new Date(e.startDate).toLocaleDateString() : ''} —{' '}
-                        {e.endDate ? new Date(e.endDate).toLocaleDateString() : 'Presente'}
-                      </div>
-                      {e.description ? <div className="mt-1">{e.description}</div> : null}
-                    </li>
+              {/* Name & Title */}
+              <h1 className="text-4xl md:text-5xl font-display font-bold mb-3">{user.name}</h1>
+              {user.jobTitle && (
+                <p className="text-xl md:text-2xl text-muted-foreground mb-6">{user.jobTitle}</p>
+              )}
+
+              {/* Bio */}
+              {user.bio && (
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
+                  {user.bio}
+                </p>
+              )}
+
+              {/* Social Links */}
+              {socialLinks.length > 0 && (
+                <div className="flex items-center justify-center gap-4 mb-8">
+                  {user.socialMedia?.linkedin && (
+                    <a
+                      href={user.socialMedia.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-background hover:bg-muted rounded-lg transition-colors"
+                      aria-label="LinkedIn"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                      </svg>
+                      LinkedIn
+                    </a>
+                  )}
+                  {user.socialMedia?.github && (
+                    <a
+                      href={user.socialMedia.github}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-background hover:bg-muted rounded-lg transition-colors"
+                      aria-label="GitHub"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                      </svg>
+                      GitHub
+                    </a>
+                  )}
+                  {user.socialMedia?.twitter && (
+                    <a
+                      href={user.socialMedia.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-background hover:bg-muted rounded-lg transition-colors"
+                      aria-label="Twitter"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                      Twitter
+                    </a>
+                  )}
+                  {user.socialMedia?.website && (
+                    <a
+                      href={user.socialMedia.website}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-background hover:bg-muted rounded-lg transition-colors"
+                      aria-label="Website"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                        />
+                      </svg>
+                      Website
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* Expertise Tags */}
+              {expertise.length > 0 && (
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  {expertise.map((topic, i) => (
+                    <span
+                      key={i}
+                      className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                    >
+                      {topic}
+                    </span>
                   ))}
-                </ul>
-              </div>
-            )}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
 
-            <div className="mt-8">
-              <h3 className="text-2xl font-semibold mb-4">Posts por {user.name}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {posts.map((post) => {
-                  const categories = post.categories || []
-                  const cat =
-                    Array.isArray(categories) && categories.length > 0
-                      ? typeof categories[0] === 'string'
-                        ? categories[0]
-                        : (categories[0] as { slug?: string | null })?.slug
-                      : null
-                  const postUrl = cat ? `/blog/${cat}/${post.slug}` : `/blog/${post.slug}`
-                  return (
-                    <article key={post.id} className="bg-card rounded-lg p-4">
-                      <h4 className="font-semibold mb-1">
-                        <Link href={postUrl}>{post.title}</Link>
-                      </h4>
-                      <p className="text-sm text-muted">
-                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
-                      </p>
-                    </article>
-                  )
-                })}
+        {/* Main Content */}
+        <section className="py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Experience Timeline */}
+              {user.experience && user.experience.length > 0 && (
+                <div className="mb-12">
+                  <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
+                    Experiencia Profesional
+                  </h2>
+                  <div className="space-y-0">
+                    {user.experience.map((exp, i) => (
+                      <div
+                        key={i}
+                        className="relative pl-8 pb-8 border-l-2 border-muted last:pb-0"
+                      >
+                        {/* Timeline dot - aligned with card top */}
+                        <div className="absolute left-0 top-2 w-4 h-4 -ml-[9px] rounded-full bg-primary ring-4 ring-background" />
+
+                        <div className="bg-card rounded-lg p-6 shadow-sm">
+                          <div className="flex items-start gap-2 mb-1">
+                            <Briefcase className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                            <h3 className="text-xl font-semibold flex-1">
+                              {exp.role} — {exp.company}
+                            </h3>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3 ml-7">
+                            <Calendar className="w-4 h-4" />
+                            <p>
+                              {exp.startDate ? new Date(exp.startDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : ''}
+                              {' — '}
+                              {exp.endDate ? new Date(exp.endDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : 'Presente'}
+                            </p>
+                          </div>
+                          {exp.description && (
+                            <p className="text-muted-foreground ml-7">{exp.description}</p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Education Timeline */}
+              {user.education && user.education.length > 0 && (
+                <div className="mb-12">
+                  <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
+                    Educación y Certificaciones
+                  </h2>
+                  <div className="space-y-0">
+                    {user.education.map((edu, i) => {
+                      // Get certificate URL from cloudinaryUrl or fallback to url
+                      const certUrl = edu.certificate && typeof edu.certificate === 'object'
+                        ? (edu.certificate.cloudinaryUrl as string | undefined) || (edu.certificate.url as string | undefined)
+                        : null
+                      
+                      // Get logo URL
+                      const logoUrl = edu.logo && typeof edu.logo === 'object'
+                        ? (edu.logo.cloudinaryUrl as string | undefined) || (edu.logo.url as string | undefined)
+                        : null
+                      
+                      return (
+                        <div
+                          key={i}
+                          className="relative pl-8 pb-8 border-l-2 border-muted last:pb-0"
+                        >
+                          {/* Timeline dot - aligned with card top */}
+                          <div className="absolute left-0 top-2 w-4 h-4 -ml-[9px] rounded-full bg-primary ring-4 ring-background" />
+
+                          <div className="bg-card rounded-lg p-6 shadow-sm">
+                            <div className="flex items-start justify-between gap-4 mb-3">
+                              <div className="flex-1">
+                                <div className="flex items-start gap-2 mb-2">
+                                  <GraduationCap className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                  <h3 className="text-xl font-semibold flex-1">{edu.degree}</h3>
+                                </div>
+                                {edu.institution && (
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Building className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                                    <p className="text-base text-muted-foreground flex items-center gap-2">
+                                      {edu.institution}
+                                      {logoUrl && (
+                                        <Image
+                                          src={logoUrl}
+                                          alt={`Logo de ${edu.institution}`}
+                                          width={20}
+                                          height={20}
+                                          className="inline-block object-contain"
+                                        />
+                                      )}
+                                    </p>
+                                  </div>
+                                )}
+                                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                  <Calendar className="w-4 h-4" />
+                                  <p>
+                                    {edu.startDate ? new Date(edu.startDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : ''}
+                                    {edu.startDate && edu.endDate && ' — '}
+                                    {edu.startDate && !edu.endDate && ' — '}
+                                    {edu.endDate ? new Date(edu.endDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : (edu.startDate ? 'Presente' : '')}
+                                  </p>
+                                </div>
+                              </div>
+                              {certUrl && (
+                                <a
+                                  href={certUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex-shrink-0"
+                                  aria-label={`Ver certificado de ${edu.degree}`}
+                                >
+                                  <Image
+                                    src={certUrl}
+                                    alt={`Certificado de ${edu.degree}`}
+                                    width={120}
+                                    height={120}
+                                    className="rounded-lg object-cover border-2 border-border hover:border-primary transition-colors"
+                                  />
+                                </a>
+                              )}
+                            </div>
+                            {edu.description && (
+                              <p className="text-muted-foreground">{edu.description}</p>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Credentials (Legacy - Hidden from display) */}
+
+              {/* Published Articles */}
+              <div>
+                <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
+                  Artículos Publicados ({posts.length})
+                </h2>
+                {posts.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {posts.map((post) => (
+                      <Card key={post.id} doc={post} relationTo="posts" showCategories={true} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground">
+                    Aún no hay artículos publicados por este autor.
+                  </p>
+                )}
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   )
 }

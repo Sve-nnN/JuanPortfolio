@@ -530,7 +530,80 @@ export interface User {
   id: string;
   name: string;
   role?: string | null;
+  /**
+   * Ej: Full-Stack Developer, Senior Software Engineer
+   */
+  jobTitle?: string | null;
   bio?: string | null;
+  /**
+   * Temas en los que eres experto (mejora E-E-A-T)
+   */
+  expertise?:
+    | {
+        topic: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Links a perfiles profesionales (mejora autoridad)
+   */
+  socialMedia?: {
+    linkedin?: string | null;
+    github?: string | null;
+    twitter?: string | null;
+    website?: string | null;
+  };
+  /**
+   * Títulos académicos, certificaciones profesionales, cursos relevantes
+   */
+  education?:
+    | {
+        /**
+         * Ej: Master en Ingeniería, AWS Certified Developer
+         */
+        degree: string;
+        /**
+         * Ej: Universidad XYZ, Amazon Web Services
+         */
+        institution?: string | null;
+        /**
+         * Logo pequeño de la institución (opcional, se mostrará junto al nombre)
+         */
+        logo?: (string | null) | Media;
+        startDate?: string | null;
+        /**
+         * Dejar vacío si está en curso
+         */
+        endDate?: string | null;
+        /**
+         * Imagen del certificado o diploma (opcional)
+         */
+        certificate?: (string | null) | Media;
+        /**
+         * Detalles adicionales, logros, especialización
+         */
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * DEPRECADO: Usa el campo Education arriba. Este campo se mantendrá para compatibilidad.
+   */
+  credentials?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   experience?:
     | {
         company?: string | null;
@@ -3160,7 +3233,35 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  jobTitle?: T;
   bio?: T;
+  expertise?:
+    | T
+    | {
+        topic?: T;
+        id?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        linkedin?: T;
+        github?: T;
+        twitter?: T;
+        website?: T;
+      };
+  education?:
+    | T
+    | {
+        degree?: T;
+        institution?: T;
+        logo?: T;
+        startDate?: T;
+        endDate?: T;
+        certificate?: T;
+        description?: T;
+        id?: T;
+      };
+  credentials?: T;
   experience?:
     | T
     | {

@@ -24,6 +24,7 @@ export function generateArticleSchema(input: ArticleSchemaInput): Schema {
         {
           '@type': 'Person',
           name: 'Juan Carlos Angulo',
+          url: `${baseUrl}/authors/juan-carlos-angulo`,
         },
       ]
 

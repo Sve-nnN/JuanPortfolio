@@ -20,18 +20,17 @@ export function getPostUrl(post: {
 
   if (categories && categories.length > 0) {
     const firstCategory = categories[0]
-    if (typeof firstCategory === 'object') {
-      // Usar slug si existe, sino usar id
+    if (typeof firstCategory === 'object' && firstCategory !== null) {
       categorySlug = firstCategory.slug || firstCategory.id || 'general'
     } else if (typeof firstCategory === 'string') {
-      // Si es un ID, no podemos obtener el slug sin un fetch adicional, 
-      // pero el usuario quiere el formato /blog/category/slug.
-      // Si depth > 0, debería ser un objeto.
-      categorySlug = firstCategory
+      categorySlug = firstCategory === 'general' ? 'general' : firstCategory
     }
   }
 
-  return `/blog/${categorySlug}/${slug}`
+  // Ensure slug is not undefined
+  const finalSlug = post.slug || post.id || 'untitled'
+
+  return `/blog/${categorySlug}/${finalSlug}`
 }
 
 /**

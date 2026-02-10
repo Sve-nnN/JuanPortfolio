@@ -22,8 +22,7 @@ module.exports = {
     additionalSitemaps: [
       `${normalizedUrl}/pages-sitemap.xml`,
       `${normalizedUrl}/posts-sitemap.xml`,
-      `${normalizedUrl}/case-studies-sitemap.xml`,
-      `${normalizedUrl}/authors-sitemap.xml`,
+      // case-studies and authors sitemaps excluded - no content yet
     ],
   },
 }

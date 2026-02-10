@@ -26,14 +26,9 @@ describe('SerpApiAdapter', () => {
         const mockResponse = {
             search_metadata: { status: 'Success' },
             error: null,
-            // Mocking a structure that might return volume info if we use the right params
-            // Or if we scrape it from the result.
-            // For this test, let's assume we use 'google_keyword_planner' engine if available, 
-            // OR we just test that it calls the API correctly.
-            // Wait, standard SerpApi 'google' engine doesn't return volume easily.
-            // But let's assume we implement it to return *some* data if found or 0 if not.
-            // Let's mock a hypothetical result for now.
-            formatted_total_results: "1,230,000"
+            search_information: {
+                total_results: 1230000
+            }
         };
 
         fetchMock.mockResolvedValueOnce({

@@ -31,6 +31,8 @@ interface KeywordData {
     topDomain: string;
     hasAiOverview: boolean;
     serpFeatures: string[];
+    competitorTitle: string;
+    competitorDescription: string;
 }
 
 // --- Helper Functions ---
@@ -141,7 +143,9 @@ function parseLine(line: string): KeywordData | null {
         paaCount: parseInt(parts[9]) || 0,
         topDomain: parts[10] || '',
         hasAiOverview: parts[11] === 'Yes',
-        serpFeatures: parseArray(parts[12] || '')
+        serpFeatures: parseArray(parts[12] || ''),
+        competitorTitle: parts[13] || '',
+        competitorDescription: parts[14] || ''
     };
 }
 
@@ -152,7 +156,7 @@ function formatLine(data: KeywordData): string {
     const formatArray = (arr: string[]): string => arr.join('; ');
     const formatBoolean = (val: boolean): string => val ? 'Yes' : 'No';
 
-    return `| ${data.keyword} | ${data.targetUrl} | ${data.volume} | ${data.difficulty} | ${data.intent} | ${data.status} | ${data.lastUpdated} | ${data.source} | ${formatArray(data.relatedSearches)} | ${data.paaCount} | ${data.topDomain} | ${formatBoolean(data.hasAiOverview)} | ${formatArray(data.serpFeatures)} |`;
+    return `| ${data.keyword} | ${data.targetUrl} | ${data.volume} | ${data.difficulty} | ${data.intent} | ${data.status} | ${data.lastUpdated} | ${data.source} | ${formatArray(data.relatedSearches)} | ${data.paaCount} | ${data.topDomain} | ${formatBoolean(data.hasAiOverview)} | ${formatArray(data.serpFeatures)} | ${data.competitorTitle} | ${data.competitorDescription} |`;
 }
 
 // --- Main Execution ---
@@ -188,16 +192,16 @@ async function updateKeywords() {
         // Keep header and separator lines as is
         if (!headerProcessed) {
             if (line.includes('| Keyword') && line.trim().startsWith('|')) {
-                // Replace with complete header including new SERP features
-                updatedLines.push('| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features |');
+                // Replace with complete header including new SERP features and Competitor info
+                updatedLines.push('| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features | Competitor Title | Competitor Description |');
                 headerProcessed = true;
                 continue;
             }
         }
         if (headerProcessed && !separatorProcessed) {
             if (line.includes('---')) {
-                // Separator for 13 columns
-                updatedLines.push('| :-------------------------------- | :-------------------------------------------- | :----- | :--------- | :----- | :----- | :----------- | :----- | :--------------- | :-------- | :--------- | :-------------- | :------------ |');
+                // Separator for 15 columns
+                updatedLines.push('| :-------------------------------- | :-------------------------------------------- | :----- | :--------- | :----- | :----- | :----------- | :----- | :--------------- | :-------- | :--------- | :-------------- | :------------ | :--------------- | :--------------------- |');
                 separatorProcessed = true;
                 continue;
             }
@@ -206,10 +210,6 @@ async function updateKeywords() {
         // Process data lines
         if (headerProcessed && separatorProcessed && line.trim().startsWith('|')) {
             const data = parseLine(line);
-
-            if (!data) {
-                // console.log(`[DEBUG] Failed to parse: ${line.substring(0, 30)}...`);
-            }
 
             if (data) {
                 // Smart Caching: Skip if updated today
@@ -223,16 +223,21 @@ async function updateKeywords() {
                     const metrics = await adapter.fetchMetrics(data.keyword);
 
                     if (metrics) {
-                        data.volume = metrics.volume;
-                        data.difficulty = metrics.difficulty;
+                        // Core metrics (always updated)
+                        data.volume = metrics.volume || data.volume;
+                        data.difficulty = metrics.difficulty !== undefined ? metrics.difficulty : data.difficulty;
                         data.lastUpdated = today;
                         data.source = adapter.providerName;
-                        // Populate new SERP features
-                        data.relatedSearches = metrics.relatedSearches || [];
-                        data.paaCount = metrics.paaCount || 0;
-                        data.topDomain = metrics.topDomain || '';
-                        data.hasAiOverview = metrics.hasAiOverview || false;
-                        data.serpFeatures = metrics.serpFeatures || [];
+
+                        // Sticky/Incremental metrics (only updated if provider gives them)
+                        if (metrics.relatedSearches && metrics.relatedSearches.length > 0) data.relatedSearches = metrics.relatedSearches;
+                        if (metrics.paaCount !== undefined) data.paaCount = metrics.paaCount;
+                        if (metrics.topDomain) data.topDomain = metrics.topDomain;
+                        if (metrics.hasAiOverview !== undefined) data.hasAiOverview = metrics.hasAiOverview;
+                        if (metrics.serpFeatures && metrics.serpFeatures.length > 0) data.serpFeatures = metrics.serpFeatures;
+                        if (metrics.competitorTitle) data.competitorTitle = metrics.competitorTitle;
+                        if (metrics.competitorDescription) data.competitorDescription = metrics.competitorDescription;
+
                         console.log(`Updated: ${data.keyword} (Vol: ${data.volume}, PAA: ${data.paaCount})`);
                     } else {
                         console.warn(`Skipping update for "${data.keyword}" (No data returned)`);

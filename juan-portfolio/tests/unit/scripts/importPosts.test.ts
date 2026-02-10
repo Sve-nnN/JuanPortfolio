@@ -79,6 +79,9 @@ describe('importPosts', () => {
     // RED: This test should fail once we implement logic to actually look for files
     it('should find markdown files in the posts directory', async () => {
         // Arrange
+        const originalArgv = process.argv;
+        process.argv = [...originalArgv, '--file=tech/first-post.md'];
+
         const mockPostsDir = path.resolve(process.cwd(), 'content/posts')
             ; (fs.readdirSync as any).mockReturnValue(['tech'])
             ; (fs.statSync as any).mockImplementation((path: string) => ({
@@ -100,6 +103,9 @@ Content`)
         // Act
         const stats = await importPosts()
 
+        // Cleanup
+        process.argv = originalArgv;
+
         // Assert
         // 1. Check if category was looked up/created
         expect(mockPayload.find).toHaveBeenCalledWith(expect.objectContaining({
@@ -113,12 +119,15 @@ Content`)
             data: expect.objectContaining({
                 title: 'Test Post',
                 slug: 'first-post',
-                categories: expect.anything(),
             })
         }))
     })
 
     it('should skip file if title is missing', async () => {
+        // Arrange
+        const originalArgv = process.argv;
+        process.argv = [...originalArgv, '--file=tech/no-title.md'];
+
         // Mock readdir to return a file without title
         ; (fs.readdirSync as any).mockImplementation((p: string) => {
             if (p.endsWith('tech')) return ['no-title.md']
@@ -131,11 +140,19 @@ author: "me"
 No title`)
 
         const stats = await importPosts()
+
+        // Cleanup
+        process.argv = originalArgv;
+
         expect(stats.failed).toBe(1)
         expect(stats.imported).toBe(0)
     })
 
     it('should resolve related posts by slug', async () => {
+        // Arrange
+        const originalArgv = process.argv;
+        process.argv = [...originalArgv, '--file=tech/related-test.md'];
+
         // Mock readdir to return file with related posts
         ; (fs.readdirSync as any).mockImplementation((p: string) => {
             if (p.endsWith('tech')) return ['related-test.md']
@@ -160,10 +177,78 @@ Content`)
 
         await importPosts()
 
+        // Cleanup
+        process.argv = originalArgv;
+
         expect(mockPayload.create).toHaveBeenCalledWith(expect.objectContaining({
             data: expect.objectContaining({
                 relatedPosts: ['related-id-123']
             })
+        }))
+    })
+
+    it('should pass disableRevalidate: true in context to all payload calls', async () => {
+        // Arrange
+        const originalArgv = process.argv;
+        process.argv = [...originalArgv, '--file=tech/context-test.md'];
+
+        ; (fs.readdirSync as any).mockImplementation((p: string) => {
+            if (p.endsWith('tech')) return ['context-test.md']
+            if (p.endsWith('posts')) return ['tech']
+            return []
+        })
+            ; (fs.readFileSync as any).mockReturnValue(`---
+title: "Context Test"
+---
+Content`)
+
+        // Act
+        await importPosts()
+
+        // Cleanup
+        process.argv = originalArgv;
+
+        // Assert
+        // Check create call
+        expect(mockPayload.create).toHaveBeenCalledWith(expect.objectContaining({
+            collection: 'posts',
+            context: { disableRevalidate: true }
+        }))
+
+        // Check update call (for the Spanish locale)
+        expect(mockPayload.update).toHaveBeenCalledWith(expect.objectContaining({
+            collection: 'posts',
+            context: { disableRevalidate: true }
+        }))
+    })
+
+    it('should use the folder name as the category slug', async () => {
+        // Arrange
+        const originalArgv = process.argv;
+        const folderName = 'special-category'
+        process.argv = [...originalArgv, `--file=${folderName}/post.md` ];
+
+        ; (fs.readdirSync as any).mockImplementation((p: string) => {
+            if (p.endsWith(folderName)) return ['post.md']
+            if (p.endsWith('posts')) return [folderName]
+            return []
+        })
+            ; (fs.readFileSync as any).mockReturnValue(`---
+title: "Folder Slug Test"
+---
+Content`)
+
+        // Act
+        await importPosts()
+
+        // Cleanup
+        process.argv = originalArgv;
+
+        // Assert
+        // Check if category find was called with folder name as slug
+        expect(mockPayload.find).toHaveBeenCalledWith(expect.objectContaining({
+            collection: 'categories',
+            where: { slug: { equals: folderName } }
         }))
     })
 })

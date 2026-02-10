@@ -68,9 +68,7 @@ export class LinkInjector {
         skipped: Array<{ opportunity: LinkOpportunity; reason: string }>;
     } {
         const fileContent = fs.readFileSync(post.filePath, 'utf-8');
-        const { data: frontmatter, content: body } = matter(fileContent);
-
-        const lines = body.split('\n');
+        const lines = fileContent.split('\n');
         const skipped: Array<{ opportunity: LinkOpportunity; reason: string }> = [];
         let linksAdded = 0;
 
@@ -86,7 +84,7 @@ export class LinkInjector {
             if (lineIndex < 0 || lineIndex >= lines.length) {
                 skipped.push({
                     opportunity: opp,
-                    reason: 'Invalid line number',
+                    reason: `Invalid line number: ${opp.lineNumber} (File has ${lines.length} lines)`,
                 });
                 continue;
             }
@@ -134,8 +132,7 @@ export class LinkInjector {
         }
 
         // Reconstruct content
-        const modifiedBody = lines.join('\n');
-        const modifiedContent = matter.stringify(modifiedBody, frontmatter);
+        const modifiedContent = lines.join('\n');
 
         return {
             content: modifiedContent,
@@ -149,6 +146,7 @@ export class LinkInjector {
      */
     private insertLink(line: string, opportunity: LinkOpportunity): string {
         const { keyword, targetPost } = opportunity;
+        console.log('Attempting to insert link for keyword:', keyword, 'in line:', line, 'opportunity:', opportunity);
 
         // Create markdown link
         const link = `[${keyword}](${targetPost.url})`;
@@ -156,6 +154,7 @@ export class LinkInjector {
         // Find the keyword in the line (preserve case)
         const regex = new RegExp(`\\b${this.escapeRegex(keyword)}\\b`, 'i');
         const match = regex.exec(line);
+        console.log('Regex match result:', match);
 
         if (!match) {
             return line; // Keyword not found (shouldn't happen, but safety check)
@@ -165,6 +164,7 @@ export class LinkInjector {
 
         // Verify not inside excluded context
         if (this.isInsideExcludedContext(line, matchIndex, keyword.length)) {
+            console.log('Keyword is inside excluded context.');
             return line; // Can't safely insert
         }
 
@@ -172,7 +172,9 @@ export class LinkInjector {
         const before = line.substring(0, matchIndex);
         const after = line.substring(matchIndex + keyword.length);
 
-        return before + link + after;
+        const modifiedLine = before + link + after;
+        console.log('Modified line:', modifiedLine);
+        return modifiedLine;
     }
 
     /**

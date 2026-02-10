@@ -3,23 +3,29 @@
  * Internal Linking Automation Script
  * 
  * Automatically generates internal links between blog posts based on keyword matching.
- * 
- * Usage:
- *   npx tsx src/scripts/build-internal-links.ts [options]
- * 
- * Options:
- *   --dry-run              Preview changes without modifying files
- *   --category <name>      Process only specific category
- *   --max-links <n>        Max links per keyword per post (default: 3)
- *   --verbose              Show detailed matching logs
- *   --help                 Show this help message
  */
 
 import * as path from 'path';
 import { KeywordExtractor } from './internal-linking/KeywordExtractor';
 import { ContentScanner } from './internal-linking/ContentScanner';
 import { LinkInjector } from './internal-linking/LinkInjector';
-import type { LinkingConfig } from './internal-linking/types';
+import type { LinkingConfig, LinkOpportunity } from './internal-linking/types';
+import enquirer from 'enquirer';
+
+const { Confirm } = enquirer as any;
+
+// ANSI Colors
+const colors = {
+    reset: '\x1b[0m',
+    bright: '\x1b[1m',
+    dim: '\x1b[2m',
+    green: '\x1b[32m',
+    blue: '\x1b[34m',
+    yellow: '\x1b[33m',
+    cyan: '\x1b[36m',
+    red: '\x1b[31m',
+    magenta: '\x1b[35m',
+};
 
 // Parse command line arguments
 function parseArgs(): LinkingConfig & { help: boolean } {
@@ -59,7 +65,7 @@ function parseArgs(): LinkingConfig & { help: boolean } {
                 config.help = true;
                 break;
             default:
-                console.warn(`Unknown option: ${arg}`);
+                console.warn(`${colors.yellow}⚠️ Unknown option: ${arg}${colors.reset}`);
         }
     }
 
@@ -69,31 +75,31 @@ function parseArgs(): LinkingConfig & { help: boolean } {
 // Display help message
 function showHelp(): void {
     console.log(`
-Internal Linking Automation Script
+${colors.bright}${colors.cyan}🔗 Internal Linking Automation${colors.reset}
 
-Usage:
+${colors.bright}Usage:${colors.reset}
   npx tsx src/scripts/build-internal-links.ts [options]
 
-Options:
+${colors.bright}Options:${colors.reset}
   --dry-run              Preview changes without modifying files
   --category <name>      Process only specific category (e.g., tech-seo)
   --max-links <n>        Max links per keyword per post (default: 3)
+  --include-test         Include posts in the 'test' directory
   --verbose              Show detailed matching logs
   --help, -h             Show this help message
 
-Examples:
-  # Preview changes for all posts
-  npx tsx src/scripts/build-internal-links.ts --dry-run --verbose
+${colors.bright}Examples:${colors.reset}
+  # Preview changes
+  npx tsx src/scripts/build-internal-links.ts --dry-run
 
-  # Process only tech-seo category
-  npx tsx src/scripts/build-internal-links.ts --category tech-seo
-
-  # Apply links with custom limit
-  npx tsx src/scripts/build-internal-links.ts --max-links 5
+  # Apply links to a category
+  npx tsx src/scripts/build-internal-links.ts --category tech
 `);
 }
 
-// Main execution
+/**
+ * Main TUI Execution
+ */
 async function main(): Promise<void> {
     const config = parseArgs();
 
@@ -102,133 +108,102 @@ async function main(): Promise<void> {
         return;
     }
 
-    console.log('🔗 Internal Linking Script Started\n');
-    console.log('Configuration:');
-    console.log(`  Dry Run: ${config.dryRun ? 'Yes' : 'No'}`);
-    console.log(`  Category: ${config.category || 'All'}`);
-    console.log(`  Max Links Per Keyword: ${config.maxLinksPerKeyword}`);
-    console.log(`  Verbose: ${config.verbose ? 'Yes' : 'No'}`);
-    console.log();
+    console.clear();
+    console.log(`${colors.bright}${colors.cyan}🔗 Internal Linking Manager${colors.reset}\n`);
 
     const contentDir = path.resolve(process.cwd(), 'content');
 
-    // Step 1: Extract keywords and build index
-    console.log('📚 Step 1: Loading posts and extracting keywords...');
+    // 1. Loading
+    process.stdout.write(`${colors.blue}📚 Loading posts and building index...${colors.reset}`);
     const extractor = new KeywordExtractor(contentDir);
     const posts = await extractor.loadPosts(config.category);
-    console.log(`  Loaded ${posts.length} posts`);
-
     const keywordIndex = extractor.buildIndex();
-    console.log(`  Built index with ${keywordIndex.size} keyword entries`);
+    process.stdout.write(`\r${colors.green}✅ Loaded ${posts.length} posts and ${keywordIndex.size} keywords.    \n\n${colors.reset}`);
 
-    if (config.verbose) {
-        console.log('\n  Keyword Index Sample:');
-        let count = 0;
-        for (const [keyword, match] of keywordIndex.entries()) {
-            if (count++ >= 5) break;
-            console.log(`    - "${keyword}" → ${match.targetPost.url}`);
-        }
-    }
-
-    // Step 2: Scan posts for linking opportunities
-    console.log('\n🔍 Step 2: Scanning posts for linking opportunities...');
+    // 2. Scanning
+    process.stdout.write(`${colors.blue}🔍 Scanning posts for link opportunities...${colors.reset}`);
     const scanner = new ContentScanner(keywordIndex, config);
-    const opportunities = scanner.scanAllPosts(posts);
+    const opportunitiesMap = scanner.scanAllPosts(posts);
+    process.stdout.write(`\r${colors.green}✅ Scan complete! Found opportunities in ${opportunitiesMap.size} posts.${colors.reset}\n\n`);
 
+    if (opportunitiesMap.size === 0) {
+        console.log(`${colors.yellow}No new link opportunities found.${colors.reset}`);
+        return;
+    }
+
+    // 3. Display Opportunities by Post
+    console.log(`${colors.bright}Found Opportunities:${colors.reset}`);
+    
     let totalOpportunities = 0;
-    for (const ops of opportunities.values()) {
+    for (const [slug, ops] of opportunitiesMap.entries()) {
         totalOpportunities += ops.length;
-    }
-    console.log(`  Found ${totalOpportunities} linking opportunities across ${opportunities.size} posts`);
-
-    if (config.verbose && opportunities.size > 0) {
-        console.log('\n  Top Opportunities by Post:');
-        let postCount = 0;
-        for (const [slug, ops] of opportunities.entries()) {
-            if (postCount++ >= 3) break;
-            console.log(`\n    ${slug}:`);
-            ops.slice(0, 3).forEach(opp => {
-                console.log(`      - "${opp.keyword}" → ${opp.targetPost.url} (relevance: ${opp.relevance.toFixed(2)})`);
-            });
-        }
+        console.log(`\n${colors.magenta}📄 ${slug}${colors.reset} ${colors.dim}(${ops.length} links)${colors.reset}`);
+        
+        ops.forEach(opp => {
+            console.log(`  ${colors.cyan}→${colors.reset} "${colors.bright}${opp.keyword}${colors.reset}" 🔗 ${colors.blue}${opp.targetPost.url}${colors.reset} ${colors.dim}(line ${opp.lineNumber})${colors.reset}`);
+        });
     }
 
-    // Step 3: Identify content gaps
-    console.log('\n🔎 Step 3: Analyzing content gaps...');
+    console.log(`\n${colors.bright}Summary: ${totalOpportunities} total opportunities across ${opportunitiesMap.size} posts.${colors.reset}\n`);
+
+    // 4. Content Gaps
     const contentGaps = scanner.findContentGaps(posts);
+    const gaps = Array.from(contentGaps.entries())
+        .filter(([_, data]) => data.count >= 3)
+        .map(([keyword, data]) => ({
+            keyword,
+            mentionCount: data.count,
+            mentionedIn: Array.from(data.sources),
+            category: data.category
+        }));
 
-    const gaps: import('./internal-linking/types').KeywordGap[] = [];
-    for (const [keyword, data] of contentGaps.entries()) {
-        // Only recommend keywords mentioned at least 3 times
-        if (data.count >= 3) {
-            gaps.push({
-                keyword,
-                mentionCount: data.count,
-                mentionedIn: Array.from(data.sources),
-                category: data.category
-            });
-        }
-    }
-
-    console.log(`  Found ${gaps.length} content gap opportunities`);
-
-    // Step 4: Add recommendations to keywords.md
     if (gaps.length > 0) {
-        const { RecommendationTracker } = await import('./internal-linking/RecommendationTracker');
-        const tracker = new RecommendationTracker(contentDir);
-        tracker.loadExistingKeywords();
-
-        const added = tracker.addRecommendations(gaps, config.dryRun);
-        console.log(`  ${config.dryRun ? 'Would add' : 'Added'} ${added} recommendations to keywords.md`);
-
-        if (config.verbose && gaps.length > 0) {
-            console.log('\n  Top Content Gaps:');
-            gaps.slice(0, 5).forEach(gap => {
-                console.log(`    - "${gap.keyword}" (${gap.mentionCount} mentions in ${gap.mentionedIn.length} posts)`);
+        console.log(`${colors.yellow}💡 Recommendation: ${gaps.length} content gaps identified (keywords mentioned ≥ 3 times but no post exists).${colors.reset}`);
+        if (config.verbose) {
+            gaps.forEach(gap => {
+                console.log(`   - "${gap.keyword}" (${gap.mentionCount} mentions)`);
             });
         }
+        console.log();
     }
 
-    // Step 5: Apply links
-    console.log('\n✍️  Step 5: Applying links...');
-    const injector = new LinkInjector();
-    const result = injector.applyLinks(opportunities, config.dryRun);
-
-    console.log(`  Links added: ${result.linksAdded}`);
-    console.log(`  Posts modified: ${result.modifiedPosts.length}`);
-    console.log(`  Opportunities skipped: ${result.skipped.length}`);
-    console.log(`  Errors: ${result.errors.length}`);
-
-    if (config.verbose && result.skipped.length > 0) {
-        console.log('\n  Skip Reasons Summary:');
-        const reasons = new Map<string, number>();
-        result.skipped.forEach(({ reason }) => {
-            reasons.set(reason, (reasons.get(reason) || 0) + 1);
-        });
-        for (const [reason, count] of reasons.entries()) {
-            console.log(`    - ${reason}: ${count}`);
-        }
-    }
-
-    if (result.errors.length > 0) {
-        console.log('\n❌ Errors:');
-        result.errors.forEach(({ post, error }) => {
-            console.error(`❌ Error processing ${post}: ${error}`);
-        });
-    }
-
+    // 5. Confirmation and Application
     if (config.dryRun) {
-        console.log('\n💡 This was a dry run. No files were modified.');
-        console.log('   Remove --dry-run to apply changes.');
-    } else {
-        console.log('\n✅ Internal linking complete!');
+        console.log(`${colors.yellow}💡 Dry run enabled. No files will be modified.${colors.reset}`);
+        return;
+    }
 
-        if (result.modifiedPosts.length > 0) {
-            console.log('\n📝 Modified Files:');
-            result.modifiedPosts.forEach(file => {
-                console.log(`  - ${path.relative(process.cwd(), file)}`);
-            });
+    const prompt = new Confirm({
+        name: 'confirm',
+        message: 'Do you want to apply these links to your posts?'
+    });
+
+    const confirmed = await prompt.run();
+
+    if (confirmed) {
+        console.log(`\n${colors.blue}✍️  Applying links...${colors.reset}`);
+        const injector = new LinkInjector();
+        const result = injector.applyLinks(opportunitiesMap, false);
+
+        console.log(`${colors.green}✅ Successfully added ${result.linksAdded} links across ${result.modifiedPosts.length} files.${colors.reset}`);
+        
+        if (result.errors.length > 0) {
+            console.log(`\n${colors.red}❌ Encountered ${result.errors.length} errors:${colors.reset}`);
+            result.errors.forEach(err => console.log(`   - ${err.post}: ${err.error}`));
         }
+
+        // Add recommendations if any
+        if (gaps.length > 0) {
+            const { RecommendationTracker } = await import('./internal-linking/RecommendationTracker');
+            const tracker = new RecommendationTracker(contentDir);
+            tracker.loadExistingKeywords();
+            const added = tracker.addRecommendations(gaps, false);
+            if (added > 0) {
+                console.log(`${colors.green}✅ Added ${added} recommendations to keywords.md${colors.reset}`);
+            }
+        }
+    } else {
+        console.log(`\n${colors.yellow}Operation cancelled. No changes applied.${colors.reset}`);
     }
 
     console.log();
@@ -236,6 +211,6 @@ async function main(): Promise<void> {
 
 // Run
 main().catch(error => {
-    console.error('Fatal error:', error);
+    console.error(`\n${colors.red}Fatal error:${colors.reset}`, error);
     process.exit(1);
 });

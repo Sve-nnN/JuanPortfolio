@@ -76,192 +76,34 @@ The script is executed via `pnpm` and supports several arguments to control its 
 
 | Command | Description |
 | :--- | :--- |
-| `pnpm import:posts` | Process all Markdown files in `content/posts` and subdirectories. |
-| `pnpm import:posts --file=example.md` | Import a single specific file by name. |
+| `pnpm import:posts` | Start the interactive TUI to select and process Markdown files. |
+| `pnpm import:posts --file=example.md` | Import a single specific file by name, bypassing the TUI. |
 | `pnpm import:posts --optional` | Relax validation for missing assets (e.g., skip missing images instead of failing). |
+| `pnpm import:posts --include-test` | Include the `content/posts/test` directory in the scan. |
 
 ### Core Capabilities
 
-#### 1. Recursive Categorization
-The script infers categories from the filesystem structure.
-- **Root Files**: Files directly in `content/posts/` are considered uncategorized or root-level posts.
-- **Subdirectories**: A file located in `content/posts/tech/react/` will be assigned to a "React" category, causing the script to automatically verify or create the corresponding Category document in Payload.
+#### 1. Interactive Selection (TUI)
+When run without a specific file argument, the script launches a terminal user interface using `enquirer`. This allows for multi-selection of posts to be imported or updated, providing real-time feedback on the process.
 
-#### 2. Advanced Frontmatter Processing
+#### 2. Recursive Categorization
+The script infers categories from the filesystem structure.
+- **Root Files**: Files directly in `content/posts/` are considered uncategorized.
+- **Subdirectories**: The folder name is used as the category slug (e.g., `content/posts/tech-seo/` uses `tech-seo` as the slug). The script automatically verifies or creates the corresponding Category document in Payload.
+
+#### 3. Advanced Frontmatter Processing
 The system reads YAML frontmatter to populate complex relationships and metadata.
 
 **Supported Fields:**
 - `title` (Required): The title of the post.
 - `date`: Maps to the `publishedAt` timestamp.
-- `authors`: Array of User IDs. If unresolvable, it defaults to the first available Admin user to ensure data integrity.
+- `authors`: Array of slugs or IDs. Automatically resolved to Payload relationships.
 - `relatedPosts`: Array of slugs. Automatically resolves to internal Payload relationships.
 - `heroImage`: Path to an image asset. The script handles upload and media linking automatically.
 - `metaTitle` / `metaDescription`: Explicit SEO control. If omitted, these are auto-generated from the content.
 
-#### 3. High-Fidelity Content Conversion
-Markdown content is not just stored as text; it is parsed and converted into Payload's native **Lexical RichText** format.
-- **Formatting**: Preserves bold, italic, links, blockquotes, and lists.
-- **Code Blocks**: Automatically maps code fences (```ts) to our custom, high-performance `code-block` component, preserving language syntax highlighting.
-
-#### 4. Internationalization Support
-The importer automatically writes content to both default (`en`) and secondary (`es`) locales to ensure a populated initial state for all language versions.
-
-### Data Structure Requirements
-
-To ensure a successful import, structure your content as follows:
-
-**Directory Layout:**
-```text
-content/
-  posts/
-    getting-started.md       (Root post)
-    engineering/             (Category: Engineering)
-      system-design.md
-      devops/                (Category: DevOps)
-        docker-guide.md
-```
-
-**Markdown File Template:**
-```yaml
----
-title: System Design Principles
-date: 2024-03-20
-authors:
-  - user-id-1
-heroImage: /assets/images/architecture.png
-metaTitle: Scalable System Design Guide
-metaDescription: A comprehensive guide to building scalable systems.
----
-
-# Introduction
-
-Content goes here...
-```
-
-## SEO Metrics Script
-
-### Overview
-
-The `update-seo-metrics.ts` script fetches SEO data from various providers and updates the `content/keywords.md` file with comprehensive keyword intelligence, including volume, difficulty, and advanced SERP features analysis.
-
-### Features
-
-The script captures the following data points:
-
-| Field | Description | Use Case |
-|-------|-------------|----------|
-| **Volume** | Estimated monthly search volume | Prioritize high-traffic opportunities |
-| **Difficulty** | Keyword difficulty score (0-100) | Assess competition level |
-| **Related Searches** | Up to 8 related query suggestions | Discover long-tail keywords and content clusters |
-| **PAA Count** | Number of "People Also Ask" questions | Identify featured snippet opportunities |
-| **Top Domain** | Domain ranking first for the keyword | Competitive analysis and authority benchmarking |
-| **Has AI Overview** | Presence of AI-generated summaries | Adjust content strategy for AI-influenced SERPs |
-| **SERP Features** | Active features (videos, knowledge graph, shopping, etc.) | Determine optimal content formats |
-
-### Usage
-
-```bash
-# Auto-detect best available source
-npx tsx src/scripts/update-seo-metrics.ts
-
-# Force specific source
-npx tsx src/scripts/update-seo-metrics.ts --source=google-ads
-npx tsx src/scripts/update-seo-metrics.ts --source=serpapi
-npx tsx src/scripts/update-seo-metrics.ts --source=dataforseo
-npx tsx src/scripts/update-seo-metrics.ts --source=mock
-```
-
-### Supported Data Providers
-
-#### 1. Google Ads API (`google-ads`)
-
-- **Status**: Production-ready.
-- **Requires**: `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_ADS_CLIENT_ID`, `GOOGLE_ADS_CLIENT_SECRET`, `GOOGLE_ADS_REFRESH_TOKEN`, `GOOGLE_ADS_CUSTOMER_ID`.
-- **Notes**: Uses v18 API. Provides accurate volume and difficulty data. Limited SERP features.
-
-#### 2. SerpApi (`serpapi`)
-
-- **Status**: Production-ready with enhanced SERP features.
-- **Requires**: `SERPAPI_API_KEY`.
-- **Features**: Full support for all SERP features including Related Searches, PAA, Top Domain, AI Overview, and active SERP features.
-- **Notes**: Recommended for comprehensive competitive intelligence.
-
-#### 3. DataForSEO (`dataforseo`)
-
-- **Status**: Implemented (Sandbox & Live).
-- **Requires**: `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`.
-- **Config**: Set `DATAFORSEO_SANDBOX=true` to use the free sandbox endpoint.
-- **Notes**: Limited SERP features support.
-
-#### 4. Mock (`mock`)
-
-- **Status**: Development only.
-- **Requires**: None. Generates fake data for testing.
-
-### SERP Features Extraction
-
-When using SerpApi, the script automatically extracts:
-
-**Related Searches:**
-- Maximum 8 related query suggestions
-- Sourced from `related_searches[]` API response
-- Format: Semicolon-separated list in markdown
-
-**PAA Count:**
-- Counts number of "People Also Ask" questions
-- Sourced from `people_also_ask.length`
-- Higher count indicates featured snippet opportunities
-
-**Top Domain:**
-- Extracts hostname from first organic result
-- Sourced from `organic_results[0].link`
-- Useful for competitive analysis
-
-**AI Overview:**
-- Boolean detection of AI-generated summaries
-- Sourced from `ai_overview` presence
-- Indicates need for unique, authoritative content
-
-**SERP Features:**
-- Detects: videos, knowledge_graph, featured_snippet, shopping, local_pack, top_stories
-- Informs content format strategy (video, structured data, etc.)
-
-### Output Format
-
-The script updates `content/keywords.md` with a 13-column markdown table:
-
-```markdown
-| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features |
-```
-
-**Example row:**
-```markdown
-| technical seo for developers | /tech-seo/guide | 20400000 | 0 |  |  | 2026-02-08 | SerpApi | Technical seo checklist; Off-page SEO; Technical SEO techniques | 0 | developers.google.com | Yes | videos |
-```
-
-### Caching & Smart Updates
-
-- **Database Caching**: Results cached in Payload CMS `keyword-metrics` collection for 24 hours.
-- **Smart Updates**: Keywords updated today are skipped automatically to minimize API costs.
-- **Source Tracking**: Each row tracks data provider for transparency.
-
-### Strategic Use Cases
-
-**High PAA Count (>3)**
-- Create comprehensive FAQ sections targeting these questions
-- Optimize for featured snippet eligibility (position zero)
-
-**AI Overview Present**
-- Focus content on unique insights and original data
-- Differentiate from AI-generated summaries
-
-**Video SERP Feature Detected**
-- Prioritize video content creation for the keyword
-- Optimize for video carousel placement
-
-**Related Searches Analysis**
-- Build content clusters around suggested topics
-- Discover long-tail keyword opportunities
+#### 4. Safe Revalidation
+To prevent errors in script environments, the importer disables Next.js path revalidation during the database operations by passing a specific context to Payload hooks.
 
 ---
 
@@ -269,40 +111,23 @@ The script updates `content/keywords.md` with a 13-column markdown table:
 
 ### Overview
 
-The `build-internal-links.ts` script automates the generation of internal links between blog posts and identifies content gaps based on keyword analysis. It is located at `src/scripts/build-internal-links.ts`.
+The `build-internal-links.ts` script automates the generation of intelligent and SEO-optimized internal links between blog posts and identifies content gaps based on a refined keyword analysis. It is located at `src/scripts/build-internal-links.ts`.
 
 ### Core Capabilities
 
-#### 1. Automated Linking Engine
-The script identifies keyword mentions within post content and injects markdown links to the most relevant target posts.
-- **Relevance Scoring**: Prioritizes links based on keyword match type, cross-category diversity, and proximity to related terms.
-- **Context Awareness**: Automatically excludes headings, code blocks, frontmatter, and existing links to prevent broken markdown or over-optimization.
-- **Case Preservation**: Maintains the original capitalization of keywords when converting them to links.
+#### 1. Intelligent Automated Linking Engine
+The script identifies relevant keyword mentions within post content and injects absolute markdown links to the most authoritative target posts.
+- **Absolute URLs**: Generates links using the production domain (`https://juan-tech.com/blog/...`) to ensure compatibility across different environments.
+- **Primary Keyword Authority**: Linking opportunities are driven by keywords explicitly declared as `primary_keywords` in a post's frontmatter.
+- **Context-Aware Relevance Scoring**: Utilizes `semantic_keywords` to establish contextual relevance.
+- **Duplicate Prevention**: Detects existing links in the content and ensures each target post is linked only once per source post.
+- **Exclusion and Safety**: Automatically excludes headings, code blocks, frontmatter, and existing links.
 
-#### 2. Semantic Variation Generation
-The system generates variations for each keyword to increase matching coverage:
-- **Pluralization**: Handles singular and plural forms (e.g., "metric" and "metrics").
-- **Case Sensitivity**: Generates lowercase, uppercase, and title-case variations.
-- **Hyphenation**: Reconciles differences between hyphenated and spaced keywords (e.g., "next-js" and "next js").
+#### 2. Interactive Manager (TUI)
+The script features an interactive interface that allows users to review found opportunities per post and confirm the application of changes.
 
-#### 3. Content Gap Analysis
-The script identifies keywords referenced in existing content that do not have dedicated posts.
-- **Detection**: Flags keywords mentioned multiple times across the codebase that lack a corresponding target URL in the existing collection.
-- **Recommendations**: Automatically appends content opportunities to `content/keywords.md` with the source attribute set to "Internal Linking Script".
-- **Mention Tracking**: Records how many times and in which posts a potential keyword was found.
-
-### Usage
-
-```bash
-# Preview proposed changes and gap analysis
-npx tsx src/scripts/build-internal-links.ts --dry-run --verbose
-
-# Apply links to all posts and record recommendations
-npx tsx src/scripts/build-internal-links.ts
-
-# Process a specific category with custom link limits
-npx tsx src/scripts/build-internal-links.ts --category tech-seo --max-links 5
-```
+#### 3. Legacy Link Migration
+A dedicated utility is provided to migrate older relative links to the new absolute format.
 
 ### CLI Configuration
 
@@ -310,20 +135,74 @@ npx tsx src/scripts/build-internal-links.ts --category tech-seo --max-links 5
 | :--- | :--- | :--- |
 | `--dry-run` | Preview matches and recommendations without modifying files. | `false` |
 | `--category <name>` | Limit processing to a specific post category. | `All` |
-| `--max-links <n>` | Set the maximum number of links allowed per keyword per post. | `3` |
+| `--max-links <n>` | Set the maximum number of links allowed per keyword occurrence per post. | `3` |
+| `--include-test` | Include the `test` directory in the scan. | `false` |
 | `--verbose` | Output detailed matching logic and skipping reasons. | `false` |
 
-### Content Gap Recommendations
+### Utility Commands
 
-When content gaps are identified, the script appends them to the `keywords.md` table using the following format:
+| Script | Description |
+| :--- | :--- |
+| `pnpm run fix:links` | Scans all posts and converts relative internal links to absolute production URLs. |
 
-| Keyword | Target URL | ... | Status | Last Updated | Related Searches | Source |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| example keyword | /category/example | ... | recommended | [Today's Date] | Mentioned in: Post A, Post B | Internal Linking Script |
+---
 
-- **Status**: Set to "recommended" for new opportunities.
-- **Source**: Explicitly attributed to "Internal Linking Script" for transparency in content planning.
-- **Threshold**: Only recommends keywords mentioned in at least 3 separate contexts.
+## SEO Metrics System
+
+### Overview
+
+The `update-seo-metrics.ts` script is designed to enrich the `content/keywords.md` file with real-time SEO intelligence. It fetches data from professional providers to help evaluate keyword opportunities and track content performance. It is located at `src/scripts/update-seo-metrics.ts`.
+
+### Core Capabilities
+
+#### 1. Multi-Provider Support
+The script uses an adapter pattern to support multiple data sources, ensuring high-quality metrics even if a specific API is unavailable.
+- **SerpApi**: Recommended for comprehensive SERP analysis. It provides detailed intelligence on related searches, "People Also Ask" questions, and advanced SERP features.
+- **Google Ads API**: Used for precise monthly search volume and competition index metrics.
+- **DataForSEO**: Supported as a secondary provider for volume and difficulty data.
+
+#### 2. Intelligent Difficulty Estimation
+When using providers that do not offer a native "Difficulty" score (like standard SerpApi search), the system calculates an estimated difficulty (0-100) based on several factors:
+- **Commercial Intent**: The number of paid advertisements (ads) appearing for the query.
+- **Competition Volume**: The total number of results found by the search engine.
+- **Informational Authority**: The presence of high-authority features like the Knowledge Graph or Featured Snippets.
+
+#### 3. Advanced SERP Intelligence
+The script captures more than just volume and difficulty. it extracts a suite of competitive data points:
+- **Related Searches**: Up to 8 related query suggestions to help discover long-tail opportunities.
+- **PAA Count**: The number of "People Also Ask" questions, indicating potential for FAQ content.
+- **Top Domain**: Identifies the current leader for the keyword to facilitate competitive benchmarking.
+- **SERP Features**: Detects the presence of videos, images, shopping results, local packs, and top stories.
+
+#### 4. Smart Caching and Optimization
+- **24-Hour Caching**: Metrics are cached in the database to minimize API costs.
+- **Same-Day Skip**: If a keyword has already been updated on the current day, the script will skip it automatically.
+- **Dry Run Support**: Users can preview updates without modifying the markdown file.
+
+### Usage
+
+```bash
+# Auto-detect best available source and update keywords
+npx tsx src/scripts/update-seo-metrics.ts
+
+# Force specific data provider
+npx tsx src/scripts/update-seo-metrics.ts --source=serpapi
+npx tsx src/scripts/update-seo-metrics.ts --source=google-ads
+```
+
+### Data Schema
+
+The script maintains a 13-column markdown table in `content/keywords.md`:
+
+| Field | Description |
+| :--- | :--- |
+| **Volume** | Estimated monthly search volume. |
+| **Difficulty** | Competition score from 0 to 100. |
+| **Last Updated** | Timestamp of the last successful data fetch. |
+| **Source** | The name of the provider that supplied the data. |
+| **PAA Count** | Number of "People Also Ask" entries found. |
+| **Has AI Overview** | Indicates if Google is showing an AI-generated summary. |
+| **SERP Features** | List of special results shown (e.g., videos, images). |
 
 ---
 

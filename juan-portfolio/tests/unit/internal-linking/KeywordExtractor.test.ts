@@ -1,179 +1,103 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { KeywordExtractor } from '../../../src/scripts/internal-linking/KeywordExtractor';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 
+// Mock file system
+const TEST_DIR = path.resolve(process.cwd(), 'tmp-unit-test-content');
+
+const createMockFile = async (filePath: string, content: string) => {
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.writeFile(filePath, content, 'utf-8');
+};
+
 describe('KeywordExtractor', () => {
-    const testContentDir = path.join(process.cwd(), 'content');
 
-    describe('generateVariations', () => {
-        it('should generate basic variations for a simple keyword', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            // Access private method through any for testing
-            const variations = (extractor as any).generateVariations('seo');
-
-            expect(variations).toContain('seo');
-            expect(variations).toContain('Seo');
-            expect(variations).toContain('SEO');
-            expect(variations).toContain('seos'); // plural
-        });
-
-        it('should handle plural keywords', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const variations = (extractor as any).generateVariations('metrics');
-
-            expect(variations).toContain('metrics');
-            expect(variations).toContain('Metrics');
-            expect(variations).toContain('METRICS');
-            expect(variations).toContain('metric'); // singular
-        });
-
-        it('should handle hyphenated keywords', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const variations = (extractor as any).generateVariations('core-web-vitals');
-
-            expect(variations).toContain('core-web-vitals');
-            expect(variations).toContain('core web vitals'); // space-separated
-            expect(variations).toContain('Core-web-vitals');
-        });
-
-        it('should handle space-separated keywords', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const variations = (extractor as any).generateVariations('technical seo');
-
-            expect(variations).toContain('technical seo');
-            expect(variations).toContain('technical-seo'); // hyphenated
-            expect(variations).toContain('Technical seo');
-        });
+    beforeEach(async () => {
+        await fs.rm(TEST_DIR, { recursive: true, force: true });
+        await fs.mkdir(TEST_DIR, { recursive: true });
     });
 
-    describe('extractKeywords', () => {
-        it('should extract keywords from frontmatter', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const frontmatter = {
-                keywords: ['SEO', 'Performance', 'Core Web Vitals'],
-            };
-            const content = '# Test Content';
-
-            const keywords = (extractor as any).extractKeywords(frontmatter, content);
-
-            expect(keywords).toContain('seo');
-            expect(keywords).toContain('performance');
-            expect(keywords).toContain('core web vitals');
-        });
-
-        it('should extract keywords from relatedPosts', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const frontmatter = {
-                relatedPosts: ['nextjs-seo-optimization', 'web-performance-guide'],
-            };
-            const content = '# Test Content';
-
-            const keywords = (extractor as any).extractKeywords(frontmatter, content);
-
-            expect(keywords).toContain('nextjs');
-            expect(keywords).toContain('optimization');
-            expect(keywords).toContain('performance');
-            expect(keywords).toContain('guide');
-        });
-
-        it('should extract keywords from H2 headings', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const frontmatter = {};
-            const content = `
-# Main Title
-
-## Core Web Vitals
-
-Content here.
-
-## SEO Best Practices
-
-More content.
-`;
-
-            const keywords = (extractor as any).extractKeywords(frontmatter, content);
-
-            expect(keywords).toContain('core web vitals');
-            expect(keywords).toContain('seo best practices');
-        });
-
-        it('should filter out very short or very long headings', () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const frontmatter = {};
-            const content = `
-## SEO
-
-## This is a very long heading that should be filtered out because it exceeds the maximum length
-
-## Valid Heading
-`;
-
-            const keywords = (extractor as any).extractKeywords(frontmatter, content);
-
-            expect(keywords).not.toContain('seo'); // Too short (3 chars)
-            expect(keywords).not.toContain('this is a very long heading that should be filtered out because it exceeds the maximum length');
-            expect(keywords).toContain('valid heading');
+    describe('generateVariations (private method test)', () => {
+        it('should generate basic variations for a simple keyword', () => {
+            const extractor = new KeywordExtractor(TEST_DIR);
+            const variations = (extractor as any).generateVariations('seo');
+            expect(variations).toEqual(expect.arrayContaining(['seo', 'Seo', 'SEO', 'seos']));
         });
     });
 
     describe('loadPosts', () => {
-        it('should load posts from content directory', async () => {
-            const extractor = new KeywordExtractor(testContentDir);
+        it('should load posts and parse primary/semantic keywords', async () => {
+            const postContent = `---
+title: A Post
+primary_keywords: [primary one, primary two]
+semantic_keywords: [semantic one]
+---
+Content
+`;
+            await createMockFile(path.join(TEST_DIR, 'posts', 'test-cat', 'test-post.md'), postContent);
+            
+            const extractor = new KeywordExtractor(TEST_DIR);
             const posts = await extractor.loadPosts();
 
-            expect(posts.length).toBeGreaterThan(0);
-            posts.forEach(post => {
-                expect(post).toHaveProperty('slug');
-                expect(post).toHaveProperty('title');
-                expect(post).toHaveProperty('keywords');
-                expect(post).toHaveProperty('category');
-                expect(post).toHaveProperty('filePath');
-                expect(post).toHaveProperty('url');
-            });
-        });
-
-        it('should filter posts by category', async () => {
-            const extractor = new KeywordExtractor(testContentDir);
-            const posts = await extractor.loadPosts('tech-seo');
-
-            expect(posts.length).toBeGreaterThan(0);
-            posts.forEach(post => {
-                expect(post.category).toBe('tech-seo');
-            });
+            expect(posts.length).toBe(1);
+            const post = posts[0];
+            expect(post).toHaveProperty('slug', 'test-post');
+            expect(post).toHaveProperty('primary_keywords', ['primary one', 'primary two']);
+            expect(post).toHaveProperty('semantic_keywords', ['semantic one']);
         });
     });
 
     describe('buildIndex', () => {
-        it('should build keyword index from posts', async () => {
-            const extractor = new KeywordExtractor(testContentDir);
+        it('should build keyword index only from primary_keywords', async () => {
+            const post1 = `---
+title: Post One
+primary_keywords: [keyword a]
+semantic_keywords: [keyword b]
+---`;
+            const post2 = `---
+title: Post Two
+primary_keywords: [keyword c]
+---`;
+            await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post1.md'), post1);
+            await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post2.md'), post2);
+            
+            const extractor = new KeywordExtractor(TEST_DIR);
             await extractor.loadPosts();
             const index = extractor.buildIndex();
 
-            expect(index.size).toBeGreaterThan(0);
-
-            // Check index structure
-            for (const [keyword, match] of index.entries()) {
-                expect(typeof keyword).toBe('string');
-                expect(match).toHaveProperty('keyword');
-                expect(match).toHaveProperty('variations');
-                expect(match).toHaveProperty('targetPost');
-                expect(match).toHaveProperty('priority');
-                expect(Array.isArray(match.variations)).toBe(true);
-            }
+            expect(index.has('keyword a')).toBe(true);
+            expect(index.get('keyword a')?.targetPost.slug).toBe('post1');
+            expect(index.has('keyword c')).toBe(true);
+            expect(index.get('keyword c')?.targetPost.slug).toBe('post2');
+            // Ensure semantic keywords are NOT in the index
+            expect(index.has('keyword b')).toBe(false);
         });
 
-        it('should prioritize keywords that appear first in post', async () => {
-            const extractor = new KeywordExtractor(testContentDir);
+        it('should warn on keyword cannibalization', async () => {
+            const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+            const post1 = `---
+title: Post One
+primary_keywords: [shared keyword]
+---`;
+            const post2 = `---
+title: Post Two
+primary_keywords: [shared keyword]
+---`;
+            await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post1.md'), post1);
+            await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post2.md'), post2);
+
+            const extractor = new KeywordExtractor(TEST_DIR);
             await extractor.loadPosts();
-            const index = extractor.buildIndex();
+            extractor.buildIndex();
 
-            // Find keywords with priority differences
-            const priorities = Array.from(index.values()).map(m => m.priority);
-            const uniquePriorities = new Set(priorities);
+            expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('Keyword Cannibalization Warning'));
+            expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('"shared keyword"'));
+            expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('post1'));
+            expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('post2'));
 
-            // Should have different priorities if there are multiple keywords
-            expect(uniquePriorities.size).toBeGreaterThan(1);
+            consoleWarnSpy.mockRestore();
         });
     });
 });

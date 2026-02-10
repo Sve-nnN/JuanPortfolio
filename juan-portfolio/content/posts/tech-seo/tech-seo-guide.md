@@ -34,7 +34,7 @@ Para los desarrolladores, dominar el SEO técnico significa construir sitios web
 
 ## ¿Qué son los Core Web Vitals?
 
-Los **Core Web Vitals** son las métricas que Google utiliza para medir la experiencia de página. Estas métricas son fundamentales para el SEO técnico moderno.
+Los **[Core Web Vitals](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide)** son las métricas que Google utiliza para medir la experiencia de página. Estas métricas son fundamentales para el SEO técnico moderno.
 
 ### LCP - Largest Contentful Paint
 

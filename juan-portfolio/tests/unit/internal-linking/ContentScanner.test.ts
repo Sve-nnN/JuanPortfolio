@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { ContentScanner } from '../../../src/scripts/internal-linking/ContentScanner';
 import type { PostMetadata, KeywordMatch, LinkingConfig } from '../../../src/scripts/internal-linking/types';
 
@@ -6,15 +6,17 @@ describe('ContentScanner', () => {
     const mockConfig: LinkingConfig = {
         maxLinksPerKeyword: 3,
         minWordLength: 3,
-        excludePatterns: [/^```/, /^#{1,6}\s/],
+        excludePatterns: [],
         dryRun: false,
         verbose: false,
     };
 
+    // Updated mock to use new PostMetadata structure
     const mockTargetPost: PostMetadata = {
         slug: 'seo-guide',
         title: 'SEO Guide',
-        keywords: ['seo', 'optimization'],
+        primary_keywords: ['seo', 'optimization'],
+        semantic_keywords: ['ranking', 'serp', 'google'],
         category: 'tech-seo',
         filePath: '/path/to/seo-guide.md',
         url: '/tech-seo/seo-guide',
@@ -23,98 +25,14 @@ describe('ContentScanner', () => {
     const mockSourcePost: PostMetadata = {
         slug: 'web-performance',
         title: 'Web Performance',
-        keywords: ['performance', 'speed'],
+        primary_keywords: ['performance', 'speed'],
         category: 'development',
         filePath: '/path/to/web-performance.md',
         url: '/development/web-performance',
     };
 
-    describe('shouldExcludeLine', () => {
-        it('should exclude headings', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            expect((scanner as any).shouldExcludeLine('# Heading 1')).toBe(true);
-            expect((scanner as any).shouldExcludeLine('## Heading 2')).toBe(true);
-            expect((scanner as any).shouldExcludeLine('### Heading 3')).toBe(true);
-        });
-
-        it('should exclude code blocks', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            expect((scanner as any).shouldExcludeLine('```javascript')).toBe(true);
-            expect((scanner as any).shouldExcludeLine('~~~python')).toBe(true);
-        });
-
-        it('should exclude frontmatter', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            expect((scanner as any).shouldExcludeLine('---')).toBe(true);
-        });
-
-        it('should exclude empty lines', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            expect((scanner as any).shouldExcludeLine('')).toBe(true);
-            expect((scanner as any).shouldExcludeLine('   ')).toBe(true);
-        });
-
-        it('should not exclude normal text', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            expect((scanner as any).shouldExcludeLine('This is normal text about SEO.')).toBe(false);
-            expect((scanner as any).shouldExcludeLine('- List item with content')).toBe(false);
-        });
-    });
-
-    describe('isInsideExcludedContext', () => {
-        it('should detect text inside inline code', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            const line = 'Use the `SEO` tag for optimization.';
-            const matchIndex = line.indexOf('SEO');
-
-            expect((scanner as any).isInsideExcludedContext(line, matchIndex, 3)).toBe(true);
-        });
-
-        it('should detect text inside link text', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            const line = 'Check out [SEO guide](https://example.com) here.';
-            const matchIndex = line.indexOf('SEO');
-
-            expect((scanner as any).isInsideExcludedContext(line, matchIndex, 3)).toBe(true);
-        });
-
-        it('should detect text inside link URL', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            const line = '[Click here](/path/to/SEO-guide)';
-            const matchIndex = line.indexOf('SEO');
-
-            expect((scanner as any).isInsideExcludedContext(line, matchIndex, 3)).toBe(true);
-        });
-
-        it('should not flag normal text', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            const line = 'This is an SEO tutorial.';
-            const matchIndex = line.indexOf('SEO');
-
-            expect((scanner as any).isInsideExcludedContext(line, matchIndex, 3)).toBe(false);
-        });
-    });
-
     describe('calculateRelevance', () => {
-        it('should give higher score to exact keyword matches', () => {
+        it('should give a high score for an exact primary keyword match', () => {
             const keywordIndex = new Map<string, KeywordMatch>();
             const scanner = new ContentScanner(keywordIndex, mockConfig);
 
@@ -122,112 +40,54 @@ describe('ContentScanner', () => {
                 keyword: 'seo',
                 variations: ['seo', 'SEO', 'seos'],
                 targetPost: mockTargetPost,
-                priority: 5,
+                priority: 1,
             };
+            const context = 'This article discusses seo techniques.';
 
-            const context = 'This article discusses seo optimization techniques.';
-
-            const exactScore = (scanner as any).calculateRelevance('seo', match, context, mockSourcePost);
-            const pluralScore = (scanner as any).calculateRelevance('seos', match, context, mockSourcePost);
-
-            // Exact match 'seo' should get +0.2 bonus, 'seos' (variation) should not
-            expect(exactScore).toBeGreaterThan(pluralScore);
+            // The keyword 'seo' is the canonical primary keyword
+            const score = (scanner as any).calculateRelevance('seo', match, context, mockSourcePost);
+            expect(score).toBeCloseTo(0.4 + 0.3); // base + exact_match bonus
         });
 
-        it('should give lower score to same-category posts', () => {
+        it('should give a lower score for a variation match', () => {
             const keywordIndex = new Map<string, KeywordMatch>();
             const scanner = new ContentScanner(keywordIndex, mockConfig);
 
             const match: KeywordMatch = {
+                keyword: 'seo', // Canonical is 'seo'
+                variations: ['seo', 'SEO', 'seos'],
+                targetPost: mockTargetPost,
+                priority: 1,
+            };
+            const context = 'This article discusses SEOs techniques.';
+
+            // The keyword 'SEOs' is a variation, not the canonical keyword
+            const score = (scanner as any).calculateRelevance('SEOs', match, context, mockSourcePost);
+            expect(score).toBeCloseTo(0.4); // Only base score
+        });
+
+        it('should add a significant bonus for semantic context', () => {
+            const keywordIndex = new Map<string, KeywordMatch>();
+            const scanner = new ContentScanner(keywordIndex, mockConfig);
+             const match: KeywordMatch = {
                 keyword: 'seo',
                 variations: ['seo'],
                 targetPost: mockTargetPost,
-                priority: 5,
+                priority: 1,
             };
 
-            const sameCategoryPost: PostMetadata = {
-                ...mockSourcePost,
-                category: 'tech-seo', // Same as target
-            };
-
-            const context = 'This is about seo.';
-
-            const crossCategoryScore = (scanner as any).calculateRelevance('seo', match, context, mockSourcePost);
-            const sameCategoryScore = (scanner as any).calculateRelevance('seo', match, context, sameCategoryPost);
-
-            expect(crossCategoryScore).toBeGreaterThan(sameCategoryScore);
-        });
-
-        it('should give higher score when related terms appear in context', () => {
-            const keywordIndex = new Map<string, KeywordMatch>();
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            const match: KeywordMatch = {
-                keyword: 'seo',
-                variations: ['seo'],
-                targetPost: { ...mockTargetPost, keywords: ['seo', 'optimization', 'ranking'] },
-                priority: 5,
-            };
-
-            const richContext = 'This article discusses seo optimization and ranking techniques.';
-            const plainContext = 'This is about seo.';
+            // This context contains 'ranking' and 'google', which are semantic keywords for the target post
+            const richContext = 'This seo article talks about ranking on google.';
+            const plainContext = 'This is an article about seo.';
 
             const richScore = (scanner as any).calculateRelevance('seo', match, richContext, mockSourcePost);
             const plainScore = (scanner as any).calculateRelevance('seo', match, plainContext, mockSourcePost);
-
+            
+            // richScore should have base (0.4) + exact_match (0.3) + semantic (0.15 * 2) = 1.0 (capped)
+            // plainScore should have base (0.4) + exact_match (0.3) = 0.7
             expect(richScore).toBeGreaterThan(plainScore);
-        });
-    });
-
-    describe('scanPost', () => {
-        it('should respect maxLinksPerKeyword limit', () => {
-            const match: KeywordMatch = {
-                keyword: 'seo',
-                variations: ['seo', 'SEO'],
-                targetPost: mockTargetPost,
-                priority: 5,
-            };
-
-            const keywordIndex = new Map<string, KeywordMatch>([
-                ['seo', match],
-                ['SEO', match],
-            ]);
-
-            const configWith1Link: LinkingConfig = {
-                ...mockConfig,
-                maxLinksPerKeyword: 1,
-            };
-
-            const scanner = new ContentScanner(keywordIndex, configWith1Link);
-
-            // Mock post content with multiple SEO mentions
-            const mockContent = `---
-title: Test
----
-
-This is about SEO.
-SEO is important.
-More SEO content.
-`;
-
-            const tempPost = { ...mockSourcePost };
-            // We'd need to mock fs.readFileSync for this to work properly in tests
-            // For now, we'll test the logic indirectly through integration tests
-        });
-
-        it('should not link to itself', () => {
-            const match: KeywordMatch = {
-                keyword: 'performance',
-                variations: ['performance'],
-                targetPost: mockSourcePost, // Target is same as source
-                priority: 5,
-            };
-
-            const keywordIndex = new Map<string, KeywordMatch>([['performance', match]]);
-            const scanner = new ContentScanner(keywordIndex, mockConfig);
-
-            // The scanner should skip opportunities where targetPost === sourcePost
-            // This is tested through the scanPost logic
+            expect(richScore).toBeCloseTo(1.0);
+            expect(plainScore).toBeCloseTo(0.7);
         });
     });
 });

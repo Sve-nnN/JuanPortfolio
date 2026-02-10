@@ -13,77 +13,142 @@ import type { PostMetadata, KeywordMatch, LinkOpportunity, LinkingConfig } from 
  * - Respects linking limits and exclusion rules
  */
 export class ContentScanner {
+    private groupedKeywords: Map<string, { match: KeywordMatch, variations: string[] }> = new Map();
+
     constructor(
         private keywordIndex: Map<string, KeywordMatch>,
         private config: LinkingConfig
-    ) { }
+    ) {
+        this.groupKeywords();
+    }
+
+    /**
+     * Groups variations by their primary keyword to avoid duplicate matching for the same target.
+     */
+    private groupKeywords() {
+        for (const [variation, match] of this.keywordIndex.entries()) {
+            const primary = match.keyword;
+            if (!this.groupedKeywords.has(primary)) {
+                this.groupedKeywords.set(primary, {
+                    match,
+                    variations: []
+                });
+            }
+            this.groupedKeywords.get(primary)!.variations.push(variation);
+        }
+
+        // Sort variations by length descending to match longest phrases first
+        for (const group of this.groupedKeywords.values()) {
+            group.variations.sort((a, b) => b.length - a.length);
+        }
+    }
 
     /**
      * Scan a post for linking opportunities.
      */
     scanPost(post: PostMetadata, _allPosts: PostMetadata[]): LinkOpportunity[] {
-        const content = fs.readFileSync(post.filePath, 'utf-8');
-        const { content: body } = matter(content);
+        const fileContent = fs.readFileSync(post.filePath, 'utf-8');
+        const { content: body } = matter(fileContent);
+
+        // Find existing links to avoid duplicates
+        const existingLinks = this.findExistingLinks(body);
+
+        // Find where the body starts in the original file to get correct line numbers
+        const fileLines = fileContent.split('\n');
+        let bodyStartIndex = 0;
+        
+        if (fileContent.startsWith('---')) {
+            for (let i = 1; i < fileLines.length; i++) {
+                if (fileLines[i].trim() === '---') {
+                    bodyStartIndex = i + 1;
+                    break;
+                }
+            }
+        }
 
         const opportunities: LinkOpportunity[] = [];
         const lines = body.split('\n');
 
-        // Track links already used for each keyword
+        // Track links already used for each keyword across the whole post
         const keywordLinkCount = new Map<string, number>();
+        // Track target posts already linked across the WHOLE post
+        const linkedTargetSlugsInPost = new Set<string>();
+        let isInsideCodeBlock = false;
 
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-            const lineNumber = i + 1;
+            const lineNumber = bodyStartIndex + i + 1;
 
-            // Skip excluded patterns
-            if (this.shouldExcludeLine(line)) {
+            // Toggle code block state
+            if (/^```|^~~~/.test(line)) {
+                isInsideCodeBlock = !isInsideCodeBlock;
                 continue;
             }
 
-            // Find keyword matches in this line
-            for (const [keyword, match] of this.keywordIndex.entries()) {
-                // Don't link to self
+            // Skip if inside code block or excluded pattern
+            if (isInsideCodeBlock || this.shouldExcludeLine(line)) {
+                continue;
+            }
+
+            // Iterate through target posts (grouped by primary keyword)
+            for (const group of this.groupedKeywords.values()) {
+                const { match, variations } = group;
+
+                // 1. Don't link to self
                 if (match.targetPost.slug === post.slug) {
                     continue;
                 }
 
-                // Check if we've hit the limit for this keyword
+                // 2. Don't link if already linked to this target in THIS post
+                if (linkedTargetSlugsInPost.has(match.targetPost.slug)) {
+                    continue;
+                }
+
+                // 3. Don't link if an existing link to this target post already exists in the body
+                if (existingLinks.has(match.targetPost.url)) {
+                    continue;
+                }
+
+                // 4. Check if we've hit the limit for this keyword across the whole post
                 const currentCount = keywordLinkCount.get(match.keyword) || 0;
                 if (currentCount >= this.config.maxLinksPerKeyword) {
                     continue;
                 }
 
-                // Check if keyword appears in line (case-insensitive, word boundary)
-                const regex = new RegExp(`\\b${this.escapeRegex(keyword)}\\b`, 'gi');
-                const matches = line.matchAll(regex);
+                // 5. Try to match any variation of this keyword
+                for (const variation of variations) {
+                    const regex = new RegExp(`\\b${this.escapeRegex(variation)}\\b`, 'i');
+                    const regexMatch = regex.exec(line);
 
-                for (const regexMatch of matches) {
-                    // Verify this match isn't inside an existing link or other excluded context
-                    const matchIndex = regexMatch.index!;
-                    if (this.isInsideExcludedContext(line, matchIndex, keyword.length)) {
-                        continue;
+                    if (regexMatch) {
+                        const matchIndex = regexMatch.index!;
+                        
+                        // Verify this match isn't inside an existing link or other excluded context
+                        if (this.isInsideExcludedContext(line, matchIndex, variation.length)) {
+                            continue;
+                        }
+
+                        // Valid opportunity found!
+                        const contextStart = Math.max(0, i - 1);
+                        const contextEnd = Math.min(lines.length - 1, i + 1);
+                        const context = lines.slice(contextStart, contextEnd + 1).join('\n');
+                        const relevance = this.calculateRelevance(variation, match, context, post);
+
+                        opportunities.push({
+                            sourcePost: post,
+                            targetPost: match.targetPost,
+                            keyword: regexMatch[0], // Preserve original case
+                            context,
+                            lineNumber,
+                            relevance,
+                        });
+
+                        // Update tracking
+                        keywordLinkCount.set(match.keyword, currentCount + 1);
+                        linkedTargetSlugsInPost.add(match.targetPost.slug);
+                        
+                        break; // Stop checking variations for THIS target post
                     }
-
-                    // Extract context around the match
-                    const contextStart = Math.max(0, i - 1);
-                    const contextEnd = Math.min(lines.length - 1, i + 1);
-                    const context = lines.slice(contextStart, contextEnd + 1).join('\n');
-
-                    // Calculate relevance score
-                    const relevance = this.calculateRelevance(keyword, match, context, post);
-
-                    opportunities.push({
-                        sourcePost: post,
-                        targetPost: match.targetPost,
-                        keyword: regexMatch[0], // Preserve original case
-                        context,
-                        lineNumber,
-                        relevance,
-                    });
-
-                    // Update count
-                    keywordLinkCount.set(match.keyword, currentCount + 1);
-                    break; // Only one link per keyword per line
                 }
             }
         }
@@ -155,33 +220,32 @@ export class ContentScanner {
         keyword: string,
         match: KeywordMatch,
         context: string,
-        sourcePost: PostMetadata
+        _sourcePost: PostMetadata
     ): number {
-        let score = 0.5; // Base score
+        let score = 0.4; // Base score for any valid match
 
-        // Exact keyword match (not variation) = higher score
+        // 1. Exact Keyword Match Bonus (major factor)
+        // Is this the canonical keyword, not just a variation?
         if (keyword.toLowerCase() === match.keyword.toLowerCase()) {
-            score += 0.2;
+            score += 0.3;
         }
 
-        // Same category = lower priority (prefer cross-category links for better site structure)
-        if (sourcePost.category === match.targetPost.category) {
-            score -= 0.1;
-        }
-
-        // Earlier in content = higher priority
-        const contextPosition = context.toLowerCase().indexOf(keyword.toLowerCase());
-        if (contextPosition !== -1 && contextPosition < 100) {
-            score += 0.1;
-        }
-
-        // Keyword appears in a sentence with related terms
-        const relatedTerms = match.targetPost.keywords;
+        // 2. Semantic Context Bonus (the "intelligent" part)
+        // Do related terms from the target post appear nearby?
+        const semanticTerms = match.targetPost.semantic_keywords || [];
         const contextLower = context.toLowerCase();
-        const relatedCount = relatedTerms.filter(term =>
-            term !== keyword && contextLower.includes(term.toLowerCase())
-        ).length;
-        score += Math.min(relatedCount * 0.05, 0.2);
+        
+        let semanticCount = 0;
+        for(const term of semanticTerms) {
+            if (contextLower.includes(term.toLowerCase())) {
+                semanticCount++;
+            }
+        }
+
+        // Add a significant bonus based on the number of related terms found
+        if (semanticCount > 0) {
+            score += Math.min(semanticCount * 0.15, 0.3);
+        }
 
         // Normalize to 0-1 range
         return Math.max(0, Math.min(1, score));
@@ -219,7 +283,7 @@ export class ContentScanner {
         // Track all keywords with dedicated posts
         const coveredKeywords = new Set<string>();
         for (const post of posts) {
-            for (const keyword of post.keywords) {
+            for (const keyword of post.primary_keywords) {
                 coveredKeywords.add(keyword.toLowerCase());
             }
         }
@@ -229,45 +293,79 @@ export class ContentScanner {
             const content = fs.readFileSync(post.filePath, 'utf-8');
             const { content: body } = matter(content);
             const lines = body.split('\n');
+            let isInsideCodeBlock = false;
 
-            for (const [keyword, match] of this.keywordIndex.entries()) {
-                const normalizedKeyword = match.keyword.toLowerCase();
+            // Track target keywords already counted in THIS post to avoid overcounting
+            const countedKeywordsInPost = new Set<string>();
 
-                // Skip if keyword has dedicated post
-                if (coveredKeywords.has(normalizedKeyword)) {
+            for (const line of lines) {
+                // Toggle code block state
+                if (/^```|^~~~/.test(line)) {
+                    isInsideCodeBlock = !isInsideCodeBlock;
                     continue;
                 }
 
-                // Count valid mentions
-                for (const line of lines) {
-                    if (this.shouldExcludeLine(line)) continue;
+                if (isInsideCodeBlock || this.shouldExcludeLine(line)) continue;
 
-                    const regex = new RegExp(`\\b${this.escapeRegex(keyword)}\\b`, 'gi');
-                    const matches = line.matchAll(regex);
+                for (const group of this.groupedKeywords.values()) {
+                    const { match, variations } = group;
+                    const normalizedKeyword = match.keyword.toLowerCase();
 
-                    for (const regexMatch of matches) {
-                        const matchIndex = regexMatch.index!;
-                        if (this.isInsideExcludedContext(line, matchIndex, keyword.length)) {
-                            continue;
+                    // Skip if keyword has dedicated post
+                    if (coveredKeywords.has(normalizedKeyword)) {
+                        continue;
+                    }
+
+                    // Skip if already counted in this post
+                    if (countedKeywordsInPost.has(match.keyword)) {
+                        continue;
+                    }
+
+                    // Try variations
+                    for (const variation of variations) {
+                        const regex = new RegExp(`\\b${this.escapeRegex(variation)}\\b`, 'i');
+                        const regexMatch = regex.exec(line);
+
+                        if (regexMatch) {
+                            if (this.isInsideExcludedContext(line, regexMatch.index!, variation.length)) {
+                                continue;
+                            }
+
+                            // Valid mention found
+                            if (!keywordMentions.has(match.keyword)) {
+                                keywordMentions.set(match.keyword, {
+                                    count: 0,
+                                    sources: new Set(),
+                                    category: post.category
+                                });
+                            }
+
+                            const data = keywordMentions.get(match.keyword)!;
+                            data.count++;
+                            data.sources.add(post.slug);
+                            countedKeywordsInPost.add(match.keyword);
+                            break; // Stop variations for this keyword
                         }
-
-                        // Valid mention found
-                        if (!keywordMentions.has(match.keyword)) {
-                            keywordMentions.set(match.keyword, {
-                                count: 0,
-                                sources: new Set(),
-                                category: post.category
-                            });
-                        }
-
-                        const data = keywordMentions.get(match.keyword)!;
-                        data.count++;
-                        data.sources.add(post.slug);
                     }
                 }
             }
         }
 
         return keywordMentions;
+    }
+
+    /**
+     * Finds all existing markdown links in the content and returns their URLs.
+     */
+    private findExistingLinks(content: string): Set<string> {
+        const urls = new Set<string>();
+        const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+        let match;
+
+        while ((match = regex.exec(content)) !== null) {
+            urls.add(match[2]);
+        }
+
+        return urls;
     }
 }

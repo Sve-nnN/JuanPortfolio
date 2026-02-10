@@ -38,29 +38,39 @@ export class SerpApiAdapter implements SeoAdapter {
 
             const data = await response.json();
 
+            // 1. Volume Logic
             // SerpApi standard search doesn't give "Search Volume" directly without extra paid add-ons.
-            // As a proxy/fallback for this implementation to pass TDD (and be somewhat useful),
-            // we can use 'search_information.total_results' as a rough "popularity" metric,
-            // or just return 0 if not found. 
-            // The test expects volume > 0 if we mock '1,230,000'.
-
+            // Proxy: total_results
             let volume = 0;
             if (data.search_information && data.search_information.total_results) {
-                // "About 1,230,000 results" -> 1230000
-                // Sometimes it's a number, sometimes string.
                 const resultsStr = String(data.search_information.total_results).replace(/[^0-9]/g, '');
-                volume = parseInt(resultsStr) || 0;
-            } else if (data.formatted_total_results) {
-                // Fallback for mock in test if structure differs
-                const resultsStr = String(data.formatted_total_results).replace(/[^0-9]/g, '');
                 volume = parseInt(resultsStr) || 0;
             }
 
-            // Difficulty is not available in standard SERP response. 
-            // We'll return 0 or maybe calculate something based on 'ads' presence?
-            // For now, 0-100 logic could be: 0.
+            // 2. Intelligent Difficulty Estimation (0-100)
+            // Since standard SERP doesn't give difficulty, we estimate it:
+            // Factors: Number of ads, total results volume, presence of knowledge graph, presence of top competitors.
+            let difficulty = 0;
+            
+            // Factor A: Commercial Intent (Ads) - High impact
+            const adCount = data.ads?.length || 0;
+            difficulty += adCount * 15; // Up to 60-75 points for many ads
 
-            // Extract related searches (max 8 as shown in SerpApi)
+            // Factor B: Competition Volume (Total results)
+            if (volume > 10000000) difficulty += 20;
+            else if (volume > 1000000) difficulty += 15;
+            else if (volume > 100000) difficulty += 10;
+            else if (volume > 10000) difficulty += 5;
+
+            // Factor C: Informational Authority (Knowledge Graph / Answer Box)
+            if (data.knowledge_graph || data.answer_box) {
+                difficulty += 10; // Harder to rank if Google already answers it
+            }
+
+            // Cap at 100
+            difficulty = Math.min(100, difficulty);
+
+            // 3. Extract SERP Features
             const relatedSearches: string[] = [];
             if (data.related_searches && Array.isArray(data.related_searches)) {
                 relatedSearches.push(
@@ -71,53 +81,45 @@ export class SerpApiAdapter implements SeoAdapter {
                 );
             }
 
-            // Count People Also Ask questions
             const paaCount = data.people_also_ask?.length || 0;
 
-            // Extract top ranking domain
             let topDomain = '';
+            let competitorTitle = '';
+            let competitorDescription = '';
+
             if (data.organic_results && data.organic_results.length > 0) {
+                const topResult = data.organic_results[0];
+                competitorTitle = topResult.title || '';
+                competitorDescription = topResult.snippet || '';
+                
                 try {
-                    const topLink = data.organic_results[0].link;
+                    const topLink = topResult.link;
                     const url = new URL(topLink);
                     topDomain = url.hostname;
-                } catch (_e) {
-                    // Invalid URL, keep empty
-                }
+                } catch (_e) {}
             }
 
-            // Detect AI Overview presence
             const hasAiOverview = !!data.ai_overview;
 
-            // Detect active SERP features
             const serpFeatures: string[] = [];
-            if (data.inline_videos && data.inline_videos.length > 0) {
-                serpFeatures.push('videos');
-            }
-            if (data.knowledge_graph) {
-                serpFeatures.push('knowledge_graph');
-            }
-            if (data.answer_box) {
-                serpFeatures.push('featured_snippet');
-            }
-            if (data.shopping_results && data.shopping_results.length > 0) {
-                serpFeatures.push('shopping');
-            }
-            if (data.local_results) {
-                serpFeatures.push('local_pack');
-            }
-            if (data.top_stories && data.top_stories.length > 0) {
-                serpFeatures.push('top_stories');
-            }
+            if (data.inline_videos || data.video_results) serpFeatures.push('videos');
+            if (data.knowledge_graph) serpFeatures.push('knowledge_graph');
+            if (data.answer_box) serpFeatures.push('featured_snippet');
+            if (data.shopping_results) serpFeatures.push('shopping');
+            if (data.local_results) serpFeatures.push('local_pack');
+            if (data.top_stories) serpFeatures.push('top_stories');
+            if (data.inline_images || data.image_results) serpFeatures.push('images');
 
             return {
                 volume,
-                difficulty: 0,
+                difficulty,
                 relatedSearches,
                 paaCount,
                 topDomain,
                 hasAiOverview,
-                serpFeatures
+                serpFeatures,
+                competitorTitle,
+                competitorDescription
             };
 
         } catch (error) {

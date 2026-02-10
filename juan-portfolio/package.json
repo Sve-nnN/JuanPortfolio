@@ -29,7 +29,8 @@
     "test:pages": "node -r dotenv/config scripts/testPayloadPages.mjs",
     "verify:blocks": "node scripts/verifyBlocks.mjs",
     "verify:pages": "node -r dotenv/config scripts/verifyPages.mjs",
-    "create-index": "node -r dotenv/config scripts/createUsersSlugIndex.mjs"
+    "create-index": "node -r dotenv/config scripts/createUsersSlugIndex.mjs",
+    "fix:links": "tsx src/scripts/fix-internal-links.ts"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity": "^3.917.0",
@@ -65,6 +66,7 @@
     "cross-env": "^10.1.0",
     "css-loader": "^7.1.2",
     "dotenv": "17.2.3",
+    "enquirer": "^2.4.1",
     "framer-motion": "^12.29.2",
     "geist": "^1.5.1",
     "graphql": "^16.8.2",

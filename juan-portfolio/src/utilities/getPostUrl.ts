@@ -1,7 +1,7 @@
 import type { Category } from '@/payload-types'
 
 /**
- * Genera la URL completa de un post en el formato /blog/{category}/{slug}
+ * Genera la URL completa de un post en el formato https://juan-tech.com/blog/{category}/{slug}
  */
 export function getPostUrl(post: {
   slug?: string | null
@@ -30,12 +30,12 @@ export function getPostUrl(post: {
   // Ensure slug is not undefined
   const finalSlug = post.slug || post.id || 'untitled'
 
-  return `/blog/${categorySlug}/${finalSlug}`
+  return `https://juan-tech.com/blog/${categorySlug}/${finalSlug}`
 }
 
 /**
  * Genera la URL de una categoría
  */
 export function getCategoryUrl(category: { slug?: string | null; id?: string }): string {
-  return `/blog/${category.slug || category.id || 'general'}`
+  return `https://juan-tech.com/blog/${category.slug || category.id || 'general'}`
 }

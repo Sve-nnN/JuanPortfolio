@@ -20,6 +20,10 @@ export interface SeoMetrics {
     hasAiOverview?: boolean;
     /** Active SERP features (videos, images, shopping, etc.) */
     serpFeatures?: string[];
+    /** Title of the #1 organic competitor */
+    competitorTitle?: string;
+    /** Snippet/description of the #1 organic competitor */
+    competitorDescription?: string;
 }
 
 export interface SeoAdapter {

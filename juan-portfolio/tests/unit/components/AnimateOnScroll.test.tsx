@@ -8,16 +8,30 @@ describe('AnimateOnScroll', () => {
     let mockIntersectionObserver: any
 
     beforeEach(() => {
+        const mockElement = document.createElement('div');
         mockIntersectionObserver = vi.fn(function (this: any, callback: IntersectionObserverCallback) {
             this.observe = vi.fn()
             this.unobserve = vi.fn()
             this.disconnect = vi.fn()
             // Simulate element in view
             setTimeout(() => {
-                callback([{ isIntersecting: true } as IntersectionObserverEntry], this)
+                callback([{ isIntersecting: true, target: mockElement } as IntersectionObserverEntry], this)
             }, 0)
         })
         global.IntersectionObserver = mockIntersectionObserver as any
+
+        // Mock matchMedia for all tests in this suite
+        Object.defineProperty(window, 'matchMedia', {
+            writable: true,
+            value: vi.fn().mockImplementation((query) => ({
+                matches: false, // Default to no reduced motion
+                media: query,
+                onchange: null,
+                addEventListener: vi.fn(),
+                removeEventListener: vi.fn(),
+                dispatchEvent: vi.fn(),
+            })),
+        })
     })
 
     afterEach(() => {
@@ -61,7 +75,7 @@ describe('AnimateOnScroll', () => {
 
     describe('Prefers reduced motion', () => {
         it('should render plain div when user prefers reduced motion', () => {
-            // Mock matchMedia to return true for prefers-reduced-motion
+            // Override mock for this specific test
             Object.defineProperty(window, 'matchMedia', {
                 writable: true,
                 value: vi.fn().mockImplementation((query) => ({
@@ -93,38 +107,10 @@ describe('AnimateOnScroll', () => {
 
             expect(screen.getByTestId('child')).toBeInTheDocument()
             expect(screen.getByTestId('child').parentElement?.tagName).toBe('DIV')
-
-            // Restore matchMedia
-            Object.defineProperty(window, 'matchMedia', {
-                writable: true,
-                value: vi.fn().mockImplementation((query) => ({
-                    matches: false,
-                    media: query,
-                    onchange: null,
-                    addEventListener: vi.fn(),
-                    removeEventListener: vi.fn(),
-                    dispatchEvent: vi.fn(),
-                })),
-            })
         })
     })
 
     describe('Enabled animations', () => {
-        beforeEach(() => {
-            // Ensure matchMedia returns false for prefers-reduced-motion
-            Object.defineProperty(window, 'matchMedia', {
-                writable: true,
-                value: vi.fn().mockImplementation((query) => ({
-                    matches: false,
-                    media: query,
-                    onchange: null,
-                    addEventListener: vi.fn(),
-                    removeEventListener: vi.fn(),
-                    dispatchEvent: vi.fn(),
-                })),
-            })
-        })
-
         it('should render motion.div when enabled', () => {
             const config: AnimationConfig = {
                 enabled: true,

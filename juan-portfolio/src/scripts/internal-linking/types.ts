@@ -13,8 +13,10 @@ export interface PostMetadata {
     slug: string;
     /** Post title */
     title: string;
-    /** Primary keywords associated with this post */
-    keywords: string[];
+    /** Primary keywords that this post "owns" */
+    primary_keywords: string[];
+    /** Related semantic keywords for contextual relevance */
+    semantic_keywords?: string[];
     /** Category/pillar the post belongs to */
     category: string;
     /** Absolute file path to the markdown file */

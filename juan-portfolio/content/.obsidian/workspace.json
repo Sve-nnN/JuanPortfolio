@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content-plan.md",
+                "file": "keywords.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "content-plan"
+              "title": "keywords"
             }
           }
         ],
@@ -214,14 +214,21 @@
   },
   "active": "4fdde678eae0446e",
   "lastOpenFiles": [
-    "keywords.md",
-    "content-plan.md",
-    "posts/tech-seo/core-web-vitals-guide.md",
-    "posts/tech-seo/core-web-vitals-guide.md",
-    "posts/tech/second-post.md",
-    "posts/tech-seo/tech-seo-guide.md",
+    "posts/tech-seo/post-template 1.md",
     "post-template.md",
-    "posts/tech/first-post.md",
+    "posts/tech-seo/tech-seo-guide.md",
+    "posts/tech-seo/core-web-vitals-guide.md",
+    "tech-seo/tech-seo-guide.md",
+    "tech-seo-guide.md",
+    "tech-seo",
+    "posts/cs-fundamentals/complejidad-algoritmica.md",
+    "posts/cs-fundamentals/big-o-notation.md",
+    "posts/cs-fundamentals/algoritmos-estructuras-datos.md",
+    "keywords.md",
+    "posts/cs-fundamentals",
+    "content-plan.md",
+    "posts/test/second-post.md",
+    "posts/test/first-post.md",
     "posts/tech-seo"
   ]
 }

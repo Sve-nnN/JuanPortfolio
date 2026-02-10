@@ -39,7 +39,7 @@ describe('CMSLink component', () => {
     render(<CMSLink type="reference" reference={{ relationTo: 'posts', value: post }} />)
     const link = screen.getByRole('link', { name: 'Test Post' })
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/blog/tech/test-post')
+    expect(link).toHaveAttribute('href', 'https://juan-tech.com/blog/tech/test-post')
   })
 
   it('renders a link with a newTab prop', () => {

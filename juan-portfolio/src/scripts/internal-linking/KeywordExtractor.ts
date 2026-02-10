@@ -2,21 +2,22 @@ import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
 import type { PostMetadata, KeywordMatch } from './types';
+import { getPostUrl } from '../../utilities/getPostUrl';
 
 /**
  * Extracts keywords from posts and builds a keyword-to-post index.
- * 
+ *
  * This class is responsible for:
  * - Loading post metadata from markdown files
- * - Extracting keywords from frontmatter and headings
- * - Generating semantic variations (plural, singular, case-insensitive)
- * - Building a searchable keyword index
+ * - Extracting primary and semantic keywords from frontmatter
+ * - Generating variations (plural, singular, case-insensitive)
+ * - Building a searchable keyword index based on primary keywords
  */
 export class KeywordExtractor {
     private keywordIndex: Map<string, KeywordMatch> = new Map();
     private posts: PostMetadata[] = [];
 
-    constructor(private contentDir: string) { }
+    constructor(private contentDir: string) {}
 
     /**
      * Load all posts from the content directory.
@@ -25,12 +26,19 @@ export class KeywordExtractor {
         const postsDir = path.join(this.contentDir, 'posts');
         this.posts = [];
 
+        const args = process.argv.slice(2);
+        const includeTest = args.includes('--include-test');
+
         const categories = category
             ? [category]
             : fs.readdirSync(postsDir).filter(f => {
-                const stat = fs.statSync(path.join(postsDir, f));
-                return stat.isDirectory();
-            });
+                  const stat = fs.statSync(path.join(postsDir, f));
+                  // Skip 'test' directory unless explicitly requested
+                  if (f === 'test' && !includeTest) {
+                      return false;
+                  }
+                  return stat.isDirectory();
+              });
 
         for (const cat of categories) {
             const categoryDir = path.join(postsDir, cat);
@@ -51,7 +59,7 @@ export class KeywordExtractor {
     }
 
     /**
-     * Parse a single post file and extract metadata.
+     * Parse a single post file and extract metadata and keywords.
      */
     private parsePost(filePath: string, category: string): PostMetadata | null {
         try {
@@ -59,12 +67,16 @@ export class KeywordExtractor {
             const { data } = matter(content);
 
             const slug = path.basename(filePath, '.md');
-            const url = `/${category}/${slug}`;
+            const url = getPostUrl({ slug, categories: [category] });
+
+            const primary_keywords: string[] = (data.primary_keywords || []).map((kw: string) => kw.toLowerCase());
+            const semantic_keywords: string[] = (data.semantic_keywords || []).map((kw: string) => kw.toLowerCase());
 
             return {
                 slug,
                 title: data.title || slug,
-                keywords: this.extractKeywords(data, content),
+                primary_keywords,
+                semantic_keywords,
                 category,
                 filePath,
                 url,
@@ -76,71 +88,39 @@ export class KeywordExtractor {
     }
 
     /**
-     * Extract keywords from frontmatter and content.
-     */
-    private extractKeywords(frontmatter: any, content: string): string[] {
-        const keywords: Set<string> = new Set();
-
-        // From frontmatter
-        if (frontmatter.keywords && Array.isArray(frontmatter.keywords)) {
-            frontmatter.keywords.forEach((kw: string) => keywords.add(kw.toLowerCase()));
-        }
-
-        // From relatedPosts (extract topic from slugs)
-        if (frontmatter.relatedPosts && Array.isArray(frontmatter.relatedPosts)) {
-            frontmatter.relatedPosts.forEach((slug: string) => {
-                // Extract meaningful keywords from slug (e.g., 'nextjs-seo-optimization' -> 'nextjs', 'seo', 'optimization')
-                const words = slug.split('-').filter(w => w.length > 3);
-                words.forEach(w => keywords.add(w.toLowerCase()));
-            });
-        }
-
-        // Extract from H2 headings as secondary keywords
-        const h2Regex = /^##\s+(.+)$/gm;
-        let match;
-        while ((match = h2Regex.exec(content)) !== null) {
-            const heading = match[1].trim();
-            // Remove markdown formatting
-            const cleaned = heading.replace(/[*_`[\]()]/g, '').toLowerCase();
-            if (cleaned.length > 5 && cleaned.length < 50) {
-                keywords.add(cleaned);
-            }
-        }
-
-        return Array.from(keywords);
-    }
-
-    /**
-     * Build keyword index mapping keywords to target posts.
-     * Each keyword will link to the most relevant post (based on priority).
+     * Build keyword index mapping primary keywords to target posts.
+     * Each keyword will link to one definitive post.
      */
     buildIndex(): Map<string, KeywordMatch> {
         this.keywordIndex.clear();
 
         for (const post of this.posts) {
-            for (let i = 0; i < post.keywords.length; i++) {
-                const keyword = post.keywords[i];
-                const priority = post.keywords.length - i; // Earlier keywords = higher priority
-
+            for (const keyword of post.primary_keywords) {
                 const variations = this.generateVariations(keyword);
 
-                // Use the keyword that appears first in the post's keyword list
-                if (!this.keywordIndex.has(keyword) || this.keywordIndex.get(keyword)!.priority < priority) {
-                    const match: KeywordMatch = {
-                        keyword,
-                        variations,
-                        targetPost: post,
-                        priority,
-                    };
-
-                    // Index both the primary keyword and all variations
-                    this.keywordIndex.set(keyword, match);
-                    variations.forEach(v => {
-                        if (!this.keywordIndex.has(v)) {
-                            this.keywordIndex.set(v, match);
-                        }
-                    });
+                // Check for keyword cannibalization
+                if (this.keywordIndex.has(keyword) && this.keywordIndex.get(keyword)!.targetPost.slug !== post.slug) {
+                    console.warn(
+                        `⚠️  Keyword Cannibalization Warning: The keyword "${keyword}" is claimed by both '${
+                            this.keywordIndex.get(keyword)!.targetPost.slug
+                        }' and '${post.slug}'. The first one found will be used.`,
+                    );
+                    continue; // Skip re-assigning this keyword
                 }
+
+                const match: KeywordMatch = {
+                    keyword,
+                    variations,
+                    targetPost: post,
+                    priority: 1, // Priority is now simplified
+                };
+
+                // Index both the primary keyword and all its variations
+                variations.forEach(v => {
+                    if (!this.keywordIndex.has(v)) {
+                        this.keywordIndex.set(v, match);
+                    }
+                });
             }
         }
 

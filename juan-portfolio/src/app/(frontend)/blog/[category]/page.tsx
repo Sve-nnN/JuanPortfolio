@@ -9,7 +9,6 @@ import { draftMode } from 'next/headers'
 import { PostsGrid } from '@/blocks/PostsGrid/Component'
 import type { Post } from '@/payload-types'
 import { getFallbackBySlug } from '@/constants/fallbackImages'
-import Link from 'next/link'
 import { CategoryFAQ } from '@/components/CategoryFAQ'
 import { CategoryExplore } from '@/components/CategoryExplore'
 import { Metadata } from 'next'
@@ -75,14 +74,17 @@ export default async function CategoryPage({
 
   const posts = await payload.find({
     collection: 'posts',
-    where: { categories: { contains: cat.id } },
-    draft,
+    where: {
+      and: [
+        { categories: { contains: cat.id } },
+        { _status: { equals: 'published' } },
+      ],
+    },
     limit: 100,
     depth: 2,
   })
   const allCategories = await payload.find({ collection: 'categories', limit: 100 })
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
   const breadcrumbItems: BreadcrumbItem[] = [
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },
@@ -108,14 +110,16 @@ export default async function CategoryPage({
 
   const schema = mergeSchemas([collectionPageSchema, faqSchema, breadcrumbSchema])
 
+  const bgUrl = getFallbackBySlug(cat.slug || '') || ''
+
   return (
     <main>
       <JsonLd schema={schema} />
       <CategoryHeader 
         title={cat.title || 'Categoría'}
         description={cat.description || undefined}
-        categorySlug={cat.slug || ''}
-        backgroundImage={getFallbackBySlug(cat.slug || '') || ''}
+        _categorySlug={cat.slug || category}
+        backgroundImage={bgUrl}
       />
       <PostsGrid
         blockType="postsGrid"

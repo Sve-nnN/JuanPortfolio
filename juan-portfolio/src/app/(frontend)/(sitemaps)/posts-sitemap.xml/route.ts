@@ -15,7 +15,7 @@ const getPostsSitemap = unstable_cache(
       collection: 'posts',
       overrideAccess: false,
       draft: false,
-      depth: 0,
+      depth: 2,
       limit: 1000,
       pagination: false,
       where: {
@@ -26,6 +26,7 @@ const getPostsSitemap = unstable_cache(
       select: {
         slug: true,
         updatedAt: true,
+        categories: true,
       },
     })
 
@@ -34,10 +35,24 @@ const getPostsSitemap = unstable_cache(
     const sitemap = results.docs
       ? results.docs
           .filter((post) => Boolean(post?.slug))
-          .map((post) => ({
-            loc: `${SITE_URL}/blog/${post?.slug}`,
-            lastmod: post.updatedAt || dateFallback,
-          }))
+          .map((post) => {
+            const categories = post.categories || []
+            let categorySlug = 'general'
+
+            if (categories && categories.length > 0) {
+              const firstCategory = categories[0]
+              if (typeof firstCategory === 'object' && 'slug' in firstCategory && firstCategory.slug) {
+                categorySlug = String(firstCategory.slug)
+              } else if (typeof firstCategory === 'string') {
+                categorySlug = firstCategory
+              }
+            }
+
+            return {
+              loc: `${SITE_URL}/blog/${categorySlug}/${post.slug}`,
+              lastmod: post.updatedAt || dateFallback,
+            }
+          })
       : []
 
     return sitemap

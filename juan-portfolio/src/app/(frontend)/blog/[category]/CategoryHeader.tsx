@@ -7,14 +7,14 @@ import Image from 'next/image'
 interface CategoryHeaderProps {
   title: string
   description?: string
-  categorySlug: string
+  _categorySlug: string
   backgroundImage: string
 }
 
 export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   title,
   description,
-  categorySlug,
+  _categorySlug,
   backgroundImage,
 }) => {
   const containerVariants = {

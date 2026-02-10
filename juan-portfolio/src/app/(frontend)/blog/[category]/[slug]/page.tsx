@@ -68,7 +68,12 @@ export default async function PostPage({
   const payload = await getPayload({ config: configPromise })
   const postRes = await payload.find({
     collection: 'posts',
-    where: { slug: { equals: slug } },
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        ...(draft ? [] : [{ _status: { equals: 'published' } }]),
+      ],
+    },
     draft,
     limit: 1,
     depth: 2,

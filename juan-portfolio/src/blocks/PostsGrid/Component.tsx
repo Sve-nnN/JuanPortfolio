@@ -1,6 +1,5 @@
 import React from 'react'
 import type { PostsGridBlock, Post, Category } from '@/payload-types'
-import { Card } from '@/components/Card'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
@@ -34,6 +33,11 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
         page,
         depth: 1,
         sort: '-publishedAt',
+        where: {
+          _status: {
+            equals: 'published',
+          },
+        },
       })
       posts = (res.docs as Post[]) || []
       totalPages = res.totalPages

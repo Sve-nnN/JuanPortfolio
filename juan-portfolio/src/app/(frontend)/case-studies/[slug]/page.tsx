@@ -22,6 +22,7 @@ import TOCClient from '@/components/TableOfContents/client'
 import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { JsonLd } from '@/components/JsonLd'
+import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 // import { headers } from 'next/headers'
 
 /**
@@ -134,7 +135,7 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
 
       <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
+      <AnimateOnScroll className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-[18rem_minmax(0,75ch)] gap-8 items-start">
             {/* LEFT: TOC sticky on desktop */}
@@ -189,7 +190,7 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
             </div>
           </div>
         </div>
-      </div>
+      </AnimateOnScroll>
     </article>
   )
 }

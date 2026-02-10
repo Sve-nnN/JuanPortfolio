@@ -4,6 +4,7 @@ import { Card } from '@/components/Card'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
+import { AnimatedCard } from './AnimatedCard'
 
 // Define PostsGridProps type based on used props
 type PostsGridProps = PostsGridBlock & { page?: number; overridePosts?: Post[] }
@@ -85,21 +86,14 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
 
       {/* Posts Grid */}
       <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
-        {posts.map((p) => {
-          return (
-            <div
-              key={p.id}
-              className="group flex flex-col h-full"
-            >
-              <Card
-                className="h-full"
-                doc={p}
-                relationTo="posts"
-                showCategories={Boolean(showCategories)}
-              />
-            </div>
-          )
-        })}
+        {posts.map((p, i) => (
+          <AnimatedCard 
+            key={p.id}
+            post={p}
+            index={i}
+            showCategories={Boolean(showCategories)}
+          />
+        ))}
       </div>
 
       {/* Pagination (simple display - can be enhanced) */}

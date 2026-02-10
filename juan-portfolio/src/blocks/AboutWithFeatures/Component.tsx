@@ -35,7 +35,7 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock> = (props) => {
     <section className="py-24 md:py-32 bg-secondary" id="about">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          <div className="space-y-8 sticky top-24">
+          <div className="space-y-8 lg:sticky lg:top-24">
             <div>
               {eyebrow && (
                 <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">

@@ -73,6 +73,8 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   testimonialsCarousel: TestimonialsCarouselBlockComponent,
 }
 
+import { AnimateOnScroll } from '@/components/AnimateOnScroll'
+
 export const RenderBlocks: React.FC<{
   blocks: Page['content']['layout']
 }> = (props) => {
@@ -88,10 +90,21 @@ export const RenderBlocks: React.FC<{
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
             if (Block) {
+              if (index === 0) {
+                return (
+                  <div className="mb-16" key={index}>
+                    <Block {...block} />
+                  </div>
+                )
+              }
+
               return (
-                <div className={index === 0 ? 'mb-16' : 'my-16'} key={index}>
+                <AnimateOnScroll 
+                  className="my-20 lg:my-32" 
+                  key={index}
+                >
                   <Block {...block} />
-                </div>
+                </AnimateOnScroll>
               )
             }
           }

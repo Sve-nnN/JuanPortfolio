@@ -13,6 +13,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import RichText from '@/components/RichText'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 import { Metadata } from 'next'
 
 /**
@@ -107,7 +108,7 @@ export default async function PostPage({
       </div>
 
       {/* Main Content Grid */}
-      <div className="pt-8 lg:pt-12 container">
+      <AnimateOnScroll className="pt-8 lg:pt-12 container">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 lg:gap-12 items-start">
           {/* Main Article Content */}
           <article className="prose prose-lg dark:prose-invert max-w-none min-w-0">
@@ -123,7 +124,7 @@ export default async function PostPage({
             </aside>
           )}
         </div>
-      </div>
+      </AnimateOnScroll>
     </article>
   )
 }

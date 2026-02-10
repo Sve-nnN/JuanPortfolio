@@ -21,8 +21,8 @@ export function AnimateOnScroll({
     const ref = React.useRef(null)
     const isInView = useInView(ref, getViewportOptions(config))
 
-    // If animations are disabled, just render children
-    if (!config || !config.enabled) {
+    // If animations are explicitly disabled, just render children
+    if (config?.enabled === false) {
         return <div className={className}>{children}</div>
     }
 

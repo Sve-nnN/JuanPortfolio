@@ -3,6 +3,7 @@ import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
+import Image from 'next/image'
 
 import type { Post } from '@/payload-types'
 
@@ -45,10 +46,12 @@ export const Card: React.FC<{
     >
       <div className="relative w-full aspect-video overflow-hidden">
         {!metaImage && (
-          <img
+          <Image
             src={getFallbackBySlug(slug || '')}
             alt={titleToUse || 'Post Image'}
-            className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+            fill
+            className="object-cover transition-transform duration-500 hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
         {metaImage && typeof metaImage !== 'string' && <Media className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" resource={metaImage} size="33vw" />}

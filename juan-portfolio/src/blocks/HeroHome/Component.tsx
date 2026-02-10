@@ -1,13 +1,37 @@
+'use client'
+
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import type { HeroHomeBlock as HeroHomeBlockType } from '@/payload-types'
+import { motion } from 'framer-motion'
 export type { HeroHomeBlockType as HeroHomeBlock }
 
 export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
   const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media } = props
-  const titleLength = title ? title.length : 0
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    },
+  }
+
   return (
     <section className="min-h-[calc(100vh-80px)] flex items-center pt-32 pb-20 relative overflow-hidden" id="home">
       {/* Background Ambience */}
@@ -19,16 +43,25 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Text content */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start lg:order-1">
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="text-center lg:text-left flex flex-col items-center lg:items-start lg:order-1"
+          >
             {badge && (
-              <span className="inline-flex items-center bg-primary/10 backdrop-blur-md border border-primary/20 text-primary text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-6 animate-fade-in-up">
+              <motion.span 
+                variants={itemVariants}
+                className="inline-flex items-center bg-primary/10 backdrop-blur-md border border-primary/20 text-primary text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-6"
+              >
                 {badge}
-              </span>
+              </motion.span>
             )}
 
-            <h1
-              className={`font-display font-extrabold text-foreground mb-6 leading-tight lg:leading-[1.1] tracking-tight animate-fade-in-up`}
-              style={{ animationDelay: '0.1s', fontSize: 'clamp(3rem, 5vw, 5rem)' }}
+            <motion.h1
+              variants={itemVariants}
+              className="font-display font-extrabold text-foreground mb-6 leading-tight lg:leading-[1.1] tracking-tight"
+              style={{ fontSize: 'clamp(3rem, 5vw, 5rem)' }}
             >
               {title || 'Juan Carlos Angulo'}
               {subtitle && (
@@ -42,23 +75,23 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
                   </span>
                 </>
               )}
-            </h1>
+            </motion.h1>
 
             {/* Description or RichText */}
-            <div
-              className="max-w-xl text-lg md:text-xl text-muted-foreground mb-10 text-center lg:text-left animate-fade-in-up"
-              style={{ animationDelay: '0.2s' }}
+            <motion.div
+              variants={itemVariants}
+              className="max-w-xl text-lg md:text-xl text-muted-foreground mb-10 text-center lg:text-left"
             >
               {richText ? (
                 <RichText className="prose-lg" data={richText} enableGutter={false} />
               ) : description ? (
                 <p>{description}</p>
               ) : null}
-            </div>
+            </motion.div>
 
-            <div
-              className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto animate-fade-in-up"
-              style={{ animationDelay: '0.3s' }}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
             >
               {primaryCta && primaryCta.label && primaryCta.url && (
                 <a
@@ -77,18 +110,23 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                 </a>
               )}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Media/Image */}
-          <div className="relative flex justify-center items-center lg:order-2 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+            animate={{ opacity: 1, scale: 1, rotate: 3 }}
+            transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
+            className="relative flex justify-center items-center lg:order-2"
+          >
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 rounded-full blur-3xl opacity-60 animate-pulse-slow"></div>
             {media && typeof media === 'object' && (
-              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[30rem] lg:h-[30rem] rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-500 ease-out overflow-hidden border border-border/50 shadow-2xl bg-card">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[30rem] lg:h-[30rem] rounded-2xl hover:rotate-0 transition-transform duration-500 ease-out overflow-hidden border border-border/50 shadow-2xl bg-card">
                 <Media resource={media} fill priority className="w-full h-full object-cover aspect-square" width={1000} height={1000} />
               </div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,8 +1,11 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
-import { Media } from '@/components/Media' // Adjust path if necessary
+import { Media } from '@/components/Media' 
 import type { Media as MediaType } from '@/payload-types'
 import { getFallbackBySlug } from '@/constants/fallbackImages'
+import { motion } from 'framer-motion'
 
 type ArchiveHeroProps = {
     title: string
@@ -31,6 +34,27 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
             : alignment === 'center'
                 ? 'items-center text-center'
                 : 'items-end text-right'
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+            },
+        },
+    }
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 15 },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: {
+                duration: 0.5
+            }
+        },
+    }
 
     // Resolve Background Image
     let backgroundContent: React.ReactNode = null
@@ -76,11 +100,16 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
 
             <div className={`container z-10 relative flex flex-col ${alignClass} text-white`}>
                 {/* Alignment Wrapper */}
-                <div className={`max-w-4xl w-full flex flex-col ${alignClass} gap-3 animate-fade-in-up pt-32 md:pt-40`}>
-
+                <motion.div 
+                    initial="hidden"
+                    animate="visible"
+                    variants={containerVariants}
+                    className={`max-w-4xl w-full flex flex-col ${alignClass} gap-4 pt-32 md:pt-40`}
+                >
                     {/* Breadcrumbs */}
                     {breadcrumbs && breadcrumbs.length > 0 && (
-                        <nav
+                        <motion.nav
+                            variants={itemVariants}
                             aria-label="Breadcrumb"
                             className={`flex flex-wrap gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80 ${alignment === 'end' ? 'justify-end' : alignment === 'center' ? 'justify-center' : 'justify-start'
                                 }`}
@@ -105,44 +134,49 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
                                     </React.Fragment>
                                 )
                             })}
-                        </nav>
+                        </motion.nav>
                     )}
 
-                    <h1
+                    <motion.h1
+                        variants={itemVariants}
                         className="font-display font-bold text-white drop-shadow-md leading-[1.1] tracking-tighter"
-                        style={{ fontSize: 'clamp(2.25rem, 6vw, 3.75rem)' }}
+                        style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}
                     >
                         {title}
-                    </h1>
+                    </motion.h1>
 
                     {description && (
-                        <p
-                            className="text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm"
-                            style={{ fontSize: 'clamp(1.125rem, 1.5vw, 1.25rem)' }}
+                        <motion.p
+                            variants={itemVariants}
+                            className="text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm font-medium"
+                            style={{ fontSize: 'clamp(1.125rem, 1.5vw, 1.35rem)' }}
                         >
                             {description}
-                        </p>
+                        </motion.p>
                     )}
 
                     {/* Category Filters */}
                     {categoryFilters && categoryFilters.length > 0 && (
-                        <div className={`flex flex-wrap gap-2 mt-4 ${alignment === 'end' ? 'justify-end' : alignment === 'center' ? 'justify-center' : 'justify-start'
-                            }`}>
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`flex flex-wrap gap-2 mt-6 ${alignment === 'end' ? 'justify-end' : alignment === 'center' ? 'justify-center' : 'justify-start'
+                            }`}
+                        >
                             {categoryFilters.map((cat) => (
                                 <Link
                                     key={cat.id}
                                     href={`/blog/${cat.slug}`}
-                                    className={`px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border ${cat.isActive
-                                        ? 'bg-primary/80 border-primary text-white'
-                                        : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                                    className={`px-4 py-2 text-sm font-semibold rounded-full transition-all backdrop-blur-md border ${cat.isActive
+                                        ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20'
+                                        : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                                         }`}
                                 >
                                     {cat.title}
                                 </Link>
                             ))}
-                        </div>
+                        </motion.div>
                     )}
-                </div>
+                </motion.div>
             </div>
         </section>
     )

@@ -1,3 +1,5 @@
+'use client'
+
 import { formatDateTime } from 'src/utilities/formatDateTime'
 import React from 'react'
 
@@ -14,6 +16,8 @@ interface PopulatedAuthor {
   slug?: string
 }
 
+import { motion } from 'framer-motion'
+
 export const PostHero: React.FC<{
   post: Post
   excerpt?: string | null
@@ -23,6 +27,27 @@ export const PostHero: React.FC<{
   const { categories: postCategories, content, populatedAuthors, publishedAt, title } = post
   const categories = postCategories
   const heroImage = content?.heroImage
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    },
+  }
 
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
@@ -66,16 +91,22 @@ export const PostHero: React.FC<{
   }
 
   return (
-
-    <div className="relative min-h-[80vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20">
+    <div className="relative min-h-[80vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20 overflow-hidden">
       <div className="container z-10 relative flex flex-col items-end text-right text-white">
-        <div className="max-w-4xl w-full flex flex-col items-end gap-3 animate-fade-in-up pt-32 md:pt-40">
-
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="max-w-4xl w-full flex flex-col items-end gap-4 pt-32 md:pt-40"
+        >
           {/* Categories / Breadcrumbs */}
-          {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumb" className="flex flex-wrap justify-end gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80">
+          <motion.nav 
+            variants={itemVariants}
+            aria-label="Breadcrumb" 
+            className="flex flex-wrap justify-end gap-2 items-center text-sm font-medium uppercase tracking-wide text-white/80"
+          >
             <Link href="/" className="hover:text-white transition-colors text-xs opacity-70">Inicio</Link>
-            <span className="text-white/40 text-xs text-xs">/</span>
+            <span className="text-white/40 text-xs">/</span>
             <Link href="/blog" className="hover:text-white transition-colors text-xs opacity-70">Blog</Link>
 
             {mainCategory && (
@@ -87,7 +118,6 @@ export const PostHero: React.FC<{
               </>
             )}
 
-            {/* Fallback to list if no mainCategory provided */}
             {!mainCategory && categories?.map((category: string | Category, index: number) => {
               if (typeof category === 'object' && category !== null) {
                 return (
@@ -101,53 +131,54 @@ export const PostHero: React.FC<{
               }
               return null
             })}
-          </nav>
+          </motion.nav>
 
-          <h1
-            className="font-bold leading-[1.1] tracking-tighter text-white drop-shadow-md text-right"
-            style={{ fontSize: 'clamp(2.25rem, 6vw, 4rem)' }}
+          <motion.h1
+            variants={itemVariants}
+            className="font-display font-extrabold leading-[1.1] tracking-tighter text-white drop-shadow-xl text-right"
+            style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}
           >
             {title}
-          </h1>
+          </motion.h1>
 
-          {/* Excerpt */}
           {excerpt && (
-            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
+            <motion.p 
+              variants={itemVariants}
+              className="text-lg md:text-2xl text-white/90 leading-relaxed max-w-2xl drop-shadow-md font-medium"
+            >
               {excerpt}
-            </p>
+            </motion.p>
           )}
 
           {/* Meta Info Row */}
-          <div className="flex flex-wrap justify-end items-center gap-6 text-sm text-gray-300 font-medium tracking-wide mt-4 border-t border-white/20 pt-6 w-full md:w-auto pl-8">
-
-            {/* Author */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-wrap justify-end items-center gap-6 text-sm text-white/80 font-medium tracking-wide mt-6 border-t border-white/20 pt-8 w-full md:w-auto"
+          >
             {hasAuthors && (
-              <div className="flex items-center gap-2">
-                <span className="text-white/50 uppercase text-xs">Escrito por</span>
+              <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">Autor</span>
                 <span className="text-white">{renderAuthors()}</span>
               </div>
             )}
 
-            {/* Date */}
             {publishedAt && (
-              <div className="flex items-center gap-2">
-                <span className="text-white/50 uppercase text-xs">Publicado</span>
+              <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">Fecha</span>
                 <time dateTime={publishedAt} className="text-white">
                   {formatDateTime(publishedAt)}
                 </time>
               </div>
             )}
 
-            {/* Reading Time */}
             {readingTime && (
-              <div className="flex items-center gap-2">
-                <span className="text-white/50 uppercase text-xs">Lectura</span>
+              <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">Tiempo</span>
                 <span className="text-white">{readingTime} min</span>
               </div>
             )}
-          </div>
-
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Background Image & Overlay */}

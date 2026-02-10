@@ -29,6 +29,7 @@ import { Home } from './globals/Home/config'
 import { BlogListing } from './globals/BlogListing/config'
 import { CaseStudiesListing } from './globals/CaseStudiesListing/config'
 import { Styles } from './globals/Styles/config'
+import { SiteSettings } from './globals/SiteSettings'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -109,7 +110,7 @@ export default buildConfig({
     KeywordMetrics,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles],
+  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings],
   plugins: [
     ...plugins,
     mcpPlugin({

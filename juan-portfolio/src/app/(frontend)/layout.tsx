@@ -21,6 +21,10 @@ import type { Locale } from '@/i18n/translations'
 
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { JsonLd } from '@/components/JsonLd'
+import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/schema'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -70,6 +74,40 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     rawLocale && ['en', 'es'].includes(rawLocale) ? rawLocale : 'es'
   ) as Locale
 
+  const payload = await getPayload({ config: configPromise })
+  const siteSettings = await payload.findGlobal({ slug: 'site-settings' }).catch(() => null)
+  
+  const baseUrl = getServerSideURL()
+  
+  const organizationSchema = siteSettings
+    ? generateOrganizationSchema({
+        name: siteSettings.organizationName || 'Juan Tech',
+        url: siteSettings.siteUrl || baseUrl,
+        logo: typeof siteSettings.logo === 'object' && siteSettings.logo ? (siteSettings.logo as { url?: string }).url : undefined,
+        description: siteSettings.organizationDescription || undefined,
+        sameAs: Array.isArray(siteSettings.socialProfiles)
+          ? siteSettings.socialProfiles
+              .map((profile: { url?: string }) => profile?.url)
+              .filter((url): url is string => typeof url === 'string')
+          : undefined,
+        contactPoint: siteSettings.contactType
+          ? {
+              contactType: siteSettings.contactType,
+              email: siteSettings.contactEmail || undefined,
+              telephone: siteSettings.contactPhone || undefined,
+            }
+          : undefined,
+      })
+    : null
+
+  const websiteSchema = siteSettings
+    ? generateWebSiteSchema(
+        siteSettings.organizationName || 'Juan Tech',
+        siteSettings.siteUrl || baseUrl,
+        siteSettings.searchUrl || '/search',
+      )
+    : null
+
   return (
     <html
       className={cn(Khand.variable, ArrayFont.variable, 'dark')}
@@ -80,6 +118,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        {organizationSchema && <JsonLd schema={organizationSchema} />}
+        {websiteSchema && <JsonLd schema={websiteSchema} />}
       </head>
       <body className="dark">
         <Providers>

@@ -1,12 +1,28 @@
 import React from 'react'
+import type { Schema } from '@/utilities/schema'
 
-export const JsonLd = ({ schema }: { schema: unknown }) => {
-    if (!schema) return null
+interface JsonLdProps {
+  schema: Schema | Schema[] | null | undefined
+}
 
-    return (
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-    )
+export const JsonLd = ({ schema }: JsonLdProps) => {
+  if (!schema) return null
+
+  const schemaData = Array.isArray(schema)
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': schema.filter(s => s != null),
+      }
+    : schema
+
+  if (Array.isArray(schema) && schema.filter(s => s != null).length === 0) {
+    return null
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+    />
+  )
 }

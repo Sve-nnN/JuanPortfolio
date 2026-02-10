@@ -17,6 +17,12 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { JsonLd } from '@/components/JsonLd'
+import {
+  generateArticleSchema,
+  generateBreadcrumbSchema,
+  mergeSchemas,
+  type BreadcrumbItem,
+} from '@/utilities/schema'
 
 const RelatedPostsServer = dynamic(() => import('@/components/RelatedPostsServer'))
 
@@ -55,19 +61,18 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   // Obtener la categoría principal del post
-  const categories = post.categories || []
+  const postCategories = post.categories || []
   const mainCategory =
-    Array.isArray(categories) && categories.length > 0
-      ? typeof categories[0] === 'string'
-        ? categories[0]
-        : categories[0]?.id
+    Array.isArray(postCategories) && postCategories.length > 0
+      ? typeof postCategories[0] === 'string'
+        ? postCategories[0]
+        : postCategories[0]?.id
       : null
 
   const raw = (post as unknown as { sidebarBanners?: unknown })?.sidebarBanners
   const sidebarBanners = Array.isArray(raw) ? raw : []
   const hasBanners = sidebarBanners.length > 0
 
-  // Procesar contenido
   type Lexical = Post['content']['content']
   const contentNode = post?.content as unknown
   const contentData: Lexical | undefined =
@@ -80,33 +85,68 @@ export default async function Post({ params: paramsPromise }: Args) {
     (contentData as { root?: { children?: unknown[] } } | undefined)?.root?.children?.length,
   )
 
-  // Calculate JSON-LD
-  // @ts-expect-error - URLSearchParams type mismatch
-  const customJsonLd = post.meta?.jsonLD || post.meta_group?.jsonLD
-  let schema = customJsonLd
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
+  const mainCategoryObj = Array.isArray(postCategories) && postCategories.length > 0
+    ? typeof postCategories[0] === 'object' ? postCategories[0] : null
+    : null
+  const mainCategoryName = mainCategoryObj && typeof mainCategoryObj === 'object' && 'title' in mainCategoryObj
+    ? String(mainCategoryObj.title)
+    : 'Blog'
+  const mainCategorySlug = mainCategoryObj && typeof mainCategoryObj === 'object' && 'slug' in mainCategoryObj
+    ? String(mainCategoryObj.slug)
+    : null
 
-  if (!schema) {
-    // @ts-expect-error - URLSearchParams type mismatch
-    const metaTitle = post.meta?.title || post.meta_group?.title || post.title
-    // @ts-expect-error - URLSearchParams type mismatch
-    const metaDesc = post.meta?.description || post.meta_group?.description
-    // @ts-expect-error - URLSearchParams type mismatch
-    const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url || post.meta_group?.image?.url
-
-    schema = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: metaTitle,
-      description: metaDesc,
-      image: metaImage ? `${process.env.NEXT_PUBLIC_SERVER_URL}${metaImage}` : undefined,
-      datePublished: post.publishedAt,
-      dateModified: post.updatedAt,
-      author: {
-        '@type': 'Person',
-        name: 'Juan Carlos Angulo', // Fallback or fetch specific author
-      },
-    }
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { name: 'Home', url: '/' },
+    { name: 'Blog', url: '/blog' },
+  ]
+  if (mainCategorySlug) {
+    breadcrumbItems.push({ name: mainCategoryName, url: `/blog/${mainCategorySlug}` })
   }
+  breadcrumbItems.push({ name: post.title || 'Post', url: `/posts/${post.slug}` })
+
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems)
+
+  const authors = Array.isArray(post.authors) && post.authors.length > 0
+    ? post.authors.map(author => {
+        const authorObj = typeof author === 'object' ? author : null
+        if (!authorObj) return null
+        const name = 'name' in authorObj ? String(authorObj.name) : undefined
+        const url = authorObj.id ? `${baseUrl}/author/${authorObj.id}` : undefined
+        return name && url ? { name, url } : null
+      }).filter((a): a is { name: string; url: string } => a != null)
+    : undefined
+
+  const categoryNames = Array.isArray(postCategories)
+    ? postCategories
+        .map(cat => {
+          const catObj = typeof cat === 'object' ? cat : null
+          return catObj && 'title' in catObj ? String(catObj.title) : null
+        })
+        .filter((name): name is string => name != null)
+    : undefined
+
+  const heroImageUrl = typeof post.content === 'object' && post.content && 'heroImage' in post.content
+    ? typeof post.content.heroImage === 'object' && post.content.heroImage && 'url' in post.content.heroImage
+      ? String(post.content.heroImage.url)
+      : undefined
+    : undefined
+
+  const metaDesc = typeof post.meta === 'object' && post.meta && 'description' in post.meta
+    ? String(post.meta.description)
+    : undefined
+
+  const articleSchema = generateArticleSchema({
+    headline: post.title || '',
+    description: metaDesc,
+    image: heroImageUrl,
+    datePublished: post.publishedAt || post.createdAt || new Date().toISOString(),
+    dateModified: post.updatedAt || post.createdAt || new Date().toISOString(),
+    author: authors,
+    categories: categoryNames,
+  })
+
+  const schema = mergeSchemas([articleSchema, breadcrumbSchema])
 
   return (
     <article className="pb-16">

@@ -14,6 +14,15 @@ import { CategoryFAQ } from '@/components/CategoryFAQ'
 import { CategoryExplore } from '@/components/CategoryExplore'
 import { Metadata } from 'next'
 import { CategoryHeader } from './CategoryHeader'
+import { JsonLd } from '@/components/JsonLd'
+import {
+  generateCollectionPageSchema,
+  generateFAQSchema,
+  generateBreadcrumbSchema,
+  mergeSchemas,
+  type BreadcrumbItem,
+  type FAQItem,
+} from '@/utilities/schema'
 
 /**
  * Generates static parameters for all blog categories.
@@ -73,8 +82,35 @@ export default async function CategoryPage({
   })
   const allCategories = await payload.find({ collection: 'categories', limit: 100 })
 
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { name: 'Home', url: '/' },
+    { name: 'Blog', url: '/blog' },
+    { name: cat.title || 'Categoría', url: `/blog/${cat.slug}` },
+  ]
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems)
+
+  const collectionPageSchema = generateCollectionPageSchema({
+    name: cat.title || 'Categoría',
+    description: cat.description || undefined,
+    url: `/blog/${cat.slug}`,
+    numberOfItems: posts.docs.length,
+  })
+
+  const faqSchema = cat.faqs && Array.isArray(cat.faqs) && cat.faqs.length >= 2
+    ? generateFAQSchema(
+        cat.faqs.map((faq) => ({
+          question: String(faq.question),
+          answer: String(faq.answer),
+        })) as FAQItem[]
+      )
+    : null
+
+  const schema = mergeSchemas([collectionPageSchema, faqSchema, breadcrumbSchema])
+
   return (
     <main>
+      <JsonLd schema={schema} />
       <CategoryHeader 
         title={cat.title || 'Categoría'}
         description={cat.description || undefined}

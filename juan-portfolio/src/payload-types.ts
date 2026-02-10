@@ -122,6 +122,7 @@ export interface Config {
     'blog-listing': BlogListing;
     'case-studies-listing': CaseStudiesListing;
     styles: Style;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -130,6 +131,7 @@ export interface Config {
     'blog-listing': BlogListingSelect<false> | BlogListingSelect<true>;
     'case-studies-listing': CaseStudiesListingSelect<false> | CaseStudiesListingSelect<true>;
     styles: StylesSelect<false> | StylesSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: 'en' | 'es';
   user:
@@ -4014,6 +4016,51 @@ export interface Style {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  /**
+   * Official name of your organization/business
+   */
+  organizationName: string;
+  /**
+   * Brief description of your organization
+   */
+  organizationDescription?: string | null;
+  /**
+   * Your organization logo for structured data
+   */
+  logo?: (string | null) | Media;
+  /**
+   * Your website URL (e.g., https://example.com)
+   */
+  siteUrl: string;
+  /**
+   * URL for your site search page (e.g., /search)
+   */
+  searchUrl?: string | null;
+  socialProfiles?:
+    | {
+        platform: 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'youtube' | 'github' | 'tiktok' | 'other';
+        /**
+         * Full URL to your social profile
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  contactType?: ('customer service' | 'technical support' | 'sales' | 'general') | null;
+  contactEmail?: string | null;
+  /**
+   * Phone number in international format (e.g., +1-555-555-5555)
+   */
+  contactPhone?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -4316,6 +4363,30 @@ export interface StylesSelect<T extends boolean = true> {
         secondary?: T;
       };
   borderRadius?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  organizationName?: T;
+  organizationDescription?: T;
+  logo?: T;
+  siteUrl?: T;
+  searchUrl?: T;
+  socialProfiles?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  contactType?: T;
+  contactEmail?: T;
+  contactPhone?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -16,6 +16,7 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 import { Metadata } from 'next'
 import { AuthorCard } from '@/components/AuthorCard'
+import RelatedPostsServer from '@/components/RelatedPostsServer'
 
 /**
  * Generates static parameters for all blog posts.
@@ -70,10 +71,7 @@ export default async function PostPage({
   const postRes = await payload.find({
     collection: 'posts',
     where: {
-      and: [
-        { slug: { equals: slug } },
-        ...(draft ? [] : [{ _status: { equals: 'published' } }]),
-      ],
+      and: [{ slug: { equals: slug } }, ...(draft ? [] : [{ _status: { equals: 'published' } }])],
     },
     draft,
     limit: 1,
@@ -105,7 +103,7 @@ export default async function PostPage({
         readingTime={minutes}
         mainCategory={{
           title: firstCategory.title || category,
-          href: `/blog/${category}`
+          href: `/blog/${category}`,
         }}
       />
       {/* Mobile/Tablet TOC - Collapsible */}
@@ -132,17 +130,27 @@ export default async function PostPage({
         </div>
 
         {/* Author Attribution */}
-        {post.authors && post.authors.length > 0 && (() => {
-          const firstAuthor = post.authors[0]
-          if (typeof firstAuthor === 'object' && firstAuthor) {
-            return (
-              <div className="max-w-3xl mx-auto mt-12">
-                <AuthorCard author={firstAuthor} />
-              </div>
-            )
-          }
-          return null
-        })()}
+        {post.authors &&
+          post.authors.length > 0 &&
+          (() => {
+            const firstAuthor = post.authors[0]
+            if (typeof firstAuthor === 'object' && firstAuthor) {
+              return (
+                <div className="max-w-3xl mx-auto mt-12">
+                  <AuthorCard author={firstAuthor} />
+                </div>
+              )
+            }
+            return null
+          })()}
+
+        {/* Related Posts */}
+        {categories.length > 0 && (
+          <RelatedPostsServer
+            currentPostId={post.id}
+            categoryId={typeof categories[0] === 'string' ? categories[0] : categories[0].id}
+          />
+        )}
       </AnimateOnScroll>
     </article>
   )

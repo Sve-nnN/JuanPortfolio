@@ -31,6 +31,7 @@ import { BlogListing } from './globals/BlogListing/config'
 import { CaseStudiesListing } from './globals/CaseStudiesListing/config'
 import { Styles } from './globals/Styles/config'
 import { SiteSettings } from './globals/SiteSettings'
+import { LLM } from './globals/LLM/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -112,7 +113,7 @@ export default buildConfig({
     PageMetrics,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings],
+  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM],
   plugins: [
     ...plugins,
     mcpPlugin({

@@ -125,6 +125,7 @@ export interface Config {
     'case-studies-listing': CaseStudiesListing;
     styles: Style;
     'site-settings': SiteSetting;
+    llm: Llm;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -134,6 +135,7 @@ export interface Config {
     'case-studies-listing': CaseStudiesListingSelect<false> | CaseStudiesListingSelect<true>;
     styles: StylesSelect<false> | StylesSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    llm: LlmSelect<false> | LlmSelect<true>;
   };
   locale: 'en' | 'es';
   user:
@@ -4271,6 +4273,31 @@ export interface SiteSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "llm".
+ */
+export interface Llm {
+  id: string;
+  /**
+   * Breve descripción de qué es este sitio para inteligencias artificiales.
+   */
+  summary: string;
+  /**
+   * El cuerpo principal del archivo llms.txt. Puedes usar markdown.
+   */
+  fullContent?: string | null;
+  resources?:
+    | {
+        title: string;
+        url: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -4597,6 +4624,25 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   contactType?: T;
   contactEmail?: T;
   contactPhone?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "llm_select".
+ */
+export interface LlmSelect<T extends boolean = true> {
+  summary?: T;
+  fullContent?: T;
+  resources?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        description?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

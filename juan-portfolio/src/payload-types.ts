@@ -79,6 +79,7 @@ export interface Config {
     'ad-banners': AdBanner;
     testimonials: Testimonial;
     'keyword-metrics': KeywordMetric;
+    'page-metrics': PageMetric;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -102,6 +103,7 @@ export interface Config {
     'ad-banners': AdBannersSelect<false> | AdBannersSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'keyword-metrics': KeywordMetricsSelect<false> | KeywordMetricsSelect<true>;
+    'page-metrics': PageMetricsSelect<false> | PageMetricsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1925,6 +1927,46 @@ export interface KeywordMetric {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-metrics".
+ */
+export interface PageMetric {
+  id: string;
+  url: string;
+  /**
+   * The path of the URL (e.g. /about)
+   */
+  path?: string | null;
+  /**
+   * Date of the last PageSpeed Insights scan
+   */
+  lastScan?: string | null;
+  mobile?: {
+    lcp?: number | null;
+    fcp?: number | null;
+    fid?: number | null;
+    inp?: number | null;
+    cls?: number | null;
+    score?: number | null;
+  };
+  history?:
+    | {
+        date?: string | null;
+        metrics?: {
+          lcp?: number | null;
+          fcp?: number | null;
+          fid?: number | null;
+          inp?: number | null;
+          cls?: number | null;
+          score?: number | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -2195,6 +2237,24 @@ export interface PayloadMcpApiKey {
      */
     delete?: boolean | null;
   };
+  pageMetrics?: {
+    /**
+     * Allow clients to find page-metrics.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create page-metrics.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update page-metrics.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete page-metrics.
+     */
+    delete?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -2343,6 +2403,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'keyword-metrics';
         value: string | KeywordMetric;
+      } | null)
+    | ({
+        relationTo: 'page-metrics';
+        value: string | PageMetric;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -3420,6 +3484,43 @@ export interface KeywordMetricsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-metrics_select".
+ */
+export interface PageMetricsSelect<T extends boolean = true> {
+  url?: T;
+  path?: T;
+  lastScan?: T;
+  mobile?:
+    | T
+    | {
+        lcp?: T;
+        fcp?: T;
+        fid?: T;
+        inp?: T;
+        cls?: T;
+        score?: T;
+      };
+  history?:
+    | T
+    | {
+        date?: T;
+        metrics?:
+          | T
+          | {
+              lcp?: T;
+              fcp?: T;
+              fid?: T;
+              inp?: T;
+              cls?: T;
+              score?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -3691,6 +3792,14 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         delete?: T;
       };
   testimonials?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  pageMetrics?:
     | T
     | {
         find?: T;

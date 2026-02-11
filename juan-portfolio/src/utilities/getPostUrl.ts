@@ -12,7 +12,7 @@ export function getPostUrl(post: {
     categories?: Array<string | Category> | null
   }
 }): string {
-  const slug = post.slug || post.id || ''
+  // const slug = post.slug || post.id || '' // Removing unused variable
 
   // Obtener la primera categoría (priorizando root categories)
   const categories = post.categories || post.meta_extras?.categories

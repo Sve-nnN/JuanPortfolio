@@ -9,9 +9,9 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 - **Language**: strict TypeScript throughout.
 - **Localization**: Full support for English (`en`) and Spanish (`es`) at both the CMS and Frontend levels.
 - **Content Strategy**:
-    - Source of truth for blog posts are Markdown files in `content/posts/`.
-    - Automated migration system syncs these files to Payload CMS.
-    - Advanced internal linking system driven by frontmatter keywords (`primary_keywords`, `semantic_keywords`).
+  - Source of truth for blog posts are Markdown files in `content/posts/`.
+  - Automated migration system syncs these files to Payload CMS.
+  - Advanced internal linking system driven by frontmatter keywords (`primary_keywords`, `semantic_keywords`).
 - **SEO**: Deeply integrated SEO intelligence system including keyword tracking, competitor heading extraction, and automated metadata generation.
 
 ## Architecture Highlights
@@ -26,24 +26,28 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 
 ### Commands
 
-| Action | Command |
-| :--- | :--- |
-| **Install** | `pnpm install` |
-| **Development** | `pnpm dev` |
-| **Production Build** | `pnpm build` |
-| **Start Production** | `pnpm start` |
-| **Import Posts** | `pnpm import:posts` |
-| **Link Automation** | `npx tsx src/scripts/build-internal-links.ts` |
-| **Fix Links** | `pnpm run fix:links` |
-| **SEO Intelligence** | `npx tsx src/scripts/update-seo-metrics.ts` |
-| **Run Tests** | `pnpm test` (Integration & E2E) |
+| Action               | Command                                       |
+| :------------------- | :-------------------------------------------- |
+| **Install**          | `pnpm install`                                |
+| **Development**      | `pnpm dev`                                    |
+| **Production Build** | `pnpm build`                                  |
+| **Start Production** | `pnpm start`                                  |
+| **Import Posts**     | `pnpm import:posts`                           |
+| **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts` |
+| **Fix Links**        | `pnpm run fix:links`                          |
+| **SEO Intelligence** | `npx tsx src/scripts/update-seo-metrics.ts`   |
+| **CWV Monitoring**   | `npx tsx src/scripts/seo/update-cwv.ts`       |
+| **Run Tests**        | `pnpm test` (Integration & E2E)               |
 
 ### Environment Variables
+
 Ensure `.env` is configured with:
+
 - `DATABASE_URI`: MongoDB connection string.
 - `PAYLOAD_SECRET`: Secret for CMS authentication.
 - `NEXT_PUBLIC_SERVER_URL`: Base URL of the site.
 - `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage token.
+- `GOOGLE_PSI_API_KEY`: API Key for Google PageSpeed Insights (optional but recommended).
 
 ## Development Conventions
 
@@ -52,7 +56,7 @@ Ensure `.env` is configured with:
 - **Styling**: Use Tailwind CSS utility classes. Prefer Shadcn UI components for complex interactive elements.
 - **Git**: Follow Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`).
 - **Content Updates**:
-    - To add a post: Create a `.md` file in `content/posts/<category>/`.
-    - Run `pnpm import:posts` to sync to the DB.
-    - Run the internal linking script to inject relevant links into the new content.
+  - To add a post: Create a `.md` file in `content/posts/<category>/`.
+  - Run `pnpm import:posts` to sync to the DB.
+  - Run the internal linking script to inject relevant links into the new content.
 - **SEO**: When creating new content, always consult `content/keywords.md` for target keywords and competitor benchmarks.

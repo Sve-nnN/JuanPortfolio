@@ -23,6 +23,7 @@ import Clientes from './collections/Clientes'
 import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanner'
 import Testimonials from './collections/Testimonials'
 import { KeywordMetrics } from './collections/KeywordMetrics'
+import { PageMetrics } from './collections/PageMetrics'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
@@ -108,6 +109,7 @@ export default buildConfig({
     AdBannersCollection,
     Testimonials,
     KeywordMetrics,
+    PageMetrics,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings],
@@ -154,6 +156,10 @@ export default buildConfig({
         [Testimonials.slug]: {
           enabled: true,
           description: 'Customer testimonials',
+        },
+        [PageMetrics.slug]: {
+          enabled: true,
+          description: 'Core Web Vitals metrics for pages',
         },
       },
       mcp: {

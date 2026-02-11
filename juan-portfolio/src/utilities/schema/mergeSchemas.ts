@@ -1,6 +1,8 @@
 import type { Schema } from './types'
 
-export function mergeSchemas(schemas: (Schema | Record<string, any> | null | undefined)[]): Schema | null {
+export function mergeSchemas(
+  schemas: (Schema | Record<string, unknown> | null | undefined)[],
+): Schema | null {
   const validSchemas = schemas.filter((schema): schema is Schema => schema != null)
 
   if (validSchemas.length === 0) {

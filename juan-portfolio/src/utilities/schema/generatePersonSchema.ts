@@ -17,7 +17,7 @@ export interface PersonSchemaInput {
 
 /**
  * Generate Person schema for author markup (E-E-A-T signals)
- * 
+ *
  * @see https://schema.org/Person
  * @see https://developers.google.com/search/docs/appearance/structured-data/author
  */
@@ -46,18 +46,18 @@ export function generatePersonSchema(input: PersonSchemaInput): WithContext<Pers
   if (image) schema.image = image
   if (email) schema.email = email
   if (url) schema.url = url
-  
+
   // E-E-A-T signals
   if (sameAs.length > 0) schema.sameAs = sameAs
   if (knowsAbout.length > 0) schema.knowsAbout = knowsAbout
-  
+
   // Education credentials
   if (alumniOf.length > 0) {
-    schema.alumniOf = alumniOf.map(edu => {
+    schema.alumniOf = alumniOf.map((edu) => {
       const org: any = {
         '@type': 'Organization',
         name: edu.name,
-      }
+      } as Record<string, any>
       if (edu.degree) {
         org.hasCredential = {
           '@type': 'EducationalOccupationalCredential',

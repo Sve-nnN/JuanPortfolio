@@ -10,7 +10,8 @@ import { SeoAdapter } from './seo/types'
 import { JSDOM } from 'jsdom'
 import enquirer from 'enquirer'
 
-const { MultiSelect } = enquirer as unknown as { MultiSelect: any }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { MultiSelect } = enquirer as any
 
 // --- Configuration ---
 const KEYWORDS_FILE_PATH = path.join(process.cwd(), 'content', 'keywords.md')
@@ -314,7 +315,7 @@ async function main() {
 
       const selectedNames = await prompt.run()
       selectedToUpdate = allKeywords.filter((k) => selectedNames.includes(k.data.keyword))
-    } catch (e) {
+    } catch (_e) {
       console.log(`\n${colors.yellow}Operation cancelled.${colors.reset}`)
       return
     }

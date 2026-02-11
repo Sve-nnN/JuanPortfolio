@@ -54,10 +54,11 @@ export function generatePersonSchema(input: PersonSchemaInput): WithContext<Pers
   // Education credentials
   if (alumniOf.length > 0) {
     schema.alumniOf = alumniOf.map((edu) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const org: any = {
         '@type': 'Organization',
         name: edu.name,
-      } as Record<string, any>
+      }
       if (edu.degree) {
         org.hasCredential = {
           '@type': 'EducationalOccupationalCredential',

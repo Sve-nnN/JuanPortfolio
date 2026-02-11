@@ -21,7 +21,7 @@ export const fetchSitemapUrls = async (sitemapUrl: string): Promise<string[]> =>
 
     const xml = await response.text()
     // Simple regex to extract URLs
-    let urls = xml.match(/<loc>(.*?)<\/loc>/g)?.map((val) => val.replace(/<\/?loc>/g, '')) || []
+    const urls = xml.match(/<loc>(.*?)<\/loc>/g)?.map((val) => val.replace(/<\/?loc>/g, '')) || []
 
     // Naively check for sub-sitemaps (ends in .xml) and recursive fetch - depth 1 for now to prevent infinite recursion risks in simple script
     const subSitemaps = urls.filter((u) => u.endsWith('.xml') && u !== sitemapUrl)
@@ -122,7 +122,7 @@ export const saveMetricsToPayload = async (url: string, metrics: CWVMetrics) => 
   let pathStr = '/'
   try {
     pathStr = new URL(url).pathname
-  } catch (e) {}
+  } catch (_e) {}
 
   const existing = await payload.find({
     collection: 'page-metrics',

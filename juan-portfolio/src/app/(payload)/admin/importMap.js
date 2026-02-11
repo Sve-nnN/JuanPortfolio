@@ -9,6 +9,8 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { GSCField as GSCField_60d1527e85f11a2e06a73da50fac39ae } from '@/components/admin/GSCField'
+import { GSCCell as GSCCell_45d4dbad09c7662e5d84c7f89fc58baf } from '@/components/admin/GSCCell'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -24,12 +26,15 @@ import { default as default_14a617787e59f2697076a8f925c952d0 } from '@/component
 import { ForceScanButton as ForceScanButton_09081efaef1efd119bda42a188210def } from '@/components/admin/ForceScanButton'
 import { CWVBadge as CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb } from '@/components/admin/CWVBadge'
 import { ScanAllButton as ScanAllButton_66941844eb1045d37ab68a5b047bef8e } from '@/components/admin/ScanAllButton'
+import { GSCAnalysis as GSCAnalysis_8d10241c44ca797874feb343068f16e8 } from '@/components/admin/GSCAnalysis'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
+import { GSCDashboardLink as GSCDashboardLink_da73e0b544bcaf1fd7fa7841c0553714 } from '@/components/admin/GSCDashboardLink'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
+import { GSCDashboard as GSCDashboard_09fdb3c42aa09805feb187fb4675dddf } from '@/components/admin/GSCDashboard'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -43,6 +48,8 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/admin/GSCField#GSCField": GSCField_60d1527e85f11a2e06a73da50fac39ae,
+  "@/components/admin/GSCCell#GSCCell": GSCCell_45d4dbad09c7662e5d84c7f89fc58baf,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
@@ -58,10 +65,13 @@ export const importMap = {
   "@/components/admin/ForceScanButton#ForceScanButton": ForceScanButton_09081efaef1efd119bda42a188210def,
   "@/components/admin/CWVBadge#CWVBadge": CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb,
   "@/components/admin/ScanAllButton#ScanAllButton": ScanAllButton_66941844eb1045d37ab68a5b047bef8e,
+  "@/components/admin/GSCAnalysis#GSCAnalysis": GSCAnalysis_8d10241c44ca797874feb343068f16e8,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
+  "@/components/admin/GSCDashboardLink#GSCDashboardLink": GSCDashboardLink_da73e0b544bcaf1fd7fa7841c0553714,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
-  "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e
+  "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,
+  "@/components/admin/GSCDashboard#GSCDashboard": GSCDashboard_09fdb3c42aa09805feb187fb4675dddf
 }

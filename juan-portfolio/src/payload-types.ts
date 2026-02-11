@@ -80,6 +80,7 @@ export interface Config {
     testimonials: Testimonial;
     'keyword-metrics': KeywordMetric;
     'page-metrics': PageMetric;
+    'gsc-metrics': GscMetric;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -104,6 +105,7 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'keyword-metrics': KeywordMetricsSelect<false> | KeywordMetricsSelect<true>;
     'page-metrics': PageMetricsSelect<false> | PageMetricsSelect<true>;
+    'gsc-metrics': GscMetricsSelect<false> | GscMetricsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -290,6 +292,7 @@ export interface Page {
       | ClientsCarousel
     )[];
   };
+  searchConsole?: {};
   publishedAt?: string | null;
   slug?: string | null;
   meta?: {
@@ -335,6 +338,7 @@ export interface Post {
    * Select banners to show in the right sidebar for this post.
    */
   sidebarBanners?: (string | AdBanner)[] | null;
+  searchConsole?: {};
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
   populatedAuthors?:
@@ -1969,6 +1973,26 @@ export interface PageMetric {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gsc-metrics".
+ */
+export interface GscMetric {
+  id: string;
+  date: string;
+  page: string;
+  query: string;
+  clicks: number;
+  impressions: number;
+  ctr: number;
+  position: number;
+  country?: string | null;
+  device?: string | null;
+  indexStatus?: ('INDEXED' | 'NOT_INDEXED' | 'UNKNOWN') | null;
+  lastInspected?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -2411,6 +2435,10 @@ export interface PayloadLockedDocument {
         value: string | PageMetric;
       } | null)
     | ({
+        relationTo: 'gsc-metrics';
+        value: string | GscMetric;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -2564,6 +2592,7 @@ export interface PagesSelect<T extends boolean = true> {
               clientsCarousel?: T | ClientsCarouselSelect<T>;
             };
       };
+  searchConsole?: T | {};
   publishedAt?: T;
   slug?: T;
   meta?:
@@ -3118,6 +3147,7 @@ export interface PostsSelect<T extends boolean = true> {
   relatedPosts?: T;
   categories?: T;
   sidebarBanners?: T;
+  searchConsole?: T | {};
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -3518,6 +3548,25 @@ export interface PageMetricsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gsc-metrics_select".
+ */
+export interface GscMetricsSelect<T extends boolean = true> {
+  date?: T;
+  page?: T;
+  query?: T;
+  clicks?: T;
+  impressions?: T;
+  ctr?: T;
+  position?: T;
+  country?: T;
+  device?: T;
+  indexStatus?: T;
+  lastInspected?: T;
   updatedAt?: T;
   createdAt?: T;
 }

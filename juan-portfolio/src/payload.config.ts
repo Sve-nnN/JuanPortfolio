@@ -24,6 +24,7 @@ import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanne
 import Testimonials from './collections/Testimonials'
 import { KeywordMetrics } from './collections/KeywordMetrics'
 import { PageMetrics } from './collections/PageMetrics'
+import { GSCMetrics } from './collections/GSCMetrics'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
@@ -44,6 +45,13 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
+      afterNavLinks: ['@/components/admin/GSCDashboardLink#GSCDashboardLink'],
+      views: {
+        GSCDashboard: {
+          Component: '@/components/admin/GSCDashboard#GSCDashboard',
+          path: '/gsc-dashboard',
+        },
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -111,6 +119,7 @@ export default buildConfig({
     Testimonials,
     KeywordMetrics,
     PageMetrics,
+    GSCMetrics,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM],

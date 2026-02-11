@@ -219,7 +219,7 @@ async function crawlCompetitorContent(
       const doc = dom.window.document
 
       // Remove script and style tags and common boilerplate
-      doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe').forEach((el) => el.remove())
+      doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe').forEach((el: any) => el.remove())
 
       const headings = Array.from(doc.querySelectorAll('h2, h3'))
         .map((h) => {
@@ -249,7 +249,7 @@ async function crawlCompetitorContent(
       const wordCount = text
         .trim()
         .split(/\s+/)
-        .filter((word) => word.length > 0).length
+        .filter((word: string) => word.length > 0).length
 
       results.push({ headings: headingSummary, meta: metaSummary, wordCount })
       process.stdout.write(

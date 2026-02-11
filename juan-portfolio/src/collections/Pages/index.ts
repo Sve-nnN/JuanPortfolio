@@ -55,7 +55,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -187,6 +187,21 @@ export const Pages: CollectionConfig<'pages'> = {
           ],
           label: 'Content',
         },
+        {
+          name: 'searchConsole',
+          label: 'Search Console',
+          fields: [
+            {
+              name: 'gscData',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/components/admin/GSCField#GSCField',
+                },
+              },
+            },
+          ],
+        },
       ],
     },
     {
@@ -194,6 +209,18 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'date',
       admin: {
         position: 'sidebar',
+      },
+    },
+    {
+      name: 'gscClicks',
+      type: 'ui',
+      admin: {
+        components: {
+          Cell: '@/components/admin/GSCCell#GSCCell',
+        },
+      },
+      custom: {
+        collection: 'pages',
       },
     },
     slugField(),

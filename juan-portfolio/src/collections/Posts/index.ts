@@ -40,7 +40,7 @@ export const Posts: CollectionConfig<'posts'> = {
     authors: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -168,6 +168,21 @@ export const Posts: CollectionConfig<'posts'> = {
             },
           ],
         },
+        {
+          name: 'searchConsole',
+          label: 'Search Console',
+          fields: [
+            {
+              name: 'gscData',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/components/admin/GSCField#GSCField',
+                },
+              },
+            },
+          ],
+        },
       ],
     },
     {
@@ -219,6 +234,18 @@ export const Posts: CollectionConfig<'posts'> = {
           type: 'text',
         },
       ],
+    },
+    {
+      name: 'gscClicks',
+      type: 'ui',
+      admin: {
+        components: {
+          Cell: '@/components/admin/GSCCell#GSCCell',
+        },
+      },
+      custom: {
+        collection: 'posts',
+      },
     },
     slugField(),
   ],

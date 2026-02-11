@@ -12,14 +12,18 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
   - Source of truth for blog posts are Markdown files in `content/posts/`.
   - Automated migration system syncs these files to Payload CMS.
   - Advanced internal linking system driven by frontmatter keywords (`primary_keywords`, `semantic_keywords`).
-- **SEO**: Deeply integrated SEO intelligence system including keyword tracking, competitor heading extraction, and automated metadata generation.
+- **SEO Intelligence**: 
+  - Deeply integrated SEO intelligence system including keyword tracking and competitor benchmarks.
+  - **New**: Google Search Console integration for real-time performance tracking in the CMS.
+  - **New**: Automated competitor word count analysis.
 
 ## Architecture Highlights
 
 - `src/app/(frontend)`: Contains the Next.js frontend routes and UI components.
-- `src/collections`: Payload CMS collection definitions (Posts, Pages, Media, Projects, etc.).
-- `src/globals`: Payload CMS global settings (Header, Footer, Site Settings).
+- `src/collections`: Payload CMS collection definitions (Posts, Pages, GSCMetrics, etc.).
 - `src/scripts`: Custom CLI tools for content management and SEO automation.
+  - `seo/adapters/GSCAdapter.ts`: Adapter for Google Search Console API.
+  - `seo/sync-gsc.ts`: Script to synchronize organic traffic data.
 - `content/`: Directory containing Markdown source files and the SEO keyword tracker (`keywords.md`).
 
 ## Building and Running
@@ -31,13 +35,11 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 | **Install**          | `pnpm install`                                |
 | **Development**      | `pnpm dev`                                    |
 | **Production Build** | `pnpm build`                                  |
-| **Start Production** | `pnpm start`                                  |
 | **Import Posts**     | `pnpm import:posts`                           |
 | **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts` |
-| **Fix Links**        | `pnpm run fix:links`                          |
-| **SEO Intelligence** | `npx tsx src/scripts/update-seo-metrics.ts`   |
+| **SEO Metrics**      | `npx tsx src/scripts/update-seo-metrics.ts`   |
+| **Sync GSC Data**    | `pnpm run sync:gsc`                           |
 | **CWV Monitoring**   | `npx tsx src/scripts/seo/update-cwv.ts`       |
-| **Run Tests**        | `pnpm test` (Integration & E2E)               |
 
 ### Environment Variables
 
@@ -45,18 +47,16 @@ Ensure `.env` is configured with:
 
 - `DATABASE_URI`: MongoDB connection string.
 - `PAYLOAD_SECRET`: Secret for CMS authentication.
-- `NEXT_PUBLIC_SERVER_URL`: Base URL of the site.
-- `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage token.
-- `GOOGLE_PSI_API_KEY`: API Key for Google PageSpeed Insights (optional but recommended).
+- `GSC_CLIENT_EMAIL`: Google Service Account email.
+- `GSC_PRIVATE_KEY`: Google Service Account private key.
+- `GSC_PROPERTY_URL`: Search Console property (e.g., `sc-domain:example.com`).
+- `NEXT_PUBLIC_GSC_PROPERTY_URL`: Base URL for GSC page mapping.
 
 ## Development Conventions
 
-- **Clean Code**: Adhere strictly to the "Clean Code" principles (descriptive naming, small functions, SRP).
-- **TypeScript**: Use strong typing. Avoid `any` at all costs. Generate types using `pnpm generate:types` when the CMS schema changes.
-- **Styling**: Use Tailwind CSS utility classes. Prefer Shadcn UI components for complex interactive elements.
-- **Git**: Follow Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`).
-- **Content Updates**:
-  - To add a post: Create a `.md` file in `content/posts/<category>/`.
-  - Run `pnpm import:posts` to sync to the DB.
-  - Run the internal linking script to inject relevant links into the new content.
-- **SEO**: When creating new content, always consult `content/keywords.md` for target keywords and competitor benchmarks.
+- **Clean Code**: Adhere strictly to the "Clean Code" principles.
+- **TypeScript**: No `any` allowed. Use `pnpm generate:types` for CMS schema changes.
+- **SEO Workflow**:
+  - Update `content/keywords.md` using the metrics script.
+  - Sync GSC data regularly to monitor ranking improvements.
+  - Use the "Search Console" tab in Payload to analyze specific page performance.

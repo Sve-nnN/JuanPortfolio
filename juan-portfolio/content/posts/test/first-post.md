@@ -1,12 +1,13 @@
 ---
-title: "My First Tech Post"
-publishedAt: "2023-10-27"
-authors: ["user-id-123"]
-heroImage: "/assets/images/tech-hero.jpg"
+title: My First Tech Post
+publishedAt: '2023-10-27'
+authors:
+  - user-id-123
+heroImage: /assets/images/tech-hero.jpg
 relatedPosts: []
+uploaded: false
 ---
 
-# Introduction
 
 This is the content of my first tech post. It has some **bold** text and *italic* text.
 

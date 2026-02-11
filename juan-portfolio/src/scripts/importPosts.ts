@@ -7,6 +7,7 @@ import { marked } from 'marked'
 import type { SerializedEditorState, SerializedLexicalNode } from 'lexical'
 import readline from 'readline'
 import enquirer from 'enquirer'
+import { KeywordsManager } from './utils/KeywordsManager'
 
 const { MultiSelect } = enquirer as any;
 
@@ -37,6 +38,9 @@ interface PostFrontmatter {
   heroImage?: string
   metaTitle?: string
   metaDescription?: string
+  primary_keywords?: string[]
+  semantic_keywords?: string[]
+  uploaded?: boolean
 }
 
 interface ImportStats {
@@ -227,9 +231,11 @@ class PostImporter {
   private stats: ImportStats = { imported: 0, updated: 0, failed: 0, skipped: 0 }
   private payload: any
   private baseDir: string
+  private keywordsManager: KeywordsManager
 
   constructor(baseDir: string) {
     this.baseDir = baseDir
+    this.keywordsManager = new KeywordsManager()
   }
 
   public getStats(): ImportStats {
@@ -427,6 +433,18 @@ class PostImporter {
       }
 
       const action = await this.upsertPost(slug, postData)
+      
+      // Update local file if not already marked as uploaded
+      if (!frontmatter.uploaded) {
+        const updatedFrontmatter = { ...frontmatter, uploaded: true }
+        const updatedFileContent = matter.stringify(content, updatedFrontmatter)
+        fs.writeFileSync(filePath, updatedFileContent, 'utf-8')
+      }
+
+      // Synchronize with keywords.md
+      const targetUrl = categorySlug ? `/${categorySlug}/${slug}` : `/${slug}`
+      this.keywordsManager.updateStatusByUrl(targetUrl, 'Published')
+
       process.stdout.write(`\r  ${colors.green}✅ ${action}: ${slug}    \n${colors.reset}`)
       
     } catch (e) {

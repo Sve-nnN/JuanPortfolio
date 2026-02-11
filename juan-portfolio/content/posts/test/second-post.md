@@ -1,9 +1,9 @@
 ---
-title: "My Second Tech Post"
-publishedAt: "2023-10-28"
+title: My Second Tech Post
+publishedAt: '2023-10-28'
+uploaded: false
 ---
 
-# Introduction
 
 This is the content of my second tech post. It has some **bold** text and *italic* text.
 

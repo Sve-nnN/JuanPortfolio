@@ -2,7 +2,7 @@
 
 Este documento detalla la estrategia de contenidos para posicionar a **JuanPortfolio** como una referencia mundial en Desarrollo de Software y SEO Técnico.
 
-> **Nota Importante:** El seguimiento detallado de métricas de palabras clave (volumen, dificultad, etc.) se gestiona ahora en el archivo separado: [`keywords.md`](./keywords.md).
+> **Nota Importante:** El seguimiento detallado de métricas de palabras clave (volumen, dificultad, etc.) se gestiona en el archivo separado: [`keywords.md`](./keywords.md).
 
 **Objetivo Principal:** Convertirse en una autoridad de nicho en la intersección entre ingeniería de software y optimización para motores de búsqueda (Technical SEO).
 
@@ -27,6 +27,11 @@ Nuestra estrategia se basa en tres pilares fundamentales para cubrir todo el esp
 *   **Temas Clave:** PayloadCMS, Next.js, Headless CMS.
 *   **Intención:** Transaccional / Implementación práctica.
 
+### Pilar D: SEO Estratégico y de Contenidos (Autoridad Tópica)
+*Enfoque:* Estrategias de posicionamiento más allá del código.
+*   **Temas Clave:** Topic Clusters, Keyword Research, E-E-A-T, Redacción SEO.
+*   **Intención:** Informacional / Estratégico.
+
 ---
 
 ## 2. Estrategia de Categorías (URL Structure)
@@ -38,6 +43,7 @@ Para mejorar la organización semántica y el SEO, utilizaremos la estructura de
 | **Technical SEO**   | `tech-seo`        | Guías avanzadas de SEO técnico, performance y optimización.           | Pilar A           |
 | **CS Fundamentals** | `cs-fundamentals` | Artículos académicos sobre algoritmos, estructuras de datos y teoría. | Pilar B           |
 | **Development**     | `development`     | Tutoriales de Next.js, PayloadCMS y desarrollo web moderno.           | Pilar C           |
+| **SEO**             | `seo`             | Estrategia de contenidos, autoridad tópica y marketing SEO.           | Pilar D           |
 
 ---
 
@@ -56,6 +62,10 @@ Utilizamos "Clusters" para organizar el contenido y construir autoridad tópica.
 ### Cluster 3: Arquitectura Técnica SEO
 *   **Pillar Page:** Arquitectura de Software Amigable con SEO.
 *   **Content:** Rendering Patterns, Rutas dinámicas, Canonical Tags, i18n, Schema.org.
+
+### Cluster 4: Dominio de Autoridad Tópica
+*   **Pillar Page:** Estrategia Maestra de Topic Clusters y Contenido.
+*   **Content:** Keyword Research, Redacción SEO, E-E-A-T, Link Building Interno.
 
 ---
 

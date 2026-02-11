@@ -82,19 +82,24 @@ export class SerpApiAdapter implements SeoAdapter {
             }
 
             const paaCount = data.people_also_ask?.length || 0;
+            const paaQuestions: string[] = [];
+            if (data.people_also_ask && Array.isArray(data.people_also_ask)) {
+                data.people_also_ask.forEach((item: any) => {
+                    if (item.question) paaQuestions.push(item.question);
+                });
+            }
+
+            const topUrls: string[] = [];
+            if (data.organic_results && Array.isArray(data.organic_results)) {
+                data.organic_results.forEach((result: any) => {
+                    if (result.link) topUrls.push(result.link);
+                });
+            }
 
             let topDomain = '';
-            let competitorTitle = '';
-            let competitorDescription = '';
-
-            if (data.organic_results && data.organic_results.length > 0) {
-                const topResult = data.organic_results[0];
-                competitorTitle = topResult.title || '';
-                competitorDescription = topResult.snippet || '';
-                
+            if (topUrls.length > 0) {
                 try {
-                    const topLink = topResult.link;
-                    const url = new URL(topLink);
+                    const url = new URL(topUrls[0]);
                     topDomain = url.hostname;
                 } catch (_e) {}
             }
@@ -115,11 +120,11 @@ export class SerpApiAdapter implements SeoAdapter {
                 difficulty,
                 relatedSearches,
                 paaCount,
+                paaQuestions,
                 topDomain,
                 hasAiOverview,
                 serpFeatures,
-                competitorTitle,
-                competitorDescription
+                topUrls
             };
 
         } catch (error) {

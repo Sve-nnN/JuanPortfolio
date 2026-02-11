@@ -1,4 +1,3 @@
-
 import { describe, it, expect, vi } from 'vitest'
 import { SerpApiAdapter } from '../../../src/scripts/seo/adapters/SerpApiAdapter'
 
@@ -42,8 +41,7 @@ describe('SerpApiAdapter', () => {
         expect(metrics?.relatedSearches).toContain('test related 1');
         expect(metrics?.paaCount).toBe(2);
         expect(metrics?.topDomain).toBe('example.com');
-        expect(metrics?.competitorTitle).toBe('Web performance - MDN Web Docs - Mozilla');
-        expect(metrics?.competitorDescription).toContain('Web performance is how long');
+        expect(metrics?.topUrls).toContain('https://example.com/page1');
         expect(metrics?.serpFeatures).toContain('videos');
         expect(metrics?.serpFeatures).toContain('knowledge_graph');
     })
@@ -63,7 +61,6 @@ describe('SerpApiAdapter', () => {
         });
 
         const metrics = await adapter.fetchMetrics('hard keyword');
-        // We expect some non-zero difficulty now if we implement the estimation
         expect(metrics?.difficulty).toBeGreaterThan(0);
     })
 })

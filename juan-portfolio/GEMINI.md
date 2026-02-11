@@ -1,80 +1,58 @@
-# GEMINI.md
+# JuanPortfolio / JuanTech - AI instructional Context
+
+This project is a high-performance, enterprise-grade portfolio and blog platform built with **Next.js 15** and **Payload CMS 3.0**. It follows a code-first approach where the CMS configuration and the frontend reside in the same repository, sharing types and utilities.
 
 ## Project Overview
 
-This is a website project built with Next.js and Payload CMS. It serves as a template for creating websites, blogs, or portfolios. The project includes a fully-functional backend, an enterprise-grade admin panel, and a production-ready website.
+- **Frontend**: Next.js 15 (App Router) with Turbopack support. Styled with Tailwind CSS and Shadcn UI.
+- **Backend (CMS)**: Payload CMS 3.0 (Headless), using MongoDB as the database via Mongoose.
+- **Language**: strict TypeScript throughout.
+- **Localization**: Full support for English (`en`) and Spanish (`es`) at both the CMS and Frontend levels.
+- **Content Strategy**:
+    - Source of truth for blog posts are Markdown files in `content/posts/`.
+    - Automated migration system syncs these files to Payload CMS.
+    - Advanced internal linking system driven by frontmatter keywords (`primary_keywords`, `semantic_keywords`).
+- **SEO**: Deeply integrated SEO intelligence system including keyword tracking, competitor heading extraction, and automated metadata generation.
 
-**Main Technologies:**
+## Architecture Highlights
 
-*   **Next.js:** A React framework for building server-side rendered and statically generated web applications.
-*   **Payload CMS:** A headless CMS for managing content.
-*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
-*   **MongoDB:** A NoSQL database used by Payload CMS.
-*   **React:** A JavaScript library for building user interfaces.
-*   **Tailwind CSS:** A utility-first CSS framework for rapid UI development.
-
-**Architecture:**
-
-The project is structured as a monorepo with the Next.js frontend and Payload CMS backend integrated. The `src` directory contains the source code for both the frontend and the backend. The `src/app` directory contains the Next.js application, while the `src/collections` and `src/globals` directories define the Payload CMS data structures.
+- `src/app/(frontend)`: Contains the Next.js frontend routes and UI components.
+- `src/collections`: Payload CMS collection definitions (Posts, Pages, Media, Projects, etc.).
+- `src/globals`: Payload CMS global settings (Header, Footer, Site Settings).
+- `src/scripts`: Custom CLI tools for content management and SEO automation.
+- `content/`: Directory containing Markdown source files and the SEO keyword tracker (`keywords.md`).
 
 ## Building and Running
 
-**Installation:**
+### Commands
 
-```bash
-pnpm install
-```
+| Action | Command |
+| :--- | :--- |
+| **Install** | `pnpm install` |
+| **Development** | `pnpm dev` |
+| **Production Build** | `pnpm build` |
+| **Start Production** | `pnpm start` |
+| **Import Posts** | `pnpm import:posts` |
+| **Link Automation** | `npx tsx src/scripts/build-internal-links.ts` |
+| **Fix Links** | `pnpm run fix:links` |
+| **SEO Intelligence** | `npx tsx src/scripts/update-seo-metrics.ts` |
+| **Run Tests** | `pnpm test` (Integration & E2E) |
 
-**Running in Development:**
-
-```bash
-pnpm dev
-```
-
-This will start the development server at `http://localhost:3000`.
-
-**Building for Production:**
-
-```bash
-pnpm build
-```
-
-**Running in Production:**
-
-```bash
-pnpm start
-```
-
-**Testing:**
-
-*   **End-to-end tests:**
-
-    ```bash
-    pnpm test:e2e
-    ```
-
-*   **Integration tests:**
-
-    ```bash
-    pnpm test:int
-    ```
-
-**Linting:**
-
-```bash
-pnpm lint
-```
-
-To fix linting errors:
-
-```bash
-pnpm lint:fix
-```
+### Environment Variables
+Ensure `.env` is configured with:
+- `DATABASE_URI`: MongoDB connection string.
+- `PAYLOAD_SECRET`: Secret for CMS authentication.
+- `NEXT_PUBLIC_SERVER_URL`: Base URL of the site.
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob storage token.
 
 ## Development Conventions
 
-*   **Package Manager:** The project uses `pnpm` as the package manager.
-*   **Code Style:** The project uses Prettier for code formatting and ESLint for linting.
-*   **Testing:** The project uses Playwright for end-to-end testing and Vitest for integration testing.
-*   **Commits:** The project follows the Conventional Commits specification for commit messages.
-*   **Branching:** The project uses the GitFlow branching model.
+- **Clean Code**: Adhere strictly to the "Clean Code" principles (descriptive naming, small functions, SRP).
+- **TypeScript**: Use strong typing. Avoid `any` at all costs. Generate types using `pnpm generate:types` when the CMS schema changes.
+- **Styling**: Use Tailwind CSS utility classes. Prefer Shadcn UI components for complex interactive elements.
+- **Git**: Follow Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`).
+- **Content Updates**:
+    - To add a post: Create a `.md` file in `content/posts/<category>/`.
+    - Run `pnpm import:posts` to sync to the DB.
+    - Run the internal linking script to inject relevant links into the new content.
+- **SEO**: When creating new content, always consult `content/keywords.md` for target keywords and competitor benchmarks.

@@ -28,19 +28,17 @@ describe('SerpApiAdapter', () => {
             error: null,
             search_information: {
                 total_results: 1230000
-            }
+            },
+            organic_results: [
+                { link: 'https://test.com/1' },
+                { link: 'https://test.com/2' }
+            ]
         };
 
         fetchMock.mockResolvedValueOnce({
             ok: true,
             json: async () => mockResponse,
         });
-
-        // NOTE: Since SerpApi standard search doesn't give volume, 
-        // our adapter might just return 0 volume but confirm it "worked" 
-        // or we might parse "About 1,230,000 results" as a proxy for raw volume (rough estimate).
-        // Let's assume for this TDD that we want to try to parse total results as a fallback volume 
-        // (SerpApi doesn't give precise monthly volume without paid granular API).
 
         const result = await adapter.fetchMetrics('test keyword');
 
@@ -49,8 +47,8 @@ describe('SerpApiAdapter', () => {
         );
         expect(result).not.toBeNull();
         if (result) {
-            // We expect it to parse "1,230,000" -> 1230000
             expect(result.volume).toBeGreaterThan(0);
+            expect(result.topUrls).toEqual(['https://test.com/1', 'https://test.com/2']);
         }
     });
 

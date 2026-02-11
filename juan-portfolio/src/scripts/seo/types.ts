@@ -14,16 +14,20 @@ export interface SeoMetrics {
     relatedSearches?: string[];
     /** Count of "People Also Ask" questions */
     paaCount?: number;
+    /** Actual "People Also Ask" questions */
+    paaQuestions?: string[];
     /** Top ranking domain for this keyword */
     topDomain?: string;
     /** Whether AI Overview is shown for this query */
     hasAiOverview?: boolean;
     /** Active SERP features (videos, images, shopping, etc.) */
     serpFeatures?: string[];
-    /** Title of the #1 organic competitor */
-    competitorTitle?: string;
-    /** Snippet/description of the #1 organic competitor */
-    competitorDescription?: string;
+    /** Top 4 organic competitor URLs for crawling */
+    topUrls?: string[];
+    /** Calculated opportunity score (0-100) */
+    opportunityScore?: number;
+    /** Recommended content format (Blog, Page, etc.) */
+    recommendedFormat?: 'Blog' | 'Landing Page' | 'Technical Guide';
 }
 
 export interface SeoAdapter {

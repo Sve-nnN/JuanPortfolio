@@ -37,7 +37,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = (props) => {
       </div>
       <div className="container">
         {media && typeof media === 'object' && (
-          <div className="relative animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <div className="relative animate-fade-in">
             <Media
               className="w-full aspect-video object-cover rounded-lg shadow-2xl"
               resource={media}

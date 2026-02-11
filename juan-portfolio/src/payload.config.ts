@@ -91,7 +91,7 @@ export default buildConfig({
         code: 'es',
       },
     ],
-    defaultLocale: 'en',
+    defaultLocale: 'es',
     fallback: true,
   },
   db: mongooseAdapter({
@@ -181,8 +181,8 @@ export default buildConfig({
     }),
   ],
   email: resendAdapter({
-    defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@example.com',
-    defaultFromName: process.env.EMAIL_FROM_NAME || 'Website',
+    defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@juan-tech.com',
+    defaultFromName: process.env.EMAIL_FROM_NAME || 'JuanTech',
     apiKey: process.env.RESEND_SECRET || '',
   }),
   secret: process.env.PAYLOAD_SECRET,

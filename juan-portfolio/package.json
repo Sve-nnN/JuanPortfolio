@@ -143,5 +143,11 @@
         "@modelcontextprotocol/sdk": "1.25.3"
       }
     }
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 0.5%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

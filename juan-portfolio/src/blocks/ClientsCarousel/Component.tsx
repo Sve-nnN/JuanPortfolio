@@ -1,6 +1,8 @@
-import React from 'react'
+import { Media } from '@/components/Media'
 
-type Client = { logo?: { url?: string }; href?: string }
+import type { Media as MediaType } from '@/payload-types'
+
+type Client = { logo?: MediaType | null; href?: string }
 
 export const ClientsCarousel: React.FC<{ title?: string; clients?: Client[] }> = ({
   title,
@@ -21,12 +23,12 @@ export const ClientsCarousel: React.FC<{ title?: string; clients?: Client[] }> =
           <div className="flex animate-marquee-infinite space-x-16">
             {duplicatedClients.map((c, i) => (
               <div key={i} className="flex justify-center items-center flex-shrink-0 w-40">
-                {c.logo && c.logo.url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={c.logo.url}
-                    alt={`Cliente ${i + 1}`}
-                    className="h-10 opacity-70 hover:opacity-100 transition-opacity dark:invert"
+                {c.logo ? (
+                  <Media
+                    resource={c.logo}
+                    imgClassName="h-10 opacity-70 hover:opacity-100 transition-opacity dark:invert"
+                    loading="lazy"
+                    size="200px"
                   />
                 ) : (
                   <div className="text-muted text-sm">Logo Cliente</div>

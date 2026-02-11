@@ -2,75 +2,78 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { ArchiveBlock as ArchiveBlockComponent } from '@/blocks/ArchiveBlock/Component'
-import { CallToActionBlock as CallToActionBlockComponent } from '@/blocks/CallToAction/Component'
-import { ContentBlock as ContentBlockComponent } from '@/blocks/Content/Component'
-import { FormBlock as FormBlockComponent } from '@/blocks/Form/Component'
-import { MediaBlock as MediaBlockComponent } from '@/blocks/MediaBlock/Component'
-import { IntroBlock as IntroBlockComponent } from '@/blocks/Intro/Component'
-import { WorkCardsBlock as WorkCardsBlockComponent } from '@/blocks/WorkCards/Component'
-import ClientsCarouselComponent from '@/blocks/ClientsCarousel/Component'
-import { SectionBlock as SectionBlockComponent } from '@/blocks/Section/Component'
-import { HeroHome as HeroHomeBlockComponent } from '@/blocks/HeroHome/Component'
-import { AboutSection as AboutSectionBlockComponent } from '@/blocks/AboutSection/Component'
-import { FeaturedWorks as FeaturedWorksBlockComponent } from '@/blocks/FeaturedWorks/Component'
-import { FeaturedClients as FeaturedClientsBlockComponent } from '@/blocks/FeaturedClients/Component'
-import { FeaturedBlog as FeaturedBlogBlockComponent } from '@/blocks/FeaturedBlog/Component'
-import { ContactFormBlockComponent } from '@/blocks/ContactFormBlock/Component'
-import { SimpleCta as SimpleCtaBlockComponent } from '@/blocks/SimpleCTA/Component'
-import { ListingHero as ListingHeroBlockComponent } from '@/blocks/ListingHero/Component'
-import { PostsGrid as PostsGridBlockComponent } from '@/blocks/PostsGrid/Component'
-import { CaseStudiesGrid as CaseStudiesGridBlockComponent } from '@/blocks/CaseStudiesGrid/Component'
-import { PostSidebar as PostSidebarBlockComponent } from '@/blocks/PostSidebar/Component'
-import { RelatedPostsBlockComponent } from '@/blocks/RelatedPostsBlock/Component'
-import { TableOfContentsBlockComponent } from '@/blocks/TableOfContentsBlock/Component'
-import { TestimonialSection as TestimonialSectionBlockComponent } from '@/blocks/TestimonialSection/Component'
-import { ResultsSection as ResultsSectionBlockComponent } from '@/blocks/ResultsSection/Component'
-import { CaseStudyHeader as CaseStudyHeaderBlockComponent } from '@/blocks/CaseStudyHeader/Component'
-import { PostArticleHeader as PostArticleHeaderBlockComponent } from '@/blocks/PostArticleHeader/Component'
-import { BlogArchiveHeader as BlogArchiveHeaderBlockComponent } from '@/blocks/BlogArchiveHeader/Component'
-import { FeaturedBlogPosts as FeaturedBlogPostsBlockComponent } from '@/blocks/FeaturedBlogPosts/Component'
-import { FeaturedCaseStudies as FeaturedCaseStudiesBlockComponent } from '@/blocks/FeaturedCaseStudies/Component'
-import { AboutWithFeatures as AboutWithFeaturesBlockComponent } from '@/blocks/AboutWithFeatures/Component'
-import LatestBlogPostsBlockComponent from '@/blocks/LatestBlogPosts/Component'
-import { LatestCaseStudies as LatestCaseStudiesBlockComponent } from '@/blocks/LatestCaseStudies/Component'
-import { TestimonialsCarousel as TestimonialsCarouselBlockComponent } from '@/blocks/TestimonialsCarousel/Component'
+import dynamic from 'next/dynamic'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blockComponents: Record<string, React.ComponentType<any>> = {
-  archive: ArchiveBlockComponent,
-  content: ContentBlockComponent,
-  cta: CallToActionBlockComponent,
-  formBlock: FormBlockComponent,
-  mediaBlock: MediaBlockComponent,
-  intro: IntroBlockComponent,
-  workCards: WorkCardsBlockComponent,
-  clientsCarousel: ClientsCarouselComponent,
-  section: SectionBlockComponent,
-  heroHome: HeroHomeBlockComponent,
-  aboutSection: AboutSectionBlockComponent,
-  featuredWorks: FeaturedWorksBlockComponent,
-  featuredClients: FeaturedClientsBlockComponent,
-  featuredBlog: FeaturedBlogBlockComponent,
-  contactForm: ContactFormBlockComponent,
-  simpleCta: SimpleCtaBlockComponent,
-  listingHero: ListingHeroBlockComponent,
-  postsGrid: PostsGridBlockComponent,
-  caseStudiesGrid: CaseStudiesGridBlockComponent,
-  postSidebar: PostSidebarBlockComponent,
-  relatedPosts: RelatedPostsBlockComponent,
-  tableOfContents: TableOfContentsBlockComponent,
-  testimonialSection: TestimonialSectionBlockComponent,
-  resultsSection: ResultsSectionBlockComponent,
-  caseStudyHeader: CaseStudyHeaderBlockComponent,
-  postArticleHeader: PostArticleHeaderBlockComponent,
-  blogArchiveHeader: BlogArchiveHeaderBlockComponent,
-  featuredBlogPosts: FeaturedBlogPostsBlockComponent,
-  featuredCaseStudies: FeaturedCaseStudiesBlockComponent,
-  aboutWithFeatures: AboutWithFeaturesBlockComponent,
-  latestBlogPosts: LatestBlogPostsBlockComponent,
-  latestCaseStudies: LatestCaseStudiesBlockComponent,
-  testimonialsCarousel: TestimonialsCarouselBlockComponent,
+  archive: dynamic(() => import('@/blocks/ArchiveBlock/Component').then((m) => m.ArchiveBlock)),
+  content: dynamic(() => import('@/blocks/Content/Component').then((m) => m.ContentBlock)),
+  cta: dynamic(() => import('@/blocks/CallToAction/Component').then((m) => m.CallToActionBlock)),
+  formBlock: dynamic(() => import('@/blocks/Form/Component').then((m) => m.FormBlock)),
+  mediaBlock: dynamic(() => import('@/blocks/MediaBlock/Component').then((m) => m.MediaBlock)),
+  intro: dynamic(() => import('@/blocks/Intro/Component').then((m) => m.IntroBlock)),
+  workCards: dynamic(() => import('@/blocks/WorkCards/Component').then((m) => m.WorkCardsBlock)),
+  clientsCarousel: dynamic(() => import('@/blocks/ClientsCarousel/Component')),
+  section: dynamic(() => import('@/blocks/Section/Component').then((m) => m.SectionBlock)),
+  heroHome: dynamic(() => import('@/blocks/HeroHome/Component').then((m) => m.HeroHome)),
+  aboutSection: dynamic(() =>
+    import('@/blocks/AboutSection/Component').then((m) => m.AboutSection),
+  ),
+  featuredWorks: dynamic(() =>
+    import('@/blocks/FeaturedWorks/Component').then((m) => m.FeaturedWorks),
+  ),
+  featuredClients: dynamic(() =>
+    import('@/blocks/FeaturedClients/Component').then((m) => m.FeaturedClients),
+  ),
+  featuredBlog: dynamic(() =>
+    import('@/blocks/FeaturedBlog/Component').then((m) => m.FeaturedBlog),
+  ),
+  contactForm: dynamic(() =>
+    import('@/blocks/ContactFormBlock/Component').then((m) => m.ContactFormBlockComponent),
+  ),
+  simpleCta: dynamic(() => import('@/blocks/SimpleCTA/Component').then((m) => m.SimpleCta)),
+  listingHero: dynamic(() => import('@/blocks/ListingHero/Component').then((m) => m.ListingHero)),
+  postsGrid: dynamic(() => import('@/blocks/PostsGrid/Component').then((m) => m.PostsGrid)),
+  caseStudiesGrid: dynamic(() =>
+    import('@/blocks/CaseStudiesGrid/Component').then((m) => m.CaseStudiesGrid),
+  ),
+  postSidebar: dynamic(() => import('@/blocks/PostSidebar/Component').then((m) => m.PostSidebar)),
+  relatedPosts: dynamic(() =>
+    import('@/blocks/RelatedPostsBlock/Component').then((m) => m.RelatedPostsBlockComponent),
+  ),
+  tableOfContents: dynamic(() =>
+    import('@/blocks/TableOfContentsBlock/Component').then((m) => m.TableOfContentsBlockComponent),
+  ),
+  testimonialSection: dynamic(() =>
+    import('@/blocks/TestimonialSection/Component').then((m) => m.TestimonialSection),
+  ),
+  resultsSection: dynamic(() =>
+    import('@/blocks/ResultsSection/Component').then((m) => m.ResultsSection),
+  ),
+  caseStudyHeader: dynamic(() =>
+    import('@/blocks/CaseStudyHeader/Component').then((m) => m.CaseStudyHeader),
+  ),
+  postArticleHeader: dynamic(() =>
+    import('@/blocks/PostArticleHeader/Component').then((m) => m.PostArticleHeader),
+  ),
+  blogArchiveHeader: dynamic(() =>
+    import('@/blocks/BlogArchiveHeader/Component').then((m) => m.BlogArchiveHeader),
+  ),
+  featuredBlogPosts: dynamic(() =>
+    import('@/blocks/FeaturedBlogPosts/Component').then((m) => m.FeaturedBlogPosts),
+  ),
+  featuredCaseStudies: dynamic(() =>
+    import('@/blocks/FeaturedCaseStudies/Component').then((m) => m.FeaturedCaseStudies),
+  ),
+  aboutWithFeatures: dynamic(() =>
+    import('@/blocks/AboutWithFeatures/Component').then((m) => m.AboutWithFeatures),
+  ),
+  latestBlogPosts: dynamic(() => import('@/blocks/LatestBlogPosts/Component')),
+  latestCaseStudies: dynamic(() =>
+    import('@/blocks/LatestCaseStudies/Component').then((m) => m.LatestCaseStudies),
+  ),
+  testimonialsCarousel: dynamic(() =>
+    import('@/blocks/TestimonialsCarousel/Component').then((m) => m.TestimonialsCarousel),
+  ),
 }
 
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
@@ -99,10 +102,7 @@ export const RenderBlocks: React.FC<{
               }
 
               return (
-                <AnimateOnScroll 
-                  className="my-20 lg:my-32" 
-                  key={index}
-                >
+                <AnimateOnScroll className="my-20 lg:my-32" key={index}>
                   <Block {...block} />
                 </AnimateOnScroll>
               )

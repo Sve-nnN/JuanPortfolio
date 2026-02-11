@@ -113,11 +113,11 @@ const nextConfig = {
   headers: async () => {
     const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com;
-      connect-src 'self' https://juan-tech.com https://va.vercel-scripts.com https://vitals.vercel-analytics.com;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com;
+      connect-src 'self' https://juan-tech.com https://va.vercel-scripts.com https://vitals.vercel-analytics.com https://www.google-analytics.com https://region1.google-analytics.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://juan-tech.com https://res.cloudinary.com https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com;
-      font-src 'self';
+      img-src 'self' blob: data: https://juan-tech.com https://res.cloudinary.com https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com https://www.googletagmanager.com https://www.google-analytics.com;
+      font-src 'self' data:;
       object-src 'none';
       base-uri 'self';
       form-action 'self';

@@ -40,12 +40,12 @@ export const PostHero: React.FC<{
 
   const itemVariants = {
     hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
-      }
+        duration: 0.5,
+      },
     },
   }
 
@@ -93,44 +93,52 @@ export const PostHero: React.FC<{
   return (
     <div className="relative min-h-[80vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20 overflow-hidden">
       <div className="container z-10 relative flex flex-col items-end text-right text-white">
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
           className="max-w-4xl w-full flex flex-col items-end gap-4 pt-32 md:pt-40"
         >
           {/* Categories / Breadcrumbs */}
-          <motion.nav 
+          <motion.nav
             variants={itemVariants}
-            aria-label="Breadcrumb" 
+            aria-label="Breadcrumb"
             className="flex flex-wrap justify-end gap-2 items-center text-sm font-medium uppercase tracking-wide text-white/80"
           >
-            <Link href="/" className="hover:text-white transition-colors text-xs opacity-70">Inicio</Link>
+            <Link href="/" className="hover:text-white transition-colors text-xs opacity-70">
+              Inicio
+            </Link>
             <span className="text-white/40 text-xs">/</span>
-            <Link href="/blog" className="hover:text-white transition-colors text-xs opacity-70">Blog</Link>
+            <Link href="/blog" className="hover:text-white transition-colors text-xs opacity-70">
+              Blog
+            </Link>
 
             {mainCategory && (
               <>
                 <span className="text-white/40 text-xs">/</span>
-                <Link href={mainCategory.href || '/blog'} className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20 hover:bg-primary/30 transition-colors">
+                <Link
+                  href={mainCategory.href || '/blog'}
+                  className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20 hover:bg-primary/30 transition-colors"
+                >
                   {mainCategory.title}
                 </Link>
               </>
             )}
 
-            {!mainCategory && categories?.map((category: string | Category, index: number) => {
-              if (typeof category === 'object' && category !== null) {
-                return (
-                  <React.Fragment key={index}>
-                    <span className="text-white/40 text-xs">/</span>
-                    <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20">
-                      {category.title || 'Untitled'}
-                    </span>
-                  </React.Fragment>
-                )
-              }
-              return null
-            })}
+            {!mainCategory &&
+              categories?.map((category: string | Category, index: number) => {
+                if (typeof category === 'object' && category !== null) {
+                  return (
+                    <React.Fragment key={index}>
+                      <span className="text-white/40 text-xs">/</span>
+                      <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20">
+                        {category.title || 'Untitled'}
+                      </span>
+                    </React.Fragment>
+                  )
+                }
+                return null
+              })}
           </motion.nav>
 
           <motion.h1
@@ -142,7 +150,7 @@ export const PostHero: React.FC<{
           </motion.h1>
 
           {excerpt && (
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-lg md:text-2xl text-white/90 leading-relaxed max-w-2xl drop-shadow-md font-medium"
             >
@@ -151,20 +159,24 @@ export const PostHero: React.FC<{
           )}
 
           {/* Meta Info Row */}
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="flex flex-wrap justify-end items-center gap-6 text-sm text-white/80 font-medium tracking-wide mt-6 border-t border-white/20 pt-8 w-full md:w-auto"
           >
             {hasAuthors && (
               <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">Autor</span>
+                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">
+                  Autor
+                </span>
                 <span className="text-white">{renderAuthors()}</span>
               </div>
             )}
 
             {publishedAt && (
               <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">Fecha</span>
+                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">
+                  Fecha
+                </span>
                 <time dateTime={publishedAt} className="text-white">
                   {formatDateTime(publishedAt)}
                 </time>
@@ -173,7 +185,9 @@ export const PostHero: React.FC<{
 
             {readingTime && (
               <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">Tiempo</span>
+                <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">
+                  Tiempo
+                </span>
                 <span className="text-white">{readingTime} min</span>
               </div>
             )}
@@ -192,7 +206,7 @@ export const PostHero: React.FC<{
           />
         )}
         {heroImage && typeof heroImage !== 'string' && (
-          <Media className="object-cover w-full h-full" resource={heroImage} />
+          <Media className="object-cover w-full h-full" resource={heroImage} priority />
         )}
         {/* Stronger gradient for readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />

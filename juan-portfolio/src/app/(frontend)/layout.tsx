@@ -19,8 +19,9 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode, headers } from 'next/headers'
 import type { Locale } from '@/i18n/translations'
 
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/next'
+import { GoogleAnalytics } from '@next/third-parties/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { JsonLd } from '@/components/JsonLd'
 import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/schema'
 import { getPayload } from 'payload'
@@ -76,14 +77,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   const payload = await getPayload({ config: configPromise })
   const siteSettings = await payload.findGlobal({ slug: 'site-settings' }).catch(() => null)
-  
+
   const baseUrl = getServerSideURL()
-  
+
   const organizationSchema = siteSettings
     ? generateOrganizationSchema({
         name: siteSettings.organizationName || 'Juan Tech',
         url: siteSettings.siteUrl || baseUrl,
-        logo: typeof siteSettings.logo === 'object' && siteSettings.logo ? (siteSettings.logo as { url?: string }).url : undefined,
+        logo:
+          typeof siteSettings.logo === 'object' && siteSettings.logo
+            ? (siteSettings.logo as { url?: string }).url
+            : undefined,
         description: siteSettings.organizationDescription || undefined,
         sameAs: Array.isArray(siteSettings.socialProfiles)
           ? siteSettings.socialProfiles
@@ -138,8 +142,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </ThemeProvider>
         </Providers>
         <SpeedInsights />
-        <Analytics/>
+        <Analytics />
       </body>
+      <GoogleAnalytics gaId="G-6420MCL304" />
     </html>
   )
 }

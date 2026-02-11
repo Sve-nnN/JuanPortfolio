@@ -36,6 +36,7 @@
     "@aws-sdk/client-cognito-identity": "^3.917.0",
     "@aws-sdk/credential-providers": "^3.916.0",
     "@cucumber/cucumber": "^12.2.0",
+    "@next/third-parties": "^16.1.6",
     "@payloadcms/admin-bar": "3.61.1",
     "@payloadcms/db-mongodb": "3.61.1",
     "@payloadcms/email-resend": "3.61.1",

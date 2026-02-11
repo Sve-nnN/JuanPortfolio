@@ -212,7 +212,10 @@ async function crawlCompetitorContent(urls: string[]): Promise<{ headings: strin
       const doc = dom.window.document
 
       const headings = Array.from(doc.querySelectorAll('h2, h3'))
-        .map((h) => `${h.tagName.toUpperCase()}: ${h.textContent?.trim()}`)
+        .map((h) => {
+          const element = h as unknown as Element
+          return `${element.tagName.toUpperCase()}: ${element.textContent?.trim()}`
+        })
         .filter((t) => t.length > 10)
 
       if (headings.length === 0) {

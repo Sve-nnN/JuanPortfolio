@@ -26,7 +26,25 @@ const nextConfig = {
       permanent: true,
     }
 
-    return [...(redirectsLocal || []), internetExplorerRedirect, sitemapRedirect]
+    const singularSitemapRedirects = [
+      {
+        source: '/category-sitemap.xml',
+        destination: '/categories-sitemap.xml',
+        permanent: true,
+      },
+      {
+        source: '/author-sitemap.xml',
+        destination: '/authors-sitemap.xml',
+        permanent: true,
+      },
+    ]
+
+    return [
+      ...(redirectsLocal || []),
+      internetExplorerRedirect,
+      sitemapRedirect,
+      ...singularSitemapRedirects,
+    ]
   },
   images: {
     remotePatterns: [

@@ -21,6 +21,9 @@ import { OrderedListFeatureClient as OrderedListFeatureClient_e70f5e05f09f93e00b
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_14a617787e59f2697076a8f925c952d0 } from '@/components/admin/LiveUrlLink'
+import { ForceScanButton as ForceScanButton_09081efaef1efd119bda42a188210def } from '@/components/admin/ForceScanButton'
+import { CWVBadge as CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb } from '@/components/admin/CWVBadge'
+import { ScanAllButton as ScanAllButton_66941844eb1045d37ab68a5b047bef8e } from '@/components/admin/ScanAllButton'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
@@ -52,6 +55,9 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/admin/LiveUrlLink#default": default_14a617787e59f2697076a8f925c952d0,
+  "@/components/admin/ForceScanButton#ForceScanButton": ForceScanButton_09081efaef1efd119bda42a188210def,
+  "@/components/admin/CWVBadge#CWVBadge": CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb,
+  "@/components/admin/ScanAllButton#ScanAllButton": ScanAllButton_66941844eb1045d37ab68a5b047bef8e,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,

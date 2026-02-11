@@ -22,6 +22,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { triggerCWVScan } from './hooks/triggerCWVScan'
 
 import { slugField } from '@/fields/slug'
 
@@ -110,7 +111,8 @@ export const Posts: CollectionConfig<'posts'> = {
                             name: 'url',
                             type: 'text',
                             admin: {
-                              condition: (_data, siblingData) => siblingData?.linkType !== 'internal',
+                              condition: (_data, siblingData) =>
+                                siblingData?.linkType !== 'internal',
                             },
                             label: ({ t }) => t('fields:enterURL'),
                             required: true,
@@ -221,7 +223,7 @@ export const Posts: CollectionConfig<'posts'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
+    afterChange: [revalidatePost, triggerCWVScan],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },

@@ -116,4 +116,88 @@ describe('CWV Monitor Script', () => {
       },
     })
   })
+  it('should skip scan if updated recently', async () => {
+    // Mock robust payload response
+    const recentDate = new Date()
+    recentDate.setDate(recentDate.getDate() - 2) // 2 days ago
+
+    mockPayload.find.mockResolvedValueOnce({
+      docs: [
+        {
+          id: '123',
+          url: 'https://juancarlos.app/',
+          lastScan: recentDate.toISOString(),
+        },
+      ],
+      totalDocs: 1,
+    })
+
+    // Mock Payload for updateAllCWV
+    const { updateAllCWV } = await import('@/scripts/seo/update-cwv')
+
+    // We must mock global.fetch to return a valid sitemap so the loop runs
+    ;(global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      text: () => Promise.resolve('<urlset><url><loc>https://juancarlos.app/</loc></url></urlset>'),
+    })
+
+    await updateAllCWV() // force = false by default
+
+    // It should check payload
+    expect(mockPayload.find).toHaveBeenCalled()
+
+    // It should NOT call PSI fetchPageMetrics (which calls global.fetch again)
+    // We expect EXACTLY 1 call to fetch (for the sitemap)
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('sitemap.xml'))
+  })
+
+  it('should force scan even if updated recently', async () => {
+    const recentDate = new Date()
+    recentDate.setDate(recentDate.getDate() - 2)
+
+    mockPayload.find.mockResolvedValueOnce({
+      docs: [
+        {
+          id: '123',
+          url: 'https://juancarlos.app/',
+          lastScan: recentDate.toISOString(),
+        },
+      ],
+      totalDocs: 1,
+    })
+
+    const { updateAllCWV } = await import('@/scripts/seo/update-cwv')
+
+    // 1st fetch: Sitemap
+    // 2nd fetch: PSI API
+    // We need to chain mocks because updateAllCWV calls fetch twice (sitemap + psi)
+    const fetchMock = global.fetch as any
+    fetchMock
+      .mockResolvedValueOnce({
+        ok: true,
+        text: () =>
+          Promise.resolve('<urlset><url><loc>https://juancarlos.app/</loc></url></urlset>'),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            lighthouseResult: { categories: { performance: { score: 1 } } },
+          }),
+      })
+
+    await updateAllCWV(true) // force = true
+
+    // Expect explicit CALLS: Sitemap (1) + PSI (1)
+    // Note: Since we are appending mocks, we check calls.
+    // Wait, if we use mockResolvedValueOnce, it stacks.
+
+    // We need to ensure we are checking the RIGHT calls.
+    // The spy is persistent across the test file unless cleared?
+    // beforeEach clears mocks.
+
+    expect(global.fetch).toHaveBeenCalledTimes(2)
+    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringContaining('googleapis.com'))
+  })
 })

@@ -1,6 +1,7 @@
 import { getServerSideSitemap } from 'next-sitemap'
 import { getPayload } from 'payload'
-import config from '@payload-config'
+// import config from '@payload-config'
+import config from '../../../../payload.config'
 import { unstable_cache } from 'next/cache'
 
 const getPostsSitemap = unstable_cache(
@@ -11,51 +12,60 @@ const getPostsSitemap = unstable_cache(
       process.env.VERCEL_PROJECT_PRODUCTION_URL ||
       'https://example.com'
 
-    const results = await payload.find({
-      collection: 'posts',
-      overrideAccess: false,
-      draft: false,
-      depth: 2,
-      limit: 1000,
-      pagination: false,
-      where: {
-        _status: {
-          equals: 'published',
+    try {
+      const results = await payload.find({
+        collection: 'posts',
+        overrideAccess: true,
+        draft: false,
+        depth: 2,
+        limit: 1000,
+        pagination: false,
+        where: {
+          _status: {
+            equals: 'published',
+          },
         },
-      },
-      select: {
-        slug: true,
-        updatedAt: true,
-        categories: true,
-      },
-    })
+        select: {
+          slug: true,
+          updatedAt: true,
+          categories: true,
+        },
+      })
 
-    const dateFallback = new Date().toISOString()
+      const dateFallback = new Date().toISOString()
 
-    const sitemap = results.docs
-      ? results.docs
-          .filter((post) => Boolean(post?.slug))
-          .map((post) => {
-            const categories = post.categories || []
-            let categorySlug = 'general'
+      const sitemap = results.docs
+        ? results.docs
+            .filter((post) => Boolean(post?.slug))
+            .map((post) => {
+              const categories = post.categories || []
+              let categorySlug = 'general'
 
-            if (categories && categories.length > 0) {
-              const firstCategory = categories[0]
-              if (typeof firstCategory === 'object' && 'slug' in firstCategory && firstCategory.slug) {
-                categorySlug = String(firstCategory.slug)
-              } else if (typeof firstCategory === 'string') {
-                categorySlug = firstCategory
+              if (categories && categories.length > 0) {
+                const firstCategory = categories[0]
+                if (
+                  typeof firstCategory === 'object' &&
+                  'slug' in firstCategory &&
+                  firstCategory.slug
+                ) {
+                  categorySlug = String(firstCategory.slug)
+                } else if (typeof firstCategory === 'string') {
+                  categorySlug = firstCategory
+                }
               }
-            }
 
-            return {
-              loc: `${SITE_URL}/blog/${categorySlug}/${post.slug}`,
-              lastmod: post.updatedAt || dateFallback,
-            }
-          })
-      : []
+              return {
+                loc: `${SITE_URL}/blog/${categorySlug}/${post.slug}`,
+                lastmod: post.updatedAt || dateFallback,
+              }
+            })
+        : []
 
-    return sitemap
+      return sitemap
+    } catch (error) {
+      console.error('Error generating posts sitemap:', error)
+      return []
+    }
   },
   ['posts-sitemap'],
   {
@@ -64,7 +74,11 @@ const getPostsSitemap = unstable_cache(
 )
 
 export async function GET() {
-  const sitemap = await getPostsSitemap()
-
-  return getServerSideSitemap(sitemap)
+  try {
+    const sitemap = await getPostsSitemap()
+    return getServerSideSitemap(sitemap)
+  } catch (error) {
+    console.error('CRITICAL POSTS SITEMAP ERROR:', error)
+    return new Response('Error generating sitemap', { status: 500 })
+  }
 }

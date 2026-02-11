@@ -60,13 +60,18 @@ export const fetchPageMetrics = async (url: string, apiKey?: string): Promise<CW
 
     // Helper to get metric from Field Data (loadingExperience) or Lab Data (lighthouse)
     const getMetric = (fieldKey: string, lighthouseKey: string, scale = 1): number | null => {
+      let val: number | null = null
       // Try Field Data first
       if (loadingExperience?.[fieldKey]?.percentile) {
-        return loadingExperience[fieldKey].percentile / scale
+        val = loadingExperience[fieldKey].percentile / scale
       }
       // Fallback to Lab Data
-      if (lighthouse?.[lighthouseKey]?.numericValue) {
-        return lighthouse[lighthouseKey].numericValue / scale
+      else if (lighthouse?.[lighthouseKey]?.numericValue) {
+        val = lighthouse[lighthouseKey].numericValue / scale
+      }
+
+      if (val !== null) {
+        return Math.round(val * 1000) / 1000
       }
       return null
     }
@@ -85,20 +90,27 @@ export const fetchPageMetrics = async (url: string, apiKey?: string): Promise<CW
     // FID: Field (ms), Lab (max-potential-fid ms). Return ms -> / 1
     // Note: FID is dead in Lab, usually we use Total Blocking Time (TBT) as proxy in Lab, but let's stick to Max Potential FID if available or null.
     // Lighthouse doesn't strictly have FID. It has 'max-potential-fid' (deprecated) or we leave it null.
-    const fid = loadingExperience?.FIRST_INPUT_DELAY_MS?.percentile || null
+    const fid = loadingExperience?.FIRST_INPUT_DELAY_MS?.percentile
+      ? Math.round(loadingExperience.FIRST_INPUT_DELAY_MS.percentile * 1000) / 1000
+      : null
 
     // INP: Field (ms). Lab doesn't really have INP yet (it's interaction based).
-    const inp = loadingExperience?.INTERACTION_TO_NEXT_PAINT?.percentile || null
+    const inp = loadingExperience?.INTERACTION_TO_NEXT_PAINT?.percentile
+      ? Math.round(loadingExperience.INTERACTION_TO_NEXT_PAINT.percentile * 1000) / 1000
+      : null
 
     // CLS: Field (0.1 gets 10?). Lab (0.1).
     // Field data 'CUMULATIVE_LAYOUT_SHIFT_SCORE' percentile 10 means 0.10.
     // Lab data 'cumulative-layout-shift' numericValue is 0.10.
     let cls = null
     if (loadingExperience?.CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile) {
+      // Field data is * 100
       cls = loadingExperience.CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile / 100
     } else if (lighthouse?.['cumulative-layout-shift']?.numericValue) {
       cls = lighthouse['cumulative-layout-shift'].numericValue
     }
+
+    if (cls !== null) cls = Math.round(cls * 1000) / 1000
 
     return {
       lcp,
@@ -175,7 +187,19 @@ export const saveMetricsToPayload = async (url: string, metrics: CWVMetrics) => 
   }
 }
 
-export const updateAllCWV = async () => {
+const shouldScan = (lastScan: string | undefined | null, force: boolean): boolean => {
+  if (force) return true
+  if (!lastScan) return true
+
+  const lastDate = new Date(lastScan)
+  const now = new Date()
+  const diffTime = Math.abs(now.getTime() - lastDate.getTime())
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+  return diffDays >= 7
+}
+
+export const updateAllCWV = async (force: boolean = false) => {
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
   const sitemapUrl = `${serverUrl}/sitemap.xml` // Next.js sitemap default
   const apiKey = process.env.GOOGLE_PSI_API_KEY // Optional
@@ -184,7 +208,28 @@ export const updateAllCWV = async () => {
   const urls = await fetchSitemapUrls(sitemapUrl)
   console.log(`Found ${urls.length} URLs to scan.`)
 
+  // Pre-init payload to check existing dates
+  const payload = await getPayload({ config })
+
   for (const [i, url] of urls.entries()) {
+    // Check if we need to scan
+    const existing = await payload.find({
+      collection: 'page-metrics',
+      where: {
+        url: {
+          equals: url,
+        },
+      },
+      limit: 1,
+    })
+
+    const lastScan = existing.docs[0]?.lastScan
+
+    if (!shouldScan(lastScan, force)) {
+      console.log(`[${i + 1}/${urls.length}] Skipping ${url} (Scanned recently: ${lastScan})`)
+      continue
+    }
+
     console.log(`[${i + 1}/${urls.length}] Scanning ${url}...`)
     const metrics = await fetchPageMetrics(url, apiKey)
     await saveMetricsToPayload(url, metrics)
@@ -200,7 +245,7 @@ export const updateAllCWV = async () => {
 
 // Allow standalone execution
 if (import.meta.url === `file://${process.argv[1]}`) {
-  updateAllCWV()
+  updateAllCWV(process.argv.includes('--force'))
     .then(() => process.exit(0))
     .catch((e) => {
       console.error('Fatal Error:', e)

@@ -1941,12 +1941,12 @@ export interface PageMetric {
    */
   lastScan?: string | null;
   mobile?: {
+    score?: number | null;
     lcp?: number | null;
+    cls?: number | null;
+    inp?: number | null;
     fcp?: number | null;
     fid?: number | null;
-    inp?: number | null;
-    cls?: number | null;
-    score?: number | null;
   };
   history?:
     | {
@@ -3493,12 +3493,12 @@ export interface PageMetricsSelect<T extends boolean = true> {
   mobile?:
     | T
     | {
+        score?: T;
         lcp?: T;
+        cls?: T;
+        inp?: T;
         fcp?: T;
         fid?: T;
-        inp?: T;
-        cls?: T;
-        score?: T;
       };
   history?:
     | T

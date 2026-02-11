@@ -5,6 +5,9 @@ export const PageMetrics: CollectionConfig = {
   admin: {
     useAsTitle: 'url',
     defaultColumns: ['url', 'mobile.score', 'lastScan'],
+    components: {
+      beforeListTable: ['@/components/admin/ScanAllButton#ScanAllButton'],
+    },
   },
   access: {
     read: () => true,
@@ -18,6 +21,16 @@ export const PageMetrics: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
+    },
+    {
+      name: 'forceScan',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/ForceScanButton#ForceScanButton',
+        },
+      },
     },
     {
       name: 'path',
@@ -39,34 +52,82 @@ export const PageMetrics: CollectionConfig = {
       type: 'group',
       fields: [
         {
+          name: 'score',
+          type: 'number',
+          label: 'Performance Score (0-100)',
+          admin: {
+            components: {
+              Field: '@/components/admin/CWVBadge#CWVBadge',
+            },
+          },
+          custom: {
+            metric: 'score',
+          },
+        },
+        {
           name: 'lcp',
           type: 'number',
           label: 'Largest Contentful Paint (s)',
-        },
-        {
-          name: 'fcp',
-          type: 'number',
-          label: 'First Contentful Paint (s)',
-        },
-        {
-          name: 'fid',
-          type: 'number',
-          label: 'First Input Delay (ms)',
-        },
-        {
-          name: 'inp',
-          type: 'number',
-          label: 'Interaction to Next Paint (ms)',
+          admin: {
+            components: {
+              Field: '@/components/admin/CWVBadge#CWVBadge',
+            },
+          },
+          custom: {
+            metric: 'lcp',
+          },
         },
         {
           name: 'cls',
           type: 'number',
           label: 'Cumulative Layout Shift',
+          admin: {
+            components: {
+              Field: '@/components/admin/CWVBadge#CWVBadge',
+            },
+          },
+          custom: {
+            metric: 'cls',
+          },
         },
         {
-          name: 'score',
+          name: 'inp',
           type: 'number',
-          label: 'Performance Score (0-100)',
+          label: 'Interaction to Next Paint (ms)',
+          admin: {
+            components: {
+              Field: '@/components/admin/CWVBadge#CWVBadge',
+            },
+          },
+          custom: {
+            metric: 'inp',
+          },
+        },
+        {
+          name: 'fcp',
+          type: 'number',
+          label: 'First Contentful Paint (s)',
+          admin: {
+            components: {
+              Field: '@/components/admin/CWVBadge#CWVBadge',
+            },
+          },
+          custom: {
+            metric: 'fcp',
+          },
+        },
+        {
+          name: 'fid',
+          type: 'number',
+          label: 'First Input Delay (ms)',
+          admin: {
+            components: {
+              Field: '@/components/admin/CWVBadge#CWVBadge',
+            },
+          },
+          custom: {
+            metric: 'fid',
+          },
         },
       ],
     },

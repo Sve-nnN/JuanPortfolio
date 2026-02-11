@@ -76,20 +76,26 @@ export class RecommendationTracker {
             const mentionedInList = gap.mentionedIn.slice(0, 3).join(', '); // Show first 3 sources
 
             return [
-                gap.keyword,
-                targetUrl,
-                '', // Volume (empty, will be filled by SEO script)
-                '', // Difficulty (empty)
-                '', // Intent (empty)
-                'recommended', // Status
-                today, // Last Updated
-                `Mentioned in: ${mentionedInList} (${gap.mentionCount} times)`, // Related Searches
-                '', // PAA Count
-                '', // Top Domain
-                '', // Has AI Overview
-                '', // SERP Features
-                'Internal Linking Script', // Source
-                '' // Is done?
+                gap.keyword,                    // 1. Keyword
+                targetUrl,                      // 2. Target URL
+                '',                             // 3. Volume
+                '',                             // 4. Difficulty
+                '',                             // 5. Intent
+                'recommended',                  // 6. Status
+                today,                          // 7. Last Updated
+                'Internal Linking Script',      // 8. Source
+                `Mentioned in: ${mentionedInList} (${gap.mentionCount} times)`, // 9. Related Searches
+                '',                             // 10. PAA Count
+                '',                             // 11. Top Domain
+                '',                             // 12. Has AI Overview
+                '',                             // 13. SERP Features
+                '',                             // 14. Competitor Headings
+                '',                             // 15. Competitor Meta
+                '0',                            // 16. Avg. Word Count
+                '0',                            // 17. Opportunity Score
+                '',                             // 18. Recommended Format
+                '',                             // 19. Cluster Type
+                ''                              // 20. Suggested Anchor Text
             ].map(cell => ` ${cell} `).join('|');
         });
 

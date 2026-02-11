@@ -48,6 +48,7 @@ interface KeywordData {
   serpFeatures: string[]
   competitorHeadings: string
   competitorMeta: string
+  avgWordCount: number
   opportunityScore: number
   recommendedFormat: string
   clusterType: string
@@ -122,6 +123,8 @@ function parseLine(line: string): KeywordData | null {
 
   if (parts.length < 7) return null
 
+  const isNewFormat = parts.length >= 20
+
   const parseArray = (str: string): string[] => {
     if (!str || str === '') return []
     return unescapeFromTable(str)
@@ -146,10 +149,11 @@ function parseLine(line: string): KeywordData | null {
     serpFeatures: parseArray(parts[12] || ''),
     competitorHeadings: unescapeFromTable(parts[13] || ''),
     competitorMeta: unescapeFromTable(parts[14] || ''),
-    opportunityScore: parseInt(parts[15]) || 0,
-    recommendedFormat: unescapeFromTable(parts[16] || ''),
-    clusterType: unescapeFromTable(parts[17] || ''),
-    suggestedAnchorText: unescapeFromTable(parts[18] || ''),
+    avgWordCount: isNewFormat ? parseInt(parts[15]) || 0 : 0,
+    opportunityScore: parseInt(isNewFormat ? parts[16] : parts[15]) || 0,
+    recommendedFormat: unescapeFromTable(isNewFormat ? parts[17] : parts[16] || ''),
+    clusterType: unescapeFromTable(isNewFormat ? parts[18] : parts[17] || ''),
+    suggestedAnchorText: unescapeFromTable(isNewFormat ? parts[19] : parts[18] || ''),
   }
 }
 
@@ -173,6 +177,7 @@ function formatLine(data: KeywordData): string {
     formatArray(data.serpFeatures),
     sanitizeForTable(data.competitorHeadings),
     sanitizeForTable(data.competitorMeta),
+    data.avgWordCount.toString(),
     data.opportunityScore.toString(),
     sanitizeForTable(data.recommendedFormat),
     sanitizeForTable(data.clusterType),
@@ -182,8 +187,10 @@ function formatLine(data: KeywordData): string {
   return `| ${columns.join(' | ')} |`
 }
 
-async function crawlCompetitorContent(urls: string[]): Promise<{ headings: string; meta: string }> {
-  const results: Array<{ headings: string; meta: string }> = []
+async function crawlCompetitorContent(
+  urls: string[],
+): Promise<{ headings: string; meta: string; avgWordCount: number }> {
+  const results: Array<{ headings: string; meta: string; wordCount: number }> = []
   const MAX_SUCCESSES = 4
 
   for (const url of urls) {
@@ -211,6 +218,9 @@ async function crawlCompetitorContent(urls: string[]): Promise<{ headings: strin
       const dom = new JSDOM(html)
       const doc = dom.window.document
 
+      // Remove script and style tags and common boilerplate
+      doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe').forEach((el) => el.remove())
+
       const headings = Array.from(doc.querySelectorAll('h2, h3'))
         .map((h) => {
           const element = h as unknown as Element
@@ -234,7 +244,14 @@ async function crawlCompetitorContent(urls: string[]): Promise<{ headings: strin
       const headingSummary = headings.slice(0, 10).join(' - ')
       const metaSummary = `Title: ${title} | Desc: ${description.slice(0, 100)}${description.length > 100 ? '...' : ''}`
 
-      results.push({ headings: headingSummary, meta: metaSummary })
+      // Calculate word count (simple heuristic)
+      const text = doc.body.textContent || ''
+      const wordCount = text
+        .trim()
+        .split(/\s+/)
+        .filter((word) => word.length > 0).length
+
+      results.push({ headings: headingSummary, meta: metaSummary, wordCount })
       process.stdout.write(
         `\r${colors.green}    ✅ Success (${results.length}/${MAX_SUCCESSES}): ${url.substring(0, 50)}...    \n${colors.reset}`,
       )
@@ -246,12 +263,16 @@ async function crawlCompetitorContent(urls: string[]): Promise<{ headings: strin
   }
 
   if (results.length === 0) {
-    return { headings: 'Crawl Failed (No data found)', meta: 'Crawl Failed' }
+    return { headings: 'Crawl Failed (No data found)', meta: 'Crawl Failed', avgWordCount: 0 }
   }
+
+  const totalWords = results.reduce((acc, r) => acc + r.wordCount, 0)
+  const avgWordCount = Math.round(totalWords / results.length)
 
   return {
     headings: results.map((r, i) => `[U${i + 1}] ${r.headings}`).join(' || '),
     meta: results.map((r, i) => `[U${i + 1}] ${r.meta}`).join(' || '),
+    avgWordCount,
   }
 }
 
@@ -439,10 +460,11 @@ async function main() {
           if (!crawlerResults.meta.includes('Crawl Failed')) {
             data.competitorMeta = crawlerResults.meta
           }
+          data.avgWordCount = crawlerResults.avgWordCount
         }
 
         console.log(
-          `    ${colors.green}✅ Success: Vol ${data.volume}, Diff ${data.difficulty}${colors.reset}\n`,
+          `    ${colors.green}✅ Success: Vol ${data.volume}, Diff ${data.difficulty}, Avg. Words ${data.avgWordCount}${colors.reset}\n`,
         )
       }
     } catch (e) {
@@ -465,14 +487,14 @@ async function main() {
 
     if (line.includes('| Keyword') && line.trim().startsWith('|')) {
       updatedLines.push(
-        '| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features | Competitor Headings | Competitor Meta | Opportunity Score | Recommended Format | Cluster Type | Suggested Anchor Text |',
+        '| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features | Competitor Headings | Competitor Meta | Avg. Word Count | Opportunity Score | Recommended Format | Cluster Type | Suggested Anchor Text |',
       )
       headerProcessed = true
       continue
     }
     if (headerProcessed && !separatorProcessed && line.includes('---')) {
       updatedLines.push(
-        '| :-------------------------------- | :-------------------------------------------- | :----- | :--------- | :----- | :----- | :----------- | :----- | :--------------- | :-------- | :--------- | :-------------- | :------------ | :------------------ | :-------------- | :---------------- | :----------------- | :----------- | :-------------------- |',
+        '| :-------------------------------- | :-------------------------------------------- | :----- | :--------- | :----- | :----- | :----------- | :----- | :--------------- | :-------- | :--------- | :-------------- | :------------ | :------------------ | :-------------- | :-------------- | :---------------- | :----------------- | :----------- | :-------------------- |',
       )
       separatorProcessed = true
       continue

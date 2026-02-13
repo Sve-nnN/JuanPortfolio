@@ -1,7 +1,7 @@
 ---
-title: '¿Qué es el SEO Técnico y cómo hacerlo fácil paso a paso?'
+title: ¿Qué es el SEO Técnico y cómo hacerlo fácil paso a paso?
 publishedAt: 2026-02-10T00:00:00.000Z
-updatedAt: 2026-02-11
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - web-performance-guide
 sidebarBanners: []
 metaTitle: 'SEO técnico para principiantes: conceptos básicos y guía práctica'
-metaDescription: 'Descubre qué es el SEO técnico sin saber programar. Aprende a supervisar la salud de tu web, mejorar la indexación y optimizar la experiencia de usuario.'
+metaDescription: >-
+  Descubre qué es el SEO técnico sin saber programar. Aprende a supervisar la
+  salud de tu web, mejorar la indexación y optimizar la experiencia de usuario.
 primary_keywords:
   - SEO técnico para no desarrolladores
   - qué es el SEO técnico
@@ -25,6 +27,8 @@ semantic_keywords:
   - jerarquía de necesidades SEO
   - importancia del SEO
 uploaded: true
+idioma: es
+slug: non-developers-guide
 ---
 
 Muchas personas creen que el **SEO técnico** es algo oscuro que solo los programadores pueden entender. Sin embargo, si eres dueño de un negocio, redactor o profesional del marketing, entender los conceptos básicos es vital para que tu sitio web tenga éxito.

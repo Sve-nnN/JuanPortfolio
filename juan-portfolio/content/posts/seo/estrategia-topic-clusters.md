@@ -1,7 +1,7 @@
 ---
 title: 'Estrategia de Topic Clusters: Guía para Dominar la Autoridad Tópica'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - redaccion-seo
 sidebarBanners: []
 metaTitle: 'Estrategia de Topic Clusters: Cómo Organizar tu Contenido para SEO'
-metaDescription: 'Aprende a crear Topic Clusters para mejorar tu posicionamiento. Guía sobre Pillar Pages y Topic Spokes para construir autoridad tópica.'
+metaDescription: >-
+  Aprende a crear Topic Clusters para mejorar tu posicionamiento. Guía sobre
+  Pillar Pages y Topic Spokes para construir autoridad tópica.
 primary_keywords:
   - estrategia de topic clusters
   - autoridad tópica
@@ -23,6 +25,8 @@ semantic_keywords:
   - estructura de enlaces internos
   - planificación de contenidos
 uploaded: false
+idioma: es
+slug: estrategia-topic-clusters
 ---
 
 ## ¿Qué es un Topic Cluster y por qué Google los ama?

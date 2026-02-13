@@ -8,45 +8,12 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 - **Backend (CMS)**: Payload CMS 3.0 (Headless), using MongoDB as the database via Mongoose.
 - **Language**: strict TypeScript throughout.
 - **Localization**: Full support for English (`en`) and Spanish (`es`) at both the CMS and Frontend levels.
-- **Content Strategy**:
-  - Source of truth for blog posts are Markdown files in `content/posts/`.
-  - Automated migration system syncs these files to Payload CMS.
-  - Advanced internal linking system driven by frontmatter keywords (`primary_keywords`, `semantic_keywords`).
-- **SEO Intelligence**: 
-  - Deeply integrated SEO intelligence system including keyword tracking and competitor benchmarks.
-  - **New**: Google Search Console integration for real-time performance tracking in the CMS.
-  - **New**: Automated competitor word count analysis.
+## Content Strategy
 
-## Architecture Highlights
-
-- `src/app/(frontend)`: Contains the Next.js frontend routes and UI components.
-- `src/collections`: Payload CMS collection definitions (Posts, Pages, GSCMetrics, etc.).
-- `src/scripts`: Custom CLI tools for content management and SEO automation.
-  - `seo/adapters/GSCAdapter.ts`: Adapter for Google Search Console API.
-  - `seo/sync-gsc.ts`: Script to synchronize organic traffic data.
-- `content/`: Directory containing Markdown source files and the SEO keyword tracker (`keywords.md`).
-
-## Internationalization (i18n)
-
-The project implements a full internationalization system with Spanish (`es`) as the default language and English (`en`) as the secondary language.
-
-### Routing Strategy
-
-- **Spanish (Default)**: Served at the root path (`/`).
-- **English**: Served at the `/en/` prefix.
-- **Middleware**: Uses `NextResponse.rewrite` to internally map prefix-less URLs to the `es` locale while keeping the browser URL clean. It injects an `x-pathname` header to allow Server Components to accurately detect the current path and locale.
-
-### Technical Implementation
-
-- **Stability Rule**: Slugs and block-level layout fields must remain non-localized (`localized: false`). Localizing structural fields causes database format mismatches and routing failures.
-- **Field Localization**: Only leaf-level text fields (titles, bios, richText, descriptions) are localized within blocks and collections.
-- **Context Management**: The `LocaleProvider` uses the URL as the absolute source of truth. The `Header` and `Footer` components receive the locale directly from the server via props to ensure immediate synchronization.
-- **Navigation**: The `CMSLink` component and `getPostUrl` utility automatically handle locale prefixes and mapping for all collections (Posts, Pages, Categories, Case Studies).
-
-### SEO & Metadata
-
-- **Hreflang support**: The root layout automatically generates `alternate` links for all localized versions of a page.
-- **Locale-aware formatting**: Utilities like `formatDateTime` use native JavaScript Internationalization APIs to format data based on the active locale.
+- **Source of truth**: Markdown files in `content/posts/`.
+- **Bidirectional Sync**: Advanced Git-like synchronization between local Markdown files and Payload CMS.
+- **Conversion**: Automatic Markdown <-> Lexical JSON transformation.
+- **i18n Support**: Locale-specific updates via `idioma` frontmatter field.
 
 ## Building and Running
 
@@ -57,11 +24,30 @@ The project implements a full internationalization system with Spanish (`es`) as
 | **Install**          | `pnpm install`                                |
 | **Development**      | `pnpm dev`                                    |
 | **Production Build** | `pnpm build`                                  |
-| **Import Posts**     | `pnpm import:posts`                           |
+| **Sync Status**      | `pnpm sync status`                            |
+| **Push Content**     | `pnpm sync push`                              |
+| **Pull Content**     | `pnpm sync pull`                              |
+| **Sync Keywords**    | `pnpm sync:keywords`                          |
 | **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts` |
 | **SEO Metrics**      | `npx tsx src/scripts/update-seo-metrics.ts`   |
 | **Sync GSC Data**    | `pnpm run sync:gsc`                           |
 | **CWV Monitoring**   | `npx tsx src/scripts/seo/update-cwv.ts`       |
+
+## Content Synchronization (Git-like)
+
+The project uses a custom synchronization engine (`src/scripts/syncContent.ts`) to manage content and keywords across local files and the CMS database.
+
+### Core Workflow
+1. **Keywords**: Sync `keywords.md` to the CMS using `pnpm sync:keywords`.
+2. **Content**: Push local Markdown edits using `pnpm sync push`. This automatically links posts to their primary and semantic keywords in the CMS.
+3. **Analytics**: Run `pnpm run sync:gsc` to download Search Console data and aggregate performance metrics directly into your keywords.
+4. **Pull**: Download remote CMS edits back to local Markdown with `pnpm sync pull`.
+
+### Intelligence Layer
+- **Automatic Linking**: Frontmatter keywords are resolved to Payload document IDs during sync.
+- **Performance Tracking**: Clicks, impressions, and position are tracked at both the Page and Keyword levels.
+
+
 
 ### Environment Variables
 

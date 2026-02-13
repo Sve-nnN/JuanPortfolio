@@ -9,8 +9,10 @@ categoryTitle: Technical SEO
 relatedPosts:
   - tech-seo-guide
 sidebarBanners: []
-metaTitle: 'Comprendiendo los Core Web Vitals y sus Resultados en Google'
-metaDescription: 'Domina LCP, CLS e INP. Aprende qué son los Core Web Vitals, por qué son importantes y cómo medirlos para mejorar tu ranking en 2026.'
+metaTitle: Comprendiendo los Core Web Vitals y sus Resultados en Google
+metaDescription: >-
+  Domina LCP, CLS e INP. Aprende qué son los Core Web Vitals, por qué son
+  importantes y cómo medirlos para mejorar tu ranking en 2026.
 primary_keywords:
   - Core Web Vitals
   - optimizar Core Web Vitals
@@ -26,6 +28,8 @@ semantic_keywords:
   - estabilidad visual
   - interactividad web
 uploaded: true
+idioma: es
+slug: core-web-vitals-guide
 ---
 
 Los **Core Web Vitals** han dejado de ser una simple métrica de rendimiento para convertirse en el estándar de oro de la experiencia de usuario y el posicionamiento en Google. En el panorama web actual, no basta con tener buen contenido; si tu sitio se siente lento o inestable, los usuarios (y los motores de búsqueda) lo abandonarán.

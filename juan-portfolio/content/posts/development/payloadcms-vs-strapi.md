@@ -1,7 +1,7 @@
 ---
 title: 'Payload CMS vs Strapi: Comparativa de los mejores CMS Headless'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - headless-cms-seo
 sidebarBanners: []
 metaTitle: 'Comparativa: Payload CMS vs Strapi ¿Cuál es mejor?'
-metaDescription: 'Analizamos a fondo Payload CMS y Strapi. Comparamos arquitectura, facilidad de uso y extensibilidad para tu próximo proyecto.'
+metaDescription: >-
+  Analizamos a fondo Payload CMS y Strapi. Comparamos arquitectura, facilidad de
+  uso y extensibilidad para tu próximo proyecto.
 primary_keywords:
   - Payload CMS vs Strapi
   - comparativa CMS Headless
@@ -24,6 +26,8 @@ semantic_keywords:
   - rendimiento Payload vs Strapi
   - plugins y ecosistema CMS
 uploaded: false
+idioma: es
+slug: payloadcms-vs-strapi
 ---
 
 ## La batalla por el trono de los CMS en Node.js

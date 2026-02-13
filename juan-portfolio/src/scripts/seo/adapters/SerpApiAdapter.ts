@@ -1,5 +1,30 @@
 import { SeoAdapter, SeoMetrics } from '../types';
 
+interface SerpApiResult {
+    question?: string
+    link?: string
+}
+
+interface SerpApiResponse {
+    search_information?: {
+        total_results: number
+    }
+    ads?: any[]
+    knowledge_graph?: any
+    answer_box?: any
+    related_searches?: { query: string }[]
+    people_also_ask?: SerpApiResult[]
+    organic_results?: SerpApiResult[]
+    ai_overview?: any
+    inline_videos?: any
+    video_results?: any
+    shopping_results?: any
+    local_results?: any
+    top_stories?: any
+    inline_images?: any
+    image_results?: any
+}
+
 /**
  * Adapter for fetching SEO metrics using SerpApi (Google Search Engine).
  * Note: Exact search volume requires paid add-ons; uses total_results as proxy fallback.
@@ -36,38 +61,29 @@ export class SerpApiAdapter implements SeoAdapter {
                 return null;
             }
 
-            const data = await response.json();
+            const data = await response.json() as SerpApiResponse;
 
             // 1. Volume Logic
-            // SerpApi standard search doesn't give "Search Volume" directly without extra paid add-ons.
-            // Proxy: total_results
             let volume = 0;
             if (data.search_information && data.search_information.total_results) {
                 const resultsStr = String(data.search_information.total_results).replace(/[^0-9]/g, '');
-                volume = parseInt(resultsStr) || 0;
+                volume = parseInt(resultsStr, 10) || 0;
             }
 
             // 2. Intelligent Difficulty Estimation (0-100)
-            // Since standard SERP doesn't give difficulty, we estimate it:
-            // Factors: Number of ads, total results volume, presence of knowledge graph, presence of top competitors.
             let difficulty = 0;
-            
-            // Factor A: Commercial Intent (Ads) - High impact
             const adCount = data.ads?.length || 0;
-            difficulty += adCount * 15; // Up to 60-75 points for many ads
+            difficulty += adCount * 15;
 
-            // Factor B: Competition Volume (Total results)
             if (volume > 10000000) difficulty += 20;
             else if (volume > 1000000) difficulty += 15;
             else if (volume > 100000) difficulty += 10;
             else if (volume > 10000) difficulty += 5;
 
-            // Factor C: Informational Authority (Knowledge Graph / Answer Box)
             if (data.knowledge_graph || data.answer_box) {
-                difficulty += 10; // Harder to rank if Google already answers it
+                difficulty += 10;
             }
 
-            // Cap at 100
             difficulty = Math.min(100, difficulty);
 
             // 3. Extract SERP Features
@@ -75,8 +91,8 @@ export class SerpApiAdapter implements SeoAdapter {
             if (data.related_searches && Array.isArray(data.related_searches)) {
                 relatedSearches.push(
                     ...data.related_searches
-                        .map((item: { query: string }) => item.query)
-                        .filter((q: string) => q)
+                        .map((item) => item.query)
+                        .filter((q) => q)
                         .slice(0, 8)
                 );
             }
@@ -84,14 +100,14 @@ export class SerpApiAdapter implements SeoAdapter {
             const paaCount = data.people_also_ask?.length || 0;
             const paaQuestions: string[] = [];
             if (data.people_also_ask && Array.isArray(data.people_also_ask)) {
-                data.people_also_ask.forEach((item: any) => {
+                data.people_also_ask.forEach((item) => {
                     if (item.question) paaQuestions.push(item.question);
                 });
             }
 
             const topUrls: string[] = [];
             if (data.organic_results && Array.isArray(data.organic_results)) {
-                data.organic_results.forEach((result: any) => {
+                data.organic_results.forEach((result) => {
                     if (result.link) topUrls.push(result.link);
                 });
             }

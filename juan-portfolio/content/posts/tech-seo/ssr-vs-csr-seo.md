@@ -1,7 +1,7 @@
 ---
 title: 'SSR vs CSR: ¿Cuál es la mejor estrategia de renderizado para el SEO?'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - technical-seo-guide
 sidebarBanners: []
 metaTitle: 'SSR vs CSR: Impacto en el SEO y la experiencia de usuario'
-metaDescription: 'Comparamos Server-Side Rendering (SSR) y Client-Side Rendering (CSR). Descubre cómo el renderizado afecta el rastreo de Googlebot y el rendimiento.'
+metaDescription: >-
+  Comparamos Server-Side Rendering (SSR) y Client-Side Rendering (CSR). Descubre
+  cómo el renderizado afecta el rastreo de Googlebot y el rendimiento.
 primary_keywords:
   - SSR vs CSR SEO
   - renderizado en servidor vs cliente
@@ -24,6 +26,8 @@ semantic_keywords:
   - hidratación de React SEO
   - SPA vs MPA SEO
 uploaded: false
+idioma: es
+slug: ssr-vs-csr-seo
 ---
 
 ## Introducción: Renderizado y SEO

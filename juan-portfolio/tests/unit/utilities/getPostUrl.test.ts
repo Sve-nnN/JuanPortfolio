@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { getPostUrl } from '../../../src/utilities/getPostUrl'
 import type { Post } from '../../../src/payload-types'
 
-const BASE_URL = 'https://juan-tech.com/blog'
+const BASE_PATH = '/blog'
 
 describe('getPostUrl utility', () => {
   it('generates URL with category from meta_extras.categories', () => {
@@ -23,7 +23,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/javascript/my-awesome-post`)
+    expect(url).toBe(`${BASE_PATH}/javascript/my-awesome-post`)
   })
 
   it('uses first category when multiple categories exist', () => {
@@ -45,7 +45,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/typescript/multi-category-post`)
+    expect(url).toBe(`${BASE_PATH}/typescript/multi-category-post`)
   })
 
   it('falls back to "general" when no categories exist', () => {
@@ -57,7 +57,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/general/no-category-post`)
+    expect(url).toBe(`${BASE_PATH}/general/no-category-post`)
   })
 
   it('falls back to "general" when meta_extras is undefined', () => {
@@ -66,7 +66,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/general/undefined-meta-post`)
+    expect(url).toBe(`${BASE_PATH}/general/undefined-meta-post`)
   })
 
   it('falls back to "general" when categories is undefined', () => {
@@ -76,7 +76,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/general/no-categories-field`)
+    expect(url).toBe(`${BASE_PATH}/general/no-categories-field`)
   })
 
   it('handles category as string ID', () => {
@@ -89,7 +89,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/python/string-category-post`)
+    expect(url).toBe(`${BASE_PATH}/python/string-category-post`)
   })
 
   it('handles mixed category types (object and string)', () => {
@@ -105,7 +105,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/vue/mixed-category-post`)
+    expect(url).toBe(`${BASE_PATH}/vue/mixed-category-post`)
   })
 
   it('handles special characters in slug', () => {
@@ -119,7 +119,7 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/tutorials/post-with-special-chars`)
+    expect(url).toBe(`${BASE_PATH}/tutorials/post-with-special-chars`)
   })
 
   it('preserves slug format exactly as provided', () => {
@@ -131,6 +131,6 @@ describe('getPostUrl utility', () => {
     } as Partial<Post> as Post
 
     const url = getPostUrl(post)
-    expect(url).toBe(`${BASE_URL}/api/How-To-Build-REST-API`)
+    expect(url).toBe(`${BASE_PATH}/api/How-To-Build-REST-API`)
   })
 })

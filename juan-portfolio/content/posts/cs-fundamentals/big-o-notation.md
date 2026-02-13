@@ -1,7 +1,7 @@
 ---
 title: 'Notación Big O: Guía de Complejidad Algorítmica con Ejemplos'
-publishedAt: 2026-02-10
-updatedAt: 2026-02-11
+publishedAt: 2026-02-10T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: /images/blog/big-o-notation.webp
@@ -11,7 +11,9 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: 'Notación Big O: Tutorial y Guía de Escalabilidad de Código'
-metaDescription: 'Aprende a medir la eficiencia de tu código. Guía completa sobre Notación Big O, complejidad temporal y espacial con ejemplos prácticos.'
+metaDescription: >-
+  Aprende a medir la eficiencia de tu código. Guía completa sobre Notación Big
+  O, complejidad temporal y espacial con ejemplos prácticos.
 primary_keywords:
   - notación Big O
   - complejidad temporal
@@ -24,6 +26,8 @@ semantic_keywords:
   - eficiencia de algoritmos
   - notación asintótica
 uploaded: true
+idioma: es
+slug: big-o-notation
 ---
 
 La **Notación Big O** es el estándar de la industria para describir la eficiencia de un algoritmo. No mide el tiempo en milisegundos (que depende de tu procesador), sino la **tasa de crecimiento** de las operaciones a medida que los datos de entrada aumentan.

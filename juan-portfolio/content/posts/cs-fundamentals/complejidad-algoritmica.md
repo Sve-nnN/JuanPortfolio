@@ -1,7 +1,7 @@
 ---
 title: 'Complejidad Algorítmica: Guía para Medir la Eficiencia del Código'
-publishedAt: 2026-02-10
-updatedAt: 2026-02-11
+publishedAt: 2026-02-10T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: /images/blog/complejidad-algoritmica.webp
@@ -11,7 +11,9 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: 'Complejidad Algorítmica: Análisis de Rendimiento y Escalabilidad'
-metaDescription: 'Domina el análisis de algoritmos. Diferencias entre complejidad temporal, espacial, Big O y Big Theta. Guía para desarrolladores senior.'
+metaDescription: >-
+  Domina el análisis de algoritmos. Diferencias entre complejidad temporal,
+  espacial, Big O y Big Theta. Guía para desarrolladores senior.
 primary_keywords:
   - complejidad algorítmica
   - complejidad espacial
@@ -23,6 +25,8 @@ semantic_keywords:
   - análisis de tiempo y espacio
   - optimización de algoritmos
 uploaded: true
+idioma: es
+slug: complejidad-algoritmica
 ---
 
 Analizar la complejidad de un algoritmo es la única forma de garantizar que tu software sea escalable. No se trata de cuántos milisegundos tarda en tu máquina local, sino de predecir cómo se comportará el sistema cuando la carga de datos crezca exponencialmente.

@@ -1,7 +1,7 @@
 ---
 title: 'Automatización de Sitemaps XML: Guía para Indexación Rápida'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - robots-txt-best-practices
 sidebarBanners: []
 metaTitle: 'Sitemaps XML: Guía Completa de Automatización y SEO'
-metaDescription: 'Aprende a generar y optimizar sitemaps XML para mejorar el descubrimiento de tus páginas. Guía de automatización para sitios modernos.'
+metaDescription: >-
+  Aprende a generar y optimizar sitemaps XML para mejorar el descubrimiento de
+  tus páginas. Guía de automatización para sitios modernos.
 primary_keywords:
   - automatización de sitemaps XML
   - crear sitemap dinámico
@@ -24,6 +26,8 @@ semantic_keywords:
   - sitemap de imágenes y video
   - enviar sitemap a Google Search Console
 uploaded: false
+idioma: es
+slug: xml-sitemap-automation
 ---
 
 ## El objetivo de un Sitemap XML

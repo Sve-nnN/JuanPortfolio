@@ -1,7 +1,7 @@
 ---
 title: 'Programación Dinámica: Conceptos, Enfoques y Casos Prácticos'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: 'Programación Dinámica: De la Recursión a la Optimización'
-metaDescription: 'Aprende a resolver problemas complejos con programación dinámica. Cubrimos Memoización, Tabulación y el Problema de la Mochila.'
+metaDescription: >-
+  Aprende a resolver problemas complejos con programación dinámica. Cubrimos
+  Memoización, Tabulación y el Problema de la Mochila.
 primary_keywords:
   - programación dinámica
   - algoritmos de optimización
@@ -24,6 +26,8 @@ semantic_keywords:
   - problema de la mochila
   - serie de Fibonacci optimizada
 uploaded: false
+idioma: es
+slug: programacion-dinamica
 ---
 
 La **programación dinámica (PD)** es una de las técnicas más temidas y, a la vez, más potentes de la informática. No es un paradigma de programación como la POO, sino una estrategia de optimización que reduce la complejidad de problemas exponenciales a tiempos lineales o polinomiales.

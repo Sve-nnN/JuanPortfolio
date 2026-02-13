@@ -2,7 +2,17 @@
 import React, { useEffect, useState } from 'react'
 import { useConfig } from '@payloadcms/ui'
 
-export const GSCCell: React.FC<{ rowData: any; field: any }> = ({ rowData, field }) => {
+interface RowData {
+  slug?: string
+}
+
+interface FieldConfig {
+  custom?: {
+    collection?: string
+  }
+}
+
+export const GSCCell: React.FC<{ rowData: RowData; field: FieldConfig }> = ({ rowData, field }) => {
   const [clicks, setClicks] = useState<number | null>(null)
   const { config } = useConfig()
   const serverURL = config.serverURL
@@ -44,5 +54,5 @@ export const GSCCell: React.FC<{ rowData: any; field: any }> = ({ rowData, field
   }, [rowData, field, serverURL])
 
   if (clicks === null) return <span>-</span>
-  return <span title="Clicks from GSC (latest sync)">{clicks} 🖱️</span>
+  return <span title="Clicks from GSC (latest sync)">{clicks}</span>
 }

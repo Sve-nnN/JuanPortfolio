@@ -1,5 +1,7 @@
 ---
 title:
+slug:
+idioma: es
 publishedAt:
 updatedAt:
 authors:

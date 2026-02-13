@@ -76,6 +76,15 @@ export const GSCMetrics: CollectionConfig = {
       },
     },
     {
+      name: 'indexingIssue',
+      type: 'text',
+      label: 'Motivo de no-indexación',
+      admin: {
+        position: 'sidebar',
+        description: 'Razón técnica de GSC (ej. Rastreada pero no indexada)',
+      },
+    },
+    {
       name: 'lastInspected',
       type: 'date',
       admin: {

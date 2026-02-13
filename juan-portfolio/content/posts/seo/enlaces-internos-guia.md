@@ -1,7 +1,7 @@
 ---
 title: 'Estrategia de Enlaces Internos: Guía de Arquitectura de Autoridad'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - guia-keyword-research
 sidebarBanners: []
 metaTitle: 'Enlaces Internos: Cómo Distribuir la Autoridad en tu Web'
-metaDescription: 'Aprende a diseñar una red de enlaces internos efectiva. Optimiza el rastreo de Google y mejora la navegación del usuario.'
+metaDescription: >-
+  Aprende a diseñar una red de enlaces internos efectiva. Optimiza el rastreo de
+  Google y mejora la navegación del usuario.
 primary_keywords:
   - estrategia de enlaces internos
   - link building interno
@@ -23,6 +25,8 @@ semantic_keywords:
   - arquitectura web semántica
   - páginas huérfanas
 uploaded: false
+idioma: es
+slug: enlaces-internos-guia
 ---
 
 ## El Poder Olvidado de los Enlaces Internos

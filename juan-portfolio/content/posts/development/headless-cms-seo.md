@@ -1,7 +1,7 @@
 ---
 title: 'SEO en CMS Headless: Estrategias y Mejores Prácticas'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - payloadcms-tutorial
 sidebarBanners: []
 metaTitle: 'Headless CMS SEO: Guía completa de optimización'
-metaDescription: 'Descubre cómo gestionar el SEO en una arquitectura desacoplada. Aprende sobre metadatos, sitemaps y renderizado.'
+metaDescription: >-
+  Descubre cómo gestionar el SEO en una arquitectura desacoplada. Aprende sobre
+  metadatos, sitemaps y renderizado.
 primary_keywords:
   - SEO en CMS Headless
   - optimización SEO headless
@@ -24,6 +26,8 @@ semantic_keywords:
   - sitemaps en arquitecturas headless
   - desafíos SEO headless
 uploaded: false
+idioma: es
+slug: headless-cms-seo
 ---
 
 ## ¿Qué es un CMS Headless y cómo afecta al SEO?

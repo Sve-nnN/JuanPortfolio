@@ -1,7 +1,7 @@
 ---
 title: 'Implementación de Schema Markup: Guía de Datos Estructurados'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - nextjs-seo-optimization
 sidebarBanners: []
 metaTitle: 'Schema Markup: Qué es, cómo funciona y por qué usarlo'
-metaDescription: 'Descubre cómo los datos estructurados pueden mejorar tu visibilidad en Google. Guía completa sobre tipos de esquemas y generación de Rich Results.'
+metaDescription: >-
+  Descubre cómo los datos estructurados pueden mejorar tu visibilidad en Google.
+  Guía completa sobre tipos de esquemas y generación de Rich Results.
 primary_keywords:
   - implementación de Schema Markup
   - guía de datos estructurados
@@ -25,6 +27,8 @@ semantic_keywords:
   - esquema de producto
   - Rich Results Test
 uploaded: false
+idioma: es
+slug: schema-markup-guide
 ---
 
 ## ¿Qué es el Schema Markup en SEO?

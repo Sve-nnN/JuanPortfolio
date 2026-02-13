@@ -1,7 +1,7 @@
 ---
 title: 'Redacción SEO: Cómo Escribir Contenido que Google y Humanos Amen'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - guia-keyword-research
 sidebarBanners: []
 metaTitle: 'Redacción SEO: Técnicas de Escritura para Posicionamiento'
-metaDescription: 'Domina el arte de la redacción SEO. Aprende a integrar palabras clave, optimizar encabezados y mejorar la legibilidad para el usuario.'
+metaDescription: >-
+  Domina el arte de la redacción SEO. Aprende a integrar palabras clave,
+  optimizar encabezados y mejorar la legibilidad para el usuario.
 primary_keywords:
   - redacción SEO
   - escribir para Google
@@ -23,6 +25,8 @@ semantic_keywords:
   - encabezados semánticos
   - experiencia de usuario en lectura
 uploaded: false
+idioma: es
+slug: redaccion-seo
 ---
 
 ## Redacción SEO vs. Escritura Creativa

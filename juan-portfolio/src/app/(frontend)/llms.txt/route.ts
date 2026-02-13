@@ -51,7 +51,10 @@ const getLLMText = unstable_cache(
       if (posts.docs.length > 0) {
         text += `## Recent Blog Posts\n`
         posts.docs.forEach((post) => {
-          const categorySlug = (post.categories?.[0] as any)?.slug || 'general'
+          const firstCategory = post.categories?.[0]
+          const categorySlug = (typeof firstCategory === 'object' && firstCategory !== null && 'slug' in firstCategory) 
+            ? (firstCategory.slug as string) 
+            : 'general'
           text += `- [${post.title}](${SITE_URL}/blog/${categorySlug}/${post.slug})\n`
         })
         text += `\n`

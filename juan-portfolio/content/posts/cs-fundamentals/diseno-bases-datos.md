@@ -1,17 +1,19 @@
 ---
-title: "Diseño de Bases de Datos: Fundamentos y Modelo Relacional"
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+title: 'Diseño de Bases de Datos: Fundamentos y Modelo Relacional'
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
-heroImage:
+heroImage: null
 categoryTitle: CS Fundamentals
 relatedPosts:
   - normalizacion-bases-datos
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: "Diseño de Bases de Datos: Guía de Arquitectura e Integridad"
-metaDescription: Aprende a diseñar bases de datos escalables. Desde el modelado ER hasta la optimización con índices B-Tree y restricciones de integridad.
+metaTitle: 'Diseño de Bases de Datos: Guía de Arquitectura e Integridad'
+metaDescription: >-
+  Aprende a diseñar bases de datos escalables. Desde el modelado ER hasta la
+  optimización con índices B-Tree y restricciones de integridad.
 primary_keywords:
   - diseño de bases de datos
   - modelo entidad-relación
@@ -24,6 +26,8 @@ semantic_keywords:
   - claves primarias y foráneas
   - integridad referencial
 uploaded: false
+idioma: es
+slug: diseno-bases-datos
 ---
 
 El éxito de cualquier aplicación profesional reside en una gestión de datos impecable. Un mal diseño de base de datos no solo ralentiza el sistema, sino que causa **corrupción de datos** y errores de negocio que pueden ser irreparables. Como ingeniero, tu objetivo es construir una estructura que sea a la vez flexible y ultra-resistente.

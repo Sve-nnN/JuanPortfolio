@@ -57,9 +57,9 @@ describe('Sitemaps', () => {
 
       const sitemapData = response.props.sitemap
 
-      expect(sitemapData).toHaveLength(2)
-      expect(sitemapData[0].loc).toContain('/blog/category/tech')
-      expect(sitemapData[1].loc).toContain('/blog/category/life')
+      expect(sitemapData).toHaveLength(4)
+      expect(sitemapData[0].loc).toContain('/blog/tech')
+      expect(sitemapData[1].loc).toContain('/blog/life')
     })
   })
 
@@ -75,7 +75,7 @@ describe('Sitemaps', () => {
       const response: any = await GET()
       const sitemapData = response.props.sitemap
 
-      expect(sitemapData).toHaveLength(1)
+      expect(sitemapData).toHaveLength(2)
       expect(sitemapData[0].loc).toContain('/authors/juan-carlos')
     })
   })

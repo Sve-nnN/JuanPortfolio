@@ -32,6 +32,7 @@ import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from 
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { GSCDashboardLink as GSCDashboardLink_da73e0b544bcaf1fd7fa7841c0553714 } from '@/components/admin/GSCDashboardLink'
+import { GSCSummary as GSCSummary_4f13c66c2224ac2a9b925f74c3207410 } from '@/components/admin/GSCSummary'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
 import { GSCDashboard as GSCDashboard_09fdb3c42aa09805feb187fb4675dddf } from '@/components/admin/GSCDashboard'
@@ -71,6 +72,7 @@ export const importMap = {
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/admin/GSCDashboardLink#GSCDashboardLink": GSCDashboardLink_da73e0b544bcaf1fd7fa7841c0553714,
+  "@/components/admin/GSCSummary#GSCSummary": GSCSummary_4f13c66c2224ac2a9b925f74c3207410,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,
   "@/components/admin/GSCDashboard#GSCDashboard": GSCDashboard_09fdb3c42aa09805feb187fb4675dddf

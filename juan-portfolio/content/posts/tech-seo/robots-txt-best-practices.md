@@ -1,7 +1,7 @@
 ---
 title: 'Robots.txt: Mejores Prácticas, Sintaxis y Estrategias SEO'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - xml-sitemap-automation
 sidebarBanners: []
 metaTitle: 'Guía de Robots.txt: Cómo optimizar el rastreo de tu sitio web'
-metaDescription: 'Aprende a usar el archivo robots.txt para gestionar el tráfico de los rastreadores. Mejores prácticas para optimizar tu Crawl Budget.'
+metaDescription: >-
+  Aprende a usar el archivo robots.txt para gestionar el tráfico de los
+  rastreadores. Mejores prácticas para optimizar tu Crawl Budget.
 primary_keywords:
   - mejores prácticas robots.txt
   - configuración robots.txt SEO
@@ -25,6 +27,8 @@ semantic_keywords:
   - bloquear bots de IA
   - sitemap en robots.txt
 uploaded: false
+idioma: es
+slug: robots-txt-best-practices
 ---
 
 ## ¿Qué es un archivo robots.txt?

@@ -1,7 +1,7 @@
 ---
 title: 'E-E-A-T en SEO: Construyendo Confianza y Autoridad'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - estrategia-topic-clusters
 sidebarBanners: []
 metaTitle: 'Guía E-E-A-T: Cómo Demostrar Experiencia y Autoridad a Google'
-metaDescription: 'Descubre qué es el E-E-A-T y por qué es crucial para tu SEO. Aprende a mejorar la percepción de confianza de tu marca y contenido.'
+metaDescription: >-
+  Descubre qué es el E-E-A-T y por qué es crucial para tu SEO. Aprende a mejorar
+  la percepción de confianza de tu marca y contenido.
 primary_keywords:
   - que es e-e-a-t seo
   - autoridad de marca
@@ -23,6 +25,8 @@ semantic_keywords:
   - reputación del autor
   - contenido YMYL
 uploaded: false
+idioma: es
+slug: guia-eeat
 ---
 
 ## ¿Qué es el E-E-A-T y por qué no es un factor directo?

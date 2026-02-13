@@ -33,7 +33,7 @@ describe('Card component', () => {
     expect(screen.getByText('Test Post')).toBeInTheDocument()
     expect(screen.getByText('This is a test post.')).toBeInTheDocument()
     expect(screen.getByText('Category 1')).toBeInTheDocument()
-    expect(screen.getByRole('link')).toHaveAttribute('href', 'https://juan-tech.com/blog/tech/test-post')
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/blog/tech/test-post')
   })
 
   it('renders the card with minimal props', () => {
@@ -46,6 +46,6 @@ describe('Card component', () => {
     expect(screen.getByText('Minimal Post')).toBeInTheDocument()
     expect(screen.queryByText('This is a test post.')).not.toBeInTheDocument()
     expect(screen.queryByText('Category 1')).not.toBeInTheDocument()
-    expect(screen.getByRole('link')).toHaveAttribute('href', 'https://juan-tech.com/blog/general/minimal-post')
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/blog/general/minimal-post')
   })
 })

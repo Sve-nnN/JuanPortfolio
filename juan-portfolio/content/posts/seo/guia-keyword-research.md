@@ -1,7 +1,7 @@
 ---
-title: 'Guía Maestra de Investigación de Palabras Clave (Keyword Research)'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+title: Guía Maestra de Investigación de Palabras Clave (Keyword Research)
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - redaccion-seo
 sidebarBanners: []
 metaTitle: 'Keyword Research: Guía Paso a Paso para Encontrar Oportunidades'
-metaDescription: 'Aprende a realizar una investigación de palabras clave efectiva. Herramientas, análisis de intención de búsqueda y estrategias de competencia.'
+metaDescription: >-
+  Aprende a realizar una investigación de palabras clave efectiva. Herramientas,
+  análisis de intención de búsqueda y estrategias de competencia.
 primary_keywords:
   - investigación de palabras clave
   - keyword research paso a paso
@@ -23,6 +25,8 @@ semantic_keywords:
   - dificultad de palabra clave
   - análisis de competencia SEO
 uploaded: false
+idioma: es
+slug: guia-keyword-research
 ---
 
 ## El Cimiento del SEO: La Palabra Clave

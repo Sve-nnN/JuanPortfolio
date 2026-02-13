@@ -23,6 +23,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { triggerCWVScan } from './hooks/triggerCWVScan'
+import { updateInternalLinksCount } from './hooks/updateInternalLinksCount'
 
 import { slugField } from '@/fields/slug'
 
@@ -40,7 +41,7 @@ export const Posts: CollectionConfig<'posts'> = {
     authors: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks', 'internalLinksCount'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -131,6 +132,23 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           label: 'Meta',
           fields: [
+            {
+              name: 'primaryKeyword',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'semanticKeywords',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
+            },
             {
               name: 'relatedPosts',
               type: 'relationship',
@@ -247,10 +265,20 @@ export const Posts: CollectionConfig<'posts'> = {
         collection: 'posts',
       },
     },
+    {
+      name: 'internalLinksCount',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description: 'Número de enlaces internos detectados en el contenido.',
+        readOnly: true,
+      },
+    },
     slugField(),
   ],
   hooks: {
     afterChange: [revalidatePost, triggerCWVScan],
+    beforeChange: [updateInternalLinksCount],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },

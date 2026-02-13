@@ -1,7 +1,7 @@
 ---
 title: 'Algoritmos y Estructuras de Datos: La Base de la Programación'
-publishedAt: 2026-02-10
-updatedAt: 2026-02-11
+publishedAt: 2026-02-10T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: /images/blog/algoritmos-estructuras-datos.webp
@@ -11,7 +11,9 @@ relatedPosts:
   - big-o-notation
 sidebarBanners: []
 metaTitle: 'Algoritmos y Estructuras de Datos: Guía Definitiva de Ingeniería'
-metaDescription: 'Domina los fundamentos de la computación. Análisis técnico de estructuras de datos, algoritmos de búsqueda y ordenamiento con ejemplos prácticos.'
+metaDescription: >-
+  Domina los fundamentos de la computación. Análisis técnico de estructuras de
+  datos, algoritmos de búsqueda y ordenamiento con ejemplos prácticos.
 primary_keywords:
   - algoritmos y estructuras de datos
   - estructuras de datos básicas
@@ -26,6 +28,8 @@ semantic_keywords:
   - pilas y colas
   - grafos
 uploaded: true
+idioma: es
+slug: algoritmos-estructuras-datos
 ---
 
 En el núcleo de cada aplicación, desde el sistema de recomendación de Netflix hasta el motor de búsqueda que usas a diario, se encuentran los **algoritmos y las estructuras de datos**. Para un desarrollador, entender estos conceptos es la diferencia entre escribir código que "funciona" y construir sistemas robustos, eficientes y escalables que no se rompan bajo presión.

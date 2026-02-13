@@ -1,7 +1,7 @@
 ---
 title: 'Normalización de Bases de Datos: Guía de las Formas Normales'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: 'Normalización de Bases de Datos: 1NF, 2NF, 3NF y BCNF'
-metaDescription: 'Elimina la redundancia y asegura la integridad de tus datos. Guía paso a paso sobre normalización de bases de datos con ejemplos reales.'
+metaDescription: >-
+  Elimina la redundancia y asegura la integridad de tus datos. Guía paso a paso
+  sobre normalización de bases de datos con ejemplos reales.
 primary_keywords:
   - normalización de bases de datos
   - formas normales bases de datos
@@ -24,6 +26,8 @@ semantic_keywords:
   - anomalías de actualización
   - desnormalización por rendimiento
 uploaded: false
+idioma: es
+slug: normalizacion-bases-datos
 ---
 
 La **normalización de bases de datos** es la técnica que separa a un programador que "guarda cosas" de un ingeniero que "diseña sistemas". Su objetivo es eliminar la redundancia y garantizar que cada dato viva en un solo lugar, protegiendo al sistema contra las anomalías de actualización.

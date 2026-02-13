@@ -23,6 +23,7 @@ import Testimonials from './collections/Testimonials'
 import { KeywordMetrics } from './collections/KeywordMetrics'
 import { PageMetrics } from './collections/PageMetrics'
 import { GSCMetrics } from './collections/GSCMetrics'
+import { BrokenLinks } from './collections/BrokenLinks'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
@@ -43,6 +44,7 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
+      beforeDashboard: ['@/components/admin/GSCSummary#GSCSummary'],
       afterNavLinks: ['@/components/admin/GSCDashboardLink#GSCDashboardLink'],
       views: {
         GSCDashboard: {
@@ -116,6 +118,7 @@ export default buildConfig({
     KeywordMetrics,
     PageMetrics,
     GSCMetrics,
+    BrokenLinks,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM],

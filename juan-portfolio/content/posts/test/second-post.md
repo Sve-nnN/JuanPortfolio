@@ -2,6 +2,8 @@
 title: My Second Tech Post
 publishedAt: '2023-10-28'
 uploaded: false
+idioma: es
+slug: second-post
 ---
 
 

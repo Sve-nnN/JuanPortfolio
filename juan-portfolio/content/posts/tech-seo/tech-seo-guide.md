@@ -1,9 +1,9 @@
 ---
 title: 'SEO Técnico para Desarrolladores: Estrategias y Técnicas'
-publishedAt: 2026-02-08
-updatedAt: 2026-02-11
+publishedAt: 2026-02-08T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors: []
-heroImage:
+heroImage: null
 categoryTitle: Technical SEO
 relatedPosts:
   - nextjs-seo-optimization
@@ -11,7 +11,10 @@ relatedPosts:
   - core-web-vitals
 sidebarBanners: []
 metaTitle: 'SEO Técnico para Desarrolladores: Guía Completa de Optimización'
-metaDescription: 'Domina el SEO técnico para desarrolladores. Aprende estrategias de rastreo, indexación, rendimiento y mejores prácticas para maximizar tu visibilidad orgánica.'
+metaDescription: >-
+  Domina el SEO técnico para desarrolladores. Aprende estrategias de rastreo,
+  indexación, rendimiento y mejores prácticas para maximizar tu visibilidad
+  orgánica.
 primary_keywords:
   - SEO técnico para desarrolladores
   - guía de SEO técnico
@@ -25,6 +28,8 @@ semantic_keywords:
   - arquitectura web para SEO
   - SEO técnico para Next.js
 uploaded: true
+idioma: es
+slug: tech-seo-guide
 ---
 
 El **SEO técnico para desarrolladores** es la base fundamental para crear sitios web que no solo funcionen perfectamente, sino que también sean descubiertos, rastreados y valorados por los motores de búsqueda. Con el auge de la IA en las búsquedas (SGE), la calidad técnica es más crítica que nunca para garantizar la visibilidad.

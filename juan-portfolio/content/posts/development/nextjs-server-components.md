@@ -1,7 +1,7 @@
 ---
 title: 'Next.js Server Components: Guía de Arquitectura y Rendimiento'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - payloadcms-tutorial
 sidebarBanners: []
 metaTitle: 'React Server Components en Next.js: Todo lo que debes saber'
-metaDescription: 'Aprende a usar Server Components para reducir el JavaScript en el cliente y mejorar el rendimiento y el SEO de tu web.'
+metaDescription: >-
+  Aprende a usar Server Components para reducir el JavaScript en el cliente y
+  mejorar el rendimiento y el SEO de tu web.
 primary_keywords:
   - Next.js Server Components
   - React Server Components guía
@@ -24,6 +26,8 @@ semantic_keywords:
   - Server Actions en Next.js
   - optimización de bundle Next.js
 uploaded: false
+idioma: es
+slug: nextjs-server-components
 ---
 
 ## El Cambio de Paradigma en React

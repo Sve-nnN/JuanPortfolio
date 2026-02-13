@@ -1,7 +1,7 @@
 ---
 title: 'Optimización SEO en Next.js: Guía Completa de Mejores Prácticas'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - nextjs-server-components
 sidebarBanners: []
 metaTitle: 'Guía de SEO en Next.js: Cómo construir Apps rastreables'
-metaDescription: 'Aprende a optimizar tu aplicación Next.js para velocidad, metadatos y rastreabilidad. Guía avanzada sobre App Router y Server Components.'
+metaDescription: >-
+  Aprende a optimizar tu aplicación Next.js para velocidad, metadatos y
+  rastreabilidad. Guía avanzada sobre App Router y Server Components.
 primary_keywords:
   - optimización SEO en Next.js
   - Next.js SEO checklist
@@ -24,6 +26,8 @@ semantic_keywords:
   - robots.txt en Next.js
   - JSON-LD en Next.js
 uploaded: false
+idioma: es
+slug: nextjs-seo-optimization
 ---
 
 ## ¿Qué aprenderás en esta guía de SEO para Next.js?

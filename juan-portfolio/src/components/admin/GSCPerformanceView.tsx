@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useConfig } from '@payloadcms/ui'
+import { GSCChart } from './GSCChart'
 
 interface GSCMetric {
   date: string
@@ -9,10 +10,19 @@ interface GSCMetric {
   impressions: number
   ctr: number
   position: number
+  indexingIssue?: string
+  indexStatus?: string
+}
+
+interface ChartRow {
+  date: string
+  clicks: number
+  impressions: number
 }
 
 export const GSCPerformanceView: React.FC<{ path?: string }> = ({ path }) => {
   const [data, setData] = useState<GSCMetric[]>([])
+  const [chartData, setChartData] = useState<ChartRow[]>([])
   const [loading, setLoading] = useState(true)
   const [indexStatus, setIndexStatus] = useState<string>('UNKNOWN')
   const { config } = useConfig()
@@ -30,14 +40,28 @@ export const GSCPerformanceView: React.FC<{ path?: string }> = ({ path }) => {
         
         // Fetch metrics
         const response = await fetch(
-          `${serverURL}/api/gsc-metrics?where[page][equals]=${encodeURIComponent(fullUrl)}&sort=-date&limit=100`,
+          `${serverURL}/api/gsc-metrics?where[page][equals]=${encodeURIComponent(fullUrl)}&sort=-date&limit=500`,
         )
         const json = await response.json()
-        setData(json.docs || [])
+        const docs = (json.docs || []) as GSCMetric[]
+        setData(docs)
+
+        // Aggregate by date for chart
+        const dateMap = new Map<string, ChartRow>()
+        docs.forEach((row) => {
+          const date = row.date.split('T')[0]
+          const current = dateMap.get(date) || { date, clicks: 0, impressions: 0 }
+          dateMap.set(date, {
+            date,
+            clicks: current.clicks + row.clicks,
+            impressions: current.impressions + row.impressions,
+          })
+        })
+        setChartData(Array.from(dateMap.values()))
 
         // Get index status from the latest row if available
-        if (json.docs && json.docs.length > 0) {
-          setIndexStatus(json.docs[0].indexStatus || 'UNKNOWN')
+        if (docs.length > 0) {
+          setIndexStatus(docs[0].indexStatus as unknown as string || 'UNKNOWN')
         }
       } catch (error) {
         console.error('Error fetching GSC data:', error)
@@ -49,10 +73,10 @@ export const GSCPerformanceView: React.FC<{ path?: string }> = ({ path }) => {
     fetchData()
   }, [path, serverURL])
 
-  if (loading) return <div>Loading GSC data...</div>
-  if (data.length === 0) return <div>No Search Console data found for this URL.</div>
+  if (loading) return <div>Cargando datos de Search Console...</div>
+  if (data.length === 0) return <div>No se han encontrado datos de Search Console para esta URL.</div>
 
-  // Comparison logic: Split data into current week and previous week (approx)
+  // Comparison logic
   const currentPeriod = data.slice(0, Math.floor(data.length / 2))
   const previousPeriod = data.slice(Math.floor(data.length / 2))
 
@@ -71,80 +95,105 @@ export const GSCPerformanceView: React.FC<{ path?: string }> = ({ path }) => {
     if (Math.abs(diff) < 0.1) return <span style={{ color: '#666', fontSize: '12px' }}> (0%)</span>
     const percent = ((diff / (prev || 1)) * 100).toFixed(1)
     const isGood = inverse ? diff < 0 : diff > 0
-    const color = isGood ? 'var(--theme-success-500)' : 'var(--theme-error-500)'
-    return <span style={{ color, fontSize: '12px', marginLeft: '5px' }}>
+    const color = isGood ? '#059669' : '#dc2626'
+    return <span style={{ color, fontSize: '12px', marginLeft: '5px', fontWeight: 'bold' }}>
       {diff > 0 ? '↑' : '↓'} {Math.abs(Number(percent))}%
     </span>
   }
 
-  const statusColors: any = {
-    'INDEXED': 'var(--theme-success-500)',
-    'NOT_INDEXED': 'var(--theme-error-500)',
+  const statusColors: Record<string, string> = {
+    'INDEXED': '#059669',
+    'NOT_INDEXED': '#dc2626',
     'UNKNOWN': '#666'
   }
 
   return (
     <div style={{ marginTop: '20px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h3>Google Search Console Performance</h3>
-        <div style={{ 
-          padding: '5px 12px', 
-          borderRadius: '20px', 
-          fontSize: '12px', 
-          backgroundColor: 'var(--theme-bg)',
-          border: `1px solid ${statusColors[indexStatus] || '#ccc'}`,
-          color: statusColors[indexStatus]
-        }}>
-          ● Index Status: {indexStatus}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+        <h3 style={{ margin: 0 }}>Rendimiento en Búsqueda</h3>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {indexStatus === 'NOT_INDEXED' && (
+            <div style={{ 
+              padding: '6px 14px', 
+              borderRadius: '20px', 
+              fontSize: '12px', 
+              fontWeight: 'bold',
+              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              border: '1px solid #dc2626',
+              color: '#dc2626'
+            }}>
+              ⚠ Motivo: {data[0]?.indexingIssue || 'No indexada'}
+            </div>
+          )}
+          <div style={{ 
+            padding: '6px 14px', 
+            borderRadius: '20px', 
+            fontSize: '12px', 
+            fontWeight: 'bold',
+            backgroundColor: 'rgba(0,0,0,0.03)',
+            border: `1px solid ${statusColors[indexStatus] || '#ccc'}`,
+            color: statusColors[indexStatus]
+          }}>
+            ● Indexación: {indexStatus}
+          </div>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '20px' }}>
-        <div style={{ padding: '15px', border: '1px solid var(--theme-border-color)', borderRadius: '4px' }}>
-          <strong>Clicks</strong>
-          <div style={{ fontSize: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '30px' }}>
+        <div style={{ padding: '20px', border: '1px solid var(--theme-border-color)', borderRadius: '10px', backgroundColor: 'var(--theme-bg)' }}>
+          <span style={{ fontSize: '13px', color: '#666' }}>Clicks</span>
+          <div style={{ fontSize: '28px', fontWeight: 'bold', marginTop: '5px' }}>
             {currentStats.clicks}
             {renderTrend(currentStats.clicks, prevStats.clicks)}
           </div>
         </div>
-        <div style={{ padding: '15px', border: '1px solid var(--theme-border-color)', borderRadius: '4px' }}>
-          <strong>Impressions</strong>
-          <div style={{ fontSize: '24px' }}>
+        <div style={{ padding: '20px', border: '1px solid var(--theme-border-color)', borderRadius: '10px', backgroundColor: 'var(--theme-bg)' }}>
+          <span style={{ fontSize: '13px', color: '#666' }}>Impresiones</span>
+          <div style={{ fontSize: '28px', fontWeight: 'bold', marginTop: '5px' }}>
             {currentStats.imps}
             {renderTrend(currentStats.imps, prevStats.imps)}
           </div>
         </div>
-        <div style={{ padding: '15px', border: '1px solid var(--theme-border-color)', borderRadius: '4px' }}>
-          <strong>Avg. Position</strong>
-          <div style={{ fontSize: '24px' }}>
+        <div style={{ padding: '20px', border: '1px solid var(--theme-border-color)', borderRadius: '10px', backgroundColor: 'var(--theme-bg)' }}>
+          <span style={{ fontSize: '13px', color: '#666' }}>Posición Media</span>
+          <div style={{ fontSize: '28px', fontWeight: 'bold', marginTop: '5px' }}>
             {currentStats.pos.toFixed(1)}
             {renderTrend(currentStats.pos, prevStats.pos, true)}
           </div>
         </div>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ borderBottom: '2px solid #eee', textAlign: 'left' }}>
-            <th style={{ padding: '10px' }}>Date</th>
-            <th style={{ padding: '10px' }}>Top Queries</th>
-            <th style={{ padding: '10px' }}>Clicks</th>
-            <th style={{ padding: '10px' }}>Impressions</th>
-            <th style={{ padding: '10px' }}>Position</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.slice(0, 20).map((row, i) => (
-            <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-              <td style={{ padding: '10px' }}>{new Date(row.date).toLocaleDateString()}</td>
-              <td style={{ padding: '10px' }}>{row.query}</td>
-              <td style={{ padding: '10px' }}>{row.clicks}</td>
-              <td style={{ padding: '10px' }}>{row.impressions}</td>
-              <td style={{ padding: '10px' }}>{row.position.toFixed(1)}</td>
+      <div style={{ marginBottom: '40px' }}>
+        <h4 style={{ marginBottom: '15px' }}>Evolución</h4>
+        <GSCChart data={chartData} height={250} />
+      </div>
+
+      <h4 style={{ marginBottom: '15px' }}>Consultas Principales</h4>
+      <div style={{ backgroundColor: 'var(--theme-bg)', borderRadius: '8px', border: '1px solid var(--theme-border-color)', overflow: 'hidden' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr style={{ backgroundColor: 'rgba(0,0,0,0.02)', textAlign: 'left', borderBottom: '1px solid var(--theme-border-color)' }}>
+              <th style={{ padding: '12px 15px', fontSize: '13px' }}>Fecha</th>
+              <th style={{ padding: '12px 15px', fontSize: '13px' }}>Query</th>
+              <th style={{ padding: '12px 15px', fontSize: '13px', textAlign: 'right' }}>Clicks</th>
+              <th style={{ padding: '12px 15px', fontSize: '13px', textAlign: 'right' }}>Impresiones</th>
+              <th style={{ padding: '12px 15px', fontSize: '13px', textAlign: 'right' }}>Posición</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.slice(0, 20).map((row, i) => (
+              <tr key={i} style={{ borderBottom: '1px solid var(--theme-border-color)' }}>
+                <td style={{ padding: '10px 15px', fontSize: '12px', color: '#666' }}>{new Date(row.date).toLocaleDateString()}</td>
+                <td style={{ padding: '10px 15px', fontSize: '13px', fontWeight: 'medium' }}>{row.query}</td>
+                <td style={{ padding: '10px 15px', textAlign: 'right' }}>{row.clicks}</td>
+                <td style={{ padding: '10px 15px', textAlign: 'right' }}>{row.impressions}</td>
+                <td style={{ padding: '10px 15px', textAlign: 'right', fontWeight: 'bold', color: '#059669' }}>{row.position.toFixed(1)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
+

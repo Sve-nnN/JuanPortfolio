@@ -1,7 +1,7 @@
 ---
 title: 'Mejores Prácticas de TypeScript: Guía para un Código Limpio y Robusto'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -10,8 +10,10 @@ relatedPosts:
   - payloadcms-tutorial
   - nextjs-server-components
 sidebarBanners: []
-metaTitle: 'Guía de Buenas Prácticas en TypeScript para Desarrolladores Pro'
-metaDescription: 'Aprende a escribir mejor código con TypeScript. Cubrimos tipos complejos, genéricos y patrones de diseño profesional.'
+metaTitle: Guía de Buenas Prácticas en TypeScript para Desarrolladores Pro
+metaDescription: >-
+  Aprende a escribir mejor código con TypeScript. Cubrimos tipos complejos,
+  genéricos y patrones de diseño profesional.
 primary_keywords:
   - mejores prácticas de TypeScript
   - TypeScript avanzado patrones
@@ -24,6 +26,8 @@ semantic_keywords:
   - TypeScript en Next.js y Node.js
   - debugging de tipos complejos
 uploaded: false
+idioma: es
+slug: typescript-best-practices
 ---
 
 ## ¿Por qué el tipado estricto es indispensable?

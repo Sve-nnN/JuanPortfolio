@@ -81,6 +81,7 @@ export interface Config {
     'keyword-metrics': KeywordMetric;
     'page-metrics': PageMetric;
     'gsc-metrics': GscMetric;
+    'broken-links': BrokenLink;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -106,6 +107,7 @@ export interface Config {
     'keyword-metrics': KeywordMetricsSelect<false> | KeywordMetricsSelect<true>;
     'page-metrics': PageMetricsSelect<false> | PageMetricsSelect<true>;
     'gsc-metrics': GscMetricsSelect<false> | GscMetricsSelect<true>;
+    'broken-links': BrokenLinksSelect<false> | BrokenLinksSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -331,6 +333,8 @@ export interface Post {
       [k: string]: unknown;
     };
   };
+  primaryKeyword?: (string | null) | KeywordMetric;
+  semanticKeywords?: (string | KeywordMetric)[] | null;
   relatedPosts?: (string | Post)[] | null;
   categories?: (string | Category)[] | null;
   /**
@@ -346,6 +350,10 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
+  /**
+   * Número de enlaces internos detectados en el contenido.
+   */
+  internalLinksCount?: number | null;
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -451,6 +459,26 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "keyword-metrics".
+ */
+export interface KeywordMetric {
+  id: string;
+  keyword: string;
+  targetURL?: string | null;
+  volume: number;
+  difficulty: number;
+  intent?: ('Informational' | 'Commercial' | 'Transactional' | 'Navigational') | null;
+  source: string;
+  clicks?: number | null;
+  impressions?: number | null;
+  ctr?: number | null;
+  avgPosition?: number | null;
+  lastGSCUpdate?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1909,19 +1937,6 @@ export interface Testimonial {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "keyword-metrics".
- */
-export interface KeywordMetric {
-  id: string;
-  keyword: string;
-  volume: number;
-  difficulty: number;
-  source: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "page-metrics".
  */
 export interface PageMetric {
@@ -1976,7 +1991,28 @@ export interface GscMetric {
   country?: string | null;
   device?: string | null;
   indexStatus?: ('INDEXED' | 'NOT_INDEXED' | 'UNKNOWN') | null;
+  /**
+   * Razón técnica de GSC (ej. Rastreada pero no indexada)
+   */
+  indexingIssue?: string | null;
   lastInspected?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "broken-links".
+ */
+export interface BrokenLink {
+  id: string;
+  url: string;
+  statusCode?: number | null;
+  statusText?: string | null;
+  /**
+   * Página donde se encontró el enlace roto
+   */
+  sourcePage?: string | null;
+  lastChecked?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2426,6 +2462,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'gsc-metrics';
         value: string | GscMetric;
+      } | null)
+    | ({
+        relationTo: 'broken-links';
+        value: string | BrokenLink;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -3120,6 +3160,8 @@ export interface PostsSelect<T extends boolean = true> {
         heroImage?: T;
         content?: T;
       };
+  primaryKeyword?: T;
+  semanticKeywords?: T;
   relatedPosts?: T;
   categories?: T;
   sidebarBanners?: T;
@@ -3132,6 +3174,7 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  internalLinksCount?: T;
   slug?: T;
   meta?:
     | T
@@ -3484,9 +3527,16 @@ export interface TestimonialsSelect<T extends boolean = true> {
  */
 export interface KeywordMetricsSelect<T extends boolean = true> {
   keyword?: T;
+  targetURL?: T;
   volume?: T;
   difficulty?: T;
+  intent?: T;
   source?: T;
+  clicks?: T;
+  impressions?: T;
+  ctr?: T;
+  avgPosition?: T;
+  lastGSCUpdate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3542,7 +3592,21 @@ export interface GscMetricsSelect<T extends boolean = true> {
   country?: T;
   device?: T;
   indexStatus?: T;
+  indexingIssue?: T;
   lastInspected?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "broken-links_select".
+ */
+export interface BrokenLinksSelect<T extends boolean = true> {
+  url?: T;
+  statusCode?: T;
+  statusText?: T;
+  sourcePage?: T;
+  lastChecked?: T;
   updatedAt?: T;
   createdAt?: T;
 }

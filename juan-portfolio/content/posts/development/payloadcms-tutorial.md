@@ -1,7 +1,7 @@
 ---
 title: 'Payload CMS: Guía Completa para Construir Aplicaciones Modernas'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - payloadcms-vs-strapi
 sidebarBanners: []
 metaTitle: 'Tutorial de Payload CMS: Aprende a crear tu propio backend'
-metaDescription: 'Descubre Payload CMS, el gestor de contenidos code-first para Node.js. Aprende a configurar colecciones, globals y plugins.'
+metaDescription: >-
+  Descubre Payload CMS, el gestor de contenidos code-first para Node.js. Aprende
+  a configurar colecciones, globals y plugins.
 primary_keywords:
   - tutorial de Payload CMS
   - guía de Payload CMS
@@ -24,6 +26,8 @@ semantic_keywords:
   - Payload CMS vs otros CMS
   - desarrollo web con Payload CMS
 uploaded: false
+idioma: es
+slug: payloadcms-tutorial
 ---
 
 ## ¿Qué es Payload CMS?

@@ -1,7 +1,7 @@
 ---
 title: 'Optimización de Rendimiento Web: Guía para Mejorar la Velocidad'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - technical-seo-guide
 sidebarBanners: []
 metaTitle: 'Rendimiento Web: Técnicas y Estrategias de Optimización'
-metaDescription: 'Descubre qué es la optimización de rendimiento web y por qué es vital. Aprende estrategias de caching, optimización de imágenes y Core Web Vitals.'
+metaDescription: >-
+  Descubre qué es la optimización de rendimiento web y por qué es vital. Aprende
+  estrategias de caching, optimización de imágenes y Core Web Vitals.
 primary_keywords:
   - optimización de rendimiento web
   - mejorar velocidad de carga
@@ -24,6 +26,8 @@ semantic_keywords:
   - optimización de fuentes web
   - CDN y almacenamiento en caché
 uploaded: false
+idioma: es
+slug: web-performance-guide
 ---
 
 ## ¿Qué es la Optimización de Rendimiento Web?

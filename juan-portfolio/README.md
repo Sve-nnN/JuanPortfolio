@@ -67,20 +67,27 @@ This project is a modern web application designed to showcase a professional por
     The app will be available at `http://localhost:3000`.
     The Admin Panel is at `http://localhost:3000/admin`.
 
-## Content Migration System
+## Content Synchronization System (pSEO-ready)
 
-This project includes a sophisticated migration system designed to ingest valid Markdown files and transform them into structured Payload CMS documents. This utility is located at `src/scripts/importPosts.ts`.
+This project features a bidirectional synchronization engine designed to keep local Markdown files and Payload CMS documents in perfect sync. This utility is located at `src/scripts/syncContent.ts`.
+
+### Key Features
+- **Git-like Workflow**: Supports `status`, `push`, `pull`, and `fetch`.
+- **Bidirectional Conversion**: Automatically transforms Markdown to Lexical (CMS) and Lexical back to Markdown.
+- **Keyword Management**: Synchronize `keywords.md` directly to the CMS and track performance.
+- **Automatic Linking**: Markdown keywords are automatically resolved to Payload document IDs for deep SEO tracking.
+- **Internationalization**: Full support for locale-specific updates using the `idioma` and `slug` frontmatter fields.
 
 ### Command Line Interface
 
-The script is executed via `pnpm` and supports several arguments to control its behavior.
-
 | Command                               | Description                                                                         |
 | :------------------------------------ | :---------------------------------------------------------------------------------- |
-| `pnpm import:posts`                   | Start the interactive TUI to select and process Markdown files.                     |
-| `pnpm import:posts --file=example.md` | Import a single specific file by name, bypassing the TUI.                           |
-| `pnpm import:posts --optional`        | Relax validation for missing assets (e.g., skip missing images instead of failing). |
-| `pnpm import:posts --include-test`    | Include the `content/posts/test` directory in the scan (skipped by default).        |
+| `pnpm sync status`                    | Shows local vs remote change status.                                                |
+| `pnpm sync push`                      | Uploads local Markdown changes and links keywords to entries.                       |
+| `pnpm sync pull`                      | Downloads remote CMS changes to local Markdown files.                               |
+| `pnpm sync:keywords`                  | Synchronizes the `keywords.md` table with the KeywordMetrics collection.            |
+| `pnpm run sync:gsc`                   | Syncs Search Console data and aggregates it into the KeywordMetrics.                |
+| `pnpm sync push --force`              | Overwrites remote CMS content with local files regardless of conflicts.             |
 
 ---
 

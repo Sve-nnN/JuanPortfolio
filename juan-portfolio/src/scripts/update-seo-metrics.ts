@@ -10,8 +10,12 @@ import { SeoAdapter } from './seo/types'
 import { JSDOM } from 'jsdom'
 import enquirer from 'enquirer'
 
+interface MultiSelectPrompt {
+  run(): Promise<string[]>
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const { MultiSelect } = enquirer as any
+const MultiSelect = (enquirer as any).MultiSelect
 
 // --- Configuration ---
 const KEYWORDS_FILE_PATH = path.join(process.cwd(), 'content', 'keywords.md')
@@ -26,7 +30,6 @@ const colors = {
   yellow: '\x1b[33m',
   cyan: '\x1b[36m',
   red: '\x1b[31m',
-  magenta: '\x1b[35m',
 }
 
 // --- Interfaces ---
@@ -136,21 +139,21 @@ function parseLine(line: string): KeywordData | null {
   return {
     keyword: unescapeFromTable(parts[0] || ''),
     targetUrl: unescapeFromTable(parts[1] || ''),
-    volume: parseInt(parts[2]) || 0,
-    difficulty: parseInt(parts[3]) || 0,
+    volume: parseInt(parts[2], 10) || 0,
+    difficulty: parseInt(parts[3], 10) || 0,
     intent: unescapeFromTable(parts[4] || ''),
     status: unescapeFromTable(parts[5] || ''),
     lastUpdated: unescapeFromTable(parts[6] || ''),
     source: unescapeFromTable(parts[7] || ''),
     relatedSearches: parseArray(parts[8] || ''),
-    paaCount: parseInt(parts[9]) || 0,
+    paaCount: parseInt(parts[9], 10) || 0,
     topDomain: unescapeFromTable(parts[10] || ''),
     hasAiOverview: parts[11] === 'Yes',
     serpFeatures: parseArray(parts[12] || ''),
     competitorHeadings: unescapeFromTable(parts[13] || ''),
     competitorMeta: unescapeFromTable(parts[14] || ''),
-    avgWordCount: isNewFormat ? parseInt(parts[15]) || 0 : 0,
-    opportunityScore: parseInt(isNewFormat ? parts[16] : parts[15]) || 0,
+    avgWordCount: isNewFormat ? parseInt(parts[15], 10) || 0 : 0,
+    opportunityScore: parseInt(isNewFormat ? parts[16] : parts[15], 10) || 0,
     recommendedFormat: unescapeFromTable(isNewFormat ? parts[17] : parts[16] || ''),
     clusterType: unescapeFromTable(isNewFormat ? parts[18] : parts[17] || ''),
     suggestedAnchorText: unescapeFromTable(isNewFormat ? parts[19] : parts[18] || ''),
@@ -219,11 +222,11 @@ async function crawlCompetitorContent(
       const doc = dom.window.document
 
       // Remove script and style tags and common boilerplate
-      doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe').forEach((el: any) => el.remove())
+      doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe').forEach((el) => el.remove())
 
       const headings = Array.from(doc.querySelectorAll('h2, h3'))
         .map((h) => {
-          const element = h as unknown as Element
+          const element = h as Element
           return `${element.tagName.toUpperCase()}: ${element.textContent?.trim()}`
         })
         .filter((t) => t.length > 10)
@@ -335,7 +338,7 @@ async function main() {
           message: `${k.data.keyword} ${colors.dim}(Last updated: ${k.data.lastUpdated || 'Never'})${colors.reset}`,
           value: k.data.keyword,
         })),
-      })
+      }) as MultiSelectPrompt
 
       const selectedNames = await prompt.run()
       selectedToUpdate = allKeywords.filter((k) => selectedNames.includes(k.data.keyword))
@@ -407,7 +410,6 @@ async function main() {
         }
 
         // 2. Cluster Type Logic (Source of Truth: Hub & Spoke)
-        // Pillars: Broad topics, high volume, medium/high difficulty
         if (data.volume > 1000000 && data.difficulty > 20) {
           data.clusterType = 'Pillar'
         } else {
@@ -423,10 +425,10 @@ async function main() {
           data.recommendedFormat = 'Landing Page'
         }
 
-        // 4. Opportunity Logic (Be more aggressive with low difficulty)
+        // 4. Opportunity Logic
         let score = 0
         if (data.difficulty < 15) {
-          score = data.volume > 100 ? 98 : 80 // High score for long-tail
+          score = data.volume > 100 ? 98 : 80
         } else if (data.difficulty < 35) {
           score = data.volume > 5000 ? 90 : 70
         } else {
@@ -434,7 +436,7 @@ async function main() {
         }
         data.opportunityScore = score
 
-        // 5. Suggested Anchor Text (Source of Truth formulas)
+        // 5. Suggested Anchor Text
         const currentYear = new Date().getFullYear()
         const formula1 = `${currentYear} ${data.recommendedFormat} on ${data.keyword}`
         const formula2 = data.keyword
@@ -447,7 +449,6 @@ async function main() {
           console.log(`    Analyzing top ${metrics.topUrls.length} competitors...`)
           const crawlerResults = await crawlCompetitorContent(metrics.topUrls)
 
-          // Add PAA questions to heading suggestions
           let headings = crawlerResults.headings
           if (data.paaQuestions?.length) {
             const paaHeading = `[PAA] ${data.paaQuestions.slice(0, 5).join(' - ')}`
@@ -519,7 +520,6 @@ async function main() {
     `${colors.green}${colors.bright}✨ Finished! File updated at ${KEYWORDS_FILE_PATH}${colors.reset}\n`,
   )
 
-  // Ensure the process exits cleanly (Payload connections can keep it alive)
   process.exit(0)
 }
 

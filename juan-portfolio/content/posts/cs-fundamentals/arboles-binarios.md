@@ -1,7 +1,7 @@
 ---
 title: 'Árboles Binarios: Estructuras de Datos, Tipos y Recorridos'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - algoritmos-ordenamiento
 sidebarBanners: []
 metaTitle: 'Árboles Binarios: Guía de Ingeniería y Algoritmos BST'
-metaDescription: 'Domina los árboles binarios y BST. Aprende sobre recorridos DFS/BFS, balanceo de árboles (AVL) y aplicaciones en bases de datos modernas.'
+metaDescription: >-
+  Domina los árboles binarios y BST. Aprende sobre recorridos DFS/BFS, balanceo
+  de árboles (AVL) y aplicaciones en bases de datos modernas.
 primary_keywords:
   - árboles binarios
   - árbol binario de búsqueda
@@ -21,9 +23,11 @@ semantic_keywords:
   - BST algoritmos
   - profundidad y altura de un árbol
   - recorrido inorden preorder postorden
-  - árboles balanceados (AVL, Red-Black)
+  - 'árboles balanceados (AVL, Red-Black)'
   - aplicaciones de árboles en informática
 uploaded: false
+idioma: es
+slug: arboles-binarios
 ---
 
 Mientras que los arrays y las listas son estructuras lineales, los **árboles binarios** introducen la jerarquía. Son fundamentales para representar datos con relaciones de "padre e hijo" y son el motor detrás de los sistemas de archivos y los índices de las bases de datos modernas.

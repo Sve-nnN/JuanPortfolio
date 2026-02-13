@@ -1,7 +1,7 @@
 ---
 title: 'Algoritmos de Ordenamiento: Comparativa y Análisis de Eficiencia'
-publishedAt: 2026-02-11
-updatedAt: 2026-02-11
+publishedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-11T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -11,7 +11,9 @@ relatedPosts:
   - big-o-notation
 sidebarBanners: []
 metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ingeniería'
-metaDescription: 'Aprende Bubble, Quick y Merge Sort. Comparativa de eficiencia (Big O), estabilidad y casos de uso en el desarrollo real de software.'
+metaDescription: >-
+  Aprende Bubble, Quick y Merge Sort. Comparativa de eficiencia (Big O),
+  estabilidad y casos de uso en el desarrollo real de software.
 primary_keywords:
   - algoritmos de ordenamiento
   - ordenar arreglos programación
@@ -24,6 +26,8 @@ semantic_keywords:
   - complejidad temporal Big O
   - ordenamiento en memoria vs externo
 uploaded: false
+idioma: es
+slug: algoritmos-ordenamiento
 ---
 
 El ordenamiento no es solo poner números en orden ascendente; es una de las tareas más críticas en la ingeniería de software. Un sistema de búsqueda, una base de datos o un feed de redes sociales dependen de algoritmos de ordenamiento optimizados para procesar millones de registros en milisegundos.

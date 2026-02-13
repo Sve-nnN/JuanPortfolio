@@ -8,9 +8,10 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-export const HighImpactHero: React.FC<Page['hero']> = (props) => {
+export const HighImpactHero: React.FC<Page['hero'] & { locale?: 'en' | 'es' }> = (props) => {
   const { setHeaderTheme } = useHeaderTheme()
   const { links, media, richText } = props.hero
+  const locale = props.locale
 
   useEffect(() => {
     setHeaderTheme('dark')
@@ -47,7 +48,7 @@ export const HighImpactHero: React.FC<Page['hero']> = (props) => {
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
-                    <CMSLink {...link} className="btn-primary text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" />
+                    <CMSLink {...link} locale={locale} className="btn-primary text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" />
                   </li>
                 )
               })}

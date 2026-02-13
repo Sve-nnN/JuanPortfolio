@@ -39,13 +39,12 @@ const AdminBar = dynamic(() => import('@/components/AdminBar').then((m) => m.Adm
 
 /**
  * Local font configuration for the 'Array' font family.
- * @type {object}
  */
 const ArrayFont = localFont({
   src: [
-    { path: '../../fonts/array/Array-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../../fonts/array/Array-Semibold.woff2', weight: '600', style: 'normal' },
-    { path: '../../fonts/array/Array-Bold.woff2', weight: '700', style: 'normal' },
+    { path: './../../fonts/array/Array-Regular.woff2', weight: '400', style: 'normal' },
+    { path: './../../fonts/array/Array-Semibold.woff2', weight: '600', style: 'normal' },
+    { path: './../../fonts/array/Array-Bold.woff2', weight: '700', style: 'normal' },
   ],
   variable: '--font-array',
   display: 'swap',
@@ -53,13 +52,12 @@ const ArrayFont = localFont({
 
 /**
  * Local font configuration for the 'Khand' font family.
- * @type {object}
  */
 const Khand = localFont({
   src: [
-    { path: '../../fonts/khand/Khand-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../../fonts/khand/Khand-Medium.woff2', weight: '500', style: 'normal' },
-    { path: '../../fonts/khand/Khand-Bold.woff2', weight: '700', style: 'normal' },
+    { path: './../../fonts/khand/Khand-Regular.woff2', weight: '400', style: 'normal' },
+    { path: './../../fonts/khand/Khand-Medium.woff2', weight: '500', style: 'normal' },
+    { path: './../../fonts/khand/Khand-Bold.woff2', weight: '700', style: 'normal' },
   ],
   variable: '--font-khand',
   display: 'swap',
@@ -67,23 +65,21 @@ const Khand = localFont({
 
 /**
  * The root layout component for the frontend.
- * @param {object} props - The component props.
- * @param {React.ReactNode} props.children - The children to render.
- * @returns {Promise<React.ReactElement>} The root layout component.
  */
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+  params: _paramsPromise,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale?: string }>
+}) {
   const { isEnabled } = await draftMode()
-
-  // Detect locale from Accept-Language header
   const hdrs = await headers()
-  const acceptLanguage = hdrs.get('accept-language') || undefined
-  const rawLocale = acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : undefined
-  const initialLocale: Locale = (
-    rawLocale && ['en', 'es'].includes(rawLocale) ? rawLocale : 'es'
-  ) as Locale
+  const pathname = hdrs.get('x-pathname') || '/'
+  const locale = (pathname.startsWith('/en') ? 'en' : 'es') as Locale
 
   const payload = await getPayload({ config: configPromise })
-  const siteSettings = await payload.findGlobal({ slug: 'site-settings' }).catch(() => null)
+  const siteSettings = await payload.findGlobal({ slug: 'site-settings', locale }).catch(() => null)
 
   const baseUrl = getServerSideURL()
 
@@ -128,7 +124,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         GeistMono.variable,
         'dark',
       )}
-      lang="en"
+      lang={locale}
       suppressHydrationWarning
     >
       <head>
@@ -143,16 +139,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="dark">
         <Providers>
           <ThemeProvider>
-            <LocaleProvider initialLocale={initialLocale}>
+            <LocaleProvider initialLocale={locale}>
               <AdminBar
                 adminBarProps={{
                   preview: isEnabled,
                 }}
               />
 
-              <Header />
+              <Header locale={locale} />
               {children}
-              <Footer />
+              <Footer locale={locale} />
             </LocaleProvider>
           </ThemeProvider>
         </Providers>
@@ -165,14 +161,34 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 /**
- * The metadata for the root layout.
- * @type {Metadata}
+ * Generates metadata for the root layout.
  */
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
-  },
+export async function generateMetadata({
+  params: paramsPromise,
+}: {
+  params: Promise<{ locale?: string }>
+}): Promise<Metadata> {
+  const { locale: rawLocale } = await paramsPromise
+  const locale = (rawLocale && ['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as Locale
+
+  const baseUrl = getServerSideURL().replace(/\/$/, '')
+
+  return {
+    metadataBase: new URL(baseUrl),
+    openGraph: mergeOpenGraph({
+      locale: locale === 'es' ? 'es_ES' : 'en_US',
+    }),
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@jcangulo',
+    },
+    alternates: {
+      canonical: locale === 'es' ? `${baseUrl}/` : `${baseUrl}/en`,
+      languages: {
+        'es': `${baseUrl}/`,
+        'en': `${baseUrl}/en`,
+        'x-default': `${baseUrl}/`,
+      },
+    },
+  }
 }

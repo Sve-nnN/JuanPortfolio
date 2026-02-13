@@ -158,6 +158,31 @@ pnpm run fix:links
 
 ---
 
+## Internationalization (i18n)
+
+The platform supports a dual-language architecture (Spanish and English) integrated at both the CMS and Frontend layers.
+
+### Language Routing
+
+- **Root (/)**: Serves content in Spanish.
+- **Prefix (/en)**: Serves content in English.
+- **Automatic Detection**: The system uses a custom middleware to handle internal rewrites and locale detection via headers.
+
+### Content Localization
+
+To localize a new field in a Payload collection:
+1.  Set `localized: true` in the field configuration.
+2.  **Constraint**: Never localize `slug` fields or block-level layout arrays. Only localize text, textarea, and richText fields.
+3.  The frontend will automatically receive the correct language version based on the current URL prefix.
+
+### Key Components
+
+- **LocaleProvider**: Synchronizes the active language across client-side components.
+- **Language Toggle**: Located in the Header, allows instant switching between ES and EN while maintaining the current page context.
+- **CMSLink**: A wrapper around Next.js Link that handles localized path resolution automatically.
+
+---
+
 ## Documentation
 
 - [Payload CMS Documentation](https://payloadcms.com/docs)

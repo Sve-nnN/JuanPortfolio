@@ -1,7 +1,7 @@
 import type { Category } from '@/payload-types'
 
 /**
- * Genera la URL completa de un post en el formato https://juan-tech.com/blog/{category}/{slug}
+ * Genera la URL relativa de un post en el formato /blog/{category}/{slug}
  */
 export function getPostUrl(post: {
   slug?: string | null
@@ -11,9 +11,7 @@ export function getPostUrl(post: {
   meta_extras?: {
     categories?: Array<string | Category> | null
   }
-}): string {
-  // const slug = post.slug || post.id || '' // Removing unused variable
-
+}, locale: 'en' | 'es' = 'es'): string {
   // Obtener la primera categoría (priorizando root categories)
   const categories = post.categories || post.meta_extras?.categories
   let categorySlug = 'general' // Categoría por defecto
@@ -29,13 +27,15 @@ export function getPostUrl(post: {
 
   // Ensure slug is not undefined
   const finalSlug = post.slug || post.id || 'untitled'
+  const prefix = locale === 'es' ? '' : '/en'
 
-  return `https://juan-tech.com/blog/${categorySlug}/${finalSlug}`
+  return `${prefix}/blog/${categorySlug}/${finalSlug}`
 }
 
 /**
- * Genera la URL de una categoría
+ * Genera la URL relativa de una categoría
  */
-export function getCategoryUrl(category: { slug?: string | null; id?: string }): string {
-  return `https://juan-tech.com/blog/${category.slug || category.id || 'general'}`
+export function getCategoryUrl(category: { slug?: string | null; id?: string }, locale: 'en' | 'es' = 'es'): string {
+  const prefix = locale === 'es' ? '' : '/en'
+  return `${prefix}/blog/${category.slug || category.id || 'general'}`
 }

@@ -11,8 +11,8 @@ import { Github, Linkedin, Twitter, Instagram, Facebook, Youtube, ArrowUpRight }
 import { getPostUrl } from '@/utilities/getPostUrl'
 import { Media as MediaComponent } from '@/components/Media'
 
-export async function Footer() {
-  const footer = await getCachedGlobal('footer', 1)() as FooterType
+export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
+  const footer = (await getCachedGlobal('footer', 1, locale)()) as FooterType
   const payload = await getPayload({ config })
 
   const {
@@ -25,6 +25,8 @@ export async function Footer() {
     copyright,
   } = footer || {}
 
+  const localePrefix = locale === 'es' ? '' : '/en'
+
   // Fetch latest blog posts if enabled
   let latestPostsDocs: Post[] = []
   if (latestPostsConfig?.show) {
@@ -32,7 +34,7 @@ export async function Footer() {
       collection: 'posts',
       limit: latestPostsConfig.limit || 4,
       depth: 1,
-      // Debugging: removed status filter to see if posts exist at all
+      locale,
       // where: {
       //   _status: {
       //     equals: 'published',
@@ -50,7 +52,7 @@ export async function Footer() {
       collection: 'case-studies',
       limit: caseStudiesConfig.limit || 4,
       depth: 0,
-      // Debugging: removed status filter
+      locale,
       // where: {
       //   _status: {
       //     equals: 'published',
@@ -78,9 +80,9 @@ export async function Footer() {
           {/* Brand Column - Takes 3 cols on large screens */}
           <div className="lg:col-span-3 space-y-6">
             <Link
-              href="/"
+              href={localePrefix || '/'}
               className="inline-block text-3xl font-bold font-array text-white hover:text-blue-400 transition-colors"
-              aria-label="Ir al inicio"
+              aria-label={locale === 'es' ? 'Ir al inicio' : 'Go to home'}
             >
               {brand?.logoImage && typeof brand.logoImage !== 'string' ? (
                 <div className="relative w-32 h-12">
@@ -92,7 +94,9 @@ export async function Footer() {
             </Link>
             <p className="text-sm leading-relaxed text-slate-300 max-w-xs">
               {brand?.description ||
-                'Desarrollador Web & Especialista SEO. Creando experiencias digitales rápidas, accesibles y de alto impacto.'}
+                (locale === 'es' 
+                  ? 'Desarrollador Web & Especialista SEO. Creando experiencias digitales rápidas, accesibles y de alto impacto.'
+                  : 'Web Developer & SEO Specialist. Creating fast, accessible, and high-impact digital experiences.')}
             </p>
             {socialLinks && socialLinks.length > 0 && (
               <div className="flex gap-3">
@@ -105,7 +109,7 @@ export async function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 dark:bg-slate-900 text-slate-300 hover:text-blue-400 hover:bg-slate-700 dark:hover:bg-slate-800 transition-all hover:scale-110 transform duration-200 border border-slate-700 dark:border-slate-800"
-                      aria-label={`Visitar ${item.platform || 'red social'}`}
+                      aria-label={`${locale === 'es' ? 'Visitar' : 'Visit'} ${item.platform || 'red social'}`}
                     >
                       {Icon && <Icon size={18} />}
                     </a>
@@ -118,7 +122,7 @@ export async function Footer() {
           {/* Main Navigation - Takes 2 cols */}
           <div className="lg:col-span-2 space-y-4">
             <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-              {mainNav?.title || 'Navegación'}
+              {mainNav?.title || (locale === 'es' ? 'Navegación' : 'Navigation')}
               <span className="inline-block w-8 h-px bg-blue-500"></span>
             </h3>
             {mainNav?.navItems && mainNav.navItems.length > 0 ? (
@@ -136,7 +140,9 @@ export async function Footer() {
             ) : (
               // Fallback if no navItems configured yet
               <ul className="space-y-2.5">
-                <li className="text-slate-500 italic text-sm">No navigation configured</li>
+                <li className="text-slate-500 italic text-sm">
+                  {locale === 'es' ? 'Sin navegación configurada' : 'No navigation configured'}
+                </li>
               </ul>
             )}
           </div>
@@ -145,7 +151,7 @@ export async function Footer() {
           {latestPostsConfig?.show && (
             <div className="lg:col-span-3 space-y-4">
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-                {latestPostsConfig.title || 'Últimos Posts'}
+                {latestPostsConfig.title || (locale === 'es' ? 'Últimos Posts' : 'Latest Posts')}
                 <span className="inline-block w-8 h-px bg-blue-500"></span>
               </h3>
               {latestPostsDocs.length > 0 ? (
@@ -153,7 +159,7 @@ export async function Footer() {
                   {latestPostsDocs.map((post) => (
                     <li key={post.id}>
                       <Link
-                        href={getPostUrl(post)}
+                        href={`${localePrefix}${getPostUrl(post)}`}
                         className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
                       >
                         <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -165,12 +171,14 @@ export async function Footer() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-slate-400">No hay posts disponibles</p>
+                <p className="text-sm text-slate-400">
+                  {locale === 'es' ? 'No hay posts disponibles' : 'No posts available'}
+                </p>
               )}
               {latestPostsConfig.viewAllLink && (
                 <CMSLink
                   {...latestPostsConfig.viewAllLink}
-                  label={latestPostsConfig.viewAllText || 'Ver todos los posts'}
+                  label={latestPostsConfig.viewAllText || (locale === 'es' ? 'Ver todos los posts' : 'View all posts')}
                   className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all mt-2"
                 >
                   <ArrowUpRight className="w-4 h-4" />
@@ -183,7 +191,7 @@ export async function Footer() {
           {caseStudiesConfig?.show && (
             <div className="lg:col-span-2 space-y-4">
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
-                {caseStudiesConfig.title || 'Casos'}
+                {caseStudiesConfig.title || (locale === 'es' ? 'Casos' : 'Cases')}
                 <span className="inline-block w-8 h-px bg-blue-500"></span>
               </h3>
               {latestCaseStudiesDocs.length > 0 ? (
@@ -191,7 +199,7 @@ export async function Footer() {
                   {latestCaseStudiesDocs.map((caseStudy) => (
                     <li key={caseStudy.id}>
                       <Link
-                        href={`/case-studies/${caseStudy.slug}`}
+                        href={`${localePrefix}/case-studies/${caseStudy.slug}`}
                         className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
                       >
                         <ArrowUpRight className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -203,12 +211,14 @@ export async function Footer() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-slate-400">No hay casos disponibles</p>
+                <p className="text-sm text-slate-400">
+                  {locale === 'es' ? 'No hay casos disponibles' : 'No cases available'}
+                </p>
               )}
               {caseStudiesConfig.viewAllLink && (
                 <CMSLink
                   {...caseStudiesConfig.viewAllLink}
-                  label={caseStudiesConfig.viewAllText || 'Ver todos'}
+                  label={caseStudiesConfig.viewAllText || (locale === 'es' ? 'Ver todos' : 'View all')}
                   className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all mt-2"
                 >
                   <ArrowUpRight className="w-4 h-4" />
@@ -224,7 +234,7 @@ export async function Footer() {
         <div className="mt-16 pt-8 border-t border-slate-800 dark:border-slate-900">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
             <p className="text-slate-400">
-              {copyright || '© 2024 Juan Carlos Angulo. Todos los derechos reservados.'}
+              {copyright || (locale === 'es' ? '© 2024 Juan Carlos Angulo. Todos los derechos reservados.' : '© 2024 Juan Carlos Angulo. All rights reserved.')}
             </p>
             <div className="flex flex-wrap justify-center gap-6 md:gap-8">
               {bottomNav && bottomNav.length > 0 ? (
@@ -238,19 +248,19 @@ export async function Footer() {
               ) : (
                 <>
                   <Link
-                    href="/privacy"
+                    href={`${localePrefix}/privacy`}
                     className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
                   >
-                    Privacidad
+                    {locale === 'es' ? 'Privacidad' : 'Privacy'}
                   </Link>
                   <Link
-                    href="/terms"
+                    href={`${localePrefix}/terms`}
                     className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
                   >
-                    Términos
+                    {locale === 'es' ? 'Términos' : 'Terms'}
                   </Link>
                   <Link
-                    href="/sitemap"
+                    href={`${localePrefix}/sitemap`}
                     className="text-slate-400 hover:text-slate-200 transition-colors hover:underline underline-offset-4"
                   >
                     Sitemap

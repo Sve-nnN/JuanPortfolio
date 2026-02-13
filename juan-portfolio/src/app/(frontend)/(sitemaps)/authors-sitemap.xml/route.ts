@@ -30,16 +30,20 @@ const getAuthorsSitemap = unstable_cache(
         },
       })
 
+      const locales = ['en', 'es']
       const dateFallback = new Date().toISOString()
 
       const sitemap = results.docs
         ? results.docs
             .filter((user) => Boolean(user?.slug))
-            .map((user) => {
-              return {
-                loc: `${SITE_URL}/authors/${user?.slug}`,
-                lastmod: user.updatedAt || dateFallback,
-              }
+            .flatMap((user) => {
+              return locales.map(locale => {
+                const prefix = locale === 'es' ? '' : `/${locale}`
+                return {
+                  loc: `${SITE_URL}${prefix}/authors/${user?.slug}`,
+                  lastmod: user.updatedAt || dateFallback,
+                }
+              })
             })
         : []
 

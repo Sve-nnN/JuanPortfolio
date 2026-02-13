@@ -26,6 +26,28 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
   - `seo/sync-gsc.ts`: Script to synchronize organic traffic data.
 - `content/`: Directory containing Markdown source files and the SEO keyword tracker (`keywords.md`).
 
+## Internationalization (i18n)
+
+The project implements a full internationalization system with Spanish (`es`) as the default language and English (`en`) as the secondary language.
+
+### Routing Strategy
+
+- **Spanish (Default)**: Served at the root path (`/`).
+- **English**: Served at the `/en/` prefix.
+- **Middleware**: Uses `NextResponse.rewrite` to internally map prefix-less URLs to the `es` locale while keeping the browser URL clean. It injects an `x-pathname` header to allow Server Components to accurately detect the current path and locale.
+
+### Technical Implementation
+
+- **Stability Rule**: Slugs and block-level layout fields must remain non-localized (`localized: false`). Localizing structural fields causes database format mismatches and routing failures.
+- **Field Localization**: Only leaf-level text fields (titles, bios, richText, descriptions) are localized within blocks and collections.
+- **Context Management**: The `LocaleProvider` uses the URL as the absolute source of truth. The `Header` and `Footer` components receive the locale directly from the server via props to ensure immediate synchronization.
+- **Navigation**: The `CMSLink` component and `getPostUrl` utility automatically handle locale prefixes and mapping for all collections (Posts, Pages, Categories, Case Studies).
+
+### SEO & Metadata
+
+- **Hreflang support**: The root layout automatically generates `alternate` links for all localized versions of a page.
+- **Locale-aware formatting**: Utilities like `formatDateTime` use native JavaScript Internationalization APIs to format data based on the active locale.
+
 ## Building and Running
 
 ### Commands

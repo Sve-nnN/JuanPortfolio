@@ -1,6 +1,5 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Redirect } from '@/payload-types'
 import { getPostUrl } from '@/utilities/getPostUrl'
 
 async function cleanupRedirectLoops() {

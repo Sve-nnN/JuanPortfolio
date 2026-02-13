@@ -8,19 +8,20 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { JsonLd } from '@/components/JsonLd'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { draftMode, headers } from 'next/headers'
+import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
-import HomePage from '@/app/(frontend)/home/HomePage'
+import HomePage from '../home/HomePage'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import type { Home } from '@/payload-types'
 
 /**
- * Generates static parameters for all pages.
- * @returns {Promise<Array<{ slug: string }>>} A promise that resolves to an array of page slugs.
+ * Generates static parameters for all pages across all locales.
+ * @returns {Promise<Array<{ slug: string, locale: string }>>} A promise that resolves to an array of parameters.
  */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -35,24 +36,32 @@ export async function generateStaticParams() {
     },
   })
 
+  const locales = ['en', 'es']
+
   const params = pages.docs
     ?.filter((doc) => {
       return doc.slug !== 'home'
     })
-    .map(({ slug }) => {
-      return { slug }
+    .flatMap(({ slug }) => {
+      return locales.map((locale) => ({ slug, locale }))
     })
+
+  // Add home for both locales
+  locales.forEach(locale => {
+    params.push({ slug: 'home', locale })
+  })
 
   return params
 }
 
 /**
  * @typedef {object} Args
- * @property {Promise<{ slug?: string }>} params - The page parameters.
+ * @property {Promise<{ slug?: string, locale: string }>} params - The page parameters.
  */
 type Args = {
   params: Promise<{
     slug?: string
+    locale: string
   }>
 }
 
@@ -63,24 +72,19 @@ type Args = {
  */
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = await paramsPromise
-  const url = '/' + slug
-
-  // detect locale from Accept-Language header
-  const hdrs = await headers()
-  const acceptLanguage = hdrs.get('accept-language') || undefined
-  const rawLocale = acceptLanguage ? acceptLanguage.split(',')[0].split('-')[0] : undefined
-  const locale =
-    rawLocale && ['en', 'es'].includes(rawLocale) ? (rawLocale as 'en' | 'es') : undefined
+  const { slug = 'home', locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const url = (locale === 'es' ? '' : '/' + locale) + '/' + slug
 
   // If this is the home slug, use the global 'home' instead of pages collection
   if (slug === 'home') {
     const payload = await getPayload({ config: configPromise })
-    const homeGlobal = await payload.findGlobal({
+    const homeGlobal = (await payload.findGlobal({
       slug: 'home',
+      depth: 2,
       draft,
       locale,
-    })
+    })) as Home
 
     return (
       <article className="pb-24">
@@ -88,7 +92,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
         {/* HomePage will render content from the home global */}
-        <HomePage homeGlobal={homeGlobal} />
+        <HomePage homeGlobal={homeGlobal} locale={locale} />
       </article>
     )
   }
@@ -104,7 +108,13 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, content } = page
-  const layout = content?.layout || []
+  let layout = content?.layout || []
+
+  // Handle case where layout might be an object due to previous localization setting
+  if (layout && !Array.isArray(layout) && typeof layout === 'object') {
+    // @ts-expect-error - Handling legacy localized layout
+    layout = layout[locale] || layout.es || []
+  }
 
   // Calculate JSON-LD
   // @ts-expect-error - URLSearchParams type mismatch in Next.js types
@@ -143,8 +153,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      <RenderHero {...hero} locale={locale} />
+      <RenderBlocks blocks={layout} locale={locale} />
     </article>
   )
 }
@@ -155,13 +165,8 @@ export default async function Page({ params: paramsPromise }: Args) {
  * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
  */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'home' } = await paramsPromise
-  // detect locale from headers (loose cast)
-  const hdrs2 = await headers()
-  const acceptLanguage2 = hdrs2.get('accept-language') || undefined
-  const rawLocale2 = acceptLanguage2 ? acceptLanguage2.split(',')[0].split('-')[0] : undefined
-  const locale =
-    rawLocale2 && ['en', 'es'].includes(rawLocale2) ? (rawLocale2 as 'en' | 'es') : undefined
+  const { slug = 'home', locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
 
   const payload = await getPayload({ config: configPromise })
   if (slug === 'home') {
@@ -212,6 +217,7 @@ const queryPageBySlug = cache(
       collection: 'pages',
       draft,
       limit: 1,
+      depth: 2,
       pagination: false,
       overrideAccess: draft,
       locale: locale || undefined,

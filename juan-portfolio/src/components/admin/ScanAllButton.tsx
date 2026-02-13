@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export const ScanAllButton: React.FC = () => {
-  const router = useRouter()
+  const _router = useRouter()
   const [scanning, setScanning] = useState(false)
   const [message, setMessage] = useState('')
 

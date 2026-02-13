@@ -22,12 +22,11 @@ import TOCClient from '@/components/TableOfContents/client'
 import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { JsonLd } from '@/components/JsonLd'
-import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 // import { headers } from 'next/headers'
 
 /**
- * Generates static parameters for all case studies.
- * @returns {Promise<Array<{ slug: string }>>} A promise that resolves to an array of case study slugs.
+ * Generates static parameters for all case studies across all locales.
+ * @returns {Promise<Array<{ slug: string, locale: string }>>} A promise that resolves to an array of parameters.
  */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -42,21 +41,28 @@ export async function generateStaticParams() {
     },
   })
 
+  const locales = ['en', 'es']
+
   // Only emit params that have a string slug
   const params = posts.docs
-    .map(({ slug }) => (typeof slug === 'string' && slug ? { slug } : null))
-    .filter(Boolean)
+    .flatMap(({ slug }) => {
+      if (typeof slug === 'string' && slug) {
+        return locales.map((locale) => ({ slug, locale }))
+      }
+      return []
+    })
 
-  return params as { slug: string }[]
+  return params
 }
 
 /**
  * @typedef {object} Args
- * @property {Promise<{ slug?: string }>} params - The page parameters.
+ * @property {Promise<{ slug?: string, locale: string }>} params - The page parameters.
  */
 type Args = {
   params: Promise<{
     slug?: string
+    locale: string
   }>
 }
 
@@ -67,9 +73,10 @@ type Args = {
  */
 export default async function CaseStudy({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = '' } = await paramsPromise
-  const url = '/case-studies/' + slug
-  const post = await queryCaseBySlug({ slug })
+  const { slug = '', locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const url = (locale === 'es' ? '' : '/' + locale) + '/case-studies/' + slug
+  const post = await queryCaseBySlug({ slug, locale })
 
   // If post not found, redirect/handle before accessing fields
   if (!post) return <PayloadRedirects url={url} />
@@ -126,16 +133,16 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
         {/* @ts-expect-error Async Server Component */}
         {(await import('@/components/Breadcrumbs')).default({
           items: [
-            { label: 'Inicio', href: '/' },
-            { label: 'Casos de Estudio', href: '/case-studies' },
+            { label: locale === 'es' ? 'Inicio' : 'Home', href: locale === 'es' ? '/' : '/en' },
+            { label: locale === 'es' ? 'Casos de Estudio' : 'Case Studies', href: locale === 'es' ? '/case-studies' : '/en/case-studies' },
             { label: post.title || 'Case Study' },
           ],
         })}
       </div>
 
-      <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} />
+      <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} locale={locale} />
 
-      <AnimateOnScroll className="flex flex-col items-center gap-4 pt-8">
+      <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-[18rem_minmax(0,75ch)] gap-8 items-start">
             {/* LEFT: TOC sticky on desktop */}
@@ -177,9 +184,9 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
                   }
                   return (
                     <div className="text-muted text-center py-12">
-                      <p>Este artículo aún no tiene contenido.</p>
+                      <p>{locale === 'es' ? 'Este artículo aún no tiene contenido.' : 'This article has no content yet.'}</p>
                       <p className="text-sm mt-2">
-                        Agrega contenido desde el panel de administración.
+                        {locale === 'es' ? 'Agrega contenido desde el panel de administración.' : 'Add content from the admin panel.'}
                       </p>
                     </div>
                   )
@@ -190,7 +197,7 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
             </div>
           </div>
         </div>
-      </AnimateOnScroll>
+      </div>
     </article>
   )
 }
@@ -201,19 +208,21 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
  * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
  */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise
-  const post = await queryCaseBySlug({ slug })
+  const { slug = '', locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const post = await queryCaseBySlug({ slug, locale })
 
-  return generateMeta({ doc: post })
+  return generateMeta({ doc: post, locale, path: `/case-studies/${slug}` })
 }
 
 /**
  * Queries a case study by its slug.
  * @param {object} args - The arguments.
  * @param {string} args.slug - The case study slug.
+ * @param {'en' | 'es'} args.locale - The locale.
  * @returns {Promise<any>} A promise that resolves to the case study data.
  */
-const queryCaseBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryCaseBySlug = cache(async ({ slug, locale }: { slug: string, locale?: 'en' | 'es' }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
@@ -225,6 +234,7 @@ const queryCaseBySlug = cache(async ({ slug }: { slug: string }) => {
     limit: 1,
     overrideAccess: draft,
     pagination: false,
+    locale,
     where: {
       slug: {
         equals: slug,
@@ -238,7 +248,7 @@ const queryCaseBySlug = cache(async ({ slug }: { slug: string }) => {
   const looksLikeId = typeof slug === 'string' && /^[0-9a-fA-F]{24}$/.test(slug)
   if (!doc && looksLikeId) {
     try {
-      const byId = await payload.findByID({ id: slug, collection: 'case-studies', depth: 0 })
+      const byId = await payload.findByID({ id: slug, collection: 'case-studies', depth: 0, locale })
       if (byId) doc = byId as unknown as import('@/payload-types').CaseStudy
     } catch {
       // ignore

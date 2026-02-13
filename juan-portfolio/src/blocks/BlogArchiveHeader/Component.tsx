@@ -1,11 +1,11 @@
 import React from 'react'
-import type { BlogArchiveHeaderBlock, Category } from '@/payload-types'
+import type { BlogArchiveHeaderBlock, Category, Media as MediaType } from '@/payload-types'
 import Link from 'next/link'
 import { getFallbackBySlug } from '@/constants/fallbackImages'
 import { getCategories } from '@/utilities/getCategories'
 
-export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props) => {
-  const { title, description, showCategoryFilters, categories: selectedCategories, alignment = 'end' } = props
+export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en' | 'es' }> = async (props) => {
+  const { title, description, showCategoryFilters, categories: selectedCategories, alignment = 'end', heroImage, locale = 'es' } = props
 
   let categoriesList: Category[] = []
 
@@ -18,11 +18,6 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props)
     categoriesList = await getCategories()
   }
 
-  // Determine background image (fallback hardcoded for now or from props if added)
-  // The config has 'heroImage' but explicit prop wasn't in original Component destructuring?
-  // Let's ensure we use the props fully.
-  // Note: The previous Component didn't use 'heroImage'. We should add it.
-  const { heroImage } = props
   const fallbackImage = getFallbackBySlug('blog-archive')
 
   // Resolve alignment classes
@@ -40,6 +35,8 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props)
         ? 'justify-center'
         : 'justify-end'
 
+  const localePrefix = locale === 'es' ? '' : '/en'
+
   return (
     <section className="relative min-h-[60vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20">
 
@@ -48,8 +45,8 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props)
         {heroImage && typeof heroImage === 'object' && 'url' in heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={heroImage.url as string}
-            alt={heroImage.alt as string || 'Hero Background'}
+            src={(heroImage as MediaType).url as string}
+            alt={(heroImage as MediaType).alt as string || 'Hero Background'}
             className="object-cover w-full h-full"
           />
         ) : (
@@ -73,8 +70,8 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props)
             aria-label="Breadcrumb"
             className={`flex flex-wrap gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80 ${justifyClass}`}
           >
-            <Link className="hover:text-white transition-colors" href="/">
-              Inicio
+            <Link className="hover:text-white transition-colors" href={`${localePrefix}/`}>
+              {locale === 'es' ? 'Inicio' : 'Home'}
             </Link>
             <span className="text-white/40">/</span>
             <span className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-xs backdrop-blur-md border border-primary/20">
@@ -96,15 +93,15 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock> = async (props)
           {showCategoryFilters && (
             <div className={`flex flex-wrap gap-2 mt-4 ${justifyClass}`}>
               <Link
-                href="/blog"
+                href={`${localePrefix}/blog`}
                 className="px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border bg-primary/80 border-primary text-white"
               >
-                Todo
+                {locale === 'es' ? 'Todo' : 'All'}
               </Link>
               {categoriesList.map((category) => (
                 <Link
                   key={category.id}
-                  href={`/blog/${category.slug}`}
+                  href={`${localePrefix}/blog/${category.slug}`}
                   className="px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border bg-white/10 border-white/20 text-white hover:bg-white/20"
                 >
                   {category.title}

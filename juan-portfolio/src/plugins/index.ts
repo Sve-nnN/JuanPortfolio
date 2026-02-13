@@ -19,9 +19,19 @@ const generateTitle = ({ doc }: { doc: { title?: string } }) => {
   return doc?.title ? `${doc.title} | Juan Portfolio` : 'Juan Portfolio'
 }
 
-const generateURL = ({ doc }: { doc: { slug?: string } }) => {
+const generateURL = ({ doc, collection }: { doc: { slug?: string }; collection?: string }) => {
   const url = getServerSideURL() || 'http://localhost:3000'
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  const slug = doc?.slug || ''
+  
+  if (collection === 'posts' || collection === 'categories') {
+    return `${url}/blog/${slug}`
+  }
+  
+  if (collection === 'case-studies') {
+    return `${url}/case-studies/${slug}`
+  }
+
+  return slug ? `${url}/${slug === 'home' ? '' : slug}` : url
 }
 
 export const plugins: Plugin[] = [

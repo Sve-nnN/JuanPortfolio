@@ -12,6 +12,7 @@ function getCategoryFields(): Field[] {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       label: {
         en: 'Name',
         es: 'Nombre',
@@ -22,6 +23,7 @@ function getCategoryFields(): Field[] {
       name: 'description',
       type: 'textarea',
       required: false,
+      localized: true,
       label: {
         en: 'Description',
         es: 'Descripción',
@@ -47,6 +49,7 @@ function getCategoryFields(): Field[] {
         {
           name: 'question',
           type: 'text',
+          localized: true,
           label: { en: 'Question', es: 'Pregunta' },
           required: true,
           admin: {},
@@ -54,6 +57,7 @@ function getCategoryFields(): Field[] {
         {
           name: 'answer',
           type: 'textarea',
+          localized: true,
           label: { en: 'Answer', es: 'Respuesta' },
           required: true,
           admin: {},

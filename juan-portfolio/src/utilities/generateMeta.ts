@@ -6,7 +6,7 @@ import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
-  const serverUrl = getServerSideURL()
+  const serverUrl = getServerSideURL().replace(/\/$/, '')
 
   let url = serverUrl + '/website-template-OG.webp'
 
@@ -22,31 +22,59 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | null
   locale?: 'en' | 'es' | 'all' | undefined
+  path?: string // Optional path to override auto-slug calculation
 }): Promise<Metadata> => {
-  const { doc, locale } = args
+  const { doc, locale, path: customPath } = args
 
   // When fields are localized, Payload may store meta as an object per-locale.
-  // Try to read localized meta first, then fallback to top-level.
   const meta = (() => {
     if (!doc) return undefined
     // @ts-expect-error - Property meta_group does not exist on type Partial<Page> | Partial<Post>
     const m = doc.meta || doc.meta_group
     if (!m) return undefined
-    // If meta has keys for locales, pick the locale or default to 'en'
     if (typeof m === 'object' && ('en' in m || 'es' in m)) {
       const key = locale || 'en'
-      // meta may be localized object keyed by locale
       return m[key] || m['en']
     }
     return m
   })()
 
   const ogImage = getImageURL(meta?.image ?? doc?.meta?.image)
-
   const title = meta?.title || doc?.title || 'Juan Carlos Angulo'
+  
+  const baseUrl = getServerSideURL().replace(/\/$/, '')
+  
+  // Calculate relative path
+  let relativePath = customPath
+  if (!relativePath) {
+    const slug = Array.isArray(doc?.slug) ? doc?.slug.join('/') : doc?.slug || ''
+    relativePath = slug === 'home' ? '/' : `/${slug}`
+  }
+
+  // Ensure relativePath starts with /
+  if (relativePath && !relativePath.startsWith('/')) {
+    relativePath = `/${relativePath}`
+  }
+  
+  // Normalize: remove trailing slash if not root
+  const cleanPath = relativePath === '/' ? '' : relativePath.replace(/\/$/, '')
+
+  const esUrl = `${baseUrl}${cleanPath || '/'}`
+  const enUrl = `${baseUrl}/en${cleanPath || '/'}`
+
+  const alternates = {
+    canonical: locale === 'en' ? enUrl : esUrl,
+    languages: {
+      'es': esUrl,
+      'en': enUrl,
+      'x-default': esUrl,
+    },
+  }
 
   return {
     description: meta?.description ?? doc?.meta?.description,
+    title,
+    alternates,
     openGraph: mergeOpenGraph({
       description: meta?.description || doc?.meta?.description || '',
       images: ogImage
@@ -57,8 +85,7 @@ export const generateMeta = async (args: {
         ]
         : undefined,
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url: locale === 'en' ? `/en${cleanPath || '/'}` : `${cleanPath || '/'}`,
     }),
-    title,
   }
 }

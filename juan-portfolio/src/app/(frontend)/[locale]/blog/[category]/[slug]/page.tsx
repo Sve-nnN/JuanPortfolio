@@ -13,14 +13,14 @@ import { TableOfContents } from '@/components/TableOfContents'
 import RichText from '@/components/RichText'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 import { Metadata } from 'next'
 import { AuthorCard } from '@/components/AuthorCard'
 import RelatedPostsServer from '@/components/RelatedPostsServer'
+import { generateMeta } from '@/utilities/generateMeta'
 
 /**
- * Generates static parameters for all blog posts.
- * @returns {Promise<Array<{ category: string; slug: string }>>} A promise that resolves to an array of post slugs with their categories.
+ * Generates static parameters for all blog posts across all locales.
+ * @returns {Promise<Array<{ category: string; slug: string; locale: string }>>} A promise that resolves to an array of parameters.
  */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -30,7 +30,8 @@ export async function generateStaticParams() {
     depth: 2, // Necesitamos depth para obtener las categorías
   })
 
-  const params: Array<{ category: string; slug: string }> = []
+  const locales = ['en', 'es']
+  const params: Array<{ category: string; slug: string; locale: string }> = []
 
   for (const post of posts.docs) {
     const categories = post.categories
@@ -45,9 +46,12 @@ export async function generateStaticParams() {
       }
     }
 
-    params.push({
-      category: categorySlug,
-      slug: post.slug || post.id || '',
+    locales.forEach((locale) => {
+      params.push({
+        category: categorySlug,
+        slug: post.slug || post.id || '',
+        locale,
+      })
     })
   }
 
@@ -57,15 +61,16 @@ export async function generateStaticParams() {
 /**
  * The page component for a single blog post.
  * @param {object} props - The component props.
- * @param {Promise<{ category: string; slug: string }>} props.params - The page parameters.
+ * @param {Promise<{ category: string; slug: string; locale: string }>} props.params - The page parameters.
  * @returns {Promise<React.ReactElement>} A promise that resolves to the post page component.
  */
 export default async function PostPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: Promise<{ category: string; slug: string }>
+  params: Promise<{ category: string; slug: string; locale: string }>
 }) {
-  const { category, slug } = await params
+  const { category, slug, locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
   const postRes = await payload.find({
@@ -76,6 +81,7 @@ export default async function PostPage({
     draft,
     limit: 1,
     depth: 2,
+    locale,
   })
   const post = postRes.docs[0]
   if (!post) return notFound()
@@ -92,10 +98,12 @@ export default async function PostPage({
         : categories[0]
       : { title: category }
 
+  const localePrefix = locale === 'es' ? '' : '/en'
+
   return (
     <article className="pb-16">
       <LivePreviewListener />
-      <PayloadRedirects disableNotFound url={`/blog/${category}/${slug}`} />
+      <PayloadRedirects disableNotFound url={`${localePrefix}/blog/${category}/${slug}`} />
 
       <PostHero
         post={post}
@@ -105,6 +113,7 @@ export default async function PostPage({
           title: firstCategory.title || category,
           href: `/blog/${category}`,
         }}
+        locale={locale}
       />
       {/* Mobile/Tablet TOC - Collapsible */}
       <div className="container pt-8 lg:hidden">
@@ -112,7 +121,7 @@ export default async function PostPage({
       </div>
 
       {/* Main Content Grid */}
-      <AnimateOnScroll className="pt-8 lg:pt-12 container">
+      <div className="pt-8 lg:pt-12 container">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 lg:gap-12 items-start">
           {/* Main Article Content */}
           <article className="prose prose-lg dark:prose-invert max-w-none min-w-0">
@@ -149,9 +158,10 @@ export default async function PostPage({
           <RelatedPostsServer
             currentPostId={post.id}
             categoryId={typeof categories[0] === 'string' ? categories[0] : categories[0].id}
+            locale={locale}
           />
         )}
-      </AnimateOnScroll>
+      </div>
     </article>
   )
 }
@@ -159,25 +169,24 @@ export default async function PostPage({
 /**
  * Generates metadata for the post page.
  * @param {object} props - The component props.
- * @param {Promise<{ category: string; slug: string }>} props.params - The page parameters.
+ * @param {Promise<{ category: string; slug: string; locale: string }>} props.params - The page parameters.
  * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
  */
 export async function generateMetadata({
-  params,
+  params: paramsPromise,
 }: {
-  params: Promise<{ category: string; slug: string }>
+  params: Promise<{ category: string; slug: string; locale: string }>
 }): Promise<Metadata> {
-  const { slug } = await params
+  const { slug, locale: rawLocale, category } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const payload = await getPayload({ config: configPromise })
   const postRes = await payload.find({
     collection: 'posts',
     where: { slug: { equals: slug } },
     limit: 1,
     depth: 2,
+    locale,
   })
   const post = postRes.docs[0]
-  return {
-    title: post?.meta?.title || post?.title || 'Post',
-    description: post?.meta?.description || '',
-  }
+  return generateMeta({ doc: post, locale, path: `/blog/${category}/${slug}` })
 }

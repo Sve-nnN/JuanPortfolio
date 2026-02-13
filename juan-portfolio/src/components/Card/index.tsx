@@ -19,12 +19,14 @@ export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
   doc?: CardPostData
-  relationTo?: 'posts'
+  relationTo?: 'posts' | 'case-studies'
   showCategories?: boolean
   title?: string
+  locale?: 'en' | 'es'
 }> = (props) => {
   const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { className, doc, relationTo, showCategories, title: titleFromProps, locale = 'es' } = props
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   const { slug, categories, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}
@@ -34,65 +36,72 @@ export const Card: React.FC<{
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
 
   // Use getPostUrl for posts to get /blog/{category}/{slug} format
-  const href = relationTo === 'posts' && doc ? getPostUrl(doc) : `/${relationTo}/${slug}`
+  const href = (() => {
+    if (!doc) return '#'
+    if (relationTo === 'posts') {
+      return getPostUrl(doc as Post, locale)
+    }
+    if (relationTo === 'case-studies') {
+      return `${localePrefix}/case-studies/${slug}`
+    }
+    return `${localePrefix}/${relationTo}/${slug}`
+  })()
 
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
+        'border border-border rounded-xl overflow-hidden bg-card text-card-foreground hover:shadow-lg transition-all duration-300',
         className,
       )}
       ref={card.ref}
     >
-      <div className="relative w-full aspect-video overflow-hidden">
+      <div className="relative w-full aspect-video overflow-hidden bg-muted">
         {!metaImage && (
           <Image
             src={getFallbackBySlug(slug || '')}
             alt={titleToUse || 'Post Image'}
             fill
-            className="object-cover transition-transform duration-500 hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
-        {metaImage && typeof metaImage !== 'string' && <Media className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" resource={metaImage} size="33vw" />}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media 
+            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" 
+            resource={metaImage} 
+            size="33vw" 
+          />
+        )}
       </div>
-      <div className="p-4">
+      <div className="p-5 flex flex-col gap-3">
         {showCategories && hasCategories && (
-          <div className="uppercase text-sm mb-4">
-            {showCategories && hasCategories && (
-              <div>
-                {categories?.map((category, index) => {
-                  if (typeof category === 'object') {
-                    const { title: titleFromCategory } = category
-
-                    const categoryTitle = titleFromCategory || 'Untitled category'
-
-                    const isLast = index === categories.length - 1
-
-                    return (
-                      <Fragment key={index}>
-                        {categoryTitle}
-                        {!isLast && <Fragment>, &nbsp;</Fragment>}
-                      </Fragment>
-                    )
-                  }
-
-                  return null
-                })}
-              </div>
-            )}
+          <div className="flex flex-wrap gap-2">
+            {categories?.map((category, index) => {
+              if (typeof category === 'object' && category !== null) {
+                return (
+                  <span key={index} className="text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/5 px-2 py-0.5 rounded">
+                    {category.title || 'Category'}
+                  </span>
+                )
+              }
+              return null
+            })}
           </div>
         )}
+        
         {titleToUse && (
-          <div className="prose">
-            <h3>
-              <Link className="not-prose" href={href} ref={link.ref}>
-                {titleToUse}
-              </Link>
-            </h3>
-          </div>
+          <h3 className="text-xl font-display font-bold leading-tight line-clamp-2">
+            <Link className="hover:text-primary transition-colors" href={href} ref={link.ref}>
+              {titleToUse}
+            </Link>
+          </h3>
         )}
-        {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
+        
+        {description && (
+          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+            {sanitizedDescription}
+          </p>
+        )}
       </div>
     </article>
   )

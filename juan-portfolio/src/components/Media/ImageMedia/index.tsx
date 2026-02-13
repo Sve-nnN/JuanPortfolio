@@ -6,11 +6,8 @@ import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { getOptimizedCloudinaryUrl } from '@/utilities/cloudinaryUrl'
-
-const { breakpoints } = cssVariables
 
 // A base64 encoded image to use as a placeholder while the image is loading
 const placeholderBlur =

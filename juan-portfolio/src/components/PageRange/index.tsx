@@ -1,14 +1,14 @@
 import React from 'react'
 
 const defaultLabels = {
-  plural: 'Docs',
-  singular: 'Doc',
+  plural: { es: 'Documentos', en: 'Docs' },
+  singular: { es: 'Documento', en: 'Doc' },
 }
 
 const defaultCollectionLabels = {
   posts: {
-    plural: 'Posts',
-    singular: 'Post',
+    plural: { es: 'Posts', en: 'Posts' },
+    singular: { es: 'Post', en: 'Post' },
   },
 }
 
@@ -22,6 +22,7 @@ export const PageRange: React.FC<{
   currentPage?: number
   limit?: number
   totalDocs?: number
+  locale?: 'en' | 'es'
 }> = (props) => {
   const {
     className,
@@ -30,6 +31,7 @@ export const PageRange: React.FC<{
     currentPage,
     limit,
     totalDocs,
+    locale = 'es',
   } = props
 
   let indexStart = (currentPage ? currentPage - 1 : 1) * (limit || 1) + 1
@@ -38,20 +40,22 @@ export const PageRange: React.FC<{
   let indexEnd = (currentPage || 1) * (limit || 1)
   if (totalDocs && indexEnd > totalDocs) indexEnd = totalDocs
 
-  const { plural, singular } =
-    collectionLabelsFromProps ||
+  const labels = collectionLabelsFromProps ||
     (collection ? defaultCollectionLabels[collection] : undefined) ||
-    defaultLabels ||
-    {}
+    defaultLabels
+
+  const plural = typeof labels.plural === 'string' ? labels.plural : (labels.plural?.[locale] || 'Docs')
+  const singular = typeof labels.singular === 'string' ? labels.singular : (labels.singular?.[locale] || 'Doc')
 
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Search produced no results.'}
+      {(typeof totalDocs === 'undefined' || totalDocs === 0) && (locale === 'es' ? 'La búsqueda no produjo resultados.' : 'Search produced no results.')}
       {typeof totalDocs !== 'undefined' &&
         totalDocs > 0 &&
-        `Showing ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} of ${totalDocs} ${
-          totalDocs > 1 ? plural : singular
-        }`}
+        (locale === 'es' 
+          ? `Mostrando ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} de ${totalDocs} ${totalDocs > 1 ? plural : singular}`
+          : `Showing ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} of ${totalDocs} ${totalDocs > 1 ? plural : singular}`
+        )}
     </div>
   )
 }

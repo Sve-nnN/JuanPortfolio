@@ -23,8 +23,10 @@ export const PostHero: React.FC<{
   excerpt?: string | null
   readingTime?: number | null
   mainCategory?: { title: string; href?: string } | null
-}> = ({ post, excerpt = null, readingTime = null, mainCategory = null }) => {
+  locale?: 'en' | 'es'
+}> = ({ post, excerpt = null, readingTime = null, mainCategory = null, locale = 'es' }) => {
   const { categories: postCategories, content, populatedAuthors, publishedAt, title } = post
+  const localePrefix = locale === 'es' ? '' : '/en'
   const categories = postCategories
   const heroImage = content?.heroImage
 
@@ -60,7 +62,7 @@ export const PostHero: React.FC<{
       const name = a.name
       const slug = (a as PopulatedAuthor).slug
       const element = slug ? (
-        <Link key={a.id || i} href={`/authors/${slug}`} className="font-medium hover:underline">
+        <Link key={a.id || i} href={`${localePrefix}/authors/${slug}`} className="font-medium hover:underline">
           {name}
         </Link>
       ) : (
@@ -77,7 +79,7 @@ export const PostHero: React.FC<{
     if (nodes.length === 2)
       return (
         <>
-          {nodes[0]} and {nodes[1]}
+          {nodes[0]} {locale === 'es' ? 'y' : 'and'} {nodes[1]}
         </>
       )
     return (
@@ -85,7 +87,7 @@ export const PostHero: React.FC<{
         {nodes.slice(0, -1).map((n, idx) => (
           <React.Fragment key={idx}>{n}, </React.Fragment>
         ))}
-        and {nodes[nodes.length - 1]}
+        {locale === 'es' ? 'y' : 'and'} {nodes[nodes.length - 1]}
       </>
     )
   }
@@ -105,11 +107,11 @@ export const PostHero: React.FC<{
             aria-label="Breadcrumb"
             className="flex flex-wrap justify-end gap-2 items-center text-sm font-medium uppercase tracking-wide text-white/80"
           >
-            <Link href="/" className="hover:text-white transition-colors text-xs opacity-70">
-              Inicio
+            <Link href={localePrefix || '/'} className="hover:text-white transition-colors text-xs opacity-70">
+              {locale === 'es' ? 'Inicio' : 'Home'}
             </Link>
             <span className="text-white/40 text-xs">/</span>
-            <Link href="/blog" className="hover:text-white transition-colors text-xs opacity-70">
+            <Link href={`${localePrefix}/blog`} className="hover:text-white transition-colors text-xs opacity-70">
               Blog
             </Link>
 
@@ -117,7 +119,7 @@ export const PostHero: React.FC<{
               <>
                 <span className="text-white/40 text-xs">/</span>
                 <Link
-                  href={mainCategory.href || '/blog'}
+                  href={mainCategory.href ? `${localePrefix}${mainCategory.href}` : `${localePrefix}/blog`}
                   className="text-primary-foreground bg-primary/20 px-2 py-0.5 rounded text-[10px] backdrop-blur-md border border-primary/20 hover:bg-primary/30 transition-colors"
                 >
                   {mainCategory.title}
@@ -166,7 +168,7 @@ export const PostHero: React.FC<{
             {hasAuthors && (
               <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
                 <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">
-                  Autor
+                  {locale === 'es' ? 'Autor' : 'Author'}
                 </span>
                 <span className="text-white">{renderAuthors()}</span>
               </div>
@@ -175,10 +177,10 @@ export const PostHero: React.FC<{
             {publishedAt && (
               <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
                 <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">
-                  Fecha
+                  {locale === 'es' ? 'Fecha' : 'Date'}
                 </span>
                 <time dateTime={publishedAt} className="text-white">
-                  {formatDateTime(publishedAt)}
+                  {formatDateTime(publishedAt, locale)}
                 </time>
               </div>
             )}
@@ -186,7 +188,7 @@ export const PostHero: React.FC<{
             {readingTime && (
               <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
                 <span className="text-white/50 uppercase text-[10px] tracking-widest font-bold">
-                  Tiempo
+                  {locale === 'es' ? 'Tiempo' : 'Reading Time'}
                 </span>
                 <span className="text-white">{readingTime} min</span>
               </div>

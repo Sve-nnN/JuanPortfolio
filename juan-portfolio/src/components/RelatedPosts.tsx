@@ -6,9 +6,10 @@ interface RelatedPostsProps {
   currentPostId: string | number
   categoryId: string | number
   posts: Post[]
+  locale?: 'en' | 'es'
 }
 
-const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, posts }) => {
+const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, posts, locale = 'es' }) => {
   // Filtrar posts de la misma categoría, omitiendo el actual
   const related = posts
     .filter(
@@ -27,7 +28,9 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, 
 
   return (
     <section className="mt-16">
-      <h2 className="text-2xl font-bold mb-6">Posts relacionados</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        {locale === 'es' ? 'Posts relacionados' : 'Related posts'}
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {related.map((post) => {
           // Aseguramos que Card recibe solo las props requeridas
@@ -37,7 +40,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, 
             meta: post.meta ?? {},
             title: post.title ?? '',
           }
-          return <Card key={post.id} doc={cardData} relationTo="posts" showCategories />
+          return <Card key={post.id} doc={cardData} relationTo="posts" showCategories locale={locale} />
         })}
       </div>
     </section>

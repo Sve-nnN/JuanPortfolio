@@ -14,6 +14,7 @@ import { CategoryExplore } from '@/components/CategoryExplore'
 import { Metadata } from 'next'
 import { CategoryHeader } from './CategoryHeader'
 import { JsonLd } from '@/components/JsonLd'
+import { generateMeta } from '@/utilities/generateMeta'
 import {
   generateCollectionPageSchema,
   generateFAQSchema,
@@ -24,8 +25,8 @@ import {
 } from '@/utilities/schema'
 
 /**
- * Generates static parameters for all blog categories.
- * @returns {Promise<Array<{ category: string }>>} A promise that resolves to an array of category slugs.
+ * Generates static parameters for all blog categories across all locales.
+ * @returns {Promise<Array<{ category: string, locale: string }>>} A promise that resolves to an array of parameters.
  */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -34,21 +35,27 @@ export async function generateStaticParams() {
     limit: 100,
     select: { slug: true },
   })
-  return categories.docs.map(({ slug }) => ({ category: slug }))
+  
+  const locales = ['en', 'es']
+  
+  return categories.docs.flatMap(({ slug }) => 
+    locales.map((locale) => ({ category: slug, locale }))
+  )
 }
 
 /**
  * The page component for a specific blog category.
  * @param {object} props - The component props.
- * @param {Promise<{ category: string }>} props.params - The page parameters.
+ * @param {Promise<{ category: string, locale: string }>} props.params - The page parameters.
  * @returns {Promise<React.ReactElement>} A promise that resolves to the category page component.
  */
 export default async function CategoryPage({
-  params
+  params: paramsPromise
 }: {
-  params: Promise<{ category: string }>
+  params: Promise<{ category: string, locale: string }>
 }) {
-  const { category } = await params
+  const { category, locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
   // Buscar por slug primero, si no existe, buscar por id
@@ -58,6 +65,7 @@ export default async function CategoryPage({
     draft,
     limit: 1,
     depth: 2,
+    locale,
   })
   let cat = categoryRes.docs[0]
   if (!cat) {
@@ -67,6 +75,7 @@ export default async function CategoryPage({
       draft,
       limit: 1,
       depth: 2,
+      locale,
     })
     cat = categoryRes.docs[0]
   }
@@ -82,13 +91,15 @@ export default async function CategoryPage({
     },
     limit: 100,
     depth: 2,
+    locale,
   })
-  const allCategories = await payload.find({ collection: 'categories', limit: 100 })
+  const allCategories = await payload.find({ collection: 'categories', limit: 100, locale })
 
+  const localePrefix = locale === 'es' ? '' : '/en'
   const breadcrumbItems: BreadcrumbItem[] = [
-    { name: 'Home', url: '/' },
-    { name: 'Blog', url: '/blog' },
-    { name: cat.title || 'Categoría', url: `/blog/${cat.slug}` },
+    { name: locale === 'es' ? 'Inicio' : 'Home', url: localePrefix || '/' },
+    { name: 'Blog', url: `${localePrefix}/blog` },
+    { name: cat.title || 'Categoría', url: `${localePrefix}/blog/${cat.slug}` },
   ]
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems)
 
@@ -128,7 +139,9 @@ export default async function CategoryPage({
         gridColumns="3"
       />
       {cat.faqs && cat.faqs.length > 0 && <CategoryFAQ faqs={cat.faqs as Array<{ question: string; answer: string }>} />}
-      <CategoryExplore categories={allCategories.docs} currentId={cat.id} />
+      <div className="container mx-auto px-4 pb-20">
+        <CategoryExplore categories={allCategories.docs} currentId={cat.id} locale={locale} />
+      </div>
     </main>
   )
 }
@@ -136,25 +149,25 @@ export default async function CategoryPage({
 /**
  * Generates metadata for the category page.
  * @param {object} props - The component props.
- * @param {Promise<{ category: string }>} props.params - The page parameters.
+ * @param {Promise<{ category: string, locale: string }>} props.params - The page parameters.
  * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
  */
 export async function generateMetadata({
-  params,
+  params: paramsPromise,
 }: {
-  params: Promise<{ category: string }>
+  params: Promise<{ category: string, locale: string }>
 }): Promise<Metadata> {
-  const { category } = await params
+  const { category, locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const payload = await getPayload({ config: configPromise })
   const categoryRes = await payload.find({
     collection: 'categories',
     where: { slug: { equals: category } },
     limit: 1,
     depth: 2,
+    locale,
   })
   const cat = categoryRes.docs[0]
-  return {
-    title: cat?.meta?.title || cat?.title || 'Categoría',
-    description: cat?.meta?.description || cat?.description || '',
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return generateMeta({ doc: cat as any, locale, path: `/blog/${category}` })
 }

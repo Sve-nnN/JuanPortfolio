@@ -1,8 +1,8 @@
 import React from 'react'
 import type { ResultsSectionBlock } from '@/payload-types'
 
-export const ResultsSection: React.FC<ResultsSectionBlock> = (props) => {
-  const { title, description, stats, backgroundColor = 'gray' } = props
+export const ResultsSection: React.FC<ResultsSectionBlock & { locale?: 'en' | 'es' }> = (props) => {
+  const { title, description, stats, backgroundColor = 'gray', locale: _locale = 'es' } = props
 
   const bgColorClass =
     backgroundColor === 'gray'

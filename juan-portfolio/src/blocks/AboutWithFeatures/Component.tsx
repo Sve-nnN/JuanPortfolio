@@ -1,8 +1,7 @@
 'use client'
 
 import React from 'react'
-import type { AboutWithFeaturesBlock } from '@/payload-types'
-import Link from 'next/link'
+import type { AboutWithFeaturesBlock, Media as MediaType } from '@/payload-types'
 import {
   Zap,
   Monitor,
@@ -15,6 +14,8 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import RichText from '@/components/RichText'
+import { CMSLink } from '@/components/Link'
+import { Media } from '@/components/Media'
 
 // Icon mapping
 const iconMap = {
@@ -28,8 +29,8 @@ const iconMap = {
   Rocket: Rocket,
 }
 
-export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock> = (props) => {
-  const { eyebrow, title, description, ctaText, ctaLink, features } = props
+export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock & { locale?: 'en' | 'es' }> = (props) => {
+  const { eyebrow, title, description, ctaText, ctaLink, features, image, locale = 'es' } = props
 
   return (
     <section className="py-24 md:py-32 bg-secondary" id="about">
@@ -49,6 +50,13 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock> = (props) => {
               )}
             </div>
 
+            {/* Optional Image if provided */}
+            {image && typeof image === 'object' && (
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-border/50">
+                <Media resource={image as MediaType} fill className="object-cover" />
+              </div>
+            )}
+
             {description && (
               <div className="text-muted-foreground text-lg md:text-xl leading-relaxed prose-lg">
                 <RichText data={description} enableGutter={false} />
@@ -56,15 +64,14 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock> = (props) => {
             )}
 
             {ctaText && ctaLink && (
-              <Link
+              <CMSLink
+                url={ctaLink}
+                label={ctaText}
+                locale={locale}
                 className="group text-primary font-semibold text-lg inline-flex items-center hover:text-primary/80 transition-colors"
-                href={ctaLink}
               >
-                <span className="border-b-2 border-primary/20 group-hover:border-primary transition-colors pb-1">
-                  {ctaText}
-                </span>
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </CMSLink>
             )}
           </div>
 

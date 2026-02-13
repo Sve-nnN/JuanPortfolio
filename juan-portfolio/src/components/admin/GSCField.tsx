@@ -4,7 +4,7 @@ import { useDocumentInfo } from '@payloadcms/ui'
 import { GSCPerformanceView } from './GSCPerformanceView'
 
 export const GSCField: React.FC = () => {
-  const { docConfig, id, initialData } = useDocumentInfo()
+  const { docConfig, id: _id, initialData } = useDocumentInfo()
   
   if (!initialData || !initialData.slug) {
     return <div>Please save the document first to see GSC data.</div>

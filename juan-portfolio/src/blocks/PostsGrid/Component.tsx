@@ -6,7 +6,11 @@ import { AnimateOnScroll } from '@/components/AnimateOnScroll'
 import { AnimatedCard } from './AnimatedCard'
 
 // Define PostsGridProps type based on used props
-type PostsGridProps = PostsGridBlock & { page?: number; overridePosts?: Post[] }
+type PostsGridProps = PostsGridBlock & { 
+  page?: number; 
+  overridePosts?: Post[]; 
+  locale?: 'en' | 'es' 
+}
 
 export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
   const {
@@ -16,6 +20,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
 
     page = 1,
     animation,
+    locale = 'es',
   } = props
 
   // Fetch posts
@@ -33,6 +38,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
         page,
         depth: 1,
         sort: '-publishedAt',
+        locale,
         where: {
           _status: {
             equals: 'published',
@@ -56,6 +62,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
         collection: 'categories',
         limit: 100,
         pagination: false,
+        locale,
       })
       categories = (res.docs as Category[]) || []
     } catch {
@@ -75,7 +82,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
       {showCategories && categories.length > 0 && (
         <div className="mb-12 flex flex-wrap justify-center gap-2">
           <button className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-full">
-            Todo
+            {locale === 'es' ? 'Todo' : 'All'}
           </button>
           {categories.map((cat) => (
             <button
@@ -96,6 +103,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
             post={p}
             index={i}
             showCategories={Boolean(showCategories)}
+            locale={locale}
           />
         ))}
       </div>
@@ -104,7 +112,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
       {totalPages > 1 && (
         <div className="mt-12 flex justify-center gap-2">
           <p className="text-muted">
-            Página {page} de {totalPages}
+            {locale === 'es' ? `Página ${page} de ${totalPages}` : `Page ${page} of ${totalPages}`}
           </p>
         </div>
       )}

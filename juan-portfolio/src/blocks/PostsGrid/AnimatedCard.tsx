@@ -8,9 +8,10 @@ interface AnimatedCardProps {
   post: Post
   index: number
   showCategories: boolean
+  locale?: 'en' | 'es'
 }
 
-export const AnimatedCard: React.FC<AnimatedCardProps> = ({ post, index, showCategories }) => {
+export const AnimatedCard: React.FC<AnimatedCardProps> = ({ post, index, showCategories, locale }) => {
   return (
     <motion.div
       key={post.id}
@@ -25,6 +26,7 @@ export const AnimatedCard: React.FC<AnimatedCardProps> = ({ post, index, showCat
         doc={post}
         relationTo="posts"
         showCategories={showCategories}
+        locale={locale}
       />
     </motion.div>
   )

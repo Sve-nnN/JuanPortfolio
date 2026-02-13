@@ -6,10 +6,10 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import type { HeroHomeBlock as HeroHomeBlockType } from '@/payload-types'
 import { domAnimation, LazyMotion, m } from 'framer-motion'
-export type { HeroHomeBlockType as HeroHomeBlock }
+import { CMSLink } from '@/components/Link'
 
-export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
-  const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media } = props
+export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = (props) => {
+  const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media, locale = 'es' } = props
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -101,24 +101,25 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
                 className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
               >
                 {primaryCta && primaryCta.label && primaryCta.url && (
-                  <a
-                    href={primaryCta.url}
+                  <CMSLink
+                    url={primaryCta.url}
+                    label={primaryCta.label}
+                    locale={locale}
                     className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-5 px-10 text-lg rounded-full transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1 text-center"
-                  >
-                    {primaryCta.label}
-                  </a>
+                  />
                 )}
                 {secondaryCta && secondaryCta.label && secondaryCta.url && (
-                  <a
-                    href={secondaryCta.url}
+                  <CMSLink
+                    url={secondaryCta.url}
+                    label={secondaryCta.label}
+                    locale={locale}
                     className="bg-background/50 backdrop-blur-sm text-foreground border border-border/50 hover:border-primary/50 font-medium py-5 px-10 text-lg rounded-full hover:bg-secondary/50 transition-all flex items-center justify-center group"
                   >
-                    <span>{secondaryCta.label}</span>
                     <ArrowRight
                       className="ml-2 group-hover:translate-x-1 transition-transform"
                       size={20}
                     />
-                  </a>
+                  </CMSLink>
                 )}
               </m.div>
             </m.div>
@@ -138,8 +139,6 @@ export const HeroHome: React.FC<HeroHomeBlockType> = (props) => {
                     fill
                     priority
                     className="w-full h-full object-cover aspect-square"
-                    width={1000}
-                    height={1000}
                   />
                 </div>
               )}

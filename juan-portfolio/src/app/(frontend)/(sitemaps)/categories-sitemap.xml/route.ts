@@ -30,16 +30,20 @@ const getCategoriesSitemap = unstable_cache(
         },
       })
 
+      const locales = ['en', 'es']
       const dateFallback = new Date().toISOString()
 
       const sitemap = results.docs
         ? results.docs
             .filter((cat) => Boolean(cat?.slug))
-            .map((cat) => {
-              return {
-                loc: `${SITE_URL}/blog/category/${cat?.slug}`,
-                lastmod: cat.updatedAt || dateFallback,
-              }
+            .flatMap((cat) => {
+              return locales.map(locale => {
+                const prefix = locale === 'es' ? '' : `/${locale}`
+                return {
+                  loc: `${SITE_URL}${prefix}/blog/${cat?.slug}`,
+                  lastmod: cat.updatedAt || dateFallback,
+                }
+              })
             })
         : []
 

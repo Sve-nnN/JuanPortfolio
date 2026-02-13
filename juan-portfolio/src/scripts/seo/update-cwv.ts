@@ -1,7 +1,6 @@
 import 'dotenv/config'
 import { getPayload } from 'payload'
 import config from '../../payload.config'
-import { JSDOM } from 'jsdom'
 
 interface CWVMetrics {
   lcp: number | null

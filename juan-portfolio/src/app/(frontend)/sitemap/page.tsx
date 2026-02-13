@@ -5,20 +5,32 @@ import type { Metadata } from 'next'
 import { FileText, BookOpen, Briefcase, Calendar } from 'lucide-react'
 import { getPostUrl } from '@/utilities/getPostUrl'
 
-export const metadata: Metadata = {
-  title: 'Mapa del Sitio | Juan Carlos Angulo',
-  description:
-    'Mapa completo del sitio con enlaces a todas las páginas, artículos del blog y casos de estudio.',
-  robots: {
-    index: true,
-    follow: true,
-  },
+type Args = {
+  params: Promise<{
+    locale: string
+  }>
+}
+
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { locale } = await paramsPromise
+  return {
+    title: locale === 'es' ? 'Mapa del Sitio | Juan Carlos Angulo' : 'Sitemap | Juan Carlos Angulo',
+    description: locale === 'es'
+      ? 'Mapa completo del sitio con enlaces a todas las páginas, artículos del blog y casos de estudio.'
+      : 'Full site map with links to all pages, blog articles and case studies.',
+    robots: {
+      index: true,
+      follow: true,
+    },
+  }
 }
 
 // Revalidate every hour (matches XML sitemap caching)
 export const revalidate = 3600
 
-export default async function SitemapPage() {
+export default async function SitemapPage({ params: paramsPromise }: Args) {
+  const { locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const payload = await getPayload({ config })
 
   // Fetch all published pages
@@ -29,6 +41,7 @@ export default async function SitemapPage() {
     },
     limit: 1000,
     sort: 'title',
+    locale,
   })
 
   // Fetch all published posts with categories
@@ -40,6 +53,7 @@ export default async function SitemapPage() {
     limit: 1000,
     depth: 1, // Include categories
     sort: '-publishedAt',
+    locale,
   })
 
   // Fetch all published case studies
@@ -50,6 +64,7 @@ export default async function SitemapPage() {
     },
     limit: 1000,
     sort: '-publishedAt',
+    locale,
   })
 
   // Fetch Categories
@@ -57,6 +72,7 @@ export default async function SitemapPage() {
     collection: 'categories',
     limit: 1000,
     sort: 'title',
+    locale,
   })
 
   // Fetch Authors (Users)
@@ -66,18 +82,21 @@ export default async function SitemapPage() {
     sort: 'name',
   })
 
+  const localePrefix = locale === 'es' ? '' : '/en'
+
   // Group posts by category
   const postsByCategory = posts.docs.reduce(
     (acc, post) => {
       const categories = Array.isArray(post.categories) ? post.categories : []
       if (categories.length === 0) {
-        if (!acc['Sin categoría']) {
-          acc['Sin categoría'] = []
+        const noCatLabel = locale === 'es' ? 'Sin categoría' : 'Uncategorized'
+        if (!acc[noCatLabel]) {
+          acc[noCatLabel] = []
         }
-        acc['Sin categoría'].push(post)
+        acc[noCatLabel].push(post)
       } else {
         categories.forEach((cat) => {
-          const categoryName = typeof cat === 'object' && cat !== null ? cat.title : 'Sin categoría'
+          const categoryName = typeof cat === 'object' && cat !== null ? cat.title : (locale === 'es' ? 'Sin categoría' : 'Uncategorized')
           if (!acc[categoryName]) {
             acc[categoryName] = []
           }
@@ -89,7 +108,7 @@ export default async function SitemapPage() {
     {} as Record<string, typeof posts.docs>,
   )
 
-  const lastUpdated = new Date().toLocaleDateString('es-ES', {
+  const lastUpdated = new Date().toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -101,34 +120,35 @@ export default async function SitemapPage() {
         {/* Header */}
         <div className="max-w-4xl mx-auto mb-16 space-y-4">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            Mapa del Sitio
+            {locale === 'es' ? 'Mapa del Sitio' : 'Sitemap'}
             <span className="block w-24 h-1 bg-blue-500 mt-4 rounded-full"></span>
           </h1>
           <p className="text-lg text-muted-foreground">
-            Navegación completa del sitio web con enlaces a todas las páginas, artículos y casos de
-            estudio.
+            {locale === 'es' 
+              ? 'Navegación completa del sitio web con enlaces a todas las páginas, artículos y casos de estudio.'
+              : 'Full website navigation with links to all pages, articles, and case studies.'}
           </p>
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <Calendar className="w-4 h-4" />
-            <span>Última actualización: {lastUpdated}</span>
+            <span>{locale === 'es' ? 'Última actualización' : 'Last updated'}: {lastUpdated}</span>
           </div>
         </div>
 
         {/* Content Grid */}
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* Pages Section */}
-          <nav aria-label="Páginas principales" className="space-y-6">
+          <nav aria-label={locale === 'es' ? 'Páginas principales' : 'Main pages'} className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-500/10">
                 <FileText className="w-5 h-5 text-blue-500" />
               </div>
-              <h2 className="text-2xl font-semibold text-foreground">Páginas</h2>
+              <h2 className="text-2xl font-semibold text-foreground">{locale === 'es' ? 'Páginas' : 'Pages'}</h2>
             </div>
             <ul className="space-y-3">
               {pages.docs.map((page) => (
                 <li key={page.id}>
                   <Link
-                    href={page.slug === 'home' ? '/' : `/${page.slug}`}
+                    href={page.slug === 'home' ? (localePrefix || '/') : `${localePrefix}/${page.slug}`}
                     className="group flex items-start gap-2 text-slate-300 hover:text-blue-400 transition-colors"
                   >
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-blue-400 transition-colors flex-shrink-0"></span>
@@ -137,22 +157,24 @@ export default async function SitemapPage() {
                 </li>
               ))}
             </ul>
-            <div className="pt-2 text-xs text-slate-500">{pages.docs.length} página(s)</div>
+            <div className="pt-2 text-xs text-slate-500">
+              {pages.docs.length} {locale === 'es' ? 'página(s)' : 'page(s)'}
+            </div>
           </nav>
 
           {/* Case Studies Section */}
-          <nav aria-label="Casos de estudio" className="space-y-6">
+          <nav aria-label={locale === 'es' ? 'Casos de estudio' : 'Case studies'} className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-500/10">
                 <Briefcase className="w-5 h-5 text-blue-500" />
               </div>
-              <h2 className="text-2xl font-semibold text-foreground">Casos de Estudio</h2>
+              <h2 className="text-2xl font-semibold text-foreground">{locale === 'es' ? 'Casos de Estudio' : 'Case Studies'}</h2>
             </div>
             <ul className="space-y-3">
               {caseStudies.docs.map((caseStudy) => (
                 <li key={caseStudy.id}>
                   <Link
-                    href={`/case-studies/${caseStudy.slug}`}
+                    href={`${localePrefix}/case-studies/${caseStudy.slug}`}
                     className="group flex items-start gap-2 text-slate-300 hover:text-blue-400 transition-colors"
                   >
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-blue-400 transition-colors flex-shrink-0"></span>
@@ -164,23 +186,23 @@ export default async function SitemapPage() {
               ))}
             </ul>
             <div className="pt-2 text-xs text-slate-500">
-              {caseStudies.docs.length} caso(s) de estudio
+              {caseStudies.docs.length} {locale === 'es' ? 'caso(s) de estudio' : 'case study(ies)'}
             </div>
           </nav>
 
           {/* Categories Section */}
-          <nav aria-label="Categorías" className="space-y-6">
+          <nav aria-label={locale === 'es' ? 'Categorías' : 'Categories'} className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-500/10">
                 <FileText className="w-5 h-5 text-blue-500" />
               </div>
-              <h2 className="text-2xl font-semibold text-foreground">Categorías</h2>
+              <h2 className="text-2xl font-semibold text-foreground">{locale === 'es' ? 'Categorías' : 'Categories'}</h2>
             </div>
             <ul className="space-y-3">
               {categories.docs.map((cat) => (
                 <li key={cat.id}>
                   <Link
-                    href={`/blog/category/${cat.slug}`}
+                    href={`${localePrefix}/blog/${cat.slug}`}
                     className="group flex items-start gap-2 text-slate-300 hover:text-blue-400 transition-colors"
                   >
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-blue-400 transition-colors flex-shrink-0"></span>
@@ -192,18 +214,18 @@ export default async function SitemapPage() {
           </nav>
 
           {/* Authors Section */}
-          <nav aria-label="Autores" className="space-y-6">
+          <nav aria-label={locale === 'es' ? 'Autores' : 'Authors'} className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-500/10">
                 <FileText className="w-5 h-5 text-blue-500" />
               </div>
-              <h2 className="text-2xl font-semibold text-foreground">Autores</h2>
+              <h2 className="text-2xl font-semibold text-foreground">{locale === 'es' ? 'Autores' : 'Authors'}</h2>
             </div>
             <ul className="space-y-3">
               {authors.docs.map((author) => (
                 <li key={author.id}>
                   <Link
-                    href={`/authors/${author.slug}`}
+                    href={`${localePrefix}/authors/${author.slug}`}
                     className="group flex items-start gap-2 text-slate-300 hover:text-blue-400 transition-colors"
                   >
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-blue-400 transition-colors flex-shrink-0"></span>
@@ -216,7 +238,7 @@ export default async function SitemapPage() {
 
           {/* Blog Posts Section - Spans full width on small screens */}
           <nav
-            aria-label="Artículos del blog"
+            aria-label={locale === 'es' ? 'Artículos del blog' : 'Blog articles'}
             className="space-y-8 md:col-span-2 lg:col-span-3 border-t border-slate-800 pt-12"
           >
             <div className="flex items-center gap-3">
@@ -224,7 +246,7 @@ export default async function SitemapPage() {
                 <BookOpen className="w-5 h-5 text-blue-500" />
               </div>
               <h2 className="text-2xl font-semibold text-foreground">Blog</h2>
-              <span className="text-sm text-slate-500">({posts.docs.length} artículos)</span>
+              <span className="text-sm text-slate-500">({posts.docs.length} {locale === 'es' ? 'artículos' : 'articles'})</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -243,7 +265,7 @@ export default async function SitemapPage() {
                       {categoryPosts.map((post) => (
                         <li key={post.id}>
                           <Link
-                            href={getPostUrl(post)}
+                            href={`${localePrefix}${getPostUrl(post)}`}
                             className="group flex items-start gap-2 text-sm text-slate-300 hover:text-blue-400 transition-colors"
                           >
                             <span className="mt-1.5 w-1 h-1 rounded-full bg-slate-600 group-hover:bg-blue-400 transition-colors flex-shrink-0"></span>
@@ -263,12 +285,13 @@ export default async function SitemapPage() {
         {/* Footer Note */}
         <div className="max-w-4xl mx-auto mt-16 pt-8 border-t border-slate-800">
           <p className="text-sm text-slate-500 text-center">
-            ¿Buscas el sitemap para motores de búsqueda?{' '}
+            {locale === 'es' ? '¿Buscas el sitemap para motores de búsqueda?' : 'Looking for the search engine sitemap?'}
+            {' '}
             <Link
               href="/sitemap.xml"
               className="text-blue-400 hover:text-blue-300 hover:underline underline-offset-2"
             >
-              Ver sitemap XML
+              {locale === 'es' ? 'Ver sitemap XML' : 'View XML sitemap'}
             </Link>
           </p>
         </div>

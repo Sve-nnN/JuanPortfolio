@@ -289,7 +289,6 @@ export interface Page {
       | FormBlock
       | IntroBlock
       | WorkCardsBlock
-      | ClientsCarousel
     )[];
   };
   searchConsole?: {};
@@ -884,6 +883,10 @@ export interface FeaturedClientsBlock {
    */
   title?: string | null;
   /**
+   * Breve texto explicando la relación con los clientes (opcional)
+   */
+  description?: string | null;
+  /**
    * Selecciona los clientes destacados
    */
   clients?: (string | Cliente)[] | null;
@@ -891,6 +894,8 @@ export interface FeaturedClientsBlock {
    * Activar scroll automático del carrusel
    */
   autoScroll?: boolean | null;
+  ctaLabel?: string | null;
+  ctaUrl?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'featuredClients';
@@ -1382,6 +1387,7 @@ export interface FeaturedCaseStudiesBlock {
 export interface AboutWithFeaturesBlock {
   eyebrow?: string | null;
   title?: string | null;
+  image?: (string | null) | Media;
   description?: {
     root: {
       type: string;
@@ -1438,7 +1444,7 @@ export interface SectionBlock {
         | FormBlock
         | IntroBlock
         | WorkCardsBlock
-        | ClientsCarousel
+        | FeaturedClientsBlock
       )[]
     | null;
   id?: string | null;
@@ -1866,23 +1872,6 @@ export interface WorkCardsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'workCards';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ClientsCarousel".
- */
-export interface ClientsCarousel {
-  title?: string | null;
-  clients?:
-    | {
-        logo?: (string | null) | Media;
-        href?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'clientsCarousel';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2589,7 +2578,6 @@ export interface PagesSelect<T extends boolean = true> {
               formBlock?: T | FormBlockSelect<T>;
               intro?: T | IntroBlockSelect<T>;
               workCards?: T | WorkCardsBlockSelect<T>;
-              clientsCarousel?: T | ClientsCarouselSelect<T>;
             };
       };
   searchConsole?: T | {};
@@ -2679,8 +2667,11 @@ export interface FeaturedWorksBlockSelect<T extends boolean = true> {
  */
 export interface FeaturedClientsBlockSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   clients?: T;
   autoScroll?: T;
+  ctaLabel?: T;
+  ctaUrl?: T;
   id?: T;
   blockName?: T;
 }
@@ -2934,6 +2925,7 @@ export interface FeaturedCaseStudiesBlockSelect<T extends boolean = true> {
 export interface AboutWithFeaturesBlockSelect<T extends boolean = true> {
   eyebrow?: T;
   title?: T;
+  image?: T;
   description?: T;
   ctaText?: T;
   ctaLink?: T;
@@ -2970,7 +2962,7 @@ export interface SectionBlockSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         intro?: T | IntroBlockSelect<T>;
         workCards?: T | WorkCardsBlockSelect<T>;
-        clientsCarousel?: T | ClientsCarouselSelect<T>;
+        featuredClients?: T | FeaturedClientsBlockSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -3113,22 +3105,6 @@ export interface WorkCardsBlockSelect<T extends boolean = true> {
   title?: T;
   count?: T;
   showReadMore?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ClientsCarousel_select".
- */
-export interface ClientsCarouselSelect<T extends boolean = true> {
-  title?: T;
-  clients?:
-    | T
-    | {
-        logo?: T;
-        href?: T;
-        id?: T;
-      };
   id?: T;
   blockName?: T;
 }
@@ -4150,7 +4126,6 @@ export interface Home {
     | FeaturedBlogBlock
     | FeaturedBlogPostsBlock
     | FeaturedCaseStudiesBlock
-    | ClientsCarousel
     | ContactFormBlock
     | TestimonialSectionBlock
     | ResultsSectionBlock
@@ -4522,7 +4497,6 @@ export interface HomeSelect<T extends boolean = true> {
         featuredBlog?: T | FeaturedBlogBlockSelect<T>;
         featuredBlogPosts?: T | FeaturedBlogPostsBlockSelect<T>;
         featuredCaseStudies?: T | FeaturedCaseStudiesBlockSelect<T>;
-        clientsCarousel?: T | ClientsCarouselSelect<T>;
         contactForm?: T | ContactFormBlockSelect<T>;
         testimonialSection?: T | TestimonialSectionBlockSelect<T>;
         resultsSection?: T | ResultsSectionBlockSelect<T>;

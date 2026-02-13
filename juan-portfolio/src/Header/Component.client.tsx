@@ -4,7 +4,7 @@ import { useLocale } from '@/providers/Locale'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { Globe, X, Menu, ChevronDown } from 'lucide-react'
+import { Globe, X, Menu } from 'lucide-react'
 import { domAnimation, LazyMotion, m, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 
@@ -14,20 +14,22 @@ import { CMSLink } from '@/components/Link'
 
 interface HeaderClientProps {
   data: HeaderType
+  locale: 'en' | 'es'
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: serverLocale }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [isLangOpen, setIsLangOpen] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState(false)
   const { setHeaderTheme } = useHeaderTheme()
-  const { locale, setLocale } = useLocale()
+  const { setLocale: setLocaleContext } = useLocale()
   const pathname = usePathname()
+
+  // The server-provided locale is our absolute source of truth for the active state
+  const currentLocale = serverLocale
 
   useEffect(() => {
     setHeaderTheme(null)
     setIsOpen(false)
-    setIsLangOpen(false)
   }, [pathname, setHeaderTheme])
 
   useEffect(() => {
@@ -38,17 +40,41 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
+  const toggleLocale = () => {
+    const isCurrentlyEn = currentLocale === 'en'
+    const newLocale = isCurrentlyEn ? 'es' : 'en'
+    
+    setLocaleContext(newLocale)
+    
+    let newPath = pathname
+    
+    // Normalize path: remove trailing slash if it's not just '/'
+    const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '')
+
+    if (newLocale === 'en') {
+      // Moving ES -> EN
+      if (!cleanPath.startsWith('/en')) {
+        // If cleanPath is '/', result is '/en'
+        // If cleanPath is '/blog', result is '/en/blog'
+        newPath = cleanPath === '/' ? '/en' : `/en${cleanPath}`
+      }
     } else {
-      document.body.style.overflow = 'unset'
+      // Moving EN -> ES
+      if (cleanPath.startsWith('/en')) {
+        // Remove '/en' prefix. 
+        // If cleanPath is '/en', result is '/'
+        // If cleanPath is '/en/blog', result is '/blog'
+        newPath = cleanPath.replace(/^\/en/, '') || '/'
+      }
     }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen])
+    
+    // Ensure we don't have double slashes
+    newPath = newPath.replace(/\/+/g, '/') || '/'
+    
+    window.location.href = newPath
+  }
+
+  const localePrefix = currentLocale === 'es' ? '' : '/en'
 
   return (
     <LazyMotion features={domAnimation}>
@@ -63,7 +89,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between">
             <Link
-              href="/"
+              href={localePrefix || '/'}
               className="group flex items-center space-x-2 text-2xl font-bold font-array tracking-tighter"
             >
               <m.span
@@ -77,63 +103,36 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:block">
-              <HeaderNav data={data} />
+              <HeaderNav data={data} locale={currentLocale} />
             </div>
 
             <div className="flex items-center space-x-4">
-              {/* Language Switcher */}
-              <div className="relative">
-                <button
-                  className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-secondary/50 hover:bg-secondary transition-all text-xs font-semibold uppercase"
-                  onClick={() => setIsLangOpen(!isLangOpen)}
-                  aria-label="Change language"
-                >
-                  <Globe size={14} className="text-primary" />
-                  <span>{locale}</span>
-                  <ChevronDown
-                    size={14}
-                    className={cn('transition-transform duration-300', isLangOpen && 'rotate-180')}
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {isLangOpen && (
-                    <m.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-3 w-36 bg-background/95 backdrop-blur-md border border-border shadow-2xl rounded-2xl overflow-hidden z-50 p-1"
-                    >
-                      {[
-                        { id: 'en', label: 'English' },
-                        { id: 'es', label: 'Español' },
-                      ].map((lang) => (
-                        <button
-                          key={lang.id}
-                          className={cn(
-                            'w-full text-left px-4 py-2.5 text-sm font-medium transition-colors rounded-xl',
-                            locale === lang.id
-                              ? 'bg-primary/10 text-primary'
-                              : 'hover:bg-secondary text-foreground/70 hover:text-foreground',
-                          )}
-                          onClick={() => {
-                            setLocale(lang.id as 'en' | 'es')
-                            setIsLangOpen(false)
-                          }}
-                        >
-                          {lang.label}
-                        </button>
-                      ))}
-                    </m.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              {/* Language Toggle */}
+              <button
+                className="flex items-center space-x-2 px-4 py-2 rounded-full bg-secondary/50 hover:bg-secondary transition-all text-xs font-bold uppercase border border-white/5 hover:border-primary/30 group"
+                onClick={toggleLocale}
+                aria-label={currentLocale === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+              >
+                <Globe size={14} className="text-primary group-hover:rotate-12 transition-transform" />
+                <span className="flex items-center space-x-1">
+                  <span className={cn(
+                    'transition-colors duration-300',
+                    currentLocale === 'es' ? 'text-primary' : 'text-foreground/40'
+                  )}>ES</span>
+                  <span className="opacity-20">/</span>
+                  <span className={cn(
+                    'transition-colors duration-300',
+                    currentLocale === 'en' ? 'text-primary' : 'text-foreground/40'
+                  )}>EN</span>
+                </span>
+              </button>
 
               {/* CTA Button */}
               {data?.cta?.link && (
                 <div className="hidden sm:block">
                   <CMSLink
                     {...data.cta.link}
+                    locale={currentLocale}
                     className="px-6 py-2.5 bg-primary text-primary-foreground text-sm font-bold rounded-full hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] transition-all transform hover:scale-105 active:scale-95"
                   />
                 </div>
@@ -181,13 +180,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   </div>
 
                   <div className="flex-1">
-                    <HeaderNav data={data} mobile onItemClick={() => setIsOpen(false)} />
+                    <HeaderNav data={data} mobile locale={currentLocale} onItemClick={() => setIsOpen(false)} />
                   </div>
 
                   <div className="mt-auto space-y-6">
                     {data?.cta?.link && (
                       <CMSLink
                         {...data.cta.link}
+                        locale={currentLocale}
                         className="w-full flex items-center justify-center py-4 bg-primary text-primary-foreground font-bold rounded-2xl shadow-xl active:scale-95 transition-transform"
                         onClick={() => setIsOpen(false)}
                       />

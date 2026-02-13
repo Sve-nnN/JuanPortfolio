@@ -6,10 +6,12 @@ import Link from 'next/link'
 import { Card } from '@/components/Card'
 import { ArrowRight } from 'lucide-react'
 
-export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
-  title = 'Últimos posts del blog',
+export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType & { locale?: 'en' | 'es' }> = async ({
+  title,
   count = 3,
+  locale = 'es',
 }) => {
+  const displayTitle = title || (locale === 'es' ? 'Últimos posts del blog' : 'Latest blog posts')
   let posts: Post[] = []
   try {
     const payload = await getPayload({ config: configPromise })
@@ -18,11 +20,19 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
       limit: count || 3,
       sort: '-publishedAt',
       depth: 2,
+      locale,
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
     })
     posts = (res.docs as Post[]) || []
   } catch {
     posts = []
   }
+
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
     <section className="py-24 md:py-32 bg-secondary" id="latest-blog-posts">
@@ -30,14 +40,14 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground leading-tight">
-              {title}
+              {displayTitle}
             </h2>
           </div>
           <Link
-            href="/posts"
+            href={`${localePrefix}/blog`}
             className="hidden md:inline-flex items-center text-lg font-medium text-foreground hover:text-primary transition-colors group"
           >
-            Ver todos los artículos
+            {locale === 'es' ? 'Ver todos los artículos' : 'View all articles'}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -52,6 +62,7 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
                     doc={post}
                     relationTo="posts"
                     showCategories={false}
+                    locale={locale}
                   />
                 </div>
               )
@@ -59,16 +70,18 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
           </div>
         ) : (
           <div className="text-center py-20 bg-muted/30 rounded-2xl">
-            <p className="text-muted-foreground text-lg">No se encontraron artículos publicados recientemente.</p>
+            <p className="text-muted-foreground text-lg">
+              {locale === 'es' ? 'No se encontraron artículos publicados recientemente.' : 'No recently published articles found.'}
+            </p>
           </div>
         )}
 
         <div className="mt-12 md:hidden text-center">
           <Link
-            href="/posts"
+            href={`${localePrefix}/blog`}
             className="inline-flex items-center text-lg font-medium text-foreground hover:text-primary transition-colors group"
           >
-            Ver todos los artículos
+            {locale === 'es' ? 'Ver todos los artículos' : 'View all articles'}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

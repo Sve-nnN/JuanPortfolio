@@ -3,9 +3,11 @@ import Image from 'next/image'
 import type { FeaturedBlogBlock, Post } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { getPostUrl } from '@/utilities/getPostUrl'
+import Link from 'next/link'
 
-export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
-  const { title, description, posts, limit = 3, ctaLabel, ctaUrl } = props
+export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }> = async (props) => {
+  const { title, description, posts, limit = 3, ctaLabel, ctaUrl, locale = 'es' } = props
 
   let displayPosts: Post[] = []
 
@@ -21,6 +23,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
         limit: limit || 3,
         pagination: false,
         sort: '-publishedAt',
+        locale,
       })
       displayPosts = (res.docs as Post[]) || []
     } catch {
@@ -28,6 +31,8 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
       displayPosts = []
     }
   }
+
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
     <section id="blog" className="py-20 md:py-28 bg-gray-50 dark:bg-card-dark">
@@ -60,12 +65,14 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
                   ? p.content.heroImage.alt
                   : p.title || ''
 
+              const href = getPostUrl(p, locale)
+
               return (
                 <div
                   key={p.id}
                   className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
                 >
-                  <a href={`/blog/${p.slug}`}>
+                  <Link href={href}>
                     {heroUrl && (
                       <div className="relative w-full h-48">
                         <Image
@@ -89,7 +96,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
                         <p className="text-muted text-sm">{p.meta.description}</p>
                       )}
                     </div>
-                  </a>
+                  </Link>
                 </div>
               )
             })}
@@ -99,12 +106,12 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
         {/* CTA Button */}
         {ctaLabel && ctaUrl && (
           <div className="text-center mt-12">
-            <a
+            <Link
               className="bg-primary text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors inline-block"
-              href={ctaUrl}
+              href={`${localePrefix}${ctaUrl.startsWith('/') ? '' : '/'}${ctaUrl}`}
             >
               {ctaLabel}
-            </a>
+            </Link>
           </div>
         )}
       </div>

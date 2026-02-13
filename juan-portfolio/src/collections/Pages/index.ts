@@ -8,7 +8,6 @@ import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { WorkCards } from '../../blocks/WorkCards/config'
-import { ClientsCarousel } from '../../blocks/ClientsCarousel/config'
 import { Intro } from '../../blocks/Intro/config'
 import { HeroHome } from '../../blocks/HeroHome/config'
 import { AboutSection } from '../../blocks/AboutSection/config'
@@ -175,11 +174,8 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 Intro,
                 WorkCards,
-                ClientsCarousel,
               ],
               required: true,
-              // localize layout so pages can have different block content per locale
-              localized: true,
               admin: {
                 initCollapsed: true,
               },

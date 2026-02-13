@@ -20,6 +20,7 @@ type CMSLinkType = {
   type?: 'custom' | 'reference' | null
   url?: string | null
   onClick?: React.MouseEventHandler<HTMLAnchorElement>
+  locale?: 'en' | 'es'
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -34,7 +35,10 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     size: sizeFromProps,
     url,
     onClick,
+    locale = 'es',
   } = props
+
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   // Resolve href consistently with site routes
   const href: string | null = (() => {
@@ -44,9 +48,15 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
       if (!slug) return null
       // Posts use /blog/{category}/[slug]; pages use /[slug]
       if (reference.relationTo === 'posts') {
-        return getPostUrl(value as Post)
+        return getPostUrl(value as Post, locale)
       }
-      return `/${slug}`
+      if (reference.relationTo as string === 'categories') {
+        return `${localePrefix}/blog/${slug}`
+      }
+      if (reference.relationTo as string === 'case-studies') {
+        return `${localePrefix}/case-studies/${slug}`
+      }
+      return `${localePrefix}/${slug === 'home' ? '' : slug}`
     }
     if (url) return url
     return null

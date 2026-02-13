@@ -23,6 +23,12 @@ export const AboutWithFeatures: Block = {
       localized: true,
     },
     {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+    },
+    {
       name: 'description',
       type: 'richText',
       label: 'Description',

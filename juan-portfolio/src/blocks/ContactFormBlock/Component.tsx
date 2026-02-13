@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   Send,
   Mail,
@@ -12,8 +12,8 @@ import {
   AlertCircle,
   Loader2,
 } from 'lucide-react'
-import type { ContactFormBlock } from '@/payload-types'
-import { sendContactEmail } from '@/app/(frontend)/actions/sendEmail'
+import type { ContactFormBlock as ContactFormBlockType } from '@/payload-types'
+import { sendContactEmail } from '@/app/(frontend)/[locale]/actions/sendEmail'
 import { TurnstileWidget } from '@/components/Turnstile'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
@@ -26,8 +26,8 @@ const iconMap = {
   github: Github,
 }
 
-export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => {
-  const { eyebrow, title, description, submitLabel = 'Enviar mensaje', contactInfo } = props
+export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale?: 'en' | 'es' }> = (props) => {
+  const { eyebrow, title, description, submitLabel = 'Enviar mensaje', contactInfo, locale = 'es' } = props
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -49,11 +49,11 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
         setIsSuccess(true)
         formRef.current?.reset()
       } else {
-        setErrorMessage(result.error || 'Ocurrió un error inesperado.')
+        setErrorMessage(result.error || (locale === 'es' ? 'Ocurrió un error inesperado.' : 'An unexpected error occurred.'))
       }
     } catch (err) {
       console.error(err)
-      setErrorMessage('Error de conexión. Inténtalo de nuevo.')
+      setErrorMessage(locale === 'es' ? 'Error de conexión. Inténtalo de nuevo.' : 'Connection error. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -94,17 +94,19 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                         <CheckCircle2 className="text-primary w-12 h-12" />
                       </div>
                       <h3 className="text-2xl font-bold text-foreground mb-3">
-                        ¡Mensaje recibido!
+                        {locale === 'es' ? '¡Mensaje recibido!' : 'Message received!'}
                       </h3>
                       <p className="text-muted-foreground mb-8">
-                        Gracias por ponerte en contacto. Te responderé en menos de 24 horas.
+                        {locale === 'es' 
+                          ? 'Gracias por ponerte en contacto. Te responderé en menos de 24 horas.' 
+                          : 'Thanks for getting in touch. I will get back to you in less than 24 hours.'}
                       </p>
                       <Button
                         onClick={() => setIsSuccess(false)}
                         variant="outline"
                         className="rounded-full px-8"
                       >
-                        Enviar otro mensaje
+                        {locale === 'es' ? 'Enviar otro mensaje' : 'Send another message'}
                       </Button>
                     </div>
                   ) : (
@@ -121,7 +123,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                                 : 'text-muted-foreground group-hover:text-foreground',
                             )}
                           >
-                            Nombre completo
+                            {locale === 'es' ? 'Nombre completo' : 'Full name'}
                           </label>
                           <input
                             autoComplete="name"
@@ -130,7 +132,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                             name="name"
                             onFocus={() => setFocusedField('name')}
                             onBlur={() => setFocusedField(null)}
-                            placeholder="Ej. Juan Pérez"
+                            placeholder={locale === 'es' ? 'Ej. Juan Pérez' : 'e.g. John Doe'}
                             required
                             type="text"
                           />
@@ -147,7 +149,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                                 : 'text-muted-foreground group-hover:text-foreground',
                             )}
                           >
-                            Correo electrónico
+                            {locale === 'es' ? 'Correo electrónico' : 'Email address'}
                           </label>
                           <input
                             autoComplete="email"
@@ -174,7 +176,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                               : 'text-muted-foreground group-hover:text-foreground',
                           )}
                         >
-                          Tu mensaje
+                          {locale === 'es' ? 'Tu mensaje' : 'Your message'}
                         </label>
                         <textarea
                           className="w-full bg-background border-b border-border py-2 focus:border-primary outline-none transition-all duration-300 min-h-[100px] resize-none placeholder:text-muted/30"
@@ -182,7 +184,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                           name="message"
                           onFocus={() => setFocusedField('message')}
                           onBlur={() => setFocusedField(null)}
-                          placeholder="¿En qué puedo ayudarte?"
+                          placeholder={locale === 'es' ? '¿En qué puedo ayudarte?' : 'How can I help you?'}
                           required
                           rows={3}
                         ></textarea>
@@ -210,7 +212,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                           {isSubmitting ? (
                             <>
                               <Loader2 className="mr-2 animate-spin" size={20} />
-                              <span>Enviando...</span>
+                              <span>{locale === 'es' ? 'Enviando...' : 'Sending...'}</span>
                             </>
                           ) : (
                             <>
@@ -235,10 +237,12 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
 
                 <div className="relative z-10">
                   <h3 className="text-3xl font-display font-bold mb-8 tracking-tight">
-                    Charlemos sobre tu próximo proyecto
+                    {locale === 'es' ? 'Charlemos sobre tu próximo proyecto' : 'Let\'s chat about your next project'}
                   </h3>
                   <p className="text-primary-foreground/80 mb-12 text-lg font-medium max-w-xs">
-                    Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!
+                    {locale === 'es' 
+                      ? 'Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!' 
+                      : 'I am available for freelance projects and collaborations. Let\'s talk!'}
                   </p>
 
                   {contactInfo && contactInfo.length > 0 && (
@@ -276,7 +280,6 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                 <div className="mt-16 relative z-10 pt-10 border-t border-white/10">
                   <div className="flex items-center space-x-3 text-sm font-medium">
                     <div className="flex -space-x-2">
-                      {/* Mini avatars for visual interest */}
                       {[1, 2, 3].map((i) => (
                         <div
                           key={i}
@@ -285,7 +288,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlock> = (props) => 
                       ))}
                     </div>
                     <span className="text-white/70 italic text-xs">
-                      Más de 50 proyectos completados
+                      {locale === 'es' ? 'Más de 50 proyectos completados' : 'Over 50 projects completed'}
                     </span>
                   </div>
                 </div>

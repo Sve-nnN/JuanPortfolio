@@ -4,7 +4,7 @@ import { fetchPageMetrics, saveMetricsToPayload } from '@/scripts/seo/update-cwv
 export const triggerCWVScan: CollectionAfterChangeHook = async ({
   doc, // full document data
   operation, // create / update
-  req, // full express request
+  req: _req, // full express request
 }) => {
   // Only trigger on create or update
   if (operation !== 'create' && operation !== 'update') return doc

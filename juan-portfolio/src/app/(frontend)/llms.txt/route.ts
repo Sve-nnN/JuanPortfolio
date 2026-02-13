@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { unstable_cache } from 'next/cache'
+import type { Llm } from '@/payload-types'
 
 const getLLMText = unstable_cache(
   async () => {
@@ -11,11 +12,10 @@ const getLLMText = unstable_cache(
       'https://juan-tech.com'
 
     try {
-      // @ts-ignore
       const llmConfig = (await payload.findGlobal({
         slug: 'llm',
         depth: 0,
-      })) as any
+      })) as Llm
 
       let text = `# ${llmConfig.summary || 'Juan Tech Portfolio & Blog'}\n\n`
 
@@ -25,7 +25,7 @@ const getLLMText = unstable_cache(
 
       if (llmConfig.resources && llmConfig.resources.length > 0) {
         text += `## Key Resources\n`
-        llmConfig.resources.forEach((resource: any) => {
+        llmConfig.resources.forEach((resource) => {
           text += `- [${resource.title}](${resource.url})${
             resource.description ? `: ${resource.description}` : ''
           }\n`
@@ -50,8 +50,8 @@ const getLLMText = unstable_cache(
 
       if (posts.docs.length > 0) {
         text += `## Recent Blog Posts\n`
-        posts.docs.forEach((post: any) => {
-          const categorySlug = post.categories?.[0]?.slug || 'general'
+        posts.docs.forEach((post) => {
+          const categorySlug = (post.categories?.[0] as any)?.slug || 'general'
           text += `- [${post.title}](${SITE_URL}/blog/${categorySlug}/${post.slug})\n`
         })
         text += `\n`

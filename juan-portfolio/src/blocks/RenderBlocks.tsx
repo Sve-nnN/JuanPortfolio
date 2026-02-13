@@ -12,7 +12,6 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   mediaBlock: dynamic(() => import('@/blocks/MediaBlock/Component').then((m) => m.MediaBlock)),
   intro: dynamic(() => import('@/blocks/Intro/Component').then((m) => m.IntroBlock)),
   workCards: dynamic(() => import('@/blocks/WorkCards/Component').then((m) => m.WorkCardsBlock)),
-  clientsCarousel: dynamic(() => import('@/blocks/ClientsCarousel/Component')),
   section: dynamic(() => import('@/blocks/Section/Component').then((m) => m.SectionBlock)),
   heroHome: dynamic(() => import('@/blocks/HeroHome/Component').then((m) => m.HeroHome)),
   aboutSection: dynamic(() =>
@@ -76,12 +75,11 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   ),
 }
 
-import { AnimateOnScroll } from '@/components/AnimateOnScroll'
-
 export const RenderBlocks: React.FC<{
   blocks: Page['content']['layout']
+  locale?: 'en' | 'es'
 }> = (props) => {
-  const { blocks } = props
+  const { blocks, locale } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -96,15 +94,15 @@ export const RenderBlocks: React.FC<{
               if (index === 0) {
                 return (
                   <div className="mb-16" key={index}>
-                    <Block {...block} />
+                    <Block {...block} locale={locale} />
                   </div>
                 )
               }
 
               return (
-                <AnimateOnScroll className="my-20 lg:my-32" key={index}>
-                  <Block {...block} />
-                </AnimateOnScroll>
+                <div className="my-20 lg:my-32" key={index}>
+                  <Block {...block} locale={locale} />
+                </div>
               )
             }
           }

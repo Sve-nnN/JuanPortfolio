@@ -4,9 +4,14 @@ import { m } from 'framer-motion'
 import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 
-type Props = { data: HeaderType; mobile?: boolean; onItemClick?: () => void }
+type Props = { 
+  data: HeaderType; 
+  mobile?: boolean; 
+  onItemClick?: () => void;
+  locale?: 'en' | 'es'
+}
 
-export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
+export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick, locale = 'es' }) => {
   const navItems = data?.navItems || []
 
   const containerVariants = {
@@ -41,6 +46,7 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
           >
             <CMSLink
               {...link}
+              locale={locale}
               className="block text-3xl font-bold font-array py-4 transition-colors text-foreground hover:text-primary border-b border-border/50 w-full"
               onClick={() => {
                 // Instantly trigger closure without blocking navigation
@@ -60,6 +66,7 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
           <m.div key={i} className="relative px-4 py-2 group" whileTap={{ scale: 0.95 }}>
             <CMSLink
               {...link}
+              locale={locale}
               className="text-sm font-semibold text-foreground/70 group-hover:text-foreground transition-colors relative z-10"
             />
             <m.span

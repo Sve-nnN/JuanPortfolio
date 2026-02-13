@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale } from '@/providers/Locale'
 
 interface CategoryHeaderProps {
   title: string
@@ -17,6 +18,9 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   _categorySlug,
   backgroundImage,
 }) => {
+  const { locale } = useLocale()
+  const localePrefix = locale === 'es' ? '' : '/en'
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -68,11 +72,11 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             aria-label="Breadcrumb"
             className="flex flex-wrap justify-end gap-2 items-center mb-0 text-sm font-medium uppercase tracking-wide text-white/80"
           >
-            <Link className="hover:text-white transition-colors" href="/">
-              Inicio
+            <Link className="hover:text-white transition-colors" href={localePrefix || '/'}>
+              {locale === 'es' ? 'Inicio' : 'Home'}
             </Link>
             <span className="text-white/40">/</span>
-            <Link className="hover:text-white transition-colors" href="/blog">
+            <Link className="hover:text-white transition-colors" href={`${localePrefix}/blog`}>
               Blog
             </Link>
             <span className="text-white/40">/</span>

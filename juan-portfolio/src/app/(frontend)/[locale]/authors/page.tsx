@@ -40,12 +40,21 @@ const getAuthors = async () => {
   }
 }
 
+type Args = {
+  params: Promise<{
+    locale: string
+  }>
+}
+
 /**
  * The authors listing page component.
  * @returns {Promise<React.ReactElement>} A promise that resolves to the authors page component.
  */
-const AuthorsPage = async () => {
+const AuthorsPage = async ({ params: paramsPromise }: Args) => {
+  const { locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const authors = (await getAuthors()) as AuthorRef[]
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
     <main>
@@ -53,10 +62,12 @@ const AuthorsPage = async () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h1 className="text-4xl md:text-6xl font-display font-bold text-current mb-4">
-              Autores
+              {locale === 'es' ? 'Autores' : 'Authors'}
             </h1>
             <p className="max-w-3xl mx-auto text-lg text-muted">
-              Conoce a las personas que escriben en el blog.
+              {locale === 'es' 
+                ? 'Conoce a las personas que escriben en el blog.' 
+                : 'Meet the people who write on the blog.'}
             </p>
           </div>
 
@@ -81,9 +92,9 @@ const AuthorsPage = async () => {
                 {a.role ? <p className="text-sm text-muted mb-3">{a.role}</p> : null}
                 <Link
                   className="text-primary font-semibold mt-auto"
-                  href={`/author/${a.slug || a.id}`}
+                  href={`${localePrefix}/author/${a.slug || a.id}`}
                 >
-                  Ver perfil
+                  {locale === 'es' ? 'Ver perfil' : 'View profile'}
                 </Link>
               </article>
             ))}

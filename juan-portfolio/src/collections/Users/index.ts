@@ -103,6 +103,7 @@ export const Users: CollectionConfig = {
             {
               name: 'jobTitle',
               type: 'text',
+              localized: true,
               label: 'Título Profesional',
               admin: {
                 description: 'Ej: Full-Stack Developer, Senior Software Engineer',

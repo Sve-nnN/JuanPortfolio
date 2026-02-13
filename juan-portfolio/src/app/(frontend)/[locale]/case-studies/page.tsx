@@ -5,6 +5,7 @@
 import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { CaseStudiesListing } from '@/payload-types'
 
 /**
  * The main case studies listing page component.
@@ -12,21 +13,35 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
  * If no blocks are configured, it displays a fallback message.
  * @returns {Promise<React.ReactElement>} A promise that resolves to the case studies page component.
  */
-const CaseStudiesPage = async () => {
+
+
+type Args = {
+  params: Promise<{
+    locale: string
+  }>
+}
+
+const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
+  const { locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+
   // Get case studies listing global with blocks
-  const caseStudiesGlobal = await getCachedGlobal('case-studies-listing')().catch(() => null)
+  const caseStudiesGlobal = (await getCachedGlobal('case-studies-listing', 0, locale)().catch(() => null)) as CaseStudiesListing | null
+
+  let layout = caseStudiesGlobal?.layout
+
+  // Handle case where layout might be an object due to previous localization setting
+  if (layout && !Array.isArray(layout) && typeof layout === 'object') {
+    // @ts-expect-error - Handling legacy localized layout
+    layout = layout[locale] || layout.es || []
+  }
 
   // If global has layout blocks, render them
-  if (
-    caseStudiesGlobal &&
-    'layout' in caseStudiesGlobal &&
-    Array.isArray(caseStudiesGlobal.layout) &&
-    caseStudiesGlobal.layout.length > 0
-  ) {
+  if (layout && Array.isArray(layout) && layout.length > 0) {
     return (
       <main>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <RenderBlocks blocks={caseStudiesGlobal.layout as any} />
+        <RenderBlocks blocks={layout as any} locale={locale} />
       </main>
     )
   }

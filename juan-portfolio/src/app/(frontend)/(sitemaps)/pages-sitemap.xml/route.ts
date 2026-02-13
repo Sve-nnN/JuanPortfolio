@@ -31,27 +31,34 @@ const getPagesSitemap = unstable_cache(
         },
       })
 
+      const locales = ['en', 'es']
       const dateFallback = new Date().toISOString()
 
-      const defaultSitemap = [
-        {
-          loc: `${SITE_URL}/search`,
-          lastmod: dateFallback,
-        },
-        {
-          loc: `${SITE_URL}/blog`,
-          lastmod: dateFallback,
-        },
-      ]
+      const defaultSitemap = locales.flatMap(locale => {
+        const prefix = locale === 'es' ? '' : `/${locale}`
+        return [
+          {
+            loc: `${SITE_URL}${prefix}/search`,
+            lastmod: dateFallback,
+          },
+          {
+            loc: `${SITE_URL}${prefix}/blog`,
+            lastmod: dateFallback,
+          },
+        ]
+      })
 
       const sitemap = results.docs
         ? results.docs
             .filter((page) => Boolean(page?.slug))
-            .map((page) => {
-              return {
-                loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
-                lastmod: page.updatedAt || dateFallback,
-              }
+            .flatMap((page) => {
+              return locales.map(locale => {
+                const prefix = locale === 'es' ? '' : `/${locale}`
+                return {
+                  loc: page?.slug === 'home' ? `${SITE_URL}${prefix}/` : `${SITE_URL}${prefix}/${page?.slug}`,
+                  lastmod: page.updatedAt || dateFallback,
+                }
+              })
             })
         : []
 

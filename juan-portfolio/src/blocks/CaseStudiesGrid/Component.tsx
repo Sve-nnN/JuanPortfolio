@@ -1,162 +1,77 @@
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import type { CaseStudiesGridBlock, CaseStudy, Category } from '@/payload-types'
+import type { CaseStudiesGridBlock, CaseStudy } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import Link from 'next/link'
+import { Media } from '@/components/Media'
+import { ArrowRight } from 'lucide-react'
 
-export const CaseStudiesGrid: React.FC<CaseStudiesGridBlock & { page?: number }> = async (
-  props,
-) => {
-  const {
-    itemsPerPage = 12,
-    showCategories = true,
-    gridColumns = '3',
-    showExcerpt = true,
-    showDate = false,
-    page = 1,
-  } = props
+export const CaseStudiesGrid: React.FC<CaseStudiesGridBlock & { locale?: 'en' | 'es' }> = async (props) => {
+  const { itemsPerPage = 6, locale = 'es' } = props
 
-  // Fetch case studies
-  let cases: CaseStudy[] = []
-  let totalPages = 1
-
+  let caseStudies: CaseStudy[] = []
   try {
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
       collection: 'case-studies',
       limit: itemsPerPage || 6,
-      page,
-      depth: 1,
       sort: '-publishedAt',
+      depth: 1,
+      locale,
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
     })
-    cases = (res.docs as CaseStudy[]) || []
-    totalPages = res.totalPages
+    caseStudies = (res.docs as CaseStudy[]) || []
   } catch {
-    cases = []
+    caseStudies = []
   }
 
-  // Fetch categories if needed
-  let categories: Category[] = []
-  if (showCategories) {
-    try {
-      const payload = await getPayload({ config: configPromise })
-      const res = await payload.find({
-        collection: 'categories',
-        limit: 100,
-        pagination: false,
-      })
-      categories = (res.docs as Category[]) || []
-    } catch {
-      categories = []
-    }
-  }
-
-  const gridColsClass = {
-    '2': 'lg:grid-cols-2',
-    '3': 'lg:grid-cols-3',
-    '4': 'lg:grid-cols-4',
-  }[gridColumns || '3']
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Category Filters */}
-      {showCategories && categories.length > 0 && (
-        <div className="mb-12 flex flex-wrap justify-center gap-2">
-          <button className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-full">
-            Todo
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              className="px-4 py-2 text-sm font-medium text-muted bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              {cat.title}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Case Studies Grid */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
-        {cases.map((c) => {
-          const heroUrl =
-            c.content?.heroImage &&
-            typeof c.content.heroImage === 'object' &&
-            'url' in c.content.heroImage
-              ? c.content.heroImage.url
-              : null
-
-          const heroAlt =
-            c.content?.heroImage &&
-            typeof c.content.heroImage === 'object' &&
-            'alt' in c.content.heroImage
-              ? c.content.heroImage.alt
-              : c.title || ''
-
-          return (
-            <article
-              key={c.id}
-              className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
-            >
-              <Link
-                className="block aspect-[4/3] overflow-hidden"
-                href={`/case-studies/${c.slug || c.id}`}
-              >
-                {heroUrl ? (
-                  <Image
-                    src={heroUrl}
-                    alt={heroAlt || ''}
-                    width={1200}
-                    height={800}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                ) : (
-                  <div
-                    className="bg-gray-100 dark:bg-card-dark w-full h-full"
-                    style={{ minHeight: 200 }}
-                  />
-                )}
-              </Link>
-              <div className="p-6 flex flex-col flex-grow">
-                {/* Date */}
-                {showDate && c.publishedAt && (
-                  <p className="text-sm text-muted mb-2">
-                    {new Date(c.publishedAt).toLocaleDateString()}
-                  </p>
-                )}
-
-                {/* Title */}
-                <h2 className="text-xl font-bold text-current mb-2 group-hover:text-primary transition-colors">
-                  <Link href={`/case-studies/${c.slug || c.id}`}>{c.title}</Link>
-                </h2>
-
-                {/* Excerpt */}
-                {showExcerpt && c.meta?.description && (
-                  <p className="text-muted flex-grow mb-4 line-clamp-3">{c.meta.description}</p>
-                )}
-
-                {/* Read more */}
-                <Link
-                  href={`/case-studies/${c.slug || c.id}`}
-                  className="text-primary font-semibold group-hover:underline mt-auto"
+    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        {caseStudies.map((cs) => (
+          <div key={cs.id} className="group relative flex flex-col h-full bg-card rounded-2xl overflow-hidden border border-border transition-all hover:shadow-xl">
+            <Link href={`${localePrefix}/case-studies/${cs.slug}`} className="block relative aspect-video overflow-hidden">
+              {cs.content?.heroImage && (
+                <Media
+                  resource={cs.content.heroImage}
+                  fill
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <span className="text-white font-bold flex items-center gap-2">
+                  {locale === 'es' ? 'Ver proyecto' : 'View project'} <ArrowRight size={18} />
+                </span>
+              </div>
+            </Link>
+            
+            <div className="p-6 flex flex-col flex-grow">
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
+                <Link href={`${localePrefix}/case-studies/${cs.slug}`}>{cs.title}</Link>
+              </h3>
+              {cs.meta?.description && (
+                <p className="text-muted-foreground line-clamp-2 mb-6">
+                  {cs.meta.description}
+                </p>
+              )}
+              <div className="mt-auto">
+                <Link 
+                  href={`${localePrefix}/case-studies/${cs.slug}`}
+                  className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2"
                 >
-                  Ver caso de estudio →
+                  {locale === 'es' ? 'Explorar caso de estudio' : 'Explore case study'}
                 </Link>
               </div>
-            </article>
-          )
-        })}
+            </div>
+          </div>
+        ))}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="mt-12 flex justify-center gap-2">
-          <p className="text-muted">
-            Página {page} de {totalPages}
-          </p>
-        </div>
-      )}
-    </div>
+    </section>
   )
 }

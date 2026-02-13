@@ -8,8 +8,6 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 // Import built-in translations
 // If you want to customize admin translations, you can import them:
-// import { en } from '@payloadcms/translations/languages/en'
-// import { es } from '@payloadcms/translations/languages/es'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -83,10 +81,8 @@ export default buildConfig({
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   // Internationalization (admin UI translations)
-  // Keep only a fallback language for now. Removing `supportedLanguages`
-  // avoids runtime admin errors when translation objects are not installed.
   i18n: {
-    fallbackLanguage: 'en',
+    fallbackLanguage: 'es',
   },
   // Content localization (localized fields per document)
   localization: {

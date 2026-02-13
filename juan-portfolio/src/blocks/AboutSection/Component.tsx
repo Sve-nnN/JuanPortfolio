@@ -1,66 +1,42 @@
 import React from 'react'
-import { Zap, Monitor, Lightbulb, TrendingUp, Rocket, Shield, ArrowRight } from 'lucide-react'
-import type { AboutSectionBlock } from '@/payload-types'
+import type { AboutSectionBlock as AboutSectionBlockProps } from '@/payload-types'
+import { CMSLink } from '@/components/Link'
 
-const iconMap = {
-  zap: Zap,
-  monitor: Monitor,
-  lightbulb: Lightbulb,
-  'trending-up': TrendingUp,
-  rocket: Rocket,
-  shield: Shield,
-}
-
-export const AboutSection: React.FC<AboutSectionBlock> = (props) => {
-  const { eyebrow, title, paragraphs, ctaLabel, ctaUrl, features } = props
-
+export const AboutSection: React.FC<AboutSectionBlockProps & { locale?: 'en' | 'es' }> = (props) => {
+  const { title, paragraphs, ctaLabel, ctaUrl, locale = 'es' } = props
+  
   return (
-    <section className="py-20 md:py-28" id="about">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          {/* Text content */}
-          <div>
-            {eyebrow && <span className="text-primary font-semibold">{eyebrow}</span>}
-            {title && (
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-current mt-2 mb-6">
-                {title}
-              </h2>
-            )}
-            {paragraphs &&
-              paragraphs.map((p, i) => (
-                <p key={i} className="text-muted mb-4 text-lg">
-                  {p.text}
-                </p>
+    <section className="py-20 md:py-32 overflow-hidden">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="order-2 lg:order-1">
+            <h2 className="text-4xl md:text-6xl font-array font-bold tracking-tighter mb-8 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              {title}
+            </h2>
+            <div className="prose prose-xl dark:prose-invert text-muted-foreground mb-12">
+              {(paragraphs || []).map((p, i) => (
+                <p key={i}>{p.text}</p>
               ))}
-            {ctaLabel && ctaUrl && (
-              <a
-                className="text-primary font-semibold hover:underline flex items-center"
-                href={ctaUrl}
-              >
-                <span>{ctaLabel}</span>
-                <ArrowRight className="ml-1" size={18} />
-              </a>
-            )}
-          </div>
-
-          {/* Features grid */}
-          {features && features.length > 0 && (
-            <div className="grid grid-cols-2 grid-rows-2 gap-4">
-              {features.map((feature, i) => {
-                const IconComponent = iconMap[feature.icon as keyof typeof iconMap] || Zap
-                return (
-                  <div
-                    key={i}
-                    className="p-6 bg-card rounded-lg shadow-md flex flex-col items-center text-center"
-                  >
-                    <IconComponent className="text-primary mb-3" size={36} />
-                    <h3 className="text-lg font-bold text-current mb-1">{feature.title}</h3>
-                    <p className="text-sm text-muted">{feature.description}</p>
-                  </div>
-                )
-              })}
             </div>
-          )}
+            <div className="flex flex-wrap gap-4">
+              {ctaLabel && ctaUrl && (
+                <CMSLink 
+                  url={ctaUrl}
+                  label={ctaLabel}
+                  appearance="default"
+                  locale={locale}
+                  className="px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl hover:shadow-lg transition-all" 
+                />
+              )}
+            </div>
+          </div>
+          
+          <div className="order-1 lg:order-2">
+            <div className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden group shadow-2xl bg-muted">
+              {/* Image field removed from schema, using placeholder or decoration */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

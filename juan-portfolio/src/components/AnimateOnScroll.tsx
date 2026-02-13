@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { domAnimation, LazyMotion, m, useInView } from 'framer-motion'
 import type { AnimationConfig } from '@/fields/animation'
 import { getAnimationVariants, getViewportOptions } from '@/utilities/animationVariants'
@@ -13,12 +13,17 @@ interface AnimateOnScrollProps {
 }
 
 export function AnimateOnScroll({ children, config, className, as = 'div' }: AnimateOnScrollProps) {
+  const [isMounted, setIsMounted] = useState(false)
   const ref = React.useRef(null)
   const isInView = useInView(ref, getViewportOptions(config))
 
-  // If animations are explicitly disabled, just render children
-  if (config?.enabled === false) {
-    return <div className={className}>{children}</div>
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // If animations are explicitly disabled, or not mounted, or reduced motion, just render children
+  if (config?.enabled === false || !isMounted) {
+    return <div className={className} ref={ref}>{children}</div>
   }
 
   // Respect reduced motion preference

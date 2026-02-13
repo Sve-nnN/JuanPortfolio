@@ -1,21 +1,20 @@
 import { Metadata } from 'next'
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Card } from '@/components/Card'
 import { generatePersonSchema } from '@/utilities/schema/generatePersonSchema'
 import { mergeSchemas } from '@/utilities/schema/mergeSchemas'
 import Script from 'next/script'
-import RichText from '@/components/RichText'
 import { Calendar, Building, GraduationCap, Briefcase } from 'lucide-react'
+import { generateMeta } from '@/utilities/generateMeta'
 
 type Props = {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string, locale: string }>
 }
 
-const queryUserBySlug = async (slug: string) => {
+const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
   const payload = await getPayload({ config: configPromise })
   let res = await payload.find({
     collection: 'users',
@@ -23,6 +22,7 @@ const queryUserBySlug = async (slug: string) => {
     where: { slug: { equals: slug } },
     pagination: false,
     depth: 2,
+    locale,
   })
   if (!res.docs?.[0]) {
     res = await payload.find({
@@ -31,12 +31,13 @@ const queryUserBySlug = async (slug: string) => {
       where: { id: { equals: slug } },
       pagination: false,
       depth: 2,
+      locale,
     })
   }
   return res.docs?.[0] || null
 }
 
-const queryPostsByAuthor = async (authorId: string) => {
+const queryPostsByAuthor = async (authorId: string, locale?: 'en' | 'es') => {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
     collection: 'posts',
@@ -46,41 +47,44 @@ const queryPostsByAuthor = async (authorId: string) => {
       _status: { equals: 'published' },
     },
     sort: '-publishedAt',
+    locale,
   })
   return res.docs || []
 }
 
 export async function generateMetadata({
-  params,
+  params: paramsPromise,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string, locale: string }>
 }): Promise<Metadata> {
-  const { slug } = await params
-  const user = await queryUserBySlug(slug)
+  const { slug, locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const user = await queryUserBySlug(slug, locale)
 
   if (!user) {
     return {
-      title: 'Autor no encontrado',
+      title: locale === 'es' ? 'Autor no encontrado' : 'Author not found',
     }
   }
 
-  return {
-    title: user.meta?.title || `${user.name} - Autor`,
-    description: user.meta?.description || user.bio || `Perfil de ${user.name}`,
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return generateMeta({ doc: user as any, locale, path: `/authors/${slug}` })
 }
 
-export default async function AuthorPage({ params }: Props) {
-  const { slug = '' } = await params
-  if (!slug) return <p>Autor no encontrado</p>
-  const user = await queryUserBySlug(slug)
-  if (!user) return <p>Autor no encontrado</p>
+export default async function AuthorPage({ params: paramsPromise }: Props) {
+  const { slug = '', locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const localePrefix = locale === 'es' ? '' : '/en'
 
-  const posts = await queryPostsByAuthor(user.id)
+  if (!slug) return <p className="container py-24 text-center">{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
+  const user = await queryUserBySlug(slug, locale)
+  if (!user) return <p className="container py-24 text-center">{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
+
+  const posts = await queryPostsByAuthor(user.id, locale)
 
   // Generate Person schema for E-E-A-T
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
-  const authorUrl = `${baseUrl}/authors/${user.slug}`
+  const authorUrl = `${baseUrl}${localePrefix}/authors/${user.slug}`
 
   // Get avatar URL from cloudinaryUrl or fallback to url
   const avatarUrl =
@@ -120,14 +124,14 @@ export default async function AuthorPage({ params }: Props) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Home',
-        item: baseUrl,
+        name: locale === 'es' ? 'Inicio' : 'Home',
+        item: `${baseUrl}${localePrefix}/`,
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Autores',
-        item: `${baseUrl}/authors`,
+        name: locale === 'es' ? 'Autores' : 'Authors',
+        item: `${baseUrl}${localePrefix}/authors`,
       },
       {
         '@type': 'ListItem',
@@ -277,7 +281,7 @@ export default async function AuthorPage({ params }: Props) {
               {user.experience && user.experience.length > 0 && (
                 <div className="mb-12">
                   <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
-                    Experiencia Profesional
+                    {locale === 'es' ? 'Experiencia Profesional' : 'Professional Experience'}
                   </h2>
                   <div className="space-y-0">
                     {user.experience.map((exp, i) => (
@@ -298,9 +302,9 @@ export default async function AuthorPage({ params }: Props) {
                           <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3 ml-7">
                             <Calendar className="w-4 h-4" />
                             <p>
-                              {exp.startDate ? new Date(exp.startDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : ''}
+                              {exp.startDate ? new Date(exp.startDate).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long' }) : ''}
                               {' — '}
-                              {exp.endDate ? new Date(exp.endDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : 'Presente'}
+                              {exp.endDate ? new Date(exp.endDate).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long' }) : (locale === 'es' ? 'Presente' : 'Present')}
                             </p>
                           </div>
                           {exp.description && (
@@ -317,7 +321,7 @@ export default async function AuthorPage({ params }: Props) {
               {user.education && user.education.length > 0 && (
                 <div className="mb-12">
                   <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
-                    Educación y Certificaciones
+                    {locale === 'es' ? 'Educación y Certificaciones' : 'Education and Certifications'}
                   </h2>
                   <div className="space-y-0">
                     {user.education.map((edu, i) => {
@@ -354,7 +358,7 @@ export default async function AuthorPage({ params }: Props) {
                                       {logoUrl && (
                                         <Image
                                           src={logoUrl}
-                                          alt={`Logo de ${edu.institution}`}
+                                          alt={locale === 'es' ? `Logo de ${edu.institution}` : `${edu.institution} logo`}
                                           width={20}
                                           height={20}
                                           className="inline-block object-contain"
@@ -366,10 +370,10 @@ export default async function AuthorPage({ params }: Props) {
                                 <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                                   <Calendar className="w-4 h-4" />
                                   <p>
-                                    {edu.startDate ? new Date(edu.startDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : ''}
+                                    {edu.startDate ? new Date(edu.startDate).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long' }) : ''}
                                     {edu.startDate && edu.endDate && ' — '}
                                     {edu.startDate && !edu.endDate && ' — '}
-                                    {edu.endDate ? new Date(edu.endDate).toLocaleDateString('es', { year: 'numeric', month: 'long' }) : (edu.startDate ? 'Presente' : '')}
+                                    {edu.endDate ? new Date(edu.endDate).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long' }) : (edu.startDate ? (locale === 'es' ? 'Presente' : 'Present') : '')}
                                   </p>
                                 </div>
                               </div>
@@ -379,11 +383,11 @@ export default async function AuthorPage({ params }: Props) {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="flex-shrink-0"
-                                  aria-label={`Ver certificado de ${edu.degree}`}
+                                  aria-label={locale === 'es' ? `Ver certificado de ${edu.degree}` : `View ${edu.degree} certificate`}
                                 >
                                   <Image
                                     src={certUrl}
-                                    alt={`Certificado de ${edu.degree}`}
+                                    alt={locale === 'es' ? `Certificado de ${edu.degree}` : `${edu.degree} certificate`}
                                     width={120}
                                     height={120}
                                     className="rounded-lg object-cover border-2 border-border hover:border-primary transition-colors"
@@ -402,22 +406,20 @@ export default async function AuthorPage({ params }: Props) {
                 </div>
               )}
 
-              {/* Credentials (Legacy - Hidden from display) */}
-
               {/* Published Articles */}
               <div>
                 <h2 className="text-2xl md:text-3xl font-display font-bold mb-6">
-                  Artículos Publicados ({posts.length})
+                  {locale === 'es' ? `Artículos Publicados (${posts.length})` : `Published Articles (${posts.length})`}
                 </h2>
                 {posts.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {posts.map((post) => (
-                      <Card key={post.id} doc={post} relationTo="posts" showCategories={true} />
+                      <Card key={post.id} doc={post} relationTo="posts" showCategories={true} locale={locale} />
                     ))}
                   </div>
                 ) : (
                   <p className="text-muted-foreground">
-                    Aún no hay artículos publicados por este autor.
+                    {locale === 'es' ? 'Aún no hay artículos publicados por este autor.' : 'No articles published by this author yet.'}
                   </p>
                 )}
               </div>

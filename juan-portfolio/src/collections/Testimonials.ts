@@ -20,17 +20,20 @@ export const Testimonials: CollectionConfig = {
     {
       name: 'company',
       type: 'text',
+      localized: true,
       label: 'Empresa/Organización',
     },
     {
       name: 'role',
       type: 'text',
+      localized: true,
       label: 'Rol o cargo',
     },
     {
       name: 'testimonial',
       type: 'textarea',
       required: true,
+      localized: true,
       label: 'Testimonio',
     },
     {

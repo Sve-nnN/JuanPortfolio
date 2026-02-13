@@ -21,25 +21,20 @@ const LocaleContext = createContext<Context>(initialContext)
 
 export const LocaleProvider = ({
   children,
-  initialLocale,
+  initialLocale = 'es',
 }: {
   children: React.ReactNode
   initialLocale?: Locale
 }) => {
-  const [locale, setLocaleState] = useState<Locale>(initialLocale || 'es')
+  const [locale, setLocaleState] = useState<Locale>(initialLocale)
 
   useEffect(() => {
+    setLocaleState(initialLocale)
     try {
-      const stored = window.localStorage.getItem(STORAGE_KEY) as Locale | null
-      if (stored && (stored === 'en' || stored === 'es')) {
-        setLocaleState(stored)
-        return
-      }
+      window.localStorage.setItem(STORAGE_KEY, initialLocale)
     } catch {
-      // ignore localStorage errors
+      // ignore
     }
-
-    if (initialLocale) setLocaleState(initialLocale)
   }, [initialLocale])
 
   const setLocale = useCallback((l: Locale) => {
@@ -54,4 +49,10 @@ export const LocaleProvider = ({
   return <LocaleContext value={{ locale, setLocale }}>{children}</LocaleContext>
 }
 
-export const useLocale = () => use(LocaleContext)
+export const useLocale = () => {
+  const context = use(LocaleContext)
+  if (context === undefined) {
+    return initialContext
+  }
+  return context
+}

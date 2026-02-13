@@ -6,8 +6,9 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-export const MediumImpactHero: React.FC<Page['hero']> = (props) => {
+export const MediumImpactHero: React.FC<Page['hero'] & { locale?: 'en' | 'es' }> = (props) => {
   const { links, media, richText } = props.hero
+  const locale = props.locale
 
   return (
     <div className="pt-20 pb-20 md:pt-28 md:pb-28 lg:pb-32">
@@ -27,7 +28,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = (props) => {
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
-                    <CMSLink {...link} className="btn-primary px-6 py-3" />
+                    <CMSLink {...link} locale={locale} className="btn-primary px-6 py-3" />
                   </li>
                 )
               })}

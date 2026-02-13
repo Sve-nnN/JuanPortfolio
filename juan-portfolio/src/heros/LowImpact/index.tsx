@@ -4,7 +4,7 @@ import type { Page } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 
-type LowImpactHeroType =
+type LowImpactHeroType = (
   | {
     children?: React.ReactNode
     richText?: never
@@ -13,8 +13,9 @@ type LowImpactHeroType =
     children?: never
     richText?: Page['hero']['hero']['richText']
   })
+) & { locale?: 'en' | 'es' }
 
-export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText }) => {
+export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText, locale: _locale }) => {
   return (
     <div className="container pt-16 pb-16 md:pt-20 md:pb-24">
       <div className="max-w-[48rem]">

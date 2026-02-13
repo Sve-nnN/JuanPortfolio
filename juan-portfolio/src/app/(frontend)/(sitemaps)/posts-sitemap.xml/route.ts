@@ -32,12 +32,13 @@ const getPostsSitemap = unstable_cache(
         },
       })
 
+      const locales = ['en', 'es']
       const dateFallback = new Date().toISOString()
 
       const sitemap = results.docs
         ? results.docs
             .filter((post) => Boolean(post?.slug))
-            .map((post) => {
+            .flatMap((post) => {
               const categories = post.categories || []
               let categorySlug = 'general'
 
@@ -54,10 +55,13 @@ const getPostsSitemap = unstable_cache(
                 }
               }
 
-              return {
-                loc: `${SITE_URL}/blog/${categorySlug}/${post.slug}`,
-                lastmod: post.updatedAt || dateFallback,
-              }
+              return locales.map(locale => {
+                const prefix = locale === 'es' ? '' : `/${locale}`
+                return {
+                  loc: `${SITE_URL}${prefix}/blog/${categorySlug}/${post.slug}`,
+                  lastmod: post.updatedAt || dateFallback,
+                }
+              })
             })
         : []
 

@@ -1,33 +1,11 @@
 import React from 'react'
-
+import type { SectionBlock as SectionBlockProps } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { cn } from '@/utilities/ui'
+import { Media } from '@/components/Media'
 
-type BgMedia = { url?: string }
-
-type Block = {
-  blockType?: string
-  [key: string]: unknown
-}
-
-type Props = {
-  container?: 'container' | 'full'
-  paddingY?: 'none' | 'sm' | 'md' | 'lg'
-  backgroundStyle?: 'none' | 'color' | 'image'
-  backgroundColor?: string
-  backgroundMedia?: BgMedia | number | null
-  anchorId?: string
-  className?: string
-  blocks?: Block[]
-}
-
-const paddingMap: Record<NonNullable<Props['paddingY']>, string> = {
-  none: 'py-0',
-  sm: 'py-8 md:py-10',
-  md: 'py-12 md:py-16',
-  lg: 'py-20 md:py-28',
-}
-
-export const SectionBlock: React.FC<Props> = ({
+export const SectionBlock: React.FC<SectionBlockProps & { locale?: 'en' | 'es' }> = ({
+  blocks,
   container = 'container',
   paddingY = 'md',
   backgroundStyle = 'none',
@@ -35,46 +13,37 @@ export const SectionBlock: React.FC<Props> = ({
   backgroundMedia,
   anchorId,
   className,
-  blocks = [],
+  locale
 }) => {
-  const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const py = paddingMap[paddingY]
-    const base = `${py} ${className || ''}`.trim()
-
-    if (
-      backgroundStyle === 'image' &&
-      backgroundMedia &&
-      typeof backgroundMedia === 'object' &&
-      backgroundMedia.url
-    ) {
-      return (
-        <section id={anchorId} className={`${base} relative`}>
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${backgroundMedia.url})` }}
-            aria-hidden
-          />
-          <div className="relative">{children}</div>
-        </section>
-      )
-    }
-
-    const bgClass = backgroundStyle === 'color' ? backgroundColor : ''
-    return (
-      <section id={anchorId} className={`${base} ${bgClass}`.trim()}>
-        {children}
-      </section>
-    )
+  const paddingClasses = {
+    none: 'py-0',
+    sm: 'py-8 md:py-12',
+    md: 'py-16 md:py-24',
+    lg: 'py-24 md:py-32',
   }
 
   return (
-    <Wrapper>
-      <div className={container === 'container' ? 'container mx-auto px-4 sm:px-6 lg:px-8' : ''}>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <RenderBlocks blocks={blocks as any} />
+    <section 
+      id={anchorId || undefined}
+      className={cn(
+        'relative overflow-hidden',
+        paddingClasses[paddingY!],
+        backgroundStyle === 'color' && backgroundColor,
+        className
+      )}
+    >
+      {backgroundStyle === 'image' && backgroundMedia && typeof backgroundMedia === 'object' && (
+        <div className="absolute inset-0 -z-10">
+          <Media resource={backgroundMedia} fill className="object-cover" />
+          <div className="absolute inset-0 bg-background/80" />
+        </div>
+      )}
+
+      <div className={cn(container === 'container' ? 'container mx-auto px-4' : 'w-full')}>
+        {blocks && (
+          <RenderBlocks blocks={blocks} locale={locale} />
+        )}
       </div>
-    </Wrapper>
+    </section>
   )
 }
-
-export default SectionBlock

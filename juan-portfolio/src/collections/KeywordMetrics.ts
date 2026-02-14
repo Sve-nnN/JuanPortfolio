@@ -50,6 +50,47 @@ export const KeywordMetrics: CollectionConfig = {
             required: true,
         },
         {
+            name: 'funnelStage',
+            type: 'select',
+            options: [
+                { label: 'Awareness (TOFU)', value: 'Awareness (TOFU)' },
+                { label: 'Consideration (MOFU)', value: 'Consideration (MOFU)' },
+                { label: 'Decision (BOFU)', value: 'Decision (BOFU)' },
+            ],
+        },
+        {
+            name: 'informationGain',
+            type: 'textarea',
+        },
+        {
+            name: 'recommendedFormat',
+            type: 'text',
+        },
+        {
+            name: 'clusterType',
+            type: 'select',
+            options: [
+                { label: 'Pillar', value: 'Pillar' },
+                { label: 'Supporting', value: 'Supporting' },
+            ],
+        },
+        {
+            name: 'opportunityScore',
+            type: 'number',
+        },
+        {
+            name: 'avgWordCount',
+            type: 'number',
+        },
+        {
+            name: 'competitorHeadings',
+            type: 'textarea',
+        },
+        {
+            name: 'competitorMeta',
+            type: 'textarea',
+        },
+        {
             type: 'row',
             fields: [
                 {

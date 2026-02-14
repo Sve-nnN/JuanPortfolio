@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/cs-fundamentals/big-o-notation.md",
+                "file": "keywords.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "big-o-notation"
+              "title": "keywords"
             }
           }
         ],
@@ -228,6 +228,11 @@
   },
   "active": "2b79178ec0a739f8",
   "lastOpenFiles": [
+    "test-es-gap.md",
+    "test-serpapi.md",
+    "post-template.md",
+    "posts/cs-fundamentals/big-o-notation.md",
+    "test-keywords.md",
     "posts/tech-seo/web-performance-guide.md",
     "posts/tech-seo/non-developers-guide.md",
     "posts/tech-seo/core-web-vitals-guide.md",
@@ -235,7 +240,6 @@
     "content-plan.md",
     "keywords.md",
     "posts/cs-fundamentals/diseno-bases-datos.md",
-    "posts/cs-fundamentals/big-o-notation.md",
     "posts/seo/redaccion-seo.md",
     "posts/seo/guia-keyword-research.md",
     "posts/seo/guia-eeat.md",
@@ -251,10 +255,6 @@
     "posts/development/headless-cms-seo.md",
     "posts/development/nextjs-portfolio.md",
     "posts/development/nextjs-server-components.md",
-    "posts/development/typescript-best-practices.md",
-    "posts/development/payloadcms-vs-strapi.md",
-    "posts/tech-seo/nextjs-seo-optimization.md",
-    "posts/tech-seo/robots-txt-best-practices.md",
     "posts/development",
     "Pasted image 20260210214248.png",
     "Pasted image 20260210214244 1.png",

@@ -18,7 +18,8 @@ Esta estrategia define el marco para generar páginas de alto valor técnico a e
     - **SEO Performance Score:** Comparativa de LCP y TTFB base.
     - **Rendering Support:** Tabla de compatibilidad (SSR, SSG, ISR, RSC).
     - **Developer Experience (DX):** Curva de aprendizaje y facilidad de configuración SEO.
-- **Diferenciador:** No es una comparativa de "características" genérica; es un análisis de **rastreabilidad y performance**.
+    - **Verdict (Use Case Winner):** Una opinión fuerte basada en experiencia (E-E-A-T) que define qué tecnología usar según el escenario (ej: "Usa Next.js si necesitas SSR dinámico; usa Astro para contenido estático").
+- **Diferenciador:** No es una comparativa de "características" genérica; es un análisis de **rastreabilidad y performance** con un veredicto de experto.
 
 ---
 
@@ -46,7 +47,13 @@ Esta estrategia define el marco para generar páginas de alto valor técnico a e
 
 ### Reglas de Calidad (Quality Gates)
 - **No Indexación de Combinaciones Irrelevantes:** No generar `BubbleSort en Rust` si no hay demanda; priorizar lo que los ingenieros realmente usan.
-- **Interlinking Automático:** Cada página "Spoke" (pSEO) debe apuntar a su "Pillar Page" correspondiente mediante enlaces contextuales.
+### Automatización de Interlinking (Link Juice Distribution)
+Para maximizar la autoridad tópica y distribuir el "Link Juice", aplicaremos reglas estrictas de enlazado interno dinámico:
+1. **Vertical Siloing (Hacia Arriba):** Cada página pSEO (Spoke) debe incluir un enlace contextual en el primer párrafo hacia su **Pillar Page** (Hub).
+2. **Horizontal Interlinking (Entre Hermanos):** Implementar un módulo dinámico de "Otras Implementaciones" o "Comparativas Relacionadas".
+    - *Ejemplo Algoritmos:* Si estás en `MergeSort en Python`, el módulo debe enlazar a `MergeSort en TypeScript`, `MergeSort en Go`, etc.
+    - *Ejemplo Batallas:* Si estás en `Next.js vs Astro`, enlazar a `Next.js vs Remix` y `Astro vs SvelteKit`.
+3. **Cross-Entity Linking (Hacia Afuera):** Enlazar desde el código o el análisis técnico hacia conceptos fundamentales (ej: de un algoritmo hacia su página de `Big O Notation`).
 
 ---
 

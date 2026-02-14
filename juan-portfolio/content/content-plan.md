@@ -32,6 +32,11 @@ Nuestra estrategia se basa en tres pilares fundamentales para cubrir todo el esp
 *   **Temas Clave:** Topic Clusters, Keyword Research, E-E-A-T, Redacción SEO.
 *   **Intención:** Informacional / Estratégico.
 
+### Pilar E: Contenido "Hero" o "Linkbait" (Autoridad de Marca)
+*Enfoque:* Investigación original y estudios de datos para atraer backlinks.
+*   **Temas Clave:** Estudios de campo, auditorías masivas, experimentos de código.
+*   **Intención:** Link Building natural / Autoridad de industria.
+
 ---
 
 ## 2. Estrategia de Categorías (URL Structure)
@@ -69,7 +74,20 @@ Utilizamos "Clusters" para organizar el contenido y construir autoridad tópica.
 
 ---
 
-## 4. Calendario Editorial (Fase 1 - Lanzamiento)
+## 4. Contenido "Hero" o "Linkbait" (Trimestral)
+
+Para conseguir enlaces externos de forma natural y establecer autoridad de industria, publicaremos un estudio original basado en datos cada trimestre.
+
+| Trimestre | Título del Estudio Original / Experimento | Objetivo |
+| :--- | :--- | :--- |
+| **Q1 2026** | **Estado de Core Web Vitals en Next.js: Análisis de 100 webs reales** | Backlinks de la comunidad de Next.js y Vercel. |
+| **Q2 2026** | **Impacto real de AI Overviews en el tráfico de desarrolladores: Un estudio de 6 meses** | Citaciones en blogs de marketing y SEO técnico. |
+| **Q3 2026** | **Performance Benchmarks: PayloadCMS vs Strapi vs Contentful en escala real** | Comparativa técnica compartible por desarrolladores de CMS. |
+| **Q4 2026** | **El costo de los algoritmos ineficientes en la nube: Un experimento de computación y CO2** | Backlinks de nichos de Green Tech y Cloud Computing. |
+
+---
+
+## 5. Calendario Editorial (Fase 1 - Lanzamiento)
 
 Propuesta inicial para las primeras 4 semanas.
 
@@ -86,7 +104,7 @@ Propuesta inicial para las primeras 4 semanas.
 
 ---
 
-## 5. Flujo de Trabajo para Nuevo Contenido
+## 6. Flujo de Trabajo para Nuevo Contenido
 
 1.  **Investigación:**
     *   Consulta [`keywords.md`](./keywords.md) para elegir una palabra clave.

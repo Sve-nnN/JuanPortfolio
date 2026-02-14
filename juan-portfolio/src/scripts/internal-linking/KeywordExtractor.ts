@@ -68,9 +68,15 @@ export class KeywordExtractor {
 
             const slug = path.basename(filePath, '.md');
             const url = getPostUrl({ slug, categories: [category] });
+            const idioma = data.idioma || 'en';
 
-            const primary_keywords: string[] = (data.primary_keywords || []).map((kw: string) => kw.toLowerCase());
-            const semantic_keywords: string[] = (data.semantic_keywords || []).map((kw: string) => kw.toLowerCase());
+            const primary_keywords: string[] = (data.primary_keywords || [])
+                .map((kw: string) => kw.toLowerCase())
+                .filter((kw: string) => this.validateKeywordLanguage(kw, idioma, slug, 'primary'));
+
+            const semantic_keywords: string[] = (data.semantic_keywords || [])
+                .map((kw: string) => kw.toLowerCase())
+                .filter((kw: string) => this.validateKeywordLanguage(kw, idioma, slug, 'semantic'));
 
             return {
                 slug,
@@ -80,11 +86,41 @@ export class KeywordExtractor {
                 category,
                 filePath,
                 url,
+                idioma,
             };
         } catch (error) {
             console.error(`Error parsing ${filePath}:`, error);
             return null;
         }
+    }
+
+    /**
+     * Validates that a keyword's language matches the post language.
+     * Technical terms in English are allowed in Spanish posts if they don't contain common English stop words.
+     */
+    private validateKeywordLanguage(keyword: string, idioma: string, slug: string, type: string): boolean {
+        const enStopWords = new Set(['the', 'a', 'an', 'of', 'for', 'and', 'or', 'is', 'are', 'with', 'from', 'to', 'how', 'why', 'what', 'who', 'best', 'guide', 'tutorial']);
+        const esStopWords = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'al', 'y', 'o', 'en', 'por', 'para', 'que', 'con', 'como', 'donde', 'quien', 'mejor', 'guia', 'tutoriales']);
+
+        const words = keyword.toLowerCase().split(/\s+/);
+        
+        if (idioma === 'es') {
+            // Check if Spanish post has clearly English keywords
+            const hasEnStopWord = words.some(w => enStopWords.has(w));
+            if (hasEnStopWord) {
+                console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks English but post is Spanish (es). skipping...`);
+                return false;
+            }
+        } else if (idioma === 'en') {
+            // Check if English post has clearly Spanish keywords
+            const hasEsStopWord = words.some(w => esStopWords.has(w));
+            if (hasEsStopWord) {
+                console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks Spanish but post is English (en). skipping...`);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

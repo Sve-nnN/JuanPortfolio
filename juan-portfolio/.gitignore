@@ -23,3 +23,6 @@ node_modules/
 # Agent
 .agent
 .gemini
+
+# GitHub App credentials
+gha-creds-*.json

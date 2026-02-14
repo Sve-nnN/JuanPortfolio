@@ -17,6 +17,9 @@ import { Metadata } from 'next'
 import { AuthorCard } from '@/components/AuthorCard'
 import RelatedPostsServer from '@/components/RelatedPostsServer'
 import { generateMeta } from '@/utilities/generateMeta'
+import { JsonLd } from '@/components/JsonLd'
+import { generateSchema } from '@/utilities/generateSchema'
+import { getServerSideURL } from '@/utilities/getURL'
 
 /**
  * Generates static parameters for all blog posts across all locales.
@@ -99,9 +102,20 @@ export default async function PostPage({
       : { title: category }
 
   const localePrefix = locale === 'es' ? '' : '/en'
+  const fullUrl = `${getServerSideURL()}${localePrefix}/blog/${category}/${slug}`
+  
+  const breadcrumbs = [
+    { name: locale === 'es' ? 'Inicio' : 'Home', url: locale === 'es' ? '/' : '/en' },
+    { name: 'Blog', url: `${localePrefix}/blog` },
+    { name: typeof firstCategory.title === 'string' ? firstCategory.title : category, url: `${localePrefix}/blog/${category}` },
+    { name: post.title, url: fullUrl }
+  ]
+
+  const schema = generateSchema({ doc: post, collection: 'posts', url: fullUrl, breadcrumbs })
 
   return (
     <article className="pb-16">
+      <JsonLd schema={schema} />
       <LivePreviewListener />
       <PayloadRedirects disableNotFound url={`${localePrefix}/blog/${category}/${slug}`} />
 

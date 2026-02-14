@@ -18,6 +18,8 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import type { Home } from '@/payload-types'
+import { generateSchema } from '@/utilities/generateSchema'
+import { getServerSideURL } from '@/utilities/getURL'
 
 /**
  * Generates static parameters for all pages across all locales.
@@ -122,26 +124,8 @@ export default async function Page({ params: paramsPromise }: Args) {
   let schema = customJsonLd
 
   if (!schema) {
-    // @ts-expect-error - URLSearchParams type mismatch
-    const metaTitle = page.meta?.title || page.meta_group?.title || page.title
-    // @ts-expect-error - URLSearchParams type mismatch
-    const metaDesc = page.meta?.description || page.meta_group?.description
-    // @ts-expect-error - URLSearchParams type mismatch
-    const metaImage = page.meta?.image?.url || page.meta?.image?.sizes?.og?.url || page.meta_group?.image?.url
-
-    schema = {
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: metaTitle,
-      description: metaDesc,
-      image: metaImage ? `${process.env.NEXT_PUBLIC_SERVER_URL}${metaImage}` : undefined,
-      datePublished: page.publishedAt,
-      dateModified: page.updatedAt,
-      publisher: {
-        '@type': 'Organization',
-        name: 'Juan Tech', // Should be dynamic from global settings
-      }
-    }
+    const fullUrl = `${getServerSideURL()}${locale === 'es' ? '' : '/' + locale}/${slug}`
+    schema = generateSchema({ doc: page, collection: 'pages', url: fullUrl })
   }
 
   return (

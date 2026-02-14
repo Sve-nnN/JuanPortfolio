@@ -99,6 +99,11 @@ export class ContentScanner {
                     continue;
                 }
 
+                // 1b. Language Match: Only link to posts in the same language
+                if (match.targetPost.idioma !== post.idioma) {
+                    continue;
+                }
+
                 // 2. Don't link if already linked to this target in THIS post
                 if (linkedTargetSlugsInPost.has(match.targetPost.slug)) {
                     continue;
@@ -311,7 +316,12 @@ export class ContentScanner {
                     const { match, variations } = group;
                     const normalizedKeyword = match.keyword.toLowerCase();
 
-                    // Skip if keyword has dedicated post
+                    // 1. Language Match: Only consider keywords intended for the same language
+                    if (match.targetPost.idioma !== post.idioma) {
+                        continue;
+                    }
+
+                    // 2. Skip if keyword has dedicated post
                     if (coveredKeywords.has(normalizedKeyword)) {
                         continue;
                     }

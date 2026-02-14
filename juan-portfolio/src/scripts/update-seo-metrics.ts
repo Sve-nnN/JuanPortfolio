@@ -9,6 +9,15 @@ import { SerpApiAdapter } from './seo/adapters/SerpApiAdapter'
 import { SeoAdapter } from './seo/types'
 import { JSDOM } from 'jsdom'
 import enquirer from 'enquirer'
+import pLimit from 'p-limit'
+import { extractPhrases } from './seo/keyword-utils'
+import {
+  deriveIntent,
+  deriveFunnelStage,
+  deriveInformationGain,
+  deriveStrategy,
+  Intent,
+} from './seo/seo-logic'
 
 interface MultiSelectPrompt {
   run(): Promise<string[]>
@@ -18,7 +27,9 @@ interface MultiSelectPrompt {
 const MultiSelect = (enquirer as any).MultiSelect
 
 // --- Configuration ---
-const KEYWORDS_FILE_PATH = path.join(process.cwd(), 'content', 'keywords.md')
+const MAX_CONCURRENT_CRAWLS = 3
+const CRAWL_TIMEOUT_MS = 15000
+const MAX_SUCCESSFUL_CRAWLS_PER_KEYWORD = 4
 
 // ANSI Colors
 const colors = {
@@ -56,6 +67,16 @@ interface KeywordData {
   recommendedFormat: string
   clusterType: string
   suggestedAnchorText: string
+  funnelStage: string
+  informationGain: string
+}
+
+interface CrawlResult {
+  headings: string
+  meta: string
+  wordCount: number
+  discoveredKeywords: string[]
+  success: boolean
 }
 
 // --- Helper Functions ---
@@ -91,7 +112,10 @@ function createMockAdapter(): SeoAdapter {
       return {
         volume: ((keyword.length * 100) % 5000) + 50,
         difficulty: (keyword.length * 7) % 100,
-        topUrls: ['https://example.com/blog/test-1', 'https://example.com/blog/test-2'],
+        topUrls: [
+          'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
+          'https://web.dev/vitals/'
+        ],
       }
     },
   }
@@ -157,6 +181,8 @@ function parseLine(line: string): KeywordData | null {
     recommendedFormat: unescapeFromTable(isNewFormat ? parts[17] : parts[16] || ''),
     clusterType: unescapeFromTable(isNewFormat ? parts[18] : parts[17] || ''),
     suggestedAnchorText: unescapeFromTable(isNewFormat ? parts[19] : parts[18] || ''),
+    funnelStage: unescapeFromTable(isNewFormat ? parts[20] : ''),
+    informationGain: unescapeFromTable(isNewFormat ? parts[21] : ''),
   }
 }
 
@@ -185,113 +211,134 @@ function formatLine(data: KeywordData): string {
     sanitizeForTable(data.recommendedFormat),
     sanitizeForTable(data.clusterType),
     sanitizeForTable(data.suggestedAnchorText),
+    sanitizeForTable(data.funnelStage),
+    sanitizeForTable(data.informationGain),
   ]
 
   return `| ${columns.join(' | ')} |`
 }
 
-async function crawlCompetitorContent(
-  urls: string[],
-): Promise<{ headings: string; meta: string; avgWordCount: number }> {
-  const results: Array<{ headings: string; meta: string; wordCount: number }> = []
-  const MAX_SUCCESSES = 4
-
-  for (const url of urls) {
-    if (results.length >= MAX_SUCCESSES) break
-
+async function fetchWithRetry(url: string, retries = 2): Promise<Response> {
+  for (let i = 0; i < retries; i++) {
     try {
-      process.stdout.write(
-        `${colors.dim}    - Crawling (${results.length + 1}/${MAX_SUCCESSES}): ${url.substring(0, 50)}...${colors.reset}`,
-      )
-
       const response = await fetch(url, {
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(CRAWL_TIMEOUT_MS),
         headers: {
           'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           'Accept-Language': 'en-US,en;q=0.9',
-          Accept:
-            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
         },
       })
-
-      if (!response.ok) throw new Error(`HTTP ${response.status}`)
-
-      const html = await response.text()
-      const dom = new JSDOM(html)
-      const doc = dom.window.document
-
-      // Remove script and style tags and common boilerplate
-      doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe').forEach((el) => el.remove())
-
-      const headings = Array.from(doc.querySelectorAll('h2, h3'))
-        .map((h) => {
-          const element = h as Element
-          return `${element.tagName.toUpperCase()}: ${element.textContent?.trim()}`
-        })
-        .filter((t) => t.length > 10)
-
-      if (headings.length === 0) {
-        process.stdout.write(
-          `\r${colors.yellow}    ⚠️  Skipped: No headings found at ${url.substring(0, 40)}...    \n${colors.reset}`,
-        )
-        continue
+      if (response.ok) return response
+      if (response.status === 403 || response.status === 429) {
+        // Wait and retry
+        await new Promise(r => setTimeout(r, 1000 * (i + 1)))
       }
-
-      const title = doc.querySelector('title')?.textContent?.trim() || 'No Title'
-      const description =
-        doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() ||
-        doc.querySelector('meta[property="og:description"]')?.getAttribute('content')?.trim() ||
-        'No Description'
-
-      const headingSummary = headings.slice(0, 10).join(' - ')
-      const metaSummary = `Title: ${title} | Desc: ${description.slice(0, 100)}${description.length > 100 ? '...' : ''}`
-
-      // Calculate word count (simple heuristic)
-      const text = doc.body.textContent || ''
-      const wordCount = text
-        .trim()
-        .split(/\s+/)
-        .filter((word: string) => word.length > 0).length
-
-      results.push({ headings: headingSummary, meta: metaSummary, wordCount })
-      process.stdout.write(
-        `\r${colors.green}    ✅ Success (${results.length}/${MAX_SUCCESSES}): ${url.substring(0, 50)}...    \n${colors.reset}`,
-      )
     } catch (e) {
-      process.stdout.write(
-        `\r${colors.red}    ❌ Failed: ${url.substring(0, 50)}... (${e instanceof Error ? e.message : 'Error'})    \n${colors.reset}`,
-      )
+      if (i === retries - 1) throw e
     }
   }
+  throw new Error(`Failed to fetch ${url} after ${retries} retries`)
+}
 
-  if (results.length === 0) {
-    return { headings: 'Crawl Failed (No data found)', meta: 'Crawl Failed', avgWordCount: 0 }
-  }
+async function crawlSingleUrl(url: string, index: number): Promise<CrawlResult> {
+  try {
+    const response = await fetchWithRetry(url)
+    const html = await response.text()
+    const dom = new JSDOM(html)
+    const doc = dom.window.document
 
-  const totalWords = results.reduce((acc, r) => acc + r.wordCount, 0)
-  const avgWordCount = Math.round(totalWords / results.length)
+    doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, link, svg').forEach((el) => el.remove())
 
-  return {
-    headings: results.map((r, i) => `[U${i + 1}] ${r.headings}`).join(' || '),
-    meta: results.map((r, i) => `[U${i + 1}] ${r.meta}`).join(' || '),
-    avgWordCount,
+    const headings = Array.from(doc.querySelectorAll('h2, h3'))
+      .map((h) => {
+        const element = h as Element
+        element.querySelectorAll('style, script, .hidden, [style*="display: none"]').forEach(el => el.remove())
+        return `${element.tagName.toUpperCase()}: ${element.textContent?.trim()}`
+      })
+      .filter((t) => t.length > 10 && !t.includes('{') && !t.includes('}') && !t.includes('color:'))
+
+    const title = doc.querySelector('title')?.textContent?.trim() || 'No Title'
+    const description =
+      doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() ||
+      doc.querySelector('meta[property="og:description"]')?.getAttribute('content')?.trim() ||
+      'No Description'
+
+    const metaSummary = `Title: ${title} | Desc: ${description.slice(0, 100)}${description.length > 100 ? '...' : ''}`
+    const text = doc.body.textContent || ''
+    const wordCount = text.trim().split(/\s+/).filter((word: string) => word.length > 0).length
+    const discoveredKeywords = extractPhrases(text)
+
+    const headingSummary = headings.length > 0 ? headings.slice(0, 10).join(' - ') : 'No headings found'
+
+    process.stdout.write(`\r${colors.green}    ✅ Success (${index}): ${url.substring(0, 50)}...    \n${colors.reset}`)
+
+    return {
+      headings: headingSummary,
+      meta: metaSummary,
+      wordCount,
+      discoveredKeywords,
+      success: true
+    }
+  } catch (e) {
+    process.stdout.write(`\r${colors.red}    ❌ Failed (${index}): ${url.substring(0, 50)}... (${e instanceof Error ? e.message : 'Error'})    \n${colors.reset}`)
+    return { headings: '', meta: '', wordCount: 0, discoveredKeywords: [], success: false }
   }
 }
 
-async function main() {
+async function crawlCompetitorContent(
+  urls: string[],
+): Promise<{ headings: string; meta: string; avgWordCount: number; discoveredKeywords: string[] }> {
+  const limit = pLimit(MAX_CONCURRENT_CRAWLS)
+  const tasks = urls.slice(0, 8).map((url, i) => limit(() => crawlSingleUrl(url, i + 1)))
+  const results = await Promise.all(tasks)
+  
+  const successful = results.filter(r => r.success).slice(0, MAX_SUCCESSFUL_CRAWLS_PER_KEYWORD)
+
+  if (successful.length === 0) {
+    return { headings: 'Crawl Failed (No data found)', meta: 'Crawl Failed', avgWordCount: 0, discoveredKeywords: [] }
+  }
+
+  const totalWords = successful.reduce((acc, r) => acc + r.wordCount, 0)
+  const avgWordCount = Math.round(totalWords / successful.length)
+  const allDiscovered = Array.from(new Set(successful.flatMap(r => r.discoveredKeywords)))
+
+  return {
+    headings: successful.map((r, i) => `[U${i + 1}] ${r.headings}`).join(' || '),
+    meta: successful.map((r, i) => `[U${i + 1}] ${r.meta}`).join(' || '),
+    avgWordCount,
+    discoveredKeywords: allDiscovered
+  }
+}
+
+function calculateOpportunityScore(volume: number, difficulty: number): number {
+  if (difficulty < 15) {
+    return volume > 100 ? 98 : 80
+  } else if (difficulty < 35) {
+    return volume > 5000 ? 90 : 70
+  } else {
+    return Math.max(5, Math.min(60, volume / 10000))
+  }
+}
+
+export async function main() {
+  const KEYWORDS_FILE_PATH = path.join(process.cwd(), 'content', 'keywords.md')
+  
   process.stdout.write(`${colors.blue}⏳ Initializing...${colors.reset}`)
   await getPayload({ config })
   process.stdout.write(`\r${colors.green}✅ System Ready.    \n${colors.reset}`)
 
   if (!fs.existsSync(KEYWORDS_FILE_PATH)) {
     console.error(`${colors.red}❌ Keywords file not found: ${KEYWORDS_FILE_PATH}${colors.reset}`)
-    process.exit(1)
+    return 1
   }
 
   const args = process.argv.slice(2)
   const sourceArg = args.find((arg) => arg.startsWith('--source='))
   const adapter = getSeoAdapter(sourceArg ? sourceArg.split('=')[1] : undefined)
+  const analyzeGapFlag = args.includes('--analyze-gap')
+  const selectAll = args.includes('--all')
 
   console.log(`${colors.cyan}${colors.bright}🚀 SEO Metrics Manager${colors.reset}\n`)
   console.log(
@@ -322,12 +369,12 @@ async function main() {
 
   if (allKeywords.length === 0) {
     console.log(`${colors.yellow}No keywords found in the file.${colors.reset}`)
-    return
+    return 0
   }
 
   let selectedToUpdate: typeof allKeywords = []
 
-  if (process.stdout.isTTY) {
+  if (process.stdout.isTTY && !selectAll) {
     try {
       const prompt = new MultiSelect({
         name: 'selected',
@@ -344,7 +391,7 @@ async function main() {
       selectedToUpdate = allKeywords.filter((k) => selectedNames.includes(k.data.keyword))
     } catch (_e) {
       console.log(`\n${colors.yellow}Operation cancelled.${colors.reset}`)
-      return
+      return 0
     }
   } else {
     selectedToUpdate = allKeywords
@@ -352,13 +399,15 @@ async function main() {
 
   if (selectedToUpdate.length === 0) {
     console.log(`${colors.yellow}No keywords selected. Exiting.${colors.reset}`)
-    return
+    return 0
   }
 
   console.log(`\n${colors.blue}📦 Updating ${selectedToUpdate.length} keywords...${colors.reset}\n`)
 
   const today = new Date().toISOString().split('T')[0]
   const resultsMap = new Map<string, KeywordData>()
+  const discoveredGaps = new Map<string, { keyword: string; score: number; foundIn: string[] }>()
+  const existingKeywordsLower = new Set(allKeywords.map(k => k.data.keyword.toLowerCase()))
 
   for (const item of selectedToUpdate) {
     const data = item.data
@@ -380,73 +429,35 @@ async function main() {
         if (metrics.hasAiOverview !== undefined) data.hasAiOverview = metrics.hasAiOverview
         if (metrics.serpFeatures?.length) data.serpFeatures = metrics.serpFeatures
 
-        // 1. Refined Intent Logic
-        const kw = data.keyword.toLowerCase()
-        if (
-          kw.includes('how') ||
-          kw.includes('tutorial') ||
-          kw.includes('guia') ||
-          kw.includes('guide')
-        ) {
-          data.intent = 'Informational'
-        } else if (
-          kw.includes('best') ||
-          kw.includes('top') ||
-          kw.includes('vs') ||
-          kw.includes('mejor') ||
-          kw.includes('comparativa')
-        ) {
-          data.intent = 'Commercial'
-        } else if (
-          kw.includes('comprar') ||
-          kw.includes('precio') ||
-          kw.includes('price') ||
-          kw.includes('buy') ||
-          kw.includes('service')
-        ) {
-          data.intent = 'Transactional'
-        } else {
-          data.intent = data.intent || 'Informational'
-        }
+        // DERIVE SEO METADATA
+        data.intent = deriveIntent(data.keyword, data.intent)
+        data.funnelStage = deriveFunnelStage(data.intent as Intent)
+        data.informationGain = deriveInformationGain(data.keyword)
 
-        // 2. Cluster Type Logic (Source of Truth: Hub & Spoke)
-        if (data.volume > 1000000 && data.difficulty > 20) {
-          data.clusterType = 'Pillar'
-        } else {
-          data.clusterType = 'Supporting'
-        }
+        const strategy = deriveStrategy(data.volume, data.difficulty, data.intent as Intent)
+        data.clusterType = strategy.clusterType
+        data.recommendedFormat = strategy.recommendedFormat
+        data.opportunityScore = calculateOpportunityScore(data.volume, data.difficulty)
 
-        // 3. Recommended Format
-        if (data.intent === 'Informational') {
-          data.recommendedFormat = data.clusterType === 'Pillar' ? 'Technical Guide' : 'Blog'
-        } else if (data.intent === 'Commercial') {
-          data.recommendedFormat = 'Comparison / Page'
-        } else {
-          data.recommendedFormat = 'Landing Page'
-        }
-
-        // 4. Opportunity Logic
-        let score = 0
-        if (data.difficulty < 15) {
-          score = data.volume > 100 ? 98 : 80
-        } else if (data.difficulty < 35) {
-          score = data.volume > 5000 ? 90 : 70
-        } else {
-          score = Math.max(5, Math.min(60, data.volume / 10000))
-        }
-        data.opportunityScore = score
-
-        // 5. Suggested Anchor Text
         const currentYear = new Date().getFullYear()
-        const formula1 = `${currentYear} ${data.recommendedFormat} on ${data.keyword}`
-        const formula2 = data.keyword
-          .split(' ')
-          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-          .join(' ')
-        data.suggestedAnchorText = `${formula1} | ${formula2}`
+        data.suggestedAnchorText = `${currentYear} ${data.recommendedFormat} on ${data.keyword} | ${data.keyword.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`
+
+        // PROCESS NEW RELATED SEARCHES FOR GAPS
+        if (metrics.relatedSearches?.length) {
+          for (const rel of metrics.relatedSearches) {
+            const kwLower = rel.toLowerCase().trim()
+            if (existingKeywordsLower.has(kwLower) || kwLower.length < 4) continue
+            const prev = discoveredGaps.get(kwLower) || { keyword: rel, score: 0, foundIn: [] }
+            if (!prev.foundIn.includes(data.keyword)) {
+              prev.score += 5 
+              prev.foundIn.push(data.keyword)
+            }
+            discoveredGaps.set(kwLower, prev)
+          }
+        }
 
         if (metrics.topUrls?.length) {
-          console.log(`    Analyzing top ${metrics.topUrls.length} competitors...`)
+          console.log(`    Analyzing top ${metrics.topUrls.length} competitors for metrics and gaps...`)
           const crawlerResults = await crawlCompetitorContent(metrics.topUrls)
 
           let headings = crawlerResults.headings
@@ -454,14 +465,21 @@ async function main() {
             const paaHeading = `[PAA] ${data.paaQuestions.slice(0, 5).join(' - ')}`
             headings = `${paaHeading} || ${headings}`
           }
-
-          if (!crawlerResults.headings.includes('Crawl Failed')) {
-            data.competitorHeadings = headings
-          }
-          if (!crawlerResults.meta.includes('Crawl Failed')) {
-            data.competitorMeta = crawlerResults.meta
-          }
+          if (!crawlerResults.headings.includes('Crawl Failed')) data.competitorHeadings = headings
+          if (!crawlerResults.meta.includes('Crawl Failed')) data.competitorMeta = crawlerResults.meta
           data.avgWordCount = crawlerResults.avgWordCount
+
+          for (const gapKw of crawlerResults.discoveredKeywords) {
+            const kwLower = gapKw.toLowerCase()
+            if (existingKeywordsLower.has(kwLower)) continue
+            
+            const prev = discoveredGaps.get(kwLower) || { keyword: gapKw, score: 0, foundIn: [] }
+            if (!prev.foundIn.includes(data.keyword)) {
+              prev.score += 1
+              prev.foundIn.push(data.keyword)
+            }
+            discoveredGaps.set(kwLower, prev)
+          }
         }
 
         console.log(
@@ -476,6 +494,47 @@ async function main() {
     resultsMap.set(data.keyword, data)
   }
 
+  // Handle Discovered Gaps
+  if (analyzeGapFlag && discoveredGaps.size > 0) {
+    const finalGaps = Array.from(discoveredGaps.values())
+      .filter(g => g.score >= 2) 
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+
+    if (finalGaps.length > 0) {
+      console.log(`\n${colors.cyan}${colors.bright}💎 Discovered Keyword Gaps:${colors.reset}`)
+      finalGaps.forEach((g, i) => {
+        console.log(`${i+1}. ${colors.green}${g.keyword}${colors.reset} (Score: ${g.score}) - Relevant for: ${g.foundIn.slice(0, 2).join(', ')}`)
+        
+        const gapData: KeywordData = {
+          keyword: g.keyword,
+          targetUrl: `/gap/${g.keyword.toLowerCase().replace(/\s+/g, '-')}`,
+          volume: 0,
+          difficulty: 0,
+          intent: 'Informational',
+          status: 'Gap',
+          lastUpdated: '',
+          source: 'GapAnalyzer',
+          relatedSearches: [],
+          paaCount: 0,
+          topDomain: '',
+          hasAiOverview: false,
+          serpFeatures: [],
+          competitorHeadings: '',
+          competitorMeta: '',
+          avgWordCount: 0,
+          opportunityScore: 0,
+          recommendedFormat: 'Blog',
+          clusterType: 'Supporting',
+          suggestedAnchorText: '',
+          funnelStage: 'Awareness (TOFU)',
+          informationGain: ''
+        }
+        resultsMap.set(g.keyword, gapData)
+      })
+    }
+  }
+
   const updatedLines: string[] = []
   let headerProcessed = false
   let separatorProcessed = false
@@ -488,14 +547,14 @@ async function main() {
 
     if (line.includes('| Keyword') && line.trim().startsWith('|')) {
       updatedLines.push(
-        '| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features | Competitor Headings | Competitor Meta | Avg. Word Count | Opportunity Score | Recommended Format | Cluster Type | Suggested Anchor Text |',
+        '| Keyword | Target URL | Volume | Difficulty | Intent | Status | Last Updated | Source | Related Searches | PAA Count | Top Domain | Has AI Overview | SERP Features | Competitor Headings | Competitor Meta | Avg. Word Count | Opportunity Score | Recommended Format | Cluster Type | Suggested Anchor Text | Funnel Stage | Information Gain |',
       )
       headerProcessed = true
       continue
     }
     if (headerProcessed && !separatorProcessed && line.includes('---')) {
       updatedLines.push(
-        '| :-------------------------------- | :-------------------------------------------- | :----- | :--------- | :----- | :----- | :----------- | :----- | :--------------- | :-------- | :--------- | :-------------- | :------------ | :------------------ | :-------------- | :-------------- | :---------------- | :----------------- | :----------- | :-------------------- |',
+        '| :-------------------------------- | :-------------------------------------------- | :----- | :--------- | :----- | :----- | :----------- | :----- | :--------------- | :-------- | :--------- | :-------------- | :------------ | :------------------ | :-------------- | :-------------- | :---------------- | :----------------- | :----------- | :-------------------- | :----------- | :-------------------- |',
       )
       separatorProcessed = true
       continue
@@ -505,8 +564,10 @@ async function main() {
       const parsed = parseLine(line)
       if (parsed && resultsMap.has(parsed.keyword)) {
         updatedLines.push(formatLine(resultsMap.get(parsed.keyword)!))
+        resultsMap.delete(parsed.keyword)
       } else if (parsed) {
         updatedLines.push(formatLine(parsed))
+        resultsMap.delete(parsed.keyword)
       } else {
         updatedLines.push(line)
       }
@@ -515,15 +576,20 @@ async function main() {
     }
   }
 
+  for (const remainingData of resultsMap.values()) {
+    updatedLines.push(formatLine(remainingData))
+  }
+
   fs.writeFileSync(KEYWORDS_FILE_PATH, updatedLines.join('\n'))
   console.log(
     `${colors.green}${colors.bright}✨ Finished! File updated at ${KEYWORDS_FILE_PATH}${colors.reset}\n`,
   )
-
-  process.exit(0)
+  return 0
 }
 
-main().catch((err) => {
-  console.error(`\n${colors.red}Fatal error:${colors.reset}`, err)
-  process.exit(1)
-})
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().then(code => process.exit(code || 0)).catch((err) => {
+    console.error(`\n${colors.red}Fatal error:${colors.reset}`, err)
+    process.exit(1)
+  })
+}

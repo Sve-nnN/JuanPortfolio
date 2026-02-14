@@ -19,7 +19,25 @@ interface KeywordData {
   volume: number
   difficulty: number
   intent: 'Informational' | 'Commercial' | 'Transactional' | 'Navigational'
+  status?: string
+  lastUpdated?: string
   source: string
+  paaCount?: number
+  topDomain?: string
+  hasAiOverview?: boolean
+  competitorHeadings?: string
+  competitorMeta?: string
+  avgWordCount?: number
+  opportunityScore?: number
+  recommendedFormat?: string
+  clusterType?: 'Pillar' | 'Supporting'
+  funnelStage?: 'Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)'
+  informationGain?: string
+}
+
+const unescapeFromTable = (text: string): string => {
+  if (!text) return ''
+  return text.replace(/\\\|/g, '|')
 }
 
 const parseKeywordsMarkdown = (content: string): KeywordData[] => {
@@ -35,20 +53,40 @@ const parseKeywordsMarkdown = (content: string): KeywordData[] => {
   for (const line of dataLines) {
     if (!line.trim() || !line.startsWith('|')) continue
     
-    const parts = line.split('|').map(p => p.trim())
+    // Split by pipe but ignore escaped pipes
+    const parts = line.split(/(?<!\\)\|/).map(p => p.trim())
     
-    if (parts.length < 8) continue
+    if (parts.length > 0 && parts[0] === '') parts.shift()
+    if (parts.length > 0 && parts[parts.length - 1] === '') parts.pop()
 
-    const keyword = parts[1]
+    if (parts.length < 7) continue
+
+    const keyword = unescapeFromTable(parts[0])
     if (!keyword || keyword === 'Keyword') continue
+
+    // Detect if it's the new format (22 columns) or old format
+    const isNewFormat = parts.length >= 20
 
     keywords.push({
       keyword,
-      targetURL: parts[2],
-      volume: parseInt(parts[3], 10) || 0,
-      difficulty: parseInt(parts[4], 10) || 0,
-      intent: (['Informational', 'Commercial', 'Transactional', 'Navigational'].includes(parts[5]) ? parts[5] : 'Informational') as KeywordData['intent'],
-      source: parts[8] || 'Manual',
+      targetURL: unescapeFromTable(parts[1]),
+      volume: parseInt(parts[2], 10) || 0,
+      difficulty: parseInt(parts[3], 10) || 0,
+      intent: (['Informational', 'Commercial', 'Transactional', 'Navigational'].includes(parts[4]) ? parts[4] : 'Informational') as KeywordData['intent'],
+      status: unescapeFromTable(parts[5]),
+      lastUpdated: unescapeFromTable(parts[6]),
+      source: unescapeFromTable(parts[7]) || 'Manual',
+      paaCount: parseInt(parts[9], 10) || 0,
+      topDomain: unescapeFromTable(parts[10]),
+      hasAiOverview: parts[11] === 'Yes',
+      competitorHeadings: unescapeFromTable(parts[13]),
+      competitorMeta: unescapeFromTable(parts[14]),
+      avgWordCount: isNewFormat ? parseInt(parts[15], 10) || 0 : 0,
+      opportunityScore: parseInt(isNewFormat ? parts[16] : parts[15], 10) || 0,
+      recommendedFormat: unescapeFromTable(isNewFormat ? parts[17] : parts[16] || ''),
+      clusterType: (unescapeFromTable(isNewFormat ? parts[18] : parts[17] || '') === 'Pillar' ? 'Pillar' : 'Supporting') as KeywordData['clusterType'],
+      funnelStage: unescapeFromTable(isNewFormat ? parts[20] : '') as KeywordData['funnelStage'],
+      informationGain: unescapeFromTable(isNewFormat ? parts[21] : ''),
     })
   }
 

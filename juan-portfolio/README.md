@@ -124,14 +124,20 @@ The `update-seo-metrics.ts` script enriches the `content/keywords.md` file with 
 - **Interactive Selection**: Terminal UI to selectively update keywords.
 - **Competitive Crawling**: 
   - **Heading Extraction**: Maps H2/H3 structure of top organic competitors.
-  - **Average Word Count**: Automatically calculates the average word count of the top-ranking articles to guide content length.
-- **Opportunity Scoring**: Calculates an intelligence-based score to prioritize content creation.
+  - **Average Word Count**: Automatically calculates the average word count of the top-ranking articles.
+- **Keyword Gap Analysis**: Integrated deep-crawling of competitor body content to identify missing long-tail opportunities.
+- **Funnel Stage Automation**: Automatically maps keywords to Awareness (TOFU), Consideration (MOFU), or Decision (BOFU) based on intent.
+- **Information Gain Suggestions**: Generates unique angles ("My Angle") for each topic to ensure content differentiation.
+- **Opportunity Scoring**: Intelligence-based prioritization score.
 
 ### Usage
 
 ```bash
-# Start the interactive SEO manager
+# Update metrics for selected keywords
 npx tsx src/scripts/update-seo-metrics.ts
+
+# Discover new opportunities via Keyword Gap Analysis
+npx tsx src/scripts/update-seo-metrics.ts --analyze-gap
 ```
 
 ---
@@ -153,14 +159,21 @@ npx tsx src/scripts/seo/update-cwv.ts
 
 ## Internal Linking System
 
+Automated system to distribute authority and improve crawlability via context-aware links.
+
+### Key Features
+- **Language Isolation**: English posts only link to English content; Spanish posts only link to Spanish content.
+- **Pure Semantic Extraction**: Automatically filters out keywords from the "wrong" language during extraction.
+- **Gap Detection**: Identifies mentioned keywords that don't have a dedicated target page yet.
+
 ### Usage
 
 ```bash
 # Start the interactive internal linking manager
 npx tsx src/scripts/build-internal-links.ts
 
-# Migrate legacy relative links to absolute production URLs
-pnpm run fix:links
+# Preview changes without modifying files
+npx tsx src/scripts/build-internal-links.ts --dry-run
 ```
 
 ---

@@ -23,6 +23,8 @@ export interface PostMetadata {
     filePath: string;
     /** URL path for linking (e.g., /tech-seo/guide) */
     url: string;
+    /** Language/Locale of the post (e.g., 'en', 'es') */
+    idioma: string;
 }
 
 /**

@@ -41,7 +41,7 @@ We create content for humans first, while ensuring search engine bots can discov
 ## 3. Keyword & Semantic Strategy
 
 ### Entity-Based Optimization
-- **Keyword Density**: Maintain primary keywords between 0.5%–1.5%. Avoid stuffing.
+- **Semantic Depth**: Prioritize semantic depth (TF-IDF / LSI Entities) over exact keyword repetition. Ensure topical completeness by covering relevant sub-entities.
 - **Semantic Keywords (LSI)**: Integrate related entities and concepts naturally to build topical depth.
 - **Anchor Text Standards**: **NEVER** use "click here." Use descriptive, intent-aligned anchor text:
     - `[Date] + [Content Type] + [Publication]` (External).
@@ -63,6 +63,11 @@ We use the **Reverse Hub & Spoke** model:
 ---
 
 ## 5. Featured Snippet & UI Optimization
+
+### Generative AI (SGE / AI Overviews) Optimization
+- **TL;DR Summary**: Place a direct, high-value summary paragraph (40-50 words) immediately below the H1 to facilitate AI summarization and improve user retention.
+- **Clean Data Extraction**: Use standard HTML lists (`<ul>`, `<ol>`) and tables for key data points to ensure AI crawlers can accurately parse and cite your content.
+- **Information Gain**: Always provide original data, personal experience, or unique perspectives ("My Angle") that a generative AI cannot invent or find in top competitor content.
 
 ### Snippet Hunting (Position Zero)
 - **Direct Answers**: Provide a 40–60 word answer paragraph immediately after a question-based heading (H2/H3).

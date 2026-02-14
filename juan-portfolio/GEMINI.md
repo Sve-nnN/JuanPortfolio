@@ -23,13 +23,12 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 | :------------------- | :-------------------------------------------- |
 | **Install**          | `pnpm install`                                |
 | **Development**      | `pnpm dev`                                    |
-| **Production Build** | `pnpm build`                                  |
 | **Sync Status**      | `pnpm sync status`                            |
 | **Push Content**     | `pnpm sync push`                              |
-| **Pull Content**     | `pnpm sync pull`                              |
 | **Sync Keywords**    | `pnpm sync:keywords`                          |
 | **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts` |
 | **SEO Metrics**      | `npx tsx src/scripts/update-seo-metrics.ts`   |
+| **Keyword Gap**      | `npx tsx src/scripts/update-seo-metrics.ts --analyze-gap` |
 | **Sync GSC Data**    | `pnpm run sync:gsc`                           |
 | **CWV Monitoring**   | `npx tsx src/scripts/seo/update-cwv.ts`       |
 
@@ -46,6 +45,19 @@ The project uses a custom synchronization engine (`src/scripts/syncContent.ts`) 
 ### Intelligence Layer
 - **Automatic Linking**: Frontmatter keywords are resolved to Payload document IDs during sync.
 - **Performance Tracking**: Clicks, impressions, and position are tracked at both the Page and Keyword levels.
+- **Top-Down Semantic Gap**: Integrated crawler identifies missing 3-5 word technical phrases from competitors.
+- **Funnel & Intent Logic**: Automated TOFU/MOFU/BOFU classification.
+- **i18n Isolation**: Enforced language-specific internal linking and keyword extraction.
+
+## 2026 SEO Strategy (Source of Truth)
+
+- **AI Overviews (SGE) Optimization**: 
+  - Mandatary 40-50 word TL;DR summary below H1.
+  - Clean HTML lists (`<ul>`, `<ol>`) for crawler extraction.
+  - Mandatory "Information Gain" (unique data/perspective not found in competitors).
+- **Semantic Depth**: Focus on TF-IDF and LSI entities rather than keyword density.
+- **Linkbait Architecture**: Quarterly "Hero" content based on original research (e.g., CWV benchmarks).
+- **pSEO Verdicts**: Strong expert verdicts in technical comparisons ("Use Case Winner") to build E-E-A-T.
 
 
 

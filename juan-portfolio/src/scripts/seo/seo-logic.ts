@@ -76,3 +76,55 @@ export function deriveStrategy(
     recommendedFormat: format,
   }
 }
+
+/**
+ * Validates markdown content for SGE (Search Generative Experience) compliance.
+ */
+export function validateSGECompliance(content: string): {
+  isValid: boolean
+  errors: string[]
+  score: number
+} {
+  const errors: string[] = []
+  let score = 100
+
+  // 1. Mandatory TL;DR / Summary (40-60 words)
+  const lines = content.split('\n').filter(l => l.trim())
+  const firstParagraph = lines.find(l => !l.startsWith('#') && !l.startsWith('---'))
+  
+  if (!firstParagraph) {
+    errors.push('No summary paragraph found under H1.')
+    score -= 40
+  } else {
+    const wordCount = firstParagraph.split(/\s+/).length
+    if (wordCount < 30 || wordCount > 70) {
+      errors.push(`Summary length issue: ${wordCount} words (Expected 40-60).`)
+      score -= 20
+    }
+  }
+
+  // 2. Direct Answers under H2s
+  const headings = content.match(/^##\s+.+$/gm) || []
+  if (headings.length > 0) {
+    const sections = content.split(/^##\s+.+$/gm).slice(1)
+    sections.forEach((section, i) => {
+      const firstLine = section.trim().split('\n')[0]
+      if (!firstLine || firstLine.length < 20) {
+        errors.push(`Heading "${headings[i]}" missing a direct answer / definition below it.`)
+        score -= 10
+      }
+    })
+  }
+
+  // 3. Structured Lists for Crawler Extraction
+  if (!/^\s*[-*+]\s+/m.test(content) && !/^\s*\d+\.\s+/m.test(content)) {
+    errors.push('No bulleted or numbered lists found. Crawlers prefer lists for AI Overviews.')
+    score -= 15
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    score: Math.max(0, score)
+  }
+}

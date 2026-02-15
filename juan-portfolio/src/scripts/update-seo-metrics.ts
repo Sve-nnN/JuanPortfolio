@@ -77,6 +77,7 @@ interface CrawlResult {
   wordCount: number
   discoveredKeywords: string[]
   success: boolean
+  sgeCitabilityScore: number
 }
 
 // --- Helper Functions ---
@@ -249,6 +250,17 @@ async function crawlSingleUrl(url: string, index: number): Promise<CrawlResult> 
     const dom = new JSDOM(html)
     const doc = dom.window.document
 
+    // SGE Citability Logic
+    let sgeCitabilityScore = 0
+    const listCount = doc.querySelectorAll('ul, ol').length
+    const tableCount = doc.querySelectorAll('table').length
+    const boldCount = doc.querySelectorAll('strong, b').length
+    
+    if (listCount > 3) sgeCitabilityScore += 30
+    if (tableCount > 0) sgeCitabilityScore += 20
+    if (boldCount > 10) sgeCitabilityScore += 10
+    if (html.length > 5000) sgeCitabilityScore += 10
+
     doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, link, svg').forEach((el) => el.remove())
 
     const headings = Array.from(doc.querySelectorAll('h2, h3'))
@@ -279,17 +291,18 @@ async function crawlSingleUrl(url: string, index: number): Promise<CrawlResult> 
       meta: metaSummary,
       wordCount,
       discoveredKeywords,
-      success: true
+      success: true,
+      sgeCitabilityScore: Math.min(100, sgeCitabilityScore)
     }
   } catch (e) {
     process.stdout.write(`\r${colors.red}    ❌ Failed (${index}): ${url.substring(0, 50)}... (${e instanceof Error ? e.message : 'Error'})    \n${colors.reset}`)
-    return { headings: '', meta: '', wordCount: 0, discoveredKeywords: [], success: false }
+    return { headings: '', meta: '', wordCount: 0, discoveredKeywords: [], success: false, sgeCitabilityScore: 0 }
   }
 }
 
 async function crawlCompetitorContent(
   urls: string[],
-): Promise<{ headings: string; meta: string; avgWordCount: number; discoveredKeywords: string[] }> {
+): Promise<{ headings: string; meta: string; avgWordCount: number; discoveredKeywords: string[]; sgeCitabilityScore: number }> {
   const limit = pLimit(MAX_CONCURRENT_CRAWLS)
   const tasks = urls.slice(0, 8).map((url, i) => limit(() => crawlSingleUrl(url, i + 1)))
   const results = await Promise.all(tasks)
@@ -297,29 +310,38 @@ async function crawlCompetitorContent(
   const successful = results.filter(r => r.success).slice(0, MAX_SUCCESSFUL_CRAWLS_PER_KEYWORD)
 
   if (successful.length === 0) {
-    return { headings: 'Crawl Failed (No data found)', meta: 'Crawl Failed', avgWordCount: 0, discoveredKeywords: [] }
+    return { headings: 'Crawl Failed (No data found)', meta: 'Crawl Failed', avgWordCount: 0, discoveredKeywords: [], sgeCitabilityScore: 0 }
   }
 
   const totalWords = successful.reduce((acc, r) => acc + r.wordCount, 0)
   const avgWordCount = Math.round(totalWords / successful.length)
   const allDiscovered = Array.from(new Set(successful.flatMap(r => r.discoveredKeywords)))
+  const avgSgeScore = Math.round(successful.reduce((acc, r) => acc + r.sgeCitabilityScore, 0) / successful.length)
 
   return {
     headings: successful.map((r, i) => `[U${i + 1}] ${r.headings}`).join(' || '),
     meta: successful.map((r, i) => `[U${i + 1}] ${r.meta}`).join(' || '),
     avgWordCount,
-    discoveredKeywords: allDiscovered
+    discoveredKeywords: allDiscovered,
+    sgeCitabilityScore: avgSgeScore
   }
 }
 
-function calculateOpportunityScore(volume: number, difficulty: number): number {
+function calculateOpportunityScore(volume: number, difficulty: number, intent?: string): number {
+  let baseScore = 0
   if (difficulty < 15) {
-    return volume > 100 ? 98 : 80
+    baseScore = volume > 100 ? 98 : 80
   } else if (difficulty < 35) {
-    return volume > 5000 ? 90 : 70
+    baseScore = volume > 5000 ? 90 : 70
   } else {
-    return Math.max(5, Math.min(60, volume / 10000))
+    baseScore = Math.max(5, Math.min(60, volume / 10000))
   }
+
+  // Intent Multiplier (2026 Strategy: Prioritize Decision Stage)
+  if (intent === 'Transactional') return Math.min(100, baseScore * 1.2)
+  if (intent === 'Commercial') return Math.min(100, baseScore * 1.1)
+  
+  return baseScore
 }
 
 export async function main() {
@@ -437,7 +459,7 @@ export async function main() {
         const strategy = deriveStrategy(data.volume, data.difficulty, data.intent as Intent)
         data.clusterType = strategy.clusterType
         data.recommendedFormat = strategy.recommendedFormat
-        data.opportunityScore = calculateOpportunityScore(data.volume, data.difficulty)
+        data.opportunityScore = calculateOpportunityScore(data.volume, data.difficulty, data.intent)
 
         const currentYear = new Date().getFullYear()
         data.suggestedAnchorText = `${currentYear} ${data.recommendedFormat} on ${data.keyword} | ${data.keyword.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`
@@ -468,6 +490,13 @@ export async function main() {
           if (!crawlerResults.headings.includes('Crawl Failed')) data.competitorHeadings = headings
           if (!crawlerResults.meta.includes('Crawl Failed')) data.competitorMeta = crawlerResults.meta
           data.avgWordCount = crawlerResults.avgWordCount
+
+          // Calculate Information Gain Strategy
+          if (crawlerResults.sgeCitabilityScore < 50) {
+            data.informationGain = `• Los competidores tienen baja citabilidad SGE (${crawlerResults.sgeCitabilityScore}%). Priorizaré formatos de lista y definiciones directas para robar el AI Overview.`
+          } else {
+            data.informationGain = `• Competidores fuertes en SGE (${crawlerResults.sgeCitabilityScore}%). Necesito aportar datos propios o un script técnico único para diferenciarme.`
+          }
 
           for (const gapKw of crawlerResults.discoveredKeywords) {
             const kwLower = gapKw.toLowerCase()

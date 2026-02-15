@@ -73,6 +73,7 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   testimonialsCarousel: dynamic(() =>
     import('@/blocks/TestimonialsCarousel/Component').then((m) => m.TestimonialsCarousel),
   ),
+  faq: dynamic(() => import('@/blocks/FAQ/Component').then((m) => m.FAQBlock)),
 }
 
 export const RenderBlocks: React.FC<{

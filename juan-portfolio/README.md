@@ -7,6 +7,7 @@ This project is a modern web application designed to showcase a professional por
 ## Features
 
 - **Performance First**: Built on Next.js 15 with Turbopack, optimized for speed and SEO.
+- **Algorithmic SEO 2026**: Advanced NLP integration for entity-based internal linking and SGE optimization.
 - **Headless CMS**: Powered by Payload CMS (MongoDB), offering a customizable admin panel.
 - **Rich Content Management**:
   - **Blog**: Full-featured blog with categories, authors, and rich text editing.
@@ -162,6 +163,8 @@ npx tsx src/scripts/seo/update-cwv.ts
 Automated system to distribute authority and improve crawlability via context-aware links.
 
 ### Key Features
+- **NLP Semantic Matching**: Uses Dice's Coefficient (via `natural` library) to ensure links are contextually relevant beyond simple string matching.
+- **Authority Clusters**: Automatically identifies `Pillar` and `Supporting` content, prioritizing links to high-authority pillar pages.
 - **Language Isolation**: English posts only link to English content; Spanish posts only link to Spanish content.
 - **Pure Semantic Extraction**: Automatically filters out keywords from the "wrong" language during extraction.
 - **Gap Detection**: Identifies mentioned keywords that don't have a dedicated target page yet.

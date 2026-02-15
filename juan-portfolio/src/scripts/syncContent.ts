@@ -254,7 +254,11 @@ class ContentSyncManager {
         }
       }
 
-      const lexicalContent = convertMarkdownToLexical(mdBody)
+      const lexicalContent = convertMarkdownToLexical(
+        mdBody, 
+        frontmatter.primary_keywords?.[0], 
+        frontmatter.idioma
+      )
       
       let primaryKeywordId
       if (frontmatter.primary_keywords?.[0]) {

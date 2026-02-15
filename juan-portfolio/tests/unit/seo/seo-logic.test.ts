@@ -3,7 +3,8 @@ import {
   deriveIntent, 
   deriveFunnelStage, 
   deriveInformationGain, 
-  deriveStrategy 
+  deriveStrategy,
+  validateSGECompliance
 } from '../../../src/scripts/seo/seo-logic'
 
 describe('SEO Logic Utilities', () => {
@@ -65,6 +66,50 @@ describe('SEO Logic Utilities', () => {
       const strategy = deriveStrategy(5000, 10, 'Informational')
       expect(strategy.clusterType).toBe('Supporting')
       expect(strategy.recommendedFormat).toBe('Blog')
+    })
+  })
+
+  describe('validateSGECompliance', () => {
+    it('should pass for high-quality content with lists and summary', () => {
+      const content = `
+# How to optimize SEO
+This is a comprehensive summary of how to optimize your website for search engines using modern tools and techniques in about fifty words or so. We need to make sure this paragraph is long enough to satisfy the requirements of the SGE validator which expects at least thirty words to consider it a valid TLDR summary for AI extraction.
+
+## Use Keywords
+Keyword research is the process of finding and analyzing search terms that people enter into search engines.
+
+- Item 1
+- Item 2
+`
+      const result = validateSGECompliance(content)
+      expect(result.isValid).toBe(true)
+      expect(result.score).toBe(100)
+    })
+
+    it('should fail if summary is too short', () => {
+      const content = `
+# Title
+Short summary.
+
+## Heading
+Answer.
+- list
+`
+      const result = validateSGECompliance(content)
+      expect(result.isValid).toBe(false)
+      expect(result.errors.some(e => e.includes('Summary length'))).toBe(true)
+    })
+
+    it('should fail if lists are missing', () => {
+      const content = `
+# How to optimize SEO
+This is a comprehensive summary of how to optimize your website for search engines using modern tools and techniques in about fifty words or so.
+
+## Use Keywords
+Keyword research is the process of finding and analyzing search terms that people enter into search engines.
+`
+      const result = validateSGECompliance(content)
+      expect(result.errors).toContain('No bulleted or numbered lists found. Crawlers prefer lists for AI Overviews.')
     })
   })
 })

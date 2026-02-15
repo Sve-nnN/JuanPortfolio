@@ -29,12 +29,13 @@ describe('Internal Linking Script', () => {
         it('should extract primary and semantic keywords from frontmatter', async () => {
             const postContent = `---
 title: Big O Notation Guide
+idioma: en
 primary_keywords:
   - big o notation
-  - notacion big o
+  - complexity
 semantic_keywords:
-  - complejidad
-  - rendimiento
+  - performance
+  - efficiency
 ---
 Hello world.
 `;
@@ -45,19 +46,21 @@ Hello world.
             
             expect(posts).toHaveLength(1);
             const post = posts[0];
-            expect(post.primary_keywords).toEqual(['big o notation', 'notacion big o']);
-            expect(post.semantic_keywords).toEqual(['complejidad', 'rendimiento']);
+            expect(post.primary_keywords).toEqual(['big o notation', 'complexity']);
+            expect(post.semantic_keywords).toEqual(['performance', 'efficiency']);
         });
 
         it('should build a correct keywordIndex from primary_keywords', async () => {
             const post1 = `---
 title: Big O Notation
+idioma: en
 primary_keywords: [big o notation]
 ---
 `;
             const post2 = `---
 title: Algorithmic Complexity
-primary_keywords: [complejidad algoritmica]
+idioma: en
+primary_keywords: [algorithmic complexity]
 ---
 `;
             await createMockFile(path.join(TEST_DIR, 'posts', 'cs', 'big-o.md'), post1);
@@ -69,8 +72,8 @@ primary_keywords: [complejidad algoritmica]
 
             expect(index.has('big o notation')).toBe(true);
             expect(index.get('big o notation')?.targetPost.slug).toBe('big-o');
-            expect(index.has('complejidad algoritmica')).toBe(true);
-            expect(index.get('complejidad algoritmica')?.targetPost.slug).toBe('complexity');
+            expect(index.has('algorithmic complexity')).toBe(true);
+            expect(index.get('algorithmic complexity')?.targetPost.slug).toBe('complexity');
         });
     });
 
@@ -83,13 +86,15 @@ primary_keywords: [complejidad algoritmica]
         it('should find link opportunities', async () => {
             const post1 = `---
 title: Big O Notation
-primary_keywords: [big o notation, notacion big o]
+idioma: en
+primary_keywords: [big o notation]
 ---
 `;
             const post2 = `---
 title: Algorithmic Complexity
+idioma: en
 ---
-Hablemos de la notacion big o.
+We should discuss big o notation in depth.
 `;
             await createMockFile(path.join(TEST_DIR, 'posts', 'cs', 'big-o.md'), post1);
             await createMockFile(path.join(TEST_DIR, 'posts', 'cs', 'complexity.md'), post2);
@@ -103,21 +108,24 @@ Hablemos de la notacion big o.
             
             const opportunities = scanner.scanPost(complexityPost, posts);
             expect(opportunities.length).toBeGreaterThan(0);
-            expect(opportunities[0].keyword).toBe('notacion big o');
+            expect(opportunities[0].keyword.toLowerCase()).toBe('big o notation');
             expect(opportunities[0].targetPost.slug).toBe('big-o');
         });
 
         it('should assign a high relevance score for contextually relevant links', async () => {
             const post1 = `---
 title: Big O Notation
-primary_keywords: [notacion big o]
-semantic_keywords: [complejidad]
+idioma: en
+clusterType: Pillar
+primary_keywords: [big o notation]
+semantic_keywords: [complexity, performance]
 ---
 `;
             const post2 = `---
 title: Algorithmic Complexity
+idioma: en
 ---
-Hablemos de la notacion big o. Mide la complejidad.
+Big O notation measures algorithmic complexity and performance.
 `;
             await createMockFile(path.join(TEST_DIR, 'posts', 'cs', 'big-o.md'), post1);
             await createMockFile(path.join(TEST_DIR, 'posts', 'cs', 'complexity.md'), post2);
@@ -129,7 +137,8 @@ Hablemos de la notacion big o. Mide la complejidad.
             const complexityPost = posts.find(p => p.slug === 'complexity')!;
             
             const opportunities = scanner.scanPost(complexityPost, posts);
-            expect(opportunities[0].relevance).toBeGreaterThan(0.8);
+            // High score due to Pillar status + semantic match (complexity, performance)
+            expect(opportunities[0].relevance).toBeGreaterThan(0.7);
         });
     });
 

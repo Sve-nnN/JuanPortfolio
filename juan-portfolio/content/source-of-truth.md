@@ -5,7 +5,8 @@ This document is the authoritative reference for all SEO operations within the J
 ---
 
 ## 1. Core Philosophy: People-First & Intent-Driven
-We create content for humans first, while ensuring search engine bots can discover and understand it.
+We create content for humans first, while ensuring search engine bots and **Generative AI models** can discover, understand, and cite it.
+- **GEO (Generative Engine Optimization)**: Our strategy evolves from just "Ranking" to "Citability" in LLMs (ChatGPT, Gemini, SGE).
 - **Search Essentials**: Adherence to Google’s baseline technical requirements is mandatory.
 - **Intent Mapping**: Every page must target a specific user journey stage:
     - *Informational*: Learning/Answers (e.g., Blog posts).
@@ -40,34 +41,41 @@ We create content for humans first, while ensuring search engine bots can discov
 
 ## 3. Keyword & Semantic Strategy
 
-### Entity-Based Optimization
+### Entity-Based Optimization (NLP-First)
 - **Semantic Depth**: Prioritize semantic depth (TF-IDF / LSI Entities) over exact keyword repetition. Ensure topical completeness by covering relevant sub-entities.
+- **Semantic Similarity (Dice's Coefficient)**: All automated internal links must satisfy a similarity threshold (>0.7) to ensure contextual relevance between the source and target entities.
+- **Entity SEO**: Focus on building a "Knowledge Graph" within the site where concepts are interconnected via defined relationships (Pillar vs. Supporting).
 - **Semantic Keywords (LSI)**: Integrate related entities and concepts naturally to build topical depth.
 - **Anchor Text Standards**: **NEVER** use "click here." Use descriptive, intent-aligned anchor text:
     - `[Date] + [Content Type] + [Publication]` (External).
     - `[Post Title / Semantic Keyword]` (Internal).
 
-### Cannibalization Prevention
-- **One Keyword, One Page**: Maintain a strict mapping to prevent internal competition.
+### Cannibalization & Semantic Deduplication
+- **One Entity, One Page**: Maintain a strict mapping to prevent internal competition.
+- **Semantic Filtering**: New keyword opportunities must be checked against existing entities using NLP to avoid targeting the same concept with different synonyms.
 - **Intent Differentiation**: If two pages target the same keyword, rewrite one for a different search intent or consolidate them.
 
 ---
 
-## 4. Content Architecture: Topic Clusters
+## 4. Content Architecture: Authority Clusters
 
-We use the **Reverse Hub & Spoke** model:
-1.  **Cornerstone/Pillar Page**: Comprehensive guides (3,000+ words) for broad, competitive terms.
-2.  **Supporting Content (Spokes)**: Deep dives into specific subtopics that link back to the Pillar with high-relevance anchor text.
-3.  **Cross-Linking**: Strategic internal links from spokes to other relevant spokes to establish topical authority.
+We use a weighted **Authority Cluster** model:
+1.  **Pillar Pages (Priority 2)**: Comprehensive "Source of Truth" guides (3,000+ words) for broad, competitive terms. They act as the primary authority nodes.
+2.  **Supporting Content (Priority 1)**: Focused articles (Spokes) that solve specific sub-intents and funnel authority back to the Pillar with high-relevance anchor text.
+3.  **Cross-Linking**: Strategic links are weighted by authority. Links pointing to Pillars have higher distribution priority in automated scripts.
 
 ---
 
-## 5. Featured Snippet & UI Optimization
+## 5. Generative AI (SGE / GEO) Optimization
 
-### Generative AI (SGE / AI Overviews) Optimization
-- **TL;DR Summary**: Place a direct, high-value summary paragraph (40-50 words) immediately below the H1 to facilitate AI summarization and improve user retention.
+### The "Atomic Answer" Pattern
+- **TL;DR Summary**: Place a direct, high-value summary paragraph (40-60 words) immediately below the H1. It must contain the primary entity and its definition to facilitate AI summarization and improve user retention.
+- **H2 Direct Response**: Every H2 heading should ideally be followed by an "Atomic Answer"—a concise, bolded response that directly addresses the heading's intent.
 - **Clean Data Extraction**: Use standard HTML lists (`<ul>`, `<ol>`) and tables for key data points to ensure AI crawlers can accurately parse and cite your content.
-- **Information Gain**: Always provide original data, personal experience, or unique perspectives ("My Angle") that a generative AI cannot invent or find in top competitor content.
+
+### Information Gain & Delta
+- **The "Delta" Requirement**: Every piece of content must provide a measurable "Information Gain"—unique data, personal experience, or unique perspectives ("My Angle") that a generative AI cannot invent or find in top competitor content.
+- **Expert Verdicts**: Include "Winner" or "Use Case" boxes in technical comparisons to build E-E-A-T signals that AI models use to verify authority.
 
 ### Snippet Hunting (Position Zero)
 - **Direct Answers**: Provide a 40–60 word answer paragraph immediately after a question-based heading (H2/H3).
@@ -94,6 +102,7 @@ Always implement **JSON-LD** in the `<head>` for:
 ## 7. Audit & Maintenance Protocol
 
 - **SEO Health Index**: Monthly audits scoring Crawlability (30%), Foundations (25%), On-Page (20%), E-E-A-T (15%), and Authority (10%).
+- **SGE Compliance Validation**: Use automated scripts (`validateSGECompliance`) to audit summary length, list density, and direct answer placement in all new drafts.
 - **Content Refreshing**:
     - Update statistics older than 2 years.
     - Refresh examples/case studies older than 3 years.

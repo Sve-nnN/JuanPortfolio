@@ -25,6 +25,10 @@ export interface PostMetadata {
     url: string;
     /** Language/Locale of the post (e.g., 'en', 'es') */
     idioma: string;
+    /** Cluster type for authority logic */
+    clusterType?: 'Pillar' | 'Supporting';
+    /** Content type for link weighting */
+    contentType?: 'Blog' | 'Guide' | 'Case Study';
 }
 
 /**

@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import natural from 'natural'
 import { extractPhrases, GapCandidate } from './keyword-utils'
 
 const KEYWORDS_FILE_PATH = path.join(process.cwd(), 'content', 'keywords.md')
@@ -56,6 +57,7 @@ async function analyzeGap() {
   }
 
   const existingKeywords = new Set(currentEntries.map(e => e.keyword.toLowerCase()))
+  const existingKeywordsList = currentEntries.map(e => e.keyword.toLowerCase());
   const candidates = new Map<string, GapCandidate>()
 
   for (const entry of currentEntries) {
@@ -100,6 +102,16 @@ async function analyzeGap() {
       // Final heuristic filters
       if (g.keyword.split(' ').length < 2) return false // Require at least 2 words
       if (g.score < 2) return false
+
+      // Semantic filtering: Skip if too similar to existing keywords
+      const currentKw = g.keyword.toLowerCase();
+      const isDuplicate = existingKeywordsList.some(existingKw => {
+        const sim = natural.DiceCoefficient(currentKw, existingKw);
+        return sim > 0.7; // High threshold for near-duplicates
+      });
+
+      if (isDuplicate) return false;
+
       return true
     })
     .sort((a, b) => b.score - a.score)

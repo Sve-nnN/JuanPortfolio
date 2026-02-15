@@ -78,6 +78,11 @@ export class KeywordExtractor {
                 .map((kw: string) => kw.toLowerCase())
                 .filter((kw: string) => this.validateKeywordLanguage(kw, idioma, slug, 'semantic'));
 
+            // Authority Cluster Logic
+            const clusterType = (data.clusterType as 'Pillar' | 'Supporting') || 
+                                (primary_keywords.length > 2 || /guide|guia|manual/i.test(data.title || slug) ? 'Pillar' : 'Supporting');
+            const contentType = (data.contentType as 'Blog' | 'Guide' | 'Case Study') || 'Blog';
+
             return {
                 slug,
                 title: data.title || slug,
@@ -87,6 +92,8 @@ export class KeywordExtractor {
                 filePath,
                 url,
                 idioma,
+                clusterType,
+                contentType,
             };
         } catch (error) {
             console.error(`Error parsing ${filePath}:`, error);
@@ -105,16 +112,18 @@ export class KeywordExtractor {
         const words = keyword.toLowerCase().split(/\s+/);
         
         if (idioma === 'es') {
-            // Check if Spanish post has clearly English keywords
-            const hasEnStopWord = words.some(w => enStopWords.has(w));
-            if (hasEnStopWord) {
+            // Check if Spanish post has clearly English keywords (at least 2 EN stop words or starts with EN stop word in long phrase)
+            const enStopCount = words.filter(w => enStopWords.has(w)).length;
+            if (enStopCount >= 2 || (words.length > 2 && enStopWords.has(words[0]))) {
                 console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks English but post is Spanish (es). skipping...`);
                 return false;
             }
         } else if (idioma === 'en') {
             // Check if English post has clearly Spanish keywords
-            const hasEsStopWord = words.some(w => esStopWords.has(w));
-            if (hasEsStopWord) {
+            const esStopCount = words.filter(w => esStopWords.has(w)).length;
+            // "big o notation" has "o" which is an ES stop word. We should allow it.
+            // Only block if 2+ ES stop words or clearly ES grammar.
+            if (esStopCount >= 2 || (words.length > 2 && esStopWords.has(words[0]))) {
                 console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks Spanish but post is English (en). skipping...`);
                 return false;
             }
@@ -148,7 +157,7 @@ export class KeywordExtractor {
                     keyword,
                     variations,
                     targetPost: post,
-                    priority: 1, // Priority is now simplified
+                    priority: post.clusterType === 'Pillar' ? 2 : 1, 
                 };
 
                 // Index both the primary keyword and all its variations

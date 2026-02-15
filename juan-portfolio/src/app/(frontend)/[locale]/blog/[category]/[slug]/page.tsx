@@ -115,7 +115,7 @@ export default async function PostPage({
 
   return (
     <article className="pb-16">
-      <JsonLd schema={schema} />
+      <JsonLd schema={schema} post={post} locale={locale} siteUrl={getServerSideURL()} />
       <LivePreviewListener />
       <PayloadRedirects disableNotFound url={`${localePrefix}/blog/${category}/${slug}`} />
 

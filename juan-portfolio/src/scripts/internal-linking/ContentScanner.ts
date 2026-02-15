@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import matter from 'gray-matter';
+import natural from 'natural';
 import type { PostMetadata, KeywordMatch, LinkOpportunity, LinkingConfig } from './types';
 
 /**
@@ -225,31 +226,34 @@ export class ContentScanner {
         keyword: string,
         match: KeywordMatch,
         context: string,
-        _sourcePost: PostMetadata
+        sourcePost: PostMetadata
     ): number {
-        let score = 0.4; // Base score for any valid match
+        let score = 0.3; // Base score
 
-        // 1. Exact Keyword Match Bonus (major factor)
-        // Is this the canonical keyword, not just a variation?
+        // 1. Authority Weighting (Cluster Logic)
+        // Linking to a Pillar post is generally higher value
+        if (match.targetPost.clusterType === 'Pillar') {
+            score += 0.2;
+        }
+
+        // 2. Exact Keyword Match Bonus
         if (keyword.toLowerCase() === match.keyword.toLowerCase()) {
-            score += 0.3;
+            score += 0.2;
         }
 
-        // 2. Semantic Context Bonus (the "intelligent" part)
-        // Do related terms from the target post appear nearby?
-        const semanticTerms = match.targetPost.semantic_keywords || [];
-        const contextLower = context.toLowerCase();
-        
-        let semanticCount = 0;
-        for(const term of semanticTerms) {
-            if (contextLower.includes(term.toLowerCase())) {
-                semanticCount++;
-            }
-        }
+        // 3. Jaccard Similarity (NLP)
+        // Compare context tokens with target post keywords
+        const tokenizer = new natural.WordTokenizer();
+        const contextTokens = tokenizer.tokenize(context.toLowerCase()) || [];
+        const targetKeywordsStr = [...match.targetPost.primary_keywords, ...(match.targetPost.semantic_keywords || [])].join(' ');
 
-        // Add a significant bonus based on the number of related terms found
-        if (semanticCount > 0) {
-            score += Math.min(semanticCount * 0.15, 0.3);
+        const similarity = natural.DiceCoefficient(context.toLowerCase(), targetKeywordsStr.toLowerCase());
+        score += similarity * 0.5; // Up to 0.5 bonus for high semantic match
+
+        // 4. Silo Bonus
+        // Posts in the same category have higher structural relevance
+        if (sourcePost.category === match.targetPost.category) {
+            score += 0.1;
         }
 
         // Normalize to 0-1 range

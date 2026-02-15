@@ -31,7 +31,11 @@ interface SerializedBlockNode extends SerializedLexicalNode {
 
 // --- Markdown to Lexical ---
 
-export const convertMarkdownToLexical = (markdown: string): SerializedEditorState => {
+export const convertMarkdownToLexical = (
+  markdown: string,
+  primaryKeyword?: string,
+  idioma: 'en' | 'es' = 'es'
+): SerializedEditorState => {
   const tokens = marked.lexer(markdown)
   const rootChildren: SerializedLexicalNode[] = []
 
@@ -100,7 +104,66 @@ export const convertMarkdownToLexical = (markdown: string): SerializedEditorStat
     return nodes
   }
 
+  let faqMode = false
+  let currentFaq: { question: string; answer: string } | null = null
+  const faqs: { question: string; answer: string }[] = []
+
+  const getFaqTitle = () => {
+    if (!primaryKeyword) return idioma === 'es' ? 'Preguntas Frecuentes' : 'Frequently Asked Questions'
+    return idioma === 'es' 
+      ? `Preguntas frecuentes sobre ${primaryKeyword}` 
+      : `Frequently asked questions about ${primaryKeyword}`
+  }
+
   tokens.forEach((token) => {
+    // FAQ Detection Logic: Matches headers containing "FAQ" or "Preguntas Frecuentes"
+    const isFaqHeader = token.type === 'heading' && 
+      /(faq|preguntas frecuentes)/i.test(token.text)
+
+    if (isFaqHeader) {
+      faqMode = true
+      return // Skip the heading token itself
+    }
+
+    if (faqMode) {
+      if (token.type === 'heading' && token.depth <= 2) {
+        // End FAQ mode if another H2 or higher heading is found
+        if (faqs.length > 0 || currentFaq) {
+          if (currentFaq) faqs.push(currentFaq)
+          rootChildren.push({
+            type: 'block',
+            format: '',
+            indent: 0,
+            version: 2,
+            fields: {
+              id: new Date().getTime().toString() + Math.random().toString(36).substring(7),
+              blockType: 'faq',
+              title: getFaqTitle(),
+              faqs: [...faqs],
+            },
+          } as unknown as SerializedBlockNode)
+          faqs.length = 0
+          currentFaq = null
+        }
+        faqMode = false
+      } else if (token.type === 'paragraph') {
+        const text = token.text.trim()
+        // Simple heuristic: Question is bold, answer is plain text below it
+        if (text.startsWith('**') && text.endsWith('**')) {
+          if (currentFaq) faqs.push(currentFaq)
+          currentFaq = { question: text.replace(/\*\*/g, ''), answer: '' }
+        } else if (currentFaq) {
+          currentFaq.answer += (currentFaq.answer ? '\n' : '') + text
+        }
+        return // Skip standard paragraph handling while in FAQ mode
+      } else if (token.type === 'heading' && token.depth === 3) {
+        // Question found as H3
+        if (currentFaq) faqs.push(currentFaq)
+        currentFaq = { question: token.text, answer: '' }
+        return
+      }
+    }
+
     if (token.type === 'heading') {
       rootChildren.push({
         type: 'heading',
@@ -173,6 +236,23 @@ export const convertMarkdownToLexical = (markdown: string): SerializedEditorStat
       } as unknown as SerializedBlockNode)
     }
   })
+
+  // Final push for FAQ if it was at the end of the file
+  if (faqMode && (faqs.length > 0 || currentFaq)) {
+    if (currentFaq) faqs.push(currentFaq)
+    rootChildren.push({
+      type: 'block',
+      format: '',
+      indent: 0,
+      version: 2,
+      fields: {
+        id: new Date().getTime().toString() + Math.random().toString(36).substring(7),
+        blockType: 'faq',
+        title: getFaqTitle(),
+        faqs: [...faqs],
+      },
+    } as unknown as SerializedBlockNode)
+  }
 
   return {
     root: {

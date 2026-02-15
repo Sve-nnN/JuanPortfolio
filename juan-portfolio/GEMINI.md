@@ -43,10 +43,12 @@ The project uses a custom synchronization engine (`src/scripts/syncContent.ts`) 
 4. **Pull**: Download remote CMS edits back to local Markdown with `pnpm sync pull`.
 
 ### Intelligence Layer
-- **Automatic Linking**: Frontmatter keywords are resolved to Payload document IDs during sync.
+- **Automatic Linking**: Frontmatter keywords are resolved to Payload document IDs during sync. Includes authority weighting (Pillar vs Supporting).
+- **Semantic Link Matching**: Uses Dice's Coefficient (NLP) to validate context before inserting internal links.
 - **Performance Tracking**: Clicks, impressions, and position are tracked at both the Page and Keyword levels.
-- **Top-Down Semantic Gap**: Integrated crawler identifies missing 3-5 word technical phrases from competitors.
-- **Funnel & Intent Logic**: Automated TOFU/MOFU/BOFU classification.
+- **SGE Citability Score**: Competitor analysis detects if top-ranking pages are optimized for AI extraction.
+- **Intent Multipliers**: Opportunity scores are weighted by conversion intent (BOFU > MOFU > TOFU).
+- **Top-Down Semantic Gap**: Integrated crawler identifies missing 3-5 word technical phrases from competitors, filtered by semantic similarity to avoid duplicates.
 - **i18n Isolation**: Enforced language-specific internal linking and keyword extraction.
 
 ## 2026 SEO Strategy (Source of Truth)
@@ -55,8 +57,13 @@ The project uses a custom synchronization engine (`src/scripts/syncContent.ts`) 
   - Mandatary 40-50 word TL;DR summary below H1.
   - Clean HTML lists (`<ul>`, `<ol>`) for crawler extraction.
   - Mandatory "Information Gain" (unique data/perspective not found in competitors).
-- **Semantic Depth**: Focus on TF-IDF and LSI entities rather than keyword density.
-- **Linkbait Architecture**: Quarterly "Hero" content based on original research (e.g., CWV benchmarks).
+  - **SGE Validator**: Use `validateSGECompliance` in `src/scripts/seo/seo-logic.ts` to audit draft quality.
+- **Semantic Depth & NLP**: 
+  - Focus on entities rather than keyword density.
+  - Semantic similarity check using Dice's Coefficient for all automated internal links.
+- **Authority Cluster Architecture**:
+  - **Pillar Pages**: Comprehensive guides with high internal link density.
+  - **Supporting Pages**: Focused long-tail articles linking back to Pillar pages.
 - **pSEO Verdicts**: Strong expert verdicts in technical comparisons ("Use Case Winner") to build E-E-A-T.
 
 

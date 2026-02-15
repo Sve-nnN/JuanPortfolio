@@ -61,10 +61,18 @@ export const PostHero: React.FC<{
     const nodes = populatedAuthors.map((a, i) => {
       const name = a.name
       const slug = (a as PopulatedAuthor).slug
+      const jobTitle = (a as any).jobTitle
+
       const element = slug ? (
-        <Link key={a.id || i} href={`${localePrefix}/authors/${slug}`} className="font-medium hover:underline">
-          {name}
-        </Link>
+        <div key={a.id || i} className="flex flex-col items-end">
+          <Link
+            href={`${localePrefix}/authors/${slug}`}
+            className="font-semibold hover:underline"
+          >
+            {name}
+          </Link>
+          {jobTitle && <span className="text-[10px] opacity-60 font-normal leading-tight">{jobTitle}</span>}
+        </div>
       ) : (
         <span key={a.id || i} className="font-medium">
           {name}

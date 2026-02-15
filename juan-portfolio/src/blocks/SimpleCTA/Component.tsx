@@ -18,15 +18,15 @@ export const SimpleCta: React.FC<SimpleCtaBlock & { locale?: 'en' | 'es' }> = (p
   }[backgroundColor || 'black']
 
   return (
-    <section className={`py-12 ${bgColorClass}`}>
-      <div className="max-w-4xl mx-auto px-6 text-center">
-        {text && <p className="mb-4 text-lg">{text}</p>}
+    <section className={`py-20 md:py-32 ${bgColorClass}`}>
+      <div className="max-w-5xl mx-auto px-6 text-center">
+        {text && <p className="mb-10 text-2xl md:text-4xl font-display font-bold tracking-tight leading-tight">{text}</p>}
         {label && url && (
           <CMSLink
             url={url}
             label={label}
             locale={locale}
-            className={`inline-block px-6 py-3 rounded-lg transition-colors ${buttonClass}`}
+            className={`inline-block px-10 py-5 text-xl font-bold rounded-2xl transition-all shadow-xl hover:shadow-primary/20 hover:-translate-y-1 ${buttonClass}`}
           />
         )}
       </div>

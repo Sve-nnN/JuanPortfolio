@@ -146,6 +146,8 @@ export const convertMarkdownToLexical = (
           currentFaq = null
         }
         faqMode = false
+        // DO NOT return here, because this heading (which ended the FAQ mode) 
+        // needs to be processed by the standard heading logic below.
       } else if (token.type === 'paragraph') {
         const text = token.text.trim()
         // Simple heuristic: Question is bold, answer is plain text below it
@@ -160,7 +162,7 @@ export const convertMarkdownToLexical = (
         // Question found as H3
         if (currentFaq) faqs.push(currentFaq)
         currentFaq = { question: token.text, answer: '' }
-        return
+        return // Skip standard heading handling while in FAQ mode
       }
     }
 

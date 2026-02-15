@@ -7,14 +7,14 @@ export const IntroBlock: React.FC<IntroBlockProps & { locale?: 'en' | 'es' }> = 
   locale: _locale = 'es'
 }) => {
   return (
-    <section className="container mx-auto px-4 md:px-8 py-12 md:py-24">
-      <div className="max-w-4xl">
-        <h2 className="text-3xl md:text-5xl font-array font-bold tracking-tight mb-8">
+    <section className="container mx-auto px-4 md:px-8 py-16 md:py-32">
+      <div className="max-w-5xl">
+        <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-10 leading-[1.1] text-foreground">
           {heading}
         </h2>
         
         {body && (
-          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mt-8">
+          <p className="text-xl md:text-3xl text-muted-foreground leading-relaxed mt-12 font-medium max-w-4xl">
             {body}
           </p>
         )}

@@ -20,16 +20,16 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
   const duplicatedClients = [...clientDocs, ...clientDocs, ...clientDocs, ...clientDocs]
 
   return (
-    <section className="py-24 md:py-32 overflow-hidden bg-white relative">
-      <div className="container mx-auto px-4 mb-16 md:mb-24">
-        <div className="max-w-3xl mx-auto text-center">
+    <section className="py-24 md:py-32 overflow-hidden bg-background relative">
+      <div className="container mx-auto px-4 mb-16 md:mb-24 text-center">
+        <div className="max-w-4xl mx-auto">
           {title && (
-            <h2 className="text-4xl md:text-6xl font-array font-bold tracking-tighter mb-6 text-slate-900">
+            <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-8 text-foreground">
               {title}
             </h2>
           )}
           {description && (
-            <p className="text-xl md:text-2xl text-slate-600 leading-relaxed">
+            <p className="text-xl md:text-3xl text-muted-foreground leading-relaxed font-medium">
               {description}
             </p>
           )}
@@ -38,13 +38,13 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
       
       <div className="relative group">
         {/* Gradients overlays for fade effect at edges */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-        <div className="flex overflow-hidden">
+        <div className="flex overflow-hidden py-12">
           {autoScroll ? (
             <motion.div 
-              className="flex gap-12 md:gap-20 items-center py-8"
+              className="flex gap-12 md:gap-24 items-center"
               animate={{
                 x: [0, -100 * clientDocs.length],
               }}
@@ -52,25 +52,25 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
                 x: {
                   repeat: Infinity,
                   repeatType: "loop",
-                  duration: 30,
+                  duration: 40,
                   ease: "linear",
                 },
               }}
-              whileHover={{ transition: { duration: 60 } }} // Slow down on hover for accessibility
+              whileHover={{ transition: { duration: 80 } }} 
             >
               {duplicatedClients.map((c, i) => {
                 const logo = c.logo as MediaType
                 return (
                   <div 
                     key={i} 
-                    className="relative w-32 md:w-48 h-16 md:h-24 flex-shrink-0 flex items-center justify-center p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-primary/30 transition-colors group/logo shadow-sm"
+                    className="relative w-40 md:w-64 h-24 md:h-32 flex-shrink-0 flex items-center justify-center p-8 rounded-[2rem] bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
                     {logo && logo.url && (
                       <Image 
                         src={logo.url} 
                         alt={c.name || 'Client'} 
                         fill 
-                        className="object-contain p-4 opacity-60 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-500" 
+                        className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700" 
                       />
                     )}
                   </div>
@@ -78,20 +78,20 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
               })}
             </motion.div>
           ) : (
-            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20 container mx-auto py-8">
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 container mx-auto">
               {clientDocs.map((c, i) => {
                 const logo = c.logo as MediaType
                 return (
                   <div 
                     key={i} 
-                    className="relative w-32 md:w-48 h-16 md:h-24 flex-shrink-0 flex items-center justify-center p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-primary/30 transition-colors group/logo shadow-sm"
+                    className="relative w-40 md:w-64 h-24 md:h-32 flex items-center justify-center p-8 rounded-[2rem] bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
                     {logo && logo.url && (
                       <Image 
                         src={logo.url} 
                         alt={c.name || 'Client'} 
                         fill 
-                        className="object-contain p-4 opacity-60 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-500" 
+                        className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700" 
                       />
                     )}
                   </div>
@@ -108,9 +108,9 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
             url={ctaUrl}
             label={ctaLabel}
             locale={locale}
-            className="inline-flex items-center gap-2 text-lg font-bold border-b-2 border-primary pb-1 text-slate-900 hover:text-primary transition-all group"
+            className="inline-flex items-center gap-3 text-xl font-bold border-b-4 border-primary/20 pb-2 text-foreground hover:text-primary hover:border-primary transition-all group"
           >
-            <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+            <span className="group-hover:translate-x-2 transition-transform inline-block">→</span>
           </CMSLink>
         </div>
       )}

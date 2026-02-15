@@ -32,40 +32,41 @@ export const CaseStudiesGrid: React.FC<CaseStudiesGridBlock & { locale?: 'en' | 
   const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
         {caseStudies.map((cs) => (
-          <div key={cs.id} className="group relative flex flex-col h-full bg-card rounded-2xl overflow-hidden border border-border transition-all hover:shadow-xl">
+          <div key={cs.id} className="card-elevated group flex flex-col h-full overflow-hidden border-t-[6px] border-t-primary/10 cursor-pointer">
             <Link href={`${localePrefix}/case-studies/${cs.slug}`} className="block relative aspect-video overflow-hidden">
               {cs.content?.heroImage && (
                 <Media
                   resource={cs.content.heroImage}
                   fill
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <span className="text-white font-bold flex items-center gap-2">
-                  {locale === 'es' ? 'Ver proyecto' : 'View project'} <ArrowRight size={18} />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500 flex items-end p-8">
+                <span className="text-white font-bold text-xl flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                  {locale === 'es' ? 'Ver proyecto' : 'View project'} <ArrowRight size={24} />
                 </span>
               </div>
             </Link>
             
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
+            <div className="p-10 flex flex-col flex-grow">
+              <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 group-hover:text-primary transition-colors duration-300">
                 <Link href={`${localePrefix}/case-studies/${cs.slug}`}>{cs.title}</Link>
               </h3>
               {cs.meta?.description && (
-                <p className="text-muted-foreground line-clamp-2 mb-6">
+                <p className="text-lg md:text-xl text-muted-foreground line-clamp-2 mb-10 leading-relaxed font-medium">
                   {cs.meta.description}
                 </p>
               )}
               <div className="mt-auto">
                 <Link 
                   href={`${localePrefix}/case-studies/${cs.slug}`}
-                  className="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2"
+                  className="text-lg font-bold uppercase tracking-[0.2em] text-primary flex items-center gap-3 group/link border-b-2 border-primary/20 hover:border-primary transition-all pb-1 w-fit"
                 >
                   {locale === 'es' ? 'Explorar caso de estudio' : 'Explore case study'}
+                  <ArrowRight size={20} className="group-hover/link:translate-x-2 transition-transform" />
                 </Link>
               </div>
             </div>

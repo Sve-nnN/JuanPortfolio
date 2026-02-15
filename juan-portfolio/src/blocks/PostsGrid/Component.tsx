@@ -77,17 +77,17 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
   }[gridColumns || '3']
 
   return (
-    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
       {/* Category Filters */}
       {showCategories && categories.length > 0 && (
-        <div className="mb-12 flex flex-wrap justify-center gap-2">
-          <button className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-full">
+        <div className="mb-20 flex flex-wrap justify-center gap-3">
+          <button className="px-6 py-2.5 text-lg font-bold text-white bg-primary rounded-full shadow-lg shadow-primary/20 transition-all hover:shadow-xl active:scale-95">
             {locale === 'es' ? 'Todo' : 'All'}
           </button>
           {categories.map((cat) => (
             <button
               key={cat.id}
-              className="px-4 py-2 text-sm font-medium text-muted bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="px-6 py-2.5 text-lg font-bold text-muted-foreground bg-secondary/50 rounded-full border border-border/50 hover:bg-secondary hover:text-foreground transition-all active:scale-95"
             >
               {cat.title}
             </button>
@@ -96,7 +96,7 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
       )}
 
       {/* Posts Grid */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-10 lg:gap-12`}>
         {posts.map((p, i) => (
           <AnimatedCard 
             key={p.id}

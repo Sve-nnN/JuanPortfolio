@@ -41,7 +41,11 @@ async function fetchRelatedPosts({ currentPostId, categoryIds, limit, locale }: 
 }
 
 export const getRelatedPosts = (args: Args) => 
-    unstable_cache(() => fetchRelatedPosts(args), ['related-posts', args.locale || 'es'], {
-        tags: ['posts'],
-        revalidate: 3600,
-    })()
+    unstable_cache(
+        () => fetchRelatedPosts(args), 
+        ['related-posts', args.currentPostId || 'none', (args.categoryIds || []).join(','), args.locale || 'es'], 
+        {
+            tags: ['posts'],
+            revalidate: 3600,
+        }
+    )()

@@ -181,7 +181,7 @@ export default async function Post({ params: paramsPromise }: Args) {
               {/* Componente de posts relacionados */}
               {mainCategory && (
                 <div className="mt-12">
-                  <RelatedPostsServer currentPostId={post.id} categoryId={mainCategory} />
+                  <RelatedPostsServer currentPostId={post.id} categoryIds={[mainCategory]} />
                 </div>
               )}
             </div>

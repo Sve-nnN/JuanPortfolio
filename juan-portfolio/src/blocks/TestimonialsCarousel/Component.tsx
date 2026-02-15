@@ -26,22 +26,24 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock & { locale
   if (testimonials.length === 0) return null
 
   return (
-    <section className="py-24 md:py-32 bg-primary/5">
-      <div className="container mx-auto px-4">
-        {title && <h2 className="text-4xl md:text-6xl font-array font-bold text-center mb-20 tracking-tighter">{title}</h2>}
+    <section className="py-24 md:py-32 bg-background">
+      <div className="container mx-auto px-4 text-center">
+        {title && <h2 className="text-5xl md:text-7xl font-display font-bold text-center mb-24 tracking-tighter leading-tight">{title}</h2>}
         
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="flex flex-wrap justify-center gap-10 lg:gap-12">
           {testimonials.map((t, i) => {
             return (
-              <div key={i} className="max-w-md p-8 bg-card border border-border rounded-3xl shadow-xl">
-                <div className="text-2xl italic mb-8">&ldquo;{t.testimonial}&rdquo;</div>
-                <div className="flex items-center gap-4">
+              <div key={i} className="card-elevated max-w-md p-10 text-left group cursor-default border-t-[6px] border-t-primary/10">
+                <div className="text-2xl md:text-3xl italic mb-10 leading-tight tracking-tight text-foreground font-medium">&ldquo;{t.testimonial}&rdquo;</div>
+                <div className="flex items-center gap-5 mt-auto">
                   {t.avatar && typeof t.avatar === 'object' && t.avatar.url && (
-                    <Image src={t.avatar.url} alt={t.author || ''} width={48} height={48} className="rounded-full ring-2 ring-primary/20" />
+                    <div className="relative w-16 h-16 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-lg">
+                      <Image src={t.avatar.url} alt={t.author || ''} fill className="object-cover" />
+                    </div>
                   )}
                   <div>
-                    <div className="font-bold">{t.author}</div>
-                    <div className="text-sm text-muted-foreground">{t.role}</div>
+                    <div className="text-xl font-bold text-foreground">{t.author}</div>
+                    <div className="text-base text-muted-foreground font-semibold uppercase tracking-widest leading-none mt-1">{t.role}</div>
                   </div>
                 </div>
               </div>

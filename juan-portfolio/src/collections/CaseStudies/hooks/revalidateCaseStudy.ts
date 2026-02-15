@@ -13,8 +13,6 @@ export const revalidateCaseStudy: CollectionAfterChangeHook<CaseStudy> = ({
     if (doc._status === 'published') {
       const path = `/case-studies/${doc.slug}`
 
-      payload.logger.info(`Revalidating case-study at path: ${path}`)
-
       revalidatePath(path)
       revalidateTag('case-studies-sitemap')
     }
@@ -22,8 +20,6 @@ export const revalidateCaseStudy: CollectionAfterChangeHook<CaseStudy> = ({
     // If the case-study was previously published, revalidate old path
     if (previousDoc?._status === 'published' && doc._status !== 'published') {
       const oldPath = `/case-studies/${previousDoc.slug}`
-
-      payload.logger.info(`Revalidating old case-study at path: ${oldPath}`)
 
       revalidatePath(oldPath)
       revalidateTag('case-studies-sitemap')

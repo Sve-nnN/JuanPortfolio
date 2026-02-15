@@ -67,23 +67,23 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card/50 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden border border-border/50">
+          <div className="card-elevated bg-card/80 backdrop-blur-xl overflow-hidden border-t-[8px] border-t-primary/10 cursor-default">
             <div className="grid grid-cols-1 lg:grid-cols-5">
               {/* Form Section */}
-              <div className="lg:col-span-3 p-8 md:p-14 lg:p-16">
+              <div className="lg:col-span-3 p-10 md:p-16 lg:p-20">
                 <div className="max-w-md mx-auto lg:mx-0">
                   {eyebrow && (
-                    <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold tracking-wider uppercase rounded-full mb-4">
+                    <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase rounded-full mb-6">
                       {eyebrow}
                     </span>
                   )}
                   {title && (
-                    <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mt-2 mb-6 tracking-tight leading-tight">
+                    <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
                       {title}
                     </h2>
                   )}
                   {description && (
-                    <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
+                    <p className="text-xl text-muted-foreground mb-12 leading-relaxed font-medium">
                       {description}
                     </p>
                   )}
@@ -228,45 +228,45 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale
               </div>
 
               {/* Sidebar Section */}
-              <div className="lg:col-span-2 bg-primary dark:bg-primary p-8 md:p-14 lg:p-16 flex flex-col justify-between text-primary-foreground relative overflow-hidden">
+              <div className="lg:col-span-2 bg-primary p-10 md:p-16 lg:p-20 flex flex-col justify-between text-primary-foreground relative overflow-hidden">
                 {/* Decorative Pattern */}
                 <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-                  <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full border-[40px] border-white" />
-                  <div className="absolute -left-10 bottom-1/4 w-40 h-40 rounded-full border-[20px] border-white" />
+                  <div className="absolute -right-20 -top-20 w-96 h-96 rounded-full border-[60px] border-white" />
+                  <div className="absolute -left-10 bottom-1/4 w-48 h-48 rounded-full border-[30px] border-white" />
                 </div>
 
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-display font-bold mb-8 tracking-tight">
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-10 tracking-tight leading-tight">
                     {locale === 'es' ? 'Charlemos sobre tu próximo proyecto' : 'Let\'s chat about your next project'}
                   </h3>
-                  <p className="text-primary-foreground/80 mb-12 text-lg font-medium max-w-xs">
+                  <p className="text-primary-foreground/90 mb-16 text-xl font-medium max-w-xs leading-relaxed">
                     {locale === 'es' 
                       ? 'Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!' 
                       : 'I am available for freelance projects and collaborations. Let\'s talk!'}
                   </p>
 
                   {contactInfo && contactInfo.length > 0 && (
-                    <div className="space-y-8">
+                    <div className="space-y-10">
                       {contactInfo.map((info, i) => {
                         const IconComponent = iconMap[info.icon as keyof typeof iconMap] || Mail
                         return (
-                          <div key={i} className="flex items-center space-x-5 group">
-                            <div className="bg-white/10 p-3.5 rounded-2xl group-hover:bg-white group-hover:text-primary transition-all duration-500 shadow-sm border border-white/5">
-                              <IconComponent size={22} className="stroke-[2.5]" />
+                          <div key={i} className="flex items-center space-x-6 group">
+                            <div className="bg-white/10 p-4 rounded-[1.25rem] group-hover:bg-white group-hover:text-primary transition-all duration-500 shadow-xl border border-white/5">
+                              <IconComponent size={26} className="stroke-[2.5]" />
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-[10px] uppercase tracking-widest font-bold text-white/50 mb-1">
+                              <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-white/60 mb-2">
                                 {info.title}
                               </span>
                               {info.href ? (
                                 <a
-                                  className="text-lg font-bold hover:text-white transition-colors decoration-white/20 underline-offset-4 decoration-1 decoration-transparent hover:decoration-white/20"
+                                  className="text-xl font-bold hover:text-white transition-colors decoration-white/20 underline-offset-8 decoration-2 decoration-transparent hover:decoration-white/40"
                                   href={info.href}
                                 >
                                   {info.value}
                                 </a>
                               ) : (
-                                <span className="text-lg font-bold">{info.value}</span>
+                                <span className="text-xl font-bold">{info.value}</span>
                               )}
                             </div>
                           </div>

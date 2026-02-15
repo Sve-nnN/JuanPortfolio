@@ -1,6 +1,7 @@
 import React from 'react'
 import type { BlogArchiveHeaderBlock, Category, Media as MediaType } from '@/payload-types'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getFallbackBySlug } from '@/constants/fallbackImages'
 import { getCategories } from '@/utilities/getCategories'
 
@@ -14,8 +15,7 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
       .map((cat) => (typeof cat === 'object' ? cat : null))
       .filter((cat): cat is Category => Boolean(cat))
   } else {
-    // Fetch all categories if none selected
-    categoriesList = await getCategories()
+    categoriesList = await getCategories(locale)
   }
 
   const fallbackImage = getFallbackBySlug('blog-archive')
@@ -38,23 +38,25 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
   const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <section className="relative min-h-[60vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20">
+    <section className="relative min-h-[60vh] flex items-end justify-end pt-32 pb-12 sm:pb-16 lg:pb-20 overflow-hidden">
 
       {/* Background & Overlay */}
       <div className="absolute inset-0 z-0 select-none">
         {heroImage && typeof heroImage === 'object' && 'url' in heroImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={(heroImage as MediaType).url as string}
             alt={(heroImage as MediaType).alt as string || 'Hero Background'}
-            className="object-cover w-full h-full"
+            fill
+            className="object-cover"
+            priority
           />
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={fallbackImage}
             alt="Hero Background"
-            className="object-cover w-full h-full"
+            fill
+            className="object-cover"
+            priority
           />
         )}
 
@@ -79,22 +81,22 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
             </span>
           </nav>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white drop-shadow-sm leading-tight">
+          <h1 className="text-5xl md:text-8xl lg:text-9xl font-display font-bold text-white drop-shadow-2xl leading-[0.9] tracking-tighter">
             {title}
           </h1>
 
           {description && (
-            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm">
+            <p className="text-xl md:text-3xl text-gray-100 leading-tight max-w-3xl drop-shadow-lg font-medium">
               {description}
             </p>
           )}
 
           {/* Category Filters as Links */}
           {showCategoryFilters && (
-            <div className={`flex flex-wrap gap-2 mt-4 ${justifyClass}`}>
+            <div className={`flex flex-wrap gap-3 mt-8 ${justifyClass}`}>
               <Link
                 href={`${localePrefix}/blog`}
-                className="px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border bg-primary/80 border-primary text-white"
+                className="px-6 py-2.5 text-lg font-bold rounded-full transition-all backdrop-blur-xl border bg-primary border-primary/50 text-white shadow-xl hover:shadow-primary/20"
               >
                 {locale === 'es' ? 'Todo' : 'All'}
               </Link>
@@ -102,7 +104,7 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
                 <Link
                   key={category.id}
                   href={`${localePrefix}/blog/${category.slug}`}
-                  className="px-4 py-1.5 text-sm font-medium rounded transition-colors backdrop-blur-md border bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="px-6 py-2.5 text-lg font-bold rounded-full transition-all backdrop-blur-xl border bg-white/10 border-white/20 text-white hover:bg-white/20 shadow-lg"
                 >
                   {category.title}
                 </Link>

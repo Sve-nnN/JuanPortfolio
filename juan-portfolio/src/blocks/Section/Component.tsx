@@ -17,9 +17,9 @@ export const SectionBlock: React.FC<SectionBlockProps & { locale?: 'en' | 'es' }
 }) => {
   const paddingClasses = {
     none: 'py-0',
-    sm: 'py-8 md:py-12',
-    md: 'py-16 md:py-24',
-    lg: 'py-24 md:py-32',
+    sm: 'py-12 md:py-20',
+    md: 'py-20 md:py-32',
+    lg: 'py-32 md:py-48',
   }
 
   return (
@@ -35,7 +35,7 @@ export const SectionBlock: React.FC<SectionBlockProps & { locale?: 'en' | 'es' }
       {backgroundStyle === 'image' && backgroundMedia && typeof backgroundMedia === 'object' && (
         <div className="absolute inset-0 -z-10">
           <Media resource={backgroundMedia} fill className="object-cover" />
-          <div className="absolute inset-0 bg-background/80" />
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
         </div>
       )}
 

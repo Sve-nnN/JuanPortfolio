@@ -28,12 +28,12 @@ export const ListingHero: React.FC<ListingHeroBlock & { locale?: 'en' | 'es' }> 
           </nav>
         )}
 
-        <div className="max-w-4xl">
-          <h1 className="text-6xl md:text-9xl font-array font-bold tracking-tighter mb-8 leading-[0.8]">
+        <div className="max-w-5xl">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter mb-10 leading-[0.85] text-foreground">
             {title}
           </h1>
           {description && (
-            <p className="text-xl md:text-3xl text-muted-foreground leading-relaxed max-w-2xl font-medium">
+            <p className="text-xl md:text-3xl lg:text-4xl text-muted-foreground leading-tight max-w-3xl font-medium">
               {description}
             </p>
           )}

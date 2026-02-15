@@ -390,6 +390,10 @@ export interface Media {
     [k: string]: unknown;
   } | null;
   cloudinaryUrl?: string | null;
+  /**
+   * Extracted automatically from the image
+   */
+  dominantColor?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -3203,6 +3207,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
   cloudinaryUrl?: T;
+  dominantColor?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

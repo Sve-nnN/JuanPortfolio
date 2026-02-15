@@ -9,26 +9,26 @@ export const CallToActionBlock: React.FC<CallToActionBlockProps & { locale?: 'en
   locale = 'es'
 }) => {
   return (
-    <section className="container mx-auto px-4 md:px-8 py-12 md:py-24">
-      <div className="bg-card border border-border p-8 md:p-16 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative group">
-        <div className="relative z-10 max-w-2xl">
+    <section className="container mx-auto px-4 md:px-8 py-12 md:py-32">
+      <div className="card-elevated p-10 md:p-24 flex flex-col lg:flex-row items-center justify-between gap-16 overflow-hidden relative group cursor-default border-t-[8px] border-t-primary/20">
+        <div className="relative z-10 max-w-3xl">
           {richText && (
             <RichText 
-              className="text-3xl md:text-5xl font-array font-bold tracking-tight mb-0" 
+              className="text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-0 leading-[1.05] text-foreground" 
               data={richText} 
               enableGutter={false} 
             />
           )}
         </div>
         
-        <div className="relative z-10 flex flex-wrap gap-4 shrink-0">
+        <div className="relative z-10 flex flex-wrap gap-6 shrink-0 justify-center md:justify-start">
           {(links || []).map(({ link }, i) => {
             return (
               <CMSLink 
                 key={i} 
                 {...link} 
                 locale={locale}
-                className="px-8 py-4 text-base font-bold rounded-2xl" 
+                className="px-10 py-5 text-xl font-bold rounded-[2rem] shadow-xl hover:shadow-primary/20 hover:-translate-y-1 transition-all" 
               />
             )
           })}

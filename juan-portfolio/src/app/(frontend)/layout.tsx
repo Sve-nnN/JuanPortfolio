@@ -16,6 +16,7 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ThemeProvider } from '@/providers/Theme/ThemeProvider.client'
 import { LocaleProvider } from '@/providers/Locale'
+import { ScrollProvider } from '@/providers/ScrollProvider'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode, headers } from 'next/headers'
 import type { Locale } from '@/i18n/translations'
@@ -129,10 +130,18 @@ export default async function RootLayout({
     >
       <head>
         <InitTheme />
+        <link
+          rel="preload"
+          href="/fonts/array/Array-Bold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://va.vercel-scripts.com" />
         {organizationSchema && <JsonLd schema={organizationSchema} />}
         {websiteSchema && <JsonLd schema={websiteSchema} />}
       </head>
@@ -140,22 +149,26 @@ export default async function RootLayout({
         <Providers>
           <ThemeProvider>
             <LocaleProvider initialLocale={locale}>
-              <AdminBar
-                adminBarProps={{
-                  preview: isEnabled,
-                }}
-              />
+              <ScrollProvider>
+                <AdminBar
+                  adminBarProps={{
+                    preview: isEnabled,
+                  }}
+                />
 
-              <Header locale={locale} />
-              {children}
-              <Footer locale={locale} />
+                <Header locale={locale} />
+                {children}
+                <Footer locale={locale} />
+              </ScrollProvider>
             </LocaleProvider>
           </ThemeProvider>
         </Providers>
         <SpeedInsights />
         <Analytics />
+        <React.Suspense fallback={null}>
+          <GoogleAnalytics gaId="G-6420MCL304" />
+        </React.Suspense>
       </body>
-      <GoogleAnalytics gaId="G-6420MCL304" />
     </html>
   )
 }

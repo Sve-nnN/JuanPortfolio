@@ -1,12 +1,12 @@
 import type { Variants } from 'framer-motion'
 import type { AnimationConfig } from '@/fields/animation'
 
-// Easing curves mapping - using Framer Motion easing strings
+// Easing curves mapping - using Framer Motion easing strings or arrays
 const easingMap = {
-    ease: 'easeInOut',
-    easeIn: 'easeIn',
-    easeOut: 'easeOut',
-    easeInOut: 'easeInOut',
+    ease: [0.25, 0.1, 0.25, 1], // Better default
+    easeIn: [0.4, 0, 1, 1],
+    easeOut: [0, 0, 0.2, 1],
+    easeInOut: [0.4, 0, 0.2, 1],
     linear: 'linear',
 } as const
 

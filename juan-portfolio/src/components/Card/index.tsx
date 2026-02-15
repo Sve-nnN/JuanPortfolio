@@ -50,7 +50,7 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-xl overflow-hidden bg-card text-card-foreground hover:shadow-lg transition-all duration-300',
+        'card-elevated group cursor-pointer',
         className,
       )}
       ref={card.ref}
@@ -61,25 +61,25 @@ export const Card: React.FC<{
             src={getFallbackBySlug(slug || '')}
             alt={titleToUse || 'Post Image'}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
         {metaImage && typeof metaImage !== 'string' && (
           <Media 
-            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" 
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
             resource={metaImage} 
             size="33vw" 
           />
         )}
       </div>
-      <div className="p-5 flex flex-col gap-3">
+      <div className="p-6 flex flex-col gap-4">
         {showCategories && hasCategories && (
           <div className="flex flex-wrap gap-2">
             {categories?.map((category, index) => {
               if (typeof category === 'object' && category !== null) {
                 return (
-                  <span key={index} className="text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/5 px-2 py-0.5 rounded">
+                  <span key={index} className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 px-2.5 py-1 rounded-full">
                     {category.title || 'Category'}
                   </span>
                 )
@@ -90,15 +90,15 @@ export const Card: React.FC<{
         )}
         
         {titleToUse && (
-          <h3 className="text-xl font-display font-bold leading-tight line-clamp-2">
-            <Link className="hover:text-primary transition-colors" href={href} ref={link.ref}>
+          <h3 className="text-2xl font-display font-bold leading-tight line-clamp-2 text-foreground group-hover:text-primary transition-colors">
+            <Link href={href} ref={link.ref}>
               {titleToUse}
             </Link>
           </h3>
         )}
         
         {description && (
-          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+          <p className="text-base text-muted-foreground line-clamp-3 leading-relaxed">
             {sanitizedDescription}
           </p>
         )}

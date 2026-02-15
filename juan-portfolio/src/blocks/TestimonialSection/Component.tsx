@@ -22,18 +22,18 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
         )}
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-card border border-border p-8 md:p-16 rounded-[3rem] flex flex-col items-center text-center shadow-2xl relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-4xl font-serif">
+          <div className="card-elevated p-10 md:p-20 flex flex-col items-center text-center relative group cursor-default border-t-[6px] border-t-primary/20">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-5xl font-serif shadow-xl border-4 border-background">
               &ldquo;
             </div>
             
-            <blockquote className="text-2xl md:text-4xl font-medium mb-12 leading-relaxed italic">
+            <blockquote className="text-3xl md:text-5xl font-medium mb-16 leading-tight tracking-tight italic text-foreground">
               {quote}
             </blockquote>
             
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-6">
               {authorImage && typeof authorImage === 'object' && authorImage.url && (
-                <div className="relative w-20 h-20 rounded-full overflow-hidden ring-4 ring-primary/20 mb-2">
+                <div className="relative w-24 h-24 rounded-full overflow-hidden ring-8 ring-primary/10 mb-2 shadow-inner">
                   <Image 
                     src={authorImage.url} 
                     alt={authorName || 'Author'} 
@@ -43,8 +43,8 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
                 </div>
               )}
               <div>
-                <div className="text-xl font-bold">{authorName}</div>
-                <div className="text-muted-foreground font-medium">{authorRole}</div>
+                <div className="text-2xl font-bold text-foreground">{authorName}</div>
+                <div className="text-lg text-muted-foreground font-semibold uppercase tracking-widest">{authorRole}</div>
               </div>
             </div>
           </div>

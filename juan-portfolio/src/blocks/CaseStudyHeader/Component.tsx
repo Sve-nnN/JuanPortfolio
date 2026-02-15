@@ -13,17 +13,17 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock & { locale?: 'en' | 
   return (
     <section className="container mx-auto px-4 pt-16 pb-8">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           {eyebrow && (
-            <span className="inline-block text-primary font-bold uppercase tracking-widest text-sm mb-4">
+            <span className="inline-block text-primary font-bold uppercase tracking-widest text-sm mb-6 bg-primary/10 px-4 py-1.5 rounded-full">
               {eyebrow}
             </span>
           )}
-          <h1 className="text-5xl md:text-8xl font-array font-bold tracking-tighter mb-6">
+          <h1 className="text-5xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter mb-8 leading-[0.9] text-foreground">
             {title}
           </h1>
           {description && (
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl md:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium">
               {description}
             </p>
           )}

@@ -65,9 +65,38 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   return `/${slug}`
 }
 
+const slugify = (text: string): string => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+const extractText = (node: any): string => {
+  if (node.text) return node.text
+  if (node.children) return node.children.map(extractText).join('')
+  return ''
+}
+
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
+  heading: ({ node }) => {
+    const text = node.children.map(extractText).join('')
+    const id = slugify(text)
+    const Tag = node.tag
+    return (
+      <Tag id={id} className={`scroll-mt-32`}>
+        {node.children.map((child: any, i: number) => {
+          const Converter = (defaultConverters as any)[child.type]
+          return <Converter key={i} node={child} />
+        })}
+      </Tag>
+    )
+  },
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
@@ -105,56 +134,64 @@ export default function RichText(props: Props) {
         },
         enableProse && [
           // Base prose styles
-          'prose prose-lg dark:prose-invert',
+          'prose prose-xl dark:prose-invert',
           'max-w-none',
           // Headings - scroll offset and improved hierarchy
-          'prose-headings:scroll-mt-24', // Offset for sticky header when navigating via TOC
-          'prose-headings:font-semibold',
+          'prose-headings:scroll-mt-32', // Offset for sticky header
+          'prose-headings:font-display',
+          'prose-headings:font-bold',
           'prose-headings:tracking-tight',
-          'prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4',
-          'prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3',
-          'prose-h4:text-xl prose-h4:mt-6 prose-h4:mb-2',
+          'prose-headings:text-foreground',
+          'prose-h2:text-4xl md:text-5xl prose-h2:mt-20 prose-h2:mb-8 leading-tight',
+          'prose-h3:text-3xl md:text-4xl prose-h3:mt-16 prose-h3:mb-6 leading-tight',
+          'prose-h4:text-2xl md:text-3xl prose-h4:mt-12 prose-h4:mb-4 leading-tight',
           // Links - enhanced treatment
           'prose-a:text-primary',
           'prose-a:no-underline',
-          'prose-a:font-medium',
-          'hover:prose-a:underline',
-          'prose-a:decoration-primary/30',
-          'prose-a:underline-offset-4',
+          'prose-a:font-bold',
+          'hover:prose-a:text-primary/80',
+          'prose-a:border-b-2 prose-a:border-primary/20 hover:prose-a:border-primary',
           'prose-a:transition-all',
           // Paragraphs - improved readability
           'prose-p:leading-relaxed',
-          'prose-p:text-foreground/90',
+          'prose-p:text-muted-foreground',
+          'prose-p:font-medium',
           // Code blocks
-          'prose-code:text-sm',
+          'prose-code:text-base',
           'prose-code:font-mono',
-          'prose-code:bg-muted',
-          'prose-code:px-1.5',
-          'prose-code:py-0.5',
-          'prose-code:rounded',
+          'prose-code:bg-secondary/50',
+          'prose-code:px-2',
+          'prose-code:py-1',
+          'prose-code:rounded-lg',
+          'prose-code:text-foreground',
           'prose-code:before:content-none',
           'prose-code:after:content-none',
-          'prose-pre:bg-slate-900',
-          'dark:prose-pre:bg-slate-950',
+          'prose-pre:bg-card',
           'prose-pre:border',
-          'prose-pre:border-border',
+          'prose-pre:border-border/50',
+          'prose-pre:rounded-[1.5rem]',
+          'prose-pre:shadow-inner',
           // Images - polished presentation
-          'prose-img:rounded-xl',
-          'prose-img:shadow-lg',
-          'prose-img:my-8',
+          'prose-img:rounded-[2rem]',
+          'prose-img:shadow-2xl',
+          'prose-img:my-16',
           // Lists - better spacing
-          'prose-li:my-1.5',
-          'prose-ul:my-6',
-          'prose-ol:my-6',
+          'prose-li:my-3',
+          'prose-ul:my-10',
+          'prose-ol:my-10',
           // Blockquotes - enhanced style
-          'prose-blockquote:border-l-4',
-          'prose-blockquote:border-l-primary',
+          'prose-blockquote:border-l-8',
+          'prose-blockquote:border-l-primary/20',
           'prose-blockquote:italic',
-          'prose-blockquote:text-muted-foreground',
-          'prose-blockquote:pl-6',
+          'prose-blockquote:text-foreground',
+          'prose-blockquote:font-bold',
+          'prose-blockquote:pl-10',
+          'prose-blockquote:py-4',
+          'prose-blockquote:bg-secondary/20',
+          'prose-blockquote:rounded-r-[2rem]',
           // Strong text
           'prose-strong:text-foreground',
-          'prose-strong:font-semibold',
+          'prose-strong:font-bold',
         ],
         className,
       )}

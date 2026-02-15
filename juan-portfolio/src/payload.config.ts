@@ -120,7 +120,7 @@ export default buildConfig({
     GSCMetrics,
     BrokenLinks,
   ],
-  cors: [getServerSideURL()].filter(Boolean),
+  cors: [getServerSideURL(), 'http://localhost:3000'].filter(Boolean),
   globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM],
   plugins: [
     ...plugins,

@@ -12,15 +12,11 @@ export async function POST() {
     // For Vercel, we'd need `waitUntil` (Next.js 15 might support it depending on runtime)
     // or just acknowledge it might be cut off.
 
-    // We'll log it.
-    console.log('API triggered Scan All')
-
     // Attempt to float the promise
-    updateAllCWV(false).catch((err) => console.error('Background Scan Error:', err))
+    updateAllCWV(false)
 
     return NextResponse.json({ success: true, message: 'Scan started in background' })
   } catch (error) {
-    console.error('Scan All Endpoint Error:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

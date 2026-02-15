@@ -79,6 +79,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
+        crossOrigin="anonymous"
+        fetchPriority={priority ? 'high' : 'auto'}
       />
     </picture>
   )

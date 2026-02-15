@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Globe, X, Menu } from 'lucide-react'
-import { domAnimation, LazyMotion, m, AnimatePresence } from 'framer-motion'
+import { domAnimation, LazyMotion, m, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 
 import type { Header as HeaderType } from '@/payload-types'
@@ -23,6 +23,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
   const { setHeaderTheme } = useHeaderTheme()
   const { setLocale: setLocaleContext } = useLocale()
   const pathname = usePathname()
+
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  })
 
   // The server-provided locale is our absolute source of truth for the active state
   const currentLocale = serverLocale
@@ -80,21 +87,27 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
     <LazyMotion features={domAnimation}>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out',
+          'fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-in-out',
           scrolled
-            ? 'py-3 bg-background/80 dark:bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-lg'
-            : 'py-6 bg-transparent border-transparent',
+            ? 'py-4 bg-background/80 backdrop-blur-2xl border-b border-border/50 shadow-xl'
+            : 'py-8 bg-transparent border-transparent',
         )}
       >
+        {/* Progress Bar */}
+        <m.div
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary origin-left z-[110] will-change-transform"
+          style={{ scaleX }}
+        />
+
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between">
             <Link
               href={localePrefix || '/'}
-              className="group flex items-center space-x-2 text-2xl font-bold font-array tracking-tighter"
+              className="group flex items-center space-x-2 text-3xl font-bold font-display tracking-tighter"
             >
               <m.span
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
                 className="text-foreground transition-colors group-hover:text-primary"
               >
                 JCA
@@ -106,20 +119,20 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
               <HeaderNav data={data} locale={currentLocale} />
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-6">
               {/* Language Toggle */}
               <button
-                className="flex items-center space-x-2 px-4 py-2 rounded-full bg-secondary/50 hover:bg-secondary transition-all text-xs font-bold uppercase border border-white/5 hover:border-primary/30 group"
+                className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-secondary/50 hover:bg-secondary transition-all text-sm font-bold uppercase border border-border/50 hover:border-primary/30 group shadow-sm hover:shadow-md"
                 onClick={toggleLocale}
                 aria-label={currentLocale === 'es' ? 'Switch to English' : 'Cambiar a Español'}
               >
-                <Globe size={14} className="text-primary group-hover:rotate-12 transition-transform" />
-                <span className="flex items-center space-x-1">
+                <Globe size={16} className="text-primary group-hover:rotate-12 transition-transform" />
+                <span className="flex items-center space-x-1.5">
                   <span className={cn(
                     'transition-colors duration-300',
                     currentLocale === 'es' ? 'text-primary' : 'text-foreground/40'
                   )}>ES</span>
-                  <span className="opacity-20">/</span>
+                  <span className="opacity-20 text-foreground">/</span>
                   <span className={cn(
                     'transition-colors duration-300',
                     currentLocale === 'en' ? 'text-primary' : 'text-foreground/40'
@@ -133,7 +146,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
                   <CMSLink
                     {...data.cta.link}
                     locale={currentLocale}
-                    className="px-6 py-2.5 bg-primary text-primary-foreground text-sm font-bold rounded-full hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] transition-all transform hover:scale-105 active:scale-95"
+                    className="px-8 py-3 bg-primary text-primary-foreground text-base font-bold rounded-full shadow-lg hover:shadow-primary/25 transition-all transform hover:-translate-y-0.5 active:scale-95"
                   />
                 </div>
               )}

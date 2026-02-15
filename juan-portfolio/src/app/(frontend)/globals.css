@@ -3,96 +3,78 @@
 @tailwind utilities;
 
 @layer base {
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: unset;
-    font-weight: unset;
-  }
-
   :root {
-    /* Design color tokens (light theme) */
-    /* Primary: Blue 600 - Contrast 5.6:1 on white */
-    --primary: 221 83% 53%;
-    /* #2563eb */
-    --primary-foreground: 210 40% 98%;
-
-    /* Backgrounds */
-    --background: 0 0% 100%;
-    /* #ffffff */
-    --foreground: 222.2 84% 4.9%;
-    /* #0f172a */
-
-    /* Secondary: Slate 100 - Used for subtle backgrounds */
-    --secondary: 210 40% 96.1%;
-    /* #f1f5f9 */
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    /* #0f172a */
-
-    /* Muted: Slate 600 - Darkened for AA compliance (7:1) */
-    --muted: 215 16% 47%;
-    /* #64748b is too light, using darken(#64748b, 10%) -> #475569 approx */
-    /* Actually #475569 is 215 25% 27% in HSL? No. */
-    /* Let's use specific HSL for #475569 (Slate 600) */
-    --muted: 215 25% 35%;
-    --muted-foreground: 215 25% 35%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --border: 214.3 31.8% 91.4%;
-    /* Slate 200 */
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
-
-    --radius: 0.5rem;
-
-    /* Legacy/Direct mappings for existing css usage */
-    --color-primary: #2563eb;
-    --color-bg: #ffffff;
-    --color-bg-2: #f8fafc;
-    --color-text: #0f172a;
-    --color-muted: #475569;
-    /* Slate 600 */
-    --color-card: #ffffff;
-    --color-border: #e2e8f0;
+    /* OKLCH Design Tokens (Light Theme) */
+    --background: 0.98 0.01 220;
+    --foreground: 0.15 0.01 220;
+    
+    --card: 0.96 0.01 220;
+    --card-foreground: 0.15 0.01 220;
+    
+    --popover: 0.98 0.01 220;
+    --popover-foreground: 0.15 0.01 220;
+    
+    --primary: 0.55 0.18 250;
+    --primary-foreground: 0.98 0.01 220;
+    
+    --secondary: 0.92 0.02 220;
+    --secondary-foreground: 0.2 0.02 220;
+    
+    --muted: 0.88 0.02 220;
+    --muted-foreground: 0.45 0.02 220;
+    
+    --accent: 0.92 0.02 220;
+    --accent-foreground: 0.2 0.02 220;
+    
+    --destructive: 0.55 0.2 25;
+    --destructive-foreground: 0.98 0.01 220;
+    
+    --border: 0.88 0.02 220;
+    --input: 0.88 0.02 220;
+    --ring: 0.55 0.18 250;
+    
+    --radius: 1rem;
+    
+    /* Depth Tokens */
+    --highlight: 1 0 0;
+    --shadow-ambient: oklch(0 0 0 / 0.05);
+    --shadow-directional: oklch(0 0 0 / 0.1);
   }
 
   .dark {
-    /* Dark theme color tokens */
-    /* Primary: Blue 500 - Contrast 8.6:1 on bg */
-    --primary: 217 91% 60%;
-    /* #3b82f6 */
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* OKLCH Design Tokens (Dark Theme - 100-L Symmetry) */
+    --background: 0.12 0.01 220;
+    --foreground: 0.95 0.01 220;
+    
+    --card: 0.16 0.01 220;
+    --card-foreground: 0.95 0.01 220;
+    
+    --popover: 0.12 0.01 220;
+    --popover-foreground: 0.95 0.01 220;
+    
+    --primary: 0.65 0.18 250;
+    --primary-foreground: 0.12 0.01 220;
+    
+    --secondary: 0.22 0.02 220;
+    --secondary-foreground: 0.95 0.02 220;
+    
+    --muted: 0.25 0.02 220;
+    --muted-foreground: 0.65 0.02 220;
+    
+    --accent: 0.22 0.02 220;
+    --accent-foreground: 0.95 0.02 220;
+    
+    --destructive: 0.45 0.2 25;
+    --destructive-foreground: 0.95 0.01 220;
+    
+    --border: 0.22 0.02 220;
+    --input: 0.22 0.02 220;
+    --ring: 0.65 0.18 250;
 
-    /* Backgrounds: Slate 950 */
-    --background: 222.2 84% 4.9%;
-    /* #020617 */
-    --foreground: 210 40% 98%;
-    /* #f8fafc */
-
-    /* Secondary: Slate 800 */
-    --secondary: 217.2 32.6% 17.5%;
-    /* #1e293b */
-    --secondary-foreground: 210 40% 98%;
-
-    /* Muted: Slate 400 */
-    --muted: 215 20.2% 65.1%;
-    /* #94a3b8 */
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --card: 222.2 84% 4.9%;
-    /* Match bg */
-    --card-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    /* Slate 800 */
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
+    /* Depth Tokens Dark */
+    --highlight: oklch(1 0 0 / 0.1);
+    --shadow-ambient: oklch(0 0 0 / 0.2);
+    --shadow-directional: oklch(0 0 0 / 0.4);
   }
 }
 
@@ -102,132 +84,50 @@
   }
 
   html {
+    font-size: 14px;
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground min-h-screen flex flex-col;
-    font-family: var(--font-khand), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    @apply bg-background text-foreground min-h-screen flex flex-col antialiased;
+    font-family: var(--font-khand), ui-sans-serif, system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight text-foreground;
+    line-height: 1.1;
+    margin-bottom: 0.5em;
+  }
+
+  h1 { @apply text-5xl md:text-7xl lg:text-8xl; }
+  h2 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h3 { @apply text-3xl md:text-4xl; }
+  h4 { @apply text-2xl md:text-3xl; }
+}
+
+@layer components {
+  .card-elevated {
+    @apply bg-card rounded-3xl border border-border shadow-sm transition-all duration-300;
+    border-top-color: var(--highlight);
+    box-shadow: 0 4px 6px -1px var(--shadow-ambient), 0 2px 4px -2px var(--shadow-directional);
+  }
+
+  .card-elevated:hover {
+    @apply -translate-y-1 shadow-xl;
+    box-shadow: 0 20px 25px -5px var(--shadow-ambient), 0 8px 10px -6px var(--shadow-directional);
   }
 }
 
-html {
-  opacity: 0;
-}
-
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
-}
-
-/* Ensure headings use Array */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family:
-    var(--font-array),
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial;
-  color: var(--foreground);
-}
-
-/* Utilities and helpers to match the provided HTML design */
-.gradient-text {
-  background: linear-gradient(to right, #a78bfa, hsl(var(--primary)));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.font-array {
+/* Utilities */
+.font-display {
   font-family: var(--font-array) !important;
 }
 
-.font-khand {
+.font-body {
   font-family: var(--font-khand) !important;
 }
 
-/* Helper classes map to new variables */
-.text-primary {
-  color: hsl(var(--primary));
-}
-
-.text-muted {
-  color: hsl(var(--muted));
-}
-
-.bg-page {
-  background-color: hsl(var(--background));
-}
-
-.bg-card {
-  background-color: hsl(var(--card));
-}
-
-.border-default {
-  border-color: hsl(var(--border));
-}
-
-/* Hero gradient that adapts to theme colors */
-.hero-gradient {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.35), transparent 30%),
-    radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.25), transparent 40%);
-}
-
-/* dark mode adjustments */
-.dark .hero-gradient {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(96, 165, 250, 0.25), transparent 30%),
-    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.18), transparent 40%);
-}
-
-/* Small helper to match primary/10 usage (approximated with CSS variable + opacity) */
-.bg-primary\/10 {
-  background-color: rgba(59, 130, 246, 0.1);
-}
-
-/* Post specific styles */
-.prose>p:first-of-type {
-  font-size: 1.125rem;
-  color: hsl(var(--muted));
-  margin-top: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.post-meta {
-  display: flex;
-  gap: 1.25rem;
-  align-items: center;
-  color: var(--color-muted);
-  font-size: 0.875rem;
-}
-
-.lead {
-  font-size: 1.125rem;
-  color: var(--color-muted);
-  line-height: 1.6;
-}
-
-/* Marquee infinite animation for clients carousel */
-@keyframes marquee-infinite {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee-infinite {
-  animation: marquee-infinite 60s linear infinite;
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
 }

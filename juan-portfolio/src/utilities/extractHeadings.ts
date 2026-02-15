@@ -48,8 +48,23 @@ export function extractHeadingsFromLexical(content: unknown): Heading[] {
         if (text) headings.push({ id: baseId, text: text.trim(), level })
       }
 
-      if (Array.isArray(anyNode.children)) (anyNode.children as unknown[]).forEach(walk)
-      else Object.values(anyNode).forEach(walk)
+      // Special handling for custom blocks that should appear in TOC
+      if (anyNode.type === 'block' && anyNode.fields) {
+        const fields = anyNode.fields as any
+        if (fields.blockType === 'faq' && fields.title) {
+          const text = fields.title
+          const baseId = slugify(text)
+          headings.push({ id: baseId, text: text.trim(), level: 2 })
+        }
+      }
+
+      if (Array.isArray(anyNode.children)) {
+        ;(anyNode.children as unknown[]).forEach(walk)
+      }
+
+      if (anyNode.root && typeof anyNode.root === 'object') {
+        walk(anyNode.root)
+      }
     }
   }
 

@@ -43,7 +43,7 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   }
 
   return (
-    <div className="relative min-h-[60vh] flex items-end justify-end pb-12 sm:pb-16 lg:pb-20 mb-8 overflow-hidden">
+    <section className="relative min-h-[60vh] flex items-end justify-end pt-32 pb-12 sm:pb-16 lg:pb-20 overflow-hidden">
       {/* Background & Overlay */}
       <div className="absolute inset-0 z-0 select-none">
         <Image
@@ -52,14 +52,12 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           fill
           className="object-cover"
           priority
-          quality={85}
-          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/20 to-black/60" />
       </div>
 
-      <div className="container z-10 relative flex flex-col items-end text-right text-white">
+      <div className="container z-10 relative flex flex-col items-end text-white">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -87,7 +85,7 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 
           <motion.h1
             variants={itemVariants}
-            className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white drop-shadow-sm leading-tight"
+            className="text-5xl md:text-8xl lg:text-9xl font-display font-bold text-white drop-shadow-2xl leading-[0.9] tracking-tighter text-right"
           >
             {title}
           </motion.h1>
@@ -95,13 +93,13 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           {description && (
             <motion.p
               variants={itemVariants}
-              className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-sm"
+              className="text-xl md:text-3xl text-gray-100 leading-tight max-w-3xl drop-shadow-lg font-medium text-right"
             >
               {description}
             </motion.p>
           )}
         </motion.div>
       </div>
-    </div>
+    </section>
   )
 }

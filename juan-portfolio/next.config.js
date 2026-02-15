@@ -113,8 +113,8 @@ const nextConfig = {
   headers: async () => {
     const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com;
-      connect-src 'self' https://juan-tech.com https://va.vercel-scripts.com https://vitals.vercel-analytics.com https://www.google-analytics.com https://region1.google-analytics.com;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://challenges.cloudflare.com;
+      connect-src 'self' https://juan-tech.com http://localhost:3000 https://va.vercel-scripts.com https://vitals.vercel-analytics.com https://www.google-analytics.com https://region1.google-analytics.com;
       style-src 'self' 'unsafe-inline';
       img-src 'self' blob: data: https://juan-tech.com https://res.cloudinary.com https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com https://www.googletagmanager.com https://www.google-analytics.com;
       font-src 'self' data:;
@@ -122,16 +122,26 @@ const nextConfig = {
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'self';
+      frame-src 'self' https://challenges.cloudflare.com;
       upgrade-insecure-requests;
     `
 
     return [
       {
+        source: '/api/(.*)',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,OPTIONS' },
+          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: cspHeader.replace(/\n/g, ''),
+            value: cspHeader.replace(/\s{2,}/g, ' ').trim(),
           },
           {
             key: 'X-DNS-Prefetch-Control',
@@ -151,11 +161,37 @@ const nextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            value: 'strict-origin-when-cross-origin',
           },
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups',
+          },
+          {
+            key: 'Cross-Origin-Resource-Policy',
+            value: 'cross-origin',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/fonts/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

@@ -17,6 +17,8 @@ import { authenticated } from '../access/authenticated'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+import sharp from 'sharp'
+
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
@@ -47,27 +49,46 @@ export const Media: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      name: 'dominantColor',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        description: 'Extracted automatically from the image',
+      },
+    },
   ],
   hooks: {
     beforeChange: [
       async ({ data, req, operation }) => {
-        if (operation === 'create' && req.file) {
+        if (req.file) {
           try {
             const fileData = req.file.data
             const fileName = req.file.name
 
             if (fileData) {
-              // Upload to Cloudinary
-              const cloudinaryUrl = await cloudinaryService.uploadImage(
-                fileData as Buffer,
-                fileName,
-              )
-              if (cloudinaryUrl) {
-                data.cloudinaryUrl = cloudinaryUrl
+              // Extract dominant color using sharp
+              try {
+                const { channels } = await sharp(fileData).stats()
+                const [r, g, b] = channels.map((c) => Math.round(c.mean))
+                data.dominantColor = `rgb(${r}, ${g}, ${b})`
+              } catch (colorError) {
+                console.error('Error extracting color:', colorError)
+              }
+
+              if (operation === 'create') {
+                // Upload to Cloudinary
+                const cloudinaryUrl = await cloudinaryService.uploadImage(
+                  fileData as Buffer,
+                  fileName,
+                )
+                if (cloudinaryUrl) {
+                  data.cloudinaryUrl = cloudinaryUrl
+                }
               }
             }
           } catch (error) {
-            console.error('Error uploading media:', error)
+            console.error('Error processing media:', error)
           }
         }
         return data

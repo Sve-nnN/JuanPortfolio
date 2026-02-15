@@ -13,7 +13,7 @@ interface GSCDataUpdate {
   position: number
   country: string
   device: string
-  indexStatus: string
+  indexStatus: 'INDEXED' | 'NOT_INDEXED' | 'UNKNOWN'
   indexingIssue?: string
   lastInspected?: string
 }

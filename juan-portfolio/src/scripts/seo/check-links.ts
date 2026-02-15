@@ -44,7 +44,7 @@ async function checkBrokenLinks() {
     const data = {
       url: link.url || 'Desconocida',
       statusCode: link.status || 0,
-      statusText: link.statusText || 'Error de conexión',
+      statusText: (link as any).statusText || 'Error de conexión',
       sourcePage: link.parent || siteUrl,
       lastChecked: new Date().toISOString(),
     }

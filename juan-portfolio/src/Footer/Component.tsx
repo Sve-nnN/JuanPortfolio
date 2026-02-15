@@ -86,7 +86,11 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
             >
               {brand?.logoImage && typeof brand.logoImage !== 'string' ? (
                 <div className="relative w-32 h-12">
-                  <MediaComponent resource={brand.logoImage} fill className="object-contain object-left" />
+                  <MediaComponent
+                    resource={brand.logoImage}
+                    fill
+                    className="object-contain object-left"
+                  />
                 </div>
               ) : (
                 <span className="font-array">{brand?.logoText || 'JCA'}</span>
@@ -94,14 +98,16 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
             </Link>
             <p className="text-sm leading-relaxed text-slate-300 max-w-xs">
               {brand?.description ||
-                (locale === 'es' 
+                (locale === 'es'
                   ? 'Desarrollador Web & Especialista SEO. Creando experiencias digitales rápidas, accesibles y de alto impacto.'
                   : 'Web Developer & SEO Specialist. Creating fast, accessible, and high-impact digital experiences.')}
             </p>
             {socialLinks && socialLinks.length > 0 && (
               <div className="flex gap-3">
                 {socialLinks.map((item, i) => {
-                  const Icon = item.platform ? socialIcons[item.platform as keyof typeof socialIcons] : null
+                  const Icon = item.platform
+                    ? socialIcons[item.platform as keyof typeof socialIcons]
+                    : null
                   return (
                     <a
                       key={i}
@@ -121,10 +127,10 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
 
           {/* Main Navigation - Takes 2 cols */}
           <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
+            <span className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
               {mainNav?.title || (locale === 'es' ? 'Navegación' : 'Navigation')}
               <span className="inline-block w-8 h-px bg-blue-500"></span>
-            </h3>
+            </span>
             {mainNav?.navItems && mainNav.navItems.length > 0 ? (
               <ul className="space-y-2.5">
                 {mainNav.navItems.map(({ link }, i) => (
@@ -150,10 +156,10 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
           {/* Latest Blog Posts - Takes 3 cols */}
           {latestPostsConfig?.show && (
             <div className="lg:col-span-3 space-y-4">
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
+              <span className="text-sm font-semibold text-white tracking-wider uppercase flex items-center gap-2">
                 {latestPostsConfig.title || (locale === 'es' ? 'Últimos Posts' : 'Latest Posts')}
                 <span className="inline-block w-8 h-px bg-blue-500"></span>
-              </h3>
+              </span>
               {latestPostsDocs.length > 0 ? (
                 <ul className="space-y-3">
                   {latestPostsDocs.map((post) => (
@@ -178,7 +184,10 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
               {latestPostsConfig.viewAllLink && (
                 <CMSLink
                   {...latestPostsConfig.viewAllLink}
-                  label={latestPostsConfig.viewAllText || (locale === 'es' ? 'Ver todos los posts' : 'View all posts')}
+                  label={
+                    latestPostsConfig.viewAllText ||
+                    (locale === 'es' ? 'Ver todos los posts' : 'View all posts')
+                  }
                   className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all mt-2"
                 >
                   <ArrowUpRight className="w-4 h-4" />
@@ -218,7 +227,9 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
               {caseStudiesConfig.viewAllLink && (
                 <CMSLink
                   {...caseStudiesConfig.viewAllLink}
-                  label={caseStudiesConfig.viewAllText || (locale === 'es' ? 'Ver todos' : 'View all')}
+                  label={
+                    caseStudiesConfig.viewAllText || (locale === 'es' ? 'Ver todos' : 'View all')
+                  }
                   className="inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 hover:gap-2 transition-all mt-2"
                 >
                   <ArrowUpRight className="w-4 h-4" />
@@ -234,7 +245,10 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
         <div className="mt-16 pt-8 border-t border-slate-800 dark:border-slate-900">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
             <p className="text-slate-400">
-              {copyright || (locale === 'es' ? '© 2024 Juan Carlos Angulo. Todos los derechos reservados.' : '© 2024 Juan Carlos Angulo. All rights reserved.')}
+              {copyright ||
+                (locale === 'es'
+                  ? '© 2024 Juan Carlos Angulo. Todos los derechos reservados.'
+                  : '© 2024 Juan Carlos Angulo. All rights reserved.')}
             </p>
             <div className="flex flex-wrap justify-center gap-6 md:gap-8">
               {bottomNav && bottomNav.length > 0 ? (

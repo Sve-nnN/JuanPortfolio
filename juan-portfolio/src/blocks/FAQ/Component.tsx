@@ -2,11 +2,11 @@ import React from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 interface FAQProps {
-  title?: string
-  faqs: {
+  title?: string | null
+  faqs?: {
     question: string
     answer: string
-  }[]
+  }[] | null
 }
 
 export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {

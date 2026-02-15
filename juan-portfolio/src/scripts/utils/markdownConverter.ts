@@ -192,7 +192,7 @@ export const convertMarkdownToLexical = (
         format: '',
         indent: 0,
         version: 1,
-        children: token.items.map((item) => ({
+        children: token.items.map((item: any) => ({
           type: 'listitem',
           format: '',
           indent: 0,

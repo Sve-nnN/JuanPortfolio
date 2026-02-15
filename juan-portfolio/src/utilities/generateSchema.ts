@@ -8,18 +8,15 @@ type GenerateSchemaArgs = {
   breadcrumbs?: Array<{ name: string; url: string }>
 }
 
-export const generateSchema = ({ doc, collection, url, breadcrumbs }: GenerateSchemaArgs): any => {
-  if (!doc) return null
+export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: GenerateSchemaArgs): any => {
+  if (!rawDoc) return null
+  const doc = rawDoc as any
 
   // Helper to get meta fields safely
-  // @ts-expect-error - meta property might not exist on partial
   const meta = doc.meta || doc.meta_group
   
-  // @ts-expect-error - title property access
   const title = meta?.title || doc.title
-   // @ts-expect-error - description property access
   const description = meta?.description
-   // @ts-expect-error - image property access
   const image = meta?.image?.url || meta?.image?.sizes?.og?.url
 
   const baseSchema = {
@@ -42,7 +39,6 @@ export const generateSchema = ({ doc, collection, url, breadcrumbs }: GenerateSc
 
   if (collection === 'posts') {
     let authorName = 'Juan Carlos Angulo'
-    // @ts-expect-error - authors access
     const authors = doc.populatedAuthors || doc.authors
     
     if (Array.isArray(authors) && authors.length > 0) {
@@ -56,9 +52,7 @@ export const generateSchema = ({ doc, collection, url, breadcrumbs }: GenerateSc
       ...baseSchema,
       '@type': 'Article',
       headline: title,
-      // @ts-expect-error - datePublished property access
       datePublished: doc.publishedAt,
-      // @ts-expect-error - dateModified property access
       dateModified: doc.updatedAt,
       author: {
         '@type': 'Person',
@@ -70,9 +64,7 @@ export const generateSchema = ({ doc, collection, url, breadcrumbs }: GenerateSc
     mainEntity = {
       ...baseSchema,
       '@type': 'WebPage',
-       // @ts-expect-error - datePublished property access
       datePublished: doc.publishedAt,
-       // @ts-expect-error - dateModified property access
       dateModified: doc.updatedAt,
     }
   }

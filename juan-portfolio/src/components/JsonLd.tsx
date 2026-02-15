@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Schema } from '@/utilities/schema/types'
-import type { Post, Author } from '@/payload-types'
+import type { Post, User } from '@/payload-types'
 
 interface JsonLdProps {
   schema?: Schema | Schema[] | null | undefined
@@ -24,7 +24,6 @@ export const JsonLd = ({ schema, post, locale = 'es', siteUrl = 'https://juan-te
   // Auto-generate Article Schema if post is provided
   if (post) {
     const authors = post.populatedAuthors || []
-    const firstAuthor = authors[0] as Author | undefined
     
     const articleSchema: Schema = {
       '@type': 'BlogPosting',
@@ -34,9 +33,9 @@ export const JsonLd = ({ schema, post, locale = 'es', siteUrl = 'https://juan-te
       dateModified: post.updatedAt || post.publishedAt || post.createdAt,
       author: authors.map(a => ({
         '@type': 'Person',
-        name: (a as Author).name,
-        url: `${siteUrl}${locale === 'es' ? '' : '/en'}/authors/${(a as Author).slug}`,
-        jobTitle: (a as Author).jobTitle,
+        name: (a as User).name,
+        url: `${siteUrl}${locale === 'es' ? '' : '/en'}/authors/${(a as User).slug}`,
+        jobTitle: (a as User).jobTitle,
       })),
       image: post.meta?.image ? (post.meta.image as any).url : undefined,
       publisher: {

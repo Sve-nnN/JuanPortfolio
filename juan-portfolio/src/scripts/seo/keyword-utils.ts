@@ -1,7 +1,3 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-
 const STOP_WORDS = new Set([
   // English
   'how', 'to', 'the', 'a', 'an', 'and', 'or', 'in', 'on', 'at', 'with', 'for', 'of',
@@ -31,6 +27,16 @@ const STOP_WORDS = new Set([
   'temas', 'categorías', 'buscar', 'buscar...', 'anterior', 'siguiente'
 ])
 
+export interface GapCandidate {
+  phrase?: string // Deprecated
+  keyword: string
+  sourceUrl?: string // Deprecated
+  occurrences?: number // Deprecated
+  score: number
+  foundIn: string[]
+  source: string
+}
+
 const TECHNICAL_TERMS = [
   'best', 'vs', 'alternative', 'comparison', 'review', 'guide', 'how', 'tutorial',
   'performance', 'optimized', 'seo', 'optimization', 'completa', 'guia', 'mejor', 'mejores',
@@ -58,7 +64,7 @@ export function extractPhrases(text: string): string[] {
   if (!text) return []
   
   // 1. Aggressive Noise Cleaning
-  let cleanedBody = text
+  const cleanedBody = text
     .replace(/^.*(english|deutsch|español|fran|ais|indonesia|italiano|polski|portugu).*$/gim, '')
     .replace(/(skip to main content|jump to navigation|search documentation|was this page helpful|terms of service|privacy policy|all rights reserved)/gi, ' ')
 

@@ -283,6 +283,30 @@ class ContentSyncManager {
         }
       }
 
+      // Resolve authors
+      const authorIds = []
+      if (frontmatter.authors && Array.isArray(frontmatter.authors)) {
+        for (const authorSlug of frontmatter.authors) {
+          const id = await this.resolveAuthor(authorSlug)
+          if (id) authorIds.push(id)
+        }
+      }
+
+      // Resolve categories
+      const categoryIds = []
+      if (frontmatter.categoryTitle) { // Support existing categoryTitle field
+        const categorySlug = frontmatter.categoryTitle.toLowerCase().replace(/\s+/g, '-') // Basic slugification
+        const id = await this.resolveCategory(categorySlug)
+        if (id) categoryIds.push(id)
+      }
+      if (frontmatter.categories && Array.isArray(frontmatter.categories)) { // Prefer categories array if present
+        for (const catSlug of frontmatter.categories) {
+          const id = await this.resolveCategory(catSlug)
+          if (id) categoryIds.push(id)
+        }
+      }
+
+
       const postData: any = {
         title: frontmatter.title,
         slug: slug,
@@ -293,6 +317,12 @@ class ContentSyncManager {
         semanticKeywords: semanticKeywordIds,
         publishedAt: frontmatter.publishedAt || new Date().toISOString(),
         _status: frontmatter.status || (frontmatter.uploaded === false ? 'draft' : 'published'), // Read status from frontmatter
+        meta: {
+          title: frontmatter.metaTitle,
+          description: frontmatter.metaDescription,
+        },
+        authors: authorIds,
+        categories: categoryIds,
       }
 
       let docID = fileState?.id
@@ -363,6 +393,40 @@ class ContentSyncManager {
       return null
     } catch (error) {
       console.error(`Error resolving keyword ${keyword}:`, error)
+      return null
+    }
+  }
+
+  private async resolveAuthor(authorSlug: string): Promise<string | null> {
+    try {
+      const found = await this.payload.find({
+        collection: 'users',
+        where: { slug: { equals: authorSlug } }, // Assuming users have a slug field
+        limit: 1,
+      })
+      if (found.docs.length > 0) {
+        return found.docs[0].id
+      }
+      return null
+    } catch (error) {
+      console.error(`Error resolving author ${authorSlug}:`, error)
+      return null
+    }
+  }
+
+  private async resolveCategory(categorySlug: string): Promise<string | null> {
+    try {
+      const found = await this.payload.find({
+        collection: 'categories',
+        where: { slug: { equals: categorySlug } }, // Assuming categories have a slug field
+        limit: 1,
+      })
+      if (found.docs.length > 0) {
+        return found.docs[0].id
+      }
+      return null
+    } catch (error) {
+      console.error(`Error resolving category ${categorySlug}:`, error)
       return null
     }
   }

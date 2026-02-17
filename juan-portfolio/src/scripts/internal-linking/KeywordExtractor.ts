@@ -1,8 +1,19 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
+import natural from 'natural';
+import pluralize from 'pluralize';
 import type { PostMetadata, KeywordMatch } from './types';
 import { getPostUrl } from '../../utilities/getPostUrl';
+
+// Initialize NLP components
+const tokenizer = new natural.WordTokenizer();
+const nounInflector = new natural.NounInflector();
+const stopWords = new Set(natural.stopwords);
+
+// Extended English stop words for better filtering of technical/SEO terms
+const enExtendedStopWords = new Set([...natural.stopwords, 'guide', 'tutorial', 'how', 'what', 'why', 'best', 'review', 'vs', 'comparison', 'vs.', 'english', 'term', 'phrase', 'keyword', 'word', 'example', 'case', 'study', 'data', 'analysis']);
+const esExtendedStopWords = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'al', 'y', 'o', 'en', 'por', 'para', 'que', 'con', 'como', 'donde', 'quien', 'mejor', 'guia', 'tutoriales', 'es', 'son', 'ser', 'estar']);
 
 /**
  * Extracts keywords from posts and builds a keyword-to-post index.
@@ -12,6 +23,7 @@ import { getPostUrl } from '../../utilities/getPostUrl';
  * - Extracting primary and semantic keywords from frontmatter
  * - Generating variations (plural, singular, case-insensitive)
  * - Building a searchable keyword index based on primary keywords
+ * - Generating semantic keywords using NLP if not present in frontmatter
  */
 export class KeywordExtractor {
     private keywordIndex: Map<string, KeywordMatch> = new Map();
@@ -48,7 +60,7 @@ export class KeywordExtractor {
 
             for (const file of files) {
                 const filePath = path.join(categoryDir, file);
-                const post = this.parsePost(filePath, cat);
+                const post = this.parsePost(filePath, cat); // parsePost now handles semantic keyword generation
                 if (post) {
                     this.posts.push(post);
                 }
@@ -60,11 +72,12 @@ export class KeywordExtractor {
 
     /**
      * Parse a single post file and extract metadata and keywords.
+     * Generates semantic keywords using NLP if not explicitly defined in frontmatter.
      */
     private parsePost(filePath: string, category: string): PostMetadata | null {
         try {
-            const content = fs.readFileSync(filePath, 'utf-8');
-            const { data } = matter(content);
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            const { data, content } = matter(fileContent);
 
             const slug = path.basename(filePath, '.md');
             const url = getPostUrl({ slug, categories: [category] });
@@ -73,10 +86,22 @@ export class KeywordExtractor {
             const primary_keywords: string[] = (data.primary_keywords || [])
                 .map((kw: string) => kw.toLowerCase())
                 .filter((kw: string) => this.validateKeywordLanguage(kw, idioma, slug, 'primary'));
-
-            const semantic_keywords: string[] = (data.semantic_keywords || [])
+            
+            let semantic_keywords: string[] = (data.semantic_keywords || [])
                 .map((kw: string) => kw.toLowerCase())
                 .filter((kw: string) => this.validateKeywordLanguage(kw, idioma, slug, 'semantic'));
+
+            // Generate semantic keywords if not present (undefined or null) in frontmatter
+            if (data.semantic_keywords === undefined || data.semantic_keywords === null) {
+                const generatedSemanticKeywords = this.generateSemanticKeywords(content, idioma);
+                semantic_keywords = [...new Set([...semantic_keywords, ...generatedSemanticKeywords])]; // Deduplicate
+                
+                // Update frontmatter with generated semantic keywords
+                const newData = { ...data, semantic_keywords: Array.from(new Set(semantic_keywords)) };
+                const newContent = matter.stringify(content, newData);
+                fs.writeFileSync(filePath, newContent);
+                console.log(`✨ Generated semantic keywords for ${slug}`);
+            }
 
             // Authority Cluster Logic
             const clusterType = (data.clusterType as 'Pillar' | 'Supporting') || 
@@ -102,29 +127,61 @@ export class KeywordExtractor {
     }
 
     /**
+     * Generates semantic keywords (potential anchor texts) from post content using NLP.
+     * Focuses on noun phrases and relevant terms.
+     */
+    private generateSemanticKeywords(text: string, idioma: string): string[] {
+        const keywords = new Set<string>();
+        const tokens = tokenizer.tokenize(text.toLowerCase());
+        const filteredTokens = tokens.filter(token => {
+            const isStopWord = idioma === 'es' ? esExtendedStopWords.has(token) : enExtendedStopWords.has(token);
+            return token.length > 2 && !isStopWord; // Filter out short words and stop words
+        });
+
+        // Simple N-gram approach for noun phrases (up to 3 words)
+        for (let i = 0; i < filteredTokens.length; i++) {
+            // Single words
+            keywords.add(filteredTokens[i]);
+
+            // Two-word phrases
+            if (i + 1 < filteredTokens.length) {
+                const phrase2 = `${filteredTokens[i]} ${filteredTokens[i + 1]}`;
+                keywords.add(phrase2);
+            }
+
+            // Three-word phrases
+            if (i + 2 < filteredTokens.length) {
+                const phrase3 = `${filteredTokens[i]} ${filteredTokens[i + 1]} ${filteredTokens[i + 2]}`;
+                keywords.add(phrase3);
+            }
+        }
+        
+        // Further refine by removing duplicates and sorting
+        return Array.from(keywords)
+            .filter(kw => kw.split(' ').length <= 3) // Max 3 words per semantic keyword
+            .sort((a, b) => b.length - a.length) // Prioritize longer phrases
+            .slice(0, 20); // Limit to top 20 semantic keywords
+    }
+
+
+    /**
      * Validates that a keyword's language matches the post language.
      * Technical terms in English are allowed in Spanish posts if they don't contain common English stop words.
      */
     private validateKeywordLanguage(keyword: string, idioma: string, slug: string, type: string): boolean {
-        const enStopWords = new Set(['the', 'a', 'an', 'of', 'for', 'and', 'or', 'is', 'are', 'with', 'from', 'to', 'how', 'why', 'what', 'who', 'best', 'guide', 'tutorial']);
-        const esStopWords = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'al', 'y', 'o', 'en', 'por', 'para', 'que', 'con', 'como', 'donde', 'quien', 'mejor', 'guia', 'tutoriales']);
+        const stopWordsSet = idioma === 'es' ? esExtendedStopWords : enExtendedStopWords;
+        const otherStopWordsSet = idioma === 'es' ? enExtendedStopWords : esExtendedStopWords;
 
         const words = keyword.toLowerCase().split(/\s+/);
         
-        if (idioma === 'es') {
-            // Check if Spanish post has clearly English keywords (at least 2 EN stop words or starts with EN stop word in long phrase)
-            const enStopCount = words.filter(w => enStopWords.has(w)).length;
-            if (enStopCount >= 2 || (words.length > 2 && enStopWords.has(words[0]))) {
-                console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks English but post is Spanish (es). skipping...`);
-                return false;
-            }
-        } else if (idioma === 'en') {
-            // Check if English post has clearly Spanish keywords
-            const esStopCount = words.filter(w => esStopWords.has(w)).length;
-            // "big o notation" has "o" which is an ES stop word. We should allow it.
-            // Only block if 2+ ES stop words or clearly ES grammar.
-            if (esStopCount >= 2 || (words.length > 2 && esStopWords.has(words[0]))) {
-                console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks Spanish but post is English (en). skipping...`);
+        // If the keyword contains words that are common stop words in the *other* language, it might be a mismatch.
+        // We'll be more lenient for technical terms, but strict for obvious mismatches.
+        const otherLangStopWordsCount = words.filter(w => otherStopWordsSet.has(w)).length;
+
+        if (otherLangStopWordsCount > 0 && words.length > 1) { // If it's a multi-word phrase and contains other-language stop words
+            const currentLangStopWordsCount = words.filter(w => stopWordsSet.has(w)).length;
+            if (otherLangStopWordsCount > currentLangStopWordsCount) { // More other-language stop words than current language
+                 console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks like it belongs to the other language but post is ${idioma}. Skipping...`);
                 return false;
             }
         }
@@ -140,17 +197,28 @@ export class KeywordExtractor {
         this.keywordIndex.clear();
 
         for (const post of this.posts) {
-            for (const keyword of post.primary_keywords) {
+            // Index both primary and semantic keywords
+            const keywordsToIndex = [...post.primary_keywords, ...(post.semantic_keywords || [])];
+
+            for (const keyword of keywordsToIndex) {
                 const variations = this.generateVariations(keyword);
 
-                // Check for keyword cannibalization
-                if (this.keywordIndex.has(keyword) && this.keywordIndex.get(keyword)!.targetPost.slug !== post.slug) {
+                // Check for keyword cannibalization (only for primary keywords, semantic can be duplicates)
+                const isPrimary = post.primary_keywords.includes(keyword);
+
+                if (isPrimary && this.keywordIndex.has(keyword) && this.keywordIndex.get(keyword)!.targetPost.slug !== post.slug) {
                     console.warn(
-                        `⚠️  Keyword Cannibalization Warning: The keyword "${keyword}" is claimed by both '${
+                        `⚠️  Keyword Cannibalization Warning: The primary keyword "${keyword}" is claimed by both '${
                             this.keywordIndex.get(keyword)!.targetPost.slug
                         }' and '${post.slug}'. The first one found will be used.`,
                     );
                     continue; // Skip re-assigning this keyword
+                }
+
+                // If a semantic keyword clashes with an already indexed primary keyword, prioritize the primary
+                if (!isPrimary && this.keywordIndex.has(keyword) && this.keywordIndex.get(keyword)!.targetPost.clusterType === 'Pillar') {
+                    // If an existing entry is a Pillar, keep it
+                    continue;
                 }
 
                 const match: KeywordMatch = {
@@ -162,7 +230,8 @@ export class KeywordExtractor {
 
                 // Index both the primary keyword and all its variations
                 variations.forEach(v => {
-                    if (!this.keywordIndex.has(v)) {
+                    // Only add if not already indexed or if the current one has higher priority (e.g., primary over semantic)
+                    if (!this.keywordIndex.has(v) || (isPrimary && this.keywordIndex.get(v)!.targetPost.slug !== post.slug)) {
                         this.keywordIndex.set(v, match);
                     }
                 });
@@ -173,48 +242,41 @@ export class KeywordExtractor {
     }
 
     /**
-     * Generate semantic variations of a keyword.
+     * Generate semantic variations of a keyword using pluralize for better accuracy.
      * Handles plural/singular, case variations, and hyphenated forms.
      */
     private generateVariations(keyword: string): string[] {
         const variations = new Set<string>();
+        const lowerKeyword = keyword.toLowerCase();
 
-        // Original
-        variations.add(keyword.toLowerCase());
+        // Original forms
+        variations.add(lowerKeyword);
+        variations.add(lowerKeyword.charAt(0).toUpperCase() + lowerKeyword.slice(1));
+        variations.add(lowerKeyword.toUpperCase());
 
-        // Capitalize first letter
-        variations.add(keyword.charAt(0).toUpperCase() + keyword.slice(1).toLowerCase());
-
-        // All uppercase
-        variations.add(keyword.toUpperCase());
-
-        // Plural forms (simple heuristic)
-        if (!keyword.endsWith('s')) {
-            variations.add(keyword + 's');
-            variations.add((keyword.charAt(0).toUpperCase() + keyword.slice(1)) + 's');
-        }
-
-        // Singular forms (remove trailing 's')
-        if (keyword.endsWith('s') && keyword.length > 3) {
-            const singular = keyword.slice(0, -1);
+        // Plural/Singular forms using pluralize
+        if (pluralize.isSingular(lowerKeyword)) {
+            const plural = pluralize.plural(lowerKeyword);
+            variations.add(plural);
+            variations.add(plural.charAt(0).toUpperCase() + plural.slice(1));
+        } else if (pluralize.isPlural(lowerKeyword)) {
+            const singular = pluralize.singular(lowerKeyword);
             variations.add(singular);
             variations.add(singular.charAt(0).toUpperCase() + singular.slice(1));
         }
 
-        // Handle hyphenated keywords (create space-separated version)
-        if (keyword.includes('-')) {
-            const spaced = keyword.replace(/-/g, ' ');
+        // Handle hyphenated <-> space-separated
+        if (lowerKeyword.includes('-')) {
+            const spaced = lowerKeyword.replace(/-/g, ' ');
             variations.add(spaced);
             variations.add(spaced.charAt(0).toUpperCase() + spaced.slice(1));
-        }
-
-        // Handle space-separated keywords (create hyphenated version)
-        if (keyword.includes(' ')) {
-            const hyphenated = keyword.replace(/\s+/g, '-');
+        } else if (lowerKeyword.includes(' ')) {
+            const hyphenated = lowerKeyword.replace(/\s+/g, '-');
             variations.add(hyphenated);
+            variations.add(hyphenated.charAt(0).toUpperCase() + hyphenated.slice(1));
         }
 
-        return Array.from(variations);
+        return Array.from(variations).filter(v => v.length > 0);
     }
 
     /**
@@ -231,3 +293,4 @@ export class KeywordExtractor {
         return this.posts;
     }
 }
+

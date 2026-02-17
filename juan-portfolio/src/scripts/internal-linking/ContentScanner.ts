@@ -100,8 +100,9 @@ export class ContentScanner {
                     continue;
                 }
 
-                // 1b. Language Match: Only link to posts in the same language
-                if (match.targetPost.idioma !== post.idioma) {
+                // 1c. Cluster Match: Only link to posts within the same category (cluster)
+                if (match.targetPost.category !== post.category) {
+                    // console.log removed per user request: "Skipping link from ${post.slug} to ${match.targetPost.slug}: different categories (${post.category} != ${match.targetPost.category})"
                     continue;
                 }
 
@@ -299,13 +300,13 @@ export class ContentScanner {
 
         // Scan content for mentions of uncovered keywords
         for (const post of posts) {
-            const content = fs.readFileSync(post.filePath, 'utf-8');
-            const { content: body } = matter(content);
+            const fileContent = fs.readFileSync(post.filePath, 'utf-8');
+            const { content: body } = matter(fileContent);
             const lines = body.split('\n');
             let isInsideCodeBlock = false;
-
-            // Track target keywords already counted in THIS post to avoid overcounting
-            const countedKeywordsInPost = new Set<string>();
+            
+            // To track if a keyword has been mentioned at least once in this post (for sources)
+            const keywordsMentionedInThisPost = new Set<string>();
 
             for (const line of lines) {
                 // Toggle code block state
@@ -325,46 +326,43 @@ export class ContentScanner {
                         continue;
                     }
 
-                    // 2. Skip if keyword has dedicated post
+                    // 2. Skip if keyword has dedicated post (is a primary keyword for ANY post)
                     if (coveredKeywords.has(normalizedKeyword)) {
                         continue;
                     }
+                    
+                    // Combine all variations into a single regex for this keyword group
+                    // Sort variations by length descending to match longer phrases first
+                    const sortedVariations = [...variations].sort((a, b) => b.length - a.length);
+                    const combinedVariationsPattern = sortedVariations.map(v => this.escapeRegex(v)).join('|');
+                    const combinedVariationsRegex = new RegExp(`\\b(${combinedVariationsPattern})\\b`, 'ig');
+                    combinedVariationsRegex.lastIndex = 0; // Reset for each line
 
-                    // Skip if already counted in this post
-                    if (countedKeywordsInPost.has(match.keyword)) {
-                        continue;
-                    }
-
-                    // Try variations
-                    for (const variation of variations) {
-                        const regex = new RegExp(`\\b${this.escapeRegex(variation)}\\b`, 'i');
-                        const regexMatch = regex.exec(line);
-
-                        if (regexMatch) {
-                            if (this.isInsideExcludedContext(line, regexMatch.index!, variation.length)) {
-                                continue;
-                            }
-
-                            // Valid mention found
-                            if (!keywordMentions.has(match.keyword)) {
-                                keywordMentions.set(match.keyword, {
-                                    count: 0,
-                                    sources: new Set(),
-                                    category: post.category
-                                });
-                            }
-
-                            const data = keywordMentions.get(match.keyword)!;
-                            data.count++;
-                            data.sources.add(post.slug);
-                            countedKeywordsInPost.add(match.keyword);
-                            break; // Stop variations for this keyword
+                    let regexMatch;
+                    while ((regexMatch = combinedVariationsRegex.exec(line)) !== null) {
+                        if (this.isInsideExcludedContext(line, regexMatch.index!, regexMatch[0].length)) {
+                            continue;
                         }
+
+                        // Valid mention found - increment count for this normalizedKeyword
+                        if (!keywordMentions.has(normalizedKeyword)) {
+                            keywordMentions.set(normalizedKeyword, {
+                                count: 0,
+                                sources: new Set(),
+                                category: post.category
+                            });
+                        }
+                        const data = keywordMentions.get(normalizedKeyword)!;
+                        data.count++;
+                        keywordsMentionedInThisPost.add(normalizedKeyword); // Mark as mentioned in this post
                     }
                 }
             }
+            // After scanning the entire post, add the post slug to sources for all keywords mentioned in it
+            keywordsMentionedInThisPost.forEach(kw => {
+                keywordMentions.get(kw)?.sources.add(post.slug);
+            });
         }
-
         return keywordMentions;
     }
 

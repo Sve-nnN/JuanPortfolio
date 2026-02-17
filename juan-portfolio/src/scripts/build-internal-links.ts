@@ -114,11 +114,11 @@ async function main(): Promise<void> {
     const contentDir = path.resolve(process.cwd(), 'content');
 
     // 1. Loading
-    process.stdout.write(`${colors.blue}📚 Loading posts and building index...${colors.reset}`);
+    process.stdout.write(`${colors.blue}📚 Loading posts, generating semantic keywords (if missing), and building index...${colors.reset}`);
     const extractor = new KeywordExtractor(contentDir);
     const posts = await extractor.loadPosts(config.category);
     const keywordIndex = extractor.buildIndex();
-    process.stdout.write(`\r${colors.green}✅ Loaded ${posts.length} posts and ${keywordIndex.size} keywords.    \n\n${colors.reset}`);
+    process.stdout.write(`\r${colors.green}✅ Loaded ${posts.length} posts, generated/updated semantic keywords, and indexed ${keywordIndex.size} keywords.    \n\n${colors.reset}`);
 
     // 2. Scanning
     process.stdout.write(`${colors.blue}🔍 Scanning posts for link opportunities...${colors.reset}`);

@@ -35,11 +35,11 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
       limit: latestPostsConfig.limit || 4,
       depth: 1,
       locale,
-      // where: {
-      //   _status: {
-      //     equals: 'published',
-      //   },
-      // },
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
       sort: '-publishedAt',
     })
     latestPostsDocs = latestPosts.docs
@@ -53,11 +53,11 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
       limit: caseStudiesConfig.limit || 4,
       depth: 0,
       locale,
-      // where: {
-      //   _status: {
-      //     equals: 'published',
-      //   },
-      // },
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
       sort: '-publishedAt',
     })
     latestCaseStudiesDocs = latestCaseStudies.docs

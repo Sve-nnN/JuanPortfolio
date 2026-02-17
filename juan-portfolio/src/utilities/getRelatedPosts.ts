@@ -33,6 +33,11 @@ async function fetchRelatedPosts({ currentPostId, categoryIds, limit, locale }: 
                         },
                     })),
                 },
+                {
+                    _status: {
+                        equals: 'published',
+                    },
+                },
             ],
         },
     })

@@ -96,17 +96,25 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
       )}
 
       {/* Posts Grid */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-10 lg:gap-12`}>
-        {posts.map((p, i) => (
-          <AnimatedCard 
-            key={p.id}
-            post={p}
-            index={i}
-            showCategories={Boolean(showCategories)}
-            locale={locale}
-          />
-        ))}
-      </div>
+      {posts.length > 0 ? (
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-10 lg:gap-12`}>
+          {posts.map((p, i) => (
+            <AnimatedCard 
+              key={p.id}
+              post={p}
+              index={i}
+              showCategories={Boolean(showCategories)}
+              locale={locale}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-48">
+          <p className="text-xl text-muted-foreground font-medium">
+            {locale === 'es' ? 'No se encontraron posts.' : 'No posts found.'}
+          </p>
+        </div>
+      )}
 
       {/* Pagination (simple display - can be enhanced) */}
       {totalPages > 1 && (

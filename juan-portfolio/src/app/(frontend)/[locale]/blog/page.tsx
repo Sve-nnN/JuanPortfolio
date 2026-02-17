@@ -64,8 +64,8 @@ const BlogPage = async ({ params: paramsPromise }: Args) => {
         <h1 className="text-4xl font-bold text-center mb-8">{title}</h1>
         <p className="text-center text-muted">
           {locale === 'es' 
-            ? 'Por favor, configura los bloques en el global Blog Listing en el panel de administración.' 
-            : 'Please configure blocks in the Blog Listing global in Payload admin.'}
+            ? 'Por favor, configura los bloques en el global "Blog Listing" en el panel de administración. Considera usar el bloque "Archive" o "Posts Grid" para mostrar contenido.' 
+            : 'Please configure blocks in the "Blog Listing" global in Payload admin. Consider using the "Archive" or "Posts Grid" block to display content.'}
         </p>
       </div>
     </main>

@@ -292,6 +292,7 @@ class ContentSyncManager {
         primaryKeyword: primaryKeywordId,
         semanticKeywords: semanticKeywordIds,
         publishedAt: frontmatter.publishedAt || new Date().toISOString(),
+        _status: frontmatter.status || (frontmatter.uploaded === false ? 'draft' : 'published'), // Read status from frontmatter
       }
 
       let docID = fileState?.id

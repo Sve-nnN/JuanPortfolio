@@ -103,6 +103,10 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      maxPoolSize: 5, // Maintain up to 5 socket connections
+      serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+    },
   }),
   collections: [
     Pages,

@@ -211,13 +211,23 @@ class ContentSyncManager {
     }
   }
 
-  async push(force = false) {
+  async push(force = false, postFilename?: string) {
     await this.init()
     console.log(`${colors.blue}⬆️  Pushing changes...${colors.reset}`)
 
-    const files = getAllFiles(CONTENT_DIR)
+    let filesToProcess = getAllFiles(CONTENT_DIR)
+
+    if (postFilename) {
+      const fullPath = path.join(CONTENT_DIR, postFilename)
+      if (!fs.existsSync(fullPath)) {
+        console.log(`${colors.red}❌ Error: Post file '${postFilename}' not found.${colors.reset}`)
+        return
+      }
+      filesToProcess = [fullPath]
+      console.log(`${colors.yellow}🔍 Syncing specific post: ${postFilename}${colors.reset}`)
+    }
     
-    for (const fullPath of files) {
+    for (const fullPath of filesToProcess) {
       const relPath = path.relative(CONTENT_DIR, fullPath)
       const content = fs.readFileSync(fullPath, 'utf-8')
       const { data, content: mdBody } = matter(content)
@@ -363,6 +373,8 @@ const run = async () => {
   const args = process.argv.slice(2)
   const command = args[0]
   const force = args.includes('--force')
+  const postArg = args.find(arg => arg.startsWith('--post='))
+  const postFilename = postArg ? postArg.split('=')[1] : undefined
 
   const manager = new ContentSyncManager()
 
@@ -377,10 +389,10 @@ const run = async () => {
       await manager.pull()
       break
     case 'push':
-      await manager.push(force)
+      await manager.push(force, postFilename)
       break
     default:
-      console.log('Usage: tsx src/scripts/syncContent.ts [status|fetch|pull|push] [--force]')
+      console.log('Usage: tsx src/scripts/syncContent.ts [status|fetch|pull|push] [--force] [--post=<filename.md>]')
       break
   }
   process.exit(0)

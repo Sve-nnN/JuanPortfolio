@@ -24,7 +24,7 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 | **Install**          | `pnpm install`                                |
 | **Development**      | `pnpm dev`                                    |
 | **Sync Status**      | `pnpm sync status`                            |
-| **Push Content**     | `pnpm sync push`                              |
+| **Push Content**     | `pnpm sync push [--post=<filename.md>] [--force]`   |
 | **Sync Keywords**    | `pnpm sync:keywords`                          |
 | **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts` |
 | **SEO Metrics**      | `npx tsx src/scripts/update-seo-metrics.ts`   |
@@ -38,7 +38,7 @@ The project uses a custom synchronization engine (`src/scripts/syncContent.ts`) 
 
 ### Core Workflow
 1. **Keywords**: Sync `keywords.md` to the CMS using `pnpm sync:keywords`.
-2. **Content**: Push local Markdown edits using `pnpm sync push`. This automatically links posts to their primary and semantic keywords in the CMS.
+2. **Content**: Push local Markdown edits using `pnpm sync push [--post=<filename.md>] [--force]`. This automatically links posts to their primary and semantic keywords in the CMS.
 3. **Analytics**: Run `pnpm run sync:gsc` to download Search Console data and aggregate performance metrics directly into your keywords.
 4. **Pull**: Download remote CMS edits back to local Markdown with `pnpm sync pull`.
 

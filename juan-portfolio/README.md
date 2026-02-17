@@ -84,7 +84,7 @@ This project features a bidirectional synchronization engine designed to keep lo
 | Command                               | Description                                                                         |
 | :------------------------------------ | :---------------------------------------------------------------------------------- |
 | `pnpm sync status`                    | Shows local vs remote change status.                                                |
-| `pnpm sync push`                      | Uploads local Markdown changes and links keywords to entries.                       |
+| `pnpm sync push [--post=<filename.md>] [--force]` | Uploads local Markdown changes (optionally for a specific post) and links keywords to entries. `--force` overwrites remote content. |
 | `pnpm sync pull`                      | Downloads remote CMS changes to local Markdown files.                               |
 | `pnpm sync:keywords`                  | Synchronizes the `keywords.md` table with the KeywordMetrics collection.            |
 | `pnpm run sync:gsc`                   | Syncs Search Console data and aggregates it into the KeywordMetrics.                |

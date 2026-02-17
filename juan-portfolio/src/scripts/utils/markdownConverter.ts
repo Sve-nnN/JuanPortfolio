@@ -139,7 +139,34 @@ export const convertMarkdownToLexical = (
               id: new Date().getTime().toString() + Math.random().toString(36).substring(7),
               blockType: 'faq',
               title: getFaqTitle(),
-              faqs: [...faqs],
+              faqs: faqs.map(faqItem => ({
+            question: faqItem.question,
+            answer: {
+              root: {
+                type: 'root',
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [{
+                  type: 'paragraph',
+                  format: '',
+                  indent: 0,
+                  version: 1,
+                  children: [{
+                    type: 'text',
+                    text: faqItem.answer,
+                    format: 0,
+                    detail: 0,
+                    mode: 'normal',
+                    style: '',
+                    version: 1,
+                  }],
+                  direction: 'ltr',
+                }],
+                direction: 'ltr',
+              },
+            },
+          })),
             },
           } as unknown as SerializedBlockNode)
           faqs.length = 0
@@ -148,20 +175,13 @@ export const convertMarkdownToLexical = (
         faqMode = false
         // DO NOT return here, because this heading (which ended the FAQ mode) 
         // needs to be processed by the standard heading logic below.
-      } else if (token.type === 'paragraph') {
-        const text = token.text.trim()
-        // Simple heuristic: Question is bold, answer is plain text below it
-        if (text.startsWith('**') && text.endsWith('**')) {
-          if (currentFaq) faqs.push(currentFaq)
-          currentFaq = { question: text.replace(/\*\*/g, ''), answer: '' }
-        } else if (currentFaq) {
-          currentFaq.answer += (currentFaq.answer ? '\n' : '') + text
-        }
+      } else if (token.type === 'paragraph' && currentFaq) {
+        currentFaq.answer += (currentFaq.answer ? '\n' : '') + token.text.trim()
         return // Skip standard paragraph handling while in FAQ mode
       } else if (token.type === 'heading' && token.depth === 3) {
         // Question found as H3
         if (currentFaq) faqs.push(currentFaq)
-        currentFaq = { question: token.text, answer: '' }
+        currentFaq = { question: token.text.trim(), answer: '' }
         return // Skip standard heading handling while in FAQ mode
       }
     }
@@ -251,7 +271,34 @@ export const convertMarkdownToLexical = (
         id: new Date().getTime().toString() + Math.random().toString(36).substring(7),
         blockType: 'faq',
         title: getFaqTitle(),
-        faqs: [...faqs],
+        faqs: faqs.map(faqItem => ({
+          question: faqItem.question,
+          answer: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
+              children: [{
+                type: 'paragraph',
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [{
+                  type: 'text',
+                  text: faqItem.answer,
+                  format: 0,
+                  detail: 0,
+                  mode: 'normal',
+                  style: '',
+                  version: 1,
+                }],
+                direction: 'ltr',
+              }],
+              direction: 'ltr',
+            },
+          },
+        })),
       },
     } as unknown as SerializedBlockNode)
   }

@@ -96,7 +96,7 @@ Un **árbol binario completo** es aquel en el que todos los niveles están compl
 ### Árbol Binario Equilibrado: Diferencias y Ventajas
 
 Un **árbol binario equilibrado** es aquel que mantiene su altura lo más pequeña posible (idealmente `O(log N)`), evitando así la degeneración a un árbol sesgado.
--   **Rendimiento Óptimo:** Garantiza que las operaciones de búsqueda, inserción y eliminación mantengan una complejidad temporal de `O(log N)` en el peor caso.
+-   **Rendimiento Óptimo:** Garantiza que las operaciones de búsqueda, inserción y eliminación mantengan una [complejidad temporal](/blog/cs-fundamentals/big-o-notation) de `O(log N)` en el peor caso.
 -   **Contraste con Árboles Desequilibrados:** Un árbol desequilibrado puede hacer que las operaciones se degraden a `O(N)`, comparable a una búsqueda lineal. El balanceo es esencial para mantener la eficiencia de la estructura.
 
 ### Árboles AVL y su Balanceo Automático
@@ -226,7 +226,7 @@ Los recorridos de árboles son algoritmos que visitan cada nodo de un árbol exa
 
 ### Búsqueda en Profundidad (DFS - Depth-First Search)
 
-Los recorridos DFS exploran tan profundo como sea posible a lo largo de cada rama antes de retroceder. Incluyen Preorden, Inorden y Postorden. La complejidad temporal para todos los DFS es `O(N)` (donde `N` es el número de nodos) porque visitan cada nodo una vez. La complejidad espacial es `O(h)` debido a la pila de llamadas recursivas, donde `h` es la altura del árbol.
+Los recorridos DFS exploran tan profundo como sea posible a lo largo de cada rama antes de retroceder. Incluyen Preorden, Inorden y Postorden. La complejidad temporal para todos los DFS es `O(N)` (donde `N` es el número de nodos) porque visitan cada nodo una vez. La [complejidad espacial](/blog/cs-fundamentals/complejidad-algoritmica) es `O(h)` debido a la pila de llamadas recursivas, donde `h` es la altura del árbol.
 
 #### 1. Recorrido en Preorden (Node -> Left -> Right)
 -   **Secuencia:** Visita el nodo actual, luego recorre el subárbol izquierdo, finalmente recorre el subárbol derecho.
@@ -340,7 +340,7 @@ La teoría se afianza con la práctica. Los árboles binarios son un campo fért
 Los árboles binarios son los bloques de construcción para:
 -   **Mapas y Conjuntos:** En muchos lenguajes, las implementaciones de `Map` (diccionarios, tablas de símbolos) o `Set` se basan en árboles binarios de búsqueda auto-balanceados (como Rojo-Negros) para garantizar operaciones de `O(log N)`.
 -   **Colas de Prioridad (Heaps):** Un heap binario es un árbol binario completo (implementado típicamente en un array) que cumple la propiedad de heap, esencial para algoritmos como Dijkstra o la ordenación Heap Sort.
--   **Algoritmos de Inteligencia Artificial:** Desde algoritmos de búsqueda (A*, minimax) en juegos hasta la representación de ontologías y sistemas expertos.
+-   **Algoritmos de Inteligencia Artificial:** Desde [algoritmos de búsqueda](/blog/cs-fundamentals/algoritmos-estructuras-datos) (A*, minimax) en juegos hasta la representación de ontologías y sistemas expertos.
 
 ### Manejo de Datos Ordenados y Optimización de Memoria
 

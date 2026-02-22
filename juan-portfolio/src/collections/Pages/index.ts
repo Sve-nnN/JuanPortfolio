@@ -219,6 +219,25 @@ export const Pages: CollectionConfig<'pages'> = {
         collection: 'pages',
       },
     },
+    {
+      name: 'indexingControl',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'indexStatus',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Estado de indexación en Google. Se actualiza con Check Status.',
+      },
+    },
     slugField(),
   ],
   hooks: {

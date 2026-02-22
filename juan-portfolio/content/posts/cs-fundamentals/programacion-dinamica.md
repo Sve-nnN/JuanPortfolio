@@ -80,7 +80,7 @@ La secuencia de Fibonacci es el ejemplo por excelencia para ilustrar la necesida
 
 #### Enfoque Recursivo Naive (sin PD)
 
-Una implementación directa de la definición recursiva resulta en una complejidad temporal exponencial, debido a la repetición de cálculos.
+Una implementación directa de la definición recursiva resulta en una [complejidad temporal](/blog/cs-fundamentals/big-o-notation) exponencial, debido a la repetición de cálculos.
 
 ```python
 def fibonacci_naive(n: int) -> int:
@@ -166,7 +166,7 @@ def fibonacci_tabulation_optimized_space(n: int) -> int:
 
 ### 2. Problema del Camino Más Corto en Grafos
 
-Aunque Dijkstra es un algoritmo voraz, la Programación Dinámica es fundamental en problemas de caminos más cortos cuando hay pesos negativos o cuando se buscan caminos con propiedades específicas (como el número de aristas). Algoritmos como **Bellman-Ford** y **Floyd-Warshall** utilizan principios de PD para encontrar caminos más cortos en grafos, incluso con ciclos negativos en el caso de Bellman-Ford (detectándolos) o entre todos los pares de nodos en el caso de Floyd-Warshall.
+Aunque Dijkstra es un algoritmo voraz, la Programación Dinámica es fundamental en problemas de caminos más cortos cuando hay pesos negativos o cuando se buscan caminos con propiedades específicas (como el número de aristas). Algoritmos como **Bellman-Ford** y **Floyd-Warshall** utilizan principios de PD para encontrar caminos más cortos en [grafos](/blog/cs-fundamentals/algoritmos-estructuras-datos), incluso con ciclos negativos en el caso de Bellman-Ford (detectándolos) o entre todos los pares de nodos en el caso de Floyd-Warshall.
 
 ### 3. Multiplicación Óptima de Cadenas de Matrices
 
@@ -278,7 +278,7 @@ La Programación Dinámica no solo busca resolver problemas, sino resolverlos de
 
 Si bien la memoización y la tabulación usan memoria para almacenar resultados, es posible optimizar el espacio en muchos problemas:
 
-*   **Reutilización de Filas/Columnas:** En problemas de tabla DP (como la mochila), a menudo solo se necesita la fila o columna anterior para calcular la actual. Esto reduce la complejidad espacial de O(N*W) a O(W) o O(N).
+*   **Reutilización de Filas/Columnas:** En problemas de tabla DP (como la mochila), a menudo solo se necesita la fila o columna anterior para calcular la actual. Esto reduce la [complejidad espacial](/blog/cs-fundamentals/complejidad-algoritmica) de O(N*W) a O(W) o O(N).
 *   **Variables Simples:** Como vimos en Fibonacci, si la relación de recurrencia solo depende de un número fijo de estados anteriores, podemos usar unas pocas variables para almacenar esos estados en lugar de una tabla completa, logrando O(1) de espacio.
 
 ### Memoización vs. Tabulación: Cuándo Usar Cuál

@@ -267,6 +267,25 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'indexingControl',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'indexStatus',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Estado de indexación en Google. Se actualiza con Check Status.',
+      },
+    },
+    {
       name: 'internalLinksCount',
       type: 'number',
       admin: {

@@ -62,7 +62,7 @@ Las claves son los cimientos sobre los que se construye la normalización. Permi
 -   **Clave Compuesta (Composite Key):** Una clave primaria formada por dos o más atributos. Se utiliza cuando un solo atributo no es suficiente para garantizar la unicidad.
     *   *Ejemplo:* `(ID_Estudiante, ID_Curso)` en una tabla de `Inscripciones`.
 -   **Clave Candidata (Candidate Key):** Cualquier atributo o conjunto de atributos que puede servir como clave primaria (es decir, es único e irreducible). Una de ellas se elige como clave primaria, y las otras son claves candidatas.
--   **Clave Externa / Foránea (Foreign Key - FK):** Un atributo o conjunto de atributos en una tabla que hace referencia a la clave primaria de otra tabla. Establece y mantiene las relaciones entre tablas, garantizando la integridad referencial.
+-   **Clave Externa / Foránea (Foreign Key - FK):** Un atributo o conjunto de atributos en una tabla que hace referencia a la clave primaria de otra tabla. Establece y mantiene las relaciones entre tablas, garantizando la [integridad referencial](/blog/cs-fundamentals/diseno-bases-datos).
     *   *Ejemplo:* `ID_Estudiante` en la tabla de `Inscripciones` que referencia a `ID_Estudiante` en la tabla de `Estudiantes`.
 -   **Superclave (Superkey):** Cualquier atributo o conjunto de atributos que identifica de forma única una tupla en una tabla. Una clave primaria es una superclave mínima (irreducible). Su comprensión es útil para identificar todas las posibles formas de identificar tuplas y, por ende, para refinar las claves candidatas.
 

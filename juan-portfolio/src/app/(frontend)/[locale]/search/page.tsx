@@ -4,9 +4,9 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import type { Post } from '@/payload-types'
+import { JsonLd } from '@/components/JsonLd'
 
 type Args = {
   params: Promise<{
@@ -16,7 +16,10 @@ type Args = {
     q: string
   }>
 }
-export default async function Page({ params: paramsPromise, searchParams: searchParamsPromise }: Args) {
+export default async function Page({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
   const { locale: rawLocale } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const { q: query } = await searchParamsPromise
@@ -65,16 +68,40 @@ export default async function Page({ params: paramsPromise, searchParams: search
       : {}),
   })
 
+  const searchSchema = query
+    ? {
+        '@type': 'SearchResultsPage',
+        mainEntity: {
+          '@type': 'ItemList',
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          itemListElement: posts.docs.map((post: any, index: number) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            item: {
+              '@type': 'WebPage',
+              url: `https://juan-tech.com${locale === 'es' ? '' : '/en'}/blog/${post.slug}`,
+              name: post.title,
+            },
+          })),
+        },
+      }
+    : null
+
   return (
     <div className="pt-24 pb-24">
+      {searchSchema && <JsonLd schema={searchSchema as any} />}
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">{locale === 'es' ? 'Búsqueda' : 'Search'}</h1>
-
-          <div className="max-w-[50rem] mx-auto">
-            <Search />
-          </div>
+          <h1 className="mb-8 lg:mb-16">
+            {query
+              ? locale === 'es'
+                ? `resultados sobre: ${query}`
+                : `results for: ${query}`
+              : locale === 'es'
+                ? 'búsqueda'
+                : 'search'}
+          </h1>
         </div>
       </div>
 
@@ -91,12 +118,25 @@ export default async function Page({ params: paramsPromise, searchParams: search
 
 import { generateMeta } from '@/utilities/generateMeta'
 
-export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+export async function generateMetadata({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args): Promise<Metadata> {
   const { locale: rawLocale } = await paramsPromise
+  const { q: query } = await searchParamsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
-  return generateMeta({ 
-    doc: { title: locale === 'es' ? 'Búsqueda' : 'Search' }, 
-    locale, 
-    path: '/search' 
+
+  const title = query
+    ? locale === 'es'
+      ? `resultados sobre: ${query}`
+      : `results for: ${query}`
+    : locale === 'es'
+      ? 'búsqueda'
+      : 'search'
+
+  return generateMeta({
+    doc: { title },
+    locale,
+    path: '/search',
   })
 }

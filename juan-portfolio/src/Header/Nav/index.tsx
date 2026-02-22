@@ -3,11 +3,12 @@ import React from 'react'
 import { m } from 'framer-motion'
 import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
+import { NavSearch } from './NavSearch'
 
-type Props = { 
-  data: HeaderType; 
-  mobile?: boolean; 
-  onItemClick?: () => void;
+type Props = {
+  data: HeaderType
+  mobile?: boolean
+  onItemClick?: () => void
   locale?: 'en' | 'es'
 }
 
@@ -55,6 +56,9 @@ export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick, locale =
             />
           </m.div>
         ))}
+        <m.div variants={itemVariants} className="w-full pt-4 mt-4 border-t border-border/50">
+          <NavSearch mobile onItemClick={onItemClick} />
+        </m.div>
       </m.nav>
     )
   }

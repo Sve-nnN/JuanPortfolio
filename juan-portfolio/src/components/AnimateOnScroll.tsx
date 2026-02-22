@@ -14,35 +14,30 @@ interface AnimateOnScrollProps {
 
 export function AnimateOnScroll({ children, config, className, as = 'div' }: AnimateOnScrollProps) {
   const [isMounted, setIsMounted] = useState(false)
-  const ref = React.useRef(null)
-  const isInView = useInView(ref, getViewportOptions(config))
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // If animations are explicitly disabled, or not mounted, or reduced motion, just render children
-  if (config?.enabled === false || !isMounted) {
-    return <div className={className} ref={ref}>{children}</div>
-  }
-
   // Respect reduced motion preference
   const prefersReducedMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>
+  // If animations are explicitly disabled, or not mounted, or reduced motion, just render children
+  if (config?.enabled === false || !isMounted || prefersReducedMotion) {
+    return React.createElement(as as string, { className }, children)
   }
 
   const variants = getAnimationVariants(config)
+  // Added comment to force Hot Module Replacement (HMR) to clear the webpack cache for this file
   const MotionComponent = m[as] as React.ElementType
 
   return (
     <LazyMotion features={domAnimation}>
       <MotionComponent
-        ref={ref}
         initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        whileInView="visible"
+        viewport={{ ...getViewportOptions(config), margin: '0px 0px 500px 0px' }}
         variants={variants}
         className={className}
       >

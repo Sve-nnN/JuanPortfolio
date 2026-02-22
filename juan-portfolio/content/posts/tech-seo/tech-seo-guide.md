@@ -50,7 +50,7 @@ Mide la velocidad de carga percibida.
 - **Priorización**: Implementa `fetchPriority="high"` en la imagen del hero.
 
 ### INP (Interaction to Next Paint)
-Mide la interactividad general de la página. Reemplaza oficialmente al FID.
+Mide la interactividad general de la página. Reemplaza oficialmente al [FID](/blog/tech-seo/core-web-vitals-guide).
 - **Optimización**: Minimiza el tiempo de ejecución de JavaScript y usa Web Workers.
 
 ### CLS (Cumulative Layout Shift)

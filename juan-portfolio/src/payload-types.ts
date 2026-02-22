@@ -295,6 +295,10 @@ export interface Page {
   };
   searchConsole?: {};
   publishedAt?: string | null;
+  /**
+   * Estado de indexación en Google. Se actualiza con Check Status.
+   */
+  indexStatus?: string | null;
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -350,6 +354,10 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
+  /**
+   * Estado de indexación en Google. Se actualiza con Check Status.
+   */
+  indexStatus?: string | null;
   /**
    * Número de enlaces internos detectados en el contenido.
    */
@@ -501,6 +509,10 @@ export interface Category {
   title: string;
   description?: string | null;
   slug?: string | null;
+  /**
+   * Estado de indexación en Google. Se actualiza con Check Status.
+   */
+  indexStatus?: string | null;
   faqs?:
     | {
         question: string;
@@ -2634,6 +2646,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   searchConsole?: T | {};
   publishedAt?: T;
+  indexStatus?: T;
   slug?: T;
   meta?:
     | T
@@ -3186,6 +3199,7 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  indexStatus?: T;
   internalLinksCount?: T;
   slug?: T;
   meta?:
@@ -3302,6 +3316,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   slug?: T;
+  indexStatus?: T;
   faqs?:
     | T
     | {

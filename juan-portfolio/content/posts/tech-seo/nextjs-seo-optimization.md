@@ -42,7 +42,7 @@ slug: nextjs-seo-optimization
 ## Implementación de Componentes Críticos para SEO
 - **Optimización de Meta Tags**: Uso de la Metadata API estática y dinámica.
 - **Structured Data**: Implementación de JSON-LD para Rich Results.
-- **Optimización de Imágenes**: Aprovechando `next/image` para Core Web Vitals.
+- **Optimización de Imágenes**: Aprovechando `next/image` para [Core Web Vitals](/blog/tech-seo/core-web-vitals-guide).
 - **Page Speed**: Estrategias de carga y eliminación de JS innecesario.
 
 ## Automatización Técnica: Sitemap y Robots.txt

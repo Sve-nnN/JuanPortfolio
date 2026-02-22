@@ -11,6 +11,7 @@ import { cn } from '@/utilities/ui'
 import type { Header as HeaderType } from '@/payload-types'
 import { HeaderNav } from './Nav'
 import { CMSLink } from '@/components/Link'
+import { NavSearch } from './Nav/NavSearch'
 
 interface HeaderClientProps {
   data: HeaderType
@@ -28,7 +29,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   })
 
   // The server-provided locale is our absolute source of truth for the active state
@@ -50,11 +51,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
   const toggleLocale = () => {
     const isCurrentlyEn = currentLocale === 'en'
     const newLocale = isCurrentlyEn ? 'es' : 'en'
-    
+
     setLocaleContext(newLocale)
-    
+
     let newPath = pathname
-    
+
     // Normalize path: remove trailing slash if it's not just '/'
     const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '')
 
@@ -68,16 +69,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
     } else {
       // Moving EN -> ES
       if (cleanPath.startsWith('/en')) {
-        // Remove '/en' prefix. 
+        // Remove '/en' prefix.
         // If cleanPath is '/en', result is '/'
         // If cleanPath is '/en/blog', result is '/blog'
         newPath = cleanPath.replace(/^\/en/, '') || '/'
       }
     }
-    
+
     // Ensure we don't have double slashes
     newPath = newPath.replace(/\/+/g, '/') || '/'
-    
+
     window.location.href = newPath
   }
 
@@ -114,6 +115,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
               </m.span>
             </Link>
 
+            <div className="hidden md:block">
+              <NavSearch />
+            </div>
+
             {/* Desktop Navigation */}
             <div className="hidden md:block">
               <HeaderNav data={data} locale={currentLocale} />
@@ -126,17 +131,28 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
                 onClick={toggleLocale}
                 aria-label={currentLocale === 'es' ? 'Switch to English' : 'Cambiar a Español'}
               >
-                <Globe size={16} className="text-primary group-hover:rotate-12 transition-transform" />
+                <Globe
+                  size={16}
+                  className="text-primary group-hover:rotate-12 transition-transform"
+                />
                 <span className="flex items-center space-x-1.5">
-                  <span className={cn(
-                    'transition-colors duration-300',
-                    currentLocale === 'es' ? 'text-primary' : 'text-foreground/40'
-                  )}>ES</span>
+                  <span
+                    className={cn(
+                      'transition-colors duration-300',
+                      currentLocale === 'es' ? 'text-primary' : 'text-foreground/40',
+                    )}
+                  >
+                    ES
+                  </span>
                   <span className="opacity-20 text-foreground">/</span>
-                  <span className={cn(
-                    'transition-colors duration-300',
-                    currentLocale === 'en' ? 'text-primary' : 'text-foreground/40'
-                  )}>EN</span>
+                  <span
+                    className={cn(
+                      'transition-colors duration-300',
+                      currentLocale === 'en' ? 'text-primary' : 'text-foreground/40',
+                    )}
+                  >
+                    EN
+                  </span>
                 </span>
               </button>
 
@@ -193,7 +209,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
                   </div>
 
                   <div className="flex-1">
-                    <HeaderNav data={data} mobile locale={currentLocale} onItemClick={() => setIsOpen(false)} />
+                    <HeaderNav
+                      data={data}
+                      mobile
+                      locale={currentLocale}
+                      onItemClick={() => setIsOpen(false)}
+                    />
                   </div>
 
                   <div className="mt-auto space-y-6">

@@ -6,14 +6,16 @@ import Image from 'next/image'
 import { CMSLink } from '@/components/Link'
 import { motion } from 'framer-motion'
 
-export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 'es' }> = (props) => {
+export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 'es' }> = (
+  props,
+) => {
   const { title, description, clients, ctaLabel, ctaUrl, autoScroll = true, locale = 'es' } = props
-  
+
   if (!clients || clients.length === 0) return null
 
   // Ensure we have a flat array of objects
   const clientDocs = clients.filter((c): c is Cliente => typeof c === 'object')
-  
+
   if (clientDocs.length === 0) return null
 
   // Multiple sets for seamless infinite loop regardless of screen width
@@ -35,7 +37,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
           )}
         </div>
       </div>
-      
+
       <div className="relative group">
         {/* Gradients overlays for fade effect at edges */}
         <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
@@ -43,7 +45,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
 
         <div className="flex overflow-hidden py-12">
           {autoScroll ? (
-            <motion.div 
+            <motion.div
               className="flex gap-12 md:gap-24 items-center"
               animate={{
                 x: [0, -100 * clientDocs.length],
@@ -51,26 +53,26 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
               transition={{
                 x: {
                   repeat: Infinity,
-                  repeatType: "loop",
+                  repeatType: 'loop',
                   duration: 40,
-                  ease: "linear",
+                  ease: 'linear',
                 },
               }}
-              whileHover={{ transition: { duration: 80 } }} 
+              whileHover={{ transition: { duration: 80 } }}
             >
               {duplicatedClients.map((c, i) => {
                 const logo = c.logo as MediaType
                 return (
-                  <div 
-                    key={i} 
-                    className="relative w-40 md:w-64 h-24 md:h-32 flex-shrink-0 flex items-center justify-center p-8 rounded-[2rem] bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
+                  <div
+                    key={i}
+                    className="relative w-40 md:w-64 h-24 md:h-32 flex-shrink-0 flex items-center justify-center p-8 rounded-[2rem] bg-white border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
                     {logo && logo.url && (
-                      <Image 
-                        src={logo.url} 
-                        alt={c.name || 'Client'} 
-                        fill 
-                        className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700" 
+                      <Image
+                        src={logo.url}
+                        alt={c.name || 'Client'}
+                        fill
+                        className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700"
                       />
                     )}
                   </div>
@@ -82,16 +84,16 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
               {clientDocs.map((c, i) => {
                 const logo = c.logo as MediaType
                 return (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="relative w-40 md:w-64 h-24 md:h-32 flex items-center justify-center p-8 rounded-[2rem] bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
                     {logo && logo.url && (
-                      <Image 
-                        src={logo.url} 
-                        alt={c.name || 'Client'} 
-                        fill 
-                        className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700" 
+                      <Image
+                        src={logo.url}
+                        alt={c.name || 'Client'}
+                        fill
+                        className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700"
                       />
                     )}
                   </div>
@@ -102,7 +104,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
         </div>
       </div>
 
-      {(ctaLabel && ctaUrl) && (
+      {ctaLabel && ctaUrl && (
         <div className="container mx-auto px-4 mt-16 md:mt-24 text-center">
           <CMSLink
             url={ctaUrl}

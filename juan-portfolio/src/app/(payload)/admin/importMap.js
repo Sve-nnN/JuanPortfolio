@@ -11,6 +11,7 @@ import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { GSCField as GSCField_60d1527e85f11a2e06a73da50fac39ae } from '@/components/admin/GSCField'
 import { GSCCell as GSCCell_45d4dbad09c7662e5d84c7f89fc58baf } from '@/components/admin/GSCCell'
+import { IndexingControl as IndexingControl_104607a46c4d91ccac02d7771e81a8c7 } from '@/components/admin/IndexingControl'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -51,6 +52,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/admin/GSCField#GSCField": GSCField_60d1527e85f11a2e06a73da50fac39ae,
   "@/components/admin/GSCCell#GSCCell": GSCCell_45d4dbad09c7662e5d84c7f89fc58baf,
+  "@/components/admin/IndexingControl#IndexingControl": IndexingControl_104607a46c4d91ccac02d7771e81a8c7,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,

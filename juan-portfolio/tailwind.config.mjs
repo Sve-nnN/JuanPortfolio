@@ -150,6 +150,39 @@ const config = {
                 fontWeight: 'normal',
                 marginBottom: '0.25em',
               },
+              ol: {
+                listStyleType: 'decimal',
+                paddingLeft: '1.5em',
+              },
+              'ol li': {
+                paddingLeft: '0.25em',
+              },
+              ul: {
+                listStyleType: 'disc',
+                paddingLeft: '1.5em',
+              },
+              'ul li': {
+                paddingLeft: '0.25em',
+              },
+              // Explicit styles for nested lists within ordered lists
+              'ol li ul': {
+                marginTop: '0.5em', // Add some space above nested ul
+                marginBottom: '0.5em', // Add some space below nested ul
+                paddingLeft: '1.5em', // Indent nested ul
+                listStyleType: 'disc', // Ensure disc bullet for nested ul
+              },
+              'ol li ul li': {
+                paddingLeft: '0.25em', // Adjust padding for nested ul li
+              },
+              'ol li ol': { // If there are nested ordered lists
+                marginTop: '0.5em',
+                marginBottom: '0.5em',
+                paddingLeft: '1.5em',
+                listStyleType: 'lower-alpha', // Example: a., b., c. for nested ol
+              },
+              'ol li ol li': {
+                paddingLeft: '0.25em',
+              },
             },
           ],
         },

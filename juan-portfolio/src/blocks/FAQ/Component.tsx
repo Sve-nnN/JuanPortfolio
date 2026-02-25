@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
@@ -26,7 +28,7 @@ export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {
                 {faq.question}
               </h3>
             </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground text-lg md:text-xl leading-relaxed pb-8 font-medium">
+            <AccordionContent className="text-muted-foreground text-lg md:text-xl leading-relaxed pb-8 font-medium whitespace-pre-wrap">
               {faq.answer}
             </AccordionContent>
           </AccordionItem>

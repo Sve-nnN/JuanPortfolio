@@ -1,16 +1,20 @@
 import fs from 'fs'
 import path from 'path'
-import crypto from 'crypto'
-import matter from 'gray-matter'
 import { getPayload } from 'payload'
 import config from '../payload.config'
-import { convertLexicalToMarkdown, convertMarkdownToLexical } from './utils/markdownConverter'
+import { convertLexicalToMarkdown } from './utils/markdownConverter'
+import matter from 'gray-matter'
+
+import { loadState, saveState, calculateHash, getAllMdFiles } from './sync/stateManager'
+import { parsePostFile, validatePost, buildPostData } from './sync/postParser'
+import { PayloadRepository } from './sync/payloadRepository'
+import type { SyncState, FileState, Locale, ResolvedIds } from './sync/types'
 
 const CONTENT_DIR = path.resolve(process.cwd(), 'content/posts')
 const SYNC_STATE_FILE = path.resolve(process.cwd(), 'content/content-sync.json')
 
 // ANSI Colors
-const colors = {
+const c = {
   reset: '\x1b[0m',
   bright: '\x1b[1m',
   green: '\x1b[32m',
@@ -19,63 +23,22 @@ const colors = {
   blue: '\x1b[34m',
 }
 
-interface FileState {
-  id: string
-  slug: string
-  idioma: 'en' | 'es'
-  lastLocalHash: string
-  lastRemoteUpdatedAt: string
-}
-
-interface SyncState {
-  files: Record<string, FileState>
-}
-
-// --- Helpers ---
-
-const calculateHash = (content: string): string => {
-  return crypto.createHash('sha256').update(content).digest('hex')
-}
-
-const loadState = (): SyncState => {
-  if (fs.existsSync(SYNC_STATE_FILE)) {
-    return JSON.parse(fs.readFileSync(SYNC_STATE_FILE, 'utf-8'))
-  }
-  return { files: {} }
-}
-
-const saveState = (state: SyncState) => {
-  fs.writeFileSync(SYNC_STATE_FILE, JSON.stringify(state, null, 2))
-}
-
-const getAllFiles = (dir: string, allFiles: string[] = []) => {
-  const files = fs.readdirSync(dir)
-  for (const file of files) {
-    const filePath = path.join(dir, file)
-    if (fs.statSync(filePath).isDirectory()) {
-      getAllFiles(filePath, allFiles)
-    } else if (file.endsWith('.md')) {
-      allFiles.push(filePath)
-    }
-  }
-  return allFiles
-}
-
-// --- Sync Manager ---
+// --- ContentSyncManager ---
 
 class ContentSyncManager {
-  private payload: any
+  private repo!: PayloadRepository
   private state: SyncState
 
   constructor() {
-    this.state = loadState()
+    this.state = loadState(SYNC_STATE_FILE)
   }
 
   async init() {
-    if (!this.payload) {
-      process.stdout.write(`${colors.blue}⏳ Initializing Payload...${colors.reset}`)
-      this.payload = await getPayload({ config })
-      process.stdout.write(`${colors.green}✅ Payload initialized.       \n${colors.reset}`)
+    if (!this.repo) {
+      process.stdout.write(`${c.blue}⏳ Initializing Payload...${c.reset}`)
+      const payload = await getPayload({ config })
+      this.repo = new PayloadRepository(payload as Parameters<typeof PayloadRepository>[0])
+      process.stdout.write(`${c.green}✅ Payload initialized.       \n${c.reset}`)
     }
   }
 
@@ -83,352 +46,232 @@ class ContentSyncManager {
 
   async status() {
     await this.init()
-    console.log(`\n${colors.bright}📡 Sync Status:${colors.reset}\n`)
+    console.log(`\n${c.bright}📡 Sync Status:${c.reset}\n`)
 
-    const files = getAllFiles(CONTENT_DIR)
+    const files = getAllMdFiles(CONTENT_DIR)
     const relativeFiles = files.map(f => path.relative(CONTENT_DIR, f))
-    
-    // Check for untracked files
+
     const untracked = relativeFiles.filter(f => !this.state.files[f])
     if (untracked.length > 0) {
-      console.log(`${colors.yellow}?? Untracked files (${untracked.length}):${colors.reset}`)
+      console.log(`${c.yellow}?? Untracked files (${untracked.length}):${c.reset}`)
       untracked.forEach(f => console.log(`   ${f}`))
       console.log('')
     }
 
-    // Check tracked files
     for (const relPath of Object.keys(this.state.files)) {
       if (!relativeFiles.includes(relPath)) {
-        console.log(`${colors.red}D  Deleted: ${relPath}${colors.reset}`)
+        console.log(`${c.red}D  Deleted: ${relPath}${c.reset}`)
         continue
       }
 
       const fileState = this.state.files[relPath]
       const fullPath = path.join(CONTENT_DIR, relPath)
       const content = fs.readFileSync(fullPath, 'utf-8')
-      const currentHash = calculateHash(content)
-      
-      const localChanged = currentHash !== fileState.lastLocalHash
+      const localChanged = calculateHash(content) !== fileState.lastLocalHash
 
-      // Fetch remote status
-      const remoteDoc = await this.payload.findByID({
-        collection: 'posts',
-        id: fileState.id,
-        locale: fileState.idioma,
-      })
-
-      const remoteUpdatedAt = new Date(remoteDoc.updatedAt).getTime()
-      const lastSyncedRemote = new Date(fileState.lastRemoteUpdatedAt).getTime()
-      
-      const remoteChanged = remoteUpdatedAt > lastSyncedRemote
+      const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+      const remoteChanged =
+        new Date(remoteDoc.updatedAt as string).getTime() >
+        new Date(fileState.lastRemoteUpdatedAt).getTime()
 
       if (localChanged && remoteChanged) {
-        console.log(`${colors.red}C  Conflict: ${relPath} (Both modified)${colors.reset}`)
+        console.log(`${c.red}C  Conflict: ${relPath} (Both modified)${c.reset}`)
       } else if (localChanged) {
-        console.log(`${colors.green}M  Modified (Local): ${relPath}${colors.reset}`)
+        console.log(`${c.green}M  Modified (Local): ${relPath}${c.reset}`)
       } else if (remoteChanged) {
-        console.log(`${colors.blue}U  Update (Remote): ${relPath}${colors.reset}`)
+        console.log(`${c.blue}U  Update (Remote): ${relPath}${c.reset}`)
       }
     }
   }
 
   async fetch() {
     await this.init()
-    console.log(`${colors.blue}⬇️  Fetching remote state...${colors.reset}`)
-    
+    console.log(`${c.blue}⬇️  Fetching remote state...${c.reset}`)
+
     for (const [relPath, fileState] of Object.entries(this.state.files)) {
       try {
-        const remoteDoc = await this.payload.findByID({
-          collection: 'posts',
-          id: fileState.id,
-          locale: fileState.idioma,
-        })
-        
-        const remoteDate = new Date(remoteDoc.updatedAt).getTime()
+        const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+        const remoteDate = new Date(remoteDoc.updatedAt as string).getTime()
         const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
-
         if (remoteDate > lastSyncDate) {
-           console.log(`   ${colors.blue}* New changes for ${relPath}${colors.reset}`)
+          console.log(`   ${c.blue}* New changes for ${relPath}${c.reset}`)
         }
-      } catch (error) {
-        console.log(`   ${colors.red}! Remote post not found for ${relPath} (ID: ${fileState.id}) — ${error}${colors.reset}`)
+      } catch {
+        console.log(`   ${c.red}! Remote post not found for ${relPath} (ID: ${fileState.id})${c.reset}`)
       }
     }
-    console.log(`${colors.green}✅ Fetch complete.${colors.reset}`)
+    console.log(`${c.green}✅ Fetch complete.${c.reset}`)
   }
 
   async pull() {
     await this.init()
-    console.log(`${colors.blue}⬇️  Pulling changes...${colors.reset}`)
+    console.log(`${c.blue}⬇️  Pulling changes...${c.reset}`)
 
     for (const [relPath, fileState] of Object.entries(this.state.files)) {
       const fullPath = path.join(CONTENT_DIR, relPath)
-      
       if (!fs.existsSync(fullPath)) continue
 
-      const content = fs.readFileSync(fullPath, 'utf-8')
-      const currentHash = calculateHash(content)
-      const localChanged = currentHash !== fileState.lastLocalHash
+      const rawContent = fs.readFileSync(fullPath, 'utf-8')
+      const localChanged = calculateHash(rawContent) !== fileState.lastLocalHash
 
-      const remoteDoc = await this.payload.findByID({
-        collection: 'posts',
-        id: fileState.id,
-        locale: fileState.idioma,
-      })
-
-      const remoteUpdatedAt = remoteDoc.updatedAt
+      const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+      const remoteUpdatedAt = remoteDoc.updatedAt as string
       const remoteDate = new Date(remoteUpdatedAt).getTime()
       const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
 
-      if (remoteDate > lastSyncDate) {
-        if (localChanged) {
-          console.log(`${colors.red}❌ Conflict in ${relPath}. Local changes would be overwritten.${colors.reset}`)
-          continue
-        }
+      if (remoteDate <= lastSyncDate) continue
 
-        const mdContent = convertLexicalToMarkdown(remoteDoc.content.content)
-        
-        const frontmatter = {
-          title: remoteDoc.title,
-          slug: remoteDoc.slug,
-          idioma: fileState.idioma,
-          publishedAt: remoteDoc.publishedAt,
-          updatedAt: remoteDoc.updatedAt,
-          authors: remoteDoc.authors?.map((a: any) => a.id || a),
-        }
-
-        const newFileContent = matter.stringify(mdContent, frontmatter)
-        fs.writeFileSync(fullPath, newFileContent, 'utf-8')
-        
-        this.state.files[relPath] = {
-          ...fileState,
-          lastLocalHash: calculateHash(newFileContent),
-          lastRemoteUpdatedAt: remoteUpdatedAt
-        }
-        saveState(this.state)
-        console.log(`${colors.green}✅ Updated ${relPath}${colors.reset}`)
+      if (localChanged) {
+        console.log(`${c.red}❌ Conflict in ${relPath}. Local changes would be overwritten.${c.reset}`)
+        continue
       }
+
+      const mdContent = convertLexicalToMarkdown(
+        (remoteDoc.content as { content: Parameters<typeof convertLexicalToMarkdown>[0] }).content,
+      )
+      const frontmatter = {
+        title: remoteDoc.title,
+        slug: remoteDoc.slug,
+        idioma: fileState.locale,
+        publishedAt: remoteDoc.publishedAt,
+        updatedAt: remoteDoc.updatedAt,
+        authors: (remoteDoc.authors as Array<{ id?: string } | string>)?.map(
+          a => (typeof a === 'string' ? a : a.id ?? a),
+        ),
+      }
+
+      const newFileContent = matter.stringify(mdContent, frontmatter)
+      fs.writeFileSync(fullPath, newFileContent, 'utf-8')
+
+      this.state.files[relPath] = {
+        ...fileState,
+        lastLocalHash: calculateHash(newFileContent),
+        lastRemoteUpdatedAt: remoteUpdatedAt,
+      }
+      saveState(SYNC_STATE_FILE, this.state)
+      console.log(`${c.green}✅ Updated ${relPath}${c.reset}`)
     }
   }
 
   async push(force = false, postFilename?: string) {
     await this.init()
-    console.log(`${colors.blue}⬆️  Pushing changes...${colors.reset}`)
+    console.log(`${c.blue}⬆️  Pushing changes...${c.reset}`)
 
-    let filesToProcess = getAllFiles(CONTENT_DIR)
+    let filesToProcess = getAllMdFiles(CONTENT_DIR)
 
     if (postFilename) {
       const fullPath = path.join(CONTENT_DIR, postFilename)
       if (!fs.existsSync(fullPath)) {
-        console.log(`${colors.red}❌ Error: Post file '${postFilename}' not found.${colors.reset}`)
+        console.log(`${c.red}❌ Error: Post file '${postFilename}' not found.${c.reset}`)
         return
       }
       filesToProcess = [fullPath]
-      console.log(`${colors.yellow}🔍 Syncing specific post: ${postFilename}${colors.reset}`)
+      console.log(`${c.yellow}🔍 Syncing specific post: ${postFilename}${c.reset}`)
     }
-    
+
     for (const fullPath of filesToProcess) {
       const relPath = path.relative(CONTENT_DIR, fullPath)
-      const content = fs.readFileSync(fullPath, 'utf-8')
-      const { data, content: mdBody } = matter(content)
-      const frontmatter = data as any
-      const currentHash = calculateHash(content)
+      const rawContent = fs.readFileSync(fullPath, 'utf-8')
+      const parsed = parsePostFile(fullPath, rawContent)
+      const currentHash = calculateHash(rawContent)
+
+      const validationErrors = validatePost(parsed)
+      if (validationErrors.length > 0) {
+        console.log(
+          `${c.yellow}⚠️  Skipping ${relPath}: ${validationErrors.join(', ')}${c.reset}`,
+        )
+        continue
+      }
 
       const fileState = this.state.files[relPath]
       const isNew = !fileState
 
-      if (!frontmatter.title || !frontmatter.idioma) {
-        console.log(`${colors.yellow}⚠️  Skipping ${relPath}: Missing title or idioma${colors.reset}`)
-        continue
-      }
-
-      const slug = frontmatter.slug || path.basename(fullPath).replace('.md', '')
-
       if (!isNew && !force) {
-        if (currentHash === fileState.lastLocalHash) {
-          continue
-        }
+        if (currentHash === fileState.lastLocalHash) continue
 
-        const remoteDoc = await this.payload.findByID({
-          collection: 'posts',
-          id: fileState.id,
-          locale: fileState.idioma,
-        })
-        
-        const remoteDate = new Date(remoteDoc.updatedAt).getTime()
+        const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+        const remoteDate = new Date(remoteDoc.updatedAt as string).getTime()
         const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
 
         if (remoteDate > lastSyncDate) {
-          console.log(`${colors.red}❌ Conflict in ${relPath}: Remote has changed since last sync.${colors.reset}`)
+          console.log(
+            `${c.red}❌ Conflict in ${relPath}: Remote has changed since last sync.${c.reset}`,
+          )
           continue
         }
       }
 
-      const lexicalContent = convertMarkdownToLexical(
-        mdBody, 
-        frontmatter.primary_keywords?.[0], 
-        frontmatter.idioma
-      )
-      
-      let primaryKeywordId
-      if (frontmatter.primary_keywords?.[0]) {
-        primaryKeywordId = await this.resolveKeyword(frontmatter.primary_keywords[0])
-      }
-
-      const semanticKeywordIds = []
-      if (frontmatter.semantic_keywords) {
-        for (const kw of frontmatter.semantic_keywords) {
-          const id = await this.resolveKeyword(kw)
-          if (id) semanticKeywordIds.push(id)
-        }
-      }
-
-      // Resolve authors
-      const authorIds = []
-      if (frontmatter.authors && Array.isArray(frontmatter.authors)) {
-        for (const authorSlug of frontmatter.authors) {
-          const id = await this.resolveAuthor(authorSlug)
-          if (id) authorIds.push(id)
-        }
-      }
-
-      // Resolve categories
-      const categoryIds = []
-      if (frontmatter.categoryTitle) { // Support existing categoryTitle field
-        const categorySlug = frontmatter.categoryTitle.toLowerCase().replace(/\s+/g, '-') // Basic slugification
-        const id = await this.resolveCategory(categorySlug)
-        if (id) categoryIds.push(id)
-      }
-      if (frontmatter.categories && Array.isArray(frontmatter.categories)) { // Prefer categories array if present
-        for (const catSlug of frontmatter.categories) {
-          const id = await this.resolveCategory(catSlug)
-          if (id) categoryIds.push(id)
-        }
-      }
-
-
-      const postData: any = {
-        title: frontmatter.title,
-        slug: slug,
-        content: {
-          content: lexicalContent,
-        },
-        primaryKeyword: primaryKeywordId,
-        semanticKeywords: semanticKeywordIds,
-        publishedAt: frontmatter.publishedAt || new Date().toISOString(),
-        _status: frontmatter.status || (frontmatter.uploaded === false ? 'draft' : 'published'), // Read status from frontmatter
-        meta: {
-          title: frontmatter.metaTitle,
-          description: frontmatter.metaDescription,
-        },
-        authors: authorIds,
-        categories: categoryIds,
-      }
+      const resolved = await this.resolveRelationships(parsed)
+      const postData = buildPostData(parsed, resolved)
 
       let docID = fileState?.id
-      let resultDoc
+      let resultDoc: Record<string, unknown>
 
       try {
         if (docID) {
-          resultDoc = await this.payload.update({
-            collection: 'posts',
-            id: docID,
-            data: postData,
-            locale: frontmatter.idioma,
-            context: { disableRevalidate: true },
-          })
+          resultDoc = await this.repo.updatePost(docID, postData, parsed.locale)
         } else {
-          const existing = await this.payload.find({
-            collection: 'posts',
-            where: { slug: { equals: slug } },
-            limit: 1,
-          })
-
-          if (existing.docs.length > 0) {
-            docID = existing.docs[0].id
-            resultDoc = await this.payload.update({
-              collection: 'posts',
-              id: docID,
-              data: postData,
-              locale: frontmatter.idioma,
-              context: { disableRevalidate: true },
-            })
+          const existing = await this.repo.findPostBySlug(parsed.slug)
+          if (existing) {
+            docID = existing.id
+            resultDoc = await this.repo.updatePost(docID, postData, parsed.locale)
           } else {
-            resultDoc = await this.payload.create({
-              collection: 'posts',
-              data: postData,
-              locale: frontmatter.idioma,
-              context: { disableRevalidate: true },
-            })
-            docID = resultDoc.id
+            resultDoc = await this.repo.createPost(postData, parsed.locale)
+            docID = resultDoc.id as string
           }
         }
 
-        this.state.files[relPath] = {
+        const newState: FileState = {
           id: docID,
-          slug,
-          idioma: frontmatter.idioma,
+          slug: parsed.slug,
+          locale: parsed.locale,
           lastLocalHash: currentHash,
-          lastRemoteUpdatedAt: resultDoc.updatedAt,
+          lastRemoteUpdatedAt: resultDoc.updatedAt as string,
         }
-        saveState(this.state)
-        console.log(`${colors.green}✅ Pushed ${relPath}${colors.reset}`)
-
+        this.state.files[relPath] = newState
+        saveState(SYNC_STATE_FILE, this.state)
+        console.log(`${c.green}✅ Pushed ${relPath}${c.reset}`)
       } catch (error) {
-        console.log(`${colors.red}❌ Error pushing ${relPath}: ${error}${colors.reset}`)
+        console.log(`${c.red}❌ Error pushing ${relPath}: ${error}${c.reset}`)
       }
     }
   }
 
-  private async resolveKeyword(keyword: string): Promise<string | null> {
-    try {
-      const found = await this.payload.find({
-        collection: 'keyword-metrics',
-        where: { keyword: { equals: keyword } },
-        limit: 1,
-      })
-      if (found.docs.length > 0) {
-        return found.docs[0].id
-      }
-      return null
-    } catch (error) {
-      console.error(`Error resolving keyword ${keyword}:`, error)
-      return null
-    }
-  }
+  // --- Private helpers ---
 
-  private async resolveAuthor(authorSlug: string): Promise<string | null> {
-    try {
-      const found = await this.payload.find({
-        collection: 'users',
-        where: { slug: { equals: authorSlug } }, // Assuming users have a slug field
-        limit: 1,
-      })
-      if (found.docs.length > 0) {
-        return found.docs[0].id
-      }
-      return null
-    } catch (error) {
-      console.error(`Error resolving author ${authorSlug}:`, error)
-      return null
-    }
-  }
+  private async resolveRelationships(
+    post: ReturnType<typeof parsePostFile>,
+  ): Promise<ResolvedIds> {
+    const { frontmatter } = post
 
-  private async resolveCategory(categorySlug: string): Promise<string | null> {
-    try {
-      const found = await this.payload.find({
-        collection: 'categories',
-        where: { slug: { equals: categorySlug } }, // Assuming categories have a slug field
-        limit: 1,
-      })
-      if (found.docs.length > 0) {
-        return found.docs[0].id
-      }
-      return null
-    } catch (error) {
-      console.error(`Error resolving category ${categorySlug}:`, error)
-      return null
+    const primaryKeywordId = frontmatter.primary_keywords?.[0]
+      ? await this.repo.resolveKeyword(frontmatter.primary_keywords[0])
+      : undefined
+
+    const semanticKeywordIds: string[] = []
+    for (const kw of frontmatter.semantic_keywords ?? []) {
+      const id = await this.repo.resolveKeyword(kw)
+      if (id) semanticKeywordIds.push(id)
     }
+
+    const authorIds: string[] = []
+    for (const slug of frontmatter.authors ?? []) {
+      const id = await this.repo.resolveAuthor(slug)
+      if (id) authorIds.push(id)
+    }
+
+    const categoryIds: string[] = []
+    if (frontmatter.categoryTitle) {
+      const slug = frontmatter.categoryTitle.toLowerCase().replace(/\s+/g, '-')
+      const id = await this.repo.resolveCategory(slug)
+      if (id) categoryIds.push(id)
+    }
+    for (const catSlug of frontmatter.categories ?? []) {
+      const id = await this.repo.resolveCategory(catSlug)
+      if (id) categoryIds.push(id)
+    }
+
+    return { primaryKeywordId: primaryKeywordId ?? undefined, semanticKeywordIds, authorIds, categoryIds }
   }
 }
 
@@ -457,7 +300,9 @@ const run = async () => {
       await manager.push(force, postFilename)
       break
     default:
-      console.log('Usage: tsx src/scripts/syncContent.ts [status|fetch|pull|push] [--force] [--post=<filename.md>]')
+      console.log(
+        'Usage: tsx src/scripts/syncContent.ts [status|fetch|pull|push] [--force] [--post=<filename.md>]',
+      )
       break
   }
   process.exit(0)

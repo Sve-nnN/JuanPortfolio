@@ -1,7 +1,7 @@
 ---
 title: "Algoritmos de ordenamiento: Mejora la eficiencia de tus datos"
-publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-17T00:00:00.000Z
+publishedAt: 2026-02-11
+updatedAt: 2026-02-17
 authors:
   - juan-carlos-angulo
 heroImage:
@@ -146,17 +146,20 @@ void printArray(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         printf("%d ", arr[i]);
     }
-    printf("\n");
+    printf("
+");
 }
 
 // Ejemplo de uso
 int main() {
     int arr[] = {64, 34, 25, 12, 22, 11, 90};
     int n = sizeof(arr)/sizeof(arr[0]);
-    printf("Arreglo original: \n");
+    printf("Arreglo original: 
+");
     printArray(arr, n);
     bubbleSort(arr, n);
-    printf("Arreglo ordenado: \n");
+    printf("Arreglo ordenado: 
+");
     printArray(arr, n);
     return 0;
 }
@@ -221,16 +224,19 @@ void printArray(int arr[], int size) {
     for (int i=0; i < size; i++) {
         printf("%d ", arr[i]);
     }
-    printf("\n");
+    printf("
+");
 }
 
 int main() {
     int arr[] = {64, 25, 12, 22, 11};
     int n = sizeof(arr)/sizeof(arr[0]);
-    printf("Arreglo original: \n");
+    printf("Arreglo original: 
+");
     printArray(arr, n);
     selectionSort(arr, n);
-    printf("Arreglo ordenado: \n");
+    printf("Arreglo ordenado: 
+");
     printArray(arr, n);
     return 0;
 }
@@ -288,16 +294,19 @@ void printArray(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         printf("%d ", arr[i]);
     }
-    printf("\n");
+    printf("
+");
 }
 
 int main() {
     int arr[] = {12, 11, 13, 5, 6};
     int n = sizeof(arr) / sizeof(arr[0]);
-    printf("Arreglo original: \n");
+    printf("Arreglo original: 
+");
     printArray(arr, n);
     insertionSort(arr, n);
-    printf("Arreglo ordenado: \n");
+    printf("Arreglo ordenado: 
+");
     printArray(arr, n);
     return 0;
 }
@@ -402,16 +411,19 @@ void printArray(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         printf("%d ", arr[i]);
     }
-    printf("\n");
+    printf("
+");
 }
 
 int main() {
     int arr[] = {12, 11, 13, 5, 6, 7};
     int n = sizeof(arr) / sizeof(arr[0]);
-    printf("Arreglo original: \n");
+    printf("Arreglo original: 
+");
     printArray(arr, n);
     mergeSort(arr, 0, n - 1);
-    printf("Arreglo ordenado: \n");
+    printf("Arreglo ordenado: 
+");
     printArray(arr, n);
     return 0;
 }
@@ -508,16 +520,19 @@ void printArray(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         printf("%d ", arr[i]);
     }
-    printf("\n");
+    printf("
+");
 }
 
 int main() {
     int arr[] = {10, 7, 8, 9, 1, 5};
     int n = sizeof(arr) / sizeof(arr[0]);
-    printf("Arreglo original: \n");
+    printf("Arreglo original: 
+");
     printArray(arr, n);
     quickSort(arr, 0, n - 1);
-    printf("Arreglo ordenado: \n");
+    printf("Arreglo ordenado: 
+");
     printArray(arr, n);
     return 0;
 }
@@ -570,9 +585,9 @@ Una de las desventajas más significativas del Heapsort es que no es un algoritm
 
 // Función para intercambiar dos elementos
 void swap(int *a, int *b) {
-    int temp = *a;
+    int t = *a;
     *a = *b;
-    *b = temp;
+    *b = t;
 }
 
 void heapify(int arr[], int n, int i) {
@@ -605,16 +620,19 @@ void heapSort(int arr[], int n) {
 void printArray(int arr[], int n) {
     for (int i = 0; i < n; ++i)
         printf("%d ", arr[i]);
-    printf("\n");
+    printf("
+");
 }
 
 int main() {
     int arr[] = {12, 11, 13, 5, 6, 7};
     int n = sizeof(arr) / sizeof(arr[0]);
-    printf("Arreglo original: \n");
+    printf("Arreglo original: 
+");
     printArray(arr, n);
     heapSort(arr, n);
-    printf("Arreglo ordenado: \n");
+    printf("Arreglo ordenado: 
+");
     printArray(arr, n);
     return 0;
 }

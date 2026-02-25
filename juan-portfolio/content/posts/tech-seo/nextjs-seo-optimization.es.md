@@ -1,7 +1,7 @@
 ---
 title: 'Next.js SEO: Optimizando App Router y Metadata API'
-publishedAt: 2026-02-09T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+publishedAt: 2026-02-09
+updatedAt: 2026-02-24
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -27,40 +27,6 @@ semantic_keywords:
 uploaded: true
 idioma: es
 slug: nextjs-seo-optimization
----
-
----
-
-title: 'Next.js SEO: Optimizando App Router y Metadata API'
-publishedAt: 2026-02-09T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
-authors:
-
-- juan-carlos-angulo
-  heroImage: null
-  categoryTitle: Technical SEO
-  relatedPosts:
-- technical-seo-guide
-- robots-txt-best-practices
-- schema-markup-guide
-  sidebarBanners: []
-  metaTitle: 'Next.js 15 App Router SEO: Guía Completa de Optimización'
-  metaDescription: >-
-  Aprende a optimizar el SEO en Next.js 15. Domina la Metadata API, JSON-LD estructurado, optimización de imágenes (next/image) y la generación de sitemaps.
-  primary_keywords:
-- optimización SEO en Next.js
-- Next.js SEO
-- Next.js 15 App Router SEO
-  semantic_keywords:
-- Metadata API Next.js
-- JSON-LD Next.js
-- next/image SEO
-- crear sitemap Next.js
-- generateMetadata
-  uploaded: true
-  idioma: es
-  slug: nextjs-seo-optimization
-
 ---
 
 El **App Router de Next.js 15** eliminó la necesidad de manipular manualmente la etiqueta `<Head>`, integrando la optimización SEO directamente en el ciclo de vida de los React Server Components (RSC). En este artículo, te enseñaré cómo implementar la **Metadata API**, estructurar JSON-LD dinámico y optimizar el rendimiento visual (LCP) utilizando componentes nativos.
@@ -123,7 +89,7 @@ export async function generateMetadata({
 }
 ```
 
-## 2. Datos Estructurados (JSON-LD) en Server Components
+<h2>2. Datos Estructurados (JSON-LD) en Server Components</h2>
 
 La **Generative Engine Optimization (GEO)** y los motores SGE dependen fuertemente de los datos estructurados. Recomiendo inyectar el marcado JSON-LD directamente en el DOM utilizando una etiqueta `<script>` serializada dentro de un Server Component.
 
@@ -161,7 +127,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
 Para dominar la sintaxis completa de marcado esquemático, revisa nuestra [Guía de Schema Markup](./schema-markup-guide).
 
-## 3. Optimización LCP con `next/image`
+<h2>3. Optimización LCP con `next/image`</h2>
 
 Las imágenes sin optimizar son la principal causa de un LCP (Largest Contentful Paint) deficiente. El componente nativo `<Image />` previene penalizaciones arquitectónicas automatizando procesos clave:
 
@@ -183,18 +149,18 @@ import Image from 'next/image'
 
 Para más detalles sobre la estabilidad visual, lee mi [Guía Técnica de Core Web Vitals](./core-web-vitals-guide).
 
-## 4. Archivos SEO Dinámicos: sitemap.ts y robots.ts
+<h2>4. Archivos SEO Dinámicos: sitemap.ts y robots.ts</h2>
 
 Next.js 15 permite exportar los archivos `robots.txt` y `sitemap.xml` dinámicamente usando código TypeScript en el directorio `app`. Al exportar funciones desde `sitemap.ts` y `robots.ts`, vinculas el sitemap directamente a tu base de datos para garantizar que el archivo XML refleje el estado de tu CMS en tiempo real.
 
 Tengo una guía dedicada a la arquitectura de estos archivos. Léela aquí: [Cómo automatizar Sitemaps XML en Next.js](./xml-sitemap-automation).
 
-## Preguntas Frecuentes sobre SEO en Next.js
+<h2>Preguntas Frecuentes sobre SEO en Next.js</h2>
 
-### ¿Por qué ocurre el error de Metadata en Client Components?
+<h3>¿Por qué ocurre el error de Metadata en Client Components?</h3>
 
 La **Metadata API** solo funciona originada en React Server Components (RSC). Si agregas la directiva `'use client'` a un `layout.tsx` o `page.tsx` que exporta metadatos, Next.js arrojará error de compilación. Para solucionarlo, extrae la lógica interactiva a un componente cliente independiente y mantén la ruta principal como componente de servidor.
 
-### ¿Debo usar la etiqueta `<head>` nativa en Next.js App Router?
+<h3>¿Debo usar la etiqueta `<head>` nativa en Next.js App Router?</h3>
 
 No. Utilizar manualmente la etiqueta HTML `<head>` en el `app/layout.tsx` es redundante y generará metadatos duplicados. La **Metadata API** de Next.js inyecta automáticamente las etiquetas `<title>`, `<meta>` y `<link>` adecuadas en el árbol HTML final antes de servir el documento.

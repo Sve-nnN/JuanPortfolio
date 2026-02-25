@@ -1,7 +1,7 @@
 ---
 title: "Programación Dinámica: Dominando la Eficiencia en la Resolución de Problemas Complejos"
-publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-17T00:00:00.000Z
+publishedAt: 2026-02-11
+updatedAt: 2026-02-17
 authors:
   - juan-carlos-angulo
 heroImage:
@@ -218,7 +218,7 @@ def knapsack_01(weights: list[int], values: list[int], capacity: int) -> int:
 
 ### 5. Alineación de Secuencias en Bioinformática
 
-En campos como la genómica, la PD se utiliza para comparar y alinear secuencias de ADN o proteínas. El algoritmo de **Needleman-Wunsch** (para alineación global) y **Smith-Waterman** (para alineación local) son ejemplos prominentes que utilizan la PD para encontrar la mejor correspondencia, minimizando la cantidad de "huecos" o "mismatches" y asignando puntuaciones para determinar la similitud evolutiva o funcional.
+En campos como la genómica, la PD se utiliza para comparar y alinear secuencias de ADN o proteínas. El algoritmo de **Needleman-Wunsch** (para alineación global) y **Smith-Waterman** (para alineación local) son ejemplos prominentes que utilizan principios de PD para encontrar la mejor correspondencia, minimizando la cantidad de "huecos" o "mismatches" y asignando puntuaciones para determinar la similitud evolutiva o funcional.
 
 ## Programación Dinámica Determinística vs. Probabilística
 
@@ -270,18 +270,18 @@ Diseñar un algoritmo de Programación Dinámica puede parecer intimidante al pr
 4.  **Construir una Solución Óptima a partir de la Información Computada (Opcional):**
     *   A veces, solo necesitamos el valor óptimo, pero otras veces, necesitamos la secuencia de decisiones que llevaron a ese valor. Esto implica "reconstruir" el camino óptimo, a menudo siguiendo los punteros o decisiones que se tomaron al llenar la tabla DP.
 
-## Optimización y Eficiencia en Programación Dinámica
+<h2>Optimización y Eficiencia en Programación Dinámica</h2>
 
 La Programación Dinámica no solo busca resolver problemas, sino resolverlos de la manera más eficiente posible.
 
-### Técnicas para Reducir el Uso de Memoria
+<h3>Técnicas para Reducir el Uso de Memoria</h3>
 
 Si bien la memoización y la tabulación usan memoria para almacenar resultados, es posible optimizar el espacio en muchos problemas:
 
 *   **Reutilización de Filas/Columnas:** En problemas de tabla DP (como la mochila), a menudo solo se necesita la fila o columna anterior para calcular la actual. Esto reduce la [complejidad espacial](/blog/cs-fundamentals/complejidad-algoritmica) de O(N*W) a O(W) o O(N).
 *   **Variables Simples:** Como vimos en Fibonacci, si la relación de recurrencia solo depende de un número fijo de estados anteriores, podemos usar unas pocas variables para almacenar esos estados en lugar de una tabla completa, logrando O(1) de espacio.
 
-### Memoización vs. Tabulación: Cuándo Usar Cuál
+<h3>Memoización vs. Tabulación: Cuándo Usar Cuál</h3>
 
 Ambas son técnicas de PD, pero tienen sus casos de uso preferidos:
 
@@ -296,24 +296,24 @@ Ambas son técnicas de PD, pero tienen sus casos de uso preferidos:
 
 **Recomendación:** Si el problema es naturalmente recursivo y la lógica de transición es sencilla, la memoización puede ser más rápida de implementar. Si el problema tiene una estructura de dependencia clara entre subproblemas y el espacio es una preocupación, la tabulación suele ser preferible y más eficiente en sistemas de producción.
 
-### Balance entre Velocidad y Recursos en la Solución Final
+<h3>Balance entre Velocidad y Recursos en la Solución Final</h3>
 
 La elección entre una solución con PD y otra puede depender de las restricciones del problema:
 *   **Tiempo vs. Espacio:** Una solución de PD casi siempre reducirá la complejidad temporal de exponencial a polinomial. Sin embargo, a menudo a expensas de un mayor uso de memoria para la tabla DP. En la optimización de Fibonacci a O(1) espacio, se logra lo mejor de ambos mundos para ese problema específico.
 *   **Restricciones:** Para ciertos problemas, el tamaño de la entrada puede hacer que una tabla DP sea demasiado grande. En esos casos, se buscan variantes más avanzadas o algoritmos heurísticos.
 
-## Recursos y Formatos para el Aprendizaje Continuo
+<h2>Recursos y Formatos para el Aprendizaje Continuo</h2>
 
 Dominar la Programación Dinámica requiere práctica constante y el acceso a buenos recursos.
 
-### Documentos y Guías Técnicas Recomendadas
+<h3>Documentos y Guías Técnicas Recomendadas</h3>
 
 *   **Libros Clásicos:**
     *   "Introduction to Algorithms" (CLRS) de Cormen, Leiserson, Rivest, y Stein: Capítulo dedicado a la PD.
     *   "Dynamic Programming" de Richard Bellman: La obra original del creador del concepto.
 *   **Artículos y Tutoriales en Línea:** Busca blogs de programación competitiva que a menudo tienen excelentes explicaciones y ejemplos visuales.
 
-### Plataformas y Herramientas para Practicar Algoritmos
+<h3>Plataformas y Herramientas para Practicar Algoritmos</h3>
 
 La práctica es el pilar para solidificar tu comprensión de la PD.
 
@@ -321,7 +321,7 @@ La práctica es el pilar para solidificar tu comprensión de la PD.
 *   **HackerRank / Codeforces:** Plataformas similares con una gran cantidad de desafíos algorítmicos.
 *   **GeeksforGeeks:** Una referencia excelente con explicaciones detalladas y soluciones para muchos problemas de PD.
 
-## Conclusión
+<h2>Conclusión</h2>
 
 La Programación Dinámica es una de las herramientas más elegantes y poderosas en el arsenal de cualquier desarrollador o científico de datos. Al entender sus fundamentos de subestructura óptima y subproblemas superpuestos, y al dominar las técnicas de memoización y tabulación, puedes transformar la forma en que abordas y resuelves problemas complejos.
 

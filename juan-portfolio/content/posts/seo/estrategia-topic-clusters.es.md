@@ -1,7 +1,7 @@
 ---
 title: 'Topic Clusters: Cómo Construir un Knowledge Graph para Dominar el SEO en 2026'
-publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+publishedAt: 2026-02-11
+updatedAt: 2026-02-24
 authors:
   - juan-carlos-angulo
 heroImage: null

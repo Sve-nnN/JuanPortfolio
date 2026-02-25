@@ -1,7 +1,7 @@
 ---
 title: 'E-E-A-T en SEO 2026: Guía para Dominar la Autoridad en la Era de la IA'
-publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+publishedAt: 2026-02-11
+updatedAt: 2026-02-24
 authors:
   - juan-carlos-angulo
 heroImage: null

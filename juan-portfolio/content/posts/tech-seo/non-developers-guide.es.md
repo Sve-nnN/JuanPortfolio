@@ -1,7 +1,7 @@
 ---
 title: 'Guía de Optimización SEO Técnica Básica'
-publishedAt: 2026-02-09T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+publishedAt: 2026-02-09
+updatedAt: 2026-02-24
 authors:
   - juan-carlos-angulo
 heroImage: null

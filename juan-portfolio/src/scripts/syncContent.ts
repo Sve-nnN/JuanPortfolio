@@ -88,13 +88,13 @@ class ContentSyncManager {
     console.log(`\n${colors.bright}📡 Sync Status:${colors.reset}\n`)
 
     const files = getAllFiles(CONTENT_DIR)
-    const relativeFiles = files.map(f => path.relative(CONTENT_DIR, f))
-    
+    const relativeFiles = files.map((f) => path.relative(CONTENT_DIR, f))
+
     // Check for untracked files
-    const untracked = relativeFiles.filter(f => !this.state.files[f])
+    const untracked = relativeFiles.filter((f) => !this.state.files[f])
     if (untracked.length > 0) {
       console.log(`${colors.yellow}?? Untracked files (${untracked.length}):${colors.reset}`)
-      untracked.forEach(f => console.log(`   ${f}`))
+      untracked.forEach((f) => console.log(`   ${f}`))
       console.log('')
     }
 
@@ -109,7 +109,7 @@ class ContentSyncManager {
       const fullPath = path.join(CONTENT_DIR, relPath)
       const content = fs.readFileSync(fullPath, 'utf-8')
       const currentHash = calculateHash(content)
-      
+
       const localChanged = currentHash !== fileState.lastLocalHash
 
       try {
@@ -121,7 +121,7 @@ class ContentSyncManager {
 
         const remoteUpdatedAt = new Date(remoteDoc.updatedAt).getTime()
         const lastSyncedRemote = new Date(fileState.lastRemoteUpdatedAt).getTime()
-        
+
         const remoteChanged = remoteUpdatedAt > lastSyncedRemote
 
         if (localChanged && remoteChanged) {
@@ -132,7 +132,9 @@ class ContentSyncManager {
           console.log(`${colors.blue}U  Update (Remote): ${relPath}${colors.reset}`)
         }
       } catch (e) {
-        console.log(`${colors.red}! Orphaned local state for ${relPath} (ID: ${fileState.id} not found)${colors.reset}`)
+        console.log(
+          `${colors.red}! Orphaned local state for ${relPath} (ID: ${fileState.id} not found)${colors.reset}`,
+        )
       }
     }
   }
@@ -140,7 +142,7 @@ class ContentSyncManager {
   async fetch() {
     await this.init()
     console.log(`${colors.blue}⬇️  Fetching remote state...${colors.reset}`)
-    
+
     for (const [relPath, fileState] of Object.entries(this.state.files)) {
       try {
         const remoteDoc = await this.payload.findByID({
@@ -148,15 +150,17 @@ class ContentSyncManager {
           id: fileState.id,
           locale: fileState.idioma,
         })
-        
+
         const remoteDate = new Date(remoteDoc.updatedAt).getTime()
         const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
 
         if (remoteDate > lastSyncDate) {
-           console.log(`   ${colors.blue}* New changes for ${relPath}${colors.reset}`)
+          console.log(`   ${colors.blue}* New changes for ${relPath}${colors.reset}`)
         }
       } catch (error) {
-        console.log(`   ${colors.red}! Remote post not found for ${relPath} (ID: ${fileState.id}) — ${error}${colors.reset}`)
+        console.log(
+          `   ${colors.red}! Remote post not found for ${relPath} (ID: ${fileState.id}) — ${error}${colors.reset}`,
+        )
       }
     }
     console.log(`${colors.green}✅ Fetch complete.${colors.reset}`)
@@ -168,7 +172,7 @@ class ContentSyncManager {
 
     for (const [relPath, fileState] of Object.entries(this.state.files)) {
       const fullPath = path.join(CONTENT_DIR, relPath)
-      
+
       if (!fs.existsSync(fullPath)) continue
 
       const content = fs.readFileSync(fullPath, 'utf-8')
@@ -188,12 +192,14 @@ class ContentSyncManager {
 
         if (remoteDate > lastSyncDate) {
           if (localChanged) {
-            console.log(`${colors.red}❌ Conflict in ${relPath}. Local changes would be overwritten.${colors.reset}`)
+            console.log(
+              `${colors.red}❌ Conflict in ${relPath}. Local changes would be overwritten.${colors.reset}`,
+            )
             continue
           }
 
           const mdContent = convertLexicalToMarkdown(remoteDoc.content.content)
-          
+
           const frontmatter = {
             title: remoteDoc.title,
             slug: remoteDoc.slug,
@@ -205,17 +211,19 @@ class ContentSyncManager {
 
           const newFileContent = matter.stringify(mdContent, frontmatter)
           fs.writeFileSync(fullPath, newFileContent, 'utf-8')
-          
+
           this.state.files[relPath] = {
             ...fileState,
             lastLocalHash: calculateHash(newFileContent),
-            lastRemoteUpdatedAt: remoteUpdatedAt
+            lastRemoteUpdatedAt: remoteUpdatedAt,
           }
           saveState(this.state)
           console.log(`${colors.green}✅ Updated ${relPath}${colors.reset}`)
         }
       } catch (e) {
-        console.log(`${colors.red}❌ Error pulling ${relPath}: Post ID ${fileState.id} not found.${colors.reset}`)
+        console.log(
+          `${colors.red}❌ Error pulling ${relPath}: Post ID ${fileState.id} not found.${colors.reset}`,
+        )
       }
     }
   }
@@ -235,7 +243,7 @@ class ContentSyncManager {
       filesToProcess = [fullPath]
       console.log(`${colors.yellow}🔍 Syncing specific post: ${postFilename}${colors.reset}`)
     }
-    
+
     for (const fullPath of filesToProcess) {
       const relPath = path.relative(CONTENT_DIR, fullPath)
       const content = fs.readFileSync(fullPath, 'utf-8')
@@ -246,8 +254,15 @@ class ContentSyncManager {
       const fileState = this.state.files[relPath]
       let isNew = !fileState
 
-      if (!frontmatter.title || !frontmatter.idioma) {
-        console.log(`${colors.yellow}⚠️  Skipping ${relPath}: Missing title or idioma${colors.reset}`)
+      if (!frontmatter.title) {
+        console.log(`${colors.yellow}⚠️  Skipping ${relPath}: Missing title.${colors.reset}`)
+        continue
+      }
+
+      if (!frontmatter.idioma || (frontmatter.idioma !== 'en' && frontmatter.idioma !== 'es')) {
+        console.log(
+          `${colors.red}❌ Skipping ${relPath}: Invalid or missing 'idioma' in frontmatter. Must be 'en' or 'es'.${colors.reset}`,
+        )
         continue
       }
 
@@ -264,16 +279,20 @@ class ContentSyncManager {
             id: fileState.id,
             locale: fileState.idioma,
           })
-          
+
           const remoteDate = new Date(remoteDoc.updatedAt).getTime()
           const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
 
           if (remoteDate > lastSyncDate) {
-            console.log(`${colors.red}❌ Conflict in ${relPath}: Remote has changed since last sync.${colors.reset}`)
+            console.log(
+              `${colors.red}❌ Conflict in ${relPath}: Remote has changed since last sync.${colors.reset}`,
+            )
             continue
           }
         } catch (e) {
-          console.log(`${colors.yellow}⚠️  Post ID ${fileState.id} not found. Treating as new.${colors.reset}`)
+          console.log(
+            `${colors.yellow}⚠️  Post ID ${fileState.id} not found. Treating as new.${colors.reset}`,
+          )
           isNew = true
         }
       }
@@ -281,10 +300,12 @@ class ContentSyncManager {
       // Resolve categories from path first to see if we should skip
       const categoryIds = new Set<string>()
       const categorySlugFromPath = path.dirname(relPath)
-      
+
       if (categorySlugFromPath && categorySlugFromPath !== '.') {
         if (this.rejectedCategories.has(categorySlugFromPath)) {
-          console.log(`${colors.yellow}⏭️  Skipping ${relPath}: Category '${categorySlugFromPath}' was rejected.${colors.reset}`)
+          console.log(
+            `${colors.yellow}⏭️  Skipping ${relPath}: Category '${categorySlugFromPath}' was rejected.${colors.reset}`,
+          )
           continue
         }
         const id = await this.resolveCategory(categorySlugFromPath, frontmatter.idioma)
@@ -293,17 +314,19 @@ class ContentSyncManager {
         } else {
           // User chose not to create it, add to rejected and skip
           this.rejectedCategories.add(categorySlugFromPath)
-          console.log(`${colors.yellow}⏭️  Skipping ${relPath}: Category '${categorySlugFromPath}' rejected.${colors.reset}`)
+          console.log(
+            `${colors.yellow}⏭️  Skipping ${relPath}: Category '${categorySlugFromPath}' rejected.${colors.reset}`,
+          )
           continue
         }
       }
 
       const lexicalContent = convertMarkdownToLexical(
-        mdBody, 
-        frontmatter.primary_keywords?.[0], 
-        frontmatter.idioma
+        mdBody,
+        frontmatter.primary_keywords?.[0],
+        frontmatter.idioma,
       )
-      
+
       let primaryKeywordId
       if (frontmatter.primary_keywords?.[0]) {
         primaryKeywordId = await this.resolveKeyword(frontmatter.primary_keywords[0])
@@ -339,7 +362,6 @@ class ContentSyncManager {
         }
       }
 
-
       const postData: any = {
         title: frontmatter.title,
         slug: slug,
@@ -373,14 +395,16 @@ class ContentSyncManager {
             })
           } catch (e: any) {
             if (e.status === 404 || e.message?.includes('not found')) {
-              console.log(`${colors.yellow}⚠️  Post ID ${docID} not found during update. Attempting creation.${colors.reset}`)
+              console.log(
+                `${colors.yellow}⚠️  Post ID ${docID} not found during update. Attempting creation.${colors.reset}`,
+              )
               docID = null
             } else {
               throw e
             }
           }
         }
-        
+
         if (!docID) {
           const existing = await this.payload.find({
             collection: 'posts',
@@ -417,7 +441,6 @@ class ContentSyncManager {
         }
         saveState(this.state)
         console.log(`${colors.green}✅ Pushed ${relPath}${colors.reset}`)
-
       } catch (error) {
         console.log(`${colors.red}❌ Error pushing ${relPath}: ${error}${colors.reset}`)
       }
@@ -445,7 +468,7 @@ class ContentSyncManager {
     try {
       const found = await this.payload.find({
         collection: 'users',
-        where: { slug: { equals: authorSlug } }, 
+        where: { slug: { equals: authorSlug } },
         limit: 1,
       })
       if (found.docs.length > 0) {
@@ -468,12 +491,14 @@ class ContentSyncManager {
       if (found.docs.length > 0) {
         return found.docs[0].id
       }
-      
+
       // If we already rejected this slug in this session, don't ask again
       if (this.rejectedCategories.has(categorySlug)) return null
 
       // Category not found, prompt to create
-      console.log(`\n${colors.yellow}❓ Category with slug '${categorySlug}' not found.${colors.reset}`)
+      console.log(
+        `\n${colors.yellow}❓ Category with slug '${categorySlug}' not found.${colors.reset}`,
+      )
       const shouldCreate = await p.confirm({
         message: `Do you want to create category '${categorySlug}' now?`,
       })
@@ -482,13 +507,13 @@ class ContentSyncManager {
         const titleInput = await p.text({
           message: 'Enter the new category name (title):',
           validate: (value) => {
-            if (value.length === 0) return 'Name cannot be empty'
+            if (typeof value !== 'string' || value.length === 0) return 'Name cannot be empty'
           },
         })
 
         if (p.isCancel(titleInput)) {
-            console.log(`${colors.red}Cancelled category creation.${colors.reset}`)
-            return null
+          console.log(`${colors.red}Cancelled category creation.${colors.reset}`)
+          return null
         }
 
         const descriptionInput = await p.text({
@@ -496,8 +521,8 @@ class ContentSyncManager {
         })
 
         if (p.isCancel(descriptionInput)) {
-            console.log(`${colors.red}Cancelled category creation.${colors.reset}`)
-            return null
+          console.log(`${colors.red}Cancelled category creation.${colors.reset}`)
+          return null
         }
 
         const newCategory = await this.payload.create({
@@ -509,10 +534,12 @@ class ContentSyncManager {
           },
           locale: locale,
         })
-        console.log(`${colors.green}✅ Category '${titleInput}' created successfully.${colors.reset}\n`)
+        console.log(
+          `${colors.green}✅ Category '${titleInput}' created successfully.${colors.reset}\n`,
+        )
         return newCategory.id
       }
-      
+
       return null
     } catch (error) {
       console.error(`Error resolving or creating category ${categorySlug}:`, error)
@@ -527,7 +554,7 @@ const run = async () => {
   const args = process.argv.slice(2)
   const command = args[0]
   const force = args.includes('--force')
-  const postArg = args.find(arg => arg.startsWith('--post='))
+  const postArg = args.find((arg) => arg.startsWith('--post='))
   const postFilename = postArg ? postArg.split('=')[1] : undefined
 
   const manager = new ContentSyncManager()
@@ -546,7 +573,9 @@ const run = async () => {
       await manager.push(force, postFilename)
       break
     default:
-      console.log('Usage: tsx src/scripts/syncContent.ts [status|fetch|pull|push] [--force] [--post=<filename.md>]')
+      console.log(
+        'Usage: tsx src/scripts/syncContent.ts [status|fetch|pull|push] [--force] [--post=<filename.md>]',
+      )
       break
   }
   process.exit(0)

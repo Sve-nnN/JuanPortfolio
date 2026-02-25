@@ -1,7 +1,7 @@
 ---
 title: 'Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código'
-publishedAt: '2026-02-10'
-updatedAt: '2026-02-24'
+publishedAt: 2026-02-10
+updatedAt: 2026-02-24
 authors:
   - juan-carlos-angulo
 heroImage: /images/blog/core-web-vitals-guide.webp

@@ -1,7 +1,7 @@
 ---
 title: "Algoritmos y estructuras de datos: Fundamentos de la programación eficiente y escalable"
-publishedAt: 2026-02-10T00:00:00.000Z
-updatedAt: 2026-02-17T00:00:00.000Z
+publishedAt: 2026-02-10
+updatedAt: 2026-02-17
 authors:
   - juan-carlos-angulo
 heroImage: /images/blog/algoritmos-estructuras-datos.webp
@@ -462,15 +462,15 @@ print(f"Fibonacci(10) con memoización: {fibonacci_memoizado(10)}") # Salida: 55
 print(f"Fibonacci(30) con memoización: {fibonacci_memoizado(30)}") # Salida: 832040
 ```
 
-## Algoritmos y estructuras en lenguajes de programación populares: Herramientas del oficio
+<h2>Algoritmos y estructuras en lenguajes de programación populares: Herramientas del oficio</h2>
 
 La implementación de algoritmos y estructuras de datos varía, pero sus conceptos son universales. Cada lenguaje ofrece sus propias abstracciones y herramientas para trabajar con ellos.
 
-### Perspectiva en C: Control y rendimiento a bajo nivel
+<h3>Perspectiva en C: Control y rendimiento a bajo nivel</h3>
 
 C es el lenguaje por excelencia para entender el funcionamiento de las estructuras de datos a bajo nivel. Su gestión manual de memoria permite un control preciso y un rendimiento excepcional, ideal para sistemas operativos, drivers y aplicaciones críticas.
 
-#### Ejemplos de implementación en C: Punteros al rescate
+<h4>Ejemplos de implementación en C: Punteros al rescate</h4>
 
 En C, se implementan estructuras como listas enlazadas, pilas y colas usando punteros para conectar nodos. Los arreglos y matrices son manipulados directamente con aritmética de punteros, ofreciendo una visión profunda de cómo se organizan los datos en memoria.
 
@@ -510,7 +510,8 @@ void imprimir_lista(Nodo* nodo) {
         printf("%d -> ", nodo->dato);
         nodo = nodo->siguiente;
     }
-    printf("NULL\n");
+    printf("NULL
+");
 }
 
 // Función principal para demostrar el uso
@@ -536,28 +537,28 @@ int main() {
 }
 ```
 
-#### Ventajas y retos en C para programación eficiente: Potencia y responsabilidad
+<h4>Ventajas y retos en C para programación eficiente: Potencia y responsabilidad</h4>
 
 **Ventajas:** Control total sobre la memoria, máxima eficiencia, base para entender otros lenguajes.
 **Retos:** Gestión manual de memoria (riesgo de fugas y errores de puntero), mayor verbosidad.
 
-### Implementación en Java: Abstracción y robustez
+<h3>Implementación en Java: Abstracción y robustez</h3>
 
 Java, con su enfoque orientado a objetos y su robusto ecosistema de bibliotecas, simplifica la gestión de muchas estructuras de datos, priorizando la seguridad y la abstracción.
 
-#### Clases y objetos para representar estructuras: El poder de la POO
+<h4>Clases y objetos para representar estructuras: El poder de la POO</h4>
 
 En Java, las estructuras de datos se implementan como clases, encapsulando datos y operaciones. La herencia y el polimorfismo permiten crear jerarquías de estructuras y algoritmos genéricos.
 
-#### Bibliotecas estándares y aplicaciones comunes: Java Collections Framework
+<h4>Bibliotecas estándares y aplicaciones comunes: Java Collections Framework</h4>
 
 La `Java Collections Framework` (JCF) es una suite de interfaces y clases (como `ArrayList`, `LinkedList`, `Stack`, `Queue`, `HashMap`, `TreeMap`) que proporcionan implementaciones optimizadas de las estructuras de datos más comunes. Esto permite a los desarrolladores centrarse en la lógica del problema en lugar de la implementación de la estructura.
 
-### Python y JavaScript: Flexibilidad y prototipado rápido
+<h3>Python y JavaScript: Flexibilidad y prototipado rápido</h3>
 
 En lenguajes de alto nivel como Python y JavaScript, muchas estructuras de datos fundamentales están integradas directamente o son fácilmente accesibles a través de bibliotecas estándar, lo que permite un desarrollo más rápido.
 
-#### En Python: Listas, diccionarios y conjuntos nativos
+<h4>En Python: Listas, diccionarios y conjuntos nativos</h4>
 
 Python ofrece:
 -   **Listas:** Flexibles, pueden actuar como arreglos dinámicos, pilas o colas.
@@ -583,7 +584,7 @@ conjunto_ejemplo = {1, 2, 3, 2}
 print(f"Conjunto: {conjunto_ejemplo}") # Salida: {1, 2, 3}
 ```
 
-#### En JavaScript: Objetos, arreglos y Maps para la web
+<h4>En JavaScript: Objetos, arreglos y Maps para la web</h4>
 
 JavaScript utiliza:
 -   **Arreglos:** Versátiles, pueden emular pilas y colas.
@@ -611,18 +612,18 @@ mapEjemplo.set('d', 4);
 console.log(`Valor de 'c' en Map: ${mapEjemplo.get('c')}`); // Salida: 3
 ```
 
-## Recursos para aprender y dominar algoritmos y estructuras: Tu camino hacia la maestría
+<h2>Recursos para aprender y dominar algoritmos y estructuras: Tu camino hacia la maestría</h2>
 
 El dominio de algoritmos y estructuras de datos es un viaje continuo. Afortunadamente, existen abundantes recursos para guiarte.
 
-### Cursos online recomendados para programadores y desarrolladores
+<h3>Cursos online recomendados para programadores y desarrolladores</h3>
 
 Numerosas plataformas ofrecen rutas de aprendizaje estructuradas:
 -   **Coursera y edX:** Cursos de universidades de renombre mundial (MIT, Stanford) que cubren desde fundamentos hasta temas avanzados.
 -   **Udemy y freeCodeCamp:** Cursos prácticos y proyectos que consolidan el aprendizaje a tu propio ritmo.
 -   **Plataformas de coding challenges:** Como LeetCode, HackerRank, Codeforces, que ofrecen una inmensa colección de problemas para aplicar y perfeccionar tus habilidades.
 
-### Guías, libros y materiales en PDF para el estudio autodidacta
+<h3>Guías, libros y materiales en PDF para el estudio autodidacta</h3>
 
 La lectura profunda es insustituible:
 -   **Libros clásicos:** "Introduction to Algorithms" (CLRS) y "Algorithms" de Sedgewick & Wayne son referencias fundamentales.
@@ -630,20 +631,20 @@ La lectura profunda es insustituible:
 -   **Documentación oficial y blogs de ingeniería:** Mantente al día con las implementaciones y optimizaciones reales en sistemas productivos.
 
 
-## Preguntas Frecuentes sobre Algoritmos y Estructuras de Datos
+<h2>Preguntas Frecuentes sobre Algoritmos y Estructuras de Datos</h2>
 
-### 1. ¿Por qué son tan importantes los algoritmos y las estructuras de datos para un programador?
+<h3>1. ¿Por qué son tan importantes los algoritmos y las estructuras de datos para un programador?</h3>
 Son el cimiento de la programación eficiente. Permiten escribir código que no solo resuelve un problema, sino que lo hace de la manera más rápida y con el menor uso de recursos posible. Dominarlos es crucial para desarrollar software escalable, de alto rendimiento y para resolver problemas complejos en cualquier dominio, desde la IA hasta el desarrollo web.
 
-### 2. ¿Cuál es la diferencia principal entre un algoritmo y una estructura de datos?
+<h3>2. ¿Cuál es la diferencia principal entre un algoritmo y una estructura de datos?</h3>
 Un **algoritmo** es un conjunto de instrucciones bien definidas para realizar una tarea o resolver un problema. Es la "receta". Una **estructura de datos** es una forma de organizar y almacenar los datos para que puedan ser accedidos y modificados de manera eficiente por los algoritmos. Es el "almacén de ingredientes" optimizado para la receta.
 
-### 3. ¿Qué es la notación Big O y por qué se utiliza?
+<h3>3. ¿Qué es la notación Big O y por qué se utiliza?</h3>
 La notación Big O es una medida de la eficiencia de un algoritmo, que describe cómo el tiempo de ejecución o el espacio requerido por un algoritmo crecen en relación con el tamaño de la entrada. Se utiliza para clasificar algoritmos y comparar su escalabilidad, permitiendo a los programadores elegir la solución más eficiente para un problema, especialmente cuando se trabaja con grandes volúmenes de datos.
 
-### 4. ¿Cuándo debo usar una lista enlazada en lugar de un arreglo?
+<h3>4. ¿Cuándo debo usar una lista enlazada en lugar de un arreglo?</h3>
 Usa una **lista enlazada** cuando necesites inserciones y eliminaciones frecuentes en cualquier punto de la colección, ya que estas operaciones son muy eficientes (O(1) una vez que se encuentra la posición). También son útiles cuando no conoces el tamaño final de la colección de antemano.
 Usa un **arreglo** (o `ArrayList` en Java, `list` en Python) cuando necesites acceso rápido y aleatorio a los elementos por índice (O(1)) y cuando el tamaño de la colección sea relativamente fijo o las inserciones/eliminaciones se realicen principalmente al final.
 
-### 5. ¿Es necesario dominar C o C++ para entender las estructuras de datos?
+<h3>5. ¿Es necesario dominar C o C++ para entender las estructuras de datos?</h3>
 No es estrictamente necesario, pero aprender C o C++ puede proporcionar una comprensión más profunda de cómo funcionan las estructuras de datos a nivel de memoria y cómo se gestionan los punteros, lo cual es invaluable. Sin embargo, puedes aprender y dominar estos conceptos usando cualquier lenguaje de programación moderno como Python o Java, que ofrecen abstracciones de alto nivel que facilitan la implementación. Lo importante es comprender los conceptos subyacentes, no solo la sintaxis.

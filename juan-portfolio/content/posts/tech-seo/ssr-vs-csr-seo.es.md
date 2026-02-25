@@ -1,7 +1,7 @@
 ---
 title: 'SSR vs CSR para SEO: Estrategias de Renderizado 2026'
-publishedAt: 2026-02-10T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+publishedAt: 2026-02-10
+updatedAt: 2026-02-24
 authors:
   - juan-carlos-angulo
 heroImage: null

@@ -70,6 +70,7 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    projects: Project;
     media: Media;
     categories: Category;
     users: User;
@@ -96,6 +97,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -1243,9 +1245,21 @@ export interface TestimonialSectionBlock {
    */
   authorName: string;
   /**
-   * Cargo y empresa del autor (ej: "CEO, Moda-Vanguardia")
+   * Cargo del autor (ej: "CEO")
    */
   authorRole: string;
+  /**
+   * Empresa u organización
+   */
+  company?: string | null;
+  /**
+   * Enlace a la empresa (URL)
+   */
+  companyLink?: string | null;
+  /**
+   * Calificación (1-5)
+   */
+  rating?: number | null;
   /**
    * Foto del autor del testimonio
    */
@@ -1927,6 +1941,66 @@ export interface WorkCardsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  /**
+   * If empty, frontend fallback image logic will be used.
+   */
+  coverImage?: (string | null) | Media;
+  /**
+   * Short description for the project card.
+   */
+  description: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * e.g. https://github.com/juantech/juan-portfolio
+   */
+  githubUrl?: string | null;
+  /**
+   * Optional live production URL.
+   */
+  liveUrl?: string | null;
+  /**
+   * List the technologies used (e.g., Next.js, Tailwind CSS)
+   */
+  techStack?:
+    | {
+        technology?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "works".
  */
 export interface Work {
@@ -1952,6 +2026,7 @@ export interface Testimonial {
   id: string;
   author: string;
   company?: string | null;
+  companyLink?: string | null;
   role?: string | null;
   testimonial: string;
   avatar?: (string | null) | Media;
@@ -2165,6 +2240,24 @@ export interface PayloadMcpApiKey {
     update?: boolean | null;
     /**
      * Allow clients to delete posts.
+     */
+    delete?: boolean | null;
+  };
+  projects?: {
+    /**
+     * Allow clients to find projects.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create projects.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update projects.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete projects.
      */
     delete?: boolean | null;
   };
@@ -2442,6 +2535,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: string | Post;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
       } | null)
     | ({
         relationTo: 'media';
@@ -2886,6 +2983,9 @@ export interface TestimonialSectionBlockSelect<T extends boolean = true> {
   quote?: T;
   authorName?: T;
   authorRole?: T;
+  company?: T;
+  companyLink?: T;
+  rating?: T;
   authorImage?: T;
   id?: T;
   blockName?: T;
@@ -3209,6 +3309,36 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  coverImage?: T;
+  description?: T;
+  content?: T;
+  githubUrl?: T;
+  liveUrl?: T;
+  techStack?:
+    | T
+    | {
+        technology?: T;
+        id?: T;
+      };
+  publishedAt?: T;
+  authors?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+      };
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3542,6 +3672,7 @@ export interface AdBannersSelect<T extends boolean = true> {
 export interface TestimonialsSelect<T extends boolean = true> {
   author?: T;
   company?: T;
+  companyLink?: T;
   role?: T;
   testimonial?: T;
   avatar?: T;
@@ -3855,6 +3986,14 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         delete?: T;
       };
   posts?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  projects?:
     | T
     | {
         find?: T;
@@ -4231,6 +4370,7 @@ export interface Home {
     | ResultsSectionBlock
     | LatestBlogPostsBlock
     | LatestCaseStudiesBlock
+    | LatestProjectsBlock
     | TestimonialsCarouselBlock
     | CallToActionBlock
     | ContentBlock
@@ -4267,6 +4407,17 @@ export interface LatestCaseStudiesBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'latestCaseStudies';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestProjectsBlock".
+ */
+export interface LatestProjectsBlock {
+  title?: string | null;
+  count?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestProjects';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4602,6 +4753,7 @@ export interface HomeSelect<T extends boolean = true> {
         resultsSection?: T | ResultsSectionBlockSelect<T>;
         latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
         latestCaseStudies?: T | LatestCaseStudiesBlockSelect<T>;
+        latestProjects?: T | LatestProjectsBlockSelect<T>;
         testimonialsCarousel?: T | TestimonialsCarouselBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -4632,6 +4784,16 @@ export interface LatestBlogPostsBlockSelect<T extends boolean = true> {
  * via the `definition` "LatestCaseStudiesBlock_select".
  */
 export interface LatestCaseStudiesBlockSelect<T extends boolean = true> {
+  title?: T;
+  count?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestProjectsBlock_select".
+ */
+export interface LatestProjectsBlockSelect<T extends boolean = true> {
   title?: T;
   count?: T;
   id?: T;
@@ -4786,6 +4948,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'projects';
+          value: string | Project;
         } | null)
       | ({
           relationTo: 'case-studies';

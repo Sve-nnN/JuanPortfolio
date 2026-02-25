@@ -6,19 +6,23 @@ describe('LinkInjector', () => {
     const mockTargetPost: PostMetadata = {
         slug: 'seo-guide',
         title: 'SEO Guide',
-        keywords: ['seo'],
+        primary_keywords: ['seo'],
         category: 'tech-seo',
         filePath: '/path/to/seo-guide.md',
         url: '/tech-seo/seo-guide',
+        idioma: 'es',
+        contentRole: 'pillar',
     };
 
     const mockSourcePost: PostMetadata = {
         slug: 'web-performance',
         title: 'Web Performance',
-        keywords: ['performance'],
+        primary_keywords: ['performance'],
         category: 'development',
         filePath: '/path/to/web-performance.md',
         url: '/development/web-performance',
+        idioma: 'es',
+        contentRole: 'satellite',
     };
 
     describe('insertLink', () => {

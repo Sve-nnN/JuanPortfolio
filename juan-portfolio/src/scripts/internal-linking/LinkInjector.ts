@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import matter from 'gray-matter';
 import type { LinkOpportunity, LinkingResult, PostMetadata } from './types';
+import type { MissingClusterLink } from './topicCluster';
 
 /**
  * Injects markdown links into post content while preserving structure.
@@ -13,6 +14,73 @@ import type { LinkOpportunity, LinkingResult, PostMetadata } from './types';
  * - Tracks changes for reporting
  */
 export class LinkInjector {
+    /**
+     * Enforces structural topic-cluster links that are missing.
+     *
+     * Strategy:
+     *  1. Search the source body for any natural mention of the target's primary keyword.
+     *     If found, convert the first occurrence into a link.
+     *  2. If no mention exists, append a "See Also" section to the file.
+     *
+     * Returns the number of files modified.
+     */
+    applyClusterLinks(missingLinks: MissingClusterLink[], dryRun: boolean): number {
+        let modified = 0
+
+        // Group by source file so we only write each file once
+        const bySource = new Map<string, MissingClusterLink[]>()
+        for (const link of missingLinks) {
+            const key = link.source.filePath
+            if (!bySource.has(key)) bySource.set(key, [])
+            bySource.get(key)!.push(link)
+        }
+
+        for (const [filePath, links] of bySource.entries()) {
+            const raw = fs.readFileSync(filePath, 'utf-8')
+            const { data, content: body } = matter(raw)
+            let updatedBody = body
+
+            for (const link of links) {
+                const { target } = link
+                const anchor = target.title || target.slug
+
+                // Already linked? Skip (URL already in body)
+                if (updatedBody.includes(`(${target.url})`)) continue
+
+                // Try to find first paragraph mention of any primary keyword
+                const kwPattern = target.primary_keywords
+                    .map(kw => kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                    .join('|')
+
+                let linked = false
+                if (kwPattern) {
+                    const regex = new RegExp(`\\b(${kwPattern})\\b`, 'i')
+                    updatedBody = updatedBody.replace(regex, (match) => {
+                        // Skip if already inside a link context
+                        return `[${match}](${target.url})`
+                    })
+                    linked = updatedBody.includes(`(${target.url})`)
+                }
+
+                // Fallback: append a "See Also" section
+                if (!linked) {
+                    updatedBody = updatedBody.trimEnd() +
+                        `\n\n## See Also\n\n- [${anchor}](${target.url})\n`
+                }
+            }
+
+            if (updatedBody !== body) {
+                if (!dryRun) {
+                    const newContent = matter.stringify(updatedBody, data)
+                    fs.writeFileSync(filePath, newContent, 'utf-8')
+                }
+                modified++
+            }
+        }
+
+        return modified
+    }
+
     /**
      * Apply link opportunities to posts.
      */

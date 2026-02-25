@@ -37,7 +37,8 @@ class ContentSyncManager {
     if (!this.repo) {
       process.stdout.write(`${c.blue}⏳ Initializing Payload...${c.reset}`)
       const payload = await getPayload({ config })
-      this.repo = new PayloadRepository(payload as Parameters<typeof PayloadRepository>[0])
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.repo = new PayloadRepository(payload as any)
       process.stdout.write(`${c.green}✅ Payload initialized.       \n${c.reset}`)
     }
   }

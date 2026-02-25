@@ -56,7 +56,7 @@ export class KeywordExtractor {
             const categoryDir = path.join(postsDir, cat);
             if (!fs.existsSync(categoryDir)) continue;
 
-            const files = fs.readdirSync(categoryDir).filter(f => f.endsWith('.md'));
+            const files = fs.readdirSync(categoryDir).filter(f => f.endsWith('.md') && !f.endsWith('.json'));
 
             for (const file of files) {
                 const filePath = path.join(categoryDir, file);
@@ -79,9 +79,16 @@ export class KeywordExtractor {
             const fileContent = fs.readFileSync(filePath, 'utf-8');
             const { data, content } = matter(fileContent);
 
-            const slug = path.basename(filePath, '.md');
+            // Strip locale suffix (.en.md, .es.md) then the plain .md extension
+            const basename = path.basename(filePath)
+            const slug = basename.replace(/\.(en|es)\.md$/, '').replace(/\.md$/, '')
+
+            // Locale: filename suffix wins, then frontmatter, then site default 'es'
+            const idioma: string = basename.endsWith('.en.md') ? 'en'
+                : basename.endsWith('.es.md') ? 'es'
+                : (data.idioma || 'es')
+
             const url = getPostUrl({ slug, categories: [category] });
-            const idioma = data.idioma || 'en';
 
             const primary_keywords: string[] = (data.primary_keywords || [])
                 .map((kw: string) => kw.toLowerCase())
@@ -103,10 +110,16 @@ export class KeywordExtractor {
                 console.log(`✨ Generated semantic keywords for ${slug}`);
             }
 
-            // Authority Cluster Logic
-            const clusterType = (data.clusterType as 'Pillar' | 'Supporting') || 
-                                (primary_keywords.length > 2 || /guide|guia|manual/i.test(data.title || slug) ? 'Pillar' : 'Supporting');
-            const contentType = (data.contentType as 'Blog' | 'Guide' | 'Case Study') || 'Blog';
+            // Content role: explicit frontmatter wins, then legacy clusterType, then heuristic
+            const contentRole: import('./types').ContentRole =
+                data.contentRole ||
+                (data.clusterType === 'Pillar' ? 'pillar' : undefined) ||
+                (primary_keywords.length > 2 || /guide|guia|manual/i.test(data.title || slug) ? 'pillar' : 'satellite')
+
+            // Legacy clusterType kept for backward-compat scoring
+            const clusterType = (data.clusterType as 'Pillar' | 'Supporting') ||
+                (contentRole === 'pillar' ? 'Pillar' : 'Supporting')
+            const contentType = (data.contentType as 'Blog' | 'Guide' | 'Case Study') || 'Blog'
 
             return {
                 slug,
@@ -117,6 +130,8 @@ export class KeywordExtractor {
                 filePath,
                 url,
                 idioma,
+                contentRole,
+                pillarSlug: data.pillarSlug as string | undefined,
                 clusterType,
                 contentType,
             };

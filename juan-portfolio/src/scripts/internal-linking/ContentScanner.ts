@@ -100,9 +100,13 @@ export class ContentScanner {
                     continue;
                 }
 
+                // 1b. Locale isolation: only link posts in the same language
+                if (this.isDifferentLocale(match.targetPost, post)) {
+                    continue;
+                }
+
                 // 1c. Cluster Match: Only link to posts within the same category (cluster)
                 if (match.targetPost.category !== post.category) {
-                    // console.log removed per user request: "Skipping link from ${post.slug} to ${match.targetPost.slug}: different categories (${post.category} != ${match.targetPost.category})"
                     continue;
                 }
 
@@ -162,6 +166,16 @@ export class ContentScanner {
 
         // Sort by relevance (highest first)
         return opportunities.sort((a, b) => b.relevance - a.relevance);
+    }
+
+    /**
+     * Returns true when two posts belong to different locales and should not cross-link.
+     * Exposed as a protected method so it can be unit-tested via `(scanner as any)`.
+     */
+    protected isDifferentLocale(a: PostMetadata, b: PostMetadata): boolean {
+        const localeA = a.idioma ?? 'es'
+        const localeB = b.idioma ?? 'es'
+        return localeA !== localeB
     }
 
     /**

@@ -6,6 +6,14 @@
  */
 
 /**
+ * The role a post plays in a topic cluster.
+ * - pillar: comprehensive hub page (3,000+ words, broad topic)
+ * - satellite: in-depth article targeting a long-tail keyword that links to its pillar
+ * - standalone: not part of any cluster
+ */
+export type ContentRole = 'pillar' | 'satellite' | 'standalone'
+
+/**
  * Metadata extracted from a blog post.
  */
 export interface PostMetadata {
@@ -25,7 +33,15 @@ export interface PostMetadata {
     url: string;
     /** Language/Locale of the post (e.g., 'en', 'es') */
     idioma: string;
-    /** Cluster type for authority logic */
+    /**
+     * Topic-cluster role. Drives structural linking rules:
+     * - pillar → must link out to all its satellites
+     * - satellite → must link back to its pillar
+     */
+    contentRole?: ContentRole;
+    /** For satellites: the slug of the pillar page this post belongs to */
+    pillarSlug?: string;
+    /** @deprecated Use contentRole instead. Kept for backward-compat with existing frontmatter. */
     clusterType?: 'Pillar' | 'Supporting';
     /** Content type for link weighting */
     contentType?: 'Blog' | 'Guide' | 'Case Study';

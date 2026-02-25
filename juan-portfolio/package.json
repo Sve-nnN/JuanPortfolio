@@ -28,6 +28,7 @@
     "fix:links": "tsx src/scripts/fix-internal-links.ts"
   },
   "dependencies": {
+    "@clack/prompts": "^1.0.1",
     "@next/third-parties": "^16.1.6",
     "@nouance/payload-dashboard-analytics": "^0.3.0",
     "@payloadcms/admin-bar": "3.61.1",

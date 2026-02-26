@@ -132,12 +132,12 @@ export const PostHero: React.FC<{
             {title}
           </h1>
 
-          {excerpt && (
+          {(post.content?.tldr || excerpt) && (
             <p
               className="text-lg md:text-2xl text-white/90 leading-relaxed max-w-2xl drop-shadow-md font-medium animate-fade-in-up"
               style={{ animationDelay: '0.2s' }}
             >
-              {excerpt}
+              {post.content?.tldr || excerpt}
             </p>
           )}
 

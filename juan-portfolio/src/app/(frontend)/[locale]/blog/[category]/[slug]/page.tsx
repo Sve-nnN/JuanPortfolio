@@ -20,7 +20,6 @@ import RelatedPostsServer from '@/components/RelatedPostsServer'
 import { DynamicBackground } from '@/components/DynamicBackground'
 import { generateMeta } from '@/utilities/generateMeta'
 import { JsonLd } from '@/components/JsonLd'
-import { SGEAtomicAnswer } from '@/components/SGEAtomicAnswer'
 import { generateSchema } from '@/utilities/generateSchema'
 import { getServerSideURL } from '@/utilities/getURL'
 import type { Media as MediaType } from '@/payload-types'
@@ -152,9 +151,6 @@ export default async function PostPage({
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 lg:gap-16">
             {/* Main Article Content */}
             <article className="prose prose-xl dark:prose-invert max-w-none min-w-0">
-              {post.content?.tldr && (
-                <SGEAtomicAnswer summary={post.content.tldr} locale={locale} className="mb-12" />
-              )}
               {post.content?.content && <RichText data={post.content.content} enableGutter={false} />}
             </article>
 

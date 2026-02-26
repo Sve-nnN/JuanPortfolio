@@ -24,6 +24,10 @@ export interface PersonSchemaInput {
   image?: string
   sameAs?: string[]
   knowsAbout?: string[]
+  alumniOf?: {
+    name: string
+    url?: string
+  }[]
   hasCredential?: {
     name: string
     organization: string

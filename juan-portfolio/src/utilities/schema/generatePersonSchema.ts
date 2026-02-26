@@ -42,6 +42,14 @@ export function generatePersonSchema(input: PersonSchemaInput): Schema {
     schema.knowsAbout = input.knowsAbout
   }
 
+  if (input.alumniOf && input.alumniOf.length > 0) {
+    schema.alumniOf = input.alumniOf.map(edu => ({
+      '@type': 'Organization',
+      name: edu.name,
+      ...(edu.url && { url: edu.url }),
+    }))
+  }
+
   if (input.hasCredential && input.hasCredential.length > 0) {
     schema.hasCredential = input.hasCredential.map(cred => ({
       '@type': 'EducationalOccupationalCredential',

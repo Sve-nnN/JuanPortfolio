@@ -10,11 +10,13 @@ interface SerializedLinkNode extends SerializedLexicalNode {
     newTab: boolean
     url: string
   }
+  children: SerializedLexicalNode[]
 }
 
 interface SerializedHeadingNode extends SerializedLexicalNode {
   type: 'heading'
   tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  children: SerializedLexicalNode[]
 }
 
 interface SerializedListNode extends SerializedLexicalNode {
@@ -214,13 +216,13 @@ export const convertMarkdownToLexical = (
         format: '',
         indent: 0,
         version: 1,
-        children: token.items.map((item) => ({
+        children: token.items.map((item: any) => ({
           type: 'listitem',
           format: '',
           indent: 0,
           version: 1,
           value: 1,
-          children: parseInline((item as any).tokens || []),
+          children: parseInline(item.tokens || []),
           direction: 'ltr',
         })),
         direction: 'ltr',

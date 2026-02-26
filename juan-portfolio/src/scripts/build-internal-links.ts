@@ -41,6 +41,7 @@ interface CliConfig extends LinkingConfig {
   help: boolean
   classify: boolean
   clusterOnly: boolean
+  yes: boolean
   locale?: 'en' | 'es'
 }
 
@@ -55,11 +56,13 @@ function parseArgs(): CliConfig {
     help: false,
     classify: false,
     clusterOnly: false,
+    yes: false,
   }
 
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case '--dry-run':     config.dryRun = true;                         break
+      case '--yes':         config.yes = true;                            break
       case '--category':    config.category = args[++i];                  break
       case '--locale':      config.locale = args[++i] as 'en' | 'es';    break
       case '--max-links':   config.maxLinksPerKeyword = parseInt(args[++i], 10); break
@@ -179,7 +182,13 @@ async function main(): Promise<void> {
   // ── Step 1: Load posts & build keyword index ──────────────────────────────
   process.stdout.write(`${c.blue}📚 Loading posts and building index…${c.reset}`)
   const extractor = new KeywordExtractor(contentDir)
-  let posts = await extractor.loadPosts(config.category)
+  const allPosts = await extractor.loadPosts()
+  let posts = allPosts
+
+  // Filter by category if requested
+  if (config.category) {
+    posts = posts.filter(p => p.category === config.category)
+  }
 
   // Filter by locale if requested
   if (config.locale) {
@@ -188,7 +197,16 @@ async function main(): Promise<void> {
 
   const keywordIndex = extractor.buildIndex()
   process.stdout.write(
-    `\r${c.green}✅ Loaded ${posts.length} posts, indexed ${keywordIndex.size} keywords.    \n\n${c.reset}`,
+    `\r${c.green}✅ Loaded ${allPosts.length} posts (processing ${posts.length}), indexed ${keywordIndex.size} keywords.    \n\n${c.reset}`,
+  )
+
+  // ── Step 1.5: Strict URL Normalization ──────────────────────────────────
+  const injector = new LinkInjector()
+  process.stdout.write(`${c.blue}🛡️  Normalizing internal links to absolute URLs…${c.reset}`)
+  // We use allPosts to build the full URL map, but we only modify files in the current 'posts' subset
+  const upgradeCount = injector.upgradeRelativeLinks(allPosts, posts, config.dryRun)
+  process.stdout.write(
+    `\r${c.green}✅ Normalized ${upgradeCount} posts with absolute URLs.          \n\n${c.reset}`,
   )
 
   // ── Step 2: Topic cluster health ─────────────────────────────────────────
@@ -275,18 +293,20 @@ async function main(): Promise<void> {
     return
   }
 
-  const prompt = new Confirm({
-    name: 'confirm',
-    message: 'Apply these links to your posts?',
-  })
-  const confirmed = await prompt.run()
+  let confirmed = config.yes
+
+  if (!confirmed) {
+    const prompt = new Confirm({
+      name: 'confirm',
+      message: 'Apply these links to your posts?',
+    })
+    confirmed = await prompt.run()
+  }
 
   if (!confirmed) {
     console.log(`\n${c.yellow}Operation cancelled.${c.reset}`)
     return
   }
-
-  const injector = new LinkInjector()
 
   // Apply structural cluster links first (highest priority)
   if (missingClusterLinks.length > 0) {

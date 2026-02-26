@@ -119,7 +119,8 @@ export class ContentScanner {
                 }
 
                 // 3. Don't link if an existing link to this target post already exists in the body
-                if (existingLinks.has(match.targetPost.url)) {
+                const relativeUrl = match.targetPost.url.replace('https://juan-tech.com', '');
+                if (existingLinks.has(match.targetPost.url) || existingLinks.has(relativeUrl)) {
                     continue;
                 }
 

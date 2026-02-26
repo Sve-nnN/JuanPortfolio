@@ -43,11 +43,19 @@ export class LinkInjector {
             for (const link of links) {
                 const { target } = link
                 const anchor = target.title || target.slug
+                const relativeUrl = target.url.replace('https://juan-tech.com', '')
 
-                // Already linked? Skip (URL already in body)
+                // 1. Check if already linked with absolute URL
                 if (updatedBody.includes(`(${target.url})`)) continue
 
-                // Try to find first paragraph mention of any primary keyword
+                // 2. Strict Mode: Upgrade existing relative links to absolute
+                if (updatedBody.includes(`(${relativeUrl})`)) {
+                    console.log(`[STRICT] Upgrading relative link to absolute in ${target.slug}: ${relativeUrl} -> ${target.url}`)
+                    updatedBody = updatedBody.split(`(${relativeUrl})`).join(`(${target.url})`)
+                    continue
+                }
+
+                // 3. Try to find natural keyword mention to convert into a link
                 const kwPattern = target.primary_keywords
                     .map(kw => kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
                     .join('|')
@@ -56,7 +64,8 @@ export class LinkInjector {
                 if (kwPattern) {
                     const regex = new RegExp(`\\b(${kwPattern})\\b`, 'i')
                     updatedBody = updatedBody.replace(regex, (match) => {
-                        // Skip if already inside a link context
+                        // Skip if already inside a link context (handled by isInsideExcludedContext in a more complex way, 
+                        // but here we just check if it's already linked by checking if the URL is in the body after replace)
                         return `[${match}](${target.url})`
                     })
                     linked = updatedBody.includes(`(${target.url})`)
@@ -79,6 +88,51 @@ export class LinkInjector {
         }
 
         return modified
+    }
+
+    /**
+     * Finds and upgrades all relative internal links to absolute URLs across targeted posts.
+     * Respects locale and domain rules.
+     */
+    upgradeRelativeLinks(allPosts: PostMetadata[], postsToProcess: PostMetadata[], dryRun: boolean): number {
+        let upgrades = 0
+        const urlToLocaleMap = new Map<string, string>()
+        const relativeToAbsoluteMap = new Map<string, string>()
+        
+        // Build maps from ALL posts for complete coverage
+        for (const post of allPosts) {
+            const relative = post.url.replace('https://juan-tech.com', '')
+            relativeToAbsoluteMap.set(relative, post.url)
+            urlToLocaleMap.set(post.url, post.idioma)
+        }
+
+        for (const post of postsToProcess) {
+            const raw = fs.readFileSync(post.filePath, 'utf-8')
+            const { data, content } = matter(raw)
+            let updatedContent = content
+            let postModified = false
+
+            for (const [relative, absolute] of relativeToAbsoluteMap.entries()) {
+                if (updatedContent.includes(`(${relative})`)) {
+                    // Only upgrade if the target post is in the SAME language as the source
+                    const targetLocale = urlToLocaleMap.get(absolute)
+                    if (targetLocale && targetLocale !== post.idioma) continue
+
+                    updatedContent = updatedContent.split(`(${relative})`).join(`(${absolute})`)
+                    postModified = true
+                }
+            }
+
+            if (postModified) {
+                if (!dryRun) {
+                    const newRaw = matter.stringify(updatedContent, data)
+                    fs.writeFileSync(post.filePath, newRaw, 'utf-8')
+                }
+                upgrades++
+            }
+        }
+
+        return upgrades
     }
 
     /**

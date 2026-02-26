@@ -16,12 +16,23 @@ relatedPosts:
 sidebarBanners: []
 metaTitle: 'Tutorial de SEO en Payload CMS: Configura tu Headless para SEO'
 metaDescription: >-
-  Aprende a configurar el plugin oficial de SEO de Payload CMS. Domina el manejo de metadatos,
-  previsualizaciones y campos personalizados para SEO.
+  Aprende a configurar el plugin oficial de SEO de Payload CMS. Domina el manejo
+  de metadatos, previsualizaciones y campos personalizados para SEO.
 primary_keywords:
   - SEO en Payload CMS
   - configuración de metadatos Payload
   - plugin SEO Payload
+semantic_keywords:
+  - payload cms seo plugin
+  - arquitectura de metadatos
+  - headless cms seo técnico
+  - automatización de seo payload
+  - campos personalizados seo
+  - integración nextjs payload seo
+  - optimización de contenido dinámico
+  - desarrollo web con payload cms
+  - sitemaps en payload cms
+  - schema markup en cms
 ---
 
 ## TL;DR (SGE Summary)
@@ -73,3 +84,7 @@ El uso de Payload CMS junto a un frontend desacoplado ofrece beneficios signific
 
 ## Conclusión
 Implementar SEO en Payload CMS no es solo añadir metadatos; es diseñar una arquitectura de contenido escalable y eficiente. Con el plugin oficial y una correcta integración en el frontend, Payload se convierte en una de las herramientas más potentes para estrategias de SEO técnico avanzadas.
+
+## See Also
+
+- [Payload CMS: Guía Completa para Construir Aplicaciones Modernas](https://juan-tech.com/blog/development/payloadcms-tutorial)

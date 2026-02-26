@@ -21,17 +21,20 @@ primary_keywords:
   - React Server Components guía
   - arquitectura App Router Next.js
 semantic_keywords:
-  - Server vs Client Components
-  - beneficios RSC para SEO
-  - fetching de datos en el servidor
-  - hidratación de componentes React
-  - Server Actions en Next.js
-  - optimización de bundle Next.js
+  - rsc guide
+  - server vs client components
+  - fetching de datos en servidor
+  - hidratación de componentes
+  - optimización de bundle react
+  - nextjs performance
+  - arquitectura de software frontend
+  - patrones de diseño react
+  - carga progresiva web
+  - desarrollo fullstack con nextjs
 uploaded: false
 idioma: es
 slug: nextjs-server-components
 ---
-
 ## El Cambio de Paradigma en React
 - Por qué surgieron los Server Components y qué problema resuelven.
 
@@ -51,3 +54,7 @@ slug: nextjs-server-components
 
 ## Conclusión
 Los Server Components no son solo una opción, son el futuro de las aplicaciones web escalables.
+
+## See Also
+
+- [Payload CMS: Guía Completa para Construir Aplicaciones Modernas](https://juan-tech.com/blog/development/payloadcms-tutorial)

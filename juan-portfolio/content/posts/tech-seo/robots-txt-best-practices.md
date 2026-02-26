@@ -14,24 +14,28 @@ relatedPosts:
 sidebarBanners: []
 metaTitle: 'Robots.txt 2026: Guía con Ejemplos para WordPress, Shopify y Bots de IA'
 metaDescription: >-
-  Implementa robots.txt correctamente. Incluye plantillas para WordPress, Shopify, y directrices para bloquear spiders de IA como GPTBot. Optimiza tu crawl budget.
+  Implementa robots.txt correctamente. Incluye plantillas para WordPress,
+  Shopify, y directrices para bloquear spiders de IA como GPTBot. Optimiza tu
+  crawl budget.
 primary_keywords:
   - mejores prácticas robots.txt
   - configuración robots.txt SEO
   - optimizar rastreo web
 semantic_keywords:
-  - sintaxis robots.txt
-  - user-agent SEO
   - crawl budget
-  - bloquear bots de IA
-  - robots.txt para WordPress
-  - robots.txt para Shopify
+  - directivas robots.txt
+  - disallow allow robots
   - sitemap en robots.txt
+  - bloquear bots de ia
+  - optimización de rastreo
+  - user-agent seo
+  - presupuesto de rastreo
+  - indexabilidad web
+  - archivos de configuración seo
 uploaded: false
 idioma: es
 slug: robots-txt-best-practices
 ---
-
 Configurar el **robots.txt** correctamente es esencial para gestionar el presupuesto de rastreo (Crawl Budget) de tu servidor. En esta guía técnica de 2026, te mostraré cómo estructurar este archivo y compartiré plantillas precisas para optimizar bases de CMS y bloquear la extracción no autorizada de Modelos de Lenguaje Grande (LLMs) como GPTBot.
 
 ## ¿Qué es el archivo robots.txt?
@@ -128,3 +132,7 @@ No. Utilizar la instrucción `Disallow` sobre enlaces de pauta paralelos impide 
 No. El `robots.txt` expone meras reglas que asumen bots responsables aceptan por orden formal pasivo global sin defensa real alguna activa. Los scrapers irregulares delictivos atacarán tu proyecto obviándolos. Requiere levantar tu dominio perimetral bajo firewalls de red web (Web Application Firewalls CDN inversos).
 
 Supervisa tu estatus formal mediante la herramienta en línea inspector `robots.txt` de tu Google Search Console para corroboración limpia al empujarlo a producción de servidor en vivo.
+
+## See Also
+
+- [Guía de SEO Técnico para Desarrolladores (2026)](https://juan-tech.com/blog/tech-seo/tech-seo-guide)

@@ -22,11 +22,15 @@ primary_keywords:
   - medir la eficiencia del código
 semantic_keywords:
   - complejidad algorítmica
-  - análisis de algoritmos
-  - tiempo de ejecución
+  - big o notation
   - escalabilidad de algoritmos
-  - eficiencia de algoritmos
-  - notación asintótica
+  - tiempo de ejecución
+  - complejidad espacial
+  - análisis de algoritmos
+  - o(n)
+  - o(log n)
+  - o(n^2)
+  - eficiencia de código
 uploaded: true
 idioma: es
 slug: big-o-notation
@@ -51,20 +55,20 @@ La tasa de crecimiento describe cómo se incrementan el tiempo de ejecución o e
 - O(1): Tiempo de ejecución constante, independientemente del tamaño de la entrada.
 - O(log n): Aumento logarítmico, que se observa en estructuras que dividen su entrada en partes menores, como en la búsqueda binaria.
 - O(n): Complejidad lineal, donde el tiempo de ejecución aumenta directamente con el tamaño de entrada.
-- O(n log n): Asocia el crecimiento lineal con una operación logarítmica, común en [algoritmos de ordenamiento](/blog/cs-fundamentals/algoritmos-ordenamiento) eficientes.
+- O(n log n): Asocia el crecimiento lineal con una operación logarítmica, común en [algoritmos de ordenamiento](https://juan-tech.com/blog/cs-fundamentals/algoritmos-ordenamiento) eficientes.
 - O(n^2): Representa un crecimiento cuadrático, típico de algoritmos que procesan pares de elementos en matrices o listas.
 - O(2^n): Refleja un crecimiento exponencial, normalmente asociado con métodos de fuerza bruta que exploran todas las combinaciones posibles.
 - O(n!): Representa un crecimiento factorial, este es uno de los peores escenarios que puede tener un algoritmo.
 
 ### Diferencia entre complejidad temporal y espacial
 
-La complejidad temporal se refiere al tiempo que un algoritmo requiere para completar su ejecución a medida que cambia el tamaño de la entrada. Este parámetro es esencial para evaluar la eficiencia de un algoritmo en términos de tiempo. Por otro lado, la [complejidad espacial](/blog/cs-fundamentals/complejidad-algoritmica) evalúa el espacio de memoria que un algoritmo necesita durante su ejecución. Por lo general, se espera que un diseño óptimo no solo minimice el tiempo requerido para procesar los datos, sino también la cantidad de memoria utilizada.
+La complejidad temporal se refiere al tiempo que un algoritmo requiere para completar su ejecución a medida que cambia el tamaño de la entrada. Este parámetro es esencial para evaluar la eficiencia de un algoritmo en términos de tiempo. Por otro lado, la [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad-algoritmica) evalúa el espacio de memoria que un algoritmo necesita durante su ejecución. Por lo general, se espera que un diseño óptimo no solo minimice el tiempo requerido para procesar los datos, sino también la cantidad de memoria utilizada.
 
 Comprender la diferencia entre ambos conceptos es fundamental para elegir la mejor estrategia algorítmica al abordar problemas específicos. Algoritmos que son eficientes en tiempo pueden no serlo necesariamente en espacio y viceversa. Esta dualidad en el análisis permite a los desarrolladores tomar decisiones informadas sobre qué algoritmos implementar en función del ambiente y los recursos disponibles.
 
 ## Clasificación de la complejidad en algoritmos
 
-La clasificación de la complejidad en algoritmos es fundamental para comprender cómo el rendimiento de un algoritmo varía con el tamaño de la entrada. A continuación, se presentan los tipos más comunes de [complejidad algorítmica](/blog/cs-fundamentals/algoritmos-estructuras-datos) y su funcionamiento.
+La clasificación de la complejidad en algoritmos es fundamental para comprender cómo el rendimiento de un algoritmo varía con el tamaño de la entrada. A continuación, se presentan los tipos más comunes de [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) y su funcionamiento.
 
 ### Complejidad constante y su comportamiento en bucles simples
 
@@ -329,7 +333,7 @@ La visualización del crecimiento en notación Big O es fundamental para entende
 Las gráficas son herramientas efectivas para representar la complejidad de los algoritmos. A continuación se presentan algunos ejemplos de cómo lucen diferentes curvas según la notación Big O:
 
 - **O(1)**: Representa una línea horizontal en el gráfico, indicando que el tiempo de ejecución se mantiene constante, sin importar el aumento del tamaño de la entrada.
-- **O(log n)**: Esta curva sube lentamente, mostrando que el tiempo requerido aumenta de manera logarítmica, ideal para [algoritmos de búsqueda](/blog/cs-fundamentals/arboles-binarios) como la búsqueda binaria.
+- **O(log n)**: Esta curva sube lentamente, mostrando que el tiempo requerido aumenta de manera logarítmica, ideal para [algoritmos de búsqueda](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios) como la búsqueda binaria.
 - **O(n)**: Se presenta como una línea diagonal, lo que indica un crecimiento lineal directo a medida que se incrementa la entrada.
 - **O(n log n)**: Aquí, la curva inicia creciendo más despacio que O(n^2) pero más dinámicamente que O(n), convirtiéndose en una opción popular para algoritmos de ordenamiento.
 - **O(n^2)**: Muestra un aumento exponencial, donde la curva se eleva rápidamente, especialmente para algoritmos con bucles anidados.
@@ -366,7 +370,7 @@ La forma en que se implementa un algoritmo puede influir drásticamente en su re
 
 Es posible que una implementación más sencilla sea más fácil de comprender, pero no siempre es la más eficiente. Los desarrolladores a menudo deben equilibrar la legibilidad del código con la necesidad de mejorar el rendimiento. La optimización puede incluir técnicas como la reducción de operaciones innecesarias, la elección de estructuras de datos más adecuadas o la paralelización de procesos.
 
-- La reutilización de resultados previos mediante memoización o almacenamiento en caché puede ser crucial en ciertos contextos.
+- La reutilización de resultados previos mediante [memoización](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) o almacenamiento en caché puede ser crucial en ciertos contextos.
 - Implementar algoritmos de manera que se minimicen las llamadas a funciones costosas o que se agrupe el procesamiento puede mejorar el rendimiento.
 
 ### Consideraciones prácticas y el impacto de los factores constantes

@@ -21,17 +21,20 @@ primary_keywords:
   - crear portafolio personal web
   - guía de Next.js para portfolios
 semantic_keywords:
-  - diseño de portfolio para desarrolladores
-  - rendimiento web portfolio
-  - Next.js App Router portfolio
-  - Tailwind CSS en portfolios
-  - despliegue de portfolio en Vercel
-  - mejores prácticas para portfolios
+  - diseño de portfolio técnico
+  - desarrollo web personal
+  - showcase de proyectos react
+  - optimización de marca personal
+  - nextjs app router portfolio
+  - arquitectura de frontend moderno
+  - despliegue en vercel
+  - performance web portfolio
+  - componentes react para portfolios
+  - branding para desarrolladores
 uploaded: false
 idioma: es
 slug: nextjs-portfolio
 ---
-
 ## ¿Por qué elegir Next.js para tu portfolio?
 - Velocidad, SEO y experiencia de usuario como cartas de presentación.
 
@@ -52,3 +55,7 @@ slug: nextjs-portfolio
 
 ## Conclusión
 Tu portfolio es tu activo más valioso; asegúrate de que refleje tu capacidad técnica.
+
+## See Also
+
+- [Payload CMS: Guía Completa para Construir Aplicaciones Modernas](https://juan-tech.com/blog/development/payloadcms-tutorial)

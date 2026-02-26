@@ -21,17 +21,20 @@ primary_keywords:
   - optimización SEO headless
   - arquitectura CMS desacoplada
 semantic_keywords:
-  - Contentful SEO
-  - Strapi SEO
-  - Payload CMS SEO
-  - metadatos dinámicos CMS
-  - sitemaps en arquitecturas headless
-  - desafíos SEO headless
+  - headless cms vs tradicional
+  - payload cms seo
+  - gestión de metadatos dinámica
+  - arquitectura web moderna
+  - rendimiento seo headless
+  - indexación de contenido desacoplado
+  - estrategias de renderizado para seo
+  - seo técnico en cms moderno
+  - infraestructura de contenido escalable
+  - mejores prácticas headless seo
 uploaded: false
 idioma: es
 slug: headless-cms-seo
 ---
-
 ## ¿Qué es un CMS Headless y cómo afecta al SEO?
 - Desmontando mitos: El CMS no posiciona solo, lo hace tu implementación.
 
@@ -51,3 +54,7 @@ slug: headless-cms-seo
 
 ## Conclusión
 El SEO Headless te da el control total, pero también la responsabilidad absoluta de la arquitectura técnica.
+
+## See Also
+
+- [Guía de SEO Técnico para Desarrolladores (2026)](https://juan-tech.com/blog/tech-seo/tech-seo-guide)

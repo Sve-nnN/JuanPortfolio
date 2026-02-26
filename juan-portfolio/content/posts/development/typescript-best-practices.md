@@ -21,17 +21,20 @@ primary_keywords:
   - TypeScript avanzado patrones
   - código limpio en TypeScript
 semantic_keywords:
-  - tipado estricto TypeScript
-  - genéricos en TypeScript
+  - tipado estricto
+  - genéricos en typescript
   - interfaces vs types
-  - utilidades de tipos TypeScript
-  - TypeScript en Next.js y Node.js
-  - debugging de tipos complejos
+  - arquitectura de software limpia
+  - mantenimiento de código typescript
+  - desarrollo robusto con typescript
+  - patrones de diseño typescript
+  - ingeniería de software frontend
+  - seguridad de tipos en apps
+  - guía avanzada de typescript
 uploaded: false
 idioma: es
 slug: typescript-best-practices
 ---
-
 ## ¿Por qué el tipado estricto es indispensable?
 - Beneficios en el mantenimiento y la reducción de bugs.
 
@@ -51,3 +54,7 @@ slug: typescript-best-practices
 
 ## Conclusión
 TypeScript es más que un transpilador; es una herramienta que eleva la calidad de tu ingeniería.
+
+## See Also
+
+- [Payload CMS: Guía Completa para Construir Aplicaciones Modernas](https://juan-tech.com/blog/development/payloadcms-tutorial)

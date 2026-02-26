@@ -20,13 +20,13 @@ export interface TopicCluster {
   satellites: PostMetadata[]
 }
 
-/** pillarSlug → TopicCluster */
+/** pillarSlug (locale:slug) → TopicCluster */
 export type ClusterMap = Map<string, TopicCluster>
 
 /**
  * Builds a map of topic clusters from a flat list of posts.
  * Satellites are attached to their declared pillar via `pillarSlug`.
- * Orphaned satellites (pillar not found) are silently ignored.
+ * Key is formatted as `locale:slug` to prevent cross-language collisions.
  */
 export function buildClusterMap(posts: PostMetadata[]): ClusterMap {
   const map: ClusterMap = new Map()
@@ -34,8 +34,9 @@ export function buildClusterMap(posts: PostMetadata[]): ClusterMap {
   // First pass: register all pillar pages
   for (const post of posts) {
     if (post.contentRole === 'pillar') {
-      if (!map.has(post.slug)) {
-        map.set(post.slug, { pillar: post, satellites: [] })
+      const key = `${post.idioma}:${post.slug}`
+      if (!map.has(key)) {
+        map.set(key, { pillar: post, satellites: [] })
       }
     }
   }
@@ -43,7 +44,8 @@ export function buildClusterMap(posts: PostMetadata[]): ClusterMap {
   // Second pass: attach satellites to their declared pillar
   for (const post of posts) {
     if (post.contentRole === 'satellite' && post.pillarSlug) {
-      const cluster = map.get(post.pillarSlug)
+      const key = `${post.idioma}:${post.pillarSlug}`
+      const cluster = map.get(key)
       if (cluster) {
         cluster.satellites.push(post)
       }
@@ -108,17 +110,17 @@ export function getClusterSummaries(
 ): ClusterSummary[] {
   const allMissing = getMissingClusterLinks(clusters, readFile)
 
-  // Index missing links by pillar slug for O(1) lookup
-  const missingByPillar = new Map<string, MissingClusterLink[]>()
+  // Index missing links by pillar cluster key (locale:slug) for O(1) lookup
+  const missingByPillarKey = new Map<string, MissingClusterLink[]>()
   for (const link of allMissing) {
-    const pillarSlug =
-      link.source.contentRole === 'pillar' ? link.source.slug : link.target.slug
-    if (!missingByPillar.has(pillarSlug)) missingByPillar.set(pillarSlug, [])
-    missingByPillar.get(pillarSlug)!.push(link)
+    const pillar = link.linkType === 'satellite-to-pillar' ? link.target : link.source
+    const pillarKey = `${pillar.idioma}:${pillar.slug}`
+    if (!missingByPillarKey.has(pillarKey)) missingByPillarKey.set(pillarKey, [])
+    missingByPillarKey.get(pillarKey)!.push(link)
   }
 
-  return Array.from(clusters.entries()).map(([slug, { pillar, satellites }]) => {
-    const clusterMissing = missingByPillar.get(slug) ?? []
+  return Array.from(clusters.entries()).map(([clusterKey, { pillar, satellites }]) => {
+    const clusterMissing = missingByPillarKey.get(clusterKey) ?? []
     let health: ClusterSummary['health']
     if (satellites.length === 0) {
       health = 'no-satellites'
@@ -128,7 +130,7 @@ export function getClusterSummaries(
       health = 'missing-links'
     }
     return {
-      pillarSlug: slug,
+      pillarSlug: pillar.slug,
       pillarTitle: pillar.title,
       locale: pillar.idioma,
       satelliteCount: satellites.length,

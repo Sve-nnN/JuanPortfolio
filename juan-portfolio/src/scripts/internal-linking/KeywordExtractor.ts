@@ -84,11 +84,12 @@ export class KeywordExtractor {
             const slug = basename.replace(/\.(en|es)\.md$/, '').replace(/\.md$/, '')
 
             // Locale: filename suffix wins, then frontmatter, then site default 'es'
-            const idioma: string = basename.endsWith('.en.md') ? 'en'
+            const idioma: 'en' | 'es' = basename.endsWith('.en.md') ? 'en'
                 : basename.endsWith('.es.md') ? 'es'
-                : (data.idioma || 'es')
+                : ((data.idioma as 'en' | 'es') || 'es')
 
-            const url = getPostUrl({ slug, categories: [category] });
+            const relativeUrl = getPostUrl({ slug, categories: [category] }, idioma);
+            const url = `https://juan-tech.com${relativeUrl}`;
 
             const primary_keywords: string[] = (data.primary_keywords || [])
                 .map((kw: string) => kw.toLowerCase())

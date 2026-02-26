@@ -1,10 +1,12 @@
 ---
-title: "Programación Dinámica: Dominando la Eficiencia en la Resolución de Problemas Complejos"
+title: >-
+  Programación Dinámica: Dominando la Eficiencia en la Resolución de Problemas
+  Complejos
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-17T00:00:00.000Z
 authors:
   - juan-carlos-angulo
-heroImage:
+heroImage: null
 categoryTitle: CS Fundamentals
 contentRole: satellite
 pillarSlug: algoritmos-estructuras-datos
@@ -12,27 +14,30 @@ relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: "Programación Dinámica: De la Recursión a la Optimización"
-metaDescription: Aprende a resolver problemas complejos con programación dinámica. Cubrimos Memoización, Tabulación y el Problema de la Mochila, con ejemplos de código claros y optimizaciones.
+metaTitle: 'Programación Dinámica: De la Recursión a la Optimización'
+metaDescription: >-
+  Aprende a resolver problemas complejos con programación dinámica. Cubrimos
+  Memoización, Tabulación y el Problema de la Mochila, con ejemplos de código
+  claros y optimizaciones.
 primary_keywords:
   - programación dinámica
   - algoritmos de optimización
   - técnica de memoización
 semantic_keywords:
-  - enfoque Top-Down vs Bottom-Up
+  - memoización
+  - tabulación
   - subproblemas superpuestos
   - estructura óptima
-  - tabulación en algoritmos
   - problema de la mochila
-  - serie de Fibonacci optimizada
-  - complejidad temporal
-  - complejidad espacial
+  - optimización de algoritmos
+  - algoritmos recursivos
+  - complejidad temporal de algoritmos
+  - algoritmos eficientes
+  - ingeniería de software escalable
 uploaded: false
 idioma: es
 slug: programacion-dinamica
 ---
-
-
 La Programación Dinámica (PD) es una técnica algorítmica esencial para resolver problemas complejos al dividirlos en subproblemas más simples, almacenar sus soluciones y reutilizarlas, evitando cálculos redundantes. Es clave para optimizar algoritmos y tomar decisiones eficientes en diversas áreas.
 
 ¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un algoritmo específico, sino de una **metodología de diseño de algoritmos** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
@@ -82,7 +87,7 @@ La secuencia de Fibonacci es el ejemplo por excelencia para ilustrar la necesida
 
 #### Enfoque Recursivo Naive (sin PD)
 
-Una implementación directa de la definición recursiva resulta en una [complejidad temporal](/blog/cs-fundamentals/big-o-notation) exponencial, debido a la repetición de cálculos.
+Una implementación directa de la definición recursiva resulta en una [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) exponencial, debido a la repetición de cálculos.
 
 ```python
 def fibonacci_naive(n: int) -> int:
@@ -168,7 +173,7 @@ def fibonacci_tabulation_optimized_space(n: int) -> int:
 
 ### 2. Problema del Camino Más Corto en Grafos
 
-Aunque Dijkstra es un algoritmo voraz, la Programación Dinámica es fundamental en problemas de caminos más cortos cuando hay pesos negativos o cuando se buscan caminos con propiedades específicas (como el número de aristas). Algoritmos como **Bellman-Ford** y **Floyd-Warshall** utilizan principios de PD para encontrar caminos más cortos en [grafos](/blog/cs-fundamentals/algoritmos-estructuras-datos), incluso con ciclos negativos en el caso de Bellman-Ford (detectándolos) o entre todos los pares de nodos en el caso de Floyd-Warshall.
+Aunque Dijkstra es un algoritmo voraz, la Programación Dinámica es fundamental en problemas de caminos más cortos cuando hay pesos negativos o cuando se buscan caminos con propiedades específicas (como el número de aristas). Algoritmos como **Bellman-Ford** y **Floyd-Warshall** utilizan principios de PD para encontrar caminos más cortos en [grafos](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos), incluso con ciclos negativos en el caso de Bellman-Ford (detectándolos) o entre todos los pares de nodos en el caso de Floyd-Warshall.
 
 ### 3. Multiplicación Óptima de Cadenas de Matrices
 
@@ -280,7 +285,7 @@ La Programación Dinámica no solo busca resolver problemas, sino resolverlos de
 
 Si bien la memoización y la tabulación usan memoria para almacenar resultados, es posible optimizar el espacio en muchos problemas:
 
-*   **Reutilización de Filas/Columnas:** En problemas de tabla DP (como la mochila), a menudo solo se necesita la fila o columna anterior para calcular la actual. Esto reduce la [complejidad espacial](/blog/cs-fundamentals/complejidad-algoritmica) de O(N*W) a O(W) o O(N).
+*   **Reutilización de Filas/Columnas:** En problemas de tabla DP (como la mochila), a menudo solo se necesita la fila o columna anterior para calcular la actual. Esto reduce la [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad-algoritmica) de O(N*W) a O(W) o O(N).
 *   **Variables Simples:** Como vimos en Fibonacci, si la relación de recurrencia solo depende de un número fijo de estados anteriores, podemos usar unas pocas variables para almacenar esos estados en lugar de una tabla completa, logrando O(1) de espacio.
 
 ### Memoización vs. Tabulación: Cuándo Usar Cuál

@@ -30,10 +30,7 @@ semantic_keywords:
   - Payload CMS vs otros CMS
   - desarrollo web con Payload CMS
 uploaded: false
-idioma: es
-slug: payloadcms-tutorial
 ---
-
 ## ¿Qué es Payload CMS?
 - Por qué es el CMS preferido para desarrolladores JavaScript/TypeScript.
 - La diferencia entre un CMS "GUI-first" y uno "code-first".
@@ -57,3 +54,23 @@ slug: payloadcms-tutorial
 
 ## Conclusión
 Payload CMS ofrece una flexibilidad inigualable sin sacrificar la experiencia del desarrollador.
+
+## See Also
+
+- [Cómo Crear un Portfolio Profesional con Next.js y Tailwind CSS](https://juan-tech.com/blog/development/nextjs-portfolio)
+
+## See Also
+
+- [Next.js Server Components: Guía de Arquitectura y Rendimiento](https://juan-tech.com/blog/development/nextjs-server-components)
+
+## See Also
+
+- [SEO en Payload CMS: Guía Completa de Configuración](https://juan-tech.com/blog/development/payloadcms-seo)
+
+## See Also
+
+- [Payload CMS vs Strapi: Comparativa de los mejores CMS Headless](https://juan-tech.com/blog/development/payloadcms-vs-strapi)
+
+## See Also
+
+- [Mejores Prácticas de TypeScript: Guía para un Código Limpio y Robusto](https://juan-tech.com/blog/development/typescript-best-practices)

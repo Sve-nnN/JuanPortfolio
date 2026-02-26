@@ -1,10 +1,10 @@
 ---
-title: "Algoritmos de ordenamiento: Mejora la eficiencia de tus datos"
+title: 'Algoritmos de ordenamiento: Mejora la eficiencia de tus datos'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-17T00:00:00.000Z
 authors:
   - juan-carlos-angulo
-heroImage:
+heroImage: null
 categoryTitle: CS Fundamentals
 contentRole: satellite
 pillarSlug: algoritmos-estructuras-datos
@@ -12,19 +12,25 @@ relatedPosts:
   - algoritmos-estructuras-datos
   - big-o-notation
 sidebarBanners: []
-metaTitle: "Algoritmos de Ordenamiento: Guía Completa de Ingeniería"
-metaDescription: Aprende Bubble, Quick y Merge Sort. Comparativa de eficiencia (Big O), estabilidad y casos de uso en el desarrollo real de software.
+metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ingeniería'
+metaDescription: >-
+  Aprende Bubble, Quick y Merge Sort. Comparativa de eficiencia (Big O),
+  estabilidad y casos de uso en el desarrollo real de software.
 primary_keywords:
   - algoritmos de ordenamiento
   - ordenar arreglos programación
   - eficiencia de ordenamiento
 semantic_keywords:
-  - Bubble Sort vs Quick Sort
-  - Merge Sort complejidad
-  - ordenamiento estable
-  - algoritmos de división y conquista
-  - complejidad temporal Big O
-  - ordenamiento en memoria vs externo
+  - bubble sort
+  - quick sort
+  - merge sort
+  - heap sort
+  - algoritmos de búsqueda y ordenamiento
+  - complejidad temporal de ordenamiento
+  - estabilidad de algoritmos
+  - comparativa de algoritmos de ordenamiento
+  - estructuras de datos y algoritmos
+  - algoritmos eficientes
 uploaded: false
 idioma: es
 slug: algoritmos-ordenamiento
@@ -61,7 +67,7 @@ Estos algoritmos funcionan dentro de la memoria de la computadora, lo que signif
 
 #### Características y uso de memoria
 
-Los algoritmos internos suelen ser más rápidos y eficientes en términos de [tiempo de ejecución](/blog/cs-fundamentals/big-o-notation), dado que operan directamente en datos que están en la memoria. Generalmente, requieren un espacio de memoria adicional mínimo, lo que los hace más prácticos para arreglos pequeños o medianos. También, la implementación de estos algoritmos no necesita [estructuras de datos](/blog/cs-fundamentals/arboles-binarios) complejas, facilitando su uso en diversas aplicaciones.
+Los algoritmos internos suelen ser más rápidos y eficientes en términos de [tiempo de ejecución](https://juan-tech.com/blog/cs-fundamentals/big-o-notation), dado que operan directamente en datos que están en la memoria. Generalmente, requieren un espacio de memoria adicional mínimo, lo que los hace más prácticos para arreglos pequeños o medianos. También, la implementación de estos algoritmos no necesita [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios) complejas, facilitando su uso en diversas aplicaciones.
 
 #### Ejemplos comunes de ordenamiento interno
 
@@ -95,7 +101,7 @@ La complejidad temporal de un algoritmo indica el tiempo que tarda en ejecutarse
 
 ### Complejidad espacial y uso de memoria
 
-La [complejidad espacial](/blog/cs-fundamentals/complejidad-algoritmica) se refiere a la cantidad de memoria que un algoritmo requiere durante su ejecución. Esta puede ser crucial, especialmente en situaciones donde los recursos de memoria son limitados. Existen dos categorías básicas:
+La [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad-algoritmica) se refiere a la cantidad de memoria que un algoritmo requiere durante su ejecución. Esta puede ser crucial, especialmente en situaciones donde los recursos de memoria son limitados. Existen dos categorías básicas:
 
 - **Algoritmos in-place:** Utilizan una cantidad mínima de espacio adicional, como el Quick Sort, que requiere solo un espacio de O(log n) para la pila de recursión.
 - **Algoritmos que requieren memoria adicional:** Estos pueden necesitar arreglos auxiliares, como el Merge Sort, que utiliza O(n) de memoria para combinar sublistados ordenados.
@@ -757,3 +763,7 @@ La ordenación natural permite optimizar la eficiencia del algoritmo cuando los 
 ### ¿Por qué algunos algoritmos requieren memoria adicional?
 
 Los algoritmos que requieren estructuras de datos auxiliares o almacenamiento adicional, como Merge Sort, pueden consumir más memoria. Esto es una consideración importante en sistemas con recursos limitados, donde optimizar el uso de memoria es crítico para su eficacia y rendimiento general.
+
+## See Also
+
+- [Algoritmos y estructuras de datos: Fundamentos de la programación eficiente y escalable](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos)

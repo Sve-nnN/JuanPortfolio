@@ -40,9 +40,13 @@ export const JsonLd = ({ schema, post, locale = 'es', siteUrl = 'https://juan-te
     }
   }
 
-  // Auto-generate Article Schema if post is provided
-  if (post) {
+  // Auto-generate Article Schema if post is provided AND no explicit schema was given
+  if (post && !schema) {
     const authors = post.populatedAuthors || []
+    const categories = post.categories || []
+    const categorySlug = categories.length > 0 
+      ? (typeof categories[0] === 'object' ? (categories[0] as any).slug : categories[0])
+      : 'general'
     
     const articleSchema: Schema = {
       '@type': 'BlogPosting',
@@ -63,7 +67,7 @@ export const JsonLd = ({ schema, post, locale = 'es', siteUrl = 'https://juan-te
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': `${siteUrl}${locale === 'es' ? '' : '/en'}/blog/${post.slug}`,
+        '@id': `${siteUrl}${locale === 'es' ? '' : '/en'}/blog/${categorySlug}/${post.slug}`,
       }
     }
     schemas.push(articleSchema)

@@ -22,7 +22,7 @@ import { draftMode, headers } from 'next/headers'
 import type { Locale } from '@/i18n/translations'
 
 import { Analytics } from '@vercel/analytics/next'
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { JsonLd } from '@/components/JsonLd'
 import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/schema'
@@ -166,7 +166,12 @@ export default async function RootLayout({
         <SpeedInsights />
         <Analytics />
         <React.Suspense fallback={null}>
-          <GoogleAnalytics gaId="G-6420MCL304" />
+          {process.env.NEXT_PUBLIC_GTM_ID && (
+            <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+          )}
+          {process.env.NEXT_PUBLIC_GA_ID && (
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          )}
         </React.Suspense>
       </body>
     </html>

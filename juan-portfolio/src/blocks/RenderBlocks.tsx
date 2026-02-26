@@ -73,7 +73,7 @@ const blockComponents: Record<string, React.ComponentType<any>> = {
   testimonialsCarousel: dynamic(() =>
     import('@/blocks/TestimonialsCarousel/Component').then((m) => m.TestimonialsCarousel),
   ),
-  faq: dynamic(() => import('@/blocks/FAQ/Component').then((m) => m.FAQBlock)),
+  faq: dynamic(() => import('@/blocks/FAQ/Component')),
 }
 
 export const RenderBlocks: React.FC<{
@@ -89,8 +89,14 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const blockType = (block as { blockType?: string }).blockType
-          if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType]
+          
+          // Debugging log for development
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Rendering block: ${blockType}`)
+          }
+
+          if (blockType && (blockType in blockComponents || blockType.toLowerCase() in blockComponents)) {
+            const Block = blockComponents[blockType] || blockComponents[blockType.toLowerCase()]
             if (Block) {
               if (index === 0) {
                 return (

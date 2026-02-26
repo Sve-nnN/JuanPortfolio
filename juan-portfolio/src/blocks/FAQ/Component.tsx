@@ -37,3 +37,5 @@ export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {
     </div>
   )
 }
+
+export default FAQBlock

@@ -84,17 +84,61 @@ const extractText = (node: any): string => {
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
-  heading: ({ node }) => {
+  heading: ({ node, nodesToJSX }) => {
     const text = node.children.map(extractText).join('')
     const id = slugify(text)
     const Tag = node.tag
     return (
       <Tag id={id} className={`scroll-mt-32`}>
-        {node.children.map((child: any, i: number) => {
-          const Converter = (defaultConverters as any)[child.type]
-          return <Converter key={i} node={child} />
+        {nodesToJSX({
+          nodes: node.children,
         })}
       </Tag>
+    )
+  },
+  quote: ({ node, nodesToJSX }) => {
+    return (
+      <blockquote className="my-8 border-l-4 border-primary/20 pl-6 italic text-foreground bg-secondary/10 py-4 rounded-r-lg">
+        {nodesToJSX({
+          nodes: node.children,
+        })}
+      </blockquote>
+    )
+  },
+  table: ({ node, nodesToJSX }) => {
+    return (
+      <div className="my-10 overflow-x-auto rounded-xl border border-border">
+        <table className="w-full text-left border-collapse m-0">
+          <tbody className="divide-y divide-border">
+            {nodesToJSX({
+              nodes: node.children,
+            })}
+          </tbody>
+        </table>
+      </div>
+    )
+  },
+  tablerow: ({ node, nodesToJSX }) => {
+    return (
+      <tr className="hover:bg-muted/30 transition-colors">
+        {nodesToJSX({
+          nodes: node.children,
+        })}
+      </tr>
+    )
+  },
+  tablecell: ({ node, nodesToJSX }) => {
+    return (
+      <td
+        className={cn(
+          'p-4 text-base align-top border-r border-border last:border-0',
+          node.header ? 'font-bold bg-muted/50 text-foreground' : 'text-muted-foreground',
+        )}
+      >
+        {nodesToJSX({
+          nodes: node.children,
+        })}
+      </td>
     )
   },
   blocks: {

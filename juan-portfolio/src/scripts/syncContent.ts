@@ -28,6 +28,7 @@ const c = {
 class ContentSyncManager {
   private repo!: PayloadRepository
   private state: SyncState
+  private rejectedCategories: Set<string> = new Set()
 
   constructor() {
     this.state = loadState(SYNC_STATE_FILE)
@@ -70,17 +71,21 @@ class ContentSyncManager {
       const content = fs.readFileSync(fullPath, 'utf-8')
       const localChanged = calculateHash(content) !== fileState.lastLocalHash
 
-      const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
-      const remoteChanged =
-        new Date(remoteDoc.updatedAt as string).getTime() >
-        new Date(fileState.lastRemoteUpdatedAt).getTime()
+      try {
+        const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+        const remoteChanged =
+          new Date(remoteDoc.updatedAt as string).getTime() >
+          new Date(fileState.lastRemoteUpdatedAt).getTime()
 
-      if (localChanged && remoteChanged) {
-        console.log(`${c.red}C  Conflict: ${relPath} (Both modified)${c.reset}`)
-      } else if (localChanged) {
-        console.log(`${c.green}M  Modified (Local): ${relPath}${c.reset}`)
-      } else if (remoteChanged) {
-        console.log(`${c.blue}U  Update (Remote): ${relPath}${c.reset}`)
+        if (localChanged && remoteChanged) {
+          console.log(`${c.red}C  Conflict: ${relPath} (Both modified)${c.reset}`)
+        } else if (localChanged) {
+          console.log(`${c.green}M  Modified (Local): ${relPath}${c.reset}`)
+        } else if (remoteChanged) {
+          console.log(`${c.blue}U  Update (Remote): ${relPath}${c.reset}`)
+        }
+      } catch (e) {
+        console.log(`${c.red}! Orphaned local state for ${relPath} (ID: ${fileState.id} not found)${c.reset}`)
       }
     }
   }
@@ -115,42 +120,46 @@ class ContentSyncManager {
       const rawContent = fs.readFileSync(fullPath, 'utf-8')
       const localChanged = calculateHash(rawContent) !== fileState.lastLocalHash
 
-      const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
-      const remoteUpdatedAt = remoteDoc.updatedAt as string
-      const remoteDate = new Date(remoteUpdatedAt).getTime()
-      const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
+      try {
+        const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+        const remoteUpdatedAt = remoteDoc.updatedAt as string
+        const remoteDate = new Date(remoteUpdatedAt).getTime()
+        const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
 
-      if (remoteDate <= lastSyncDate) continue
+        if (remoteDate <= lastSyncDate) continue
 
-      if (localChanged) {
-        console.log(`${c.red}❌ Conflict in ${relPath}. Local changes would be overwritten.${c.reset}`)
-        continue
+        if (localChanged) {
+          console.log(`${c.red}❌ Conflict in ${relPath}. Local changes would be overwritten.${c.reset}`)
+          continue
+        }
+
+        const mdContent = convertLexicalToMarkdown(
+          (remoteDoc.content as { content: Parameters<typeof convertLexicalToMarkdown>[0] }).content,
+        )
+        const frontmatter = {
+          title: remoteDoc.title,
+          slug: remoteDoc.slug,
+          idioma: fileState.locale,
+          publishedAt: remoteDoc.publishedAt,
+          updatedAt: remoteDoc.updatedAt,
+          authors: (remoteDoc.authors as Array<{ id?: string } | string>)?.map(
+            a => (typeof a === 'string' ? a : a.id ?? a),
+          ),
+        }
+
+        const newFileContent = matter.stringify(mdContent, frontmatter)
+        fs.writeFileSync(fullPath, newFileContent, 'utf-8')
+
+        this.state.files[relPath] = {
+          ...fileState,
+          lastLocalHash: calculateHash(newFileContent),
+          lastRemoteUpdatedAt: remoteUpdatedAt,
+        }
+        saveState(SYNC_STATE_FILE, this.state)
+        console.log(`${c.green}✅ Updated ${relPath}${c.reset}`)
+      } catch (e) {
+        console.log(`${c.red}❌ Error pulling ${relPath}: Post ID ${fileState.id} not found.${c.reset}`)
       }
-
-      const mdContent = convertLexicalToMarkdown(
-        (remoteDoc.content as { content: Parameters<typeof convertLexicalToMarkdown>[0] }).content,
-      )
-      const frontmatter = {
-        title: remoteDoc.title,
-        slug: remoteDoc.slug,
-        idioma: fileState.locale,
-        publishedAt: remoteDoc.publishedAt,
-        updatedAt: remoteDoc.updatedAt,
-        authors: (remoteDoc.authors as Array<{ id?: string } | string>)?.map(
-          a => (typeof a === 'string' ? a : a.id ?? a),
-        ),
-      }
-
-      const newFileContent = matter.stringify(mdContent, frontmatter)
-      fs.writeFileSync(fullPath, newFileContent, 'utf-8')
-
-      this.state.files[relPath] = {
-        ...fileState,
-        lastLocalHash: calculateHash(newFileContent),
-        lastRemoteUpdatedAt: remoteUpdatedAt,
-      }
-      saveState(SYNC_STATE_FILE, this.state)
-      console.log(`${c.green}✅ Updated ${relPath}${c.reset}`)
     }
   }
 
@@ -185,30 +194,35 @@ class ContentSyncManager {
       }
 
       const fileState = this.state.files[relPath]
-      const isNew = !fileState
+      let isNew = !fileState
 
       if (!isNew && !force) {
         if (currentHash === fileState.lastLocalHash) continue
 
-        const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
-        const remoteDate = new Date(remoteDoc.updatedAt as string).getTime()
-        const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
+        try {
+          const remoteDoc = await this.repo.getPost(fileState.id, fileState.locale)
+          const remoteDate = new Date(remoteDoc.updatedAt as string).getTime()
+          const lastSyncDate = new Date(fileState.lastRemoteUpdatedAt).getTime()
 
-        if (remoteDate > lastSyncDate) {
-          console.log(
-            `${c.red}❌ Conflict in ${relPath}: Remote has changed since last sync.${c.reset}`,
-          )
-          continue
+          if (remoteDate > lastSyncDate) {
+            console.log(
+              `${c.red}❌ Conflict in ${relPath}: Remote has changed since last sync.${c.reset}`,
+            )
+            continue
+          }
+        } catch (e) {
+          console.log(`${c.yellow}⚠️  Post ID ${fileState.id} not found. Treating as new.${c.reset}`)
+          isNew = true
         }
       }
 
-      const resolved = await this.resolveRelationships(parsed)
-      const postData = buildPostData(parsed, resolved)
-
-      let docID = fileState?.id
-      let resultDoc: Record<string, unknown>
-
       try {
+        const resolved = await this.resolveRelationships(parsed)
+        const postData = buildPostData(parsed, resolved)
+
+        let docID = isNew ? undefined : fileState?.id
+        let resultDoc: Record<string, unknown>
+
         if (docID) {
           resultDoc = await this.repo.updatePost(docID, postData, parsed.locale)
         } else {
@@ -223,7 +237,7 @@ class ContentSyncManager {
         }
 
         const newState: FileState = {
-          id: docID,
+          id: docID as string,
           slug: parsed.slug,
           locale: parsed.locale,
           lastLocalHash: currentHash,

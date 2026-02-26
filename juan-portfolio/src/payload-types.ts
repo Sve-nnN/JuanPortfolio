@@ -4241,6 +4241,7 @@ export interface Home {
     | FeaturedWorksBlock
     | FeaturedClientsBlock
     | FeaturedBlogBlock
+    | FAQBlock
     | FeaturedBlogPostsBlock
     | FeaturedCaseStudiesBlock
     | ContactFormBlock
@@ -4262,6 +4263,23 @@ export interface Home {
   };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock".
+ */
+export interface FAQBlock {
+  title?: string | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4612,6 +4630,7 @@ export interface HomeSelect<T extends boolean = true> {
         featuredWorks?: T | FeaturedWorksBlockSelect<T>;
         featuredClients?: T | FeaturedClientsBlockSelect<T>;
         featuredBlog?: T | FeaturedBlogBlockSelect<T>;
+        faq?: T | FAQBlockSelect<T>;
         featuredBlogPosts?: T | FeaturedBlogPostsBlockSelect<T>;
         featuredCaseStudies?: T | FeaturedCaseStudiesBlockSelect<T>;
         contactForm?: T | ContactFormBlockSelect<T>;
@@ -4633,6 +4652,22 @@ export interface HomeSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  title?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4848,23 +4883,6 @@ export interface CodeBlockProps {
   id?: string | null;
   blockName?: string | null;
   blockType: 'code-block';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQBlock".
- */
-export interface FAQBlock {
-  title?: string | null;
-  faqs?:
-    | {
-        question: string;
-        answer: string;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'faq';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

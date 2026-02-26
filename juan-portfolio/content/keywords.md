@@ -56,3 +56,4 @@
 | presupuesto de rastreo | /cs-fundamentals/presupuesto-de-rastreo |  |  |  | recommended | 2026-02-26 | Internal Linking Script | Mentioned in: complejidad-algoritmica, core-web-vitals-guide, non-developers-guide (5 times) |  |  |  |  |  |  | 0 | 0 |  |  |  |
 | espa | /cs-fundamentals/espa |  |  |  | recommended | 2026-02-26 | Internal Linking Script | Mentioned in: normalizacion-bases-datos, pillar-es (3 times) |  |  |  |  |  |  | 0 | 0 |  |  |  |
 | autoridad temática | /seo/autoridad-temática |  |  |  | recommended | 2026-02-26 | Internal Linking Script | Mentioned in: enlaces-internos-guia, estrategia-topic-clusters, redaccion-seo (7 times) |  |  |  |  |  |  | 0 | 0 |  |  |  |
+| existente | /cs-fundamentals/existente |  |  |  | recommended | 2026-02-26 | Internal Linking Script | Mentioned in: arboles-binarios, estrategia-topic-clusters, guia-keyword-research (3 times) |  |  |  |  |  |  | 0 | 0 |  |  |  |

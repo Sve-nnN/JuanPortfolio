@@ -9,7 +9,17 @@ import { domAnimation, LazyMotion, m, useScroll, useTransform, type Variants } f
 import { CMSLink } from '@/components/Link'
 
 export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = (props) => {
-  const { badge, title, subtitle, description, richText, primaryCta, secondaryCta, media, locale = 'es' } = props
+  const {
+    badge,
+    title,
+    subtitle,
+    description,
+    richText,
+    primaryCta,
+    secondaryCta,
+    media,
+    locale = 'es',
+  } = props
 
   const { scrollY } = useScroll()
   const y1 = useTransform(scrollY, [0, 500], [0, 200])
@@ -46,7 +56,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
         id="home"
       >
         {/* Background Ambience */}
-        <m.div 
+        <m.div
           style={{ y: y1, opacity }}
           className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none"
         >
@@ -78,15 +88,13 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
 
               <m.h1
                 variants={itemVariants}
-                className="font-display font-extrabold text-foreground mb-10 leading-[1.05] tracking-tight text-6xl md:text-8xl lg:text-9xl"
+                className="font-display font-extrabold text-foreground mb-10 leading-[1.05] tracking-tight text-6xl md:text-4xl lg:text-5xl"
               >
                 {title || 'Juan Carlos Angulo'}
                 {subtitle && (
                   <>
                     <br />
-                    <span
-                      className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-6 font-bold text-3xl md:text-5xl lg:text-6xl"
-                    >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-6 font-bold text-3xl md:text-5xl lg:text-6xl">
                       {subtitle}
                     </span>
                   </>
@@ -99,7 +107,11 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                 className="max-w-2xl text-xl md:text-3xl text-muted-foreground mb-14 text-center lg:text-left leading-relaxed font-medium"
               >
                 {richText ? (
-                  <RichText className="prose-2xl dark:prose-invert" data={richText} enableGutter={false} />
+                  <RichText
+                    className="prose-2xl dark:prose-invert"
+                    data={richText}
+                    enableGutter={false}
+                  />
                 ) : description ? (
                   <p>{description}</p>
                 ) : null}

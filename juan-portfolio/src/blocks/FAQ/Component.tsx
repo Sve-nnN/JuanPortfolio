@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { trackEvent } from '@/utilities/analytics'
 
 interface FAQProps {
   title?: string | null
@@ -23,7 +24,10 @@ export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {
       <Accordion type="single" collapsible className="w-full space-y-6">
         {faqs.map((faq, i) => (
           <AccordionItem key={i} value={`item-${i}`} className="card-elevated border-none px-8 py-2 overflow-hidden bg-card/50">
-            <AccordionTrigger className="text-left hover:no-underline py-6 group">
+            <AccordionTrigger 
+              className="text-left hover:no-underline py-6 group"
+              onClick={() => trackEvent('faq_opened', { question: faq.question })}
+            >
               <h3 className="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors duration-300 pr-4 leading-tight m-0">
                 {faq.question}
               </h3>

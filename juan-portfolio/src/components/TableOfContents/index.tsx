@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Heading } from '@/utilities/extractHeadings'
 import { cn } from '@/utilities/ui'
+import { trackEvent } from '@/utilities/analytics'
 
 interface TableOfContentsProps {
   headings: Heading[]
@@ -92,6 +93,11 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
           behavior: 'smooth',
         })
         
+        trackEvent('toc_navigation', { 
+          heading_id: id,
+          variant 
+        })
+
         setActiveId(id)
         window.history.pushState(null, '', `#${id}`)
         if (variant === 'mobile') setIsExpanded(false)

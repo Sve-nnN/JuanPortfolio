@@ -24,6 +24,7 @@ import type { Locale } from '@/i18n/translations'
 import { Analytics } from '@vercel/analytics/next'
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import Script from 'next/script'
 import { JsonLd } from '@/components/JsonLd'
 import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/schema'
 import { getPayload } from 'payload'
@@ -173,6 +174,12 @@ export default async function RootLayout({
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
           )}
         </React.Suspense>
+        {/* Ahrefs Analytics - Loaded after page is interactive to protect performance */}
+        <Script 
+          src="https://analytics.ahrefs.com/analytics.js" 
+          data-key="MKWDNj5f8/fviyOxhzLSPA" 
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

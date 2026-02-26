@@ -49,9 +49,9 @@ export function extractHeadingsFromLexical(content: unknown): Heading[] {
       }
 
       // Special handling for custom blocks that should appear in TOC
-      if (anyNode.type === 'block' && anyNode.fields) {
-        const fields = anyNode.fields as any
-        if (fields.blockType === 'faq' && fields.title) {
+      if (anyNode.type === 'block' && anyNode.fields && typeof anyNode.fields === 'object') {
+        const fields = anyNode.fields as Record<string, unknown>
+        if (fields.blockType === 'faq' && typeof fields.title === 'string') {
           const text = fields.title
           const baseId = slugify(text)
           headings.push({ id: baseId, text: text.trim(), level: 2 })

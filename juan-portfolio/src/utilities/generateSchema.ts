@@ -1,5 +1,6 @@
 import type { Page, Post } from '@/payload-types'
 import { generateBreadcrumbSchema } from './schema/generateBreadcrumbSchema'
+import type { Schema } from './schema/types'
 
 type GenerateSchemaArgs = {
   doc: Partial<Page> | Partial<Post> | null
@@ -8,18 +9,18 @@ type GenerateSchemaArgs = {
   breadcrumbs?: Array<{ name: string; url: string }>
 }
 
-export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: GenerateSchemaArgs): any => {
+export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: GenerateSchemaArgs): Schema | null => {
   if (!rawDoc) return null
-  const doc = rawDoc as any
+  const doc = rawDoc as unknown as Post & Page
 
   // Helper to get meta fields safely
-  const meta = doc.meta || doc.meta_group
+  const meta = doc.meta || (doc as any).meta_group
   
   const title = meta?.title || doc.title
   const description = meta?.description
   const image = meta?.image?.url || meta?.image?.sizes?.og?.url
 
-  const baseSchema = {
+  const baseSchema: Schema = {
     '@context': 'https://schema.org',
     url,
     name: title,
@@ -39,11 +40,11 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
     }
   }
 
-  let mainEntity = null
+  let mainEntity: Schema | null = null
 
   if (collection === 'posts') {
     const authors = doc.populatedAuthors || doc.authors
-    let authorId = `${process.env.NEXT_PUBLIC_SERVER_URL}/#person`
+    const authorId = `${process.env.NEXT_PUBLIC_SERVER_URL}/#person`
     let authorName = 'Juan Carlos Angulo'
     
     if (Array.isArray(authors) && authors.length > 0) {
@@ -57,7 +58,7 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
       ...baseSchema,
       '@type': 'BlogPosting',
       headline: title,
-      description: doc.tldr || description,
+      description: (doc.content as any)?.tldr || description,
       datePublished: doc.publishedAt,
       dateModified: doc.updatedAt,
       author: {
@@ -78,7 +79,7 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
 
   if (breadcrumbs) {
     const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs)
-    if (breadcrumbSchema) {
+    if (breadcrumbSchema && mainEntity) {
       return {
         '@context': 'https://schema.org',
         '@graph': [mainEntity, breadcrumbSchema]

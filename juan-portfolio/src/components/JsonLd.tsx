@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Schema } from '@/utilities/schema/types'
-import type { Post, User } from '@/payload-types'
+import type { Post, User, Category, Media } from '@/payload-types'
 
 interface JsonLdProps {
   schema?: Schema | Schema[] | null | undefined
@@ -9,6 +9,17 @@ interface JsonLdProps {
   locale?: 'en' | 'es'
   siteUrl?: string
   isHome?: boolean
+}
+
+interface LexicalNode {
+  type: string
+  children?: LexicalNode[]
+  fields?: {
+    blockType?: string
+    faqs?: { question: string; answer: string }[]
+    [key: string]: unknown
+  }
+  [key: string]: unknown
 }
 
 export const JsonLd = ({ 
@@ -23,7 +34,7 @@ export const JsonLd = ({
   // 1. Extract FAQs from blocks (Home/Layout)
   const layoutFaqs = (blocks || [])
     .filter(b => b.blockType === 'faq' && Array.isArray(b.faqs))
-    .flatMap(b => b.faqs)
+    .flatMap(b => (b.faqs as { question: string; answer: string }[]))
     .filter(f => f.question && f.answer)
     .map(f => ({
       question: f.question,
@@ -31,12 +42,12 @@ export const JsonLd = ({
     }))
 
   // 2. Extract FAQs from post content (Lexical)
-  const contentBlocks = (post?.content?.content as any)?.root?.children || []
+  const contentBlocks = (post?.content?.content as unknown as { root?: { children?: LexicalNode[] } })?.root?.children || []
   const embeddedFaqs = contentBlocks
-    .filter((b: any) => b.type === 'block' && b.fields?.blockType === 'faq' && Array.isArray(b.fields.faqs))
-    .flatMap((b: any) => b.fields.faqs)
-    .filter((f: any) => f.question && f.answer)
-    .map((f: any) => ({
+    .filter((b) => b.type === 'block' && b.fields?.blockType === 'faq' && Array.isArray(b.fields.faqs))
+    .flatMap((b) => (b.fields?.faqs as { question: string; answer: string }[]))
+    .filter((f) => f.question && f.answer)
+    .map((f) => ({
       question: f.question,
       answer: f.answer
     }))
@@ -82,13 +93,13 @@ export const JsonLd = ({
     const authors = post.populatedAuthors || []
     const categories = post.categories || []
     const categorySlug = categories.length > 0 
-      ? (typeof categories[0] === 'object' ? (categories[0] as any).slug : categories[0])
+      ? (typeof categories[0] === 'object' ? (categories[0] as Category).slug : 'general')
       : 'general'
     
     schemas.push({
       '@type': 'BlogPosting',
       headline: post.title,
-      description: post.tldr || post.meta?.description || '',
+      description: post.content?.tldr || post.meta?.description || '',
       datePublished: post.publishedAt || post.createdAt,
       dateModified: post.updatedAt || post.publishedAt || post.createdAt,
       author: authors.map(a => ({
@@ -98,7 +109,7 @@ export const JsonLd = ({
         url: `${siteUrl}${locale === 'es' ? '' : '/en'}/authors/${(a as User).slug}`,
         jobTitle: (a as User).jobTitle,
       })),
-      image: post.meta?.image ? (post.meta.image as any).url : undefined,
+      image: post.meta?.image ? (post.meta.image as Media).url : undefined,
       publisher: { '@id': `${siteUrl}/#organization` },
       mainEntityOfPage: {
         '@type': 'WebPage',

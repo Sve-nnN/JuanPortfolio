@@ -8,7 +8,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
   const { slug, id, categories, title, meta } = originalDoc
 
   if (originalDoc._status === 'draft') {
-    return null as any
+    return null
   }
 
   const modifiedDoc: DocToSync = {

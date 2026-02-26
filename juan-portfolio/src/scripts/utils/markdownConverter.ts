@@ -26,7 +26,7 @@ interface SerializedListNode extends SerializedLexicalNode {
 
 interface SerializedBlockNode extends SerializedLexicalNode {
   type: 'block'
-  fields: Record<string, any>
+  fields: Record<string, unknown>
 }
 
 // --- Markdown to Lexical ---
@@ -214,13 +214,13 @@ export const convertMarkdownToLexical = (
         format: '',
         indent: 0,
         version: 1,
-        children: token.items.map((item: any) => ({
+        children: token.items.map((item) => ({
           type: 'listitem',
           format: '',
           indent: 0,
           version: 1,
           value: 1,
-          children: parseInline(item.tokens || []),
+          children: parseInline((item as any).tokens || []),
           direction: 'ltr',
         })),
         direction: 'ltr',
@@ -320,45 +320,52 @@ export const convertMarkdownToLexical = (
 export const convertLexicalToMarkdown = (editorState: SerializedEditorState): string => {
   if (!editorState?.root?.children) return ''
 
-  const serializeNode = (node: any): string => {
+  const serializeNode = (node: SerializedLexicalNode): string => {
     if (node.type === 'text') {
-      let text = node.text
-      if (node.format & 1) text = `**${text}**`
-      if (node.format & 2) text = `*${text}*`
-      if (node.format & 16) text = `\`${text}\``
+      const textNode = node as SerializedTextNode
+      let text = textNode.text
+      if (textNode.format & 1) text = `**${text}**`
+      if (textNode.format & 2) text = `*${text}*`
+      if (textNode.format & 16) text = `\`${text}\``
       return text
     }
 
     if (node.type === 'link') {
-      return `[${node.children.map(serializeNode).join('')}](${node.fields.url})`
+      const linkNode = node as SerializedLinkNode
+      return `[${linkNode.children.map(serializeNode).join('')}](${linkNode.fields.url})`
     }
 
     if (node.type === 'heading') {
-      const level = (node as SerializedHeadingNode).tag.replace('h', '')
-      return `${'#'.repeat(parseInt(level, 10))} ${node.children.map(serializeNode).join('')}\n\n`
+      const headingNode = node as SerializedHeadingNode
+      const level = headingNode.tag.replace('h', '')
+      return `${'#'.repeat(parseInt(level, 10))} ${headingNode.children.map(serializeNode).join('')}\n\n`
     }
 
     if (node.type === 'paragraph') {
-      return `${node.children.map(serializeNode).join('')}\n\n`
+      const paragraphNode = node as SerializedLexicalNode & { children: SerializedLexicalNode[] }
+      return `${paragraphNode.children.map(serializeNode).join('')}\n\n`
     }
 
     if (node.type === 'list') {
-      return node.children.map((listItem: any, index: number) => {
-        const prefix = node.listType === 'number' ? `${index + 1}. ` : '- '
-        return `${prefix}${listItem.children.map(serializeNode).join('')}\n`
+      const listNode = node as SerializedListNode & { children: SerializedLexicalNode[] }
+      return listNode.children.map((listItem: any, index: number) => {
+        const prefix = listNode.listType === 'number' ? `${index + 1}. ` : '- '
+        return `${prefix}${(listItem.children as SerializedLexicalNode[]).map(serializeNode).join('')}\n`
       }).join('') + '\n'
     }
 
     if (node.type === 'quote') {
-      return `> ${node.children.map(serializeNode).join('')}\n\n`
+      const quoteNode = node as SerializedLexicalNode & { children: SerializedLexicalNode[] }
+      return `> ${quoteNode.children.map(serializeNode).join('')}\n\n`
     }
 
-    if (node.type === 'block' && node.fields?.blockType === 'code-block') {
-      return `\`\`\`${node.fields.language}\n${node.fields.code}\n\`\`\`\n\n`
+    if (node.type === 'block' && (node as any).fields?.blockType === 'code-block') {
+      const fields = (node as any).fields
+      return `\`\`\`${fields.language}\n${fields.code}\n\`\`\`\n\n`
     }
 
     if (node.type === 'block') {
-      return `\n<!-- Block: ${node.fields?.blockType} -->\n\n`
+      return `\n<!-- Block: ${(node as any).fields?.blockType} -->\n\n`
     }
 
     return ''

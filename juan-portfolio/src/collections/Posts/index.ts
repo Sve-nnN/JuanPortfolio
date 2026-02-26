@@ -84,6 +84,18 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             },
             {
+              name: 'tldr',
+              type: 'textarea',
+              localized: true,
+              label: {
+                en: 'TL;DR (Summary)',
+                es: 'TL;DR (Resumen Ejecutivo)',
+              },
+              admin: {
+                description: 'A brief summary of the post for AI Overviews and quick reading.',
+              },
+            },
+            {
               name: 'content',
               type: 'richText',
               localized: true,

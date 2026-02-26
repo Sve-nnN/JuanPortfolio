@@ -10,6 +10,7 @@ heroImage:
 categoryTitle:
 relatedPosts:
 sidebarBanners: []
+tldr: "Resumen ejecutivo de 40-60 palabras optimizado para AI Overviews (SGE)."
 metaTitle:
 metaDescription:
 contentRole: satellite

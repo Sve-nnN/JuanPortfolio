@@ -9,7 +9,8 @@ export function parsePostFile(filePath: string, rawContent: string): ParsedPost 
   const locale = detectLocale(filePath, frontmatter.idioma)
   const slug = frontmatter.slug ?? getBaseSlug(filePath)
   const title = frontmatter.title ?? ''
-  return { slug, locale, title, body, frontmatter }
+  const tldr = frontmatter.tldr ?? ''
+  return { slug, locale, title, body, tldr, frontmatter }
 }
 
 /**
@@ -40,6 +41,7 @@ export function buildPostData(post: ParsedPost, resolved: ResolvedIds): PayloadP
   return {
     title: post.title,
     slug: post.slug,
+    tldr: post.tldr,
     content: { content: lexicalContent },
     primaryKeyword: resolved.primaryKeywordId,
     semanticKeywords: resolved.semanticKeywordIds,

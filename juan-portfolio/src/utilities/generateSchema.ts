@@ -26,8 +26,12 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
     description: description,
     image: image ? `${process.env.NEXT_PUBLIC_SERVER_URL}${image}` : undefined,
     publisher: {
+      '@id': `${process.env.NEXT_PUBLIC_SERVER_URL}/#organization`,
       '@type': 'Organization',
       name: 'Juan Tech',
+      founder: {
+        '@id': `${process.env.NEXT_PUBLIC_SERVER_URL}/#person`,
+      },
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.NEXT_PUBLIC_SERVER_URL}/logo.png`
@@ -38,8 +42,9 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
   let mainEntity = null
 
   if (collection === 'posts') {
-    let authorName = 'Juan Carlos Angulo'
     const authors = doc.populatedAuthors || doc.authors
+    let authorId = `${process.env.NEXT_PUBLIC_SERVER_URL}/#person`
+    let authorName = 'Juan Carlos Angulo'
     
     if (Array.isArray(authors) && authors.length > 0) {
       const firstAuthor = authors[0]
@@ -50,14 +55,16 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
 
     mainEntity = {
       ...baseSchema,
-      '@type': 'Article',
+      '@type': 'BlogPosting',
       headline: title,
+      description: doc.tldr || description,
       datePublished: doc.publishedAt,
       dateModified: doc.updatedAt,
       author: {
         '@type': 'Person',
+        '@id': authorId,
         name: authorName,
-        url: `${process.env.NEXT_PUBLIC_SERVER_URL}`
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL}/author/juan-carlos-angulo`
       }
     }
   } else {

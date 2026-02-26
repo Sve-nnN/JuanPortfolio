@@ -12,6 +12,7 @@ export function generateArticleSchema(input: ArticleSchemaInput): Schema {
   const authors = input.author && input.author.length > 0
     ? input.author.map(author => ({
         '@type': 'Person',
+        '@id': `${baseUrl}/#person`,
         name: author.name,
         ...(author.url && { url: author.url }),
         ...(author.image && {
@@ -23,6 +24,7 @@ export function generateArticleSchema(input: ArticleSchemaInput): Schema {
     : [
         {
           '@type': 'Person',
+          '@id': `${baseUrl}/#person`,
           name: 'Juan Carlos Angulo',
           url: `${baseUrl}/authors/juan-carlos-angulo`,
         },

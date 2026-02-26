@@ -28,6 +28,7 @@ export interface PostFrontmatter {
   metaDescription?: string
   status?: string
   uploaded?: boolean
+  tldr?: string
 }
 
 export interface ParsedPost {
@@ -35,6 +36,7 @@ export interface ParsedPost {
   locale: Locale
   title: string
   body: string
+  tldr?: string
   frontmatter: PostFrontmatter
 }
 
@@ -48,6 +50,7 @@ export interface ResolvedIds {
 export interface PayloadPostData {
   title: string
   slug: string
+  tldr: string | undefined
   content: { content: unknown }
   primaryKeyword: string | undefined
   semanticKeywords: string[]

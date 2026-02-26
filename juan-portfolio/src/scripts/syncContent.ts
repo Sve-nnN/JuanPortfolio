@@ -140,6 +140,7 @@ class ContentSyncManager {
           title: remoteDoc.title,
           slug: remoteDoc.slug,
           idioma: fileState.locale,
+          tldr: remoteDoc.tldr,
           publishedAt: remoteDoc.publishedAt,
           updatedAt: remoteDoc.updatedAt,
           authors: (remoteDoc.authors as Array<{ id?: string } | string>)?.map(

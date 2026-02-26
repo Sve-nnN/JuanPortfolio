@@ -24,6 +24,9 @@ export function generateOrganizationSchema(input: OrganizationSchemaInput): Sche
     '@id': `${baseUrl}/#organization`,
     name: input.name,
     url: input.url,
+    founder: {
+      '@id': `${baseUrl}/#person`,
+    },
   }
 
   if (logo) {

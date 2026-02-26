@@ -32,8 +32,8 @@ describe('buildClusterMap', () => {
     })
     const map = buildClusterMap([pillar, satellite])
     expect(map.size).toBe(1)
-    expect(map.get('seo-guide')?.satellites).toHaveLength(1)
-    expect(map.get('seo-guide')?.satellites[0].slug).toBe('keyword-research')
+    expect(map.get('es:seo-guide')?.satellites).toHaveLength(1)
+    expect(map.get('es:seo-guide')?.satellites[0].slug).toBe('keyword-research')
   })
 
   it('returns an empty map when no pillar posts exist', () => {
@@ -57,14 +57,14 @@ describe('buildClusterMap', () => {
     const s2 = makePost({ slug: 'react-tips', contentRole: 'satellite', pillarSlug: 'dev-guide' })
     const map = buildClusterMap([p1, p2, s1, s2])
     expect(map.size).toBe(2)
-    expect(map.get('seo-guide')?.satellites).toHaveLength(1)
-    expect(map.get('dev-guide')?.satellites).toHaveLength(1)
+    expect(map.get('es:seo-guide')?.satellites).toHaveLength(1)
+    expect(map.get('es:dev-guide')?.satellites).toHaveLength(1)
   })
 
   it('creates an entry for a pillar with no satellites', () => {
     const pillar = makePost({ slug: 'lone-pillar', contentRole: 'pillar' })
     const map = buildClusterMap([pillar])
-    expect(map.get('lone-pillar')?.satellites).toHaveLength(0)
+    expect(map.get('es:lone-pillar')?.satellites).toHaveLength(0)
   })
 
   it('groups satellites and pillars by locale separately', () => {

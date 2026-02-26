@@ -1,72 +1,57 @@
-import type { Person, WithContext } from 'schema-dts'
+import type { PersonSchemaInput, Schema } from './types'
 
-export interface PersonSchemaInput {
-  name: string
-  jobTitle?: string
-  description?: string
-  image?: string
-  email?: string
-  url?: string
-  sameAs?: string[] // Social media profiles
-  knowsAbout?: string[] // Areas of expertise
-  alumniOf?: Array<{
-    name: string // Institution name
-    degree?: string // Degree or certification name
-  }> // Education credentials
-}
+export function generatePersonSchema(input: PersonSchemaInput): Schema {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
 
-/**
- * Generate Person schema for author markup (E-E-A-T signals)
- *
- * @see https://schema.org/Person
- * @see https://developers.google.com/search/docs/appearance/structured-data/author
- */
-export function generatePersonSchema(input: PersonSchemaInput): WithContext<Person> {
-  const {
-    name,
-    jobTitle,
-    description,
-    image,
-    email,
-    url,
-    sameAs = [],
-    knowsAbout = [],
-    alumniOf = [],
-  } = input
+  const validSameAs = (input.sameAs || []).filter(url => {
+    try {
+      new URL(url)
+      return true
+    } catch {
+      return false
+    }
+  })
 
-  const schema: WithContext<Person> = {
+  const schema: Schema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name,
+    '@id': `${baseUrl}/#person`,
+    name: input.name,
+    url: input.url,
   }
 
-  // Optional fields
-  if (jobTitle) schema.jobTitle = jobTitle
-  if (description) schema.description = description
-  if (image) schema.image = image
-  if (email) schema.email = email
-  if (url) schema.url = url
+  if (input.jobTitle) {
+    schema.jobTitle = input.jobTitle
+  }
 
-  // E-E-A-T signals
-  if (sameAs.length > 0) schema.sameAs = sameAs
-  if (knowsAbout.length > 0) schema.knowsAbout = knowsAbout
+  if (input.description) {
+    schema.description = input.description
+  }
 
-  // Education credentials
-  if (alumniOf.length > 0) {
-    schema.alumniOf = alumniOf.map((edu) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const org: any = {
+  if (input.image) {
+    schema.image = input.image.startsWith('http')
+      ? input.image
+      : `${baseUrl}${input.image}`
+  }
+
+  if (validSameAs.length > 0) {
+    schema.sameAs = validSameAs
+  }
+
+  if (input.knowsAbout && input.knowsAbout.length > 0) {
+    schema.knowsAbout = input.knowsAbout
+  }
+
+  if (input.hasCredential && input.hasCredential.length > 0) {
+    schema.hasCredential = input.hasCredential.map(cred => ({
+      '@type': 'EducationalOccupationalCredential',
+      name: cred.name,
+      recognizedBy: {
         '@type': 'Organization',
-        name: edu.name,
-      }
-      if (edu.degree) {
-        org.hasCredential = {
-          '@type': 'EducationalOccupationalCredential',
-          credentialCategory: edu.degree,
-        }
-      }
-      return org
-    })
+        name: cred.organization,
+      },
+      ...(cred.datePublished && { datePublished: cred.datePublished }),
+    }))
   }
 
   return schema

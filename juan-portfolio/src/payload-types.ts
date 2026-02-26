@@ -321,6 +321,10 @@ export interface Post {
   title: string;
   content: {
     heroImage?: (string | null) | Media;
+    /**
+     * A brief summary of the post for AI Overviews and quick reading.
+     */
+    tldr?: string | null;
     content: {
       root: {
         type: string;
@@ -3189,6 +3193,7 @@ export interface PostsSelect<T extends boolean = true> {
     | T
     | {
         heroImage?: T;
+        tldr?: T;
         content?: T;
       };
   primaryKeyword?: T;

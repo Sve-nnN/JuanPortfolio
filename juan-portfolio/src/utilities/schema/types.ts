@@ -16,6 +16,21 @@ export interface OrganizationSchemaInput {
   }
 }
 
+export interface PersonSchemaInput {
+  name: string
+  url: string
+  jobTitle?: string
+  description?: string
+  image?: string
+  sameAs?: string[]
+  knowsAbout?: string[]
+  hasCredential?: {
+    name: string
+    organization: string
+    datePublished?: string
+  }[]
+}
+
 export interface ArticleSchemaInput {
   headline: string
   description?: string

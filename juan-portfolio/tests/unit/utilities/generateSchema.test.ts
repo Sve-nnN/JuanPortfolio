@@ -30,7 +30,7 @@ describe('generateSchema', () => {
     
     const schema = generateSchema({ doc: mockPost, collection: 'posts', url: 'https://example.com/posts/my-blog-post' })
     
-    expect(schema?.['@type']).toBe('Article')
+    expect(schema?.['@type']).toBe('BlogPosting')
     expect(schema?.headline).toBe('My Blog Post')
     expect(schema?.datePublished).toBe('2023-01-01T00:00:00.000Z')
     expect(schema?.dateModified).toBe('2023-01-02T00:00:00.000Z')

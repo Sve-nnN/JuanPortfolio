@@ -52,21 +52,22 @@ describe('GEO Implementation Components', () => {
       expect(blogPosting.author[0].jobTitle).toBe('Software Engineer')
     })
 
-    it('should include FAQPage schema if faqs are present', () => {
-      const mockPost: any = {
-        title: 'FAQ Post',
-        slug: 'faq-post',
-        faqs: [
-          { question: 'What is SEO?', answer: 'Search Engine Optimization.' }
-        ]
-      }
+    it('should include FAQPage schema if faqs are present in blocks', () => {
+      const mockBlocks: any = [
+        {
+          blockType: 'faq',
+          faqs: [
+            { question: 'What is SEO?', answer: 'Search Engine Optimization.' }
+          ]
+        }
+      ]
 
-      const { container } = render(<JsonLd post={mockPost} />)
+      const { container } = render(<JsonLd blocks={mockBlocks} />)
       const content = JSON.parse(container.querySelector('script')?.innerHTML || '{}')
       
       const faqPage = content['@graph'].find((s: any) => s['@type'] === 'FAQPage')
       expect(faqPage).toBeTruthy()
-      expect(faqPage.mainEntity[0].name).toBe('What is SEO?')
+      expect(faqPage.mainEntity.some((f: any) => f.name === 'What is SEO?')).toBeTruthy()
     })
   })
 

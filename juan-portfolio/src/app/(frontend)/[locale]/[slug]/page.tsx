@@ -90,7 +90,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
     return (
       <article className="pb-24">
-        <JsonLd isHome={true} locale={locale} siteUrl={getServerSideURL()} />
+        <JsonLd 
+          isHome={true} 
+          blocks={homeGlobal.layout} 
+          locale={locale} 
+          siteUrl={getServerSideURL()} 
+        />
         <PageClient />
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}

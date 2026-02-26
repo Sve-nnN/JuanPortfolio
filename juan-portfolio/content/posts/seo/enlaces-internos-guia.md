@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: SEO
+contentRole: satellite
+pillarSlug: estrategia-topic-clusters
 relatedPosts:
   - estrategia-topic-clusters
   - guia-keyword-research

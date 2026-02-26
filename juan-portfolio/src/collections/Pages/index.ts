@@ -35,6 +35,7 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { syncKeywordsAfterPostSave } from '../Posts/hooks/syncKeywordsAfterPostSave'
 import { createRedirectOnSlugChange } from '../../hooks/createRedirectOnSlugChange'
 import { Section } from '../../blocks/Section/config'
 
@@ -241,7 +242,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePage, createRedirectOnSlugChange],
+    afterChange: [revalidatePage, createRedirectOnSlugChange, syncKeywordsAfterPostSave],
     beforeChange: [populatePublishedAt],
     afterDelete: [revalidateDelete],
   },

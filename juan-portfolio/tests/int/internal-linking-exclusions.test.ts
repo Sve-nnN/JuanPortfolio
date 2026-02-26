@@ -33,6 +33,7 @@ describe('Internal Linking Script - Exclusions', () => {
         const post1 = `---
 title: Big O Notation
 primary_keywords: [notacion big o]
+semantic_keywords: []
 ---
 `;
         await createMockFile(path.join(isolatedTestDir, 'posts', 'cs', 'big-o.md'), post1);
@@ -40,6 +41,7 @@ primary_keywords: [notacion big o]
         const extractor = new KeywordExtractor(isolatedTestDir);
         const postWithExclusionsContent = `---
 title: Another Post
+semantic_keywords: []
 ---
 # No link for notacion big o here
 \`\`\`
@@ -67,7 +69,7 @@ Pero sí hay un link para notacion big o aquí.
         }
 
         expect(opportunities).toHaveLength(1);
-        expect(opportunities[0].lineNumber).toBe(8);
+        expect(opportunities[0].lineNumber).toBe(9);
 
     });
 });

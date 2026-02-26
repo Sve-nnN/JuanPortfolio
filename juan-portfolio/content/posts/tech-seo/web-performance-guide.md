@@ -6,6 +6,10 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Technical SEO
+slug: web-performance-guide
+idioma: es
+contentRole: pillar
+pillarSlug: web-performance-guide
 relatedPosts:
   - core-web-vitals-guide
   - technical-seo-guide

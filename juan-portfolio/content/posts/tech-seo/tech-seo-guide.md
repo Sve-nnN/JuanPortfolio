@@ -5,6 +5,10 @@ updatedAt: 2026-02-11T00:00:00.000Z
 authors: []
 heroImage: null
 categoryTitle: Technical SEO
+slug: tech-seo-guide
+idioma: es
+contentRole: pillar
+pillarSlug: tech-seo-guide
 relatedPosts:
   - nextjs-seo-optimization
   - web-performance-guide

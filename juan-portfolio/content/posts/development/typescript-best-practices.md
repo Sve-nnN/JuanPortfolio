@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Development
+contentRole: satellite
+pillarSlug: payloadcms-tutorial
 relatedPosts:
   - payloadcms-tutorial
   - nextjs-server-components

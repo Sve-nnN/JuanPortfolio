@@ -58,8 +58,11 @@ describe('Sitemaps', () => {
       const sitemapData = response.props.sitemap
 
       expect(sitemapData).toHaveLength(4)
-      expect(sitemapData[0].loc).toContain('/blog/tech')
-      expect(sitemapData[1].loc).toContain('/blog/life')
+      // We expect entries for both locales for each category
+      expect(sitemapData[0].loc).toContain('/en/blog/tech')
+      expect(sitemapData[1].loc).toContain('/blog/tech')
+      expect(sitemapData[2].loc).toContain('/en/blog/life')
+      expect(sitemapData[3].loc).toContain('/blog/life')
     })
   })
 

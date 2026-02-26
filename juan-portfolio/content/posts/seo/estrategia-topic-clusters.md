@@ -6,6 +6,10 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: SEO
+slug: estrategia-topic-clusters
+idioma: es
+contentRole: pillar
+pillarSlug: estrategia-topic-clusters
 relatedPosts:
   - guia-keyword-research
   - redaccion-seo

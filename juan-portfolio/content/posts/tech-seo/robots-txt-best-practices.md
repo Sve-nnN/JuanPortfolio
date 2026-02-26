@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Technical SEO
+contentRole: satellite
+pillarSlug: tech-seo-guide
 relatedPosts:
   - technical-seo-guide
   - xml-sitemap-automation

@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Development
+contentRole: satellite
+pillarSlug: payloadcms-tutorial
 relatedPosts:
   - nextjs-seo-optimization
   - payloadcms-tutorial

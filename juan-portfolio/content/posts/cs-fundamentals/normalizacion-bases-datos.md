@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: CS Fundamentals
+contentRole: satellite
+pillarSlug: algoritmos-estructuras-datos
 relatedPosts:
   - diseno-bases-datos
   - algoritmos-estructuras-datos

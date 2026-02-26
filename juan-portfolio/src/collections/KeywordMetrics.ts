@@ -50,6 +50,36 @@ export const KeywordMetrics: CollectionConfig = {
             required: true,
         },
         {
+            name: 'status',
+            type: 'text',
+        },
+        {
+            name: 'paaCount',
+            type: 'number',
+            label: 'PAA Count',
+        },
+        {
+            name: 'topDomain',
+            type: 'text',
+        },
+        {
+            name: 'hasAiOverview',
+            type: 'checkbox',
+            label: 'Has AI Overview',
+        },
+        {
+            name: 'post',
+            type: 'relationship',
+            relationTo: 'posts',
+            index: true,
+        },
+        {
+            name: 'page',
+            type: 'relationship',
+            relationTo: 'pages',
+            index: true,
+        },
+        {
             name: 'funnelStage',
             type: 'select',
             options: [

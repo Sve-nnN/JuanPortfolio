@@ -6,6 +6,10 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Development
+slug: payloadcms-tutorial
+idioma: es
+contentRole: pillar
+pillarSlug: payloadcms-tutorial
 relatedPosts:
   - headless-cms-seo
   - payloadcms-vs-strapi

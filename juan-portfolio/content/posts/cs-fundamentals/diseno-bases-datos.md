@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage:
 categoryTitle: CS Fundamentals
+contentRole: satellite
+pillarSlug: algoritmos-estructuras-datos
 relatedPosts:
   - normalizacion-bases-datos
   - algoritmos-estructuras-datos

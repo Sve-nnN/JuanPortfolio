@@ -25,6 +25,7 @@ import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { triggerCWVScan } from './hooks/triggerCWVScan'
 import { updateInternalLinksCount } from './hooks/updateInternalLinksCount'
+import { syncKeywordsAfterPostSave } from './hooks/syncKeywordsAfterPostSave'
 
 import { slugField } from '@/fields/slug'
 
@@ -297,7 +298,7 @@ export const Posts: CollectionConfig<'posts'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost, triggerCWVScan],
+    afterChange: [revalidatePost, triggerCWVScan, syncKeywordsAfterPostSave],
     beforeChange: [updateInternalLinksCount],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],

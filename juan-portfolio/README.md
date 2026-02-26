@@ -77,7 +77,16 @@ This project features a bidirectional synchronization engine designed to keep lo
 - **Bidirectional Conversion**: Automatically transforms Markdown to Lexical (CMS) and Lexical back to Markdown.
 - **Keyword Management**: Synchronize `keywords.md` directly to the CMS and track performance.
 - **Automatic Linking**: Markdown keywords are automatically resolved to Payload document IDs for deep SEO tracking.
-- **Internationalization**: Full support for locale-specific updates using the `idioma` and `slug` frontmatter fields.
+- **Bilingual Support**: English posts use the `.en.md` file suffix; Spanish posts use `.md` or `.es.md`. Locale is detected from the filename before falling back to the `idioma` frontmatter field, ensuring backward compatibility with existing content.
+- **Modular Architecture**: The engine is composed of focused modules under `src/scripts/sync/` — `localeDetector`, `stateManager`, `postParser`, and `payloadRepository` — each independently testable.
+
+### Bilingual File Naming Convention
+
+| File suffix | Locale | Notes |
+| :---------- | :----- | :---- |
+| `article.md` | `es` | Default. All existing posts are backward compatible. |
+| `article.es.md` | `es` | Explicit Spanish designation. |
+| `article.en.md` | `en` | English variant of the same article. |
 
 ### Command Line Interface
 
@@ -160,23 +169,52 @@ npx tsx src/scripts/seo/update-cwv.ts
 
 ## Internal Linking System
 
-Automated system to distribute authority and improve crawlability via context-aware links.
+Automated system that enforces topic cluster architecture and distributes authority via context-aware internal links.
+
+### Topic Cluster Model
+
+Content is classified into three roles set directly in post frontmatter:
+
+| Role | Frontmatter | Description |
+| :--- | :---------- | :---------- |
+| `pillar` | `contentRole: pillar` | Comprehensive guide (3,000+ words) targeting a broad keyword. Links out to all satellites. |
+| `satellite` | `contentRole: satellite`<br>`pillarSlug: <slug>` | Deep-dive article on a long-tail keyword. Always links back to its pillar. |
+| `standalone` | `contentRole: standalone` | Self-contained post with no cluster relationship. |
+
+Structural links between pillar and satellite posts are enforced automatically. If a satellite does not link to its pillar — or a pillar does not link back to a satellite — the script detects and injects the missing link.
 
 ### Key Features
-- **NLP Semantic Matching**: Uses Dice's Coefficient (via `natural` library) to ensure links are contextually relevant beyond simple string matching.
-- **Authority Clusters**: Automatically identifies `Pillar` and `Supporting` content, prioritizing links to high-authority pillar pages.
-- **Language Isolation**: English posts only link to English content; Spanish posts only link to Spanish content.
-- **Pure Semantic Extraction**: Automatically filters out keywords from the "wrong" language during extraction.
-- **Gap Detection**: Identifies mentioned keywords that don't have a dedicated target page yet.
+- **Cluster Health Dashboard**: Displays the link status of every pillar and its satellites before applying any changes.
+- **Structural Link Enforcement**: Guarantees every satellite links to its pillar and every pillar links back to all satellites, independent of keyword matching.
+- **NLP Semantic Matching**: Uses Dice's Coefficient (via `natural` library) to ensure keyword-based links are contextually relevant beyond simple string matching.
+- **Language Isolation**: Spanish posts only link to Spanish content; English posts only link to English content.
+- **Content Gap Detection**: Identifies keywords mentioned three or more times across posts with no dedicated target page.
+
+### Frontmatter Fields
+
+```yaml
+contentRole: pillar          # pillar | satellite | standalone
+pillarSlug: digital-marketing # required for satellite posts; omit for pillar and standalone
+```
 
 ### Usage
 
 ```bash
-# Start the interactive internal linking manager
-npx tsx src/scripts/build-internal-links.ts
-
-# Preview changes without modifying files
+# Preview cluster health and keyword opportunities without modifying files
 npx tsx src/scripts/build-internal-links.ts --dry-run
+
+# Tag unclassified posts with contentRole (heuristic: word count, title patterns)
+npx tsx src/scripts/build-internal-links.ts --classify [--dry-run]
+
+# Enforce structural cluster links only, skipping keyword scan
+npx tsx src/scripts/build-internal-links.ts --cluster-only
+
+# Process a single locale
+npx tsx src/scripts/build-internal-links.ts --locale es
+npx tsx src/scripts/build-internal-links.ts --locale en
+
+# Full run with verbose output
+npx tsx src/scripts/build-internal-links.ts --verbose
 ```
 
 ---

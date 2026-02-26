@@ -107,6 +107,9 @@ export class ContentScanner {
 
                 // 1c. Cluster Match: Only link to posts within the same category (cluster)
                 if (match.targetPost.category !== post.category) {
+                    if (this.config.verbose) {
+                        console.log(`Skipping link from ${post.slug} to ${match.targetPost.slug}: different categories (${post.category} != ${match.targetPost.category})`);
+                    }
                     continue;
                 }
 

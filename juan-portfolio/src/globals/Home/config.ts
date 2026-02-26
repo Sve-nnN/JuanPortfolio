@@ -4,6 +4,7 @@ import { AboutSection } from '../../blocks/AboutSection/config'
 import { FeaturedWorks } from '../../blocks/FeaturedWorks/config'
 import { FeaturedClients } from '../../blocks/FeaturedClients/config'
 import { FeaturedBlog } from '../../blocks/FeaturedBlog/config'
+import { FAQ } from '../../blocks/FAQ/config'
 import { ContactFormBlock } from '../../blocks/ContactFormBlock/config'
 import { FeaturedBlogPosts } from '../../blocks/FeaturedBlogPosts/config'
 import { FeaturedCaseStudies } from '../../blocks/FeaturedCaseStudies/config'
@@ -34,6 +35,7 @@ export const Home: GlobalConfig = {
         FeaturedWorks,
         FeaturedClients,
         FeaturedBlog,
+        FAQ,
         FeaturedBlogPosts,
         FeaturedCaseStudies,
         ContactFormBlock,

@@ -31,7 +31,12 @@ test.describe('Navbar Search Bar', () => {
     const searchInput = page.locator('header input[type="text"]').first()
 
     await searchInput.fill('playwright')
-    await searchInput.press('Enter')
+    
+    // Wait for navigation after pressing Enter
+    await Promise.all([
+      page.waitForURL(/.*\/search\?q=playwright/, { timeout: 10000 }),
+      searchInput.press('Enter')
+    ])
 
     // Should navigate to /search?q=playwright
     await expect(page).toHaveURL(/.*\/search\?q=playwright/)

@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: /images/blog/big-o-notation.webp
 categoryTitle: CS Fundamentals
+contentRole: satellite
+pillarSlug: algoritmos-estructuras-datos
 relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos

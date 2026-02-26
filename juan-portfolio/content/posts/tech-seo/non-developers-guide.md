@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Technical SEO
+contentRole: satellite
+pillarSlug: web-performance-guide
 relatedPosts:
   - technical-seo-guide
   - core-web-vitals-guide

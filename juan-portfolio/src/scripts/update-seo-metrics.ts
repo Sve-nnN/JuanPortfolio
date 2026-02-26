@@ -492,10 +492,11 @@ export async function main() {
           data.avgWordCount = crawlerResults.avgWordCount
 
           // Calculate Information Gain Strategy
+          const generalGain = deriveInformationGain(data.keyword)
           if (crawlerResults.sgeCitabilityScore < 50) {
-            data.informationGain = `• Los competidores tienen baja citabilidad SGE (${crawlerResults.sgeCitabilityScore}%). Priorizaré formatos de lista y definiciones directas para robar el AI Overview.`
+            data.informationGain = `${generalGain} • Los competidores tienen baja citabilidad SGE (${crawlerResults.sgeCitabilityScore}%). Priorizaré formatos de lista y definiciones directas para robar el AI Overview.`
           } else {
-            data.informationGain = `• Competidores fuertes en SGE (${crawlerResults.sgeCitabilityScore}%). Necesito aportar datos propios o un script técnico único para diferenciarme.`
+            data.informationGain = `${generalGain} • Competidores fuertes en SGE (${crawlerResults.sgeCitabilityScore}%). Necesito aportar datos propios o un script técnico único para diferenciarme.`
           }
 
           for (const gapKw of crawlerResults.discoveredKeywords) {

@@ -1,216 +1,342 @@
 #!/usr/bin/env node
 /**
  * Internal Linking Automation Script
- * 
- * Automatically generates internal links between blog posts based on keyword matching.
+ *
+ * Automatically generates internal links between blog posts based on:
+ *  1. Topic cluster rules  — structural satellite↔pillar links are always enforced
+ *  2. Keyword matching     — natural keyword mentions are linked within the same locale & category
  */
 
-import * as path from 'path';
-import { KeywordExtractor } from './internal-linking/KeywordExtractor';
-import { ContentScanner } from './internal-linking/ContentScanner';
-import { LinkInjector } from './internal-linking/LinkInjector';
-import type { LinkingConfig, LinkOpportunity } from './internal-linking/types';
-import enquirer from 'enquirer';
+import * as fs from 'fs'
+import * as path from 'path'
+import { KeywordExtractor } from './internal-linking/KeywordExtractor'
+import { ContentScanner } from './internal-linking/ContentScanner'
+import { LinkInjector } from './internal-linking/LinkInjector'
+import { FrontmatterTagger } from './internal-linking/FrontmatterTagger'
+import {
+  buildClusterMap,
+  getMissingClusterLinks,
+  getClusterSummaries,
+} from './internal-linking/topicCluster'
+import type { LinkingConfig, LinkOpportunity } from './internal-linking/types'
+import enquirer from 'enquirer'
 
-const { Confirm } = enquirer as any;
+const { Confirm } = enquirer as any
 
 // ANSI Colors
-const colors = {
-    reset: '\x1b[0m',
-    bright: '\x1b[1m',
-    dim: '\x1b[2m',
-    green: '\x1b[32m',
-    blue: '\x1b[34m',
-    yellow: '\x1b[33m',
-    cyan: '\x1b[36m',
-    red: '\x1b[31m',
-    magenta: '\x1b[35m',
-};
-
-// Parse command line arguments
-function parseArgs(): LinkingConfig & { help: boolean } {
-    const args = process.argv.slice(2);
-    const config: LinkingConfig & { help: boolean } = {
-        maxLinksPerKeyword: 3,
-        minWordLength: 3,
-        excludePatterns: [
-            /^```/,           // Code blocks
-            /^#{1,6}\s/,      // Headings
-            /^---$/,          // Frontmatter
-            /^\s*[-*+]\s*$/,  // Empty list items
-        ],
-        dryRun: false,
-        verbose: false,
-        help: false,
-    };
-
-    for (let i = 0; i < args.length; i++) {
-        const arg = args[i];
-
-        switch (arg) {
-            case '--dry-run':
-                config.dryRun = true;
-                break;
-            case '--category':
-                config.category = args[++i];
-                break;
-            case '--max-links':
-                config.maxLinksPerKeyword = parseInt(args[++i], 10);
-                break;
-            case '--verbose':
-                config.verbose = true;
-                break;
-            case '--help':
-            case '-h':
-                config.help = true;
-                break;
-            default:
-                console.warn(`${colors.yellow}⚠️ Unknown option: ${arg}${colors.reset}`);
-        }
-    }
-
-    return config;
+const c = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  dim: '\x1b[2m',
+  green: '\x1b[32m',
+  blue: '\x1b[34m',
+  yellow: '\x1b[33m',
+  cyan: '\x1b[36m',
+  red: '\x1b[31m',
+  magenta: '\x1b[35m',
 }
 
-// Display help message
-function showHelp(): void {
-    console.log(`
-${colors.bright}${colors.cyan}🔗 Internal Linking Automation${colors.reset}
+// Parse command line arguments
+interface CliConfig extends LinkingConfig {
+  help: boolean
+  classify: boolean
+  clusterOnly: boolean
+  locale?: 'en' | 'es'
+}
 
-${colors.bright}Usage:${colors.reset}
+function parseArgs(): CliConfig {
+  const args = process.argv.slice(2)
+  const config: CliConfig = {
+    maxLinksPerKeyword: 3,
+    minWordLength: 3,
+    excludePatterns: [/^```/, /^#{1,6}\s/, /^---$/, /^\s*[-*+]\s*$/],
+    dryRun: false,
+    verbose: false,
+    help: false,
+    classify: false,
+    clusterOnly: false,
+  }
+
+  for (let i = 0; i < args.length; i++) {
+    switch (args[i]) {
+      case '--dry-run':     config.dryRun = true;                         break
+      case '--category':    config.category = args[++i];                  break
+      case '--locale':      config.locale = args[++i] as 'en' | 'es';    break
+      case '--max-links':   config.maxLinksPerKeyword = parseInt(args[++i], 10); break
+      case '--verbose':     config.verbose = true;                        break
+      case '--classify':    config.classify = true;                       break
+      case '--cluster-only':config.clusterOnly = true;                    break
+      case '--help': case '-h': config.help = true;                       break
+      default:
+        console.warn(`${c.yellow}⚠️ Unknown option: ${args[i]}${c.reset}`)
+    }
+  }
+  return config
+}
+
+function showHelp(): void {
+  console.log(`
+${c.bright}${c.cyan}🔗 Internal Linking Manager (Topic Cluster Edition)${c.reset}
+
+${c.bright}Usage:${c.reset}
   npx tsx src/scripts/build-internal-links.ts [options]
 
-${colors.bright}Options:${colors.reset}
+${c.bright}Options:${c.reset}
   --dry-run              Preview changes without modifying files
-  --category <name>      Process only specific category (e.g., tech-seo)
-  --max-links <n>        Max links per keyword per post (default: 3)
+  --classify             Tag unclassified posts with contentRole in frontmatter
+  --cluster-only         Only enforce pillar↔satellite links (skip keyword scan)
+  --category <name>      Process only a specific category (e.g., tech-seo)
+  --locale <en|es>       Process only posts in this locale
+  --max-links <n>        Max keyword links per post (default: 3)
   --include-test         Include posts in the 'test' directory
-  --verbose              Show detailed matching logs
-  --help, -h             Show this help message
+  --verbose              Show detailed logs
+  --help, -h             Show this help
 
-${colors.bright}Examples:${colors.reset}
-  # Preview changes
+${c.bright}Topic Cluster Model:${c.reset}
+  Pillar page:   3,000+ words, broad keyword, hub for a topic.
+                 Frontmatter → contentRole: pillar
+  Satellite:     Deep-dive on a long-tail keyword, links back to pillar.
+                 Frontmatter → contentRole: satellite
+                              pillarSlug: <pillar-slug>
+
+${c.bright}Examples:${c.reset}
+  # Preview cluster health
   npx tsx src/scripts/build-internal-links.ts --dry-run
 
-  # Apply links to a category
-  npx tsx src/scripts/build-internal-links.ts --category tech
-`);
+  # Tag unclassified posts
+  npx tsx src/scripts/build-internal-links.ts --classify --dry-run
+
+  # Enforce structural cluster links only
+  npx tsx src/scripts/build-internal-links.ts --cluster-only
+
+  # Full run for a single locale
+  npx tsx src/scripts/build-internal-links.ts --locale es
+`)
+}
+
+function printClusterHealth(
+  clusters: ReturnType<typeof buildClusterMap>,
+  readFile: (p: string) => string,
+): void {
+  const summaries = getClusterSummaries(clusters, readFile)
+  if (summaries.length === 0) {
+    console.log(`${c.yellow}  No topic clusters found. Tag posts with contentRole: pillar to get started.${c.reset}`)
+    return
+  }
+
+  for (const s of summaries) {
+    const icon =
+      s.health === 'healthy' ? `${c.green}✅` :
+      s.health === 'no-satellites' ? `${c.yellow}⚠️ ` :
+      `${c.red}❌`
+
+    console.log(
+      `\n  ${icon} [${s.locale.toUpperCase()}] ${c.bright}${s.pillarTitle}${c.reset}` +
+      `  ${c.dim}(${s.satelliteCount} satellites)${c.reset}`,
+    )
+
+    if (s.health === 'missing-links') {
+      for (const ml of s.missingLinks) {
+        const arrow = ml.linkType === 'satellite-to-pillar' ? '↑ pillar' : '↓ satellite'
+        console.log(
+          `      ${c.red}→ ${ml.source.slug} missing link to ${ml.target.slug} [${arrow}]${c.reset}`,
+        )
+      }
+    }
+  }
+  console.log(c.reset)
 }
 
 /**
  * Main TUI Execution
  */
 async function main(): Promise<void> {
-    const config = parseArgs();
+  const config = parseArgs()
 
-    if (config.help) {
-        showHelp();
-        return;
+  if (config.help) {
+    showHelp()
+    return
+  }
+
+  console.clear()
+  console.log(`${c.bright}${c.cyan}🔗 Internal Linking Manager${c.reset}\n`)
+
+  const contentDir = path.resolve(process.cwd(), 'content')
+  const postsDir = path.join(contentDir, 'posts')
+
+  // ── Step 0: Classify (optional) ──────────────────────────────────────────
+  if (config.classify) {
+    console.log(`${c.blue}🏷️  Classifying posts with contentRole…${c.reset}`)
+    const tagger = new FrontmatterTagger()
+    if (!config.dryRun) {
+      tagger.tagDirectory(postsDir)
+      console.log(`${c.green}✅ Classification complete.${c.reset}\n`)
+    } else {
+      console.log(`${c.yellow}💡 Dry run — no files written.${c.reset}\n`)
     }
+  }
 
-    console.clear();
-    console.log(`${colors.bright}${colors.cyan}🔗 Internal Linking Manager${colors.reset}\n`);
+  // ── Step 1: Load posts & build keyword index ──────────────────────────────
+  process.stdout.write(`${c.blue}📚 Loading posts and building index…${c.reset}`)
+  const extractor = new KeywordExtractor(contentDir)
+  let posts = await extractor.loadPosts(config.category)
 
-    const contentDir = path.resolve(process.cwd(), 'content');
+  // Filter by locale if requested
+  if (config.locale) {
+    posts = posts.filter(p => (p.idioma ?? 'es') === config.locale)
+  }
 
-    // 1. Loading
-    process.stdout.write(`${colors.blue}📚 Loading posts, generating semantic keywords (if missing), and building index...${colors.reset}`);
-    const extractor = new KeywordExtractor(contentDir);
-    const posts = await extractor.loadPosts(config.category);
-    const keywordIndex = extractor.buildIndex();
-    process.stdout.write(`\r${colors.green}✅ Loaded ${posts.length} posts, generated/updated semantic keywords, and indexed ${keywordIndex.size} keywords.    \n\n${colors.reset}`);
+  const keywordIndex = extractor.buildIndex()
+  process.stdout.write(
+    `\r${c.green}✅ Loaded ${posts.length} posts, indexed ${keywordIndex.size} keywords.    \n\n${c.reset}`,
+  )
 
-    // 2. Scanning
-    process.stdout.write(`${colors.blue}🔍 Scanning posts for link opportunities...${colors.reset}`);
-    const scanner = new ContentScanner(keywordIndex, config);
-    const opportunitiesMap = scanner.scanAllPosts(posts);
-    process.stdout.write(`\r${colors.green}✅ Scan complete! Found opportunities in ${opportunitiesMap.size} posts.${colors.reset}\n\n`);
+  // ── Step 2: Topic cluster health ─────────────────────────────────────────
+  const clusterMap = buildClusterMap(posts)
+  const readFileSafe = (p: string) => {
+    try { return fs.readFileSync(p, 'utf-8') } catch { return '' }
+  }
 
-    if (opportunitiesMap.size === 0) {
-        console.log(`${colors.yellow}No new link opportunities found.${colors.reset}`);
-        return;
+  console.log(`${c.bright}📐 Topic Cluster Health:${c.reset}`)
+  printClusterHealth(clusterMap, readFileSafe)
+
+  const missingClusterLinks = getMissingClusterLinks(clusterMap, readFileSafe)
+
+  // ── Step 3: Keyword-based scan (skipped with --cluster-only) ─────────────
+  let opportunitiesMap = new Map<string, LinkOpportunity[]>()
+
+  if (!config.clusterOnly) {
+    process.stdout.write(`${c.blue}🔍 Scanning posts for keyword link opportunities…${c.reset}`)
+    const scanner = new ContentScanner(keywordIndex, config)
+    opportunitiesMap = scanner.scanAllPosts(posts)
+    process.stdout.write(
+      `\r${c.green}✅ Scan complete! Found opportunities in ${opportunitiesMap.size} posts.${c.reset}\n\n`,
+    )
+
+    if (opportunitiesMap.size > 0) {
+      console.log(`${c.bright}Found Keyword Opportunities:${c.reset}`)
+      let total = 0
+      for (const [slug, ops] of opportunitiesMap.entries()) {
+        total += ops.length
+        console.log(`\n${c.magenta}📄 ${slug}${c.reset} ${c.dim}(${ops.length} links)${c.reset}`)
+        ops.forEach(op => {
+          console.log(
+            `  ${c.cyan}→${c.reset} "${c.bright}${op.keyword}${c.reset}" 🔗 ${c.blue}${op.targetPost.url}${c.reset} ${c.dim}(line ${op.lineNumber})${c.reset}`,
+          )
+        })
+      }
+      console.log(`\n${c.bright}Summary: ${total} keyword opportunities across ${opportunitiesMap.size} posts.${c.reset}\n`)
+    } else {
+      console.log(`${c.yellow}No new keyword link opportunities found.${c.reset}\n`)
     }
+  }
 
-    // 3. Display Opportunities by Post
-    console.log(`${colors.bright}Found Opportunities:${colors.reset}`);
-    
-    let totalOpportunities = 0;
-    for (const [slug, ops] of opportunitiesMap.entries()) {
-        totalOpportunities += ops.length;
-        console.log(`\n${colors.magenta}📄 ${slug}${colors.reset} ${colors.dim}(${ops.length} links)${colors.reset}`);
-        
-        ops.forEach(opp => {
-            console.log(`  ${colors.cyan}→${colors.reset} "${colors.bright}${opp.keyword}${colors.reset}" 🔗 ${colors.blue}${opp.targetPost.url}${colors.reset} ${colors.dim}(line ${opp.lineNumber})${colors.reset}`);
-        });
-    }
-
-    console.log(`\n${colors.bright}Summary: ${totalOpportunities} total opportunities across ${opportunitiesMap.size} posts.${colors.reset}\n`);
-
-    // 4. Content Gaps
-    const contentGaps = scanner.findContentGaps(posts);
+  // ── Step 4: Content gaps ──────────────────────────────────────────────────
+  if (!config.clusterOnly) {
+    const scanner = new ContentScanner(keywordIndex, config)
+    const contentGaps = scanner.findContentGaps(posts)
     const gaps = Array.from(contentGaps.entries())
-        .filter(([_, data]) => data.count >= 3)
-        .map(([keyword, data]) => ({
-            keyword,
-            mentionCount: data.count,
-            mentionedIn: Array.from(data.sources),
-            category: data.category
-        }));
+      .filter(([, d]) => d.count >= 3)
+      .map(([keyword, d]) => ({
+        keyword,
+        mentionCount: d.count,
+        mentionedIn: Array.from(d.sources),
+        category: d.category,
+      }))
 
     if (gaps.length > 0) {
-        console.log(`${colors.yellow}💡 Recommendation: ${gaps.length} content gaps identified (keywords mentioned ≥ 3 times but no post exists).${colors.reset}`);
-        if (config.verbose) {
-            gaps.forEach(gap => {
-                console.log(`   - "${gap.keyword}" (${gap.mentionCount} mentions)`);
-            });
-        }
-        console.log();
+      console.log(
+        `${c.yellow}💡 ${gaps.length} content gaps identified (keywords mentioned ≥ 3× with no dedicated post).${c.reset}`,
+      )
+      if (config.verbose) {
+        gaps.forEach(g => console.log(`   - "${g.keyword}" (${g.mentionCount} mentions)`))
+      }
+      console.log()
     }
+  }
 
-    // 5. Confirmation and Application
-    if (config.dryRun) {
-        console.log(`${colors.yellow}💡 Dry run enabled. No files will be modified.${colors.reset}`);
-        return;
+  // ── Step 5: Dry run exit ──────────────────────────────────────────────────
+  if (config.dryRun) {
+    if (missingClusterLinks.length > 0) {
+      console.log(
+        `${c.yellow}💡 ${missingClusterLinks.length} structural cluster link(s) would be injected.${c.reset}`,
+      )
     }
+    console.log(`${c.yellow}💡 Dry run — no files modified.${c.reset}`)
+    return
+  }
 
-    const prompt = new Confirm({
-        name: 'confirm',
-        message: 'Do you want to apply these links to your posts?'
-    });
+  // ── Step 6: Confirm & apply ───────────────────────────────────────────────
+  const hasWork =
+    opportunitiesMap.size > 0 || missingClusterLinks.length > 0
 
-    const confirmed = await prompt.run();
+  if (!hasWork) {
+    console.log(`${c.green}✅ Everything is up to date. Nothing to do.${c.reset}`)
+    return
+  }
 
-    if (confirmed) {
-        console.log(`\n${colors.blue}✍️  Applying links...${colors.reset}`);
-        const injector = new LinkInjector();
-        const result = injector.applyLinks(opportunitiesMap, false);
+  const prompt = new Confirm({
+    name: 'confirm',
+    message: 'Apply these links to your posts?',
+  })
+  const confirmed = await prompt.run()
 
-        console.log(`${colors.green}✅ Successfully added ${result.linksAdded} links across ${result.modifiedPosts.length} files.${colors.reset}`);
-        
-        if (result.errors.length > 0) {
-            console.log(`\n${colors.red}❌ Encountered ${result.errors.length} errors:${colors.reset}`);
-            result.errors.forEach(err => console.log(`   - ${err.post}: ${err.error}`));
-        }
+  if (!confirmed) {
+    console.log(`\n${c.yellow}Operation cancelled.${c.reset}`)
+    return
+  }
 
-        // Add recommendations if any
-        if (gaps.length > 0) {
-            const { RecommendationTracker } = await import('./internal-linking/RecommendationTracker');
-            const tracker = new RecommendationTracker(contentDir);
-            tracker.loadExistingKeywords();
-            const added = tracker.addRecommendations(gaps, false);
-            if (added > 0) {
-                console.log(`${colors.green}✅ Added ${added} recommendations to keywords.md${colors.reset}`);
-            }
-        }
-    } else {
-        console.log(`\n${colors.yellow}Operation cancelled. No changes applied.${colors.reset}`);
+  const injector = new LinkInjector()
+
+  // Apply structural cluster links first (highest priority)
+  if (missingClusterLinks.length > 0) {
+    console.log(`\n${c.blue}🔗 Enforcing ${missingClusterLinks.length} structural cluster link(s)…${c.reset}`)
+    const clusterModified = injector.applyClusterLinks(missingClusterLinks, false)
+    console.log(`${c.green}✅ ${clusterModified} file(s) updated with cluster links.${c.reset}`)
+  }
+
+  // Apply keyword-based links
+  if (opportunitiesMap.size > 0) {
+    console.log(`\n${c.blue}✍️  Applying keyword links…${c.reset}`)
+    const result = injector.applyLinks(opportunitiesMap, false)
+    console.log(
+      `${c.green}✅ Added ${result.linksAdded} keyword links across ${result.modifiedPosts.length} files.${c.reset}`,
+    )
+    if (result.errors.length > 0) {
+      console.log(`\n${c.red}❌ ${result.errors.length} error(s):${c.reset}`)
+      result.errors.forEach(e => console.log(`   - ${e.post}: ${e.error}`))
     }
+  }
 
-    console.log();
+  // Content gap recommendations
+  if (!config.clusterOnly) {
+    const scanner = new ContentScanner(keywordIndex, config)
+    const contentGaps = scanner.findContentGaps(posts)
+    const gaps = Array.from(contentGaps.entries())
+      .filter(([, d]) => d.count >= 3)
+      .map(([keyword, d]) => ({
+        keyword,
+        mentionCount: d.count,
+        mentionedIn: Array.from(d.sources),
+        category: d.category,
+      }))
+
+    if (gaps.length > 0) {
+      const { RecommendationTracker } = await import('./internal-linking/RecommendationTracker')
+      const tracker = new RecommendationTracker(contentDir)
+      tracker.loadExistingKeywords()
+      const added = tracker.addRecommendations(gaps, false)
+      if (added > 0) {
+        console.log(`${c.green}✅ Added ${added} recommendations to keywords.md${c.reset}`)
+      }
+    }
+  }
+
+  console.log()
 }
 
 // Run
 main().catch(error => {
-    console.error(`\n${colors.red}Fatal error:${colors.reset}`, error);
-    process.exit(1);
-});
+  console.error(`\n${c.red}Fatal error:${c.reset}`, error)
+  process.exit(1)
+})

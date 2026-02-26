@@ -52,16 +52,18 @@ Content
         it('should build keyword index only from primary_keywords', async () => {
             const post1 = `---
 title: Post One
+idioma: en
 primary_keywords: [keyword a]
 semantic_keywords: [keyword b]
 ---`;
             const post2 = `---
 title: Post Two
+idioma: en
 primary_keywords: [keyword c]
 ---`;
             await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post1.md'), post1);
             await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post2.md'), post2);
-            
+
             const extractor = new KeywordExtractor(TEST_DIR);
             await extractor.loadPosts();
             const index = extractor.buildIndex();
@@ -70,8 +72,10 @@ primary_keywords: [keyword c]
             expect(index.get('keyword a')?.targetPost.slug).toBe('post1');
             expect(index.has('keyword c')).toBe(true);
             expect(index.get('keyword c')?.targetPost.slug).toBe('post2');
-            // Ensure semantic keywords are NOT in the index
-            expect(index.has('keyword b')).toBe(false);
+            // Semantic keywords are also indexed (for contextual link matching)
+            // but primary keywords take precedence for their own post
+            expect(index.has('keyword b')).toBe(true);
+            expect(index.get('keyword b')?.targetPost.slug).toBe('post1');
         });
 
         it('should warn on keyword cannibalization', async () => {
@@ -79,10 +83,12 @@ primary_keywords: [keyword c]
 
             const post1 = `---
 title: Post One
+idioma: en
 primary_keywords: [shared keyword]
 ---`;
             const post2 = `---
 title: Post Two
+idioma: en
 primary_keywords: [shared keyword]
 ---`;
             await createMockFile(path.join(TEST_DIR, 'posts', 'cat', 'post1.md'), post1);

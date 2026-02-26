@@ -1,4 +1,8 @@
 ---
 title: Post One
-primary_keywords: [shared keyword]
+idioma: en
+primary_keywords:
+  - shared keyword
+semantic_keywords: []
 ---
+

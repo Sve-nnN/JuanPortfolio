@@ -484,6 +484,12 @@ export interface KeywordMetric {
   difficulty: number;
   intent?: ('Informational' | 'Commercial' | 'Transactional' | 'Navigational') | null;
   source: string;
+  status?: string | null;
+  paaCount?: number | null;
+  topDomain?: string | null;
+  hasAiOverview?: boolean | null;
+  post?: (string | null) | Post;
+  page?: (string | null) | Page;
   funnelStage?: ('Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)') | null;
   informationGain?: string | null;
   recommendedFormat?: string | null;
@@ -3560,6 +3566,12 @@ export interface KeywordMetricsSelect<T extends boolean = true> {
   difficulty?: T;
   intent?: T;
   source?: T;
+  status?: T;
+  paaCount?: T;
+  topDomain?: T;
+  hasAiOverview?: T;
+  post?: T;
+  page?: T;
   funnelStage?: T;
   informationGain?: T;
   recommendedFormat?: T;

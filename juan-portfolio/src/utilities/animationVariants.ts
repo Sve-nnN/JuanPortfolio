@@ -119,8 +119,8 @@ export function getViewportOptions(config?: AnimationConfig | null) {
   // than the viewport, the animation will still trigger.
   const viewportAmount =
     typeof config.viewportAmount === 'number' && config.viewportAmount > 0
-      ? Math.min(config.viewportAmount / 100, 0.1)
-      : 0.01
+      ? config.viewportAmount / 100
+      : 0.2
 
   return {
     once: true, // Only animate once for better performance

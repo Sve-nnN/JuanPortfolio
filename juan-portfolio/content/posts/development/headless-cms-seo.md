@@ -6,6 +6,8 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Development
+contentRole: satellite
+pillarSlug: tech-seo-guide
 relatedPosts:
   - technical-seo-guide
   - payloadcms-tutorial

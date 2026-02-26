@@ -12,6 +12,8 @@ relatedPosts:
 sidebarBanners: []
 metaTitle:
 metaDescription:
+contentRole: satellite
+pillarSlug: guia-keyword-research
 ---
 
 # [Título del Post]

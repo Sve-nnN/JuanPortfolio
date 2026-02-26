@@ -6,6 +6,10 @@ authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Technical SEO
+slug: tech-seo-guide
+idioma: es
+contentRole: pillar
+pillarSlug: tech-seo-guide
 relatedPosts:
   - nextjs-seo-optimization
   - core-web-vitals-guide

@@ -33,11 +33,50 @@ interface KeywordData {
   clusterType?: 'Pillar' | 'Supporting'
   funnelStage?: 'Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)'
   informationGain?: string
+  post?: string
+  page?: string
 }
 
 const unescapeFromTable = (text: string): string => {
   if (!text) return ''
   return text.replace(/\\\|/g, '|')
+}
+
+const getDocumentFromURL = async (payload: any, url: string): Promise<{ id: string, collection: 'posts' | 'pages' } | null> => {
+  if (!url || url === 'N/A' || url === '') return null
+  
+  const parts = url.split('/')
+  const slug = parts[parts.length - 1]
+  
+  if (!slug) return null
+
+  // Try posts first
+  const posts = await payload.find({
+    collection: 'posts',
+    where: {
+      slug: { equals: slug }
+    },
+    limit: 1,
+  })
+
+  if (posts.docs.length > 0) {
+    return { id: String(posts.docs[0].id), collection: 'posts' }
+  }
+
+  // Then try pages
+  const pages = await payload.find({
+    collection: 'pages',
+    where: {
+      slug: { equals: slug }
+    },
+    limit: 1,
+  })
+
+  if (pages.docs.length > 0) {
+    return { id: String(pages.docs[0].id), collection: 'pages' }
+  }
+
+  return null
 }
 
 const parseKeywordsMarkdown = (content: string): KeywordData[] => {
@@ -85,7 +124,9 @@ const parseKeywordsMarkdown = (content: string): KeywordData[] => {
       opportunityScore: parseInt(isNewFormat ? parts[16] : parts[15], 10) || 0,
       recommendedFormat: unescapeFromTable(isNewFormat ? parts[17] : parts[16] || ''),
       clusterType: (unescapeFromTable(isNewFormat ? parts[18] : parts[17] || '') === 'Pillar' ? 'Pillar' : 'Supporting') as KeywordData['clusterType'],
-      funnelStage: unescapeFromTable(isNewFormat ? parts[20] : '') as KeywordData['funnelStage'],
+      funnelStage: (['Awareness (TOFU)', 'Consideration (MOFU)', 'Decision (BOFU)'].includes(unescapeFromTable(isNewFormat ? parts[20] : '')) 
+        ? unescapeFromTable(isNewFormat ? parts[20] : '') 
+        : undefined) as KeywordData['funnelStage'],
       informationGain: unescapeFromTable(isNewFormat ? parts[21] : ''),
     })
   }
@@ -113,6 +154,16 @@ const syncKeywords = async () => {
 
   for (const kwData of keywords) {
     try {
+      // Try to find the associated document (post or page)
+      const linkedDoc = await getDocumentFromURL(payload, kwData.targetURL)
+      if (linkedDoc) {
+        if (linkedDoc.collection === 'posts') {
+          kwData.post = linkedDoc.id
+        } else if (linkedDoc.collection === 'pages') {
+          kwData.page = linkedDoc.id
+        }
+      }
+
       const existing = await payload.find({
         collection: 'keyword-metrics',
         where: { keyword: { equals: kwData.keyword } },

@@ -40,7 +40,7 @@ uploaded: false
 idioma: en
 slug: diseno-bases-datos
 ---
-English version coming soon.
+English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 
 ## See Also
 

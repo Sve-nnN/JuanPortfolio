@@ -656,9 +656,10 @@ Usa un **arreglo** (o `ArrayList` en Java, `list` en Python) cuando necesites ac
 ### 5. ¿Es necesario dominar C o C++ para entender las estructuras de datos?
 No es estrictamente necesario, pero aprender C o C++ puede proporcionar una comprensión más profunda de cómo funcionan las estructuras de datos a nivel de memoria y cómo se gestionan los punteros, lo cual es invaluable. Sin embargo, puedes aprender y dominar estos conceptos usando cualquier lenguaje de programación moderno como Python o Java, que ofrecen abstracciones de alto nivel que facilitan la implementación. Lo importante es comprender los conceptos subyacentes, no solo la sintaxis.
 
-## See Also
+## Ver también
 
 - [[Diseño de bases de datos](https://juan-tech.com/blog/cs-fundamentals/normalizacion-bases-datos): Claves para una estructura efectiva y moderna](https://juan-tech.com/blog/cs-fundamentals/diseno-bases-datos)
+- [Post con See Also Erróneo](https://juan-tech.com/blog/test/see-also-test)
 
 ## See Also
 

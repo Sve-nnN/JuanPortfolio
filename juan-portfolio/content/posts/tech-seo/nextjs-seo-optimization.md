@@ -156,7 +156,7 @@ import Image from 'next/image'
 />
 ```
 
-Para más detalles sobre la estabilidad visual, lee mi [Guía Técnica de Core Web Vitals](./core-web-vitals-guide).
+Para más detalles sobre la [estabilidad visual](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide), lee mi [Guía Técnica de Core Web Vitals](./core-web-vitals-guide).
 
 ## 4. Archivos SEO Dinámicos: sitemap.ts y robots.ts
 

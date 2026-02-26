@@ -40,7 +40,7 @@ Optimizar los **Core Web Vitals** impacta directamente en el rendimiento de tu s
 
 ## La Experiencia de Usuario como Factor de Ranking
 
-Google utiliza los **Core Web Vitals** para cuantificar la UX e integrarla en su algoritmo de clasificación. He notado empíricamente que la latencia en la interacción y la inestabilidad visual afectan tanto la retención del usuario final como el presupuesto de rastreo de los dominios indexados.
+Google utiliza los **Core Web Vitals** para cuantificar la UX e integrarla en su algoritmo de clasificación. He notado empíricamente que la latencia en la interacción y la inestabilidad visual afectan tanto la retención del usuario final como el [presupuesto de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) de los dominios indexados.
 
 ### Métricas Primarias Core Web Vitals
 

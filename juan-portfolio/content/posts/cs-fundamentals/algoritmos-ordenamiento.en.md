@@ -35,7 +35,7 @@ uploaded: false
 idioma: en
 slug: algoritmos-ordenamiento
 ---
-English version coming soon.
+English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 
 ## See Also
 

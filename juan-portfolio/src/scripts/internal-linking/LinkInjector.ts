@@ -40,6 +40,11 @@ export class LinkInjector {
             const { data, content: body } = matter(raw)
             let updatedBody = body
 
+            // Get post locale to choose the right header
+            const locale = data.idioma || (filePath.endsWith('.en.md') ? 'en' : 'es')
+            const seeAlsoHeader = locale === 'es' ? '## Ver también' : '## See Also'
+            const otherHeader = locale === 'es' ? '## See Also' : '## Ver también'
+
             for (const link of links) {
                 const { target } = link
                 const anchor = target.title || target.slug
@@ -71,10 +76,36 @@ export class LinkInjector {
                     linked = updatedBody.includes(`(${target.url})`)
                 }
 
-                // Fallback: append a "See Also" section
+                // Fallback: append to "See Also" section (localized)
                 if (!linked) {
-                    updatedBody = updatedBody.trimEnd() +
-                        `\n\n## See Also\n\n- [${anchor}](${target.url})\n`
+                    // Check if either English or Spanish header already exists
+                    const hasHeader = updatedBody.includes(seeAlsoHeader)
+                    const hasOtherHeader = updatedBody.includes(otherHeader)
+                    
+                    if (hasHeader) {
+                        // Append to the end of that section
+                        const sectionStart = updatedBody.indexOf(seeAlsoHeader)
+                        // Find where next section starts or end of file
+                        const nextSection = updatedBody.indexOf('\n## ', sectionStart + seeAlsoHeader.length)
+                        const insertionPoint = nextSection === -1 ? updatedBody.length : nextSection
+                        
+                        const before = updatedBody.substring(0, insertionPoint).trimEnd()
+                        const after = updatedBody.substring(insertionPoint)
+                        updatedBody = `${before}\n- [${anchor}](${target.url})\n${after}`
+                    } else if (hasOtherHeader) {
+                        // Correct existing wrong-language header then append
+                        updatedBody = updatedBody.replace(otherHeader, seeAlsoHeader)
+                        const sectionStart = updatedBody.indexOf(seeAlsoHeader)
+                        const nextSection = updatedBody.indexOf('\n## ', sectionStart + seeAlsoHeader.length)
+                        const insertionPoint = nextSection === -1 ? updatedBody.length : nextSection
+                        
+                        const before = updatedBody.substring(0, insertionPoint).trimEnd()
+                        const after = updatedBody.substring(insertionPoint)
+                        updatedBody = `${before}\n- [${anchor}](${target.url})\n${after}`
+                    } else {
+                        // Create new section
+                        updatedBody = updatedBody.trimEnd() + `\n\n${seeAlsoHeader}\n\n- [${anchor}](${target.url})\n`
+                    }
                 }
             }
 

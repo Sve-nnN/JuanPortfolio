@@ -6,6 +6,27 @@ publishedAt: '2023-10-27T00:00:00.000Z'
 updatedAt: '2026-02-13T20:21:30.414Z'
 authors:
   - 68eebff77441f36b228ae938
+semantic_keywords:
+  - digo typescript console
+  - elemento lista elemento
+  - bloque digo typescript
+  - typescript console log
+  - este contenido primer
+  - contenido primer post
+  - mundo elemento lista
+  - lista elemento lista
+  - hola mundo elemento
+  - primer post tecnol
+  - algo texto negrita
+  - texto negrita lica
+  - negrita lica secci
+  - typescript console
+  - tecnol gico tiene
+  - contenido primer
+  - post tecnol gico
+  - tiene algo texto
+  - console log hola
+  - gico tiene algo
 ---
 Este es el contenido de mi primer post tecnológico. Tiene algo de texto en **negrita** e *itálica*.
 

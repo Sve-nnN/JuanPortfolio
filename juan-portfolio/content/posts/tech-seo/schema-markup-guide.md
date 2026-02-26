@@ -41,7 +41,7 @@ Implementar **Schema Markup** mediante el formato JSON-LD es esencial para escal
 
 **Schema.org** es una iniciativa colaborativa que proporciona un vocabulario estandarizado de datos estructurados compartidos por los principales motores de búsqueda. El **Schema Markup** utiliza este vocabulario para catalogar entidades, dependencias y métricas en una página web mediante código JSON, permitiendo a los rastreadores clasificar el contexto analítico de forma determinista y precisa.
 
-En la arquitectura actual de SEO Técnico de 2026, si dependes exclusivamente de que el Procesamiento de Lenguaje Natural (NLP) de Google deduzca tus textos planos, estás consumiendo ineficientemente el presupuesto de rastreo y cediendo precisión heurística a los modelos LLM (Large Language Models) generativos.
+En la arquitectura actual de SEO Técnico de 2026, si dependes exclusivamente de que el Procesamiento de Lenguaje Natural (NLP) de Google deduzca tus textos planos, estás consumiendo ineficientemente el [presupuesto de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) y cediendo precisión heurística a los modelos LLM (Large Language Models) generativos.
 
 ## Flujo de Trabajo para implementar Schema
 

@@ -36,7 +36,7 @@ uploaded: false
 idioma: en
 slug: programacion-dinamica
 ---
-English version coming soon.
+English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 
 ## See Also
 

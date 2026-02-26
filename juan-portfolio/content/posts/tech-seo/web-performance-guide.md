@@ -43,7 +43,7 @@ El Time To First Byte (TTFB) es la métrica de latencia fundacional en una pági
 
 ### Distribución Física Perimetral mediante CDN
 
-Reduce la dilatación natural y límite de red delegando a la periferia de latencia baja. Recomiendo almacenar rígidamente los fragmentos estables de código e incluso el HTML pre-renderizado estático a través de servidores ubicados en nodos descentralizados (Content Delivery Network). Refuerza y valida de forma continua las estrategias programadas de Purgado ante re-builds de tu repositorio base central.
+Reduce la dilatación natural y límite de red delegando a la periferia de latencia baja. Recomiendo almacenar rígidamente los fragmentos estables de código e incluso el HTML pre-[renderizado estático](https://juan-tech.com/blog/tech-seo/ssr-vs-csr-seo) a través de servidores ubicados en nodos descentralizados (Content Delivery Network). Refuerza y valida de forma continua las estrategias programadas de Purgado ante re-builds de tu repositorio base central.
 
 ### Resolución Acelerada DNS y Protocolos (Preconnect)
 

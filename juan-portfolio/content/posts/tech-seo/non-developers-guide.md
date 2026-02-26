@@ -49,7 +49,7 @@ El [Sitemap XML](./xml-sitemap-automation) es un directorio estructurado que enu
 
 ### 2. Robots.txt
 
-El archivo [Robots.txt](./robots-txt-best-practices) establece directivas estrictas de acceso para los rastreadores automatizados. Permite bloquear el ingreso a secciones no deseadas para preservar y optimizar tu presupuesto de rastreo (Crawl Budget).
+El archivo [Robots.txt](./robots-txt-best-practices) establece directivas estrictas de acceso para los rastreadores automatizados. Permite bloquear el ingreso a secciones no deseadas para preservar y optimizar tu [presupuesto de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) (Crawl Budget).
 
 ### 3. HTTPS y Protocolos de Seguridad
 

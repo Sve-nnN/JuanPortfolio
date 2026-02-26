@@ -39,7 +39,7 @@ idioma: en
 slug: normalizacion-bases-datos
 status: published
 ---
-English version coming soon.
+English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 
 ## See Also
 

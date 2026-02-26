@@ -2,9 +2,30 @@
 title: Post de Prueba con FAQ
 idioma: es
 slug: faq-test
-publishedAt: 2026-02-14
+publishedAt: 2026-02-14T00:00:00.000Z
 primary_keywords:
   - faq test
+semantic_keywords:
+  - respuestas correspondientes bloque
+  - sincronizador detecta encabezado
+  - sus respuestas correspondientes
+  - correspondientes bloque payload
+  - automatizar tareas optimizaci
+  - modelos lenguaje automatizar
+  - bloque sincronizador detecta
+  - lenguaje automatizar tareas
+  - optimizaci enlazado interno
+  - generaci metadatos funciona
+  - respuestas correspondientes
+  - tareas optimizaci enlazado
+  - interno generaci metadatos
+  - enlazado interno generaci
+  - este bloque sincronizador
+  - scripts modelos lenguaje
+  - agrupa preguntas negrita
+  - metadatos funciona este
+  - correspondientes bloque
+  - detecta encabezado faq
 ---
 
 Este es un post para probar el nuevo bloque automático de FAQ desde Markdown.

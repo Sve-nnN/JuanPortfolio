@@ -39,7 +39,7 @@ export const Media: CollectionConfig = {
       path: '/:id/upload-cloudinary',
       method: 'post',
       handler: async (req) => {
-        const { id } = req.routeParams
+        const id = req.routeParams?.id
         if (!id) return Response.json({ error: 'ID is required' }, { status: 400 })
 
         try {
@@ -52,12 +52,49 @@ export const Media: CollectionConfig = {
           if (doc.cloudinaryUrl)
             return Response.json({ message: 'Already has Cloudinary URL', url: doc.cloudinaryUrl })
 
-          const imageUrl = doc.url?.startsWith('http') 
-            ? doc.url 
-            : `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}${doc.url}`
+          // Try to get from disk first (more reliable for Cloudinary upload)
+          const staticDir = path.resolve(process.cwd(), 'public/media')
+          const filePath = path.resolve(staticDir, doc.filename as string)
+          
+          let cloudinaryUrl: string | null = null
 
-          console.log(`Uploading to Cloudinary from URL: ${imageUrl}`)
-          const cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
+          if (fs.existsSync(filePath)) {
+            console.log(`Found local file, uploading via buffer: ${filePath}`)
+            const fileData = fs.readFileSync(filePath)
+            cloudinaryUrl = await cloudinaryService.uploadImage(fileData, doc.filename as string)
+          } else {
+            // Robust Proxy fallback: Download to server first to bypass 403/Forbidden blocks
+            const imageUrl = doc.url?.startsWith('http') 
+              ? doc.url 
+              : `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}${doc.url}`
+
+            console.log(`File not on disk, proxying upload from URL: ${imageUrl}`)
+            try {
+              // Add User-Agent to bypass some bot detection blocks (like Cloudflare)
+              const response = await fetch(imageUrl, {
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                  'Referer': process.env.NEXT_PUBLIC_SERVER_URL || 'https://juan-tech.com',
+                }
+              })
+              
+              if (response.ok) {
+                const arrayBuffer = await response.arrayBuffer()
+                const buffer = Buffer.from(arrayBuffer)
+                cloudinaryUrl = await cloudinaryService.uploadImage(buffer, doc.filename as string)
+              } else {
+                console.error(`Failed to fetch image for proxy: ${response.status} ${response.statusText}`)
+                // Fallback: Let Cloudinary try to download it directly
+                console.log(`Attempting direct Cloudinary upload from URL fallback for: ${imageUrl}`)
+                cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
+              }
+            } catch (fetchError) {
+              console.error(`Error proxying image download:`, fetchError)
+              // Fallback: Let Cloudinary try to download it directly
+              console.log(`Attempting direct Cloudinary upload from URL fallback after error for: ${imageUrl}`)
+              cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
+            }
+          }
 
           if (cloudinaryUrl) {
             await req.payload.update({
@@ -70,7 +107,7 @@ export const Media: CollectionConfig = {
             return Response.json({ success: true, url: cloudinaryUrl })
           }
 
-          return Response.json({ error: 'Upload failed' }, { status: 500 })
+          return Response.json({ error: 'Cloudinary upload failed' }, { status: 500 })
         } catch (error) {
           console.error('Error in upload-cloudinary endpoint:', error)
           return Response.json(
@@ -101,16 +138,43 @@ export const Media: CollectionConfig = {
             failed: 0,
           }
 
+          const staticDir = path.resolve(process.cwd(), 'public/media')
+
           for (const doc of docs) {
             try {
-              const imageUrl = doc.url?.startsWith('http') 
-                ? doc.url 
-                : `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}${doc.url}`
+              const filePath = path.resolve(staticDir, doc.filename as string)
+              let cloudinaryUrl: string | null = null
 
-              const cloudinaryUrl = await cloudinaryService.uploadFromUrl(
-                imageUrl,
-                doc.filename as string,
-              )
+              if (fs.existsSync(filePath)) {
+                const fileData = fs.readFileSync(filePath)
+                cloudinaryUrl = await cloudinaryService.uploadImage(fileData, doc.filename as string)
+              } else {
+                const imageUrl = doc.url?.startsWith('http') 
+                  ? doc.url 
+                  : `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}${doc.url}`
+                
+                try {
+                  const response = await fetch(imageUrl, {
+                    headers: {
+                      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                      'Referer': process.env.NEXT_PUBLIC_SERVER_URL || 'https://juan-tech.com',
+                    }
+                  })
+                  if (response.ok) {
+                    const arrayBuffer = await response.arrayBuffer()
+                    const buffer = Buffer.from(arrayBuffer)
+                    cloudinaryUrl = await cloudinaryService.uploadImage(buffer, doc.filename as string)
+                  } else {
+                    // Fallback to direct URL upload
+                    cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
+                  }
+                } catch (e) {
+                  console.error(`Proxy download failed for all-upload: ${doc.filename}`)
+                  // Final attempt: upload from URL
+                  cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
+                }
+              }
+
               if (cloudinaryUrl) {
                 await req.payload.update({
                   collection: 'media',

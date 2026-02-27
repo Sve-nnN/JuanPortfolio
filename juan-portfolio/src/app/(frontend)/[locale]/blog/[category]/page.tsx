@@ -81,19 +81,21 @@ export default async function CategoryPage({
   }
   if (!cat) return notFound()
 
-  const posts = await payload.find({
-    collection: 'posts',
-    where: {
-      and: [
-        { categories: { contains: cat.id } },
-        { _status: { equals: 'published' } },
-      ],
-    },
-    limit: 100,
-    depth: 2,
-    locale,
-  })
-  const allCategories = await payload.find({ collection: 'categories', limit: 100, locale })
+  const [posts, allCategories] = await Promise.all([
+    payload.find({
+      collection: 'posts',
+      where: {
+        and: [
+          { categories: { contains: cat.id } },
+          { _status: { equals: 'published' } },
+        ],
+      },
+      limit: 100,
+      depth: 2,
+      locale,
+    }),
+    payload.find({ collection: 'categories', limit: 100, locale }),
+  ])
 
   const localePrefix = locale === 'es' ? '' : '/en'
   const breadcrumbItems: BreadcrumbItem[] = [

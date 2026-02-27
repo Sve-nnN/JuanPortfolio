@@ -67,6 +67,8 @@ export const GSCDashboard: React.FC = () => {
           brokenRes.json()
         ])
 
+        if (!isMounted) return
+
         setGscData((gscJson.docs || []) as GSCDataRow[])
         setPageMetrics((pageJson.docs || []) as PageMetricRow[])
         setBrokenLinks((brokenJson.docs || []) as BrokenLinkRow[])
@@ -219,7 +221,7 @@ export const GSCDashboard: React.FC = () => {
                     <YAxis tick={{ fontSize: 11 }} axisLine={false} />
                     <Tooltip contentStyle={{ backgroundColor: 'var(--theme-bg)', borderColor: 'var(--theme-border-color)', fontSize: '12px' }} />
                     <Bar dataKey="ctr" radius={[4, 4, 0, 0]}>
-                      {ctrByPositionData.map((e, i) => <Cell key={i} fill={e.ctr > 10 ? '#2563EB' : '#94A3B8'} />)}
+                      {ctrByPositionData.map((e) => <Cell key={e.pos} fill={e.ctr > 10 ? '#2563EB' : '#94A3B8'} />)}
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>

@@ -22,6 +22,7 @@ import TOCClient from '@/components/TableOfContents/client'
 import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { JsonLd } from '@/components/JsonLd'
+import Breadcrumbs from '@/components/Breadcrumbs'
 // import { headers } from 'next/headers'
 
 /**
@@ -130,14 +131,13 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
 
       {/* Breadcrumbs */}
       <div className="container mt-4">
-        {/* @ts-expect-error Async Server Component */}
-        {(await import('@/components/Breadcrumbs')).default({
-          items: [
+        <Breadcrumbs
+          items={[
             { label: locale === 'es' ? 'Inicio' : 'Home', href: locale === 'es' ? '/' : '/en' },
             { label: locale === 'es' ? 'Casos de Estudio' : 'Case Studies', href: locale === 'es' ? '/case-studies' : '/en/case-studies' },
             { label: post.title || 'Case Study' },
-          ],
-        })}
+          ]}
+        />
       </div>
 
       <PostHero post={post} excerpt={excerpt as string | null} readingTime={minutes} locale={locale} />

@@ -94,20 +94,21 @@ export const RenderBlocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const blockType = (block as { blockType?: string }).blockType
+          const { blockType, id: blockId } = block as { blockType?: string; id?: string }
+          const key = blockId ?? `block-${index}`
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
             if (Block) {
               if (index === 0) {
                 return (
-                  <div className="mb-16" key={index}>
+                  <div className="mb-16" key={key}>
                     <Block {...block} locale={locale} />
                   </div>
                 )
               }
 
               return (
-                <div className="my-20 lg:my-32" key={index}>
+                <div className="my-20 lg:my-32" key={key}>
                   <Block {...block} locale={locale} />
                 </div>
               )

@@ -16,24 +16,14 @@ type Props = {
 
 const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
   const payload = await getPayload({ config: configPromise })
-  let res = await payload.find({
+  const res = await payload.find({
     collection: 'users',
     limit: 1,
-    where: { slug: { equals: slug } },
+    where: { or: [{ slug: { equals: slug } }, { id: { equals: slug } }] },
     pagination: false,
     depth: 2,
     locale,
   })
-  if (!res.docs?.[0]) {
-    res = await payload.find({
-      collection: 'users',
-      limit: 1,
-      where: { id: { equals: slug } },
-      pagination: false,
-      depth: 2,
-      locale,
-    })
-  }
   return res.docs?.[0] || null
 }
 

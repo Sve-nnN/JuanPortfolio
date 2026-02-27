@@ -38,6 +38,7 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { syncKeywordsAfterPostSave } from '../Posts/hooks/syncKeywordsAfterPostSave'
 import { createRedirectOnSlugChange } from '../../hooks/createRedirectOnSlugChange'
 import { Section } from '../../blocks/Section/config'
+import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -175,6 +176,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 Intro,
                 WorkCards,
+                CalendlyEmbed,
               ],
               required: true,
               admin: {

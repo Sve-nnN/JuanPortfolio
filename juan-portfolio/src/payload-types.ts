@@ -291,6 +291,7 @@ export interface Page {
       | FormBlock
       | IntroBlock
       | WorkCardsBlock
+      | CalendlyEmbedBlock
     )[];
   };
   searchConsole?: {};
@@ -1965,6 +1966,51 @@ export interface WorkCardsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CalendlyEmbedBlock".
+ */
+export interface CalendlyEmbedBlock {
+  /**
+   * URL del evento Calendly (ej: https://calendly.com/tu-usuario/30min)
+   */
+  calendlyUrl: string;
+  /**
+   * Título opcional sobre el widget
+   */
+  title?: string | null;
+  /**
+   * Descripción opcional bajo el título
+   */
+  subtitle?: string | null;
+  /**
+   * Altura del widget de calendario
+   */
+  height?: ('compact' | 'default' | 'tall') | null;
+  /**
+   * Ocultar detalles del tipo de evento
+   */
+  hideEventTypeDetails?: boolean | null;
+  /**
+   * Ocultar banner GDPR
+   */
+  hideGdprBanner?: boolean | null;
+  /**
+   * Color de fondo (ej: ffffff)
+   */
+  backgroundColor?: string | null;
+  /**
+   * Color primario (ej: 00a2ff)
+   */
+  primaryColor?: string | null;
+  /**
+   * Color de texto (ej: 4d5055)
+   */
+  textColor?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'calendlyEmbed';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "works".
  */
 export interface Work {
@@ -2680,6 +2726,7 @@ export interface PagesSelect<T extends boolean = true> {
               formBlock?: T | FormBlockSelect<T>;
               intro?: T | IntroBlockSelect<T>;
               workCards?: T | WorkCardsBlockSelect<T>;
+              calendlyEmbed?: T | CalendlyEmbedBlockSelect<T>;
             };
       };
   searchConsole?: T | {};
@@ -3211,6 +3258,23 @@ export interface WorkCardsBlockSelect<T extends boolean = true> {
   title?: T;
   count?: T;
   showReadMore?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CalendlyEmbedBlock_select".
+ */
+export interface CalendlyEmbedBlockSelect<T extends boolean = true> {
+  calendlyUrl?: T;
+  title?: T;
+  subtitle?: T;
+  height?: T;
+  hideEventTypeDetails?: T;
+  hideGdprBanner?: T;
+  backgroundColor?: T;
+  primaryColor?: T;
+  textColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -4283,6 +4347,7 @@ export interface Home {
     | LatestBlogPostsBlock
     | LatestCaseStudiesBlock
     | TestimonialsCarouselBlock
+    | CalendlyEmbedBlock
     | CallToActionBlock
     | ContentBlock
   )[];
@@ -4686,6 +4751,7 @@ export interface HomeSelect<T extends boolean = true> {
         latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
         latestCaseStudies?: T | LatestCaseStudiesBlockSelect<T>;
         testimonialsCarousel?: T | TestimonialsCarouselBlockSelect<T>;
+        calendlyEmbed?: T | CalendlyEmbedBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
       };

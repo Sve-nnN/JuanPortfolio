@@ -16,6 +16,7 @@ import { Content } from '../../blocks/Content/config'
 import { LatestBlogPosts } from '../../blocks/LatestBlogPosts/config'
 import { LatestCaseStudies } from '../../blocks/LatestCaseStudies/config'
 import { TestimonialsCarousel } from '../../blocks/TestimonialsCarousel/config'
+import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
 
 export const Home: GlobalConfig = {
   slug: 'home',
@@ -45,6 +46,7 @@ export const Home: GlobalConfig = {
         LatestCaseStudies,
         TestimonialsCarousel,
         // Bloques generales
+        CalendlyEmbed,
         CallToAction,
         Content,
       ],

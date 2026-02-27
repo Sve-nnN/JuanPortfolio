@@ -25,6 +25,7 @@ import { OrderedListFeatureClient as OrderedListFeatureClient_e70f5e05f09f93e00b
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { CloudinaryUploadButton as CloudinaryUploadButton_1ae4acaeee7345df8eb61983d348f4e7 } from '@/components/admin/CloudinaryUploadButton'
+import { CloudinaryUploadAllButton as CloudinaryUploadAllButton_a6328e09ea1f3e79469fbc0c49980b7d } from '@/components/admin/CloudinaryUploadAllButton'
 import { default as default_14a617787e59f2697076a8f925c952d0 } from '@/components/admin/LiveUrlLink'
 import { ForceScanButton as ForceScanButton_09081efaef1efd119bda42a188210def } from '@/components/admin/ForceScanButton'
 import { CWVBadge as CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb } from '@/components/admin/CWVBadge'
@@ -68,6 +69,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/admin/CloudinaryUploadButton#CloudinaryUploadButton": CloudinaryUploadButton_1ae4acaeee7345df8eb61983d348f4e7,
+  "@/components/admin/CloudinaryUploadAllButton#CloudinaryUploadAllButton": CloudinaryUploadAllButton_a6328e09ea1f3e79469fbc0c49980b7d,
   "@/components/admin/LiveUrlLink#default": default_14a617787e59f2697076a8f925c952d0,
   "@/components/admin/ForceScanButton#ForceScanButton": ForceScanButton_09081efaef1efd119bda42a188210def,
   "@/components/admin/CWVBadge#CWVBadge": CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb,

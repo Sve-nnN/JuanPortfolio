@@ -52,14 +52,12 @@ export const Media: CollectionConfig = {
           if (doc.cloudinaryUrl)
             return Response.json({ message: 'Already has Cloudinary URL', url: doc.cloudinaryUrl })
 
-          const filePath = path.resolve(dirname, '../../public/media', doc.filename as string)
+          const imageUrl = doc.url?.startsWith('http') 
+            ? doc.url 
+            : `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}${doc.url}`
 
-          if (!fs.existsSync(filePath)) {
-            return Response.json({ error: 'File not found on disk' }, { status: 404 })
-          }
-
-          const fileData = fs.readFileSync(filePath)
-          const cloudinaryUrl = await cloudinaryService.uploadImage(fileData, doc.filename as string)
+          console.log(`Uploading to Cloudinary from URL: ${imageUrl}`)
+          const cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
 
           if (cloudinaryUrl) {
             await req.payload.update({
@@ -104,11 +102,13 @@ export const Media: CollectionConfig = {
           }
 
           for (const doc of docs) {
-            const filePath = path.resolve(dirname, '../../public/media', doc.filename as string)
-            if (fs.existsSync(filePath)) {
-              const fileData = fs.readFileSync(filePath)
-              const cloudinaryUrl = await cloudinaryService.uploadImage(
-                fileData,
+            try {
+              const imageUrl = doc.url?.startsWith('http') 
+                ? doc.url 
+                : `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}${doc.url}`
+
+              const cloudinaryUrl = await cloudinaryService.uploadFromUrl(
+                imageUrl,
                 doc.filename as string,
               )
               if (cloudinaryUrl) {
@@ -123,7 +123,8 @@ export const Media: CollectionConfig = {
               } else {
                 results.failed++
               }
-            } else {
+            } catch (e) {
+              console.error(`Failed to upload ${doc.filename}:`, e)
               results.failed++
             }
           }

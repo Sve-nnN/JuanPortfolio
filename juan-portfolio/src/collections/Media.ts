@@ -18,15 +18,127 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 import sharp from 'sharp'
+import fs from 'fs'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  admin: {
+    useAsTitle: 'alt',
+    components: {
+      beforeListTable: ['@/components/admin/CloudinaryUploadAllButton#CloudinaryUploadAllButton'],
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
     read: anyone,
     update: authenticated,
   },
+  endpoints: [
+    {
+      path: '/:id/upload-cloudinary',
+      method: 'post',
+      handler: async (req) => {
+        const { id } = req.routeParams
+        if (!id) return Response.json({ error: 'ID is required' }, { status: 400 })
+
+        try {
+          const doc = await req.payload.findByID({
+            collection: 'media',
+            id: id as string,
+          })
+
+          if (!doc) return Response.json({ error: 'Media not found' }, { status: 404 })
+          if (doc.cloudinaryUrl)
+            return Response.json({ message: 'Already has Cloudinary URL', url: doc.cloudinaryUrl })
+
+          const filePath = path.resolve(dirname, '../../public/media', doc.filename as string)
+
+          if (!fs.existsSync(filePath)) {
+            return Response.json({ error: 'File not found on disk' }, { status: 404 })
+          }
+
+          const fileData = fs.readFileSync(filePath)
+          const cloudinaryUrl = await cloudinaryService.uploadImage(fileData, doc.filename as string)
+
+          if (cloudinaryUrl) {
+            await req.payload.update({
+              collection: 'media',
+              id: id as string,
+              data: {
+                cloudinaryUrl,
+              },
+            })
+            return Response.json({ success: true, url: cloudinaryUrl })
+          }
+
+          return Response.json({ error: 'Upload failed' }, { status: 500 })
+        } catch (error) {
+          console.error('Error in upload-cloudinary endpoint:', error)
+          return Response.json(
+            { error: error instanceof Error ? error.message : 'Unknown error' },
+            { status: 500 },
+          )
+        }
+      },
+    },
+    {
+      path: '/upload-all-cloudinary',
+      method: 'post',
+      handler: async (req) => {
+        try {
+          const { docs } = await req.payload.find({
+            collection: 'media',
+            where: {
+              cloudinaryUrl: {
+                exists: false,
+              },
+            },
+            limit: 100, // Safety limit
+          })
+
+          const results = {
+            total: docs.length,
+            success: 0,
+            failed: 0,
+          }
+
+          for (const doc of docs) {
+            const filePath = path.resolve(dirname, '../../public/media', doc.filename as string)
+            if (fs.existsSync(filePath)) {
+              const fileData = fs.readFileSync(filePath)
+              const cloudinaryUrl = await cloudinaryService.uploadImage(
+                fileData,
+                doc.filename as string,
+              )
+              if (cloudinaryUrl) {
+                await req.payload.update({
+                  collection: 'media',
+                  id: doc.id,
+                  data: {
+                    cloudinaryUrl,
+                  },
+                })
+                results.success++
+              } else {
+                results.failed++
+              }
+            } else {
+              results.failed++
+            }
+          }
+
+          return Response.json(results)
+        } catch (error) {
+          console.error('Error in upload-all-cloudinary endpoint:', error)
+          return Response.json(
+            { error: error instanceof Error ? error.message : 'Unknown error' },
+            { status: 500 },
+          )
+        }
+      },
+    },
+  ],
   fields: [
     {
       name: 'alt',
@@ -47,6 +159,10 @@ export const Media: CollectionConfig = {
       type: 'text',
       admin: {
         readOnly: true,
+        position: 'sidebar',
+        components: {
+          afterInput: ['@/components/admin/CloudinaryUploadButton#CloudinaryUploadButton'],
+        },
       },
     },
     {
@@ -55,6 +171,7 @@ export const Media: CollectionConfig = {
       admin: {
         readOnly: true,
         description: 'Extracted automatically from the image',
+        position: 'sidebar',
       },
     },
   ],
@@ -76,7 +193,7 @@ export const Media: CollectionConfig = {
                 console.error('Error extracting color:', colorError)
               }
 
-              if (operation === 'create') {
+              if (operation === 'create' || !data.cloudinaryUrl) {
                 // Upload to Cloudinary
                 const cloudinaryUrl = await cloudinaryService.uploadImage(
                   fileData as Buffer,

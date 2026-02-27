@@ -23,6 +23,7 @@ node_modules/
 # Agent
 .agent
 .gemini
+.serpapi-cache.json
 
 # GitHub App credentials
 gha-creds-*.json

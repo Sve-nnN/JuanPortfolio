@@ -220,6 +220,80 @@ npx tsx src/scripts/build-internal-links.ts --verbose
 
 ---
 
+## Auto-Generated OG Images (Cloudinary Overlay)
+
+Every page and post automatically gets a branded Open Graph (OG) image with the page title rendered as a text overlay directly in the Cloudinary URL — no server-side image generation, no build step, zero additional infra.
+
+### How It Works
+
+When `generateMeta` runs for any route, it resolves the OG image through a three-tier chain:
+
+| Priority | Source | Overlay applied? |
+| :------- | :----- | :--------------- |
+| 1 | Explicit `meta.image` set by the editor in the CMS | No — used as-is |
+| 2 | `content.heroImage.cloudinaryUrl` (or `.url` if it's a Cloudinary URL) | Yes |
+| 3 | Deterministic fallback from `getFallbackBySlug(slug)` (53 images, hash-selected) | Yes |
+
+When the overlay is applied (`getCloudinaryOgWithTitle`), the URL-based transformation chain is:
+
+```
+/upload/
+  w_1200,h_630,c_fill,g_auto,f_jpg,q_auto,right   ← base resize to OG dimensions
+  /l_portfolio:og-scrim/w_1200,h_300,c_fill/fl_layer_apply,g_south   ← dark gradient at bottom
+  /l_text:Array-Bold.woff2_70_right:<ENCODED_TITLE>,co_white,w_1100,c_fit/fl_layer_apply,g_south_east,x_50,y_50
+  /<publicId>
+```
+
+All transformations happen in Cloudinary's CDN — no image processing on the server, cached at the edge after the first request.
+
+### Transformation Details
+
+| Step | Transform | Purpose |
+| :--- | :-------- | :------ |
+| Base | `w_1200,h_630,c_fill,g_auto,f_jpg,q_auto` | Standard OG crop, JPEG output, smart gravity |
+| Scrim | `l_portfolio:og-scrim/w_1200,h_300,c_fill/fl_layer_apply,g_south` | Semi-transparent dark gradient covering the bottom 300px — ensures text is readable on both bright and dark images |
+| Text | `l_text:Array-Bold.woff2_70_right:<title>,co_white,w_1100,c_fit/fl_layer_apply,g_south_east,x_50,y_50` | Title in Array Bold 70px, white, right-aligned, constrained to 1100px, positioned bottom-right with 50px inset |
+
+**Title encoding rules:**
+- Titles longer than 65 characters are truncated to 62 chars + `…` before encoding
+- The title is passed through `encodeURIComponent()` (spaces → `%20`, accents → `%C3%ADa`, commas → `%2C`, slashes → `%2F`)
+- Existing transformation segments in the source URL are stripped before the OG transforms are applied, so the function is safe to call on already-transformed Cloudinary URLs
+
+### Cloudinary Assets Required
+
+Two assets must be uploaded once to the Cloudinary account (`dmufha3qv`):
+
+| Asset | Resource type | Public ID | Description |
+| :---- | :------------ | :-------- | :---------- |
+| Array Bold font | `raw / authenticated` | `Array-Bold.woff2` | Custom woff2 font for text overlays |
+| OG scrim | `image / upload` | `portfolio/og-scrim` | 1200×300 PNG gradient (transparent → ~82% black) |
+
+> **Why 1200×300?** Cloudinary's megapixel limit (25 Mpx) is hit if a small PNG is scaled up during a `c_fill` transform. Using the exact target dimensions means no upscaling is needed.
+
+### Implementation Files
+
+| File | Role |
+| :--- | :--- |
+| `src/utilities/cloudinaryUrl.ts` | `getCloudinaryOgWithTitle(url, title)` — pure function, builds the Cloudinary URL |
+| `src/utilities/generateMeta.ts` | Resolves OG image through the three-tier chain and calls `getCloudinaryOgWithTitle` |
+| `src/constants/fallbackImages.ts` | `getFallbackBySlug(slug)` — deterministic hash selection from 53 pre-uploaded fallback images |
+| `tests/unit/utilities/cloudinaryUrl.test.ts` | 27 unit tests covering guard rails, transform structure, public-id extraction, encoding, truncation |
+| `tests/unit/utilities/generateMeta.test.ts` | 16 unit tests for the full OG resolution chain |
+| `tests/int/utilities/cloudinaryOg.int.test.ts` | 7 live integration tests that hit Cloudinary and verify HTTP 200 responses |
+
+### Running the Tests
+
+```bash
+# Unit tests only (fast, no network)
+pnpm test:int -- tests/unit/utilities/cloudinaryUrl.test.ts
+pnpm test:int -- tests/unit/utilities/generateMeta.test.ts
+
+# Live integration tests (requires network, hits real Cloudinary CDN)
+pnpm test:int -- tests/int/utilities/cloudinaryOg.int.test.ts
+```
+
+---
+
 ## Internationalization (i18n)
 
 The platform supports a dual-language architecture (Spanish and English) integrated at both the CMS and Frontend layers.

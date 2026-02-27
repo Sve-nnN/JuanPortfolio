@@ -2,6 +2,7 @@ import React from 'react'
 import type { BlogArchiveHeaderBlock, Category, Media as MediaType } from '@/payload-types'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Media } from '@/components/Media'
 import { getFallbackBySlug } from '@/constants/fallbackImages'
 import { getCategories } from '@/utilities/getCategories'
 
@@ -42,13 +43,13 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
 
       {/* Background & Overlay */}
       <div className="absolute inset-0 z-0 select-none">
-        {heroImage && typeof heroImage === 'object' && 'url' in heroImage ? (
-          <Image
-            src={(heroImage as MediaType).url as string}
-            alt={(heroImage as MediaType).alt as string || 'Hero Background'}
+        {heroImage && typeof heroImage === 'object' ? (
+          <Media
+            resource={heroImage as MediaType}
             fill
-            className="object-cover"
+            imgClassName="object-cover"
             priority
+            htmlElement={null}
           />
         ) : (
           <Image

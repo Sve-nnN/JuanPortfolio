@@ -490,8 +490,24 @@ export interface KeywordMetric {
   source: string;
   status?: string | null;
   paaCount?: number | null;
+  /**
+   * People Also Ask questions fetched from SerpAPI
+   */
+  paaQuestions?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   topDomain?: string | null;
   hasAiOverview?: boolean | null;
+  /**
+   * Full text response from SGE/AI Overview
+   */
+  aiOverviewSnippet?: string | null;
   post?: (string | null) | Post;
   page?: (string | null) | Page;
   funnelStage?: ('Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)') | null;
@@ -1016,6 +1032,18 @@ export interface ContactFormBlock {
    * Texto del botón de enviar
    */
   submitLabel?: string | null;
+  /**
+   * Título del panel lateral derecho (ej: "Charlemos sobre tu próximo proyecto")
+   */
+  sidebarTitle?: string | null;
+  /**
+   * Descripción del panel lateral (ej: disponibilidad, tipo de proyectos)
+   */
+  sidebarDescription?: string | null;
+  /**
+   * Texto de prueba social en la parte inferior del panel (ej: "Más de 50 proyectos completados")
+   */
+  socialProofText?: string | null;
   /**
    * Información de contacto mostrada al lado del formulario
    */
@@ -2773,6 +2801,9 @@ export interface ContactFormBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   submitLabel?: T;
+  sidebarTitle?: T;
+  sidebarDescription?: T;
+  socialProofText?: T;
   contactInfo?:
     | T
     | {
@@ -3573,8 +3604,10 @@ export interface KeywordMetricsSelect<T extends boolean = true> {
   source?: T;
   status?: T;
   paaCount?: T;
+  paaQuestions?: T;
   topDomain?: T;
   hasAiOverview?: T;
+  aiOverviewSnippet?: T;
   post?: T;
   page?: T;
   funnelStage?: T;
@@ -4273,7 +4306,21 @@ export interface FAQBlock {
   faqs?:
     | {
         question: string;
-        answer: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
         id?: string | null;
       }[]
     | null;

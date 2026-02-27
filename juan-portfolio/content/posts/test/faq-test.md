@@ -26,6 +26,7 @@ semantic_keywords:
   - metadatos funciona este
   - correspondientes bloque
   - detecta encabezado faq
+contentRole: satellite
 ---
 
 Este es un post para probar el nuevo bloque automático de FAQ desde Markdown.

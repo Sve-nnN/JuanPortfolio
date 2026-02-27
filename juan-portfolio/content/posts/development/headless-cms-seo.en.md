@@ -35,8 +35,9 @@ uploaded: false
 idioma: en
 slug: headless-cms-seo
 ---
-English version coming soon.
+English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 
 ## See Also
 
 - [Technical SEO Guide for Developers (2026)](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Practical Guide to Schema Markup 2026 (with JSON-LD Examples)](https://juan-tech.com/en/blog/tech-seo/schema-markup-guide)

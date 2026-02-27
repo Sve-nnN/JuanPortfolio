@@ -24,7 +24,7 @@ export const FAQ: Block = {
         },
         {
           name: 'answer',
-          type: 'textarea',
+          type: 'richText',
           required: true,
           localized: true,
         },

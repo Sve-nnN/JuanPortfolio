@@ -4,6 +4,7 @@ import type { Page } from '@/payload-types'
 
 import dynamic from 'next/dynamic'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blockComponents: Record<string, React.ComponentType<any>> = {
   archive: dynamic(() => import('@/blocks/ArchiveBlock/Component').then((m) => m.ArchiveBlock)),
   content: dynamic(() => import('@/blocks/Content/Component').then((m) => m.ContentBlock)),

@@ -131,13 +131,6 @@ export default async function RootLayout({
     >
       <head>
         <InitTheme />
-        <link
-          rel="preload"
-          href="/fonts/array/Array-Bold.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link rel="preconnect" href="https://res.cloudinary.com" />

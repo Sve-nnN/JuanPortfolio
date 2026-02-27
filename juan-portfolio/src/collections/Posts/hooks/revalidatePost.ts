@@ -5,7 +5,7 @@ import type { Post } from '../../../payload-types'
 export const revalidatePost: CollectionAfterChangeHook<Post> = async ({
   doc,
   previousDoc,
-  req: { payload, context },
+  req: { context },
 }) => {
   if (!context.disableRevalidate) {
     const { revalidatePath, revalidateTag } = await import('next/cache')

@@ -34,9 +34,11 @@ pnpm sync:keywords                # Sync content/keywords.md to KeywordMetrics c
 pnpm run sync:gsc                 # Sync Google Search Console data
 
 # SEO / maintenance scripts (use npx tsx directly)
+npx tsx src/scripts/search-keyword.ts "keyword"
 npx tsx src/scripts/update-seo-metrics.ts
 npx tsx src/scripts/build-internal-links.ts [--classify] [--cluster-only] [--locale en|es] [--dry-run]
 npx tsx src/scripts/seo/update-cwv.ts
+pnpm sync:keywords [--fetch-serp] [--verbose]
 ```
 
 ## Architecture

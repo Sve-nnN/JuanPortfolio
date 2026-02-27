@@ -25,7 +25,8 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 | **Development**      | `pnpm dev`                                    |
 | **Sync Status**      | `pnpm sync status`                            |
 | **Push Content**     | `pnpm sync push [--post=<filename.md>] [--force]`   |
-| **Sync Keywords**    | `pnpm sync:keywords`                          |
+| **Sync Keywords**    | `pnpm sync:keywords [--fetch-serp] [--verbose]` |
+| **Search Keyword**   | `npx tsx src/scripts/search-keyword.ts "tu palabra clave"` |
 | **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts [--classify] [--cluster-only] [--locale en\|es] [--dry-run]` |
 | **SEO Metrics**      | `npx tsx src/scripts/update-seo-metrics.ts`   |
 | **Keyword Gap**      | `npx tsx src/scripts/update-seo-metrics.ts --analyze-gap` |

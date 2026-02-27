@@ -13,12 +13,13 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
   if (!rawDoc) return null
   const doc = rawDoc as unknown as Post & Page
 
-  // Helper to get meta fields safely
-  const meta = doc.meta || (doc as any).meta_group
+  // Helper to get meta fields safely (meta_group is a legacy field name)
+  const meta = doc.meta ?? (rawDoc as { meta_group?: Post['meta'] })?.meta_group
   
   const title = meta?.title || doc.title
   const description = meta?.description
-  const image = meta?.image?.url || meta?.image?.sizes?.og?.url
+  const metaImage = meta?.image && typeof meta.image === 'object' ? meta.image : undefined
+  const image = metaImage?.url || metaImage?.sizes?.og?.url
 
   const baseSchema: Schema = {
     '@context': 'https://schema.org',
@@ -58,7 +59,7 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
       ...baseSchema,
       '@type': 'BlogPosting',
       headline: title,
-      description: (doc.content as any)?.tldr || description,
+      description: (doc.content as Post['content'])?.tldr || description,
       datePublished: doc.publishedAt,
       dateModified: doc.updatedAt,
       author: {

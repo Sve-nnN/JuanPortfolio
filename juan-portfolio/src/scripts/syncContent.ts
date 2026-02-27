@@ -8,7 +8,7 @@ import matter from 'gray-matter'
 import { loadState, saveState, calculateHash, getAllMdFiles } from './sync/stateManager'
 import { parsePostFile, validatePost, buildPostData } from './sync/postParser'
 import { PayloadRepository } from './sync/payloadRepository'
-import type { SyncState, FileState, Locale, ResolvedIds } from './sync/types'
+import type { SyncState, FileState, ResolvedIds } from './sync/types'
 
 const CONTENT_DIR = path.resolve(process.cwd(), 'content/posts')
 const SYNC_STATE_FILE = path.resolve(process.cwd(), 'content/content-sync.json')
@@ -84,7 +84,7 @@ class ContentSyncManager {
         } else if (remoteChanged) {
           console.log(`${c.blue}U  Update (Remote): ${relPath}${c.reset}`)
         }
-      } catch (e) {
+      } catch {
         console.log(`${c.red}! Orphaned local state for ${relPath} (ID: ${fileState.id} not found)${c.reset}`)
       }
     }
@@ -158,7 +158,7 @@ class ContentSyncManager {
         }
         saveState(SYNC_STATE_FILE, this.state)
         console.log(`${c.green}✅ Updated ${relPath}${c.reset}`)
-      } catch (e) {
+      } catch {
         console.log(`${c.red}❌ Error pulling ${relPath}: Post ID ${fileState.id} not found.${c.reset}`)
       }
     }
@@ -211,7 +211,7 @@ class ContentSyncManager {
             )
             continue
           }
-        } catch (e) {
+        } catch {
           console.log(`${c.yellow}⚠️  Post ID ${fileState.id} not found. Treating as new.${c.reset}`)
           isNew = true
         }

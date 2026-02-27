@@ -27,6 +27,7 @@ semantic_keywords:
   - tiene algo texto
   - console log hola
   - gico tiene algo
+contentRole: satellite
 ---
 Este es el contenido de mi primer post tecnológico. Tiene algo de texto en **negrita** e *itálica*.
 

@@ -8,8 +8,8 @@ import { getPostUrl } from '../../utilities/getPostUrl';
 
 // Initialize NLP components
 const tokenizer = new natural.WordTokenizer();
-const nounInflector = new natural.NounInflector();
-const stopWords = new Set(natural.stopwords);
+const _nounInflector = new natural.NounInflector();
+const _stopWords = new Set(natural.stopwords);
 
 // Extended English stop words for better filtering of technical/SEO terms
 const enExtendedStopWords = new Set([...natural.stopwords, 'guide', 'tutorial', 'how', 'what', 'why', 'best', 'review', 'vs', 'comparison', 'vs.', 'english', 'term', 'phrase', 'keyword', 'word', 'example', 'case', 'study', 'data', 'analysis']);
@@ -151,14 +151,13 @@ export class KeywordExtractor {
         const tokens = tokenizer.tokenize(text.toLowerCase());
         const filteredTokens = tokens.filter(token => {
             const isStopWord = idioma === 'es' ? esExtendedStopWords.has(token) : enExtendedStopWords.has(token);
-            return token.length > 2 && !isStopWord; // Filter out short words and stop words
+            // Ignore generic technical placeholders
+            const isGeneric = new Set(['version', 'coming', 'soon', 'click', 'read', 'more', 'guia', 'tutorial', 'blog', 'post']).has(token);
+            return token.length > 3 && !isStopWord && !isGeneric; 
         });
 
-        // Simple N-gram approach for noun phrases (up to 3 words)
+        // Focus on 2 and 3-word phrases (N-grams) - Single words are often too generic for semantic links
         for (let i = 0; i < filteredTokens.length; i++) {
-            // Single words
-            keywords.add(filteredTokens[i]);
-
             // Two-word phrases
             if (i + 1 < filteredTokens.length) {
                 const phrase2 = `${filteredTokens[i]} ${filteredTokens[i + 1]}`;
@@ -172,11 +171,14 @@ export class KeywordExtractor {
             }
         }
         
-        // Further refine by removing duplicates and sorting
+        // Filter out phrases that are too short or common
         return Array.from(keywords)
-            .filter(kw => kw.split(' ').length <= 3) // Max 3 words per semantic keyword
-            .sort((a, b) => b.length - a.length) // Prioritize longer phrases
-            .slice(0, 20); // Limit to top 20 semantic keywords
+            .filter(kw => {
+                const words = kw.split(' ');
+                return words.length >= 2; // Killer rule: Only multi-word semantic anchors
+            })
+            .sort((a, b) => b.length - a.length)
+            .slice(0, 15);
     }
 
 
@@ -190,13 +192,17 @@ export class KeywordExtractor {
 
         const words = keyword.toLowerCase().split(/\s+/);
         
-        // If the keyword contains words that are common stop words in the *other* language, it might be a mismatch.
-        // We'll be more lenient for technical terms, but strict for obvious mismatches.
-        const otherLangStopWordsCount = words.filter(w => otherStopWordsSet.has(w)).length;
+        // 1. Technical terms whitelist: Allow common tech terms in any language
+        const techWhitelist = new Set(['seo', 'cms', 'payload', 'react', 'nextjs', 'typescript', 'javascript', 'sql', 'nosql', 'api', 'json', 'ssr', 'csr', 'isr', 'ssg', 'rsc', 'html', 'css', 'ttfb', 'cls', 'fid', 'inp', 'eeat', 'eat', 'vs']);
+        if (words.every(w => techWhitelist.has(w))) return true;
 
-        if (otherLangStopWordsCount > 0 && words.length > 1) { // If it's a multi-word phrase and contains other-language stop words
+        // 2. Lenient stop word check
+        const otherLangStopWords = words.filter(w => otherStopWordsSet.has(w));
+        
+        if (otherLangStopWords.length > 0 && words.length > 1) {
             const currentLangStopWordsCount = words.filter(w => stopWordsSet.has(w)).length;
-            if (otherLangStopWordsCount > currentLangStopWordsCount) { // More other-language stop words than current language
+            // Only warn if majority of non-tech words are from the OTHER language
+            if (otherLangStopWords.length > currentLangStopWordsCount) {
                  console.warn(`⚠️  Language Mismatch in '${slug}': ${type} keyword "${keyword}" looks like it belongs to the other language but post is ${idioma}. Skipping...`);
                 return false;
             }

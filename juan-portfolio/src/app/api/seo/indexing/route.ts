@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       if (collection && id && status?.indexStatusResult?.coverageState) {
         try {
           await payload.update({
-            collection: collection as any,
+            collection: collection as Parameters<typeof payload.update>[0]['collection'],
             id: id,
             data: {
               indexStatus: status.indexStatusResult.coverageState,
@@ -74,8 +74,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
-  } catch (error: any) {
+  } catch (error) {
     console.error('API Error in /api/seo/indexing:', error)
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
+    const message = error instanceof Error ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

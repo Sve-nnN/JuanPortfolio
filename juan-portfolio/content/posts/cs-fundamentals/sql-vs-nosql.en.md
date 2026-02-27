@@ -24,12 +24,26 @@ primary_keywords:
   - relational vs non-relational database
   - choosing database
 semantic_keywords:
+  - fundamentals algoritmos estructuras
+  - algorithms structures fundamentals
+  - structures fundamentals efficient
+  - fundamentals efficient scalable
+  - efficient scalable programming
+  - blog fundamentals algoritmos
+  - algoritmos estructuras datos
+  - soon algorithms structures
+  - scalable programming https
+  - structures fundamentals
+  - fundamentals algoritmos
+  - coming soon algorithms
+  - fundamentals efficient
+  - programming https juan
+  - algoritmos estructuras
+  - algorithms structures
+  - com blog fundamentals
+  - scalable programming
   - version coming soon
-  - version coming
-  - coming soon
-  - version
-  - coming
-  - soon
+  - efficient scalable
 ---
 English version coming soon.
 

@@ -1,11 +1,9 @@
 import { CollectionAfterChangeHook } from 'payload'
 
 export const syncKeywordsAfterPostSave: CollectionAfterChangeHook = async ({
-  doc, // full document data
-  previousDoc, // document data before updating
-  req, // full express request
-  operation, // name of the operation ie. 'create', 'update'
-  collection, // collection config
+  doc,
+  req,
+  collection,
 }) => {
   // If no slug, we can't link keywords
   if (!doc.slug) return doc
@@ -29,7 +27,7 @@ export const syncKeywordsAfterPostSave: CollectionAfterChangeHook = async ({
     if (keywordsToLink.docs.length > 0) {
       await Promise.all(
         keywordsToLink.docs.map((kw) => {
-          const updateData: any = {}
+          const updateData: { post?: string; page?: string } = {}
           
           if (collectionSlug === 'posts') {
             updateData.post = doc.id

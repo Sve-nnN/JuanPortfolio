@@ -27,6 +27,7 @@ semantic_keywords:
   - post bold text
   - list item list
   - item list item
+contentRole: satellite
 ---
 This is the content of my first tech post. It has some **bold** text and *italic* text.
 

@@ -19,19 +19,19 @@ async function debugContent() {
         console.log('\n--- PAGES ---')
         const allPages = await payload.find({ collection: 'pages', limit: 10, draft: true })
         console.log(`Total Pages found: ${allPages.totalDocs}`)
-        allPages.docs.forEach((d: any) => console.log(` - "${d.title}" (Status: ${d._status})`))
+        allPages.docs.forEach((d) => console.log(` - "${d.title}" (Status: ${d._status})`))
 
         // Check Posts
         console.log('\n--- POSTS ---')
         const allPosts = await payload.find({ collection: 'posts', limit: 10, draft: true })
         console.log(`Total Posts found: ${allPosts.totalDocs}`)
-        allPosts.docs.forEach((d: any) => console.log(` - "${d.title}" (Status: ${d._status})`))
+        allPosts.docs.forEach((d) => console.log(` - "${d.title}" (Status: ${d._status})`))
 
         // Check Case Studies
         console.log('\n--- CASE STUDIES ---')
         const allCaseStudies = await payload.find({ collection: 'case-studies', limit: 10, draft: true })
         console.log(`Total Case Studies found: ${allCaseStudies.totalDocs}`)
-        allCaseStudies.docs.forEach((d: any) => console.log(` - "${d.title}" (Status: ${d._status})`))
+        allCaseStudies.docs.forEach((d) => console.log(` - "${d.title}" (Status: ${d._status})`))
 
         console.log('--------------------------------------')
         process.exit(0)

@@ -20,10 +20,14 @@ export interface SeoMetrics {
     topDomain?: string;
     /** Whether AI Overview is shown for this query */
     hasAiOverview?: boolean;
+    /** Text content of the AI Overview response */
+    aiOverviewSnippet?: string;
     /** Active SERP features (videos, images, shopping, etc.) */
     serpFeatures?: string[];
     /** Top 4 organic competitor URLs for crawling */
     topUrls?: string[];
+    /** Detailed competitor info (Title | Snippet) */
+    competitorData?: { title: string; snippet: string; link: string }[];
     /** Calculated opportunity score (0-100) */
     opportunityScore?: number;
     /** Recommended content format (Blog, Page, etc.) */
@@ -32,5 +36,5 @@ export interface SeoMetrics {
 
 export interface SeoAdapter {
     providerName: string;
-    fetchMetrics(keyword: string): Promise<SeoMetrics | null>;
+    fetchMetrics(keyword: string, locale?: string): Promise<SeoMetrics | null>;
 }

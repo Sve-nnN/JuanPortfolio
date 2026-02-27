@@ -7,7 +7,7 @@ import type { CaseStudy } from '@/payload-types'
 export const revalidateCaseStudy: CollectionAfterChangeHook<CaseStudy> = ({
   doc,
   previousDoc,
-  req: { payload, context },
+  req: { context },
 }) => {
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {

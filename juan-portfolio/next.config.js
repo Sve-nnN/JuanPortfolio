@@ -81,6 +81,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.gravatar.com',
       },
+      {
+        // Vercel Blob storage — production media uploads
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -113,10 +118,10 @@ const nextConfig = {
   headers: async () => {
     const cspHeader = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://challenges.cloudflare.com;
-      connect-src 'self' https://juan-tech.com http://localhost:3000 https://va.vercel-scripts.com https://vitals.vercel-analytics.com https://www.google-analytics.com https://region1.google-analytics.com;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://challenges.cloudflare.com https://analytics.ahrefs.com https://static.cloudflareinsights.com;
+      connect-src 'self' https://juan-tech.com http://localhost:3000 https://va.vercel-scripts.com https://vitals.vercel-analytics.com https://www.google-analytics.com https://region1.google-analytics.com https://cloudflareinsights.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://juan-tech.com https://res.cloudinary.com https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com https://www.googletagmanager.com https://www.google-analytics.com;
+      img-src 'self' blob: data: https://juan-tech.com https://res.cloudinary.com https://raw.githubusercontent.com https://lh3.googleusercontent.com https://cdn.juanes.xyz https://www.gravatar.com https://www.googletagmanager.com https://www.google-analytics.com https://*.public.blob.vercel-storage.com;
       font-src 'self' data:;
       object-src 'none';
       base-uri 'self';

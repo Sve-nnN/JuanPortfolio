@@ -35,7 +35,7 @@ uploaded: false
 idioma: en
 slug: nextjs-portfolio
 ---
-English version coming soon.
+English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 
 ## See Also
 

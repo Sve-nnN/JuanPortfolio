@@ -15,6 +15,12 @@ import type { PostMetadata, KeywordMatch, LinkOpportunity, LinkingConfig } from 
  */
 export class ContentScanner {
     private groupedKeywords: Map<string, { match: KeywordMatch, variations: string[] }> = new Map();
+    private blacklist = new Set([
+        'version coming', 'coming soon', 'read more', 'click here', 
+        'este post', 'guía completa', 'manual', 'tutorial', 
+        'proximamente', 'ver más', 'leer más', 'aquí', 'enlace',
+        'link', 'post', 'articulo', 'artículo'
+    ]);
 
     constructor(
         private keywordIndex: Map<string, KeywordMatch>,
@@ -28,6 +34,9 @@ export class ContentScanner {
      */
     private groupKeywords() {
         for (const [variation, match] of this.keywordIndex.entries()) {
+            // Skip blacklisted phrases
+            if (this.blacklist.has(variation.toLowerCase())) continue;
+
             const primary = match.keyword;
             if (!this.groupedKeywords.has(primary)) {
                 this.groupedKeywords.set(primary, {
@@ -88,6 +97,13 @@ export class ContentScanner {
 
             // Skip if inside code block or excluded pattern
             if (isInsideCodeBlock || this.shouldExcludeLine(line)) {
+                continue;
+            }
+
+            // Killer Feature: Context Quality Check
+            // Don't link in very short sentences or sentences that look like placeholders
+            const sentenceLength = line.split(' ').length;
+            if (sentenceLength < 6 && (line.toLowerCase().includes('coming') || line.toLowerCase().includes('proximamente'))) {
                 continue;
             }
 
@@ -263,7 +279,7 @@ export class ContentScanner {
         // 3. Jaccard Similarity (NLP)
         // Compare context tokens with target post keywords
         const tokenizer = new natural.WordTokenizer();
-        const contextTokens = tokenizer.tokenize(context.toLowerCase()) || [];
+        const _contextTokens = tokenizer.tokenize(context.toLowerCase()) || [];
         const targetKeywordsStr = [...match.targetPost.primary_keywords, ...(match.targetPost.semantic_keywords || [])].join(' ');
 
         const similarity = natural.DiceCoefficient(context.toLowerCase(), targetKeywordsStr.toLowerCase());

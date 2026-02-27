@@ -1,28 +1,39 @@
 import { SeoAdapter, SeoMetrics } from '../types';
 
-interface SerpApiResult {
+interface RelatedQuestion {
     question?: string
+    snippet?: string
+    list?: string[]
+    title?: string
     link?: string
+}
+
+interface OrganicResult {
+    link?: string
+    date?: string
 }
 
 interface SerpApiResponse {
     search_information?: {
         total_results: number
     }
-    ads?: any[]
-    knowledge_graph?: any
-    answer_box?: any
+    ads?: unknown[]
+    knowledge_graph?: unknown
+    answer_box?: unknown
     related_searches?: { query: string }[]
-    people_also_ask?: SerpApiResult[]
-    organic_results?: SerpApiResult[]
-    ai_overview?: any
-    inline_videos?: any
-    video_results?: any
-    shopping_results?: any
-    local_results?: any
-    top_stories?: any
-    inline_images?: any
-    image_results?: any
+    /** People Also Ask — legacy field name used in some SerpAPI versions */
+    related_questions?: RelatedQuestion[]
+    /** People Also Ask — primary field name in current SerpAPI responses */
+    people_also_ask?: RelatedQuestion[]
+    organic_results?: OrganicResult[]
+    ai_overview?: unknown
+    inline_videos?: unknown
+    video_results?: unknown
+    shopping_results?: unknown
+    local_results?: unknown
+    top_stories?: unknown
+    inline_images?: unknown
+    image_results?: unknown
 }
 
 /**
@@ -41,16 +52,22 @@ export class SerpApiAdapter implements SeoAdapter {
      * Fetches data from SerpApi.
      * @param keyword The keyword to search for.
      */
-    async fetchMetrics(keyword: string): Promise<SeoMetrics | null> {
+    async fetchMetrics(keyword: string, locale = 'es'): Promise<SeoMetrics | null> {
         if (!this.apiKey) {
             console.warn('SerpApiAdapter: Missing API Key.');
             return null;
         }
 
+        // Map locale to Google country (gl) and language (hl) codes
+        const gl = locale === 'en' ? 'us' : 'mx'
+        const hl = locale === 'en' ? 'en' : 'es'
+
         try {
             const params = new URLSearchParams({
                 engine: 'google',
                 q: keyword,
+                hl,
+                gl,
                 api_key: this.apiKey
             });
 
@@ -97,13 +114,13 @@ export class SerpApiAdapter implements SeoAdapter {
                 );
             }
 
-            const paaCount = data.people_also_ask?.length || 0;
+            // SerpAPI returns PAA as "people_also_ask" (primary) or "related_questions" (legacy)
+            const paaItems = data.people_also_ask ?? data.related_questions ?? [];
+            const paaCount = paaItems.length;
             const paaQuestions: string[] = [];
-            if (data.people_also_ask && Array.isArray(data.people_also_ask)) {
-                data.people_also_ask.forEach((item) => {
-                    if (item.question) paaQuestions.push(item.question);
-                });
-            }
+            paaItems.forEach((item) => {
+                if (item.question) paaQuestions.push(item.question);
+            });
 
             const topUrls: string[] = [];
             if (data.organic_results && Array.isArray(data.organic_results)) {
@@ -121,6 +138,17 @@ export class SerpApiAdapter implements SeoAdapter {
             }
 
             const hasAiOverview = !!data.ai_overview;
+            let aiOverviewSnippet = '';
+            
+            if (data.ai_overview && typeof data.ai_overview === 'object') {
+                const overview = data.ai_overview as any;
+                if (overview.text_blocks && Array.isArray(overview.text_blocks)) {
+                    aiOverviewSnippet = overview.text_blocks
+                        .filter((block: any) => block.type === 'paragraph')
+                        .map((block: any) => block.snippet)
+                        .join('\n\n');
+                }
+            }
 
             const serpFeatures: string[] = [];
             if (data.inline_videos || data.video_results) serpFeatures.push('videos');
@@ -131,6 +159,17 @@ export class SerpApiAdapter implements SeoAdapter {
             if (data.top_stories) serpFeatures.push('top_stories');
             if (data.inline_images || data.image_results) serpFeatures.push('images');
 
+            const competitorData: { title: string; snippet: string; link: string }[] = [];
+            if (data.organic_results && Array.isArray(data.organic_results)) {
+                data.organic_results.slice(0, 5).forEach((result: any) => {
+                    competitorData.push({
+                        title: result.title || '',
+                        snippet: result.snippet || '',
+                        link: result.link || ''
+                    });
+                });
+            }
+
             return {
                 volume,
                 difficulty,
@@ -139,8 +178,10 @@ export class SerpApiAdapter implements SeoAdapter {
                 paaQuestions,
                 topDomain,
                 hasAiOverview,
+                aiOverviewSnippet,
                 serpFeatures,
-                topUrls
+                topUrls,
+                competitorData
             };
 
         } catch (error) {

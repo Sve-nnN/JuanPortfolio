@@ -16,7 +16,7 @@ export async function POST() {
     updateAllCWV(false)
 
     return NextResponse.json({ success: true, message: 'Scan started in background' })
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

@@ -9,6 +9,7 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
+import matter from 'gray-matter'
 import { KeywordExtractor } from './internal-linking/KeywordExtractor'
 import { ContentScanner } from './internal-linking/ContentScanner'
 import { LinkInjector } from './internal-linking/LinkInjector'
@@ -21,7 +22,11 @@ import {
 import type { LinkingConfig, LinkOpportunity } from './internal-linking/types'
 import enquirer from 'enquirer'
 
-const { Confirm } = enquirer as any
+interface EnquirerConfirmClass {
+  new(options: { name: string; message: string }): { run(): Promise<boolean> }
+}
+
+const { Confirm } = enquirer as unknown as { Confirm: EnquirerConfirmClass }
 
 // ANSI Colors
 const c = {
@@ -219,6 +224,69 @@ async function main(): Promise<void> {
   printClusterHealth(clusterMap, readFileSafe)
 
   const missingClusterLinks = getMissingClusterLinks(clusterMap, readFileSafe)
+
+  // ── Step 2.5: Link Density Report ────────────────────────────────────────
+  console.log(`${c.bright}📊 Link Density Report:${c.reset}`)
+  const orphans: string[] = []
+  const lowDensity: string[] = []
+  
+  for (const post of posts) {
+    const content = readFileSafe(post.filePath)
+    const { content: body } = matter(content)
+    
+    // Extract all markdown links
+    const allLinks = body.match(/\[([^\]]+)\]\(([^)]+)\)/g) || []
+    
+    // Filter only internal links (those starting with / or containing juan-tech.com)
+    const internalLinks = allLinks.filter(link => {
+      const url = link.match(/\(([^)]+)\)/)?.[1] || ''
+      return url.startsWith('/') || url.includes('juan-tech.com')
+    })
+
+    if (internalLinks.length === 0) {
+      orphans.push(post.slug)
+    } else if (internalLinks.length < 2) {
+      lowDensity.push(`${post.slug} (${internalLinks.length} link)`)
+    }
+  }
+
+  if (orphans.length > 0) {
+    console.log(`${c.red}  ❌ Found ${orphans.length} posts with ZERO internal links (Orphans):${c.reset}`)
+    orphans.forEach(slug => console.log(`      - ${slug}`))
+    
+    // KILLER FEATURE: Prepare automatic lateral links for orphans
+    for (const slug of orphans) {
+      const post = posts.find(p => p.slug === slug);
+      if (post && post.contentRole === 'satellite' && post.pillarSlug) {
+        // Find other satellites in same cluster to suggest a 'See Also' link
+        const siblings = posts.filter(p => 
+          p.pillarSlug === post.pillarSlug && 
+          p.slug !== post.slug && 
+          p.idioma === post.idioma
+        );
+        
+        if (siblings.length > 0) {
+          const target = siblings[Math.floor(Math.random() * siblings.length)];
+          missingClusterLinks.push({
+            source: post,
+            target: target,
+            linkType: 'satellite-to-pillar' // Reusing logic to trigger 'See Also' injection
+          });
+          console.log(`${c.cyan}      💡 Suggested lateral link: ${post.slug} → ${target.slug}${c.reset}`);
+        }
+      }
+    }
+  }
+  
+  if (lowDensity.length > 0) {
+    console.log(`${c.yellow}  ⚠️  Found ${lowDensity.length} posts with low internal link density (< 2 links):${c.reset}`)
+    lowDensity.forEach(item => console.log(`      - ${item}`))
+  }
+
+  if (orphans.length === 0 && lowDensity.length === 0) {
+    console.log(`${c.green}  ✅ All posts have healthy internal link density.${c.reset}`)
+  }
+  console.log()
 
   // ── Step 3: Keyword-based scan (skipped with --cluster-only) ─────────────
   let opportunitiesMap = new Map<string, LinkOpportunity[]>()

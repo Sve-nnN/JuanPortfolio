@@ -95,7 +95,8 @@ This project features a bidirectional synchronization engine designed to keep lo
 | `pnpm sync status`                    | Shows local vs remote change status.                                                |
 | `pnpm sync push [--post=<filename.md>] [--force]` | Uploads local Markdown changes (optionally for a specific post) and links keywords to entries. `--force` overwrites remote content. |
 | `pnpm sync pull`                      | Downloads remote CMS changes to local Markdown files.                               |
-| `pnpm sync:keywords`                  | Synchronizes the `keywords.md` table with the KeywordMetrics collection.            |
+| `pnpm sync:keywords [--fetch-serp] [--verbose]` | Synchronizes the `keywords.md` table with the KeywordMetrics collection. Optionally enriches with SerpAPI (PAA, AI Overviews, Competitors). |
+| `npx tsx src/scripts/search-keyword.ts "keyword"` | Searches for a keyword in the local keywords.md file and returns all its data. |
 | `pnpm run sync:gsc`                   | Syncs Search Console data and aggregates it into the KeywordMetrics.                |
 | `pnpm sync push --force`              | Overwrites remote CMS content with local files regardless of conflicts.             |
 

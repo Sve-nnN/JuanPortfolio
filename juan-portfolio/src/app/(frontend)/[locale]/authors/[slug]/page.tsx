@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import React from 'react'
-import Image from 'next/image'
 import configPromise from '@payload-config'
+import { Media } from '@/components/Media'
 import { getPayload } from 'payload'
 import { Card } from '@/components/Card'
 import { generatePersonSchema } from '@/utilities/schema/generatePersonSchema'
@@ -159,14 +159,14 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
               {/* Avatar */}
-              {avatarUrl && (
+              {user.avatar && typeof user.avatar === 'object' && (
                 <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mx-auto mb-6 ring-4 ring-background shadow-xl">
-                  <Image
-                    src={avatarUrl}
-                    alt={user.name || 'Author'}
+                  <Media
+                    resource={user.avatar}
                     width={160}
                     height={160}
-                    className="object-cover w-full h-full"
+                    imgClassName="object-cover w-full h-full"
+                    htmlElement={null}
                   />
                 </div>
               )}
@@ -325,14 +325,9 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
                   </h2>
                   <div className="space-y-0">
                     {user.education.map((edu, i) => {
-                      // Get certificate URL from cloudinaryUrl or fallback to url
+                      // Keep cert URL only for the <a href> link
                       const certUrl = edu.certificate && typeof edu.certificate === 'object'
                         ? (edu.certificate.cloudinaryUrl as string | undefined) || (edu.certificate.url as string | undefined)
-                        : null
-                      
-                      // Get logo URL
-                      const logoUrl = edu.logo && typeof edu.logo === 'object'
-                        ? (edu.logo.cloudinaryUrl as string | undefined) || (edu.logo.url as string | undefined)
                         : null
                       
                       return (
@@ -355,13 +350,13 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
                                     <Building className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                                     <p className="text-base text-muted-foreground flex items-center gap-2">
                                       {edu.institution}
-                                      {logoUrl && (
-                                        <Image
-                                          src={logoUrl}
-                                          alt={locale === 'es' ? `Logo de ${edu.institution}` : `${edu.institution} logo`}
+                                      {edu.logo && typeof edu.logo === 'object' && (
+                                        <Media
+                                          resource={edu.logo}
                                           width={20}
                                           height={20}
-                                          className="inline-block object-contain"
+                                          imgClassName="inline-block object-contain"
+                                          htmlElement={null}
                                         />
                                       )}
                                     </p>
@@ -377,7 +372,7 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
                                   </p>
                                 </div>
                               </div>
-                              {certUrl && (
+                              {certUrl && edu.certificate && typeof edu.certificate === 'object' && (
                                 <a
                                   href={certUrl}
                                   target="_blank"
@@ -385,12 +380,12 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
                                   className="flex-shrink-0"
                                   aria-label={locale === 'es' ? `Ver certificado de ${edu.degree}` : `View ${edu.degree} certificate`}
                                 >
-                                  <Image
-                                    src={certUrl}
-                                    alt={locale === 'es' ? `Certificado de ${edu.degree}` : `${edu.degree} certificate`}
+                                  <Media
+                                    resource={edu.certificate}
                                     width={120}
                                     height={120}
-                                    className="rounded-lg object-cover border-2 border-border hover:border-primary transition-colors"
+                                    imgClassName="rounded-lg object-cover border-2 border-border hover:border-primary transition-colors"
+                                    htmlElement={null}
                                   />
                                 </a>
                               )}

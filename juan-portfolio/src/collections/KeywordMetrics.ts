@@ -59,13 +59,30 @@ export const KeywordMetrics: CollectionConfig = {
             label: 'PAA Count',
         },
         {
+            name: 'paaQuestions',
+            type: 'json',
+            label: 'PAA Questions',
+            admin: {
+                description: 'People Also Ask questions fetched from SerpAPI',
+            },
+        },
+        {
             name: 'topDomain',
             type: 'text',
+            label: 'Top 4 URLs',
         },
         {
             name: 'hasAiOverview',
             type: 'checkbox',
             label: 'Has AI Overview',
+        },
+        {
+            name: 'aiOverviewSnippet',
+            type: 'textarea',
+            label: 'AI Overview Snippet',
+            admin: {
+                description: 'Full text response from SGE/AI Overview',
+            },
         },
         {
             name: 'post',

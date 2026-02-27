@@ -41,3 +41,5 @@ English version coming soon.
 ## See Also
 
 - [Technical SEO Guide for Developers (2026)](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Robots.txt Guide 2026: Examples for WordPress, Shopify and AI Bot Control](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices)
+- [SEO in Headless CMS: Strategies and Best Practices](https://juan-tech.com/en/blog/development/headless-cms-seo)

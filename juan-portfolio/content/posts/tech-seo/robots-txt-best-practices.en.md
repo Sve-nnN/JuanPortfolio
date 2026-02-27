@@ -40,3 +40,5 @@ English version coming soon.
 ## See Also
 
 - [Technical SEO Guide for Developers (2026)](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [SEO in Headless CMS: Strategies and Best Practices](https://juan-tech.com/en/blog/development/headless-cms-seo)
+- [XML Sitemaps: Automation and Configuration in 2026](https://juan-tech.com/en/blog/tech-seo/xml-sitemap-automation)

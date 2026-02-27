@@ -1,16 +1,25 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useForm, useDocumentInfo } from '@payloadcms/ui'
+import { useDocumentInfo } from '@payloadcms/ui'
 import { Button } from '@payloadcms/ui/elements/Button'
 import { toast } from '@payloadcms/ui'
 
+interface IndexStatusResult {
+  indexStatusResult?: {
+    coverageState?: string
+    lastCrawlTime?: string
+  }
+  mobileUsabilityResult?: {
+    verdict?: string
+  }
+}
+
 export const IndexingControl: React.FC = () => {
-  const { getFields } = useForm()
   const { id, collectionSlug } = useDocumentInfo()
   const [loadingStatus, setLoadingStatus] = useState(false)
   const [loadingRequest, setLoadingRequest] = useState(false)
-  const [statusResult, setStatusResult] = useState<any>(null)
+  const [statusResult, setStatusResult] = useState<IndexStatusResult | null>(null)
   const [isMounted, setIsMounted] = useState(false)
 
   React.useEffect(() => {
@@ -90,7 +99,7 @@ export const IndexingControl: React.FC = () => {
       } else {
         toast.error(data.error || 'Error al verificar el estado')
       }
-    } catch (error) {
+    } catch {
       toast.error('Error de red al verificar estado')
     } finally {
       setLoadingStatus(false)
@@ -133,7 +142,7 @@ export const IndexingControl: React.FC = () => {
       } else {
         toast.error(data.error || 'Error al solicitar indexación')
       }
-    } catch (error) {
+    } catch {
       toast.error('Error de red al solicitar indexación')
     } finally {
       setLoadingRequest(false)

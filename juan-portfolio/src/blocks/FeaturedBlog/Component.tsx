@@ -1,6 +1,6 @@
 import React from 'react'
-import Image from 'next/image'
 import type { FeaturedBlogBlock, Post } from '@/payload-types'
+import { Media } from '@/components/Media'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getPostUrl } from '@/utilities/getPostUrl'
@@ -51,20 +51,6 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
         {displayPosts.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
             {displayPosts.map((p) => {
-              const heroUrl =
-                p.content?.heroImage &&
-                typeof p.content.heroImage === 'object' &&
-                'url' in p.content.heroImage
-                  ? p.content.heroImage.url
-                  : null
-
-              const heroAlt =
-                p.content?.heroImage &&
-                typeof p.content.heroImage === 'object' &&
-                'alt' in p.content.heroImage
-                  ? p.content.heroImage.alt
-                  : p.title || ''
-
               const href = getPostUrl(p, locale)
 
               return (
@@ -73,13 +59,13 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
                   className="card-elevated overflow-hidden border-t-[6px] border-t-primary/10 group cursor-pointer"
                 >
                   <Link href={href}>
-                    {heroUrl && (
+                    {p.content?.heroImage && typeof p.content.heroImage === 'object' && (
                       <div className="relative w-full h-56 overflow-hidden">
-                        <Image
-                          src={heroUrl}
-                          alt={heroAlt || ''}
+                        <Media
+                          resource={p.content.heroImage}
                           fill
-                          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                          imgClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                          htmlElement={null}
                         />
                         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
                       </div>

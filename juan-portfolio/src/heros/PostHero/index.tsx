@@ -12,6 +12,7 @@ interface PopulatedAuthor {
   id?: string | null
   name?: string | null
   slug?: string
+  jobTitle?: string | null
 }
 
 export const PostHero: React.FC<{
@@ -36,7 +37,7 @@ export const PostHero: React.FC<{
     const nodes = populatedAuthors.map((a, i) => {
       const name = a.name
       const slug = (a as PopulatedAuthor).slug
-      const jobTitle = (a as any).jobTitle
+      const jobTitle = (a as PopulatedAuthor).jobTitle
 
       const element = slug ? (
         <div key={a.id || i} className="flex flex-col items-end">

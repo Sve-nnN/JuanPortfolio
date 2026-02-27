@@ -73,8 +73,7 @@ export default async function Page({
         '@type': 'SearchResultsPage',
         mainEntity: {
           '@type': 'ItemList',
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          itemListElement: posts.docs.map((post: any, index: number) => ({
+          itemListElement: posts.docs.map((post, index) => ({
             '@type': 'ListItem',
             position: index + 1,
             item: {
@@ -89,7 +88,7 @@ export default async function Page({
 
   return (
     <div className="pt-24 pb-24">
-      {searchSchema && <JsonLd schema={searchSchema as any} />}
+      {searchSchema && <JsonLd schema={searchSchema} />}
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { domAnimation, LazyMotion, m, useInView } from 'framer-motion'
+import { domAnimation, LazyMotion, m } from 'framer-motion'
 import type { AnimationConfig } from '@/fields/animation'
 import { getAnimationVariants, getViewportOptions } from '@/utilities/animationVariants'
 

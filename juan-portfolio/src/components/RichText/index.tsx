@@ -75,7 +75,12 @@ const slugify = (text: string): string => {
     .replace(/^-+|-+$/g, '')
 }
 
-const extractText = (node: any): string => {
+interface TextLikeNode {
+  text?: string
+  children?: TextLikeNode[]
+}
+
+const extractText = (node: TextLikeNode): string => {
   if (node.text) return node.text
   if (node.children) return node.children.map(extractText).join('')
   return ''
@@ -85,7 +90,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
   heading: ({ node, nodesToJSX }) => {
-    const text = node.children.map(extractText).join('')
+    const text = (node.children as TextLikeNode[]).map(extractText).join('')
     const id = slugify(text)
     const Tag = node.tag
     return (

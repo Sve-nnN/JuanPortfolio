@@ -1,4 +1,4 @@
-import { marked, Token } from 'marked'
+import { marked, Token, type Tokens } from 'marked'
 import type { SerializedEditorState, SerializedLexicalNode, SerializedTextNode } from 'lexical'
 
 // --- Extended Types for Lexical Nodes used in Payload ---
@@ -142,49 +142,24 @@ export const convertMarkdownToLexical = (
               blockType: 'faq',
               title: getFaqTitle(),
               faqs: faqs.map(faqItem => ({
-            question: faqItem.question,
-            answer: {
-              root: {
-                type: 'root',
-                format: '',
-                indent: 0,
-                version: 1,
-                children: [{
-                  type: 'paragraph',
-                  format: '',
-                  indent: 0,
-                  version: 1,
-                  children: [{
-                    type: 'text',
-                    text: faqItem.answer,
-                    format: 0,
-                    detail: 0,
-                    mode: 'normal',
-                    style: '',
-                    version: 1,
-                  }],
-                  direction: 'ltr',
-                }],
-                direction: 'ltr',
-              },
-            },
-          })),
+                question: faqItem.question,
+                answer: convertMarkdownToLexical(faqItem.answer, primaryKeyword, idioma),
+              })),
             },
           } as unknown as SerializedBlockNode)
           faqs.length = 0
           currentFaq = null
         }
         faqMode = false
-        // DO NOT return here, because this heading (which ended the FAQ mode) 
-        // needs to be processed by the standard heading logic below.
-      } else if (token.type === 'paragraph' && currentFaq) {
-        currentFaq.answer += (currentFaq.answer ? '\n' : '') + token.text.trim()
-        return // Skip standard paragraph handling while in FAQ mode
       } else if (token.type === 'heading' && token.depth === 3) {
         // Question found as H3
         if (currentFaq) faqs.push(currentFaq)
         currentFaq = { question: token.text.trim(), answer: '' }
-        return // Skip standard heading handling while in FAQ mode
+        return
+      } else if (currentFaq) {
+        // Add to the current FAQ answer (handle paragraphs, etc.)
+        currentFaq.answer += (currentFaq.answer ? '\n\n' : '') + token.raw
+        return
       }
     }
 
@@ -216,7 +191,7 @@ export const convertMarkdownToLexical = (
         format: '',
         indent: 0,
         version: 1,
-        children: token.items.map((item: any) => ({
+        children: token.items.map((item: Tokens.ListItem) => ({
           type: 'listitem',
           format: '',
           indent: 0,
@@ -237,6 +212,67 @@ export const convertMarkdownToLexical = (
         children: parseInline(token.tokens || []),
         direction: 'ltr',
       } as SerializedLexicalNode)
+    } else if (token.type === 'table') {
+      const headerRow = {
+        type: 'tablerow',
+        format: '',
+        indent: 0,
+        version: 1,
+        children: token.header.map((headerCell: Tokens.TableCell) => ({
+          type: 'tablecell',
+          format: '',
+          indent: 0,
+          version: 1,
+          header: true,
+          children: [
+            {
+              type: 'paragraph',
+              format: '',
+              indent: 0,
+              version: 1,
+              children: parseInline(headerCell.tokens || []),
+              direction: 'ltr',
+            },
+          ],
+          direction: 'ltr',
+        })),
+        direction: 'ltr',
+      }
+
+      const bodyRows = token.rows.map((row: Tokens.TableCell[]) => ({
+        type: 'tablerow',
+        format: '',
+        indent: 0,
+        version: 1,
+        children: row.map((cell: Tokens.TableCell) => ({
+          type: 'tablecell',
+          format: '',
+          indent: 0,
+          version: 1,
+          header: false,
+          children: [
+            {
+              type: 'paragraph',
+              format: '',
+              indent: 0,
+              version: 1,
+              children: parseInline(cell.tokens || []),
+              direction: 'ltr',
+            },
+          ],
+          direction: 'ltr',
+        })),
+        direction: 'ltr',
+      }))
+
+      rootChildren.push({
+        type: 'table',
+        format: '',
+        indent: 0,
+        version: 1,
+        children: [headerRow, ...bodyRows],
+        direction: 'ltr',
+      } as unknown as SerializedLexicalNode)
     } else if (token.type === 'code') {
       const langMap: Record<string, string> = {
         ts: 'typescript',
@@ -275,31 +311,7 @@ export const convertMarkdownToLexical = (
         title: getFaqTitle(),
         faqs: faqs.map(faqItem => ({
           question: faqItem.question,
-          answer: {
-            root: {
-              type: 'root',
-              format: '',
-              indent: 0,
-              version: 1,
-              children: [{
-                type: 'paragraph',
-                format: '',
-                indent: 0,
-                version: 1,
-                children: [{
-                  type: 'text',
-                  text: faqItem.answer,
-                  format: 0,
-                  detail: 0,
-                  mode: 'normal',
-                  style: '',
-                  version: 1,
-                }],
-                direction: 'ltr',
-              }],
-              direction: 'ltr',
-            },
-          },
+          answer: convertMarkdownToLexical(faqItem.answer, primaryKeyword, idioma),
         })),
       },
     } as unknown as SerializedBlockNode)
@@ -349,10 +361,11 @@ export const convertLexicalToMarkdown = (editorState: SerializedEditorState): st
     }
 
     if (node.type === 'list') {
-      const listNode = node as SerializedListNode & { children: SerializedLexicalNode[] }
-      return listNode.children.map((listItem: any, index: number) => {
+      type ListItemNode = SerializedLexicalNode & { children: SerializedLexicalNode[] }
+      const listNode = node as SerializedListNode & { children: ListItemNode[] }
+      return listNode.children.map((listItem, index) => {
         const prefix = listNode.listType === 'number' ? `${index + 1}. ` : '- '
-        return `${prefix}${(listItem.children as SerializedLexicalNode[]).map(serializeNode).join('')}\n`
+        return `${prefix}${listItem.children.map(serializeNode).join('')}\n`
       }).join('') + '\n'
     }
 
@@ -361,13 +374,54 @@ export const convertLexicalToMarkdown = (editorState: SerializedEditorState): st
       return `> ${quoteNode.children.map(serializeNode).join('')}\n\n`
     }
 
-    if (node.type === 'block' && (node as any).fields?.blockType === 'code-block') {
-      const fields = (node as any).fields
-      return `\`\`\`${fields.language}\n${fields.code}\n\`\`\`\n\n`
+    if (node.type === 'table') {
+      type TableCellNode = SerializedLexicalNode & { children: SerializedLexicalNode[] }
+      type TableRowNode = SerializedLexicalNode & { children: TableCellNode[] }
+      type TableNode = SerializedLexicalNode & { children: TableRowNode[] }
+      const tableNode = node as TableNode
+      const rows = tableNode.children.map((row) => {
+        const cells = row.children.map((cell) => {
+          // Extract text from cell (which usually contains a paragraph)
+          return cell.children.map(serializeNode).join('').trim()
+        })
+        return `| ${cells.join(' | ')} |`
+      })
+
+      if (rows.length > 0) {
+        const header = rows[0]
+        const body = rows.slice(1)
+        const cellCount = tableNode.children[0].children.length
+        const separator = `| ${Array(cellCount).fill('---').join(' | ')} |`
+        return `\n${header}\n${separator}\n${body.join('\n')}\n\n`
+      }
+      return ''
     }
 
     if (node.type === 'block') {
-      return `\n<!-- Block: ${(node as any).fields?.blockType} -->\n\n`
+      interface CodeBlockFields { blockType: string; language?: string; code?: string }
+      interface FaqItem { question: string; answer: SerializedEditorState | string }
+      interface FaqBlockFields { blockType: string; title?: string; faqs?: FaqItem[] }
+      const blockNode = node as SerializedBlockNode
+      const blockType = blockNode.fields.blockType as string | undefined
+
+      if (blockType === 'code-block') {
+        const fields = blockNode.fields as unknown as CodeBlockFields
+        return `\`\`\`${fields.language}\n${fields.code}\n\`\`\`\n\n`
+      }
+
+      if (blockType === 'faq') {
+        const fields = blockNode.fields as unknown as FaqBlockFields
+        let md = `## ${fields.title || 'Preguntas Frecuentes'}\n\n`
+        fields.faqs?.forEach((faq) => {
+          const answerText = typeof faq.answer === 'string'
+            ? faq.answer
+            : (faq.answer?.root?.children?.map(serializeNode).join('') || '')
+          md += `### ${faq.question}\n\n${answerText.trim()}\n\n`
+        })
+        return md
+      }
+
+      return `\n<!-- Block: ${blockType} -->\n\n`
     }
 
     return ''

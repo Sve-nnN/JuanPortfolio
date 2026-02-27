@@ -1,11 +1,17 @@
 import React from 'react'
 import type { Schema } from '@/utilities/schema/types'
 import type { Post, User, Category, Media } from '@/payload-types'
+import { extractText } from '@/utilities/extractText'
+
+interface LayoutBlock {
+  blockType?: string
+  faqs?: Array<{ question: string; answer: unknown }> | null
+}
 
 interface JsonLdProps {
   schema?: Schema | Schema[] | null | undefined
   post?: Post | null
-  blocks?: any[] | null
+  blocks?: LayoutBlock[] | null
   locale?: 'en' | 'es'
   siteUrl?: string
   isHome?: boolean
@@ -34,22 +40,22 @@ export const JsonLd = ({
   // 1. Extract FAQs from blocks (Home/Layout)
   const layoutFaqs = (blocks || [])
     .filter(b => b.blockType === 'faq' && Array.isArray(b.faqs))
-    .flatMap(b => (b.faqs as { question: string; answer: string }[]))
+    .flatMap(b => (b.faqs as Array<{ question: string; answer: unknown }>))
     .filter(f => f.question && f.answer)
     .map(f => ({
       question: f.question,
-      answer: f.answer
+      answer: extractText(f.answer)
     }))
 
   // 2. Extract FAQs from post content (Lexical)
   const contentBlocks = (post?.content?.content as unknown as { root?: { children?: LexicalNode[] } })?.root?.children || []
   const embeddedFaqs = contentBlocks
     .filter((b) => b.type === 'block' && b.fields?.blockType === 'faq' && Array.isArray(b.fields.faqs))
-    .flatMap((b) => (b.fields?.faqs as { question: string; answer: string }[]))
+    .flatMap((b) => (b.fields?.faqs as Array<{ question: string; answer: unknown }>))
     .filter((f) => f.question && f.answer)
     .map((f) => ({
       question: f.question,
-      answer: f.answer
+      answer: extractText(f.answer)
     }))
 
   // 3. Expert Fallback

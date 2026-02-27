@@ -45,6 +45,7 @@ const getLLMText = unstable_cache(
           title: true,
           slug: true,
           categories: true,
+          meta: true,
         },
       })
 
@@ -52,18 +53,18 @@ const getLLMText = unstable_cache(
         text += `## Entity Knowledge Graph (Recent Insights)\n`
         posts.docs.forEach((post) => {
           const firstCategory = post.categories?.[0]
-          const categoryTitle = (typeof firstCategory === 'object' && firstCategory !== null && 'title' in firstCategory) 
-            ? (firstCategory.title as string) 
+          const categoryTitle = (typeof firstCategory === 'object' && firstCategory !== null && 'title' in firstCategory)
+            ? (firstCategory.title as string)
             : 'General'
-          const categorySlug = (typeof firstCategory === 'object' && firstCategory !== null && 'slug' in firstCategory) 
-            ? (firstCategory.slug as string) 
+          const categorySlug = (typeof firstCategory === 'object' && firstCategory !== null && 'slug' in firstCategory)
+            ? (firstCategory.slug as string)
             : 'general'
-          
+
           text += `### ${post.title}\n`
           text += `- **URL**: ${SITE_URL}/blog/${categorySlug}/${post.slug}\n`
           text += `- **Category**: ${categoryTitle}\n`
-          if ((post as any).meta?.description) {
-            text += `- **Summary**: ${(post as any).meta.description}\n`
+          if (post.meta?.description) {
+            text += `- **Summary**: ${post.meta.description}\n`
           }
           text += `\n`
         })

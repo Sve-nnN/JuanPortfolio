@@ -27,7 +27,7 @@ const iconMap = {
 }
 
 export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale?: 'en' | 'es' }> = (props) => {
-  const { eyebrow, title, description, submitLabel = 'Enviar mensaje', contactInfo, locale = 'es' } = props
+  const { eyebrow, title, description, submitLabel = 'Enviar mensaje', contactInfo, sidebarTitle, sidebarDescription, socialProofText, locale = 'es' } = props
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -237,12 +237,12 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale
 
                 <div className="relative z-10">
                   <h3 className="text-3xl md:text-4xl font-display font-bold mb-10 tracking-tight leading-tight">
-                    {locale === 'es' ? 'Charlemos sobre tu próximo proyecto' : 'Let\'s chat about your next project'}
+                    {sidebarTitle || (locale === 'es' ? 'Charlemos sobre tu próximo proyecto' : 'Let\'s chat about your next project')}
                   </h3>
                   <p className="text-primary-foreground/90 mb-16 text-xl font-medium max-w-xs leading-relaxed">
-                    {locale === 'es' 
-                      ? 'Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!' 
-                      : 'I am available for freelance projects and collaborations. Let\'s talk!'}
+                    {sidebarDescription || (locale === 'es'
+                      ? 'Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!'
+                      : 'I am available for freelance projects and collaborations. Let\'s talk!')}
                   </p>
 
                   {contactInfo && contactInfo.length > 0 && (
@@ -288,7 +288,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale
                       ))}
                     </div>
                     <span className="text-white/70 italic text-xs">
-                      {locale === 'es' ? 'Más de 50 proyectos completados' : 'Over 50 projects completed'}
+                      {socialProofText || (locale === 'es' ? 'Más de 50 proyectos completados' : 'Over 50 projects completed')}
                     </span>
                   </div>
                 </div>

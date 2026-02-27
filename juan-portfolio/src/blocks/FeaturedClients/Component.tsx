@@ -5,6 +5,12 @@ import type { FeaturedClientsBlock, Media as MediaType, Cliente } from '@/payloa
 import Image from 'next/image'
 import { CMSLink } from '@/components/Link'
 import { motion } from 'framer-motion'
+import { getOptimizedCloudinaryUrl } from '@/utilities/cloudinaryUrl'
+
+function buildLogoSrc(url: string | null | undefined): string {
+  if (!url) return ''
+  return getOptimizedCloudinaryUrl(url, { width: 256, height: 128, format: 'auto', quality: 'auto' })
+}
 
 export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 'es' }> = (
   props,
@@ -21,8 +27,29 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
   // Multiple sets for seamless infinite loop regardless of screen width
   const duplicatedClients = [...clientDocs, ...clientDocs, ...clientDocs, ...clientDocs]
 
+  const clientsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: title || 'Clients',
+    itemListElement: clientDocs.map((c, i) => {
+      const logo = c.logo as MediaType
+      const logoUrl = logo?.url ? buildLogoSrc(logo.url) : undefined
+      const item: Record<string, unknown> = {
+        '@type': 'Organization',
+        name: c.name,
+      }
+      if (c.url) item.url = c.url
+      if (logoUrl) item.logo = logoUrl
+      return { '@type': 'ListItem', position: i + 1, item }
+    }),
+  }
+
   return (
     <section className="py-24 md:py-32 overflow-hidden bg-background relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(clientsSchema) }}
+      />
       <div className="container mx-auto px-4 mb-16 md:mb-24 text-center">
         <div className="max-w-4xl mx-auto">
           {title && (
@@ -62,16 +89,20 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
             >
               {duplicatedClients.map((c, i) => {
                 const logo = c.logo as MediaType
+                const src = logo?.url ? buildLogoSrc(logo.url) : ''
+                const isCloudinary = src.includes('cloudinary.com')
                 return (
                   <div
                     key={i}
                     className="relative w-40 md:w-64 h-24 md:h-32 flex-shrink-0 flex items-center justify-center p-8 rounded-[2rem] bg-white border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
-                    {logo && logo.url && (
+                    {src && (
                       <Image
-                        src={logo.url}
+                        src={src}
                         alt={c.name || 'Client'}
                         fill
+                        sizes="(max-width: 768px) 160px, 256px"
+                        unoptimized={isCloudinary}
                         className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700"
                       />
                     )}
@@ -83,16 +114,20 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 container mx-auto">
               {clientDocs.map((c, i) => {
                 const logo = c.logo as MediaType
+                const src = logo?.url ? buildLogoSrc(logo.url) : ''
+                const isCloudinary = src.includes('cloudinary.com')
                 return (
                   <div
                     key={i}
                     className="relative w-40 md:w-64 h-24 md:h-32 flex items-center justify-center p-8 rounded-[2rem] bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
-                    {logo && logo.url && (
+                    {src && (
                       <Image
-                        src={logo.url}
+                        src={src}
                         alt={c.name || 'Client'}
                         fill
+                        sizes="(max-width: 768px) 160px, 256px"
+                        unoptimized={isCloudinary}
                         className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700"
                       />
                     )}

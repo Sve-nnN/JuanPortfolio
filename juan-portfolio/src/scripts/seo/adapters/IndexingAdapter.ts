@@ -37,9 +37,9 @@ export class IndexingAdapter {
         },
       })
       return { success: true, data: response.data }
-    } catch (error: any) {
+    } catch (error) {
       console.error(`Error requesting Google indexing for ${url}:`, error)
-      return { success: false, error: error.message || 'Error occurred' }
+      return { success: false, error: error instanceof Error ? error.message : 'Error occurred' }
     }
   }
 
@@ -81,9 +81,9 @@ export class IndexingAdapter {
       }
 
       return { success: true, data }
-    } catch (error: any) {
+    } catch (error) {
       console.error(`Error requesting Bing indexing for ${url}:`, error)
-      return { success: false, error: error.message || 'Error occurred' }
+      return { success: false, error: error instanceof Error ? error.message : 'Error occurred' }
     }
   }
 }

@@ -25,6 +25,7 @@ semantic_keywords:
   - log hello world
   - world list item
   - content second
+contentRole: satellite
 ---
 
 

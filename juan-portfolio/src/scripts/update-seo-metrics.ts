@@ -261,7 +261,7 @@ async function crawlSingleUrl(url: string, index: number): Promise<CrawlResult> 
     if (boldCount > 10) sgeCitabilityScore += 10
     if (html.length > 5000) sgeCitabilityScore += 10
 
-    doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, link, svg').forEach((el: any) => el.remove())
+    doc.querySelectorAll('script, style, nav, footer, header, noscript, iframe, link, svg').forEach((el: Element) => el.remove())
 
     const headings = Array.from(doc.querySelectorAll('h2, h3'))
       .map((h) => {

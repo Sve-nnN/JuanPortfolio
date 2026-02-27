@@ -1,40 +1,39 @@
 ---
-title: 'Keyword Research 2026: De Palabras Clave a Entidades y Audiencias'
+title: 'Keyword Research 2026: Guía Maestra de Entidades, Intenciones y NLP'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: SEO
+slug: guia-keyword-research
+idioma: es
 contentRole: satellite
 pillarSlug: estrategia-topic-clusters
 relatedPosts:
   - estrategia-topic-clusters
   - redaccion-seo
 sidebarBanners: []
-metaTitle: 'Keyword Research 2026: Guía Avanzada con NLP y Python'
+tldr: >-
+  El Keyword Research en 2026 ha evolucionado de la simple búsqueda de términos hacia el análisis profundo de entidades y audiencias. Esta guía avanzada detalla cómo mapear intenciones de búsqueda, validar la cohesión semántica mediante scripts de Python y priorizar temas basados en su impacto financiero real, garantizando una arquitectura de contenidos resistente a cambios algorítmicos.
+metaTitle: 'Keyword Research 2026: Guía de Entidades e Intención de Búsqueda'
 metaDescription: >-
-  Domina el Keyword Research en 2026. Aprende a priorizar entidades sobre
-  palabras clave, analiza la intención de búsqueda con NLP e implementa una
-  estrategia semántica. Incluye script en Python.
+  Domina la investigación de palabras clave moderna. Aprende a priorizar entidades, analizar intenciones con NLP y evitar la canibalización con Python.
 primary_keywords:
   - investigación de palabras clave
-  - keyword research paso a paso
-  - herramientas SEO gratis
+  - keyword research 2026
+  - búsqueda semántica SEO
+  - análisis de entidades
 semantic_keywords:
-  - intención de búsqueda
-  - análisis de competencia seo
-  - búsqueda semántica
-  - entidades seo
-  - estrategia de contenidos
-  - palabras clave de cola larga
-  - volumen de búsqueda
-  - dificultad de palabra clave
-  - mapeo de keywords
-  - investigación de audiencias
+  - intención de búsqueda ToFU MoFU BoFU
+  - validación semántica NLP
+  - canibalización de palabras clave
+  - estrategia de contenidos B2B
+  - coeficiente de dice SEO
+  - herramientas de investigación SEO
+  - Information Gain en keywords
+  - mapeo de entidades Knowledge Graph
 uploaded: false
-idioma: es
-slug: guia-keyword-research
 ---
 ## ¿Qué es el Keyword Research?
 

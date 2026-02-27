@@ -88,9 +88,9 @@ describe('getCloudinaryOgWithTitle', () => {
     expect(result).toContain('l_portfolio:og-scrim/w_1200,h_300,c_fill/fl_layer_apply,g_south')
   })
 
-  it('applies the Array-Bold.woff2 custom font at 70px', () => {
+  it('applies the Array-Bold.woff2 custom font at 70px with right alignment', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
-    expect(result).toContain('l_text:Array-Bold.woff2_70:')
+    expect(result).toContain('l_text:Array-Bold.woff2_70_right:')
   })
 
   it('positions text bottom-right with 50px inset via fl_layer_apply', () => {

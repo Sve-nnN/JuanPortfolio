@@ -1,45 +1,41 @@
 ---
-title: >-
-  Programación Dinámica: Dominando la Eficiencia en la Resolución de Problemas
-  Complejos
+title: 'Programación Dinámica: Guía técnica de optimización y eficiencia'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-17T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: CS Fundamentals
+slug: programacion-dinamica
+idioma: es
 contentRole: satellite
 pillarSlug: algoritmos-estructuras-datos
 relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: 'Programación Dinámica: De la Recursión a la Optimización'
+tldr: >-
+  La Programación Dinámica es una técnica avanzada de diseño algorítmico que optimiza la resolución de problemas complejos mediante la descomposición en subproblemas y el almacenamiento de sus resultados. Esta guía profundiza en los pilares de subestructura óptima y subproblemas superpuestos, comparando métodos de memoización y tabulación para maximizar la eficiencia en software de alto rendimiento.
+metaTitle: 'Programación Dinámica: Guía de Memoización, Tabulación y Big O'
 metaDescription: >-
-  Aprende a resolver problemas complejos con programación dinámica. Cubrimos
-  Memoización, Tabulación y el Problema de la Mochila, con ejemplos de código
-  claros y optimizaciones.
+  Aprende a resolver problemas complejos con programación dinámica. Domina la
+  memoización, tabulación y el problema de la mochila con ejemplos en Python y optimización de recursos.
 primary_keywords:
   - programación dinámica
   - algoritmos de optimización
-  - técnica de memoización
+  - memoización vs tabulación
+  - eficiencia algorítmica
 semantic_keywords:
-  - memoización
-  - tabulación
+  - subestructura óptima
   - subproblemas superpuestos
-  - estructura óptima
-  - problema de la mochila
-  - optimización de algoritmos
-  - algoritmos recursivos
-  - complejidad temporal de algoritmos
-  - algoritmos eficientes
-  - ingeniería de software escalable
+  - problema de la mochila 0/1
+  - Fibonacci programación dinámica
+  - ecuación de Bellman
+  - complejidad temporal y espacial
+  - diseño de algoritmos eficientes
+  - recursión optimizada
 uploaded: false
-idioma: es
-slug: programacion-dinamica
 ---
-La Programación Dinámica (PD) es una técnica algorítmica esencial para resolver problemas complejos al dividirlos en subproblemas más simples, almacenar sus soluciones y reutilizarlas, evitando cálculos redundantes. Es clave para optimizar algoritmos y tomar decisiones eficientes en diversas áreas.
-
 ¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un algoritmo específico, sino de una **metodología de diseño de algoritmos** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
 
 Esta técnica es fundamental en campos que van desde la informática, con aplicaciones en optimización de rutas, inteligencia artificial y procesamiento de datos, hasta la economía, la biología y la ingeniería. Su esencia radica en una observación simple pero profunda: muchos problemas complejos tienen estructuras que se repiten y soluciones óptimas que pueden construirse a partir de componentes más pequeños.

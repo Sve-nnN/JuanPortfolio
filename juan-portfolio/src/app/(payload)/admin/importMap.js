@@ -9,6 +9,7 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { TableFeatureClient as TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { GSCField as GSCField_60d1527e85f11a2e06a73da50fac39ae } from '@/components/admin/GSCField'
 import { GSCCell as GSCCell_45d4dbad09c7662e5d84c7f89fc58baf } from '@/components/admin/GSCCell'
 import { IndexingControl as IndexingControl_104607a46c4d91ccac02d7771e81a8c7 } from '@/components/admin/IndexingControl'
@@ -23,6 +24,7 @@ import { UnorderedListFeatureClient as UnorderedListFeatureClient_e70f5e05f09f93
 import { OrderedListFeatureClient as OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { CloudinaryUploadButton as CloudinaryUploadButton_1ae4acaeee7345df8eb61983d348f4e7 } from '@/components/admin/CloudinaryUploadButton'
 import { default as default_14a617787e59f2697076a8f925c952d0 } from '@/components/admin/LiveUrlLink'
 import { ForceScanButton as ForceScanButton_09081efaef1efd119bda42a188210def } from '@/components/admin/ForceScanButton'
 import { CWVBadge as CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb } from '@/components/admin/CWVBadge'
@@ -50,6 +52,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@payloadcms/richtext-lexical/client#TableFeatureClient": TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/admin/GSCField#GSCField": GSCField_60d1527e85f11a2e06a73da50fac39ae,
   "@/components/admin/GSCCell#GSCCell": GSCCell_45d4dbad09c7662e5d84c7f89fc58baf,
   "@/components/admin/IndexingControl#IndexingControl": IndexingControl_104607a46c4d91ccac02d7771e81a8c7,
@@ -64,6 +67,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#OrderedListFeatureClient": OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/admin/CloudinaryUploadButton#CloudinaryUploadButton": CloudinaryUploadButton_1ae4acaeee7345df8eb61983d348f4e7,
   "@/components/admin/LiveUrlLink#default": default_14a617787e59f2697076a8f925c952d0,
   "@/components/admin/ForceScanButton#ForceScanButton": ForceScanButton_09081efaef1efd119bda42a188210def,
   "@/components/admin/CWVBadge#CWVBadge": CWVBadge_23b0bcb8c5be7d6c60bb35a3d7f635cb,

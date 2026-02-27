@@ -1,43 +1,43 @@
 ---
-title: 'Notación Big O: Guía de Complejidad Algorítmica con Ejemplos'
+title: 'Notación Big O: Guía técnica de complejidad y escalabilidad'
 publishedAt: 2026-02-10T00:00:00.000Z
-updatedAt: 2026-02-17T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: /images/blog/big-o-notation.webp
 categoryTitle: CS Fundamentals
+slug: big-o-notation
+idioma: es
 contentRole: satellite
 pillarSlug: algoritmos-estructuras-datos
 relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: 'Notación Big O: Tutorial y Guía de Escalabilidad de Código'
+tldr: >-
+  La notación Big O es la métrica estándar para medir la eficiencia y escalabilidad de los algoritmos. Esta guía explica cómo el tiempo de ejecución y el uso de memoria crecen según el tamaño de la entrada (n), cubriendo desde O(1) hasta O(n!) con ejemplos prácticos en Python y comparativas de rendimiento real.
+metaTitle: 'Notación Big O: Guía de Complejidad Algorítmica y Escalabilidad'
 metaDescription: >-
   Aprende a medir la eficiencia de tu código. Guía completa sobre Notación Big
-  O, complejidad temporal y espacial con ejemplos prácticos.
+  O, complejidad temporal y espacial con ejemplos en Python y visualización de curvas.
 primary_keywords:
   - notación Big O
-  - complejidad temporal
-  - medir la eficiencia del código
-semantic_keywords:
   - complejidad algorítmica
-  - big o notation
-  - escalabilidad de algoritmos
-  - tiempo de ejecución
-  - complejidad espacial
-  - análisis de algoritmos
-  - o(n)
-  - o(log n)
-  - o(n^2)
   - eficiencia de código
-uploaded: true
-idioma: es
-slug: big-o-notation
+  - análisis de algoritmos
+semantic_keywords:
+  - complejidad temporal y espacial
+  - notación Big O ejemplos Python
+  - escalabilidad de software
+  - o(n) lineal
+  - o(log n) logarítmica
+  - peor caso de rendimiento
+  - algoritmos de búsqueda y ordenamiento
+  - Big O notation tutorial
+uploaded: false
 ---
 # Notación Big O: Entendiendo la Complejidad Algorítmica
 
-**TL;DR:** La notación Big O es fundamental para comprender cómo el tiempo y la memoria de un algoritmo escalan con el tamaño de los datos. Esta guía explora los tipos de complejidad (constante, logarítmica, lineal, cuadrática, etc.) con ejemplos prácticos en Python. Aprende a evaluar y optimizar tu código, entendiendo los factores que realmente impactan el rendimiento en escenarios reales.
 La notación Big O es una herramienta clave para analizar la eficiencia de los algoritmos. Permite clasificar y comparar algoritmos según cómo su tiempo de ejecución o uso de memoria se incrementa con el tamaño de los datos de entrada. Este artículo abordará sus fundamentos, tipos de complejidades y su aplicación práctica. Se explorarán diferentes escenarios y ejemplos para entender mejor el rendimiento algorítmico y la relevancia de la notación Big O en el desarrollo de software.
 
 ## Fundamentos de la notación Big O

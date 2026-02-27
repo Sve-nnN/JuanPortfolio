@@ -1,7 +1,7 @@
 ---
-title: Guía de SEO Técnico para Desarrolladores (2026)
+title: 'Guía de SEO Técnico para Desarrolladores: Rendimiento y Rastreabilidad 2026'
 publishedAt: 2026-02-08T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -16,23 +16,26 @@ relatedPosts:
   - schema-markup-guide
   - ssr-vs-csr-seo
 sidebarBanners: []
-metaTitle: 'Guía de SEO Técnico 2026: Rastreo, Código y Rendimiento'
+tldr: >-
+  El SEO técnico es el cimiento de cualquier estrategia digital exitosa en 2026. Esta guía detalla cómo optimizar la infraestructura de tu sitio para maximizar la rastreabilidad, dominar las métricas Core Web Vitals (LCP, INP, CLS) e implementar semántica estructurada JSON-LD, asegurando que tu contenido sea procesable tanto por humanos como por sistemas de IA.
+metaTitle: 'Guía de SEO Técnico 2026: Rastreo, Core Web Vitals y Rendimiento'
 metaDescription: >-
   Aprende a gestionar el crawl budget, la indexación, los Core Web Vitals y el
-  Schema Markup. Incluye checklists técnicos.
+  Schema Markup. Incluye checklists técnicos para arquitectos y desarrolladores.
 primary_keywords:
   - guía de SEO técnico
-  - SEO técnico para desarrolladores
-  - optimización técnica de sitios web
+  - SEO para desarrolladores
+  - optimización técnica web
+  - Core Web Vitals 2026
 semantic_keywords:
-  - checklist de SEO técnico
-  - auditoría de SEO técnico
-  - arquitectura web para SEO
-  - rastreo e indexación
-  - Core Web Vitals
-  - Schema Markup
-  - GEO
-  - E-E-A-T
+  - presupuesto de rastreo crawl budget
+  - SSR vs CSR seo
+  - Schema Markup JSON-LD
+  - indexación y renderizado
+  - rendimiento LCP INP CLS
+  - auditoría técnica SEO
+  - optimización de sitemaps XML
+  - E-E-A-T técnico
 uploaded: true
 ---
 El **SEO Técnico** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.

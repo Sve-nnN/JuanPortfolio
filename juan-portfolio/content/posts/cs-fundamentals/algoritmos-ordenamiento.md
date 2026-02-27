@@ -1,39 +1,39 @@
 ---
-title: 'Algoritmos de ordenamiento: Mejora la eficiencia de tus datos'
+title: 'Algoritmos de ordenamiento: Guía técnica de eficiencia y optimización'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-17T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: CS Fundamentals
+slug: algoritmos-ordenamiento
+idioma: es
 contentRole: satellite
 pillarSlug: algoritmos-estructuras-datos
 relatedPosts:
   - algoritmos-estructuras-datos
   - big-o-notation
 sidebarBanners: []
-metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ingeniería'
+tldr: >-
+  Los algoritmos de ordenamiento son herramientas esenciales para organizar datos de manera eficiente. Esta guía analiza métodos clásicos como Bubble y Selection Sort, junto a estrategias avanzadas de "divide y vencerás" como Quick y Merge Sort. Exploramos su complejidad temporal (Big O), estabilidad y criterios técnicos para elegir el algoritmo óptimo según el volumen de datos.
+metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ingeniería y Big O'
 metaDescription: >-
   Aprende Bubble, Quick y Merge Sort. Comparativa de eficiencia (Big O),
-  estabilidad y casos de uso en el desarrollo real de software.
+  estabilidad y casos de uso en el desarrollo real de software con ejemplos en C y Python.
 primary_keywords:
   - algoritmos de ordenamiento
-  - ordenar arreglos programación
-  - eficiencia de ordenamiento
+  - eficiencia de algoritmos
+  - ordenar datos programación
+  - complejidad de ordenamiento
 semantic_keywords:
-  - bubble sort
-  - quick sort
-  - merge sort
-  - heap sort
-  - algoritmos de búsqueda y ordenamiento
-  - complejidad temporal de ordenamiento
+  - bubble sort vs quick sort
   - estabilidad de algoritmos
-  - comparativa de algoritmos de ordenamiento
+  - algoritmos divide y vencerás
+  - complejidad temporal Big O
+  - ordenamiento interno vs externo
+  - implementación de algoritmos en C y Python
   - estructuras de datos y algoritmos
-  - algoritmos eficientes
 uploaded: false
-idioma: es
-slug: algoritmos-ordenamiento
 ---
 Los [algoritmos de ordenamiento](/posts/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de algoritmos de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
 
@@ -89,7 +89,7 @@ La eficiencia espacial es un aspecto fundamental al seleccionar algoritmos de or
 
 ## Análisis de complejidad en algoritmos de ordenamiento
 
-El análisis de complejidad en los algoritmos de ordenamiento es fundamental para entender su eficiencia y rendimiento. Se mide tanto en términos temporales como espaciales, lo que permite seleccionar el algoritmo más adecuado para diferentes escenarios de procesamiento de datos.
+El análisis de complejidad en los algoritmos de ordenamiento es fundamental para entender su eficiencia y rendimiento. Se mide tanto en términos temporales como espiales, lo que permite seleccionar el algoritmo más adecuado para diferentes escenarios de procesamiento de datos.
 
 ### Complejidad temporal: mejor caso, caso promedio y peor caso
 

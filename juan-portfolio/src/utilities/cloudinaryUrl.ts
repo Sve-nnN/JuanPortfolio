@@ -31,9 +31,16 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
   const segments = afterUpload.split('/')
   let pidStart = 0
   for (let i = 0; i < segments.length; i++) {
-    if (/^v\d+$/.test(segments[i])) { pidStart = i; break }
-    if (/^[a-z]{1,3}_/.test(segments[i])) { pidStart = i + 1; continue }
-    pidStart = i; break
+    if (/^v\d+$/.test(segments[i])) {
+      pidStart = i
+      break
+    }
+    if (/^[a-z]{1,3}_/.test(segments[i])) {
+      pidStart = i + 1
+      continue
+    }
+    pidStart = i
+    break
   }
   const publicId = segments.slice(pidStart).join('/')
 
@@ -42,7 +49,7 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
   const encodedTitle = encodeURIComponent(truncated)
 
   // Step 1 — base resize
-  const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto'
+  const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto,right'
 
   // Step 2 — dark gradient scrim (1200×300, uploaded once).
   // Placed at the bottom; ensures text readability on bright images.
@@ -52,7 +59,7 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
   // Step 3 — title text: Array Bold 70px, white, bottom-right with 50px inset.
   // fl_layer_apply positions the layer; gravity g_south_east + x_50,y_50 gives the inset.
   // w_1100 leaves 50px breathing room on the left side too.
-  const textLayer = `l_text:Array-Bold.woff2_70:${encodedTitle},co_white,w_1100,c_fit/fl_layer_apply,g_south_east,x_50,y_50`
+  const textLayer = `l_text:Array-Bold.woff2_70_right:${encodedTitle},co_white,w_1100,c_fit/fl_layer_apply,g_south_east,x_50,y_50`
 
   return `${baseUrl}/upload/${baseTransform}/${scrimLayer}/${textLayer}/${publicId}`
 }

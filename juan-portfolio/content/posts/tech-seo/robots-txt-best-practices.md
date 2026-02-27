@@ -1,40 +1,40 @@
 ---
-title: 'Guía de Robots.txt 2026: Ejemplos para WordPress, Shopify y Control de Bots IA'
+title: 'Guía de Robots.txt 2026: Configuración Estratégica y Control de Bots IA'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Technical SEO
+slug: robots-txt-best-practices
+idioma: es
 contentRole: satellite
 pillarSlug: tech-seo-guide
 relatedPosts:
   - tech-seo-guide
   - xml-sitemap-automation
 sidebarBanners: []
-metaTitle: 'Robots.txt 2026: Guía con Ejemplos para WordPress, Shopify y Bots de IA'
+tldr: >-
+  El archivo robots.txt es la primera instrucción que recibe un rastreador al visitar tu dominio. Esta guía de 2026 explica cómo configurar directivas para optimizar el crawl budget, proteger tu propiedad intelectual frente a bots de IA (GPTBot, Claude-Bot) y ofrece plantillas técnicas probadas para WordPress y Shopify.
+metaTitle: 'Robots.txt 2026: Guía Técnica, Ejemplos y Bloqueo de Bots IA'
 metaDescription: >-
-  Implementa robots.txt correctamente. Incluye plantillas para WordPress,
-  Shopify, y directrices para bloquear spiders de IA como GPTBot. Optimiza tu
-  crawl budget.
+  Optimiza tu crawl budget con robots.txt. Incluye plantillas para WordPress,
+  Shopify y directrices para bloquear spiders de IA como GPTBot y Google-Extended.
 primary_keywords:
   - mejores prácticas robots.txt
   - configuración robots.txt SEO
-  - optimizar rastreo web
+  - bloquear bots de IA
+  - optimizar crawl budget
 semantic_keywords:
-  - crawl budget
-  - directivas robots.txt
-  - disallow allow robots
+  - instrucciones para crawlers
+  - User-agent SEO
+  - Disallow vs Allow robots
+  - presupuesto de rastreo Google
+  - GPTBot blocking robots.txt
+  - configuración SEO técnico
+  - indexabilidad web 2026
   - sitemap en robots.txt
-  - bloquear bots de ia
-  - optimización de rastreo
-  - user-agent seo
-  - presupuesto de rastreo
-  - indexabilidad web
-  - archivos de configuración seo
 uploaded: false
-idioma: es
-slug: robots-txt-best-practices
 ---
 Configurar el **robots.txt** correctamente es esencial para gestionar el presupuesto de rastreo (Crawl Budget) de tu servidor. En esta guía técnica de 2026, te mostraré cómo estructurar este archivo y compartiré plantillas precisas para optimizar bases de CMS y bloquear la extracción no autorizada de Modelos de Lenguaje Grande (LLMs) como GPTBot.
 

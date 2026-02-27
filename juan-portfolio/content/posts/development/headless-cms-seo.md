@@ -1,25 +1,30 @@
 ---
-title: 'SEO en CMS Headless: Estrategias y Mejores Prácticas'
+title: 'SEO en CMS Headless: Estrategias y Mejores Prácticas 2026'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Development
+slug: headless-cms-seo
+idioma: es
 contentRole: satellite
 pillarSlug: tech-seo-guide
 relatedPosts:
   - technical-seo-guide
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: 'Headless CMS SEO: Guía completa de optimización'
+tldr: >-
+  El SEO en arquitecturas de CMS Headless ofrece control total pero exige una implementación técnica rigurosa. Esta guía explora cómo modelar contenidos amigables para el buscador, automatizar metadatos y elegir la estrategia de renderizado (SSR vs. SSG) adecuada para maximizar la indexación y el rendimiento en plataformas desacopladas modernas.
+metaTitle: 'Headless CMS SEO: Guía técnica de optimización y arquitectura'
 metaDescription: >-
   Descubre cómo gestionar el SEO en una arquitectura desacoplada. Aprende sobre
-  metadatos, sitemaps y renderizado.
+  modelado de metadatos, sitemaps dinámicos y renderizado SSR/SSG optimizado.
 primary_keywords:
   - SEO en CMS Headless
   - optimización SEO headless
   - arquitectura CMS desacoplada
+  - Payload CMS SEO
 semantic_keywords:
   - headless cms vs tradicional
   - payload cms seo
@@ -31,9 +36,8 @@ semantic_keywords:
   - seo técnico en cms moderno
   - infraestructura de contenido escalable
   - mejores prácticas headless seo
+  - SSR vs SSG para SEO
 uploaded: false
-idioma: es
-slug: headless-cms-seo
 ---
 ## ¿Qué es un CMS Headless y cómo afecta al SEO?
 - Desmontando mitos: El CMS no posiciona solo, lo hace tu implementación.

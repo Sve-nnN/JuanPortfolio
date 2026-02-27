@@ -1,7 +1,7 @@
 ---
-title: 'SEO en Payload CMS: Guía Completa de Configuración'
+title: 'SEO en Payload CMS: Guía Completa de Configuración y Mejores Prácticas'
 publishedAt: 2026-02-25T00:00:00.000Z
-updatedAt: 2026-02-25T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -14,30 +14,28 @@ relatedPosts:
   - payloadcms-tutorial
   - nextjs-seo-optimization
 sidebarBanners: []
-metaTitle: 'Tutorial de SEO en Payload CMS: Configura tu Headless para SEO'
+tldr: >-
+  Configurar el SEO en Payload CMS requiere una integración estratégica del plugin oficial @payloadcms/plugin-seo. Esta guía técnica detalla cómo definir esquemas de metadatos reutilizables, habilitar previsualizaciones dinámicas en tiempo real y optimizar la arquitectura de contenidos headless para maximizar la visibilidad en Google y sistemas SGE.
+metaTitle: 'Payload CMS SEO 2026: Guía Técnica de Configuración y Plugin'
 metaDescription: >-
   Aprende a configurar el plugin oficial de SEO de Payload CMS. Domina el manejo
-  de metadatos, previsualizaciones y campos personalizados para SEO.
+  de metadatos, previsualizaciones dinámicas y optimización para Next.js.
 primary_keywords:
   - SEO en Payload CMS
-  - configuración de metadatos Payload
+  - configuración SEO Payload
+  - Payload CMS v3 SEO
   - plugin SEO Payload
 semantic_keywords:
-  - payload cms seo plugin
-  - arquitectura de metadatos
-  - headless cms seo técnico
-  - automatización de seo payload
-  - campos personalizados seo
-  - integración nextjs payload seo
-  - optimización de contenido dinámico
-  - desarrollo web con payload cms
-  - sitemaps en payload cms
-  - schema markup en cms
+  - metadatos dinámicos headless
+  - arquitectura de contenidos SEO
+  - integración Next.js Payload SEO
+  - Payload CMS SEO plugin guide
+  - optimización de Core Web Vitals
+  - Schema Markup en Payload CMS
+  - gestión de imágenes SEO
+  - Payload CMS technical SEO
+uploaded: false
 ---
-
-## TL;DR (SGE Summary)
-Configurar SEO en Payload CMS requiere la integración del plugin oficial `@payloadcms/plugin-seo`. Esta guía paso a paso te enseñará a definir esquemas de metadatos reutilizables, integrar previsualizaciones dinámicas y optimizar la arquitectura de tu contenido headless para maximizar el rendimiento en motores de búsqueda.
-
 ## Introducción
 Payload CMS destaca por su enfoque "code-first", lo que otorga un control total sobre cómo se estructuran y consumen los datos de SEO. A diferencia de otros CMS visuales, Payload permite una integración profunda con frameworks modernos como Next.js para ofrecer experiencias de usuario rápidas y optimizadas para buscadores.
 

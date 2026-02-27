@@ -1,7 +1,7 @@
 ---
-title: 'Optimización de Rendimiento Web 2026: TTFB, Caching y Resource Hints'
+title: 'Rendimiento Web Avanzado: Guía técnica de TTFB, Caching y Resource Hints'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-24T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
@@ -14,23 +14,27 @@ relatedPosts:
   - core-web-vitals-guide
   - technical-seo-guide
 sidebarBanners: []
-metaTitle: 'Rendimiento Web Avanzado 2026: Código, Caching CDN y Optimizar LCP'
+tldr: >-
+  La optimización del rendimiento web en 2026 trasciende la simple compresión de archivos. Esta guía técnica aborda la reducción del TTFB mediante CDNs en el Edge, la implementación estratégica de Resource Hints (Preconnect, Preload) y la gestión avanzada de activos binarios y JavaScript para garantizar una experiencia de usuario instantánea y Core Web Vitals impecables.
+metaTitle: 'Web Performance 2026: Guía Maestra de Velocidad y Optimización Técnica'
 metaDescription: >-
-  Optimiza el rendimiento web de tu sitio. Controla el TTFB, implementa Resource
-  Hints y distribuye la carga mediante CDN.
+  Domina el rendimiento web avanzado. Aprende a optimizar TTFB, implementar
+  Resource Hints y gestionar caché en el Edge para maximizar tus Core Web Vitals.
 primary_keywords:
   - optimización de rendimiento web
   - mejorar velocidad de carga
   - rendimiento web avanzado
+  - TTFB SEO
 semantic_keywords:
-  - métricas de rendimiento web
-  - resource hints
-  - preload
-  - preconnect
-  - font-display swap
-  - critical css
-  - web performance pyramid
-  - CDN
+  - resource hints 2026
+  - caching CDN edge
+  - optimización de imágenes AVIF
+  - critical CSS asíncrono
+  - code-splitting avanzado
+  - métrica LCP y TTFB
+  - cache-control immutable
+  - rendimiento frontend moderno
+  - Web Performance Pyramid
 uploaded: false
 ---
 La **optimización de rendimiento web en 2026** exige un análisis estructural completo. Optimizar el frontend con compresión será una mitigación estéril si toleramos fricciones masivas en la capa profunda del servidor. Como profesional técnico, abordaremos sistemáticamente la reducción del factor crítico TTFB, la implementación rigurosa de Resource Hints y los fundamentos del Caching en dominios Edge (CDN).

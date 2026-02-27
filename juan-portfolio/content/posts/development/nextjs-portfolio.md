@@ -1,39 +1,40 @@
 ---
-title: Cómo Crear un Portfolio Profesional con Next.js y Tailwind CSS
+title: 'Cómo Crear un Portfolio Profesional con Next.js y Tailwind CSS 2026'
 publishedAt: 2026-02-11T00:00:00.000Z
-updatedAt: 2026-02-11T00:00:00.000Z
+updatedAt: 2026-02-26T00:00:00.000Z
 authors:
   - juan-carlos-angulo
 heroImage: null
 categoryTitle: Development
+slug: nextjs-portfolio
+idioma: es
 contentRole: satellite
 pillarSlug: payloadcms-tutorial
 relatedPosts:
   - nextjs-seo-optimization
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: 'Next.js Portfolio: Guía paso a paso para desarrolladores'
+tldr: >-
+  Crear un portfolio profesional con Next.js y Tailwind CSS es la mejor forma de demostrar tu expertise técnico y SEO. Esta guía detalla la planificación de secciones, el uso del App Router para una navegación fluida y la optimización de metadatos dinámicos para posicionar tu marca personal en los primeros resultados de Google.
+metaTitle: 'Next.js Portfolio Guide 2026: Construye tu Marca Personal con Código'
 metaDescription: >-
-  Aprende a construir un portfolio de alto rendimiento con Next.js. Enfocado en
-  diseño moderno, SEO y facilidad de mantenimiento.
+  Aprende a construir un portfolio de alto rendimiento con Next.js. Guía de
+  diseño moderno, SEO personal y optimización Lighthouse para desarrolladores.
 primary_keywords:
   - portfolio con Next.js
   - crear portafolio personal web
-  - guía de Next.js para portfolios
-semantic_keywords:
-  - diseño de portfolio técnico
-  - desarrollo web personal
-  - showcase de proyectos react
-  - optimización de marca personal
-  - nextjs app router portfolio
-  - arquitectura de frontend moderno
-  - despliegue en vercel
-  - performance web portfolio
-  - componentes react para portfolios
+  - guía Next.js portfolios
   - branding para desarrolladores
+semantic_keywords:
+  - Next.js App Router portfolio
+  - diseño web con Tailwind CSS
+  - optimización SEO personal
+  - rendimiento Lighthouse 100
+  - despliegue en Vercel
+  - proyectos React showcase
+  - arquitectura frontend moderno
+  - Next.js 15 portfolio tutorial
 uploaded: false
-idioma: es
-slug: nextjs-portfolio
 ---
 ## ¿Por qué elegir Next.js para tu portfolio?
 - Velocidad, SEO y experiencia de usuario como cartas de presentación.

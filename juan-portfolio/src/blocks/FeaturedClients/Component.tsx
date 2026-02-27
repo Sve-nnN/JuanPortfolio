@@ -33,7 +33,8 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
     name: title || 'Clients',
     itemListElement: clientDocs.map((c, i) => {
       const logo = c.logo as MediaType
-      const logoUrl = logo?.url ? buildLogoSrc(logo.url) : undefined
+      const rawLogoUrl = logo?.cloudinaryUrl || logo?.url
+      const logoUrl = rawLogoUrl ? buildLogoSrc(rawLogoUrl) : undefined
       const item: Record<string, unknown> = {
         '@type': 'Organization',
         name: c.name,
@@ -89,7 +90,8 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
             >
               {duplicatedClients.map((c, i) => {
                 const logo = c.logo as MediaType
-                const src = logo?.url ? buildLogoSrc(logo.url) : ''
+                const rawSrc = logo?.cloudinaryUrl || logo?.url || ''
+                const src = rawSrc ? buildLogoSrc(rawSrc) : ''
                 const isCloudinary = src.includes('cloudinary.com')
                 return (
                   <div
@@ -102,7 +104,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
                         alt={c.name || 'Client'}
                         fill
                         sizes="(max-width: 768px) 160px, 256px"
-                        unoptimized={isCloudinary}
+                        unoptimized={isCloudinary || src.startsWith('/')}
                         className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700"
                       />
                     )}
@@ -114,7 +116,8 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 container mx-auto">
               {clientDocs.map((c, i) => {
                 const logo = c.logo as MediaType
-                const src = logo?.url ? buildLogoSrc(logo.url) : ''
+                const rawSrc = logo?.cloudinaryUrl || logo?.url || ''
+                const src = rawSrc ? buildLogoSrc(rawSrc) : ''
                 const isCloudinary = src.includes('cloudinary.com')
                 return (
                   <div
@@ -127,7 +130,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
                         alt={c.name || 'Client'}
                         fill
                         sizes="(max-width: 768px) 160px, 256px"
-                        unoptimized={isCloudinary}
+                        unoptimized={isCloudinary || src.startsWith('/')}
                         className="object-contain p-6 opacity-40 group-hover/logo:opacity-100 transition-opacity grayscale group-hover/logo:grayscale-0 duration-700"
                       />
                     )}

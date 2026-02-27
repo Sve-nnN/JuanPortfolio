@@ -4,7 +4,7 @@
  */
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { PostHero } from '@/heros/PostHero'
 import { estimateReadingTimeFromLexical } from '@/utilities/estimateReadingTime'
@@ -92,6 +92,20 @@ export default async function PostPage({
   const post = postRes.docs[0]
   if (!post) return notFound()
 
+  const localePrefix = locale === 'es' ? '' : '/en'
+
+  // If the category segment in the URL is a raw MongoDB ObjectID, permanently
+  // redirect to the canonical URL that uses the real category slug.
+  const MONGO_ID_RE = /^[0-9a-f]{24}$/i
+  if (MONGO_ID_RE.test(category)) {
+    const realCategory = post.categories?.[0]
+    const realSlug =
+      realCategory && typeof realCategory === 'object' && realCategory.slug
+        ? realCategory.slug
+        : 'general'
+    redirect(`${localePrefix}/blog/${realSlug}/${slug}`)
+  }
+
   const { minutes } = post.content?.content ? estimateReadingTimeFromLexical(post.content.content) : { minutes: 1 }
   const excerpt = post.meta?.description || undefined
   const headings = post.content?.content ? extractHeadingsFromLexical(post.content.content) : []
@@ -103,8 +117,6 @@ export default async function PostPage({
         ? { title: category }
         : categories[0]
       : { title: category }
-
-  const localePrefix = locale === 'es' ? '' : '/en'
   const fullUrl = `${getServerSideURL()}${localePrefix}/blog/${category}/${slug}`
   
   const breadcrumbs = [

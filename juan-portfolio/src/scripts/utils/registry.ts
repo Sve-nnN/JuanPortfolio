@@ -527,6 +527,45 @@ export const SCRIPTS: Script[] = [
     params: [],
     examples: ['tsx src/scripts/test-email.ts'],
   },
+
+  {
+    id: 'audit-urls',
+    name: 'Audit URLs',
+    category: 'maintenance',
+    description: 'Detecta errores 4xx/3xx, IDs de MongoDB en URLs y media sin Cloudinary',
+    longDescription:
+      'Audita todas las URLs del sitio: posts con ObjectIDs como categoría, ' +
+      'páginas críticas faltantes (contact, terms, privacy), media sin cloudinaryUrl ' +
+      'que causa 400 en producción, y opcionalmente verifica el estado HTTP en vivo.',
+    baseCommand: 'tsx -r dotenv/config src/scripts/audit-urls.ts',
+    params: [
+      {
+        name: 'Verificar URLs en vivo',
+        key: '--check-live',
+        type: 'flag' as const,
+        required: false,
+        description: 'Hace HEAD request a cada URL crítica (más lento)',
+        format: 'space' as const,
+      },
+      {
+        name: 'Filtrar locale',
+        key: '--locale',
+        type: 'select' as const,
+        required: false,
+        description: 'Limitar auditoría a un solo locale',
+        options: [
+          { value: 'es', label: 'es — Español' },
+          { value: 'en', label: 'en — English' },
+        ],
+        format: 'space' as const,
+      },
+    ],
+    examples: [
+      'tsx src/scripts/audit-urls.ts',
+      'tsx src/scripts/audit-urls.ts --check-live',
+      'tsx src/scripts/audit-urls.ts --locale es',
+    ],
+  },
 ]
 
 // ─── buildCommand ─────────────────────────────────────────────────────────────

@@ -49,7 +49,7 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
   const encodedTitle = encodeURIComponent(truncated)
 
   // Step 1 — base resize
-  const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto,right'
+  const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto'
 
   // Step 2 — dark gradient scrim (1200×300, uploaded once).
   // Placed at the bottom; ensures text readability on bright images.

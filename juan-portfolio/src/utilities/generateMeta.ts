@@ -4,19 +4,44 @@ import type { Media, Page, Post, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
+import { getCloudinaryOgWithTitle } from './cloudinaryUrl'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 
-const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
+type DocWithContent = { content?: { heroImage?: (string | null) | Media } }
+
+/**
+ * Returns the URL for an explicit OG image (meta.og.image).
+ * Prefers the Cloudinary URL stored on the media document.
+ * Returns null when no image is set.
+ */
+const getExplicitOgImageURL = (
+  image: Media | Config['db']['defaultIDType'] | null | undefined,
+): string | null => {
+  if (!image || typeof image !== 'object' || !('url' in image)) return null
+  const media = image as Media
   const serverUrl = getServerSideURL().replace(/\/$/, '')
 
-  let url = serverUrl + '/website-template-OG.webp'
+  // Prefer full Cloudinary URL stored on the media document
+  if (media.cloudinaryUrl) return media.cloudinaryUrl
 
-  if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.sizes?.og?.url
+  // Fall back to Payload's OG-size URL, then the original URL
+  const raw = media.sizes?.og?.url ?? media.url
+  if (!raw) return null
+  return raw.startsWith('http') ? raw : serverUrl + raw
+}
 
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
-  }
-
-  return url
+/**
+ * Extracts a Cloudinary URL from a populated Media object (hero image).
+ * Returns null when the image is unpopulated (ID string) or not on Cloudinary.
+ */
+const getHeroCloudinaryUrl = (
+  heroImage: (string | null) | Media | undefined,
+): string | null => {
+  if (!heroImage || typeof heroImage !== 'object') return null
+  const media = heroImage as Media
+  if (media.cloudinaryUrl?.includes('cloudinary.com')) return media.cloudinaryUrl
+  if (media.url?.includes('cloudinary.com')) return media.url
+  return null
 }
 
 export const generateMeta = async (args: {
@@ -39,11 +64,30 @@ export const generateMeta = async (args: {
     return m
   })()
 
-  const ogImage = getImageURL(meta?.image ?? doc?.meta?.image)
   const title = meta?.title || doc?.title || 'Juan Carlos Angulo'
-  
+
+  // --- OG image resolution ---
+  // When the editor has set an explicit OG image, use it as-is.
+  // When there is no explicit OG image, generate a Cloudinary URL with the
+  // page title overlaid on the post's hero image (or a slug-based fallback).
+  const explicitOgUrl = getExplicitOgImageURL(meta?.image ?? doc?.meta?.image)
+
+  let ogImage: string
+  if (explicitOgUrl) {
+    ogImage = explicitOgUrl
+  } else {
+    const heroCloudinaryUrl = getHeroCloudinaryUrl(
+      (doc as DocWithContent)?.content?.heroImage,
+    )
+    const slug = Array.isArray(doc?.slug)
+      ? doc.slug.join('/')
+      : (doc?.slug ?? customPath?.replace(/^\//, '') ?? '')
+    const baseUrl = heroCloudinaryUrl ?? getFallbackBySlug(slug)
+    ogImage = getCloudinaryOgWithTitle(baseUrl, title)
+  }
+
   const baseUrl = getServerSideURL().replace(/\/$/, '')
-  
+
   // Calculate relative path
   let relativePath = customPath
   if (!relativePath) {
@@ -55,7 +99,7 @@ export const generateMeta = async (args: {
   if (relativePath && !relativePath.startsWith('/')) {
     relativePath = `/${relativePath}`
   }
-  
+
   // Normalize: remove trailing slash if not root
   const cleanPath = relativePath === '/' ? '' : relativePath.replace(/\/$/, '')
 

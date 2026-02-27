@@ -36,7 +36,8 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
   //   2) Array font title overlay, white, bottom-left, auto-fitted to image width
   // Array-Bold.woff2 is uploaded to Cloudinary as a raw authenticated asset (public_id: Array-Bold.woff2).
   // Custom font reference syntax: <public_id>_<size> (no extra style suffix needed — weight is baked in).
-  const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto:85'
+  // q_auto:85 is invalid — Cloudinary accepts q_auto or a plain number (e.g. q_85), not a combination.
+  const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto'
   const textLayer = `l_text:Array-Bold.woff2_54:${encodedTitle},co_white,g_south_west,x_60,y_55,w_1080,c_fit`
 
   return `${baseUrl}/upload/${baseTransform}/${textLayer}/${publicId}`

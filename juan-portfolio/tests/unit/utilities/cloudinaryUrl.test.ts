@@ -69,7 +69,9 @@ describe('getCloudinaryOgWithTitle', () => {
 
   it('applies standard 1200×630 OG base transform', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
-    expect(result).toContain('w_1200,h_630,c_fill,g_auto,f_jpg,q_auto:85')
+    expect(result).toContain('w_1200,h_630,c_fill,g_auto,f_jpg,q_auto')
+    // q_auto:85 is invalid in Cloudinary — must not appear
+    expect(result).not.toContain('q_auto:85')
   })
 
   it('applies the Array-Bold.woff2 custom font text layer', () => {

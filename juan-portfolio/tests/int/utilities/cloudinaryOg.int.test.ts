@@ -71,4 +71,14 @@ describe('getCloudinaryOgWithTitle — live Cloudinary validation', () => {
     const res = await fetch(url, { method: 'HEAD' })
     expect(res.headers.get('content-type')).toContain('image/jpeg')
   })
+
+  it('generates a valid 200 URL that includes the scrim overlay layer', async () => {
+    const url = getCloudinaryOgWithTitle(REAL_CLOUDINARY_URL, 'Legibility Test')
+    // Verify the scrim layer is present in the URL structure
+    expect(url).toContain('l_portfolio:og-scrim')
+    // And that Cloudinary accepts it
+    const { status, cldError } = await httpStatus(url)
+    expect(cldError, `Cloudinary error: ${cldError}`).toBeNull()
+    expect(status).toBe(200)
+  })
 })

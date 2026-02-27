@@ -74,24 +74,43 @@ describe('getCloudinaryOgWithTitle', () => {
     expect(result).not.toContain('q_auto:85')
   })
 
-  it('applies the Array-Bold.woff2 custom font text layer', () => {
+  it('applies the scrim overlay layer before the text', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
-    expect(result).toContain('l_text:Array-Bold.woff2_54:')
+    expect(result).toContain('l_portfolio:og-scrim')
+    // Scrim must appear BEFORE the text layer in the URL
+    const scrimIdx = result.indexOf('l_portfolio:og-scrim')
+    const textIdx = result.indexOf('l_text:')
+    expect(scrimIdx).toBeLessThan(textIdx)
   })
 
-  it('positions text bottom-left with correct gravity and offset', () => {
+  it('applies the scrim at full width (1200) and 300px height at the bottom', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
-    expect(result).toContain('g_south_west,x_60,y_55')
+    expect(result).toContain('l_portfolio:og-scrim/w_1200,h_300,c_fill/fl_layer_apply,g_south')
   })
 
-  it('constrains text width with c_fit', () => {
+  it('applies the Array-Bold.woff2 custom font at 70px', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
-    expect(result).toContain('w_1080,c_fit')
+    expect(result).toContain('l_text:Array-Bold.woff2_70:')
+  })
+
+  it('positions text bottom-right with 50px inset via fl_layer_apply', () => {
+    const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
+    expect(result).toContain('fl_layer_apply,g_south_east,x_50,y_50')
+  })
+
+  it('constrains text width to 1100px with c_fit', () => {
+    const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
+    expect(result).toContain('w_1100,c_fit')
   })
 
   it('outputs a JPEG (f_jpg in base transform)', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
     expect(result).toContain('f_jpg')
+  })
+
+  it('does NOT use the deprecated q_auto:85 format', () => {
+    const result = getCloudinaryOgWithTitle(RAW_URL, 'Hello World')
+    expect(result).not.toContain('q_auto:85')
   })
 
   // ── Public-id extraction ────────────────────────────────────────────────
@@ -103,7 +122,7 @@ describe('getCloudinaryOgWithTitle', () => {
 
   it('strips existing transform segments and rebuilds correctly', () => {
     const result = getCloudinaryOgWithTitle(WITH_TRANSFORMS, 'Title')
-    // Should NOT contain the original f_avif transform
+    // Should NOT contain the original f_avif transform as a standalone segment
     expect(result).not.toContain('f_avif,q_auto/f_avif')
     // Should contain the OG transform instead
     expect(result).toContain('w_1200,h_630')
@@ -119,7 +138,6 @@ describe('getCloudinaryOgWithTitle', () => {
 
   it('strips an existing OG crop transform and replaces it', () => {
     const result = getCloudinaryOgWithTitle(ALREADY_OG, 'Title')
-    // w_1200,h_630,c_center must be stripped; new OG transform applied
     expect(result).not.toContain('c_center')
     expect(result).toContain('c_fill')
     expect(result).toMatch(/portfolio\/og\.jpg$/)
@@ -165,7 +183,6 @@ describe('getCloudinaryOgWithTitle', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, title)
     const expected = encodeURIComponent('A'.repeat(62) + '...')
     expect(result).toContain(expected)
-    // The original full title must NOT appear
     expect(result).not.toContain(encodeURIComponent(title))
   })
 

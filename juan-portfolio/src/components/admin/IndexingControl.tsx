@@ -60,7 +60,7 @@ export const IndexingControl: React.FC = () => {
             path = `/blog/${categorySlug}/${savedSlug}`
           }
         }
-      } catch (e) {
+      } catch (_e) {
         console.error('Error fetching document data', e)
       }
 

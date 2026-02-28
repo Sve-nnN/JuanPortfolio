@@ -5,7 +5,7 @@ const CACHE_FILE = path.join(process.cwd(), '.serpapi-cache.json')
 
 export interface CachedData {
   timestamp: number
-  data: any
+  data: unknown
 }
 
 export class SerpCache {
@@ -19,7 +19,7 @@ export class SerpCache {
     if (fs.existsSync(CACHE_FILE)) {
       try {
         this.cache = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf-8'))
-      } catch (e) {
+      } catch (_e) {
         this.cache = {}
       }
     }
@@ -29,7 +29,7 @@ export class SerpCache {
     fs.writeFileSync(CACHE_FILE, JSON.stringify(this.cache, null, 2))
   }
 
-  get(keyword: string, locale: string): any | null {
+  get(keyword: string, locale: string): unknown | null {
     const key = `${keyword}:${locale}`
     const entry = this.cache[key]
     if (!entry) return null
@@ -45,7 +45,7 @@ export class SerpCache {
     return entry.data
   }
 
-  set(keyword: string, locale: string, data: any) {
+  set(keyword: string, locale: string, data: unknown) {
     const key = `${keyword}:${locale}`
     this.cache[key] = {
       timestamp: Date.now(),

@@ -236,7 +236,7 @@ async function fetchWithRetry(url: string, retries = 2): Promise<Response> {
         // Wait and retry
         await new Promise(r => setTimeout(r, 1000 * (i + 1)))
       }
-    } catch (e) {
+    } catch (_e) {
       if (i === retries - 1) throw e
     }
   }
@@ -294,7 +294,7 @@ async function crawlSingleUrl(url: string, index: number): Promise<CrawlResult> 
       success: true,
       sgeCitabilityScore: Math.min(100, sgeCitabilityScore)
     }
-  } catch (e) {
+  } catch (_e) {
     process.stdout.write(`\r${colors.red}    ❌ Failed (${index}): ${url.substring(0, 50)}... (${e instanceof Error ? e.message : 'Error'})    \n${colors.reset}`)
     return { headings: '', meta: '', wordCount: 0, discoveredKeywords: [], success: false, sgeCitabilityScore: 0 }
   }
@@ -516,7 +516,7 @@ export async function main() {
           `    ${colors.green}✅ Success: Vol ${data.volume}, Diff ${data.difficulty}, Avg. Words ${data.avgWordCount}${colors.reset}\n`,
         )
       }
-    } catch (e) {
+    } catch (_e) {
       console.error(
         `    ${colors.red}❌ Error: ${e instanceof Error ? e.message : String(e)}${colors.reset}\n`,
       )

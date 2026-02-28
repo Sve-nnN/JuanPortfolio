@@ -39,11 +39,18 @@ const nextConfig = {
       },
     ]
 
+    // Legacy /posts/* URLs → /blog/* (permanent 301)
+    const postsRedirects = [
+      { source: '/posts/:path*', destination: '/blog/:path*', permanent: true },
+      { source: '/en/posts/:path*', destination: '/en/blog/:path*', permanent: true },
+    ]
+
     return [
       ...(redirectsLocal || []),
       internetExplorerRedirect,
       sitemapRedirect,
       ...singularSitemapRedirects,
+      ...postsRedirects,
     ]
   },
   images: {

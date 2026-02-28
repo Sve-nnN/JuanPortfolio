@@ -27,7 +27,7 @@ export async function fetchWithRetry(url: string, retries = 2): Promise<Response
       if (response.status === 403 || response.status === 429) {
         await new Promise(r => setTimeout(r, 2000 * (i + 1)))
       }
-    } catch (e) {
+    } catch (_e) {
       if (i === retries - 1) throw e
     }
   }
@@ -75,7 +75,7 @@ export async function crawlCompetitor(url: string): Promise<CrawlResult> {
       url,
       success: true
     }
-  } catch (e) {
+  } catch (_e) {
     return result
   }
 }

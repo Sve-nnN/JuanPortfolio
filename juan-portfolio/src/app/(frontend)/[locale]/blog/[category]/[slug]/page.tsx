@@ -36,6 +36,7 @@ export async function generateStaticParams() {
     depth: 2, // Necesitamos depth para obtener las categorías
   })
 
+  const MONGO_ID_RE = /^[0-9a-f]{24}$/i
   const locales = ['en', 'es']
   const params: Array<{ category: string; slug: string; locale: string }> = []
 
@@ -46,9 +47,9 @@ export async function generateStaticParams() {
     if (categories && categories.length > 0) {
       const firstCategory = categories[0]
       if (typeof firstCategory === 'object' && firstCategory.slug) {
-        categorySlug = firstCategory.slug
+        categorySlug = MONGO_ID_RE.test(firstCategory.slug) ? 'general' : firstCategory.slug
       } else if (typeof firstCategory === 'string') {
-        categorySlug = firstCategory
+        categorySlug = MONGO_ID_RE.test(firstCategory) ? 'general' : firstCategory
       }
     }
 

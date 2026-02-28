@@ -6,6 +6,7 @@ import config from '../payload.config'
 import { SerpApiAdapter } from './seo/adapters/SerpApiAdapter'
 import { SerpCache } from './seo/SerpCache'
 import { KeywordIntelligenceService } from './seo/WordCountCrawler'
+import { Post, Page } from '../payload-types'
 
 const KEYWORDS_FILE = path.resolve(process.cwd(), 'content/keywords.md')
 const cache = new SerpCache()
@@ -80,7 +81,7 @@ const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: 
   })
 
   if (posts.docs.length > 0) {
-    const doc: any = posts.docs[0]
+    const doc = posts.docs[0] as unknown as Post
     const localePrefix = doc.idioma === 'en' ? '/en' : ''
     return { 
       id: String(doc.id), 
@@ -100,7 +101,7 @@ const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: 
   })
 
   if (pages.docs.length > 0) {
-    const doc: any = pages.docs[0]
+    const doc = pages.docs[0] as unknown as Page
     return { 
       id: String(doc.id), 
       collection: 'pages', 
@@ -176,7 +177,7 @@ export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
         targetURL: unescapeFromTable(parts[1]),
         volume: parseInt(parts[2], 10) || 0,
         difficulty: parseInt(parts[3], 10) || 0,
-        intent: unescapeFromTable(parts[4]) as any,
+        intent: unescapeFromTable(parts[4]) as KeywordData['intent'],
         status: unescapeFromTable(parts[5]),
         lastUpdated: unescapeFromTable(parts[6]),
         source: unescapeFromTable(parts[7]) || 'Manual',
@@ -191,11 +192,11 @@ export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
         avgWordCount: parseInt(parts[16], 10) || 0,
         opportunityScore: parseInt(parts[17], 10) || 0,
         recommendedFormat: unescapeFromTable(parts[18]),
-        clusterType: unescapeFromTable(parts[19]) as any,
+        clusterType: unescapeFromTable(parts[19]) as KeywordData['clusterType'],
         suggestedAnchorText: unescapeFromTable(parts[20]),
         funnelStage: (['Awareness (TOFU)', 'Consideration (MOFU)', 'Decision (BOFU)'].includes(unescapeFromTable(parts[21]))
           ? unescapeFromTable(parts[21])
-          : undefined) as any,
+          : undefined) as KeywordData['funnelStage'],
         informationGain: unescapeFromTable(parts[22]),
       })
     } else if (is22Col) {
@@ -204,7 +205,7 @@ export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
         targetURL: unescapeFromTable(parts[1]),
         volume: parseInt(parts[2], 10) || 0,
         difficulty: parseInt(parts[3], 10) || 0,
-        intent: unescapeFromTable(parts[4]) as any,
+        intent: unescapeFromTable(parts[4]) as KeywordData['intent'],
         status: unescapeFromTable(parts[5]),
         lastUpdated: unescapeFromTable(parts[6]),
         source: unescapeFromTable(parts[7]) || 'Manual',
@@ -218,11 +219,11 @@ export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
         avgWordCount: parseInt(parts[15], 10) || 0,
         opportunityScore: parseInt(parts[16], 10) || 0,
         recommendedFormat: unescapeFromTable(parts[17]),
-        clusterType: unescapeFromTable(parts[18]) as any,
+        clusterType: unescapeFromTable(parts[18]) as KeywordData['clusterType'],
         suggestedAnchorText: unescapeFromTable(parts[19]),
         funnelStage: (['Awareness (TOFU)', 'Consideration (MOFU)', 'Decision (BOFU)'].includes(unescapeFromTable(parts[20]))
           ? unescapeFromTable(parts[20])
-          : undefined) as any,
+          : undefined) as KeywordData['funnelStage'],
         informationGain: unescapeFromTable(parts[21]),
       })
     } else {
@@ -267,7 +268,7 @@ export async function enrichWithSerpData(
     }
 
     try {
-      let metrics = cache.get(kwData.keyword, locale)
+      let metrics = cache.get(kwData.keyword, locale) as Awaited<ReturnType<SerpApiAdapter['fetchMetrics']>>
       
       if (!metrics) {
         if (verbose) process.stdout.write(`${colors.yellow}API${colors.reset}... `)
@@ -313,9 +314,9 @@ export async function enrichWithSerpData(
         if (verbose) console.log(`${colors.red}No Data${colors.reset}`)
         failed++
       }
-    } catch (e) {
+    } catch (_e) {
       if (verbose) console.log(`${colors.red}Error${colors.reset}`)
-      console.error(`❌ SerpAPI/Intel error for "${kwData.keyword}":`, e)
+      console.error(`❌ SerpAPI/Intel error for "${kwData.keyword}":`, _e)
       failed++
     }
   }
@@ -347,7 +348,7 @@ export async function enrichWithFaqs(
       }
 
       if (delayMs > 0) await new Promise((r) => setTimeout(r, delayMs))
-    } catch {
+    } catch (_e) {
       failed++
     }
   }
@@ -417,8 +418,8 @@ const syncKeywords = async () => {
         })
       }
       updatedCount++
-    } catch (e) {
-      console.error(`❌ Error syncing "${kwData.keyword}":`, e)
+    } catch (_e) {
+      console.error(`❌ Error syncing "${kwData.keyword}":`, _e)
     }
   }
 

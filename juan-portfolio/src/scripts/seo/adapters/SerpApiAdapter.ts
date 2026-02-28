@@ -10,7 +10,18 @@ interface RelatedQuestion {
 
 interface OrganicResult {
     link?: string
+    title?: string
+    snippet?: string
     date?: string
+}
+
+interface AiOverviewTextBlock {
+    type: string
+    snippet: string
+}
+
+interface AiOverview {
+    text_blocks?: AiOverviewTextBlock[]
 }
 
 interface SerpApiResponse {
@@ -26,7 +37,7 @@ interface SerpApiResponse {
     /** People Also Ask — primary field name in current SerpAPI responses */
     people_also_ask?: RelatedQuestion[]
     organic_results?: OrganicResult[]
-    ai_overview?: unknown
+    ai_overview?: AiOverview
     inline_videos?: unknown
     video_results?: unknown
     shopping_results?: unknown
@@ -141,11 +152,11 @@ export class SerpApiAdapter implements SeoAdapter {
             let aiOverviewSnippet = '';
             
             if (data.ai_overview && typeof data.ai_overview === 'object') {
-                const overview = data.ai_overview as any;
+                const overview = data.ai_overview;
                 if (overview.text_blocks && Array.isArray(overview.text_blocks)) {
                     aiOverviewSnippet = overview.text_blocks
-                        .filter((block: any) => block.type === 'paragraph')
-                        .map((block: any) => block.snippet)
+                        .filter((block) => block.type === 'paragraph')
+                        .map((block) => block.snippet)
                         .join('\n\n');
                 }
             }
@@ -161,7 +172,7 @@ export class SerpApiAdapter implements SeoAdapter {
 
             const competitorData: { title: string; snippet: string; link: string }[] = [];
             if (data.organic_results && Array.isArray(data.organic_results)) {
-                data.organic_results.slice(0, 5).forEach((result: any) => {
+                data.organic_results.slice(0, 5).forEach((result) => {
                     competitorData.push({
                         title: result.title || '',
                         snippet: result.snippet || '',

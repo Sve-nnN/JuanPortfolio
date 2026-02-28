@@ -103,8 +103,8 @@ export const generateMeta = async (args: {
   // Normalize: remove trailing slash if not root
   const cleanPath = relativePath === '/' ? '' : relativePath.replace(/\/$/, '')
 
-  const esUrl = `${baseUrl}${cleanPath || '/'}`
-  const enUrl = `${baseUrl}/en${cleanPath || '/'}`
+  const esUrl = cleanPath ? `${baseUrl}${cleanPath}` : `${baseUrl}/`
+  const enUrl = cleanPath ? `${baseUrl}/en${cleanPath}` : `${baseUrl}/en`
 
   const alternates = {
     canonical: locale === 'en' ? enUrl : esUrl,
@@ -129,7 +129,7 @@ export const generateMeta = async (args: {
         ]
         : undefined,
       title,
-      url: locale === 'en' ? `/en${cleanPath || '/'}` : `${cleanPath || '/'}`,
+      url: locale === 'en' ? (cleanPath ? `/en${cleanPath}` : '/en') : (cleanPath || '/'),
     }),
   }
 }

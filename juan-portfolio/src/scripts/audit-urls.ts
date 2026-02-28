@@ -15,9 +15,12 @@
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { readdir, readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
 const MONGO_ID_RE = /^[0-9a-f]{24}$/i
 const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'https://juan-tech.com'
+const CONTENT_DIR = join(process.cwd(), 'content', 'posts')
 
 const args = process.argv.slice(2)
 const CHECK_LIVE = args.includes('--check-live')
@@ -242,6 +245,56 @@ async function auditLiveUrls() {
   }
 }
 
+async function collectMdFiles(dir: string): Promise<string[]> {
+  const entries = await readdir(dir, { withFileTypes: true })
+  const files: string[] = []
+  for (const entry of entries) {
+    const full = join(dir, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...(await collectMdFiles(full)))
+    } else if (entry.name.endsWith('.md')) {
+      files.push(full)
+    }
+  }
+  return files
+}
+
+async function auditMarkdownLinks() {
+  console.log(bold('\n📝  Markdown internal-link audit'))
+
+  let files: string[]
+  try {
+    files = await collectMdFiles(CONTENT_DIR)
+  } catch {
+    console.log(dim(`  Skipping — content dir not found: ${CONTENT_DIR}`))
+    return
+  }
+
+  const OLD_POSTS_RE = /\]\(\/posts\//g
+  let totalMatches = 0
+
+  for (const file of files) {
+    const content = await readFile(file, 'utf8')
+    const matches = content.match(OLD_POSTS_RE)
+    if (matches) {
+      totalMatches += matches.length
+      const relPath = file.replace(process.cwd() + '/', '')
+      addIssue({
+        severity: 'warning',
+        type: 'old-posts-link',
+        description: `${relPath} contains ${matches.length} link(s) using old /posts/ format`,
+        fix: 'Replace /posts/<path> with /blog/<path>. The /posts/* redirect now handles live traffic, but update the source for clean content.',
+      })
+    }
+  }
+
+  if (totalMatches === 0) {
+    console.log(`  ${green('✔')} No old /posts/ links found in ${files.length} Markdown file(s)`)
+  } else {
+    console.log(dim(`  ${totalMatches} old /posts/ link(s) across ${files.length} file(s)`))
+  }
+}
+
 // ─── main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -253,6 +306,7 @@ async function main() {
   await auditBlogPostUrls(payload)
   await auditCriticalPages(payload)
   await auditMediaCloudinary(payload)
+  await auditMarkdownLinks()
   if (CHECK_LIVE) await auditLiveUrls()
 
   // ── Summary ──────────────────────────────────────────────────────────────────

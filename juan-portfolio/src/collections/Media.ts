@@ -168,7 +168,7 @@ export const Media: CollectionConfig = {
                     // Fallback to direct URL upload
                     cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
                   }
-                } catch (e) {
+                } catch (_e) {
                   console.error(`Proxy download failed for all-upload: ${doc.filename}`)
                   // Final attempt: upload from URL
                   cloudinaryUrl = await cloudinaryService.uploadFromUrl(imageUrl, doc.filename as string)
@@ -187,7 +187,7 @@ export const Media: CollectionConfig = {
               } else {
                 results.failed++
               }
-            } catch (e) {
+            } catch (_e) {
               console.error(`Failed to upload ${doc.filename}:`, e)
               results.failed++
             }

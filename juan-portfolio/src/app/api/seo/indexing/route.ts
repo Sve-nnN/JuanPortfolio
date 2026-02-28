@@ -39,7 +39,7 @@ export async function POST(req: Request) {
               indexStatus: status.indexStatusResult.coverageState,
             },
           })
-        } catch (e) {
+        } catch (_e) {
           console.error('Error updating document with indexing status', e)
         }
       }
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       if (collection && id && (googleResult.success || bingResult.success)) {
         try {
           // Check if collection exists and has indexing timestamp fields (will implement in payload schema later if needed, but for now just returning)
-        } catch (e) {
+        } catch (_e) {
           console.error('Error updating document with indexing request time', e)
         }
       }

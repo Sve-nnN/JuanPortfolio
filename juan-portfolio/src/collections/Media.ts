@@ -188,7 +188,7 @@ export const Media: CollectionConfig = {
                 results.failed++
               }
             } catch (_e) {
-              console.error(`Failed to upload ${doc.filename}:`, e)
+              console.error(`Failed to upload ${doc.filename}:`, _e)
               results.failed++
             }
           }

@@ -237,7 +237,7 @@ async function fetchWithRetry(url: string, retries = 2): Promise<Response> {
         await new Promise(r => setTimeout(r, 1000 * (i + 1)))
       }
     } catch (_e) {
-      if (i === retries - 1) throw e
+      if (i === retries - 1) throw _e
     }
   }
   throw new Error(`Failed to fetch ${url} after ${retries} retries`)
@@ -295,7 +295,7 @@ async function crawlSingleUrl(url: string, index: number): Promise<CrawlResult> 
       sgeCitabilityScore: Math.min(100, sgeCitabilityScore)
     }
   } catch (_e) {
-    process.stdout.write(`\r${colors.red}    ❌ Failed (${index}): ${url.substring(0, 50)}... (${e instanceof Error ? e.message : 'Error'})    \n${colors.reset}`)
+    process.stdout.write(`\r${colors.red}    ❌ Failed (${index}): ${url.substring(0, 50)}... (${_e instanceof Error ? _e.message : 'Error'})    \n${colors.reset}`)
     return { headings: '', meta: '', wordCount: 0, discoveredKeywords: [], success: false, sgeCitabilityScore: 0 }
   }
 }
@@ -518,7 +518,7 @@ export async function main() {
       }
     } catch (_e) {
       console.error(
-        `    ${colors.red}❌ Error: ${e instanceof Error ? e.message : String(e)}${colors.reset}\n`,
+        `    ${colors.red}❌ Error: ${_e instanceof Error ? _e.message : String(_e)}${colors.reset}\n`,
       )
     }
     resultsMap.set(data.keyword, data)

@@ -25,7 +25,7 @@ export async function POST(): Promise<Response> {
 
     return Response.json({ success: true })
   } catch (_e) {
-    payload.logger.error({ err: e, message: 'Error seeding data' })
+    payload.logger.error({ err: _e, message: 'Error seeding data' })
     return new Response('Error seeding data.', { status: 500 })
   }
 }

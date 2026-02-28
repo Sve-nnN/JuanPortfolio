@@ -246,8 +246,8 @@ export const updateAllCWV = async (force: boolean = false) => {
 if (import.meta.url === `file://${process.argv[1]}`) {
   updateAllCWV(process.argv.includes('--force'))
     .then(() => process.exit(0))
-    .catch((e) => {
-      console.error('Fatal Error:', e)
+    .catch((_e) => {
+      console.error('Fatal Error:', _e)
       process.exit(1)
     })
 }

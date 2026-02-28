@@ -6,7 +6,7 @@ import config from '../payload.config'
 import { SerpApiAdapter } from './seo/adapters/SerpApiAdapter'
 import { SerpCache } from './seo/SerpCache'
 import { KeywordIntelligenceService } from './seo/WordCountCrawler'
-import { Post, Page } from '../payload-types'
+import { Post, Page, KeywordMetric } from '../payload-types'
 
 const KEYWORDS_FILE = path.resolve(process.cwd(), 'content/keywords.md')
 const cache = new SerpCache()
@@ -81,7 +81,7 @@ const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: 
   })
 
   if (posts.docs.length > 0) {
-    const doc = posts.docs[0] as unknown as Post
+    const doc = posts.docs[0] as unknown as Post & { idioma?: 'en' | 'es' }
     const localePrefix = doc.idioma === 'en' ? '/en' : ''
     return { 
       id: String(doc.id), 
@@ -409,12 +409,12 @@ const syncKeywords = async () => {
         await payload.update({
           collection: 'keyword-metrics',
           id: existing.docs[0].id,
-          data: kwData as any,
+          data: kwData as unknown as KeywordMetric,
         })
       } else {
         await payload.create({
           collection: 'keyword-metrics',
-          data: kwData as any,
+          data: kwData as unknown as KeywordMetric,
         })
       }
       updatedCount++

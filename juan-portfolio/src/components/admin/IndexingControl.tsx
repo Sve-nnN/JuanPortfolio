@@ -61,7 +61,7 @@ export const IndexingControl: React.FC = () => {
           }
         }
       } catch (_e) {
-        console.error('Error fetching document data', e)
+        console.error('Error fetching document data', _e)
       }
 
       if (!isCancelled && path) {

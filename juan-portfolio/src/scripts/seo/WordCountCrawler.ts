@@ -28,7 +28,7 @@ export async function fetchWithRetry(url: string, retries = 2): Promise<Response
         await new Promise(r => setTimeout(r, 2000 * (i + 1)))
       }
     } catch (_e) {
-      if (i === retries - 1) throw e
+      if (i === retries - 1) throw _e
     }
   }
   throw new Error(`Failed to fetch ${url}`)

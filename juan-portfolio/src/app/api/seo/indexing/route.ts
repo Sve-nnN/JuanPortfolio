@@ -40,7 +40,7 @@ export async function POST(req: Request) {
             },
           })
         } catch (_e) {
-          console.error('Error updating document with indexing status', e)
+          console.error('Error updating document with indexing status', _e)
         }
       }
 
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
         try {
           // Check if collection exists and has indexing timestamp fields (will implement in payload schema later if needed, but for now just returning)
         } catch (_e) {
-          console.error('Error updating document with indexing request time', e)
+          console.error('Error updating document with indexing request time', _e)
         }
       }
 

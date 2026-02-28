@@ -45,7 +45,18 @@ const nextConfig = {
       { source: '/en/posts/:path*', destination: '/en/blog/:path*', permanent: true },
     ]
 
+    // www → non-www redirect (Vercel handles http→https natively)
+    const wwwRedirects = [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.juan-tech.com' }],
+        destination: 'https://juan-tech.com/:path*',
+        permanent: true,
+      },
+    ]
+
     return [
+      ...wwwRedirects,
       ...(redirectsLocal || []),
       internetExplorerRedirect,
       sitemapRedirect,

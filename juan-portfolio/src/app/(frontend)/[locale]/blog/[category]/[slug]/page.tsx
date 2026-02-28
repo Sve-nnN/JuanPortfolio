@@ -33,7 +33,9 @@ export async function generateStaticParams() {
   const posts = await payload.find({
     collection: 'posts',
     limit: 1000,
-    depth: 2, // Necesitamos depth para obtener las categorías
+    depth: 2,
+    draft: false,
+    where: { _status: { equals: 'published' } },
   })
 
   const MONGO_ID_RE = /^[0-9a-f]{24}$/i

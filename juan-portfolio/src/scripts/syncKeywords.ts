@@ -299,11 +299,34 @@ export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
   return keywords
 }
 
-const detectKeywordLocale = (keyword: string): string => {
+const detectKeywordLocale = (keyword: string): string => detectLang(keyword)
+
+/**
+ * Detect whether a keyword is Spanish or English based on diacritics and common function words.
+ * Defaults to 'en' if neither pattern matches.
+ */
+export const detectLang = (keyword: string): 'es' | 'en' => {
+  // Diacritics: definitive Spanish indicator
   if (/[áéíóúüñ¿¡]/i.test(keyword)) return 'es'
-  if (/\b(de|en|el|la|los|las|para|como|que|es|del|con|por|una|sus|qué|cómo)\b/i.test(keyword))
+  // Common Spanish function words (with or without accent)
+  if (/\b(de|en|el|la|los|las|para|como|que|del|con|por|una|sus)\b/i.test(keyword)) return 'es'
+  // Common unambiguously Spanish content words (covers SEO/tech topics without accents)
+  if (
+    /\b(tecnico|tecnica|guia|curso|estrategia|palabras|clave|contenido|pagina|paginas|enlace|enlaces|rastreo|indexacion|velocidad|rendimiento|busqueda|busca|diseno|bases|datos|algoritmo|algoritmos|estructura|estructuras|ordenamiento|programacion|normalizacion|presupuesto|rastreo|sitio|web)\b/i.test(
+      keyword,
+    )
+  )
     return 'es'
   return 'en'
+}
+
+/**
+ * Countries to iterate when the keyword has no explicit country set.
+ * We pick the country that yields the highest search volume.
+ */
+export const COUNTRIES_BY_LANG: Record<'es' | 'en', string[]> = {
+  es: ['es', 'mx', 'ar', 'cl', 'co'],
+  en: ['us', 'gb', 'au'],
 }
 
 export async function enrichWithSerpData(
@@ -388,6 +411,27 @@ export async function enrichWithSerpData(
   return { enriched, failed }
 }
 
+/** Parse a raw volume string like "6.600" or "6,600" or "6600" into a number */
+function parseVolume(raw: string): number {
+  // Remove thousands separators (dot or comma in wrong place) and parse
+  return parseInt(raw.replace(/[^\d]/g, ''), 10) || 0
+}
+
+/** Apply a KWCacheEntry to a KeywordData object */
+function applyDinoResult(kwData: KeywordData, res: KWCacheEntry, country: string): void {
+  kwData.volume = parseVolume(res.volume) || kwData.volume
+  const compRaw = parseFloat(res.competency.replace(',', '.'))
+  if (!isNaN(compRaw)) {
+    kwData.difficulty = Math.round(compRaw * 100)
+  } else {
+    kwData.difficulty = parseInt(res.competency, 10) || kwData.difficulty
+  }
+  if (res.trend?.length) kwData.trend = res.trend.join(',')
+  if (res.relatedSearches)
+    kwData.relatedSearches = res.relatedSearches.split(',').map((s) => s.trim())
+  kwData.country = country
+}
+
 export async function enrichWithDinoRank(
   keywords: KeywordData[],
   useAI = false,
@@ -397,75 +441,68 @@ export async function enrichWithDinoRank(
   let failed = 0
 
   const dinoCache = loadDinoCache()
-  const uncachedByCountry: Record<string, string[]> = {}
+  const dinoState = loadDinoState()
+
+  // Separate keywords into two buckets:
+  //   fixedCountry  → kwData.country is explicit, only scrape that country
+  //   multiCountry  → kwData.country is empty, scrape ALL countries for the lang and pick best
+  const fixedByCountry: Record<string, KeywordData[]> = {}
+  const multiCountryKeywords: KeywordData[] = []
 
   for (const kwData of keywords) {
-    const country = kwData.country || 'es'
-    const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
-    const cachedData = dinoCache[cacheKey]
+    // Auto-fill language when missing
+    if (!kwData.language) {
+      kwData.language = detectLang(kwData.keyword)
+    }
 
-    if (cachedData && isDinoCacheValid(cachedData.timestamp)) {
-      kwData.volume = parseInt(cachedData.volume.replace(/\\D/g, ''), 10) || kwData.volume
-      const compRaw = parseFloat(cachedData.competency.replace(',', '.'))
-      if (!isNaN(compRaw)) {
-        kwData.difficulty = Math.round(compRaw * 100)
-      } else {
-        kwData.difficulty = parseInt(cachedData.competency, 10) || kwData.difficulty
-      }
-
-      if (cachedData.trend && cachedData.trend.length) {
-        kwData.trend = cachedData.trend.join(',')
-      }
-
-      if (cachedData.relatedSearches) {
-        kwData.relatedSearches = cachedData.relatedSearches.split(',').map((s) => s.trim())
-      }
-
-      enriched++
-      if (verbose) console.log(`${colors.green}Cached DinoRank${colors.reset} "${kwData.keyword}"`)
+    if (kwData.country) {
+      const c = kwData.country
+      if (!fixedByCountry[c]) fixedByCountry[c] = []
+      fixedByCountry[c].push(kwData)
     } else {
-      if (!uncachedByCountry[country]) uncachedByCountry[country] = []
-      uncachedByCountry[country].push(kwData.keyword)
+      multiCountryKeywords.push(kwData)
     }
   }
 
-  const dinoState = loadDinoState()
+  // ── FIXED COUNTRY path (existing logic) ──────────────────────────────────────
+  const uncachedByCountry: Record<string, string[]> = {}
+
+  for (const [country, kws] of Object.entries(fixedByCountry)) {
+    for (const kwData of kws) {
+      const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
+      const cached = dinoCache[cacheKey]
+
+      if (cached && isDinoCacheValid(cached.timestamp)) {
+        applyDinoResult(kwData, cached, country)
+        enriched++
+        if (verbose)
+          console.log(
+            `${colors.green}Cached DinoRank${colors.reset} "${kwData.keyword}" [${country}]`,
+          )
+      } else {
+        if (!uncachedByCountry[country]) uncachedByCountry[country] = []
+        uncachedByCountry[country].push(kwData.keyword)
+      }
+    }
+  }
 
   for (const [country, kws] of Object.entries(uncachedByCountry)) {
     if (kws.length === 0) continue
-
-    if (verbose) {
+    if (verbose)
       console.log(
-        `${colors.blue}Scraping DinoRank for ${kws.length} keywords in country ${country}...${colors.reset}`,
+        `${colors.blue}Scraping DinoRank for ${kws.length} keywords in [${country}]...${colors.reset}`,
       )
-    }
 
     try {
       const scraped = await scrapeWithRetry(kws, country, dinoState, useAI)
-
       for (const res of scraped) {
-        const cKey = `${res.keyword.toLowerCase()}_${res.country || country}`
+        const cKey = `${res.keyword.toLowerCase()}_${country}`
         dinoCache[cKey] = res
-
-        // Find corresponding kwData. Note that AI suggestions might not match our exact keywords.
-        const kwData = keywords.find((k) => k.keyword.toLowerCase() === res.keyword.toLowerCase())
+        const kwData = fixedByCountry[country]?.find(
+          (k) => k.keyword.toLowerCase() === res.keyword.toLowerCase(),
+        )
         if (kwData) {
-          kwData.volume = parseInt(res.volume.replace(/\\D/g, ''), 10) || kwData.volume
-          const compRaw = parseFloat(res.competency.replace(',', '.'))
-          if (!isNaN(compRaw)) {
-            kwData.difficulty = Math.round(compRaw * 100)
-          } else {
-            kwData.difficulty = parseInt(res.competency, 10) || kwData.difficulty
-          }
-
-          if (res.trend && res.trend.length) {
-            kwData.trend = res.trend.join(',')
-          }
-
-          if (res.relatedSearches) {
-            kwData.relatedSearches = res.relatedSearches.split(',').map((s) => s.trim())
-          }
-
+          applyDinoResult(kwData, res, country)
           enriched++
         }
       }
@@ -473,6 +510,110 @@ export async function enrichWithDinoRank(
     } catch (_e) {
       if (verbose) console.error(`❌ DinoRank scrape error for country ${country}:`, _e)
       failed += kws.length
+    }
+  }
+
+  // ── MULTI-COUNTRY path ────────────────────────────────────────────────────────
+  // For keywords without an explicit country, we iterate all countries for the
+  // detected language, collect all results, and keep the one with the highest volume.
+  if (multiCountryKeywords.length > 0) {
+    // Collect best results per keyword: keyword.lower → { country, res }
+    const bestResults: Record<string, { country: string; res: KWCacheEntry }> = {}
+
+    // First pass: pull from cache
+    for (const kwData of multiCountryKeywords) {
+      const lang = (kwData.language as 'es' | 'en') || 'es'
+      const countries = COUNTRIES_BY_LANG[lang] ?? COUNTRIES_BY_LANG['es']
+
+      for (const country of countries) {
+        const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
+        const cached = dinoCache[cacheKey]
+        if (cached && isDinoCacheValid(cached.timestamp)) {
+          const vol = parseVolume(cached.volume)
+          const current = bestResults[kwData.keyword.toLowerCase()]
+          if (!current || vol > parseVolume(current.res.volume)) {
+            bestResults[kwData.keyword.toLowerCase()] = { country, res: cached }
+          }
+          if (verbose) {
+            console.log(
+              `${colors.green}Cached DinoRank${colors.reset} "${kwData.keyword}" [${country}] vol=${vol}`,
+            )
+          }
+        }
+      }
+    }
+
+    // Determine which country+keyword combos still need scraping
+    // We only scrape a country if we don't have a valid cache entry for it
+    const toScrapeByCountry: Record<string, KeywordData[]> = {}
+
+    for (const kwData of multiCountryKeywords) {
+      const lang = (kwData.language as 'es' | 'en') || 'es'
+      const countries = COUNTRIES_BY_LANG[lang] ?? COUNTRIES_BY_LANG['es']
+
+      for (const country of countries) {
+        const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
+        const cached = dinoCache[cacheKey]
+        if (!cached || !isDinoCacheValid(cached.timestamp)) {
+          if (!toScrapeByCountry[country]) toScrapeByCountry[country] = []
+          // Avoid duplicates
+          if (!toScrapeByCountry[country].find((k) => k.keyword === kwData.keyword)) {
+            toScrapeByCountry[country].push(kwData)
+          }
+        }
+      }
+    }
+
+    // Scrape each missing country
+    for (const [country, kws] of Object.entries(toScrapeByCountry)) {
+      if (kws.length === 0) continue
+      if (verbose) {
+        console.log(
+          `${colors.blue}🌍 Multi-country scrape: ${kws.length} keywords in [${country}]...${colors.reset}`,
+        )
+      }
+
+      try {
+        const scraped = await scrapeWithRetry(
+          kws.map((k) => k.keyword),
+          country,
+          dinoState,
+          useAI,
+        )
+        for (const res of scraped) {
+          const cKey = `${res.keyword.toLowerCase()}_${country}`
+          dinoCache[cKey] = res
+
+          const vol = parseVolume(res.volume)
+          const current = bestResults[res.keyword.toLowerCase()]
+          if (!current || vol > parseVolume(current.res.volume)) {
+            bestResults[res.keyword.toLowerCase()] = { country, res }
+          }
+        }
+        saveDinoCache(dinoCache)
+      } catch (_e) {
+        if (verbose) console.error(`❌ DinoRank multi-country error for [${country}]:`, _e)
+        // Do not increment failed — other countries might still yield data
+      }
+    }
+
+    // Apply best results to each keyword
+    for (const kwData of multiCountryKeywords) {
+      const best = bestResults[kwData.keyword.toLowerCase()]
+      if (best) {
+        applyDinoResult(kwData, best.res, best.country)
+        enriched++
+        if (verbose) {
+          console.log(
+            `${colors.cyan}🏆 Best country for${colors.reset} "${kwData.keyword}": ${best.country} ` +
+              `(volume: ${parseVolume(best.res.volume)})`,
+          )
+        }
+      } else {
+        failed++
+        if (verbose)
+          console.log(`${colors.red}No DinoRank data for${colors.reset} "${kwData.keyword}"`)
+      }
     }
   }
 

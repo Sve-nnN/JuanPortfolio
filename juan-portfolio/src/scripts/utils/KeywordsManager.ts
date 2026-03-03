@@ -21,21 +21,28 @@ export class KeywordsManager {
     const lines = content.split('\n')
     let modified = false
 
+    let targetUrlIdx = -1
+    let statusIdx = -1
+    let lastUpdatedIdx = -1
+
     const updatedLines = lines.map((line) => {
-      if (line.startsWith('|') && !line.includes('---') && !line.includes('Keyword')) {
+      // Find the header row to extract column indexes
+      if (line.includes('| Keyword') && line.trim().startsWith('|')) {
+        const headers = line.split('|').map((h) => h.trim().toLowerCase())
+        targetUrlIdx = headers.indexOf('target url')
+        statusIdx = headers.indexOf('status')
+        lastUpdatedIdx = headers.indexOf('last updated')
+        return line
+      }
+
+      if (line.startsWith('|') && !line.includes('---') && targetUrlIdx !== -1) {
         const parts = line.split('|')
-        // parts[0] is empty because line starts with |
-        // parts[1] is Keyword
-        // parts[2] is Target URL
-        // parts[6] is Status (index 5 if we don't count the first empty part)
-        
-        const rowTargetUrl = parts[2]?.trim()
-        
-        if (rowTargetUrl === targetUrl) {
-          // Update Status column (Index 6 because of leading |)
-          parts[6] = ` ${status} `
-          // Update Last Updated column (Index 7)
-          parts[7] = ` ${new Date().toISOString().split('T')[0]} `
+
+        const rowTargetUrl = parts[targetUrlIdx]?.trim()
+
+        if (rowTargetUrl === targetUrl && statusIdx !== -1 && lastUpdatedIdx !== -1) {
+          parts[statusIdx] = ` ${status} `
+          parts[lastUpdatedIdx] = ` ${new Date().toISOString().split('T')[0]} `
           modified = true
           return parts.join('|')
         }

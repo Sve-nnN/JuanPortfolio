@@ -7,6 +7,14 @@ import { SerpApiAdapter } from './seo/adapters/SerpApiAdapter'
 import { SerpCache } from './seo/SerpCache'
 import { KeywordIntelligenceService } from './seo/WordCountCrawler'
 import { Post, Page, KeywordMetric } from '../payload-types'
+import { loadState as loadDinoState } from './create-post'
+import {
+  scrapeWithRetry,
+  loadCache as loadDinoCache,
+  saveCache as saveDinoCache,
+  isCacheValid as isDinoCacheValid,
+  type KWCacheEntry,
+} from './scrape-dinorank'
 
 const KEYWORDS_FILE = path.resolve(process.cwd(), 'content/keywords.md')
 const cache = new SerpCache()
@@ -26,9 +34,12 @@ const colors = {
 export interface KeywordData {
   keyword: string
   targetURL: string
+  language?: string
+  country?: string
   volume: number
   difficulty: number
-  intent: 'Informational' | 'Commercial' | 'Transactional' | 'Navigational'
+  trend?: string
+  intent: 'Informational' | 'Commercial' | 'Transactional' | 'Navigational' | string
   status?: string
   lastUpdated?: string
   source: string
@@ -44,9 +55,9 @@ export interface KeywordData {
   avgWordCount?: number
   opportunityScore?: number
   recommendedFormat?: string
-  clusterType?: 'Pillar' | 'Supporting'
+  clusterType?: 'Pillar' | 'Supporting' | string
   suggestedAnchorText?: string
-  funnelStage?: 'Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)'
+  funnelStage?: 'Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)' | string
   informationGain?: string
   post?: string
   page?: string
@@ -63,7 +74,91 @@ const sanitizeForTable = (text: string | undefined | null): string => {
   return text.replace(/\|/g, '\\|').replace(/\n/g, ' ').trim()
 }
 
-const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: string, collection: 'posts' | 'pages', status: string, fullUrl: string } | null> => {
+// Global variable to store active headers for formatLine
+let activeHeaders: string[] = []
+
+function formatLine(data: KeywordData): string {
+  const formatArray = (arr: string[] | undefined): string => (arr || []).join('; ')
+  const formatBoolean = (val: boolean | undefined): string => (val ? 'Yes' : 'No')
+
+  if (!activeHeaders.length) {
+    // Fallback if headers weren't parsed (should not happen)
+    activeHeaders = [
+      'Keyword',
+      'Target URL',
+      'Language',
+      'Country',
+      'Volume',
+      'Difficulty',
+      'Trend',
+      'Intent',
+      'Status',
+      'Last Updated',
+      'Source',
+      'Related Searches',
+      'PAA Count',
+      'PAA Questions',
+      'Top Domain',
+      'Has AI Overview',
+      'SERP Features',
+      'Competitor Headings',
+      'Competitor Meta',
+      'Avg. Word Count',
+      'Opportunity Score',
+      'Recommended Format',
+      'Cluster Type',
+      'Suggested Anchor Text',
+      'Funnel Stage',
+      'Information Gain',
+    ]
+  }
+
+  const cols = new Array(activeHeaders.length).fill('')
+
+  const setCol = (name: string, value: string) => {
+    const idx = activeHeaders.indexOf(name)
+    if (idx !== -1) cols[idx] = value
+  }
+
+  setCol('keyword', sanitizeForTable(data.keyword))
+  setCol('target url', sanitizeForTable(data.targetURL))
+  setCol('language', sanitizeForTable(data.language))
+  setCol('country', sanitizeForTable(data.country))
+  setCol('volume', (data.volume ?? 0).toString())
+  setCol('difficulty', (data.difficulty ?? 0).toString())
+  setCol('trend', sanitizeForTable(data.trend))
+  setCol('intent', sanitizeForTable(data.intent))
+  setCol('status', sanitizeForTable(data.status))
+  setCol('last updated', sanitizeForTable(data.lastUpdated))
+  setCol('source', sanitizeForTable(data.source))
+  setCol('related searches', formatArray(data.relatedSearches))
+  setCol('paa count', (data.paaCount ?? 0).toString())
+  setCol('paa questions', formatArray(data.paaQuestions))
+  setCol('top domain', sanitizeForTable(data.topDomain))
+  setCol('has ai overview', formatBoolean(data.hasAiOverview))
+  setCol('serp features', formatArray(data.serpFeatures))
+  setCol('competitor headings', sanitizeForTable(data.competitorHeadings))
+  setCol('competitor meta', sanitizeForTable(data.competitorMeta))
+  setCol('avg. word count', (data.avgWordCount ?? 0).toString())
+  setCol('opportunity score', (data.opportunityScore ?? 0).toString())
+  setCol('recommended format', sanitizeForTable(data.recommendedFormat))
+  setCol('cluster type', sanitizeForTable(data.clusterType))
+  setCol('suggested anchor text', sanitizeForTable(data.suggestedAnchorText))
+  setCol('funnel stage', sanitizeForTable(data.funnelStage))
+  setCol('information gain', sanitizeForTable(data.informationGain))
+
+  return `| ${cols.join(' | ')} |`
+}
+
+const getDocumentFromURL = async (
+  payload: Payload,
+  url: string,
+): Promise<{
+  id: string
+  collection: 'posts' | 'pages'
+  status: string
+  fullUrl: string
+} | null> => {
   if (!url || url === 'N/A' || url === '') return null
 
   const parts = url.split('/')
@@ -75,7 +170,7 @@ const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: 
   const posts = await payload.find({
     collection: 'posts',
     where: {
-      slug: { equals: slug }
+      slug: { equals: slug },
     },
     limit: 1,
   })
@@ -83,11 +178,11 @@ const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: 
   if (posts.docs.length > 0) {
     const doc = posts.docs[0] as unknown as Post & { idioma?: 'en' | 'es' }
     const localePrefix = doc.idioma === 'en' ? '/en' : ''
-    return { 
-      id: String(doc.id), 
-      collection: 'posts', 
+    return {
+      id: String(doc.id),
+      collection: 'posts',
       status: String(doc._status),
-      fullUrl: `${localePrefix}/blog/${doc.slug}`
+      fullUrl: `${localePrefix}/blog/${doc.slug}`,
     }
   }
 
@@ -95,147 +190,110 @@ const getDocumentFromURL = async (payload: Payload, url: string): Promise<{ id: 
   const pages = await payload.find({
     collection: 'pages',
     where: {
-      slug: { equals: slug }
+      slug: { equals: slug },
     },
     limit: 1,
   })
 
   if (pages.docs.length > 0) {
     const doc = pages.docs[0] as unknown as Page
-    return { 
-      id: String(doc.id), 
-      collection: 'pages', 
+    return {
+      id: String(doc.id),
+      collection: 'pages',
       status: String(doc._status),
-      fullUrl: `/${doc.slug}`
+      fullUrl: `/${doc.slug}`,
     }
   }
 
   return null
 }
 
-function formatLine(data: KeywordData): string {
-  const formatArray = (arr: string[] | undefined): string => (arr || []).join('; ')
-  const formatBoolean = (val: boolean | undefined): string => (val ? 'Yes' : 'No')
-
-  const cols = new Array(23).fill('')
-  cols[0] = sanitizeForTable(data.keyword)
-  cols[1] = sanitizeForTable(data.targetURL)
-  cols[2] = (data.volume ?? 0).toString()
-  cols[3] = (data.difficulty ?? 0).toString()
-  cols[4] = sanitizeForTable(data.intent)
-  cols[5] = sanitizeForTable(data.status)
-  cols[6] = sanitizeForTable(data.lastUpdated)
-  cols[7] = sanitizeForTable(data.source)
-  cols[8] = formatArray(data.relatedSearches)
-  cols[9] = (data.paaCount ?? 0).toString()
-  cols[10] = formatArray(data.paaQuestions)
-  cols[11] = sanitizeForTable(data.topDomain)
-  cols[12] = formatBoolean(data.hasAiOverview)
-  cols[13] = formatArray(data.serpFeatures)
-  cols[14] = sanitizeForTable(data.competitorHeadings)
-  cols[15] = sanitizeForTable(data.competitorMeta)
-  cols[16] = (data.avgWordCount ?? 0).toString()
-  cols[17] = (data.opportunityScore ?? 0).toString()
-  cols[18] = sanitizeForTable(data.recommendedFormat)
-  cols[19] = sanitizeForTable(data.clusterType)
-  cols[20] = sanitizeForTable(data.suggestedAnchorText)
-  cols[21] = sanitizeForTable(data.funnelStage)
-  cols[22] = sanitizeForTable(data.informationGain)
-
-  return `| ${cols.join(' | ')} |`
-}
-
 export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
   const lines = content.split(/\r?\n/)
   const keywords: KeywordData[] = []
 
-  const dividerIndex = lines.findIndex(l => l.includes('---'))
+  const dividerIndex = lines.findIndex((l) => l.includes('---'))
   if (dividerIndex === -1) return []
+
+  const headerLine = lines[dividerIndex - 1]
+  if (!headerLine || !headerLine.startsWith('|')) {
+    console.warn(
+      `${colors.yellow}⚠️  No header line found before divider. Using default headers.${colors.reset}`,
+    )
+    activeHeaders = [] // Reset to use fallback in formatLine
+  } else {
+    activeHeaders = headerLine
+      .split(/(?<!\\)\|/)
+      .map((h) => h.trim().toLowerCase())
+      .filter(Boolean)
+  }
 
   const dataLines = lines.slice(dividerIndex + 1)
 
   for (const line of dataLines) {
     if (!line.trim() || !line.startsWith('|')) continue
 
-    const parts = line.split(/(?<!\\)\|/).map(p => p.trim())
+    const parts = line.split(/(?<!\\)\|/).map((p) => p.trim())
     if (parts.length > 0 && parts[0] === '') parts.shift()
     if (parts.length > 0 && parts[parts.length - 1] === '') parts.pop()
 
     if (parts.length < 7) continue
 
-    const keyword = unescapeFromTable(parts[0])
+    const keyword = unescapeFromTable(parts[activeHeaders.indexOf('keyword')])
     if (!keyword || keyword === 'Keyword') continue
 
-    const is23Col = parts.length >= 23
-    const is22Col = parts.length === 22
+    const parseArr = (s: string) =>
+      s
+        .split(';')
+        .map((x) => x.trim())
+        .filter(Boolean)
 
-    const parseArr = (s: string) => s.split(';').map(x => x.trim()).filter(Boolean)
-
-    if (is23Col) {
-      keywords.push({
-        keyword,
-        targetURL: unescapeFromTable(parts[1]),
-        volume: parseInt(parts[2], 10) || 0,
-        difficulty: parseInt(parts[3], 10) || 0,
-        intent: unescapeFromTable(parts[4]) as KeywordData['intent'],
-        status: unescapeFromTable(parts[5]),
-        lastUpdated: unescapeFromTable(parts[6]),
-        source: unescapeFromTable(parts[7]) || 'Manual',
-        relatedSearches: parseArr(parts[8]),
-        paaCount: parseInt(parts[9], 10) || 0,
-        paaQuestions: unescapeFromTable(parts[10]).split(';').map(s => s.trim()).filter(Boolean),
-        topDomain: unescapeFromTable(parts[11]),
-        hasAiOverview: parts[12] === 'Yes',
-        serpFeatures: parseArr(parts[13]),
-        competitorHeadings: unescapeFromTable(parts[14]),
-        competitorMeta: unescapeFromTable(parts[15]),
-        avgWordCount: parseInt(parts[16], 10) || 0,
-        opportunityScore: parseInt(parts[17], 10) || 0,
-        recommendedFormat: unescapeFromTable(parts[18]),
-        clusterType: unescapeFromTable(parts[19]) as KeywordData['clusterType'],
-        suggestedAnchorText: unescapeFromTable(parts[20]),
-        funnelStage: (['Awareness (TOFU)', 'Consideration (MOFU)', 'Decision (BOFU)'].includes(unescapeFromTable(parts[21]))
-          ? unescapeFromTable(parts[21])
-          : undefined) as KeywordData['funnelStage'],
-        informationGain: unescapeFromTable(parts[22]),
-      })
-    } else if (is22Col) {
-      keywords.push({
-        keyword,
-        targetURL: unescapeFromTable(parts[1]),
-        volume: parseInt(parts[2], 10) || 0,
-        difficulty: parseInt(parts[3], 10) || 0,
-        intent: unescapeFromTable(parts[4]) as KeywordData['intent'],
-        status: unescapeFromTable(parts[5]),
-        lastUpdated: unescapeFromTable(parts[6]),
-        source: unescapeFromTable(parts[7]) || 'Manual',
-        relatedSearches: parseArr(parts[8]),
-        paaCount: parseInt(parts[9], 10) || 0,
-        topDomain: unescapeFromTable(parts[10]),
-        hasAiOverview: parts[11] === 'Yes',
-        serpFeatures: parseArr(parts[12]),
-        competitorHeadings: unescapeFromTable(parts[13]),
-        competitorMeta: unescapeFromTable(parts[14]),
-        avgWordCount: parseInt(parts[15], 10) || 0,
-        opportunityScore: parseInt(parts[16], 10) || 0,
-        recommendedFormat: unescapeFromTable(parts[17]),
-        clusterType: unescapeFromTable(parts[18]) as KeywordData['clusterType'],
-        suggestedAnchorText: unescapeFromTable(parts[19]),
-        funnelStage: (['Awareness (TOFU)', 'Consideration (MOFU)', 'Decision (BOFU)'].includes(unescapeFromTable(parts[20]))
-          ? unescapeFromTable(parts[20])
-          : undefined) as KeywordData['funnelStage'],
-        informationGain: unescapeFromTable(parts[21]),
-      })
-    } else {
-      keywords.push({
-        keyword,
-        targetURL: unescapeFromTable(parts[1]),
-        volume: parseInt(parts[2], 10) || 0,
-        difficulty: parseInt(parts[3], 10) || 0,
-        intent: 'Informational',
-        source: 'Manual'
-      })
+    const getValue = (header: string, defaultValue: any = '') => {
+      const idx = activeHeaders.indexOf(header.toLowerCase())
+      return idx !== -1 && parts[idx] !== undefined ? unescapeFromTable(parts[idx]) : defaultValue
     }
+
+    const getNumber = (header: string, defaultValue: number = 0) => {
+      const val = getValue(header)
+      return parseInt(val, 10) || defaultValue
+    }
+
+    const getBoolean = (header: string, defaultValue: boolean = false) => {
+      const val = getValue(header)
+      return val === 'Yes' || defaultValue
+    }
+
+    const getArray = (header: string) => parseArr(getValue(header))
+
+    keywords.push({
+      keyword,
+      targetURL: getValue('target url'),
+      language: getValue('language'),
+      country: getValue('country'),
+      volume: getNumber('volume'),
+      difficulty: getNumber('difficulty'),
+      trend: getValue('trend'),
+      intent: getValue('intent') as KeywordData['intent'],
+      status: getValue('status'),
+      lastUpdated: getValue('last updated'),
+      source: getValue('source', 'Manual'),
+      relatedSearches: getArray('related searches'),
+      paaCount: getNumber('paa count'),
+      paaQuestions: getArray('paa questions'),
+      topDomain: getValue('top domain'),
+      hasAiOverview: getBoolean('has ai overview'),
+      aiOverviewSnippet: getValue('ai overview snippet'),
+      serpFeatures: getArray('serp features'),
+      competitorHeadings: getValue('competitor headings'),
+      competitorMeta: getValue('competitor meta'),
+      avgWordCount: getNumber('avg. word count'),
+      opportunityScore: getNumber('opportunity score'),
+      recommendedFormat: getValue('recommended format'),
+      clusterType: getValue('cluster type') as KeywordData['clusterType'],
+      suggestedAnchorText: getValue('suggested anchor text'),
+      funnelStage: getValue('funnel stage') as KeywordData['funnelStage'],
+      informationGain: getValue('information gain'),
+    })
   }
 
   return keywords
@@ -243,7 +301,8 @@ export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
 
 const detectKeywordLocale = (keyword: string): string => {
   if (/[áéíóúüñ¿¡]/i.test(keyword)) return 'es'
-  if (/\b(de|en|el|la|los|las|para|como|que|es|del|con|por|una|sus|qué|cómo)\b/i.test(keyword)) return 'es'
+  if (/\b(de|en|el|la|los|las|para|como|que|es|del|con|por|una|sus|qué|cómo)\b/i.test(keyword))
+    return 'es'
   return 'en'
 }
 
@@ -260,7 +319,7 @@ export async function enrichWithSerpData(
   for (let i = 0; i < keywords.length; i++) {
     const kwData = keywords[i]
     const locale = detectKeywordLocale(kwData.keyword)
-    
+
     if (verbose) {
       process.stdout.write(
         `${colors.dim}[${i + 1}/${total}]${colors.reset} ${colors.blue}Processing${colors.reset} "${kwData.keyword}" ${colors.dim}(${locale})${colors.reset}... `,
@@ -268,14 +327,16 @@ export async function enrichWithSerpData(
     }
 
     try {
-      let metrics = cache.get(kwData.keyword, locale) as Awaited<ReturnType<SerpApiAdapter['fetchMetrics']>>
-      
+      let metrics = cache.get(kwData.keyword, locale) as Awaited<
+        ReturnType<SerpApiAdapter['fetchMetrics']>
+      >
+
       if (!metrics) {
         if (verbose) process.stdout.write(`${colors.yellow}API${colors.reset}... `)
         metrics = await adapter.fetchMetrics(kwData.keyword, locale)
         if (metrics) {
           cache.set(kwData.keyword, locale, metrics)
-          if (delayMs > 0) await new Promise(r => setTimeout(r, delayMs))
+          if (delayMs > 0) await new Promise((r) => setTimeout(r, delayMs))
         }
       } else {
         if (verbose) process.stdout.write(`${colors.green}Cache${colors.reset}... `)
@@ -290,11 +351,11 @@ export async function enrichWithSerpData(
         kwData.difficulty = metrics.difficulty || kwData.difficulty
         if (metrics.relatedSearches) kwData.relatedSearches = metrics.relatedSearches
         if (metrics.serpFeatures) kwData.serpFeatures = metrics.serpFeatures
-        
+
         if (metrics.topUrls && metrics.topUrls.length > 0) {
           // Store Top 4 URLs
           kwData.topDomain = metrics.topUrls.slice(0, 4).join('; ')
-          
+
           if (verbose) process.stdout.write(`${colors.cyan}Intel${colors.reset}... `)
           // Robust Intelligence Gathering (Average Word Count + Real Headings)
           const intel = await intelService.getCompetitorMetrics(metrics.topUrls, 5)
@@ -304,7 +365,10 @@ export async function enrichWithSerpData(
         }
 
         if (metrics.competitorData) {
-          const newMeta = metrics.competitorData.slice(0, 3).map((c: { title: string; snippet: string }) => `[${c.title}] ${c.snippet}`).join(' || ')
+          const newMeta = metrics.competitorData
+            .slice(0, 3)
+            .map((c: { title: string; snippet: string }) => `[${c.title}] ${c.snippet}`)
+            .join(' || ')
           if (newMeta && newMeta.length > 10) kwData.competitorMeta = newMeta
         }
 
@@ -324,6 +388,97 @@ export async function enrichWithSerpData(
   return { enriched, failed }
 }
 
+export async function enrichWithDinoRank(
+  keywords: KeywordData[],
+  useAI = false,
+  verbose = false,
+): Promise<{ enriched: number; failed: number }> {
+  let enriched = 0
+  let failed = 0
+
+  const dinoCache = loadDinoCache()
+  const uncachedByCountry: Record<string, string[]> = {}
+
+  for (const kwData of keywords) {
+    const country = kwData.country || 'es'
+    const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
+    const cachedData = dinoCache[cacheKey]
+
+    if (cachedData && isDinoCacheValid(cachedData.timestamp)) {
+      kwData.volume = parseInt(cachedData.volume.replace(/\\D/g, ''), 10) || kwData.volume
+      const compRaw = parseFloat(cachedData.competency.replace(',', '.'))
+      if (!isNaN(compRaw)) {
+        kwData.difficulty = Math.round(compRaw * 100)
+      } else {
+        kwData.difficulty = parseInt(cachedData.competency, 10) || kwData.difficulty
+      }
+
+      if (cachedData.trend && cachedData.trend.length) {
+        kwData.trend = cachedData.trend.join(',')
+      }
+
+      if (cachedData.relatedSearches) {
+        kwData.relatedSearches = cachedData.relatedSearches.split(',').map((s) => s.trim())
+      }
+
+      enriched++
+      if (verbose) console.log(`${colors.green}Cached DinoRank${colors.reset} "${kwData.keyword}"`)
+    } else {
+      if (!uncachedByCountry[country]) uncachedByCountry[country] = []
+      uncachedByCountry[country].push(kwData.keyword)
+    }
+  }
+
+  const dinoState = loadDinoState()
+
+  for (const [country, kws] of Object.entries(uncachedByCountry)) {
+    if (kws.length === 0) continue
+
+    if (verbose) {
+      console.log(
+        `${colors.blue}Scraping DinoRank for ${kws.length} keywords in country ${country}...${colors.reset}`,
+      )
+    }
+
+    try {
+      const scraped = await scrapeWithRetry(kws, country, dinoState, useAI)
+
+      for (const res of scraped) {
+        const cKey = `${res.keyword.toLowerCase()}_${res.country || country}`
+        dinoCache[cKey] = res
+
+        // Find corresponding kwData. Note that AI suggestions might not match our exact keywords.
+        const kwData = keywords.find((k) => k.keyword.toLowerCase() === res.keyword.toLowerCase())
+        if (kwData) {
+          kwData.volume = parseInt(res.volume.replace(/\\D/g, ''), 10) || kwData.volume
+          const compRaw = parseFloat(res.competency.replace(',', '.'))
+          if (!isNaN(compRaw)) {
+            kwData.difficulty = Math.round(compRaw * 100)
+          } else {
+            kwData.difficulty = parseInt(res.competency, 10) || kwData.difficulty
+          }
+
+          if (res.trend && res.trend.length) {
+            kwData.trend = res.trend.join(',')
+          }
+
+          if (res.relatedSearches) {
+            kwData.relatedSearches = res.relatedSearches.split(',').map((s) => s.trim())
+          }
+
+          enriched++
+        }
+      }
+      saveDinoCache(dinoCache)
+    } catch (_e) {
+      if (verbose) console.error(`❌ DinoRank scrape error for country ${country}:`, _e)
+      failed += kws.length
+    }
+  }
+
+  return { enriched, failed }
+}
+
 /**
  * Lightweight enrichment: only fetches PAA questions for each keyword.
  * Unlike `enrichWithSerpData`, this function only updates `paaQuestions`/`paaCount`
@@ -331,7 +486,12 @@ export async function enrichWithSerpData(
  */
 export async function enrichWithFaqs(
   keywords: KeywordData[],
-  adapter: { fetchMetrics: (keyword: string, locale?: string) => Promise<{ paaQuestions?: string[]; paaCount?: number } | null> },
+  adapter: {
+    fetchMetrics: (
+      keyword: string,
+      locale?: string,
+    ) => Promise<{ paaQuestions?: string[]; paaCount?: number } | null>
+  },
   delayMs = 1200,
 ): Promise<{ enriched: number; failed: number }> {
   let enriched = 0
@@ -359,6 +519,8 @@ export async function enrichWithFaqs(
 const syncKeywords = async () => {
   const args = process.argv.slice(2)
   const fetchSerp = args.includes('--fetch-serp')
+  const fetchDinorank = args.includes('--fetch-dinorank')
+  const useAI = args.includes('--ai')
   const verbose = args.includes('--verbose')
 
   console.log(`${colors.blue}⏳ Initializing Payload...${colors.reset}`)
@@ -382,6 +544,10 @@ const syncKeywords = async () => {
     }
   }
 
+  if (fetchDinorank) {
+    await enrichWithDinoRank(keywords, useAI, verbose)
+  }
+
   console.log(`\n${colors.blue}🔄 Syncing to Payload & Checking Live Status...${colors.reset}`)
 
   let updatedCount = 0
@@ -391,7 +557,7 @@ const syncKeywords = async () => {
       if (linkedDoc) {
         kwData.post = linkedDoc.collection === 'posts' ? linkedDoc.id : undefined
         kwData.page = linkedDoc.collection === 'pages' ? linkedDoc.id : undefined
-        
+
         if (linkedDoc.status === 'published') {
           kwData.status = `LIVE: ${linkedDoc.fullUrl}`
         } else {
@@ -428,7 +594,7 @@ const syncKeywords = async () => {
   const updatedLines: string[] = []
   let headerProcessed = false
   let separatorProcessed = false
-  const resultsMap = new Map(keywords.map(k => [k.keyword.toLowerCase(), k]))
+  const resultsMap = new Map(keywords.map((k) => [k.keyword.toLowerCase(), k]))
 
   for (const line of lines) {
     if (!line.trim()) {
@@ -446,7 +612,7 @@ const syncKeywords = async () => {
       continue
     }
     if (headerProcessed && separatorProcessed && line.trim().startsWith('|')) {
-      const parts = line.split(/(?<!\\)\|/).map(p => p.trim())
+      const parts = line.split(/(?<!\\)\|/).map((p) => p.trim())
       if (parts.length > 0 && parts[0] === '') parts.shift()
       const kw = unescapeFromTable(parts[0]).toLowerCase()
       const enriched = resultsMap.get(kw)
@@ -466,8 +632,10 @@ const syncKeywords = async () => {
   }
 
   fs.writeFileSync(KEYWORDS_FILE, updatedLines.join('\n'))
-  console.log(`${colors.green}✅ Sync and Update complete! (${updatedCount} keywords)${colors.reset}`)
-  
+  console.log(
+    `${colors.green}✅ Sync and Update complete! (${updatedCount} keywords)${colors.reset}`,
+  )
+
   process.exit(0)
 }
 

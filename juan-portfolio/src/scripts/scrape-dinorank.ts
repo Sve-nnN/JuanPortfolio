@@ -11,6 +11,7 @@
 
 import * as p from '@clack/prompts'
 import { chromium, type Page } from 'playwright'
+import { execSync } from 'child_process'
 import { readFileSync, writeFileSync, existsSync, appendFileSync, mkdirSync } from 'fs'
 import { join, resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -91,7 +92,7 @@ export interface KWCache {
 }
 
 interface ArgResult {
-  keyword: string
+  keywords: string[]
   country: string
   debug: boolean
   useAI: boolean
@@ -164,7 +165,7 @@ function resolveArgs(): ArgResult | null {
   const argv = process.argv.slice(2)
   let debug = false
   let country = 'es'
-  let keyword = ''
+  let keywords: string[] = []
   let useAI = false
 
   for (let i = 0; i < argv.length; i++) {
@@ -179,17 +180,22 @@ function resolveArgs(): ArgResult | null {
     } else if (arg === '--country' && argv[i + 1]) {
       country = argv[++i]!
     } else if (!arg.startsWith('--')) {
-      keyword = arg
+      keywords = keywords.concat(
+        arg
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+      )
     }
   }
 
-  if (!keyword) return null
-  return { keyword, country, debug, useAI }
+  if (keywords.length === 0) return null
+  return { keywords, country, debug, useAI }
 }
 
 // ─── Cache ────────────────────────────────────────────────────────────────────
 
-function loadCache(): KWCache {
+export function loadCache(): KWCache {
   if (!existsSync(CACHE_FILE)) return {}
   try {
     return JSON.parse(readFileSync(CACHE_FILE, 'utf-8')) as KWCache
@@ -198,11 +204,11 @@ function loadCache(): KWCache {
   }
 }
 
-function saveCache(cache: KWCache): void {
+export function saveCache(cache: KWCache): void {
   writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2))
 }
 
-function isCacheValid(timestamp: string): boolean {
+export function isCacheValid(timestamp: string): boolean {
   const diffDays = Math.ceil(
     Math.abs(Date.now() - new Date(timestamp).getTime()) / (1000 * 60 * 60 * 24),
   )
@@ -329,7 +335,7 @@ async function extractCredits(page: Page): Promise<number | null> {
 
 async function detectState(
   page: Page,
-  keyword: string,
+  keywords: string[],
   keywordEntered: boolean,
 ): Promise<KwResearchState> {
   // 1. Redirección a login
@@ -405,7 +411,7 @@ async function detectState(
 
   // 4. Resultados listos (Checkboxes o Tablas con datos)
   const hasResultsData = await page
-    .evaluate((expectedKw) => {
+    .evaluate((expectedKws) => {
       let rowsCount = 0
 
       // 1. Selector por ID de checkbox (muy fiable en DinoRank)
@@ -440,7 +446,8 @@ async function detectState(
       const bodyTextStr = document.body.innerText.toLowerCase()
       const hasXls = bodyTextStr.includes('xls')
       // Usamos el keyword pasado como argumento
-      const hasTargetKw = expectedKw && bodyTextStr.includes(expectedKw.toLowerCase())
+      const hasTargetKw =
+        expectedKws.length > 0 && bodyTextStr.includes(expectedKws[0].toLowerCase())
 
       // Debug object to capture what we see
       const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
@@ -488,8 +495,9 @@ async function detectState(
           // If row text contains exact keyword (avoid broad matches)
           const trText = tr.textContent?.toLowerCase() || ''
           if (
-            expectedKw &&
-            trText.includes(expectedKw.toLowerCase()) &&
+            expectedKws &&
+            expectedKws.length > 0 &&
+            trText.includes(expectedKws[0].toLowerCase()) &&
             trText.includes('see analysis')
           ) {
             return true
@@ -503,7 +511,7 @@ async function detectState(
       }
 
       return { found: false, debugInfo }
-    }, keyword)
+    }, keywords)
     .catch((err) => {
       return { found: false, error: err.message }
     })
@@ -620,15 +628,22 @@ async function detectState(
   }
 
   // 7. Input de keyword
-  const kwInput = page.locator('#keyword').first()
-  if (await kwInput.isVisible().catch(() => false)) {
-    const val = await kwInput.inputValue().catch(() => '')
-    if (val.trim().length >= 2) {
-      log('info', 'STATE', 'INPUT_FILLED', { value: val })
+  // Update the inputValue check in detectState to look at either #keyword or #grupokeywordbuscar.
+  const inputLoc = page.locator('#keyword').first()
+  const bulkLoc = page.locator('#grupokeywordbuscar').first()
+  const isVisible =
+    (await inputLoc.isVisible().catch(() => false)) ||
+    (await bulkLoc.isVisible().catch(() => false))
+  if (isVisible) {
+    const val = await inputLoc.inputValue().catch(() => '')
+    const bulkVal = await bulkLoc.inputValue().catch(() => '')
+    if (val.trim() === '' && bulkVal.trim() === '') {
+      log('info', 'STATE', 'INPUT_READY — input vacío visible')
+      return KwResearchState.INPUT_READY
+    } else {
+      log('info', 'STATE', 'INPUT_FILLED', { keywordInput: val, bulkInput: bulkVal })
       return KwResearchState.INPUT_FILLED
     }
-    log('info', 'STATE', 'INPUT_READY — input vacío visible')
-    return KwResearchState.INPUT_READY
   }
 
   log('info', 'STATE', 'UNKNOWN', { url: page.url() })
@@ -812,21 +827,23 @@ async function ensureAccount(
 
 async function extractResults(
   page: Page,
-  keyword: string,
+  keywords: string[],
   country: string,
 ): Promise<KWCacheEntry[]> {
   await page.waitForTimeout(2000) // Dejar que el JS renderice completamente
 
-  const data = await page.evaluate((searchKw) => {
+  const data = await page.evaluate((searchKws) => {
     let volume = ''
     let cpc = ''
     let competency = ''
+    let trend: number[] = []
     const related: string[] = []
     const aiSuggestions: Array<{
       keyword: string
       volume: string
       competency: string
       cpc: string
+      trend?: number[]
     }> = []
 
     const selectors = ['#tablaKresearch', '#tablaKresearchtrackeo']
@@ -861,7 +878,7 @@ async function extractResults(
     const debugRows: any[] = []
 
     const rows = allRows
-    for (let i = 0; i < Math.min(rows.length, 30); i++) {
+    for (let i = 0; i < Math.min(rows.length, 200); i++) {
       const row = rows[i]!
       // En DinoRank, la keyword suele ser el texto cerca del checkbox
       const kwInput = row.querySelector('input[id^="checkClip"]')
@@ -884,16 +901,24 @@ async function extractResults(
       let txt = ''
       if (isExpandedRow) {
         // En filas expandidas, el texto está dentro de div.paddingderechobotones
-        const kwDiv = row.querySelector('.paddingderechobotones')
-        if (kwDiv) {
-          txt = kwDiv.textContent?.replace(/[\n\r]+.*$/g, '')?.trim() || ''
+        const kwDiv = row.querySelector('.paddingderechobotones > div:first-child')
+        if (kwDiv && kwDiv.textContent) {
+          txt = kwDiv.textContent.trim()
         } else {
           txt =
             row
-              .querySelector('input[type="checkbox"]')
-              ?.closest('span')
-              ?.parentElement?.nextElementSibling?.textContent?.replace(/[\n\r]+.*$/g, '')
+              .querySelector('.paddingderechobotones')
+              ?.textContent?.split(/[\n\r]/)[0]
               ?.trim() || ''
+
+          if (!txt) {
+            txt =
+              row
+                .querySelector('input[type="checkbox"]')
+                ?.closest('span')
+                ?.parentElement?.nextElementSibling?.textContent?.split(/[\n\r]/)[0]
+                ?.trim() || ''
+          }
         }
       } else if (tdCells.length > 1) {
         const kwCell = tdCells[1] as HTMLElement
@@ -909,9 +934,23 @@ async function extractResults(
         txt = innerTextCells[0] || ''
       }
 
+      // Cleanup de seguridad por si hay colisiones visuales o tabs
+      txt = txt.split(/[\n\r]/)[0]?.trim() || ''
+
       let rawVol = ''
       let rawComp = ''
       let rawCpc = ''
+      let trendData: number[] = []
+
+      // Extraer datos históricos (trend) del script
+      const scriptContent = row.innerHTML
+      const serieMatch = scriptContent.match(/var serie=\[([0-9,]+)\]/)
+      if (serieMatch && serieMatch[1]) {
+        trendData = serieMatch[1]
+          .split(',')
+          .map((n) => parseInt(n.trim(), 10))
+          .filter((n) => !isNaN(n))
+      }
 
       if (isExpandedRow) {
         const dataDivs = Array.from(row.querySelectorAll('div.listadobordelefttabla.derecha'))
@@ -936,92 +975,81 @@ async function extractResults(
 
       debugRows.push({
         txt,
-        exactMatch: txt.toLowerCase() === searchKw.toLowerCase(),
+        exactMatch: searchKws.some((k: string) => txt.toLowerCase() === k.toLowerCase()),
         isExpandedRow,
         rawVol,
         volCleaned,
       })
 
-      if (!txt || txt.toLowerCase().includes('keywords')) continue
+      if (
+        !txt ||
+        txt.toLowerCase().includes('keywords') ||
+        txt.length > 100 ||
+        txt.includes('var serie=')
+      )
+        continue
 
       const tableId = row.closest('table')?.id || ''
+      const isAI = tableId === 'tablaKresearchtrackeo' || tableId === 'tablaKwords'
 
-      // Si es el resultado principal
-      if (!volume && txt.toLowerCase() === searchKw.toLowerCase()) {
-        volume = volCleaned
+      let volume = ''
+      let cpc = ''
+      let competency = ''
 
-        const compMatch = rawComp.match(/[\d,.]+/)
-        competency = compMatch ? compMatch[0].replace(',', '.') : '0'
-
-        const cpcMatch = rawCpc.match(/[\d,.]+/)
-        cpc = cpcMatch ? cpcMatch[0].replace(',', '.') : '0'
-      }
-      // Si es de la tabla de IA, extraer métricas completas
-      else if (tableId === 'tablaKresearchtrackeo' || tableId === 'tablaKwords') {
+      if (isAI) {
         const rawVol = tdCells[1]?.textContent?.trim() || ''
-        const vol = rawVol.replace(/[^0-9.]/g, '') || '0'
+        volume = rawVol.replace(/[^0-9.]/g, '') || '0'
 
         const rawComp = tdCells[2]?.textContent?.trim() || ''
         const compMatch = rawComp.match(/[\d,.]+/)
-        const comp = compMatch ? compMatch[0].replace(',', '.') : '0'
+        competency = compMatch ? compMatch[0].replace(',', '.') : '0'
 
         const rawCpc = tdCells[3]?.textContent?.trim() || ''
         const cpcMatch = rawCpc.match(/[\d,.]+/)
-        const cCpc = cpcMatch ? cpcMatch[0].replace(',', '.') : '0'
+        cpc = cpcMatch ? cpcMatch[0].replace(',', '.') : '0'
+      } else {
+        volume = row.querySelector('td:nth-child(3)')?.textContent?.trim() || ''
+        cpc = row.querySelector('td:nth-child(4)')?.textContent?.trim() || ''
+        competency = row.querySelector('td:nth-child(5)')?.textContent?.trim() || ''
+      }
 
-        aiSuggestions.push({
-          keyword: txt,
-          volume: vol,
-          competency: comp,
-          cpc: cCpc,
-        })
-      }
-      // Si es de la tabla normal pero no es la keyword principal
-      else if (txt.toLowerCase() !== searchKw.toLowerCase()) {
-        related.push(txt)
-      }
+      aiSuggestions.push({
+        keyword: txt,
+        volume: volume.replace(/\D/g, ''),
+        cpc: cpc.replace(/[^\d,.]/g, ''),
+        competency: competency.replace(/[^\d,.]/g, ''),
+        trend: trendData,
+      })
     }
 
-    return { volume, cpc, competency, related, aiSuggestions, debugRows }
-  }, keyword)
+    return {
+      items: aiSuggestions, // we reuse this array for all found rows in bulk
+      debugRows,
+    }
+  }, keywords)
 
-  if (!data.volume && data.related.length === 0 && data.aiSuggestions.length === 0) {
+  if (data.items.length === 0) {
     log('error', 'EXTRACT', 'Debug rows of failed extraction', { debugRows: data.debugRows })
-    throw new Error('No se pudieron extraer datos. La keyword puede no tener volumen en este país.')
+    throw new Error('No se pudieron extraer datos. La tabla de resultados está vacía.')
   }
 
   log('info', 'EXTRACT', 'Datos extraídos', {
-    keyword,
-    volume: data.volume,
-    aiItems: data.aiSuggestions.length,
+    keywordsCount: keywords.length,
+    foundItems: data.items.length,
     debugFirstRow: data.debugRows[0],
   })
 
   const results: KWCacheEntry[] = []
 
-  results.push({
-    keyword,
-    country,
-    volume: data.volume || '0',
-    cpc: data.cpc || '0',
-    competency: data.competency || '0',
-    trend: [],
-    relatedSearches: data.related
-      .filter((r) => r.toLowerCase() !== keyword.toLowerCase())
-      .slice(0, 5)
-      .join('; '),
-    timestamp: new Date().toISOString(),
-  })
-
-  for (const ai of data.aiSuggestions) {
+  for (const item of data.items) {
     results.push({
-      keyword: ai.keyword,
+      keyword: item.keyword,
       country,
-      volume: ai.volume,
-      cpc: ai.cpc,
-      competency: ai.competency,
-      trend: [],
-      relatedSearches: keyword, // Point back to main keyword
+      volume: item.volume || '0',
+      cpc: item.cpc || '0',
+      competency: item.competency || '0',
+      trend: item.trend || [],
+      relatedSearches: '',
       timestamp: new Date().toISOString(),
     })
   }
@@ -1032,7 +1060,7 @@ async function extractResults(
 // ─── Scraper Core (state machine) ────────────────────────────────────────────
 
 async function scrapeOnce(
-  keyword: string,
+  keywords: string[],
   country: string,
   account: DinoRankAccount,
   useAI: boolean,
@@ -1054,7 +1082,7 @@ async function scrapeOnce(
     log(
       'info',
       'SCRAPE',
-      `Inicio — keyword: "${keyword}", país: ${country}, cuenta: ${account.email}`,
+      `Inicio — keywords: [${keywords.join(', ')}], país: ${country}, cuenta: ${account.email}`,
     )
 
     const sessionOk = await restoreSession(page)
@@ -1067,7 +1095,7 @@ async function scrapeOnce(
 
     for (let i = 0; i < MAX_ITERATIONS; i++) {
       await page.waitForTimeout(POLL_MS)
-      const state = await detectState(page, keyword, keywordEntered)
+      const state = await detectState(page, keywords, keywordEntered)
       log('info', 'LOOP', `[${i + 1}/${MAX_ITERATIONS}] Estado: ${state}`)
 
       switch (state) {
@@ -1102,7 +1130,7 @@ async function scrapeOnce(
         case KwResearchState.HISTORY_NEEDS_CLICK:
           p.log.step('Clicando "See analysis" desde el historial para recargar sin gastar salto...')
           await page
-            .evaluate((kw) => {
+            .evaluate((kws: string[]) => {
               const historyTable =
                 document.querySelector('#historicalKresearch') || document.querySelector('table')
               if (!historyTable) return
@@ -1110,7 +1138,10 @@ async function scrapeOnce(
               for (let j = 0; j < rows.length; j++) {
                 const tr = rows[j]
                 const text = tr.textContent?.toLowerCase() || ''
-                if (text.includes(kw.toLowerCase()) && text.includes('see analysis')) {
+                if (
+                  kws.some((kw) => text.includes(kw.toLowerCase())) &&
+                  text.includes('see analysis')
+                ) {
                   const btn = tr.querySelector('div[onclick*="kresarch"]') as HTMLElement
                   if (btn) {
                     btn.click()
@@ -1118,7 +1149,7 @@ async function scrapeOnce(
                   }
                 }
               }
-            }, keyword)
+            }, keywords)
             .catch(() => {})
 
           await page.waitForTimeout(3000)
@@ -1130,58 +1161,82 @@ async function scrapeOnce(
           // Antes de gastar un crédito, buscar en el historial de análisis anteriores de DinoRank.
           // La sección #analisisAnteriores lista búsquedas previas con un botón "See analysis"
           // que recarga los resultados usando kresarch() sin consumir crédito.
-          p.log.step('Comprobando historial de análisis anteriores en DinoRank...')
-          await page.waitForTimeout(3000) // Esperar a que JS cargue el historial
+          if (keywords.length === 1) {
+            p.log.step('Comprobando historial de análisis anteriores en DinoRank...')
+            await page.waitForTimeout(3000) // Esperar a que JS cargue el historial
 
-          const prevAnalysis = await page
-            .evaluate(
-              (arg: { kw: string; requestedCountry: string }) => {
-                const { kw, requestedCountry } = arg
-                const rows = document.querySelectorAll('#analisisAnteriores tbody tr')
-                for (let j = 0; j < rows.length; j++) {
-                  const row = rows[j]!
-                  const kwCell = row.querySelector('td:nth-child(1)')
-                  const kwText = kwCell?.textContent?.trim().toLowerCase() ?? ''
-                  if (!kwText.includes(kw.toLowerCase())) continue
+            const prevAnalysis = await page
+              .evaluate(
+                (arg: { kw: string; requestedCountry: string }) => {
+                  const { kw, requestedCountry } = arg
+                  const rows = document.querySelectorAll('#analisisAnteriores tbody tr')
+                  for (let j = 0; j < rows.length; j++) {
+                    const row = rows[j]!
+                    const kwCell = row.querySelector('td:nth-child(1)')
+                    const kwText = kwCell?.textContent?.trim().toLowerCase() ?? ''
+                    if (!kwText.includes(kw.toLowerCase())) continue
 
-                  const btn = row.querySelector('[onclick*="kresarch"]') as HTMLElement | null
-                  if (!btn) continue
+                    const btn = row.querySelector('[onclick*="kresarch"]') as HTMLElement | null
+                    if (!btn) continue
 
-                  // Extraer el país del onclick: setSimpleDropdownValue('keyword_pais', 'MX', ...)
-                  const onclick = btn.getAttribute('onclick') ?? ''
-                  const countryMatch = onclick.match(/keyword_pais[^,]*,\s*'([A-Z]{2,3})'/)
-                  const analysisCountry = countryMatch?.[1]?.toLowerCase() ?? ''
+                    // Extraer el país del onclick: setSimpleDropdownValue('keyword_pais', 'MX', ...)
+                    const onclick = btn.getAttribute('onclick') ?? ''
+                    const countryMatch = onclick.match(/keyword_pais[^,]*,\s*'([A-Z]{2,3})'/)
+                    const analysisCountry = countryMatch?.[1]?.toLowerCase() ?? ''
 
-                  // Usar análisis existente ignorando el país para no gastar créditos repetidos
-                  btn.click()
-                  return { found: true, analysisCountry }
-                }
-                return { found: false, analysisCountry: '' }
-              },
-              { kw: keyword, requestedCountry: country },
-            )
-            .catch(() => ({ found: false, analysisCountry: '' }))
+                    // Usar análisis existente ignorando el país para no gastar créditos repetidos
+                    btn.click()
+                    return { found: true, analysisCountry }
+                  }
+                  return { found: false, analysisCountry: '' }
+                },
+                { kw: keywords[0], requestedCountry: country },
+              )
+              .catch(() => ({ found: false, analysisCountry: '' }))
 
-          if (prevAnalysis.found) {
-            p.log.success(
-              `Análisis anterior encontrado (${(prevAnalysis.analysisCountry || country).toUpperCase()}) — cargando sin consumir crédito.`,
-            )
-            log(
-              'info',
-              'HISTORY',
-              `Keyword "${keyword}" encontrada en historial DinoRank, recargando`,
-              {
-                country: prevAnalysis.analysisCountry,
-              },
-            )
-            keywordEntered = true
-            usedHistoryReplay = true
-            break
+            if (prevAnalysis.found) {
+              p.log.success(
+                `Análisis anterior encontrado (${(prevAnalysis.analysisCountry || country).toUpperCase()}) — cargando sin consumir crédito.`,
+              )
+              log(
+                'info',
+                'HISTORY',
+                `Keyword "${keywords[0]}" encontrada en historial DinoRank, recargando`,
+                {
+                  country: prevAnalysis.analysisCountry,
+                },
+              )
+              keywordEntered = true
+              usedHistoryReplay = true
+              break
+            }
           }
 
           // Sin historial coincidente — búsqueda nueva
-          p.log.step(`Introduciendo keyword: "${keyword}" (búsqueda nueva)`)
-          await page.locator('#keyword').fill(keyword)
+          const kwsToSearch = keywords.join('\n')
+          p.log.step(
+            `Introduciendo ${keywords.length} ${keywords.length === 1 ? 'keyword' : 'keywords'} (búsqueda nueva)`,
+          )
+
+          if (keywords.length > 1) {
+            await page
+              .locator('#despliegaMas')
+              .click({ force: true })
+              .catch(() => {})
+            await page.waitForTimeout(500)
+            await page.evaluate(() => {
+              const textarea = document.getElementById('grupokeywordbuscar') as HTMLTextAreaElement
+              if (textarea) {
+                textarea.style.display = 'block'
+              }
+            })
+            await page
+              .locator('#grupokeywordbuscar')
+              .fill(kwsToSearch)
+              .catch(() => {})
+          } else {
+            await page.locator('#keyword').fill(keywords[0])
+          }
           keywordEntered = true
 
           // Activar sugerencias de IA si el flag está activo
@@ -1241,7 +1296,7 @@ async function scrapeOnce(
 
         case KwResearchState.RESULTS_READY: {
           p.log.step('Extrayendo resultados...')
-          const results = await extractResults(page, keyword, country)
+          const results = await extractResults(page, keywords, country)
           await saveSession(page)
 
           // Guardar resultados
@@ -1250,7 +1305,9 @@ async function scrapeOnce(
           }
 
           const mainRes =
-            results.find((r) => r.keyword.toLowerCase() === keyword.toLowerCase()) || results[0]
+            results.find((r) =>
+              keywords.some((k) => r.keyword.toLowerCase() === k.toLowerCase()),
+            ) || results[0]
           if (mainRes) {
             p.log.success(`Extracción exitosa: ${mainRes.keyword} (Vol: ${mainRes.volume})`)
           }
@@ -1274,7 +1331,7 @@ async function scrapeOnce(
     }
 
     throw new Error(
-      `Timeout tras ${MAX_ITERATIONS} iteraciones sin completar el scrape de "${keyword}".`,
+      `Timeout tras ${MAX_ITERATIONS} iteraciones sin completar el scrape de "${keywords.join(', ')}".`,
     )
   } finally {
     await browser.close()
@@ -1283,8 +1340,8 @@ async function scrapeOnce(
 
 // ─── Retry Wrapper ────────────────────────────────────────────────────────────
 
-async function scrapeWithRetry(
-  keyword: string,
+export async function scrapeWithRetry(
+  keywords: string[],
   country: string,
   dinoState: DinoRankState,
   useAI: boolean,
@@ -1297,7 +1354,7 @@ async function scrapeWithRetry(
     p.log.step(`Intento ${attempt}/${MAX_RETRIES} con ${account.email}`)
 
     try {
-      return await scrapeOnce(keyword, country, account, useAI)
+      return await scrapeOnce(keywords, country, account, useAI)
     } catch (err) {
       if (err instanceof DeviceConflictError) {
         p.log.warn(`Conflicto de sesión (${err.email}) — rotando a otra cuenta...`)
@@ -1324,7 +1381,7 @@ async function scrapeWithRetry(
     }
   }
 
-  throw new Error(`Fallaron ${MAX_RETRIES} intentos para la keyword "${keyword}".`)
+  throw new Error(`Fallaron ${MAX_RETRIES} intentos para la keyword "${keywords.join(', ')}".`)
 }
 
 // ─── MD File Updater ──────────────────────────────────────────────────────────
@@ -1356,6 +1413,7 @@ export function updateMarkdownTable(
 
   const volumeIdx = headers.indexOf('volume')
   const difficultyIdx = headers.indexOf('difficulty')
+  const trendIdx = headers.indexOf('trend')
   const relatedIdx = headers.indexOf('related_searches')
   const sourceIdx = headers.indexOf('source')
   const countryIdx = headers.indexOf('country')
@@ -1366,10 +1424,8 @@ export function updateMarkdownTable(
     return !isNaN(f) ? Math.round(f * 100).toString() : raw
   }
 
-  // Helper para preservar el espaciado
-  const padCell = (content: string, width = 3): string => {
-    return ` ${content} `.padEnd(width, ' ')
-  }
+  // Helper functions para el formateo previo a Prettier
+  const cell = (content: string): string => ` ${content} `
 
   let updated = false
   const newLines = lines.map((line, index) => {
@@ -1377,14 +1433,18 @@ export function updateMarkdownTable(
     if (!line.trim().startsWith('|')) return line
 
     const cells = splitByPipe(line)
-    if (cells[kwIdx]?.toLowerCase() !== kw.toLowerCase()) return line
+    if (cells[kwIdx]?.trim().toLowerCase() !== kw.toLowerCase()) return line
 
-    if (volumeIdx !== -1) cells[volumeIdx] = padCell(result.volume.replace(/\D/g, ''), 8)
-    if (difficultyIdx !== -1) cells[difficultyIdx] = padCell(compToPercent(result.competency), 10)
-    if (relatedIdx !== -1) cells[relatedIdx] = padCell(result.relatedSearches, 20)
-    if (sourceIdx !== -1) cells[sourceIdx] = padCell('DinoRank', 10)
-    if (countryIdx !== -1 && !cells[countryIdx]?.trim()) cells[countryIdx] = padCell(country, 10)
-    if (langIdx !== -1 && !cells[langIdx]?.trim()) cells[langIdx] = padCell(language, 10)
+    if (volumeIdx !== -1) cells[volumeIdx] = cell(result.volume.replace(/\D/g, ''))
+    if (difficultyIdx !== -1) cells[difficultyIdx] = cell(compToPercent(result.competency))
+    if (trendIdx !== -1)
+      cells[trendIdx] = cell(result.trend && result.trend.length ? result.trend.join(',') : '')
+    if (relatedIdx !== -1) cells[relatedIdx] = cell(result.relatedSearches)
+    if (sourceIdx !== -1) cells[sourceIdx] = cell('DinoRank')
+    if (countryIdx !== -1 && (!cells[countryIdx] || !cells[countryIdx].trim()))
+      cells[countryIdx] = cell(country)
+    if (langIdx !== -1 && (!cells[langIdx] || !cells[langIdx].trim()))
+      cells[langIdx] = cell(language)
 
     updated = true
     return '|' + cells.join('|') + '|'
@@ -1396,14 +1456,16 @@ export function updateMarkdownTable(
       (line, i) => i > tableStartIndex + 1 && !line.trim().startsWith('|') && line.trim() !== '',
     )
     const injectIdx = endIdx === -1 ? newLines.length : endIdx
-    const newRow = Array(headers.length).fill('   ')
-    newRow[kwIdx] = padCell(kw, Math.max(kw.length + 2, 20))
-    if (volumeIdx !== -1) newRow[volumeIdx] = padCell(result.volume.replace(/\D/g, ''), 8)
-    if (difficultyIdx !== -1) newRow[difficultyIdx] = padCell(compToPercent(result.competency), 10)
-    if (relatedIdx !== -1) newRow[relatedIdx] = padCell(result.relatedSearches, 20)
-    if (sourceIdx !== -1) newRow[sourceIdx] = padCell('DinoRank', 10)
-    if (countryIdx !== -1) newRow[countryIdx] = padCell(country, 10)
-    if (langIdx !== -1) newRow[langIdx] = padCell(language, 10)
+    const newRow = Array(headers.length).fill(' ')
+    newRow[kwIdx] = cell(kw)
+    if (volumeIdx !== -1) newRow[volumeIdx] = cell(result.volume.replace(/\D/g, ''))
+    if (difficultyIdx !== -1) newRow[difficultyIdx] = cell(compToPercent(result.competency))
+    if (trendIdx !== -1)
+      newRow[trendIdx] = cell(result.trend && result.trend.length ? result.trend.join(',') : '')
+    if (relatedIdx !== -1) newRow[relatedIdx] = cell(result.relatedSearches)
+    if (sourceIdx !== -1) newRow[sourceIdx] = cell('DinoRank')
+    if (countryIdx !== -1) newRow[countryIdx] = cell(country)
+    if (langIdx !== -1) newRow[langIdx] = cell(language)
     newLines.splice(injectIdx, 0, '|' + newRow.join('|') + '|')
   }
 
@@ -1415,11 +1477,13 @@ export function updateMarkdownTable(
 async function main() {
   const args = resolveArgs()
   if (!args) {
-    console.error('Uso: pnpm scrape:dinorank "tu palabra clave" [--country=es] [--debug]')
+    console.error(
+      'Uso: pnpm scrape:dinorank "tu palabra clave, otra keyword" [--country=es] [--debug]',
+    )
     process.exit(1)
   }
 
-  let { keyword, country, debug } = args
+  let { keywords, country, debug } = args
   let language = 'es'
 
   // Pre-cargar país e idioma desde keywords.md si existe y está definido ahí
@@ -1444,7 +1508,11 @@ async function main() {
             const line = lines[i]!
             if (!line.trim().startsWith('|')) continue
             const cells = splitByPipe(line)
-            if (cells[kwIdx]?.toLowerCase() === keyword.toLowerCase()) {
+            // Just map country/language from the first matching keyword if any
+            if (
+              cells[kwIdx] &&
+              keywords.some((k) => cells[kwIdx].toLowerCase() === k.toLowerCase())
+            ) {
               if (countryIdx !== -1) {
                 const fileCountry = cells[countryIdx]?.trim()
                 if (fileCountry) country = fileCountry.toLowerCase()
@@ -1464,30 +1532,41 @@ async function main() {
   }
 
   p.intro('🦖 Scrape DinoRank — Keyword Research')
-  p.log.info(`Keyword: "${keyword}"  |  País: ${country}`)
-  log('info', 'MAIN', 'Inicio', { keyword, country })
+  p.log.info(`Keywords: ${keywords.length} en total  |  País: ${country}`)
+  log('info', 'MAIN', 'Inicio', { keywords, country })
 
   const cache = loadCache()
-  const cacheKey = `${keyword.toLowerCase()}_${country}`
-  const cachedData = cache[cacheKey]
 
-  let results: KWCacheEntry[] = []
+  const uncachedKeywords: string[] = []
+  const results: KWCacheEntry[] = []
 
-  if (cachedData && isCacheValid(cachedData.timestamp)) {
-    p.log.success('Datos obtenidos de caché local (< 30 días).')
-    log('info', 'CACHE', 'Hit de caché', { keyword })
-    results = [cachedData]
-  } else {
+  for (const kw of keywords) {
+    const cacheKey = `${kw.toLowerCase()}_${country}`
+    const cachedData = cache[cacheKey]
+    if (cachedData && isCacheValid(cachedData.timestamp)) {
+      results.push(cachedData)
+    } else {
+      uncachedKeywords.push(kw)
+    }
+  }
+
+  if (results.length > 0) {
+    p.log.success(`Datos obtenidos de caché local para ${results.length} keywords.`)
+    log('info', 'CACHE', 'Hit de caché', { count: results.length })
+  }
+
+  if (uncachedKeywords.length > 0) {
     const s = p.spinner()
-    s.start('Iniciando extracción con DinoRank...')
+    s.start(`Iniciando extracción con DinoRank para ${uncachedKeywords.length} palabras clave...`)
     const dinoState = loadState()
 
     try {
-      results = await scrapeWithRetry(keyword, country, dinoState, args.useAI)
+      const scraped = await scrapeWithRetry(uncachedKeywords, country, dinoState, args.useAI)
       s.stop('Extracción completada.')
-      for (const res of results) {
+      for (const res of scraped) {
         const cKey = `${res.keyword.toLowerCase()}_${res.country || country}`
         cache[cKey] = res
+        results.push(res)
       }
       saveCache(cache)
     } catch (err: unknown) {
@@ -1520,7 +1599,14 @@ async function main() {
     }
     writeFileSync(KEYWORDS_FILE, content)
     p.log.success(`keywords.md actualizado con ${results.length} entradas.`)
-    log('info', 'MAIN', 'keywords.md actualizado', { keyword, added: results.length })
+    log('info', 'MAIN', 'keywords.md actualizado', { count: results.length })
+
+    try {
+      execSync(`npx prettier --write "${KEYWORDS_FILE}"`, { stdio: 'ignore' })
+      p.log.success(`Tabla formateada correctamente con Prettier.`)
+    } catch (e) {
+      p.log.warn(`No se pudo formatear la tabla con Prettier automáticamente.`)
+    }
   } else {
     p.log.warn(`No se encontró el archivo ${KEYWORDS_FILE}`)
   }
@@ -1528,7 +1614,8 @@ async function main() {
   p.outro('✅ Finalizado')
 }
 
-if (process.env.NODE_ENV !== 'test') {
+const isMainModule = process.argv[1] && process.argv[1].endsWith('scrape-dinorank.ts')
+if (process.env.NODE_ENV !== 'test' && isMainModule) {
   main().catch((err) => {
     console.error('FATAL:', err)
     process.exit(1)

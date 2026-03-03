@@ -419,6 +419,13 @@
       "locale": "es",
       "lastLocalHash": "3e78ca9b5b8da24dcd2e3290ebc789b359b0638665d43801ca6594d67b3c1fb8",
       "lastRemoteUpdatedAt": "2026-02-28T01:34:29.384Z"
+    },
+    "cs-fundamentals/experiencia-de-usuario.md": {
+      "id": "69a5bd0b455ba5651633e895",
+      "slug": "experiencia-de-usuario",
+      "locale": "es",
+      "lastLocalHash": "f3041a05d4c48f08a4a5d317292bbefd9530dd668e28b4e64ed2c85c53d46a77",
+      "lastRemoteUpdatedAt": "2026-03-02T17:45:33.715Z"
     }
   }
 }

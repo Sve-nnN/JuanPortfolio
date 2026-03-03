@@ -41,8 +41,10 @@ export function buildPostData(post: ParsedPost, resolved: ResolvedIds): PayloadP
   return {
     title: post.title,
     slug: post.slug,
-    tldr: post.tldr,
-    content: { content: lexicalContent },
+    content: {
+      tldr: post.tldr,
+      content: lexicalContent,
+    },
     primaryKeyword: resolved.primaryKeywordId,
     semanticKeywords: resolved.semanticKeywordIds,
     publishedAt: post.frontmatter.publishedAt ?? new Date().toISOString(),

@@ -332,7 +332,7 @@ Por otro lado, las bases no relacionales, al ser capaces de escalar horizontalme
 
 Al evaluar qué tipo de base de datos implementar, las empresas deben considerar críticamente el balance entre integridad, flexibilidad y escalabilidad. Las bases de datos relacionales destacan en entornos donde la integridad de los datos es indispensable, pero su rigidez puede ser limitante.
 
-Por su parte, las bases no relacionales ofrecen flexibilidad para adaptarse a nuevas necesidades, aunque pueden sacrificar ciertos niveles de consistencia. Este balance es esencial, ya que impacta no solo la operatividad, sino también la satisfacción del cliente y el éxito del proyecto.
+Por su parte, las bases no relacionales ofrecen flexibilidad para adaptarse a nuevas necesidades, aunque pueden sacrificar ciertos niveles de consistencia. Este balance es esencial, ya que impacta no solo la operatividad, sino también la [satisfacción del cliente](https://juan-tech.com/blog/cs-fundamentals/experiencia-de-usuario) y el éxito del proyecto.
 
 #### Análisis de riesgos y beneficios a largo plazo
 

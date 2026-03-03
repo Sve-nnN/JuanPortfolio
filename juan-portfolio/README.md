@@ -102,6 +102,89 @@ This project features a bidirectional synchronization engine designed to keep lo
 
 ---
 
+## Content Generation Pipeline
+
+### Overview
+
+`src/scripts/create-post.ts` automates the end-to-end workflow for creating SEO-optimized blog posts. It coordinates three systems in sequence: keyword selection from `content/keywords.md`, content generation via DinoRank's DinoBrain tool (Playwright automation), and frontmatter generation via a configurable LLM provider.
+
+### Workflow
+
+1. Select a keyword from `keywords.md` that does not yet have a corresponding post file.
+2. Open a DinoRank browser session and generate the article body using DinoBrain with a custom writing persona and style guide.
+3. Pass the generated content and keyword metadata to the configured LLM to produce SEO-optimized frontmatter: `title`, `metaDescription`, `primary_keywords`, `semantic_keywords`, `contentRole`, `pillarSlug`, and `relatedPosts`.
+4. Write the assembled Markdown file to `content/posts/<category>/<slug>.md`.
+5. Run `pnpm sync push` automatically to upload the post to Payload CMS.
+
+### LLM Providers
+
+| Flag | Provider | Environment variable |
+| :--- | :------- | :------------------- |
+| `--provider=anthropic` (default) | Claude (claude-sonnet-4-6) | `ANTHROPIC_API_KEY` |
+| `--provider=openai` | GPT-4o-mini | `OPENAI_API_KEY` |
+| `--provider=gemini` | Gemini 2.0 Flash | `GOOGLE_AI_API_KEY` |
+
+The active provider can also be set via the `LLM_PROVIDER` environment variable.
+
+### Account Management
+
+DinoRank accounts are persisted in `content/dinorank-state.json`. Each account supports up to 5 content generations. When credits are exhausted the script creates a new account interactively (manual CAPTCHA step required). Previous generations are stored in a history array for re-export without re-generating content via `--re-export`.
+
+### Usage
+
+```bash
+pnpm create-post
+pnpm create-post -- --provider=openai
+pnpm create-post -- --provider=gemini --keyword="big-o notation"
+pnpm create-post -- --re-export
+```
+
+---
+
+## Keyword Research Automation
+
+### Overview
+
+`src/scripts/scrape-dinorank.ts` extracts keyword metrics — search volume, competition index, CPC, and related searches — from DinoRank's Keyword Research tool via Playwright. Results are written back to the `Volume`, `Difficulty`, and `Related Searches` columns in `content/keywords.md` and cached locally for 30 days to avoid redundant requests.
+
+### State Machine
+
+The script uses an explicit state machine instead of a linear action sequence. At each polling cycle it inspects the DOM and decides how to proceed:
+
+| State | Detection condition |
+| :---- | :------------------ |
+| `NEEDS_LOGIN` | Page URL contains `/login` |
+| `DEVICE_CONFLICT` | SweetAlert or body text matches a session-conflict pattern |
+| `NO_CREDITS` | `.divlimites` element shows 0 remaining credits |
+| `OVERLAY_VISIBLE` | SweetAlert is visible but contains no conflict text |
+| `INPUT_READY` | `#keyword` input is visible and empty |
+| `INPUT_FILLED` | `#keyword` input contains the keyword |
+| `AWAITING_RESULTS` | Form submitted; loading indicators present in body text |
+| `RESULTS_READY` | `#tablaKwords` table is visible |
+
+### Account Rotation
+
+When DinoRank reports a simultaneous-session error ("You can't use your account on different devices at the same time"), the script:
+
+1. Classifies the state as `DEVICE_CONFLICT` and throws a typed `DeviceConflictError`.
+2. Adds the conflicting account to an in-session exclusion set.
+3. Invalidates the session file (`content/dinorank-kw-session.json`) to force a fresh login.
+4. Retries with the next available account from `content/dinorank-state.json`.
+
+When `NO_CREDITS` is detected, the script creates a new DinoRank account interactively and registers it before retrying. The retry wrapper allows up to 3 attempts before aborting.
+
+### Usage
+
+```bash
+pnpm scrape:dinorank "big-o notation"
+pnpm scrape:dinorank "seo técnico" --country=mx
+pnpm scrape:dinorank "technical seo" --country=us --debug
+```
+
+The `--debug` flag saves screenshots and DOM snapshots to `/tmp/scrape-dinorank-<step>-<timestamp>.png` and writes structured NDJSON entries to `logs/scrape-dinorank.log`.
+
+---
+
 ## Google Search Console Integration
 
 ### Overview

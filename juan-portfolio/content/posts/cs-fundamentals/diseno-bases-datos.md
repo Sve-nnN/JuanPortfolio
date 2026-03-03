@@ -43,7 +43,7 @@ El diseño de bases de datos es fundamental para asegurar un manejo efectivo de 
 
 ### Definición y propósito del diseño de bases de datos
 
-El diseño de bases de datos implica la planeación estratégica de cómo se organizarán, almacenarán y accederán los datos. Este proceso tiene como finalidad facilitar el manejo efectivo de la información, permitiendo que las organizaciones gestionen sus datos de manera más eficiente. Un diseño bien estructurado ayuda a alinear las necesidades del negocio con la funcionalidad del sistema, garantizando que los datos se manejen de forma coherente y accesible.
+El diseño de bases de datos implica la planeación estratégica de cómo se organizarán, almacenarán y accederán los datos. Este proceso tiene como finalidad facilitar el manejo efectivo de la información, permitiendo que las organizaciones gestionen sus datos de manera más eficiente. Un diseño bien estructurado ayuda a alinear las necesidades del negocio con la [funcionalidad](https://juan-tech.com/blog/cs-fundamentals/experiencia-de-usuario) del sistema, garantizando que los datos se manejen de forma coherente y accesible.
 
 ### Importancia de una base de datos bien diseñada
 

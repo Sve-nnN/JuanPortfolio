@@ -50,8 +50,10 @@ export interface ResolvedIds {
 export interface PayloadPostData {
   title: string
   slug: string
-  tldr: string | undefined
-  content: { content: unknown }
+  content: {
+    tldr?: string
+    content: unknown
+  }
   primaryKeyword: string | undefined
   semanticKeywords: string[]
   publishedAt: string

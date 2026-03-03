@@ -25,5 +25,12 @@ node_modules/
 .gemini
 .serpapi-cache.json
 
+# DinoRank account state y sesión (contienen credenciales)
+content/dinorank-state.json
+content/dinorank-session.json
+
 # GitHub App credentials
 gha-creds-*.json
+
+# Logs de scripts
+logs/*.log

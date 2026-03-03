@@ -23,6 +23,9 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 | :------------------- | :-------------------------------------------- |
 | **Install**          | `pnpm install`                                |
 | **Development**      | `pnpm dev`                                    |
+| **Generate Post**    | `pnpm create-post [-- --provider=anthropic\|openai\|gemini]` |
+| **Re-export Post**   | `pnpm create-post -- --re-export`             |
+| **Scrape KW Metrics**| `pnpm scrape:dinorank "keyword" [--country=es]` |
 | **Sync Status**      | `pnpm sync status`                            |
 | **Push Content**     | `pnpm sync push [--post=<filename.md>] [--force]`   |
 | **Sync Keywords**    | `pnpm sync:keywords [--fetch-serp] [--verbose]` |
@@ -32,6 +35,31 @@ This project is a high-performance, enterprise-grade portfolio and blog platform
 | **Keyword Gap**      | `npx tsx src/scripts/update-seo-metrics.ts --analyze-gap` |
 | **Sync GSC Data**    | `pnpm run sync:gsc`                           |
 | **CWV Monitoring**   | `npx tsx src/scripts/seo/update-cwv.ts`       |
+
+## Content Automation Scripts
+
+### create-post (`src/scripts/create-post.ts`)
+
+Automates the full post-creation pipeline: keyword selection from `content/keywords.md`, article generation via DinoRank DinoBrain (Playwright), LLM frontmatter generation, and `pnpm sync push` to Payload CMS.
+
+- Provider flag: `--provider=anthropic` (default), `--provider=openai`, `--provider=gemini`. Also reads `LLM_PROVIDER` env var.
+- `--re-export`: Re-assemble a post from history without re-generating content.
+- `--keyword=<value>`: Skip interactive selection.
+- Account state persisted in `content/dinorank-state.json`. Max 5 posts per account; new accounts created automatically when exhausted.
+- Adapters: `src/scripts/create-post/llm-adapters.ts` — `AnthropicAdapter`, `OpenAiAdapter`, `GeminiAdapter`, `createAdapter(provider)`.
+
+### scrape-dinorank (`src/scripts/scrape-dinorank.ts`)
+
+Extracts volume, competition, CPC, and related searches from DinoRank Keyword Research via Playwright. Uses a state machine (`KwResearchState` enum) to navigate the UI rather than a fixed action sequence.
+
+- Results cached for 30 days in `content/dinorank-kw-cache.json`.
+- Detects `DEVICE_CONFLICT` ("can't use your account on different devices") and rotates accounts automatically.
+- Detects `NO_CREDITS` and creates a new DinoRank account interactively.
+- Up to 3 retry attempts with account exclusion between each.
+- Session isolated from `create-post.ts` via `content/dinorank-kw-session.json`.
+- `--debug`: screenshots and DOM snapshots written to `/tmp/`; NDJSON log at `logs/scrape-dinorank.log`.
+
+**State machine states:** `NEEDS_LOGIN`, `DEVICE_CONFLICT`, `NO_CREDITS`, `OVERLAY_VISIBLE`, `INPUT_READY`, `INPUT_FILLED`, `AWAITING_RESULTS`, `RESULTS_READY`, `UNKNOWN`.
 
 ## Content Synchronization (Git-like)
 

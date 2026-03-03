@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/cs-fundamentals/sql-vs-nosql.md",
+                "file": "keywords.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sql-vs-nosql"
+              "title": "keywords"
             }
           }
         ]
@@ -185,9 +185,23 @@
   },
   "active": "a55b8793cb6519a5",
   "lastOpenFiles": [
+    "dinorank-kw-cache.json",
+    "dinorank-kw-history.json",
+    "posts/cs-fundamentals/experiencia-de-usuario.md",
+    "dinorank-kw-session.json",
+    "posts/cs-fundamentals/tablas-hash.md",
+    "posts/tech-seo/technical-seo-guide.md",
+    "source-of-truth.md",
+    "2026-02-28.md",
+    "Untitled.md",
+    "Untitled.canvas",
+    "posts/cs-fundamentals/big-o-notation.en.md",
+    "keywords.md",
+    "dinorank-session.json",
+    "dinorank-state.json",
+    "posts/cs-fundamentals/sql-vs-nosql.md",
     "posts/cs-fundamentals/arboles-binarios.md",
     "posts/tech-seo/non-developers-guide.en.md",
-    "posts/cs-fundamentals/sql-vs-nosql.md",
     "posts/cs-fundamentals/normalizacion-bases-datos.en.md",
     "posts/cs-fundamentals/programacion-dinamica.en.md",
     "posts/cs-fundamentals/algoritmos-ordenamiento.md",
@@ -195,33 +209,20 @@
     "posts/cs-fundamentals/algoritmos-estructuras-datos.md",
     "posts/cs-fundamentals/sql-vs-nosql.en.md",
     "posts/cs-fundamentals/normalizacion-bases-datos.md",
-    "keywords.md",
     "posts/seo/guia-eeat.md",
     "content-sync.json",
     "templates/post-template.md",
     "posts/tech-seo/tech-seo-guide.en.md",
     "posts/cs-fundamentals/big-o-notation.md",
-    "posts/cs-fundamentals/big-o-notation.en.md",
     "2026-02-26.md",
     "templates",
     "posts/test/see-also-test.md",
     "posts/cs-fundamentals/programacion-dinamica.md",
-    "posts/cs-fundamentals/diseno-bases-datos.md",
-    "posts/cs-fundamentals/complejidad-algoritmica.md",
-    "posts/cs-fundamentals/arboles-binarios.en.md",
-    "posts/cs-fundamentals/algoritmos-ordenamiento.en.md",
-    "posts/test/satellite-en.en.md",
-    "posts/test/satellite-es.md",
-    "posts/test/pillar-en.en.md",
     "blog/cs-fundamentals",
     "blog",
     "posts/seo",
-    "posts/development",
     "Pasted image 20260210214248.png",
     "Pasted image 20260210214244 1.png",
-    "Pasted image 20260210214244.png",
-    "tech-seo",
-    "posts/cs-fundamentals",
-    "posts/tech-seo"
+    "Pasted image 20260210214244.png"
   ]
 }

@@ -24,6 +24,16 @@ pnpm test                         # Run both int and e2e
 # Run a single Vitest test file
 pnpm test:int -- tests/unit/utilities/myUtil.test.ts
 
+# Content automation (DinoRank + LLM)
+pnpm create-post                              # Generate a post: keyword selection → DinoBrain → LLM frontmatter → sync
+pnpm create-post -- --provider=openai         # Use OpenAI instead of Anthropic for frontmatter
+pnpm create-post -- --provider=gemini         # Use Gemini for frontmatter
+pnpm create-post -- --re-export               # Re-export a post from history without re-generating
+pnpm create-post -- --keyword="big-o"         # Skip interactive selection and use this keyword directly
+pnpm scrape:dinorank "keyword"                # Scrape KW Research metrics and write to keywords.md
+pnpm scrape:dinorank "keyword" --country=mx   # Specify country (default: es)
+pnpm scrape:dinorank "keyword" --debug        # Save screenshots and DOM dumps to /tmp/
+
 # Content sync (requires .env with DATABASE_URI)
 pnpm sync status                  # Show local vs. remote diff
 pnpm sync push                    # Push all local Markdown changes to CMS
@@ -84,6 +94,37 @@ Pages and globals are built by composing blocks. Each block lives in `src/blocks
 - `Component.tsx` — React server component
 
 All blocks are lazy-loaded in `src/blocks/RenderBlocks.tsx`. To add a new block: create the folder, register in `RenderBlocks.tsx`, and add to the relevant collection/global config.
+
+### Content Automation Scripts
+
+Two scripts automate the end-to-end SEO content workflow. Both share the DinoRank account state persisted in `content/dinorank-state.json` and expose their helper functions as named exports for unit testing.
+
+#### create-post (`src/scripts/create-post.ts`)
+
+Orchestrates the full post-creation pipeline:
+
+1. Reads `content/keywords.md` via `parseKeywords()` and filters for keywords with no existing post file.
+2. Launches a Playwright browser and generates article content via DinoRank's DinoBrain tool using a `BrainState` state machine (`NEEDS_LOGIN`, `OVERLAY_VISIBLE`, `BRAIN_INPUT_EMPTY`, `BRAIN_INPUT_FILLED`, `NO_CREDITS_TABLE_VISIBLE`, `GENERATION_PROGRESS`, `GENERATION_FINISHED`).
+3. Calls the configured LLM adapter (`AnthropicAdapter`, `OpenAiAdapter`, or `GeminiAdapter` from `src/scripts/create-post/llm-adapters.ts`) to generate SEO-optimized frontmatter YAML.
+4. Assembles the final Markdown file via `assemblePost()` and writes it to `content/posts/<category>/<slug>.md`.
+5. Runs `pnpm sync push` via `spawnSync` to upload to Payload CMS.
+
+LLM provider is selected via `--provider=anthropic|openai|gemini` flag or the `LLM_PROVIDER` environment variable. Accounts are rotated automatically when `postsGenerated >= 5`.
+
+#### scrape-dinorank (`src/scripts/scrape-dinorank.ts`)
+
+Extracts keyword metrics (volume, competition, CPC, related searches) from DinoRank's Keyword Research tool:
+
+1. Checks `content/dinorank-kw-cache.json` — returns cached data if it is less than 30 days old.
+2. Otherwise, launches Playwright and runs a `KwResearchState` state machine that detects eight DOM states per polling cycle.
+3. Handles `DEVICE_CONFLICT` (simultaneous-session error) by excluding the current account and retrying with another. Handles `NO_CREDITS` by creating a new DinoRank account interactively.
+4. Writes results to `content/dinorank-kw-cache.json` and updates the matching row in `content/keywords.md` via `updateMarkdownTable()`.
+
+Uses a separate session file (`content/dinorank-kw-session.json`) to avoid conflicts with `create-post.ts`. Logs structured NDJSON to `logs/scrape-dinorank.log`. The `--debug` flag saves screenshots and DOM snapshots to `/tmp/`.
+
+**Exported functions (used in unit tests):** `updateMarkdownTable()`.
+
+**Key constants:** `MAX_ITERATIONS = 45`, `MAX_RETRIES = 3`, `CACHE_VALIDITY_DAYS = 30`.
 
 ### Content Sync System
 

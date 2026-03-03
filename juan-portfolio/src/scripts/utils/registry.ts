@@ -74,6 +74,91 @@ export const SCRIPTS: Script[] = [
   // ── CONTENT ──────────────────────────────────────────────────────────────────
 
   {
+    id: 'create-post',
+    name: 'Create Post',
+    category: 'content',
+    description: 'Automatiza la creación de contenido SEO (DinoRank + LLM + sync)',
+    longDescription:
+      'Selecciona una keyword disponible, genera contenido con DinoBrain vía Playwright, ' +
+      'completa el frontmatter con un LLM configurable y sincroniza con Payload CMS.',
+    baseCommand: 'tsx -r dotenv/config src/scripts/create-post.ts',
+    params: [
+      {
+        name: '--provider',
+        key: '--provider',
+        type: 'select',
+        required: false,
+        description: 'Proveedor LLM para generar el frontmatter',
+        format: 'equals',
+        default: 'anthropic',
+        options: [
+          { value: 'anthropic', label: 'Anthropic Claude', hint: 'Requiere ANTHROPIC_API_KEY' },
+          { value: 'openai',    label: 'OpenAI GPT-4o',   hint: 'Requiere OPENAI_API_KEY' },
+          { value: 'gemini',    label: 'Google Gemini',   hint: 'Requiere GOOGLE_AI_API_KEY' },
+        ],
+      },
+    ],
+    examples: [
+      'pnpm create-post',
+      'pnpm create-post -- --provider=openai',
+      'pnpm create-post -- --provider=gemini',
+    ],
+  },
+
+  {
+    id: 'scrape-dinorank',
+    name: 'Scrape DinoRank Keywords',
+    category: 'content',
+    description: 'Extrae métricas de Keyword Research de DinoRank y actualiza keywords.md',
+    longDescription:
+      'Automatiza la extracción de volumen, competencia, CPC y búsquedas relacionadas de DinoRank ' +
+      'mediante Playwright. Usa una máquina de estados para detectar el flujo de la interfaz ' +
+      '(login, overlays, conflictos de sesión simultánea, créditos agotados) y rotar cuentas ' +
+      'automáticamente. Los resultados se cachean 30 días y se escriben en keywords.md.',
+    baseCommand: 'tsx src/scripts/scrape-dinorank.ts',
+    params: [
+      {
+        name: 'keyword',
+        key: '',
+        type: 'positional',
+        required: true,
+        description: 'Keyword a investigar',
+        placeholder: 'big-o notation',
+        format: 'subcommand',
+      },
+      {
+        name: '--country',
+        key: '--country',
+        type: 'select',
+        required: false,
+        description: 'País para el que se consultan las métricas',
+        format: 'equals',
+        default: 'es',
+        options: [
+          { value: 'es', label: 'es — España (default)' },
+          { value: 'mx', label: 'mx — México' },
+          { value: 'us', label: 'us — United States' },
+          { value: 'ar', label: 'ar — Argentina' },
+          { value: 'co', label: 'co — Colombia' },
+        ],
+      },
+      {
+        name: '--debug',
+        key: '--debug',
+        type: 'flag',
+        required: false,
+        description: 'Guardar screenshots y volcados DOM en /tmp/ durante el scrape',
+        default: false,
+      },
+    ],
+    examples: [
+      'tsx src/scripts/scrape-dinorank.ts "big-o notation"',
+      'tsx src/scripts/scrape-dinorank.ts "seo técnico" --country=es',
+      'tsx src/scripts/scrape-dinorank.ts "technical seo" --country=us --debug',
+    ],
+  },
+
+  {
     id: 'sync-content',
     name: 'Sync Content',
     category: 'content',

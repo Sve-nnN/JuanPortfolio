@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import type { KeywordGap } from './types';
 
+import { exportToCsv } from '../export-keywords-csv';
+
 /**
  * Manages content gap recommendations in keywords.md
  * 
@@ -102,6 +104,7 @@ export class RecommendationTracker {
         // Append new rows
         const updatedContent = content.trimEnd() + '\n' + newRows.map(row => `|${row}|`).join('\n') + '\n';
         fs.writeFileSync(this.keywordsPath, updatedContent, 'utf-8');
+        exportToCsv();
 
         return newRecommendations.length;
     }

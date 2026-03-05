@@ -28,9 +28,17 @@ node_modules/
 # DinoRank account state y sesión (contienen credenciales)
 content/dinorank-state.json
 content/dinorank-session.json
+content/dinorank-kw-session.json
+content/dinorank-accounts-registry.json
+content/dinorank-account-activity.json
 
-# GitHub App credentials
-gha-creds-*.json
+# Caché y archivos generados
+content/dinorank-kw-cache.json
+content/dinorank-kw-history.json
+content/keywords.csv
+.serpapi-cache.json
 
-# Logs de scripts
+# Archivos temporales y de depuración
+debug_backup/
+tmp-*/
 logs/*.log

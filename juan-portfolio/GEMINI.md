@@ -1,3 +1,10 @@
+1. Before writing any code, describe your approach and wait for aproval.
+2. If the requirements I give you are ambiguous, as clarifying questions before  writing any code.
+3.  After you finish writing any code, list the edge cases and suggest test cases to cover them.
+4. If a task requires changes to more than 3 files, stop and break it into smaller tasks firsts.
+5. When there's a bug, start by writing a test that reproduces it. Then fix it until the test passes.
+6. Every time I correct you, reflect on what you did wrong and come up with a plan to never make the same mistake again.
+
 # JuanPortfolio / JuanTech - AI instructional Context
 
 This project is a high-performance, enterprise-grade portfolio and blog platform built with **Next.js 15** and **Payload CMS 3.0**. It follows a code-first approach where the CMS configuration and the frontend reside in the same repository, sharing types and utilities.
@@ -50,16 +57,34 @@ Automates the full post-creation pipeline: keyword selection from `content/keywo
 
 ### scrape-dinorank (`src/scripts/scrape-dinorank.ts`)
 
-Extracts volume, competition, CPC, and related searches from DinoRank Keyword Research via Playwright. Uses a state machine (`KwResearchState` enum) to navigate the UI rather than a fixed action sequence.
+Extracts volume, competition, and CPC from DinoRank Keyword Research via **pure HTTP API**.
 
-- Results cached for 30 days in `content/dinorank-kw-cache.json`.
-- Detects `DEVICE_CONFLICT` ("can't use your account on different devices") and rotates accounts automatically.
-- Detects `NO_CREDITS` and creates a new DinoRank account interactively.
-- Up to 3 retry attempts with account exclusion between each.
-- Session isolated from `create-post.ts` via `content/dinorank-kw-session.json`.
-- `--debug`: screenshots and DOM snapshots written to `/tmp/`; NDJSON log at `logs/scrape-dinorank.log`.
+**Features:**
+- **Atomic Sync**: Updates `keywords.md` line-by-line during enrichment.
+- **Smart Discover**: `--discover` flag iterates countries to find best volume/difficulty.
+- **Onboarding**: Auto-completes DinoRank onboarding to activate 150 trial credits.
+- **Account Health**: Auto-deletes failed logins and filters expired trials (7 days).
 
-**State machine states:** `NEEDS_LOGIN`, `DEVICE_CONFLICT`, `NO_CREDITS`, `OVERLAY_VISIBLE`, `INPUT_READY`, `INPUT_FILLED`, `AWAITING_RESULTS`, `RESULTS_READY`, `UNKNOWN`.
+**HTTP flow:**
+1. `GET /login/` → get initial cookies.
+2. `POST /ajax/login.php` → authenticate.
+3. `GET /homed/` → initialize session (navigation headers required).
+4. `GET /keyword-research/` → prepare session.
+5. `POST /ajax/kresearch.php` → poll results.
+6. `POST /ajax/kresearchTrackeo.php` → browser-like tracking.
+7. `POST /ajax/cierra.php` → **Logout in `finally`**.
+
+**Error handling & retry:**
+- `DeviceConflictError` — login response hints at device conflict. Account excluded, session cleared, retry with next account.
+- `NoCreditsError` — `kresearch.php` returns no valid JSON. Account excluded, new account created via API.
+- Any other error (login failure, network) — account excluded and rotated silently.
+- Up to 10 retry attempts total in `scrapeWithRetry`.
+
+**Account registry:** `content/dinorank-accounts-registry.json` — fields: `email`, `password`, `kwCredits`, `contentCredits`, `keywords[]`, `content[]`, `lastUsed`.
+
+**Cache:** `content/dinorank-kw-cache.json` — 30-day TTL per keyword+country key. Format: `{ "<keyword>_<country>": KWCacheEntry }`.
+
+**Exported for tests:** `updateMarkdownTable`, `isCacheValid`, `loadCache`, `saveCache`, `scrapeOnce`, `scrapeWithRetry`, `DeviceConflictError`, `NoCreditsError`, `internals`.
 
 ## Content Synchronization (Git-like)
 

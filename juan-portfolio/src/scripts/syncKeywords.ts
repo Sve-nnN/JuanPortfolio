@@ -1,34 +1,34 @@
 import fs from 'fs'
 import path from 'path'
+import * as p from '@clack/prompts'
+import pLimit from 'p-limit'
 import { getPayload } from 'payload'
-import type { Payload } from 'payload'
 import config from '../payload.config'
 import { SerpApiAdapter } from './seo/adapters/SerpApiAdapter'
 import { SerpCache } from './seo/SerpCache'
 import { KeywordIntelligenceService } from './seo/WordCountCrawler'
-import { Post, Page, KeywordMetric } from '../payload-types'
 import { loadState as loadDinoState } from './create-post'
 import {
   scrapeWithRetry,
   loadCache as loadDinoCache,
   saveCache as saveDinoCache,
   isCacheValid as isDinoCacheValid,
+  setDebug,
   type KWCacheEntry,
 } from './scrape-dinorank'
 
 const KEYWORDS_FILE = path.resolve(process.cwd(), 'content/keywords.md')
-const cache = new SerpCache()
+const BACKLOG_FILE = path.resolve(process.cwd(), 'content/keywords_backlog.md')
 const intelService = new KeywordIntelligenceService()
+const limit = pLimit(1) // Atomic sequential processing
 
-// ANSI Colors
-const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  blue: '\x1b[34m',
-  red: '\x1b[31m',
-  yellow: '\x1b[33m',
-  cyan: '\x1b[36m',
-  dim: '\x1b[2m',
+const colors = { reset: '\x1b[0m', green: '\x1b[32m', blue: '\x1b[34m', red: '\x1b[31m', yellow: '\x1b[33m', cyan: '\x1b[36m', dim: '\x1b[2m' }
+
+// ─── Exports ────────────────────────────────────────────────────────────────
+
+export const COUNTRIES_BY_LANG: Record<string, string[]> = {
+  es: ['es', 'mx', 'ar'],
+  en: ['us', 'gb', 'au'],
 }
 
 export interface KeywordData {
@@ -38,746 +38,496 @@ export interface KeywordData {
   country?: string
   volume: number
   difficulty: number
-  trend?: string
-  intent: 'Informational' | 'Commercial' | 'Transactional' | 'Navigational' | string
-  status?: string
+  intent: string
+  status: string
+  source?: string
   lastUpdated?: string
-  source: string
   relatedSearches?: string[]
-  paaCount?: number
   paaQuestions?: string[]
+  paaCount?: number
   topDomain?: string
   hasAiOverview?: boolean
-  aiOverviewSnippet?: string
   serpFeatures?: string[]
   competitorHeadings?: string
   competitorMeta?: string
   avgWordCount?: number
-  opportunityScore?: number
-  recommendedFormat?: string
-  clusterType?: 'Pillar' | 'Supporting' | string
+  clusterType?: string
   suggestedAnchorText?: string
-  funnelStage?: 'Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)' | string
-  informationGain?: string
+  trend?: string
   post?: string
   page?: string
-  competitorData?: { title: string; snippet: string; link: string }[]
 }
 
-const unescapeFromTable = (text: string): string => {
-  if (!text) return ''
-  return text.replace(/\\\|/g, '|')
+export const OFFICIAL_HEADERS = [
+  'Keyword', 'Target URL', 'Language', 'Country', 'Volume', 'Difficulty',
+  'Intent', 'Status', 'Last Updated', 'Source', 'Trend', 'PAA Count',
+  'Related Searches', 'PAA Questions', 'Top Domain', 'Has AI Overview',
+  'SERP Features', 'Competitor Headings', 'Competitor Meta', 'Avg. Word Count',
+  'Cluster Type', 'Suggested Anchor Text',
+]
+
+/** Last headers parsed by parseKeywordsMarkdown — used by formatLine for round-trips. */
+let _lastHeaders: string[] = [...OFFICIAL_HEADERS]
+
+// ─── Language & Intent Detection ─────────────────────────────────────────────
+
+/** Detects keyword language by heuristics (diacritics → Spanish function words → English default). */
+export function detectLang(keyword: string): string {
+  if (/[áéíóúñüÁÉÍÓÚÑÜ]/.test(keyword)) return 'es'
+  const words = keyword.toLowerCase().split(/\s+/)
+  const esFunctionWords = new Set([
+    'que', 'es', 'el', 'la', 'los', 'las', 'de', 'en', 'por', 'un', 'una',
+    'con', 'del', 'al', 'como', 'para', 'se', 'su', 'sus', 'mi', 'tu', 'nos',
+    'les', 'y', 'o', 'si', 'no', 'hay', 'mas', 'muy', 'esto', 'esta', 'ese',
+  ])
+  const esContentWords = new Set([
+    'seo', 'tecnico', 'tecnica', 'hacer', 'pagina', 'web', 'guia', 'herramientas',
+    'mejores', 'mejor', 'marketing', 'digital', 'gratis', 'curso', 'precio',
+    'arboles', 'binarios', 'estructuras', 'datos', 'algoritmos', 'programacion',
+  ])
+  let esScore = 0
+  for (const w of words) {
+    if (esFunctionWords.has(w)) esScore += 2
+    else if (esContentWords.has(w)) esScore += 1
+  }
+  return esScore > 0 ? 'es' : 'en'
 }
 
-const sanitizeForTable = (text: string | undefined | null): string => {
-  if (!text) return ''
-  return text.replace(/\|/g, '\\|').replace(/\n/g, ' ').trim()
-}
+/** Classifies search intent from keyword + optional competitor titles. */
+export function detectIntent(keyword: string, competitorTitles: string[] = []): string {
+  const kw = keyword.toLowerCase()
+  const scores: Record<string, number> = { Informational: 0, Navigational: 0, Commercial: 0, Transactional: 0 }
 
-// Global variable to store active headers for formatLine
-let activeHeaders: string[] = []
+  const transWords = ['comprar', 'precio', 'descuento', 'oferta', 'gratis', 'descargar', 'download', 'buy', 'price', 'deal', 'discount']
+  const commWords = ['mejores', 'mejor', 'vs', 'comparar', 'comparativa', 'review', 'alternativa', 'alternativas', 'top', 'ranking', 'best']
+  const infoWords = ['como', 'que', 'que es', 'guia', 'guía', 'tutorial', 'aprende', 'learn', 'how', 'what', 'why', 'cuando', 'donde', 'manual', 'definicion', 'significado']
+  const navWords = ['login', 'signup', 'register', 'acceder', 'entrar', 'github', 'twitter', 'facebook', 'instagram', 'youtube', 'linkedin', 'gmail']
 
-function formatLine(data: KeywordData): string {
-  const formatArray = (arr: string[] | undefined): string => (arr || []).join('; ')
-  const formatBoolean = (val: boolean | undefined): string => (val ? 'Yes' : 'No')
+  for (const w of kw.split(/\s+/)) {
+    if (transWords.includes(w)) scores.Transactional += 2
+    if (commWords.includes(w)) scores.Commercial += 2
+    if (infoWords.includes(w)) scores.Informational += 2
+    if (navWords.includes(w)) scores.Navigational += 2
+  }
+  if (/ vs | vs$|^vs /.test(kw)) scores.Commercial += 2
+  if (/precio de[l ]/.test(kw)) scores.Transactional += 2
 
-  if (!activeHeaders.length) {
-    // Fallback if headers weren't parsed (should not happen)
-    activeHeaders = [
-      'Keyword',
-      'Target URL',
-      'Language',
-      'Country',
-      'Volume',
-      'Difficulty',
-      'Trend',
-      'Intent',
-      'Status',
-      'Last Updated',
-      'Source',
-      'Related Searches',
-      'PAA Count',
-      'PAA Questions',
-      'Top Domain',
-      'Has AI Overview',
-      'SERP Features',
-      'Competitor Headings',
-      'Competitor Meta',
-      'Avg. Word Count',
-      'Opportunity Score',
-      'Recommended Format',
-      'Cluster Type',
-      'Suggested Anchor Text',
-      'Funnel Stage',
-      'Information Gain',
-    ]
+  const titleText = competitorTitles.join(' ').toLowerCase()
+  for (const w of ['guía', 'guia', 'tutorial', 'aprende', 'cómo', 'como', 'que es', 'principios', 'básico', 'basico']) {
+    if (titleText.includes(w)) scores.Informational += 1
   }
 
-  const cols = new Array(activeHeaders.length).fill('')
-
-  const setCol = (name: string, value: string) => {
-    const idx = activeHeaders.indexOf(name)
-    if (idx !== -1) cols[idx] = value
-  }
-
-  setCol('keyword', sanitizeForTable(data.keyword))
-  setCol('target url', sanitizeForTable(data.targetURL))
-  setCol('language', sanitizeForTable(data.language))
-  setCol('country', sanitizeForTable(data.country))
-  setCol('volume', (data.volume ?? 0).toString())
-  setCol('difficulty', (data.difficulty ?? 0).toString())
-  setCol('trend', sanitizeForTable(data.trend))
-  setCol('intent', sanitizeForTable(data.intent))
-  setCol('status', sanitizeForTable(data.status))
-  setCol('last updated', sanitizeForTable(data.lastUpdated))
-  setCol('source', sanitizeForTable(data.source))
-  setCol('related searches', formatArray(data.relatedSearches))
-  setCol('paa count', (data.paaCount ?? 0).toString())
-  setCol('paa questions', formatArray(data.paaQuestions))
-  setCol('top domain', sanitizeForTable(data.topDomain))
-  setCol('has ai overview', formatBoolean(data.hasAiOverview))
-  setCol('serp features', formatArray(data.serpFeatures))
-  setCol('competitor headings', sanitizeForTable(data.competitorHeadings))
-  setCol('competitor meta', sanitizeForTable(data.competitorMeta))
-  setCol('avg. word count', (data.avgWordCount ?? 0).toString())
-  setCol('opportunity score', (data.opportunityScore ?? 0).toString())
-  setCol('recommended format', sanitizeForTable(data.recommendedFormat))
-  setCol('cluster type', sanitizeForTable(data.clusterType))
-  setCol('suggested anchor text', sanitizeForTable(data.suggestedAnchorText))
-  setCol('funnel stage', sanitizeForTable(data.funnelStage))
-  setCol('information gain', sanitizeForTable(data.informationGain))
-
-  return `| ${cols.join(' | ')} |`
+  const max = Math.max(...Object.values(scores))
+  if (max === 0) return 'Informational'
+  return Object.entries(scores).find(([, v]) => v === max)![0]
 }
 
-const getDocumentFromURL = async (
-  payload: Payload,
-  url: string,
-): Promise<{
-  id: string
-  collection: 'posts' | 'pages'
-  status: string
-  fullUrl: string
-} | null> => {
-  if (!url || url === 'N/A' || url === '') return null
+// ─── Table Helpers ────────────────────────────────────────────────────────────
 
-  const parts = url.split('/')
-  const slug = parts[parts.length - 1]
+const unescapeFromTable = (text: string): string => text ? text.replace(/\\\|/g, '|') : ''
+const sanitizeForTable = (text: string | undefined | null): string =>
+  text ? text.replace(/\|/g, '\\|').replace(/\n/g, ' ').trim() : ''
 
-  if (!slug) return null
+function parseVolume(raw: unknown): number {
+  const val = parseInt(String(raw || '0').replace(/[^\d]/g, ''), 10) || 0
+  return val > 1_000_000 ? 0 : val
+}
 
-  // Try posts first
-  const posts = await payload.find({
-    collection: 'posts',
-    where: {
-      slug: { equals: slug },
-    },
-    limit: 1,
+function kwDataValueFor(h: string, data: KeywordData): string {
+  const formatArr = (arr: string[] | undefined) => (arr || []).join('; ')
+  switch (h.toLowerCase()) {
+    case 'keyword': return sanitizeForTable(data.keyword)
+    case 'target url': return sanitizeForTable(data.targetURL)
+    case 'language': return sanitizeForTable(data.language)
+    case 'country': return sanitizeForTable(data.country)
+    case 'volume': return (data.volume ?? 0).toString()
+    case 'difficulty': return (data.difficulty ?? 0).toString()
+    case 'intent': return sanitizeForTable(data.intent)
+    case 'status': return sanitizeForTable(data.status)
+    case 'source': return sanitizeForTable(data.source)
+    case 'last updated': return sanitizeForTable(data.lastUpdated)
+    case 'trend': return sanitizeForTable(data.trend)
+    case 'paa count': return (data.paaCount ?? 0).toString()
+    case 'related searches': return formatArr(data.relatedSearches)
+    case 'paa questions': return formatArr(data.paaQuestions)
+    case 'top domain': return sanitizeForTable(data.topDomain)
+    case 'has ai overview': return data.hasAiOverview ? 'Yes' : 'No'
+    case 'serp features': return formatArr(data.serpFeatures)
+    case 'competitor headings': return sanitizeForTable(data.competitorHeadings)
+    case 'competitor meta': return sanitizeForTable(data.competitorMeta)
+    case 'avg. word count': return (data.avgWordCount ?? 0).toString()
+    case 'cluster type': return sanitizeForTable(data.clusterType)
+    case 'suggested anchor text': return sanitizeForTable(data.suggestedAnchorText)
+    default: return ''
+  }
+}
+
+export function formatLine(data: KeywordData, headers = _lastHeaders): string {
+  return `| ${headers.map(h => kwDataValueFor(h, data)).join(' | ')} |`
+}
+
+function mergeKeywords(oldK: KeywordData, newK: KeywordData): KeywordData {
+  return {
+    ...oldK, ...newK,
+    volume: newK.volume || oldK.volume,
+    difficulty: newK.difficulty || oldK.difficulty,
+    lastUpdated: newK.lastUpdated || oldK.lastUpdated || new Date().toISOString().split('T')[0],
+    relatedSearches: [...new Set([...(oldK.relatedSearches || []), ...(newK.relatedSearches || [])])],
+    paaQuestions: [...new Set([...(oldK.paaQuestions || []), ...(newK.paaQuestions || [])])],
+    status: (newK.status && newK.status !== '-') ? newK.status : oldK.status,
+  }
+}
+
+// ─── Atomic File Update ──────────────────────────────────────────────────────
+
+function updateKeywordInFile(data: KeywordData): void {
+  if (!fs.existsSync(KEYWORDS_FILE)) return
+  const content = fs.readFileSync(KEYWORDS_FILE, 'utf-8')
+  const lines = content.split(/\r?\n/)
+  const dividerIndex = lines.findIndex(l => l.includes('---'))
+  if (dividerIndex === -1) return
+
+  const headerLine = lines[dividerIndex - 1]!
+  const headers = headerLine.split(/(?<!\\)\|/).map(h => h.trim()).filter(Boolean)
+
+  let updated = false
+  const updatedLines = lines.map(line => {
+    if (!line.trim().startsWith('|') || line.includes('Keyword')) return line
+    const parts = line.split(/(?<!\\)\|/).map(p => p.trim())
+    if (parts[0] === '') parts.shift()
+    const kwValue = parts[0] || '' 
+    if (kwValue.toLowerCase() === data.keyword.toLowerCase()) {
+      updated = true
+      return formatLine(data, headers)
+    }
+    return line
   })
 
-  if (posts.docs.length > 0) {
-    const doc = posts.docs[0] as unknown as Post & { idioma?: 'en' | 'es' }
-    const localePrefix = doc.idioma === 'en' ? '/en' : ''
-    return {
-      id: String(doc.id),
-      collection: 'posts',
-      status: String(doc._status),
-      fullUrl: `${localePrefix}/blog/${doc.slug}`,
-    }
+  if (!updated) {
+    updatedLines.push(formatLine(data, headers))
   }
 
-  // Then try pages
-  const pages = await payload.find({
-    collection: 'pages',
-    where: {
-      slug: { equals: slug },
-    },
-    limit: 1,
-  })
-
-  if (pages.docs.length > 0) {
-    const doc = pages.docs[0] as unknown as Page
-    return {
-      id: String(doc.id),
-      collection: 'pages',
-      status: String(doc._status),
-      fullUrl: `/${doc.slug}`,
-    }
-  }
-
-  return null
+  fs.writeFileSync(KEYWORDS_FILE, updatedLines.join('\n'), 'utf-8')
 }
+
+// ─── Parsing ──────────────────────────────────────────────────────────────────
 
 export const parseKeywordsMarkdown = (content: string): KeywordData[] => {
   const lines = content.split(/\r?\n/)
-  const keywords: KeywordData[] = []
-
-  const dividerIndex = lines.findIndex((l) => l.includes('---'))
+  const dividerIndex = lines.findIndex(l => l.includes('---'))
   if (dividerIndex === -1) return []
 
-  const headerLine = lines[dividerIndex - 1]
-  if (!headerLine || !headerLine.startsWith('|')) {
-    console.warn(
-      `${colors.yellow}⚠️  No header line found before divider. Using default headers.${colors.reset}`,
-    )
-    activeHeaders = [] // Reset to use fallback in formatLine
-  } else {
-    activeHeaders = headerLine
-      .split(/(?<!\\)\|/)
-      .map((h) => h.trim().toLowerCase())
-      .filter(Boolean)
-  }
+  const headerLine = lines[dividerIndex - 1]!
+  const originalHeaders = headerLine.split(/(?<!\\)\|/).map(h => h.trim()).filter(Boolean)
+  const lowerHeaders = originalHeaders.map(h => h.toLowerCase())
+  _lastHeaders = originalHeaders
 
-  const dataLines = lines.slice(dividerIndex + 1)
-
-  for (const line of dataLines) {
-    if (!line.trim() || !line.startsWith('|')) continue
-
-    const parts = line.split(/(?<!\\)\|/).map((p) => p.trim())
-    if (parts.length > 0 && parts[0] === '') parts.shift()
-    if (parts.length > 0 && parts[parts.length - 1] === '') parts.pop()
-
-    if (parts.length < 7) continue
-
-    const keyword = unescapeFromTable(parts[activeHeaders.indexOf('keyword')])
-    if (!keyword || keyword === 'Keyword') continue
-
-    const parseArr = (s: string) =>
-      s
-        .split(';')
-        .map((x) => x.trim())
-        .filter(Boolean)
-
-    const getValue = (header: string, defaultValue: any = '') => {
-      const idx = activeHeaders.indexOf(header.toLowerCase())
-      return idx !== -1 && parts[idx] !== undefined ? unescapeFromTable(parts[idx]) : defaultValue
+  const kwMap = new Map<string, KeywordData>()
+  for (const line of lines.slice(dividerIndex + 1)) {
+    if (!line.trim() || !line.trim().startsWith('|')) continue
+    const parts = line.split(/(?<!\\)\|/).map(p => p.trim())
+    if (parts[0] === '') parts.shift()
+    if (parts[parts.length - 1] === '') parts.pop()
+    const getValue = (header: string): string => {
+      const idx = lowerHeaders.indexOf(header.toLowerCase())
+      return idx !== -1 && parts[idx] ? unescapeFromTable(parts[idx]) : ''
     }
-
-    const getNumber = (header: string, defaultValue: number = 0) => {
-      const val = getValue(header)
-      return parseInt(val, 10) || defaultValue
-    }
-
-    const getBoolean = (header: string, defaultValue: boolean = false) => {
-      const val = getValue(header)
-      return val === 'Yes' || defaultValue
-    }
-
-    const getArray = (header: string) => parseArr(getValue(header))
-
-    keywords.push({
-      keyword,
+    const kw = getValue('keyword')
+    if (!kw || kw.toLowerCase() === 'keyword' || kw.startsWith('---')) continue
+    const data: KeywordData = {
+      keyword: kw,
       targetURL: getValue('target url'),
-      language: getValue('language'),
-      country: getValue('country'),
-      volume: getNumber('volume'),
-      difficulty: getNumber('difficulty'),
-      trend: getValue('trend'),
-      intent: getValue('intent') as KeywordData['intent'],
-      status: getValue('status'),
-      lastUpdated: getValue('last updated'),
-      source: getValue('source', 'Manual'),
-      relatedSearches: getArray('related searches'),
-      paaCount: getNumber('paa count'),
-      paaQuestions: getArray('paa questions'),
-      topDomain: getValue('top domain'),
-      hasAiOverview: getBoolean('has ai overview'),
-      aiOverviewSnippet: getValue('ai overview snippet'),
-      serpFeatures: getArray('serp features'),
-      competitorHeadings: getValue('competitor headings'),
-      competitorMeta: getValue('competitor meta'),
-      avgWordCount: getNumber('avg. word count'),
-      opportunityScore: getNumber('opportunity score'),
-      recommendedFormat: getValue('recommended format'),
-      clusterType: getValue('cluster type') as KeywordData['clusterType'],
-      suggestedAnchorText: getValue('suggested anchor text'),
-      funnelStage: getValue('funnel stage') as KeywordData['funnelStage'],
-      informationGain: getValue('information gain'),
-    })
-  }
-
-  return keywords
-}
-
-const detectKeywordLocale = (keyword: string): string => detectLang(keyword)
-
-/**
- * Detect whether a keyword is Spanish or English based on diacritics and common function words.
- * Defaults to 'en' if neither pattern matches.
- */
-export const detectLang = (keyword: string): 'es' | 'en' => {
-  // Diacritics: definitive Spanish indicator
-  if (/[áéíóúüñ¿¡]/i.test(keyword)) return 'es'
-  // Common Spanish function words (with or without accent)
-  if (/\b(de|en|el|la|los|las|para|como|que|del|con|por|una|sus)\b/i.test(keyword)) return 'es'
-  // Common unambiguously Spanish content words (covers SEO/tech topics without accents)
-  if (
-    /\b(tecnico|tecnica|guia|curso|estrategia|palabras|clave|contenido|pagina|paginas|enlace|enlaces|rastreo|indexacion|velocidad|rendimiento|busqueda|busca|diseno|bases|datos|algoritmo|algoritmos|estructura|estructuras|ordenamiento|programacion|normalizacion|presupuesto|rastreo|sitio|web)\b/i.test(
-      keyword,
-    )
-  )
-    return 'es'
-  return 'en'
-}
-
-/**
- * Countries to iterate when the keyword has no explicit country set.
- * We pick the country that yields the highest search volume.
- */
-export const COUNTRIES_BY_LANG: Record<'es' | 'en', string[]> = {
-  es: ['es', 'mx', 'ar', 'cl', 'co'],
-  en: ['us', 'gb', 'au'],
-}
-
-export async function enrichWithSerpData(
-  keywords: KeywordData[],
-  adapter: SerpApiAdapter,
-  delayMs = 1200,
-  verbose = false,
-): Promise<{ enriched: number; failed: number }> {
-  let enriched = 0
-  let failed = 0
-  const total = keywords.length
-
-  for (let i = 0; i < keywords.length; i++) {
-    const kwData = keywords[i]
-    const locale = detectKeywordLocale(kwData.keyword)
-
-    if (verbose) {
-      process.stdout.write(
-        `${colors.dim}[${i + 1}/${total}]${colors.reset} ${colors.blue}Processing${colors.reset} "${kwData.keyword}" ${colors.dim}(${locale})${colors.reset}... `,
-      )
+      language: getValue('language') || undefined,
+      country: getValue('country') || undefined,
+      volume: parseVolume(getValue('volume')),
+      difficulty: parseInt(getValue('difficulty'), 10) || 0,
+      intent: getValue('intent'),
+      status: getValue('status') || '-',
+      source: getValue('source') || undefined,
+      lastUpdated: getValue('last updated') || undefined,
+      trend: getValue('trend') || undefined,
+      paaCount: parseInt(getValue('paa count'), 10) || 0,
+      relatedSearches: getValue('related searches').split(';').map(x => x.trim()).filter(Boolean),
+      paaQuestions: getValue('paa questions').split(';').map(x => x.trim()).filter(Boolean),
+      topDomain: getValue('top domain') || undefined,
+      hasAiOverview: getValue('has ai overview').toLowerCase() === 'yes',
+      serpFeatures: getValue('serp features').split(';').map(x => x.trim()).filter(Boolean),
+      competitorHeadings: getValue('competitor headings') || undefined,
+      competitorMeta: getValue('competitor meta') || undefined,
+      avgWordCount: parseInt(getValue('avg. word count'), 10) || 0,
+      clusterType: getValue('cluster type') || undefined,
+      suggestedAnchorText: getValue('suggested anchor text') || undefined,
     }
-
-    try {
-      let metrics = cache.get(kwData.keyword, locale) as Awaited<
-        ReturnType<SerpApiAdapter['fetchMetrics']>
-      >
-
-      if (!metrics) {
-        if (verbose) process.stdout.write(`${colors.yellow}API${colors.reset}... `)
-        metrics = await adapter.fetchMetrics(kwData.keyword, locale)
-        if (metrics) {
-          cache.set(kwData.keyword, locale, metrics)
-          if (delayMs > 0) await new Promise((r) => setTimeout(r, delayMs))
-        }
-      } else {
-        if (verbose) process.stdout.write(`${colors.green}Cache${colors.reset}... `)
-      }
-
-      if (metrics) {
-        kwData.paaQuestions = metrics.paaQuestions
-        kwData.paaCount = metrics.paaCount || metrics.paaQuestions?.length || 0
-        kwData.hasAiOverview = metrics.hasAiOverview
-        kwData.aiOverviewSnippet = metrics.aiOverviewSnippet
-        kwData.volume = metrics.volume || kwData.volume
-        kwData.difficulty = metrics.difficulty || kwData.difficulty
-        if (metrics.relatedSearches) kwData.relatedSearches = metrics.relatedSearches
-        if (metrics.serpFeatures) kwData.serpFeatures = metrics.serpFeatures
-
-        if (metrics.topUrls && metrics.topUrls.length > 0) {
-          // Store Top 4 URLs
-          kwData.topDomain = metrics.topUrls.slice(0, 4).join('; ')
-
-          if (verbose) process.stdout.write(`${colors.cyan}Intel${colors.reset}... `)
-          // Robust Intelligence Gathering (Average Word Count + Real Headings)
-          const intel = await intelService.getCompetitorMetrics(metrics.topUrls, 5)
-          kwData.avgWordCount = intel.avgWordCount
-          // FORCE UPDATE: Overwrite previous mock/duplicate headings
-          kwData.competitorHeadings = intel.combinedHeadings
-        }
-
-        if (metrics.competitorData) {
-          const newMeta = metrics.competitorData
-            .slice(0, 3)
-            .map((c: { title: string; snippet: string }) => `[${c.title}] ${c.snippet}`)
-            .join(' || ')
-          if (newMeta && newMeta.length > 10) kwData.competitorMeta = newMeta
-        }
-
-        enriched++
-        if (verbose) console.log(`${colors.green}Done${colors.reset}`)
-      } else {
-        if (verbose) console.log(`${colors.red}No Data${colors.reset}`)
-        failed++
-      }
-    } catch (_e) {
-      if (verbose) console.log(`${colors.red}Error${colors.reset}`)
-      console.error(`❌ SerpAPI/Intel error for "${kwData.keyword}":`, _e)
-      failed++
-    }
+    const lowKw = kw.toLowerCase()
+    if (kwMap.has(lowKw)) kwMap.set(lowKw, mergeKeywords(kwMap.get(lowKw)!, data))
+    else kwMap.set(lowKw, data)
   }
-
-  return { enriched, failed }
+  return Array.from(kwMap.values())
 }
 
-/** Parse a raw volume string like "6.600" or "6,600" or "6600" into a number */
-function parseVolume(raw: string): number {
-  // Remove thousands separators (dot or comma in wrong place) and parse
-  return parseInt(raw.replace(/[^\d]/g, ''), 10) || 0
-}
+// ─── DinoRank Enrichment ──────────────────────────────────────────────────────
 
-/** Apply a KWCacheEntry to a KeywordData object */
 function applyDinoResult(kwData: KeywordData, res: KWCacheEntry, country: string): void {
-  kwData.volume = parseVolume(res.volume) || kwData.volume
-  const compRaw = parseFloat(res.competency.replace(',', '.'))
-  if (!isNaN(compRaw)) {
-    kwData.difficulty = Math.round(compRaw * 100)
-  } else {
-    kwData.difficulty = parseInt(res.competency, 10) || kwData.difficulty
-  }
-  if (res.trend?.length) kwData.trend = res.trend.join(',')
-  if (res.relatedSearches)
-    kwData.relatedSearches = res.relatedSearches.split(',').map((s) => s.trim())
+  kwData.volume = parseVolume(res.volume)
+  kwData.difficulty = Math.round(parseFloat(String(res.competency).replace(',', '.')) * 100) || parseInt(String(res.competency), 10) || 0
   kwData.country = country
+  const rawTs = res.timestamp ? res.timestamp.split('T')[0] : ''
+  const isValidDate = rawTs && /^\d{4}-\d{2}-\d{2}$/.test(rawTs)
+  kwData.lastUpdated = isValidDate ? rawTs : new Date().toISOString().split('T')[0]
+  
+  if (Array.isArray(res.trend) && res.trend.length > 0) kwData.trend = res.trend.join(',')
+  if (res.relatedSearches) {
+    kwData.relatedSearches = res.relatedSearches.split(/,\s*/).map(s => s.trim()).filter(Boolean)
+  }
 }
 
 export async function enrichWithDinoRank(
   keywords: KeywordData[],
   useAI = false,
-  verbose = false,
-): Promise<{ enriched: number; failed: number }> {
-  let enriched = 0
-  let failed = 0
-
+  isDebug = false,
+  force = false,
+  mode: 'research' | 'suggestions' = 'research',
+  discover = false,
+  maxAccounts = 2
+): Promise<{ enriched: number; failed: number; suggestions: KeywordData[] }> {
   const dinoCache = loadDinoCache()
   const dinoState = loadDinoState()
+  let enriched = 0, failed = 0
+  const suggestions: KeywordData[] = []
 
-  // Separate keywords into two buckets:
-  //   fixedCountry  → kwData.country is explicit, only scrape that country
-  //   multiCountry  → kwData.country is empty, scrape ALL countries for the lang and pick best
-  const fixedByCountry: Record<string, KeywordData[]> = {}
-  const multiCountryKeywords: KeywordData[] = []
+  // Mandarin language detection
+  keywords.forEach(k => {
+    const detected = detectLang(k.keyword)
+    if (!k.language || k.language === '-') k.language = detected
+  })
 
-  for (const kwData of keywords) {
-    // Auto-fill language when missing
-    if (!kwData.language) {
-      kwData.language = detectLang(kwData.keyword)
-    }
+  const resultsByKwAndCountry = new Map<string, Map<string, KWCacheEntry>>()
 
-    if (kwData.country) {
-      const c = kwData.country
-      if (!fixedByCountry[c]) fixedByCountry[c] = []
-      fixedByCountry[c].push(kwData)
+  for (const kw of keywords) {
+    const lang = kw.language!
+    let countries: string[] = []
+    
+    if (kw.country && kw.country !== '-') {
+      countries = [kw.country]
+    } else if (discover) {
+      countries = COUNTRIES_BY_LANG[lang] || COUNTRIES_BY_LANG.en
     } else {
-      multiCountryKeywords.push(kwData)
+      countries = [(COUNTRIES_BY_LANG[lang] || COUNTRIES_BY_LANG.en)[0]!]
     }
-  }
 
-  // ── FIXED COUNTRY path (existing logic) ──────────────────────────────────────
-  const uncachedByCountry: Record<string, string[]> = {}
-
-  for (const [country, kws] of Object.entries(fixedByCountry)) {
-    for (const kwData of kws) {
-      const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
+    for (const country of countries) {
+      const cacheKey = `${kw.keyword.toLowerCase()}_${country}`
       const cached = dinoCache[cacheKey]
-
-      if (cached && isDinoCacheValid(cached.timestamp)) {
-        applyDinoResult(kwData, cached, country)
-        enriched++
-        if (verbose)
-          console.log(
-            `${colors.green}Cached DinoRank${colors.reset} "${kwData.keyword}" [${country}]`,
-          )
+      
+      if (cached && isDinoCacheValid(cached.timestamp) && !force) {
+        if (!resultsByKwAndCountry.has(kw.keyword.toLowerCase())) resultsByKwAndCountry.set(kw.keyword.toLowerCase(), new Map())
+        resultsByKwAndCountry.get(kw.keyword.toLowerCase())!.set(country, cached)
       } else {
-        if (!uncachedByCountry[country]) uncachedByCountry[country] = []
-        uncachedByCountry[country].push(kwData.keyword)
+        try {
+          const scraped = await scrapeWithRetry([kw.keyword], country, dinoState, useAI, lang, mode, maxAccounts)
+          for (const res of scraped) {
+            const kwLower = res.keyword.toLowerCase()
+            dinoCache[`${kwLower}_${country}`] = res
+            if (!resultsByKwAndCountry.has(kwLower)) resultsByKwAndCountry.set(kwLower, new Map())
+            resultsByKwAndCountry.get(kwLower)!.set(country, res)
+          }
+        } catch (e) {
+          if (isDebug) console.error(`[DinoRank] Error country=${country}:`, (e as Error).message)
+          failed++
+        }
       }
+    }
+
+    const options = resultsByKwAndCountry.get(kw.keyword.toLowerCase())
+    if (options && options.size > 0) {
+      const bestEntry = Array.from(options.entries()).reduce((prev, curr) => {
+        const getMetrics = (entry: KWCacheEntry) => {
+          const vol = parseVolume(entry.volume)
+          const diff = Math.round(parseFloat(String(entry.competency).replace(',', '.')) * 100) || 0
+          return vol * (101 - diff)
+        }
+        return getMetrics(curr[1]) > getMetrics(prev[1]) ? curr : prev
+      })
+      applyDinoResult(kw, bestEntry[1], bestEntry[0])
+      kw.source = 'DinoRank'
+      enriched++
     }
   }
 
-  for (const [country, kws] of Object.entries(uncachedByCountry)) {
-    if (kws.length === 0) continue
-    if (verbose)
-      console.log(
-        `${colors.blue}Scraping DinoRank for ${kws.length} keywords in [${country}]...${colors.reset}`,
-      )
-
-    try {
-      const scraped = await scrapeWithRetry(kws, country, dinoState, useAI)
-      for (const res of scraped) {
-        const cKey = `${res.keyword.toLowerCase()}_${country}`
-        dinoCache[cKey] = res
-        const kwData = fixedByCountry[country]?.find(
-          (k) => k.keyword.toLowerCase() === res.keyword.toLowerCase(),
-        )
-        if (kwData) {
-          applyDinoResult(kwData, res, country)
-          enriched++
-        }
-      }
-      saveDinoCache(dinoCache)
-    } catch (_e) {
-      if (verbose) console.error(`❌ DinoRank scrape error for country ${country}:`, _e)
-      failed += kws.length
-    }
-  }
-
-  // ── MULTI-COUNTRY path ────────────────────────────────────────────────────────
-  // For keywords without an explicit country, we iterate all countries for the
-  // detected language, collect all results, and keep the one with the highest volume.
-  if (multiCountryKeywords.length > 0) {
-    // Collect best results per keyword: keyword.lower → { country, res }
-    const bestResults: Record<string, { country: string; res: KWCacheEntry }> = {}
-
-    // First pass: pull from cache
-    for (const kwData of multiCountryKeywords) {
-      const lang = (kwData.language as 'es' | 'en') || 'es'
-      const countries = COUNTRIES_BY_LANG[lang] ?? COUNTRIES_BY_LANG['es']
-
-      for (const country of countries) {
-        const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
-        const cached = dinoCache[cacheKey]
-        if (cached && isDinoCacheValid(cached.timestamp)) {
-          const vol = parseVolume(cached.volume)
-          const current = bestResults[kwData.keyword.toLowerCase()]
-          if (!current || vol > parseVolume(current.res.volume)) {
-            bestResults[kwData.keyword.toLowerCase()] = { country, res: cached }
-          }
-          if (verbose) {
-            console.log(
-              `${colors.green}Cached DinoRank${colors.reset} "${kwData.keyword}" [${country}] vol=${vol}`,
-            )
-          }
-        }
-      }
-    }
-
-    // Determine which country+keyword combos still need scraping
-    // We only scrape a country if we don't have a valid cache entry for it
-    const toScrapeByCountry: Record<string, KeywordData[]> = {}
-
-    for (const kwData of multiCountryKeywords) {
-      const lang = (kwData.language as 'es' | 'en') || 'es'
-      const countries = COUNTRIES_BY_LANG[lang] ?? COUNTRIES_BY_LANG['es']
-
-      for (const country of countries) {
-        const cacheKey = `${kwData.keyword.toLowerCase()}_${country}`
-        const cached = dinoCache[cacheKey]
-        if (!cached || !isDinoCacheValid(cached.timestamp)) {
-          if (!toScrapeByCountry[country]) toScrapeByCountry[country] = []
-          // Avoid duplicates
-          if (!toScrapeByCountry[country].find((k) => k.keyword === kwData.keyword)) {
-            toScrapeByCountry[country].push(kwData)
-          }
-        }
-      }
-    }
-
-    // Scrape each missing country
-    for (const [country, kws] of Object.entries(toScrapeByCountry)) {
-      if (kws.length === 0) continue
-      if (verbose) {
-        console.log(
-          `${colors.blue}🌍 Multi-country scrape: ${kws.length} keywords in [${country}]...${colors.reset}`,
-        )
-      }
-
-      try {
-        const scraped = await scrapeWithRetry(
-          kws.map((k) => k.keyword),
-          country,
-          dinoState,
-          useAI,
-        )
-        for (const res of scraped) {
-          const cKey = `${res.keyword.toLowerCase()}_${country}`
-          dinoCache[cKey] = res
-
-          const vol = parseVolume(res.volume)
-          const current = bestResults[res.keyword.toLowerCase()]
-          if (!current || vol > parseVolume(current.res.volume)) {
-            bestResults[res.keyword.toLowerCase()] = { country, res }
-          }
-        }
-        saveDinoCache(dinoCache)
-      } catch (_e) {
-        if (verbose) console.error(`❌ DinoRank multi-country error for [${country}]:`, _e)
-        // Do not increment failed — other countries might still yield data
-      }
-    }
-
-    // Apply best results to each keyword
-    for (const kwData of multiCountryKeywords) {
-      const best = bestResults[kwData.keyword.toLowerCase()]
-      if (best) {
-        applyDinoResult(kwData, best.res, best.country)
-        enriched++
-        if (verbose) {
-          console.log(
-            `${colors.cyan}🏆 Best country for${colors.reset} "${kwData.keyword}": ${best.country} ` +
-              `(volume: ${parseVolume(best.res.volume)})`,
-          )
-        }
-      } else {
-        failed++
-        if (verbose)
-          console.log(`${colors.red}No DinoRank data for${colors.reset} "${kwData.keyword}"`)
-      }
-    }
-  }
-
-  return { enriched, failed }
+  saveDinoCache(dinoCache)
+  return { enriched, failed, suggestions }
 }
 
-/**
- * Lightweight enrichment: only fetches PAA questions for each keyword.
- * Unlike `enrichWithSerpData`, this function only updates `paaQuestions`/`paaCount`
- * and always uses the `'en'` locale. Useful for targeted PAA updates.
- */
+// ─── SerpAPI Enrichment ───────────────────────────────────────────────────────
+
+const serpCache = new SerpCache()
+
+export async function enrichWithSerpData(
+  keywords: KeywordData[],
+  adapter: InstanceType<typeof SerpApiAdapter>,
+  delay: number,
+  isDebug = false,
+): Promise<{ enriched: number; results: KeywordData[] }> {
+  let enrichedCount = 0
+  const enrichedKws: KeywordData[] = []
+  
+  for (const kw of keywords) {
+    try {
+      const locale = kw.language || 'es'
+      let res = serpCache.get(kw.keyword, locale) as any
+      if (!res) {
+        res = await adapter.fetchMetrics(kw.keyword, locale)
+        if (res) serpCache.set(kw.keyword, locale, res)
+      }
+
+      if (res) {
+        if (res.difficulty) kw.difficulty = res.difficulty
+        if (res.paaQuestions) kw.paaQuestions = res.paaQuestions
+        if (res.paaCount !== undefined) kw.paaCount = res.paaCount
+        kw.hasAiOverview = !!res.hasAiOverview
+        if (res.topUrls?.length) {
+          kw.topDomain = res.topUrls.join('; ')
+          const intel = await intelService.getCompetitorMetrics(res.topUrls, 5)
+          kw.avgWordCount = intel.avgWordCount
+          kw.competitorHeadings = intel.combinedHeadings
+          kw.competitorMeta = intel.combinedMetas
+        }
+        const titles = (res.competitorData || []).map((d: { title: string }) => d.title)
+        kw.intent = kw.intent && kw.intent !== '-' ? kw.intent : detectIntent(kw.keyword, titles)
+        kw.lastUpdated = new Date().toISOString().split('T')[0]
+        kw.source = 'SerpApi'
+        enrichedCount++
+        enrichedKws.push(kw)
+      }
+    } catch { /* ignore */ }
+  }
+  return { enriched: enrichedCount, results: enrichedKws }
+}
+
 export async function enrichWithFaqs(
   keywords: KeywordData[],
-  adapter: {
-    fetchMetrics: (
-      keyword: string,
-      locale?: string,
-    ) => Promise<{ paaQuestions?: string[]; paaCount?: number } | null>
-  },
-  delayMs = 1200,
-): Promise<{ enriched: number; failed: number }> {
-  let enriched = 0
-  let failed = 0
-
-  for (const kwData of keywords) {
+  adapter: Pick<InstanceType<typeof SerpApiAdapter>, 'fetchMetrics'>,
+  delay: number,
+): Promise<{ enriched: number }> {
+  let enrichedCount = 0
+  for (const kw of keywords) {
     try {
-      const metrics = await adapter.fetchMetrics(kwData.keyword, 'en')
-
-      if (metrics && metrics.paaQuestions && metrics.paaQuestions.length > 0) {
-        kwData.paaQuestions = metrics.paaQuestions
-        kwData.paaCount = metrics.paaCount ?? metrics.paaQuestions.length
-        enriched++
+      const res = await adapter.fetchMetrics(kw.keyword, kw.language || 'es')
+      if (res?.paaQuestions) {
+        kw.paaQuestions = res.paaQuestions
+        kw.paaCount = res.paaQuestions.length
+        enrichedCount++
       }
-
-      if (delayMs > 0) await new Promise((r) => setTimeout(r, delayMs))
-    } catch (_e) {
-      failed++
-    }
+    } catch { /* ignore */ }
   }
-
-  return { enriched, failed }
+  return { enriched: enrichedCount }
 }
+
+// ─── Backlog ──────────────────────────────────────────────────────────────────
+
+function updateBacklog(suggestions: KeywordData[]): void {
+  if (suggestions.length === 0) return
+  const backlogContent = fs.existsSync(BACKLOG_FILE)
+    ? fs.readFileSync(BACKLOG_FILE, 'utf-8')
+    : `# Keywords Backlog\n\n| ${OFFICIAL_HEADERS.join(' | ')} |\n| ${OFFICIAL_HEADERS.map(() => ':---').join(' | ')} |\n`
+  const mainKws = new Set(
+    parseKeywordsMarkdown(fs.readFileSync(KEYWORDS_FILE, 'utf-8')).map(k => k.keyword.toLowerCase())
+  )
+  const backlogKws = new Map(parseKeywordsMarkdown(backlogContent).map(k => [k.keyword.toLowerCase(), k]))
+  for (const s of suggestions) {
+    const lowKw = s.keyword.toLowerCase()
+    if (mainKws.has(lowKw)) continue
+    if (backlogKws.has(lowKw)) backlogKws.set(lowKw, mergeKeywords(backlogKws.get(lowKw)!, s))
+    else backlogKws.set(lowKw, s)
+  }
+  const lines = [`# Keywords Backlog`, ``, `| ${OFFICIAL_HEADERS.join(' | ')} |`, `| ${OFFICIAL_HEADERS.map(() => ':---').join(' | ')} |`]
+  Array.from(backlogKws.values()).sort((a, b) => (b.volume || 0) - (a.volume || 0)).forEach(k => lines.push(formatLine(k, OFFICIAL_HEADERS)))
+  fs.writeFileSync(BACKLOG_FILE, lines.join('\n'))
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+import { exportToCsv } from './export-keywords-csv'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
 
 const syncKeywords = async () => {
   const args = process.argv.slice(2)
-  const fetchSerp = args.includes('--fetch-serp')
-  const fetchDinorank = args.includes('--fetch-dinorank')
-  const useAI = args.includes('--ai')
-  const verbose = args.includes('--verbose')
+  const kwArg = args.find(a => a.startsWith('--keywords='))?.slice('--keywords='.length)
+  const flags = {
+    debug: args.includes('--debug'),
+    auto: args.includes('--auto') || args.includes('--all') || !!kwArg,
+    old: args.includes('--old'),
+    force: args.includes('--force'),
+    noSerp: args.includes('--no-serp'),
+    noDinorank: args.includes('--no-dinorank'),
+    faqs: args.includes('--faqs'),
+    ai: args.includes('--ai'),
+    verbose: args.includes('--verbose'),
+    suggestions: args.includes('--suggestions'),
+    discover: args.includes('--discover'),
+    maxAccounts: parseInt(args.find(a => a.startsWith('--max-accounts='))?.slice('--max-accounts='.length) || '2', 10),
+    specificKws: kwArg ? kwArg.split(',').map(s => s.trim().toLowerCase()) : null,
+  }
 
-  console.log(`${colors.blue}⏳ Initializing Payload...${colors.reset}`)
+  if (flags.debug) setDebug(true)
+  p.intro(`${colors.cyan}🚀 Keyword Sync Manager 2026 (Atomic Mode)${colors.reset}`)
   const payload = await getPayload({ config })
-
-  if (!fs.existsSync(KEYWORDS_FILE)) {
-    console.error(`${colors.red}❌ Keywords file not found: ${KEYWORDS_FILE}${colors.reset}`)
-    process.exit(1)
-  }
-
   const content = fs.readFileSync(KEYWORDS_FILE, 'utf-8')
-  const keywords = parseKeywordsMarkdown(content)
-  console.log(`${colors.dim}   Loaded ${keywords.length} keywords from local file${colors.reset}`)
+  const allKeywords = parseKeywordsMarkdown(content)
 
-  if (fetchSerp) {
-    if (!process.env.SERPAPI_API_KEY) {
-      console.warn(`${colors.yellow}⚠️  --fetch-serp requires SERPAPI_API_KEY${colors.reset}`)
-    } else {
-      const adapter = new SerpApiAdapter()
-      await enrichWithSerpData(keywords, adapter, 1200, verbose)
+  let keywordsToEnrich = allKeywords
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
+  if (flags.specificKws) keywordsToEnrich = allKeywords.filter(k => flags.specificKws!.includes(k.keyword.toLowerCase()))
+  else if (flags.old) keywordsToEnrich = allKeywords.filter(k => !k.lastUpdated || new Date(k.lastUpdated) < sevenDaysAgo)
+
+  p.log.info(`Archivo: ${allKeywords.length} kws. Enriqueciendo: ${keywordsToEnrich.length} kws.`)
+
+  if (keywordsToEnrich.length > 0) {
+    const doSerp = !flags.noSerp && (flags.auto || await p.confirm({ message: '¿SerpApi?', initialValue: true }))
+    const doDino = !flags.noDinorank && (flags.auto || await p.confirm({ message: '¿DinoRank?', initialValue: true }))
+
+    for (const kw of keywordsToEnrich) {
+      p.log.step(`Actualizando: ${colors.cyan}${kw.keyword}${colors.reset}`)
+      const batch = [kw]
+      
+      if (doSerp && process.env.SERPAPI_API_KEY) {
+        await enrichWithSerpData(batch, new SerpApiAdapter(), 0, flags.debug)
+      }
+      
+      if (doDino) {
+        const { suggestions } = await enrichWithDinoRank(
+          batch, 
+          flags.ai, 
+          flags.debug, 
+          flags.force,
+          flags.suggestions ? 'suggestions' : 'research',
+          flags.discover,
+          flags.maxAccounts
+        )
+        if (suggestions.length > 0) updateBacklog(suggestions)
+      }
+
+      updateKeywordInFile(kw)
     }
   }
 
-  if (fetchDinorank) {
-    await enrichWithDinoRank(keywords, useAI, verbose)
-  }
-
-  console.log(`\n${colors.blue}🔄 Syncing to Payload & Checking Live Status...${colors.reset}`)
-
-  let updatedCount = 0
-  for (const kwData of keywords) {
+  p.log.step('Sincronizando con Payload CMS...')
+  for (const kwData of allKeywords) {
     try {
-      const linkedDoc = await getDocumentFromURL(payload, kwData.targetURL)
-      if (linkedDoc) {
-        kwData.post = linkedDoc.collection === 'posts' ? linkedDoc.id : undefined
-        kwData.page = linkedDoc.collection === 'pages' ? linkedDoc.id : undefined
-
-        if (linkedDoc.status === 'published') {
-          kwData.status = `LIVE: ${linkedDoc.fullUrl}`
-        } else {
-          kwData.status = linkedDoc.status.toUpperCase()
-        }
-      }
-
-      const existing = await payload.find({
-        collection: 'keyword-metrics',
-        where: { keyword: { equals: kwData.keyword } },
-        limit: 1,
-      })
-
-      if (existing.docs.length > 0) {
-        await payload.update({
-          collection: 'keyword-metrics',
-          id: existing.docs[0].id,
-          data: kwData as unknown as KeywordMetric,
-        })
-      } else {
-        await payload.create({
-          collection: 'keyword-metrics',
-          data: kwData as unknown as KeywordMetric,
-        })
-      }
-      updatedCount++
-    } catch (_e) {
-      console.error(`❌ Error syncing "${kwData.keyword}":`, _e)
-    }
+      const existing = await payload.find({ collection: 'keyword-metrics', where: { keyword: { equals: kwData.keyword } }, limit: 1 })
+      const payloadData: any = { ...kwData, hasAiOverview: !!kwData.hasAiOverview }
+      if (existing.docs.length > 0) await payload.update({ collection: 'keyword-metrics', id: existing.docs[0].id, data: payloadData })
+      else await payload.create({ collection: 'keyword-metrics', data: payloadData })
+    } catch {}
   }
 
-  console.log(`\n${colors.blue}💾 Updating local ${KEYWORDS_FILE}...${colors.reset}`)
-  const lines = content.split(/\r?\n/)
-  const updatedLines: string[] = []
-  let headerProcessed = false
-  let separatorProcessed = false
-  const resultsMap = new Map(keywords.map((k) => [k.keyword.toLowerCase(), k]))
-
-  for (const line of lines) {
-    if (!line.trim()) {
-      updatedLines.push(line)
-      continue
-    }
-    if (line.includes('| Keyword') && line.trim().startsWith('|')) {
-      updatedLines.push(line)
-      headerProcessed = true
-      continue
-    }
-    if (headerProcessed && !separatorProcessed && line.includes('---')) {
-      updatedLines.push(line)
-      separatorProcessed = true
-      continue
-    }
-    if (headerProcessed && separatorProcessed && line.trim().startsWith('|')) {
-      const parts = line.split(/(?<!\\)\|/).map((p) => p.trim())
-      if (parts.length > 0 && parts[0] === '') parts.shift()
-      const kw = unescapeFromTable(parts[0]).toLowerCase()
-      const enriched = resultsMap.get(kw)
-      if (enriched) {
-        updatedLines.push(formatLine(enriched))
-        resultsMap.delete(kw)
-      } else {
-        updatedLines.push(line)
-      }
-    } else {
-      updatedLines.push(line)
-    }
-  }
-
-  for (const remaining of resultsMap.values()) {
-    updatedLines.push(formatLine(remaining))
-  }
-
-  fs.writeFileSync(KEYWORDS_FILE, updatedLines.join('\n'))
-  console.log(
-    `${colors.green}✅ Sync and Update complete! (${updatedCount} keywords)${colors.reset}`,
-  )
-
+  exportToCsv()
+  p.log.success('Todo actualizado y guardado.')
   process.exit(0)
 }
 
-syncKeywords()
+const isMain = process.argv[1] && (path.resolve(process.argv[1]) === path.resolve(__filename) || path.resolve(process.argv[1]).endsWith('syncKeywords.ts'))
+if (isMain) syncKeywords()

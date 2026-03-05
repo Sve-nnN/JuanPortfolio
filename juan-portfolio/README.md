@@ -145,43 +145,66 @@ pnpm create-post -- --re-export
 
 ### Overview
 
-`src/scripts/scrape-dinorank.ts` extracts keyword metrics — search volume, competition index, CPC, and related searches — from DinoRank's Keyword Research tool via Playwright. Results are written back to the `Volume`, `Difficulty`, and `Related Searches` columns in `content/keywords.md` and cached locally for 30 days to avoid redundant requests.
+`src/scripts/scrape-dinorank.ts` extracts keyword metrics — search volume, competition index (0–1), and CPC — from DinoRank's Keyword Research tool via **pure HTTP API** (no Playwright). Results are written back to the `Volume`, `Difficulty`, and `CPC` columns in `content/keywords.md` and cached locally for 30 days.
 
-### State Machine
+### API Endpoints
 
-The script uses an explicit state machine instead of a linear action sequence. At each polling cycle it inspects the DOM and decides how to proceed:
+| Method | URL | Purpose |
+| :----- | :-- | :------ |
+| `GET` | `/login/` | Obtain session cookies (`PHPSESSID`, `csrf_token`) |
+| `POST` | `/ajax/login.php` | Authenticate. Body: `nombreUsuario=&clave=&permanecer=si&elemento=&tiempo=<ts>`. Success: response includes `"status":"activo"` |
+| `GET` | `/keyword-research/` | Initialize KW research session (required before search) |
+| `POST` | `/ajax/kresearch.php` | Launch and poll keyword search. Body: `keyword=&keyword_pais=&keyword_idioma=es&...` |
+| `POST` | `/ajax/cierra.php` | **Logout** — always called on exit. Body: `t=<timestamp>` |
+| `GET` | `/registro/?codPromo=dinoTrial25` | Begin account registration flow |
+| `POST` | `/ajax/registro1.php` | Create account. Body: `email=&clave=&elemento=&telefono=%2B34666000000` |
+| `POST` | `/ajax/tracking/agregarKeyword.php` | Onboarding step 1 |
+| `POST` | `/ajax/enviaOnboardingPasosDetalle.php` | Onboarding steps (paso=3, paso=5) |
 
-| State | Detection condition |
-| :---- | :------------------ |
-| `NEEDS_LOGIN` | Page URL contains `/login` |
-| `DEVICE_CONFLICT` | SweetAlert or body text matches a session-conflict pattern |
-| `NO_CREDITS` | `.divlimites` element shows 0 remaining credits |
-| `OVERLAY_VISIBLE` | SweetAlert is visible but contains no conflict text |
-| `INPUT_READY` | `#keyword` input is visible and empty |
-| `INPUT_FILLED` | `#keyword` input contains the keyword |
-| `AWAITING_RESULTS` | Form submitted; loading indicators present in body text |
-| `RESULTS_READY` | `#tablaKwords` table is visible |
+### Response Parsing
 
-### Account Rotation
+`kresearch.php` returns a string with a URL prefix before the JSON payload:
 
-When DinoRank reports a simultaneous-session error ("You can't use your account on different devices at the same time"), the script:
+```
+https://visibilidad.dinorank.com/...{"status":"OK","message":"<HTML>","keyword_vol":140,"total_results":33}
+```
 
-1. Classifies the state as `DEVICE_CONFLICT` and throws a typed `DeviceConflictError`.
-2. Adds the conflicting account to an in-session exclusion set.
-3. Invalidates the session file (`content/dinorank-kw-session.json`) to force a fresh login.
-4. Retries with the next available account from `content/dinorank-state.json`.
+Parse with: `msg.substring(msg.lastIndexOf('{"status":"OK",'))`. Poll until `total_results > 0`. The `message` field contains the full HTML table with all keyword results.
 
-When `NO_CREDITS` is detected, the script creates a new DinoRank account interactively and registers it before retrying. The retry wrapper allows up to 3 attempts before aborting.
+**Table column order** (real structure observed 2026-03-05):
+
+| Index | Header | Example value |
+| :---- | :----- | :------------ |
+| 0 | *(empty)* | — |
+| 1 | Palabras clave | `algoritmos y estructuras de datos` |
+| 2 | Vol. | `140` |
+| 3 | Competencia | `0,48 Media` |
+| 4 | CPC | `0,20` or `Sin datos` |
+| 5 | *(action)* | `Ver más` |
+
+Each keyword produces 2 `<tr>` rows: the summary row (6 cells, parsed) and a detail row (1 cell, contains chart JS — ignored by `cells.length < 5` guard).
+
+**Cookie handling:** Use `response.headers.getSetCookie()` (Node 18.14+). Never use `headers.get('set-cookie').split(',')` — it breaks on date values in `expires` attributes (e.g. `expires=Thu, 05-Mar-2026`).
+
+### Account Rotation & Retry
+
+`scrapeWithRetry` retries up to 10 times, excluding failed accounts each round:
+
+- **`DeviceConflictError`** — login response hints at device conflict. Account excluded, session cleared.
+- **`NoCreditsError`** — `kresearch.php` returns no valid JSON. Account excluded; new account registered via API.
+- **Any other error** — account silently excluded, next account tried.
+
+Account registry: `content/dinorank-accounts-registry.json`. Fields: `email`, `password`, `kwCredits`, `contentCredits`, `keywords[]`, `content[]`, `lastUsed`.
 
 ### Usage
 
 ```bash
 pnpm scrape:dinorank "big-o notation"
 pnpm scrape:dinorank "seo técnico" --country=mx
-pnpm scrape:dinorank "technical seo" --country=us --debug
+pnpm scrape:dinorank "algoritmos y estructuras de datos" --country=es
 ```
 
-The `--debug` flag saves screenshots and DOM snapshots to `/tmp/scrape-dinorank-<step>-<timestamp>.png` and writes structured NDJSON entries to `logs/scrape-dinorank.log`.
+NDJSON logs written to `logs/scrape-dinorank.log`. Set `DINO_DEBUG=1` to dump raw `kresearch.php` HTML to `/tmp/dino-raw.html`.
 
 ---
 

@@ -47,6 +47,8 @@ function parseKeywordsFile(): KeywordEntry[] {
   return entries
 }
 
+import { exportToCsv } from '../export-keywords-csv'
+
 async function analyzeGap() {
   console.log('\x1b[36m🔍 Analizando Keyword Gap entre competidores...\x1b[0m\n')
   
@@ -136,6 +138,7 @@ async function analyzeGap() {
   if (appendLines.length > 0) {
     console.log(`\n\x1b[34m✍️  Añadiendo ${appendLines.length} nuevas keywords a keywords.md...\x1b[0m`)
     fs.appendFileSync(KEYWORDS_FILE_PATH, appendLines.join('\n') + '\n')
+    exportToCsv()
     console.log('\x1b[32m✨ ¡Proceso completado!\x1b[0m Ejecuta el script de métricas para poblar los datos.')
   }
 }

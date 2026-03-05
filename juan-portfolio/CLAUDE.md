@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+1. Before writing any code, describe your approach and wait for aproval.
+2. If the requirements I give you are ambiguous, as clarifying questions before  writing any code.
+3.  After you finish writing any code, list the edge cases and suggest test cases to cover them.
+4. If a task requires changes to more than 3 files, stop and break it into smaller tasks firsts.
+5. When there's a bug, start by writing a test that reproduces it. Then fix it until the test passes.
+6. Every time I correct you, reflect on what you did wrong and come up with a plan to never make the same mistake again.
+
 ## Commands
 
 ```bash
@@ -110,21 +117,50 @@ Orchestrates the full post-creation pipeline:
 5. Runs `pnpm sync push` via `spawnSync` to upload to Payload CMS.
 
 LLM provider is selected via `--provider=anthropic|openai|gemini` flag or the `LLM_PROVIDER` environment variable. Accounts are rotated automatically when `postsGenerated >= 5`.
-
+pnpm sync:keywords [--fetch-serp] [--suggestions] [--discover] [--max-accounts=N]
+...
 #### scrape-dinorank (`src/scripts/scrape-dinorank.ts`)
 
-Extracts keyword metrics (volume, competition, CPC, related searches) from DinoRank's Keyword Research tool:
+Extracts keyword metrics (volume, competition, CPC) from DinoRank's Keyword Research tool via **pure HTTP API** (no Playwright). Uses `DinoRankApiClient` which handles cookies, session, polling, tracking, and logout.
 
-1. Checks `content/dinorank-kw-cache.json` — returns cached data if it is less than 30 days old.
-2. Otherwise, launches Playwright and runs a `KwResearchState` state machine that detects eight DOM states per polling cycle.
-3. Handles `DEVICE_CONFLICT` (simultaneous-session error) by excluding the current account and retrying with another. Handles `NO_CREDITS` by creating a new DinoRank account interactively.
-4. Writes results to `content/dinorank-kw-cache.json` and updates the matching row in `content/keywords.md` via `updateMarkdownTable()`.
+**Flow per execution:**
+1. Checks `content/dinorank-kw-cache.json` — returns cached data if less than 30 days old.
+2. Picks an account from `content/dinorank-accounts-registry.json` (highest `kwCredits`, not excluded).
+3. `DinoRankApiClient.login()`: `POST /ajax/login.php` → `GET /homed/` → `GET /keyword-research/`.
+4. `DinoRankApiClient.search()`: polls `POST /ajax/kresearch.php` → `POST /ajax/kresearchTrackeo.php`.
+5. `DinoRankApiClient.logout()`: `POST /ajax/cierra.php` always called in `finally`.
+6. Updates `content/keywords.md` **atomically** after each keyword is processed.
 
-Uses a separate session file (`content/dinorank-kw-session.json`) to avoid conflicts with `create-post.ts`. Logs structured NDJSON to `logs/scrape-dinorank.log`. The `--debug` flag saves screenshots and DOM snapshots to `/tmp/`.
+**Account management:**
+- **Onboarding**: New accounts complete a 5-step onboarding via `completeOnboarding()` to activate 150 credits.
+- **Trial**: Accounts have a 7-day trial period; `loadRegistry` filters out expired or broken accounts.
+- **Cleanup**: Any account with login failure is automatically deleted from the registry.
 
-**Exported functions (used in unit tests):** `updateMarkdownTable()`.
+**DinoRank API endpoints used:**
 
-**Key constants:** `MAX_ITERATIONS = 45`, `MAX_RETRIES = 3`, `CACHE_VALIDITY_DAYS = 30`.
+| Method | URL | Purpose |
+|---|---|---|
+| `GET` | `/login/` | Get initial session cookies (PHPSESSID, csrf_token) |
+| `POST` | `/ajax/login.php` | Authenticate. Body: `nombreUsuario=&clave=&permanecer=si&elemento=&tiempo=<ts>` |
+| `GET` | `/keyword-research/` | Initialize KW research session (required before search) |
+| `POST` | `/ajax/kresearch.php` | Launch keyword search. Body: `keyword=&keyword_pais=&keyword_idioma=es&...` |
+| `POST` | `/ajax/cierra.php` | **Logout** (always call on exit). Body: `t=<timestamp>` |
+| `GET` | `/registro/?codPromo=dinoTrial25` | Get registration session (account creation only) |
+| `POST` | `/ajax/registro1.php` | Create account. Body: `email=&clave=&elemento=&telefono=%2B34666000000` |
+| `POST` | `/ajax/tracking/agregarKeyword.php` | Onboarding step 1 |
+| `POST` | `/ajax/enviaOnboardingPasosDetalle.php` | Onboarding steps (paso=3, paso=5) |
+
+**Cookie handling:** Use `headers.getSetCookie()` (Node 18.14+) — `headers.get('set-cookie').split(',')` breaks on date values in cookie attributes (e.g. `expires=Thu, 05-Mar-2026`).
+
+**Error classes:**
+- `DeviceConflictError(email)` — login response doesn't include `status":"activo"` and hints at session conflict; account excluded, session cleared, retry with next account.
+- `NoCreditsError(email)` — `kresearch.php` response has no valid JSON; account excluded, new account created via API, registered in state + registry.
+
+**Account registry:** `content/dinorank-accounts-registry.json`. Fields: `email`, `password`, `kwCredits`, `contentCredits`, `keywords[]`, `content[]`, `lastUsed`.
+
+**Exported functions (used in unit tests):** `updateMarkdownTable()`, `isCacheValid()`, `loadCache()`, `saveCache()`, `scrapeOnce()`, `scrapeWithRetry()`, `DeviceConflictError`, `NoCreditsError`, `internals` (object with spyable references to `scrapeOnce`, `ensureAccount`, `clearSession`, `createDinoRankAccount`).
+
+**Key constants:** `CACHE_VALIDITY_DAYS = 30`, max 10 retry attempts in `scrapeWithRetry`.
 
 ### Content Sync System
 

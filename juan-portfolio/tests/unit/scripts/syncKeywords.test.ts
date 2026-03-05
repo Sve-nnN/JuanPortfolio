@@ -3,6 +3,7 @@ import {
   enrichWithDinoRank,
   detectLang,
   COUNTRIES_BY_LANG,
+  detectIntent,
   KeywordData,
 } from '../../../src/scripts/syncKeywords'
 import * as scrapeDinorank from '../../../src/scripts/scrape-dinorank'
@@ -30,6 +31,57 @@ const makeEntry = (keyword: string, country: string, volume: string, cpc = '0.00
   trend: [] as number[],
   relatedSearches: '',
   timestamp: new Date().toISOString(),
+})
+
+describe('detectIntent', () => {
+  it('classifies Informational based on modifiers', () => {
+    expect(detectIntent('como hacer seo')).toBe('Informational')
+    expect(detectIntent('que es payloadcms')).toBe('Informational')
+    expect(detectIntent('guia de react')).toBe('Informational')
+  })
+
+  it('classifies Navigational based on brands/modifiers', () => {
+    expect(detectIntent('github juan')).toBe('Navigational')
+    expect(detectIntent('login dinorank')).toBe('Navigational')
+  })
+
+  it('classifies Commercial based on comparison modifiers', () => {
+    expect(detectIntent('mejores herramientas seo')).toBe('Commercial')
+    expect(detectIntent('nextjs vs remix')).toBe('Commercial')
+  })
+
+  it('classifies Transactional based on intent modifiers', () => {
+    expect(detectIntent('comprar curso seo')).toBe('Transactional')
+    expect(detectIntent('descuento hosting')).toBe('Transactional')
+    expect(detectIntent('descargar gratis plugin')).toBe('Transactional')
+    expect(detectIntent('precio de semrush')).toBe('Transactional')
+  })
+
+  it('uses competitor titles to influence scoring', () => {
+    const kw = 'seo tecnico'
+    const titles = [
+      'Guía de SEO Técnico 2025',
+      'Qué es el SEO Técnico y cómo optimizarlo',
+      'Principios básicos de SEO Técnico',
+    ]
+    expect(detectIntent(kw, titles)).toBe('Informational')
+  })
+
+  it('prioritizes keyword modifiers over titles but sums them up', () => {
+    // Keyword "comprar guia seo":
+    // Transactional: "comprar" (2)
+    // Informational: "guia" (2)
+    // Titles:
+    // Informational: "Guía" (1), "Aprende" (1)
+    // Total: Trans(2), Info(4). So Info wins.
+    const kw = 'comprar guia seo'
+    const titles = ['Guía definitiva de SEO', 'Aprende SEO paso a paso']
+    expect(detectIntent(kw, titles)).toBe('Informational')
+  })
+
+  it('defaults to Informational if no modifiers match', () => {
+    expect(detectIntent('alfombra roja')).toBe('Informational')
+  })
 })
 
 describe('detectLang', () => {

@@ -69,6 +69,7 @@ interface KeywordData {
   suggestedAnchorText: string
   funnelStage: string
   informationGain: string
+  trend?: string
 }
 
 interface CrawlResult {
@@ -184,6 +185,7 @@ function parseLine(line: string): KeywordData | null {
     suggestedAnchorText: unescapeFromTable(isNewFormat ? parts[19] : parts[18] || ''),
     funnelStage: unescapeFromTable(isNewFormat ? parts[20] : ''),
     informationGain: unescapeFromTable(isNewFormat ? parts[21] : ''),
+    trend: unescapeFromTable(isNewFormat ? parts[22] : ''),
   }
 }
 
@@ -214,6 +216,7 @@ function formatLine(data: KeywordData): string {
     sanitizeForTable(data.suggestedAnchorText),
     sanitizeForTable(data.funnelStage),
     sanitizeForTable(data.informationGain),
+    sanitizeForTable(data.trend || ''),
   ]
 
   return `| ${columns.join(' | ')} |`

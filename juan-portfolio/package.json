@@ -29,7 +29,8 @@
     "fix:links": "tsx src/scripts/fix-internal-links.ts",
     "utils": "tsx -r dotenv/config src/scripts/utils/tui.ts",
     "create-post": "tsx -r dotenv/config src/scripts/create-post.ts",
-    "scrape:dinorank": "tsx -r dotenv/config src/scripts/scrape-dinorank.ts"
+    "scrape:dinorank": "tsx -r dotenv/config src/scripts/scrape-dinorank.ts",
+    "export:keywords": "tsx src/scripts/export-keywords-csv.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",

@@ -1,95 +1,40 @@
-#!/usr/bin/env tsx
-/**
- * scrape-dinorank.ts — Extracción automática de Keyword Research de DinoRank
- *
- * Uso: pnpm scrape:dinorank "tu palabra clave" [--country=es] [--debug]
- *
- * Máquina de estados: detecta en qué punto del flujo está la página y actúa en consecuencia.
- * Maneja conflictos de sesión ("can't use your account on different devices"),
- * rotación de cuentas y creación automática de cuentas nuevas cuando no hay créditos.
- */
-
 import * as p from '@clack/prompts'
-import { chromium, type Page } from 'playwright'
 import { execSync } from 'child_process'
 import { readFileSync, writeFileSync, existsSync, appendFileSync, mkdirSync } from 'fs'
 import { join, resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { JSDOM } from 'jsdom'
 import {
-  loadState,
-  saveState,
-  registerAccount,
   randomStr,
   randomPassword,
+  loadState,
+  saveState,
   type DinoRankState,
   type DinoRankAccount,
 } from './create-post'
+import { loadRegistry, saveRegistry, addKeywordToAccount, updateAccount, deleteAccount, registerAccount } from './utils/accountRegistry'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const ROOT = resolve(__dirname, '../..')
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
 const KEYWORDS_FILE = join(ROOT, 'content/keywords.md')
 const CACHE_FILE = join(ROOT, 'content/dinorank-kw-cache.json')
-/** Historial permanente de todos los scrapes realizados (append-only, sin TTL). */
 const KW_HISTORY_FILE = join(ROOT, 'content/dinorank-kw-history.json')
-/** Session file exclusivo para KW research — evita conflictos con create-post */
 const KW_SESSION_FILE = join(ROOT, 'content/dinorank-kw-session.json')
 const LOGS_DIR = join(ROOT, 'logs')
 const LOG_FILE = join(LOGS_DIR, 'scrape-dinorank.log')
 
-const CACHE_VALIDITY_DAYS = 30
-const MAX_ITERATIONS = 45
-const MAX_RETRIES = 3
-const POLL_MS = 1500
-
-const DINORANK_REGISTER_URL = 'https://dinorank.com/registro/?codPromo=dinoTrial25'
-const DINORANK_LOGIN_URL = 'https://dinorank.com/login/'
-const DINORANK_KW_RESEARCH_URL = 'https://dinorank.com/keyword-research/'
-
-/**
- * Textos que DinoRank muestra cuando detecta sesión simultánea en otro dispositivo.
- * Se comprueban en body text y en el contenido de SweetAlerts.
- */
-const DEVICE_CONFLICT_PATTERNS = [
-  "can't use your account",
-  'different devices',
-  'diferentes dispositivos',
-  'dispositivo diferente',
-  'otro dispositivo',
-  'otra sesión activa',
-  'acceso simultáneo',
-  'simultáneo',
-  'logged in on another',
-]
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface KWCacheEntry {
-  keyword: string
-  country: string
-  volume: string
-  competency: string
-  cpc: string
-  trend: number[]
-  relatedSearches: string
-  timestamp: string
+  keyword: string; country: string; volume: string; competency: string; cpc: string;
+  trend: number[]; relatedSearches: string; timestamp: string;
 }
 
-/**
- * Entrada del historial permanente. Extiende KWCacheEntry con un flag que indica si
- * los resultados se cargaron desde el historial de DinoRank (sin consumir crédito).
- */
 export interface KWHistoryEntry extends KWCacheEntry {
-  /** true cuando los resultados vienen de "See analysis" en DinoRank, no de una búsqueda nueva */
   fromDinoRankHistory: boolean
 }
 
-export interface KWCache {
-  [key: string]: KWCacheEntry
-}
+export interface KWCache { [key: string]: KWCacheEntry }
 
 interface ArgResult {
   keywords: string[]
@@ -98,63 +43,12 @@ interface ArgResult {
   useAI: boolean
 }
 
-// ─── Custom Errors ───────────────────────────────────────────────────────────
-
-class DeviceConflictError extends Error {
-  constructor(public readonly email: string) {
-    super(`Sesión simultánea detectada — cuenta: ${email}`)
-    this.name = 'DeviceConflictError'
-  }
-}
-
-class NoCreditsError extends Error {
-  constructor(public readonly email: string) {
-    super(`Sin créditos de KW Research — cuenta: ${email}`)
-    this.name = 'NoCreditsError'
-  }
-}
-
-// ─── State Machine ────────────────────────────────────────────────────────────
-
-enum KwResearchState {
-  /** El browser fue redirigido a /login */
-  NEEDS_LOGIN = 'NEEDS_LOGIN',
-  /** DinoRank detectó sesión activa en otro dispositivo */
-  DEVICE_CONFLICT = 'DEVICE_CONFLICT',
-  /** La cuenta no tiene créditos de KW Research */
-  NO_CREDITS = 'NO_CREDITS',
-  /** Un SweetAlert u overlay bloquea la interfaz */
-  OVERLAY_VISIBLE = 'OVERLAY_VISIBLE',
-  /** El input #keyword está visible y vacío */
-  INPUT_READY = 'INPUT_READY',
-  /** El input #keyword ya tiene la keyword escrita */
-  INPUT_FILLED = 'INPUT_FILLED',
-  /** El formulario fue enviado y los resultados están cargando */
-  AWAITING_RESULTS = 'AWAITING_RESULTS',
-  /** La tabla #tablaKwords es visible — datos listos para extraer */
-  RESULTS_READY = 'RESULTS_READY',
-  /** Nueva pantalla intermedia de la IA */
-  AI_SELECTING = 'AI_SELECTING',
-  /** La keyword fue buscada antes y muestra botón See analysis */
-  HISTORY_NEEDS_CLICK = 'HISTORY_NEEDS_CLICK',
-  /** Estado no reconocido */
-  UNKNOWN = 'UNKNOWN',
-}
-
 // ─── Logger ───────────────────────────────────────────────────────────────────
-
-let DEBUG_MODE = false
 
 function log(level: 'info' | 'warn' | 'error', step: string, msg: string, data?: unknown): void {
   try {
     if (!existsSync(LOGS_DIR)) mkdirSync(LOGS_DIR, { recursive: true })
-    const entry = JSON.stringify({
-      ts: new Date().toISOString(),
-      level,
-      step,
-      msg,
-      ...(data !== undefined ? { data } : {}),
-    })
+    const entry = JSON.stringify({ ts: new Date().toISOString(), level, step, msg, ...(data !== undefined ? { data } : {}) })
     appendFileSync(LOG_FILE, entry + '\n', 'utf-8')
   } catch {}
 }
@@ -163,29 +57,17 @@ function log(level: 'info' | 'warn' | 'error', step: string, msg: string, data?:
 
 function resolveArgs(): ArgResult | null {
   const argv = process.argv.slice(2)
-  let debug = false
-  let country = 'es'
+  let debug = false, country = 'es', useAI = false
   let keywords: string[] = []
-  let useAI = false
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i]!
-    if (arg === '--debug') {
-      debug = true
-      DEBUG_MODE = true
-    } else if (arg === '--ai') {
-      useAI = true
-    } else if (arg.startsWith('--country=')) {
-      country = arg.slice('--country='.length)
-    } else if (arg === '--country' && argv[i + 1]) {
-      country = argv[++i]!
-    } else if (!arg.startsWith('--')) {
-      keywords = keywords.concat(
-        arg
-          .split(',')
-          .map((s) => s.trim())
-          .filter(Boolean),
-      )
+    if (arg === '--debug') { debug = true }
+    else if (arg === '--ai') { useAI = true }
+    else if (arg.startsWith('--country=')) { country = arg.slice('--country='.length) }
+    else if (arg === '--country' && argv[i + 1]) { country = argv[++i]! }
+    else if (!arg.startsWith('--')) {
+      keywords = keywords.concat(arg.split(',').map(s => s.trim()).filter(Boolean))
     }
   }
 
@@ -193,1195 +75,441 @@ function resolveArgs(): ArgResult | null {
   return { keywords, country, debug, useAI }
 }
 
-// ─── Cache ────────────────────────────────────────────────────────────────────
-
-export function loadCache(): KWCache {
-  if (!existsSync(CACHE_FILE)) return {}
-  try {
-    return JSON.parse(readFileSync(CACHE_FILE, 'utf-8')) as KWCache
-  } catch {
-    return {}
-  }
-}
-
-export function saveCache(cache: KWCache): void {
-  writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2))
-}
-
-export function isCacheValid(timestamp: string): boolean {
-  const diffDays = Math.ceil(
-    Math.abs(Date.now() - new Date(timestamp).getTime()) / (1000 * 60 * 60 * 24),
-  )
-  return diffDays <= CACHE_VALIDITY_DAYS
-}
-
-// ─── History ─────────────────────────────────────────────────────────────────
-
-const MAX_HISTORY_ENTRIES = 500
+// ─── History ──────────────────────────────────────────────────────────────────
 
 function loadHistory(): KWHistoryEntry[] {
   if (!existsSync(KW_HISTORY_FILE)) return []
-  try {
-    return JSON.parse(readFileSync(KW_HISTORY_FILE, 'utf-8')) as KWHistoryEntry[]
-  } catch {
+  try { return JSON.parse(readFileSync(KW_HISTORY_FILE, 'utf-8')) as KWHistoryEntry[] } catch { return [] }
+}
+
+// ─── Custom Errors ───────────────────────────────────────────────────────────
+
+export class DeviceConflictError extends Error {
+  constructor(public readonly email: string) {
+    super(`Sesión simultánea detectada — cuenta: ${email}`)
+    this.name = 'DeviceConflictError'
+  }
+}
+
+export class NoCreditsError extends Error {
+  constructor(public readonly email: string) {
+    super(`Sin créditos de KW Research — cuenta: ${email}`)
+    this.name = 'NoCreditsError'
+  }
+}
+
+// ─── DinoRank API Client ─────────────────────────────────────────────────────
+
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36'
+
+class DinoRankApiClient {
+  private cookies: string = ''
+
+  constructor(public email: string, public pass: string) {}
+
+  private getSetCookies(response: Response): string[] {
+    const h = response.headers as unknown as { getSetCookie?: () => string[] }
+    if (typeof h.getSetCookie === 'function') return h.getSetCookie()
+    const raw = response.headers.get('set-cookie')
+    return raw ? [raw] : []
+  }
+
+  private mergeCookies(raw: string[]): void {
+    const map = new Map<string, string>()
+    if (this.cookies) {
+      this.cookies.split(';').forEach(c => {
+        const idx = c.indexOf('=')
+        if (idx > 0) map.set(c.slice(0, idx).trim(), c.slice(idx + 1).trim())
+      })
+    }
+    for (const cookie of raw) {
+      const kv = cookie.split(';')[0]?.trim()
+      if (!kv) continue
+      const idx = kv.indexOf('=')
+      if (idx > 0) map.set(kv.slice(0, idx).trim(), kv.slice(idx + 1).trim())
+    }
+    this.cookies = Array.from(map.entries()).map(([k, v]) => `${k}=${v}`).join('; ')
+  }
+
+  private commonHeaders(referer: string): Record<string, string> {
+    return {
+      'Accept': '*/*',
+      'Accept-Language': 'en-US,en;q=0.9,es;q=0.8',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'Origin': 'https://dinorank.com',
+      'Referer': referer,
+      'Sec-Ch-Ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+      'Sec-Ch-Ua-Mobile': '?0',
+      'Sec-Ch-Ua-Platform': '"macOS"',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-origin',
+      'User-Agent': UA,
+      'X-Requested-With': 'XMLHttpRequest',
+      'Cookie': this.cookies,
+    }
+  }
+
+  private async post(url: string, body: string, referer: string): Promise<string> {
+    const res = await fetch(url, { method: 'POST', headers: this.commonHeaders(referer), body })
+    this.mergeCookies(this.getSetCookies(res))
+    return res.text()
+  }
+
+  private async get(url: string, referer: string = url): Promise<string> {
+    const res = await fetch(url, {
+      headers: { ...this.commonHeaders(referer), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8' },
+    })
+    this.mergeCookies(this.getSetCookies(res))
+    return res.text()
+  }
+
+  async logout(): Promise<void> {
+    try {
+      const body = `t=${Date.now()}`
+      await this.post(
+        'https://dinorank.com/ajax/cierra.php',
+        body,
+        'https://dinorank.com/keyword-research/',
+      )
+    } catch {}
+  }
+
+  async login(language: string = 'es'): Promise<'ok' | 'device_conflict' | 'failed'> {
+    const isEn = language === 'en'
+    const loginUrl = `https://dinorank.com/${isEn ? 'en/' : ''}login/`
+    const homedUrl = `https://dinorank.com/${isEn ? 'en/' : ''}homed/`
+
+    // 1. Initial hit to get PHPSESSID and CSRF
+    const initRes = await fetch(loginUrl, { headers: { 'User-Agent': UA } })
+    this.mergeCookies(this.getSetCookies(initRes))
+
+    // 2. Perform login POST
+    const body = `nombreUsuario=${encodeURIComponent(this.email)}&clave=${encodeURIComponent(this.pass)}&permanecer=si&elemento=&tiempo=${Date.now()}`
+    const html = await this.post('https://dinorank.com/ajax/login.php', body, loginUrl)
+
+    if (html.includes('status":"activo"')) {
+      // 3. Immediate GET to /homed/ with navigation headers
+      await fetch(homedUrl, {
+        headers: {
+          'Cookie': this.cookies,
+          'User-Agent': UA,
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          'Accept-Language': 'en-US,en;q=0.9,es;q=0.8',
+          'Referer': loginUrl,
+          'Sec-Ch-Ua': '"Chromium";v="145", "Not:A-Brand";v="99"',
+          'Sec-Ch-Ua-Mobile': '?0',
+          'Sec-Ch-Ua-Platform': '"macOS"',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'same-origin',
+          'Sec-Fetch-User': '?1',
+          'Upgrade-Insecure-Requests': '1',
+        }
+      }).then(async res => {
+        this.mergeCookies(this.getSetCookies(res))
+      })
+
+      // 4. Initialize research session
+      const researchUrl = `https://dinorank.com/${isEn ? 'en/' : ''}keyword-research/`
+      await this.get(researchUrl, homedUrl)
+      
+      return 'ok'
+    }
+    
+    if (html.includes('dispositivo') || html.includes('device') || html.includes('otro')) {
+      return 'device_conflict'
+    }
+    
+    return 'failed'
+  }
+
+  private parseKresearchResponse(raw: string): { status: string; message: string; keyword_vol: number | null; total_results: number } | null {
+    const idx = raw.lastIndexOf('{"status":"OK",')
+    if (idx === -1) {
+      if (raw.includes('status":"ERROR"') || raw.includes('error')) {
+        console.warn(`[DinoRank] Response error: ${raw.slice(0, 200)}...`)
+      }
+      return null
+    }
+    try {
+      return JSON.parse(raw.slice(idx))
+    } catch (e) {
+      console.error(`[DinoRank] JSON Parse Error. Raw tail: ${raw.slice(-100)}`)
+      return null
+    }
+  }
+
+  private getLongLanguageName(lang: string): string {
+    const mapping: Record<string, string> = {
+      es: 'Spanish, Spain',
+      en: 'English',
+    }
+    return mapping[lang] || 'Spanish, Spain'
+  }
+
+  async search(keyword: string, country: string = 'MX', language: string = 'es'): Promise<KWCacheEntry[]> {
+    const bodySearch = `keyword=${encodeURIComponent(keyword)}&analisis_id=&keyword_pais=${country.toUpperCase()}&keyword_idioma=${language}&grupokeywordbuscar=&grupokeywordocultar=&desdeotrakeyword=&orden=&filtro=&volumendesdekr=&volumenhastakr=&incluirkrinput=&excluirkrinput=&cpcdesdekr=&cpchastakr=`
+    const referer = `https://dinorank.com/${language === 'en' ? 'en/' : ''}/keyword-research/`
+    let html = ''
+
+    for (let i = 0; i < 12; i++) {
+      const raw = await this.post('https://dinorank.com/ajax/kresearch.php', bodySearch, referer)
+      const parsed = this.parseKresearchResponse(raw)
+      
+      if (!parsed) {
+        if (raw.includes('cr\u00e9ditos') || raw.includes('agotado')) {
+          throw new NoCreditsError(this.email)
+        }
+        // If we get an invalid response, let's wait a bit longer, could be a temporary block
+        await new Promise(r => setTimeout(r, 3000))
+        continue
+      }
+      
+      if (parsed.total_results > 0 && parsed.message) {
+        html = parsed.message
+        // ─── Immediate Tracking Request ───
+        const longLang = this.getLongLanguageName(language)
+        const trackBody = `keyword=${encodeURIComponent(keyword)}&keyword_pais=${country.toUpperCase()}&keyword_idioma=${encodeURIComponent(longLang)}`
+        await this.post('https://dinorank.com/ajax/kresearchTrackeo.php', trackBody, referer)
+        break
+      }
+      
+      if (parsed.status === 'OK' && parsed.total_results === 0) {
+        return []
+      }
+
+      if (i < 11) await new Promise<void>(r => setTimeout(r, 3000))
+    }
+
+    return html ? this.parseTable(html, country) : []
+  }
+
+  async getSuggestions(keyword: string, country: string = 'MX', language: string = 'es'): Promise<KWCacheEntry[]> {
+    const body = `keyword=${encodeURIComponent(keyword)}&keyword_pais=${country.toUpperCase()}&keyword_idioma=${language}`
+    const referer = `https://dinorank.com/${language === 'en' ? 'en/' : ''}/keyword-research/`
+
+    const raw = await this.post('https://dinorank.com/ajax/kresearchIAsimilares.php', body, referer)
+    const parsed = this.parseKresearchResponse(raw)
+
+    if (parsed && parsed.total_results > 0 && parsed.message) {
+      return this.parseTable(parsed.message, country)
+    }
     return []
   }
-}
 
-function appendHistory(entry: KWHistoryEntry): void {
-  const history = loadHistory()
-  history.unshift(entry)
-  if (history.length > MAX_HISTORY_ENTRIES) history.splice(MAX_HISTORY_ENTRIES)
-  writeFileSync(KW_HISTORY_FILE, JSON.stringify(history, null, 2))
-  log('info', 'HISTORY', 'Entrada guardada en historial', {
-    keyword: entry.keyword,
-    country: entry.country,
-    fromDinoRankHistory: entry.fromDinoRankHistory,
-  })
-}
+  async completeOnboarding(): Promise<void> {
+    const referer = 'https://dinorank.com/onboarding/'
+    const t = Date.now()
 
-// ─── Browser Helpers ──────────────────────────────────────────────────────────
+    // Step 1: Initial view and profile
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=NaN`, referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=ecommerce&como=&que_estas_interesado=&paso=1`, referer)
 
-async function dumpDebugInfo(page: Page, step: string): Promise<void> {
-  if (!DEBUG_MODE) return
-  const ts = new Date().toISOString().replace(/[:.]/g, '-')
-  const screenshotPath = `/tmp/scrape-dinorank-${step}-${ts}.png`
-  await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => {})
-  const info = await page
-    .evaluate(() => {
-      const bodySnippet = document.body.innerText.substring(0, 1500)
-      const allButtons = document.querySelectorAll('button')
-      const buttons = []
-      for (let k = 0; k < allButtons.length; k++) {
-        const text = (allButtons[k] as HTMLElement).innerText.trim()
-        if (text) {
-          buttons.push(text)
-        }
-      }
+    // Step 2: How you found us
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=1`, referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=redessociales&que_estas_interesado=&paso=2`, referer)
 
-      const allInputs = document.querySelectorAll('input')
-      const inputs = []
-      for (let j = 0; j < allInputs.length; j++) {
-        const input = allInputs[j] as HTMLInputElement
-        inputs.push({
-          id: input.id,
-          name: input.name,
-          type: input.type,
-        })
-      }
-      return {
-        url: window.location.href,
-        title: document.title,
-        buttons,
-        inputs,
-        bodySnippet,
+    // Step 3: Interests
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=2`, referer)
+    const interests = 'auditoria;keywordresearch;SEOlocal;contenido;tracking;backlinks;Analizarcompetencia;'
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=&que_estas_interesado=${encodeURIComponent(interests)}&paso=3`, referer)
+
+    // Step 4: Domain
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=3`, referer)
+    await this.post('https://dinorank.com/ajax/common/agregaDominio.php', 'dominio=neilpatel.com&pais=MX&idioma=es&tipoproyecto=nicho', referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=&que_estas_interesado=&paso=4`, referer)
+
+    // Step 5: Keyword Tracking
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=4`, referer)
+    await this.post('https://dinorank.com/ajax/sugerenciasKeywords.php', `t=${t}`, referer)
+    await this.post('https://dinorank.com/ajax/tracking/agregarKeyword.php', 'keyword=how+to+start+a+blog&fuente=pc&geoID=0', referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=&que_estas_interesado=&paso=5`, referer)
+
+    // Finalize
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=5`, referer)
+  }
+
+  private parseTable(html: string, country: string): KWCacheEntry[] {
+    const dom = new JSDOM(html)
+    const results: KWCacheEntry[] = []
+    dom.window.document.querySelectorAll('tr').forEach((row: any) => {
+      const cells: any[] = Array.from(row.querySelectorAll('td'))
+      if (cells.length < 5) return
+      const kw = cells[1]!.textContent?.trim() ?? ''
+      const vol = cells[2]!.textContent?.replace(/\D/g, '') ?? '0'
+      // th[3]=Competencia, th[4]=CPC (may be "Sin datos")
+      const comp = cells[3]!.textContent?.replace(/[^\d,.]/g, '').replace(',', '.') ?? '0'
+      const cpc = cells[4]!.textContent?.replace(/[^\d,.]/g, '').replace(',', '.') ?? '0'
+      if (kw && kw.length > 1) {
+        results.push({ keyword: kw, volume: vol, cpc, competency: comp, country, trend: [], relatedSearches: '', timestamp: new Date().toISOString() })
       }
     })
-    .catch(() => ({}))
-  console.log(`[DEBUG: ${step}]`, JSON.stringify(info, null, 2))
-  log('info', `DEBUG:${step}`, 'dump', info)
-}
-
-async function clearOverlays(page: Page): Promise<void> {
-  const swalOk = page.locator('.swal2-confirm, .swal-button--confirm').first()
-  if (await swalOk.isVisible().catch(() => false)) {
-    await swalOk.click().catch(() => {})
-    await page.waitForTimeout(600)
-  }
-  await page.keyboard.press('Escape').catch(() => {})
-  // 3. Botón de "Skip all" / "Omitir"
-  const skipBtn = page.locator('#skipBtn, .omitir-v').first()
-  if (await skipBtn.isVisible().catch(() => false)) {
-    log('info', 'OVERLAY', 'Haciendo click en Skip all')
-    await skipBtn.click({ force: true }).catch(() => {})
-  }
-
-  await page
-    .evaluate(() => {
-      const selectors = [
-        '.swal2-container',
-        '.modal-backdrop',
-        '#ventanaCompra',
-        '.popup-overlay',
-        '#tutorialBox',
-        '.introjs-overlay',
-        '#divGuiaKresearch',
-      ]
-      for (let i = 0; i < selectors.length; i++) {
-        const el = document.querySelector(selectors[i]) as HTMLElement | null
-        if (el) el.style.display = 'none'
-      }
-
-      // Limpiar tooltips si existen funciones globales
-      if (typeof (window as any).omitirtodotooltip === 'function') {
-        ;(window as any).omitirtodotooltip()
-      }
-    })
-    .catch(() => {})
-}
-
-async function extractCredits(page: Page): Promise<number | null> {
-  return page
-    .evaluate(() => {
-      const el = document.querySelector('.divlimites') as HTMLElement | null
-      if (!el) return null
-      const match = el.innerText.match(/restantes[:\s]*(\d+)/i)
-      return match ? parseInt(match[1]!, 10) : null
-    })
-    .catch(() => null)
-}
-
-// ─── State Detection ──────────────────────────────────────────────────────────
-
-async function detectState(
-  page: Page,
-  keywords: string[],
-  keywordEntered: boolean,
-): Promise<KwResearchState> {
-  // 1. Redirección a login
-  if (page.url().includes('/login')) {
-    log('info', 'STATE', 'NEEDS_LOGIN — URL contiene /login')
-    return KwResearchState.NEEDS_LOGIN
-  }
-
-  // 2. SweetAlert: leer su texto antes de decidir si es conflicto o overlay genérico
-  const swalText = await page
-    .evaluate(() => {
-      const swal = document.querySelector('.swal2-container') as HTMLElement | null
-      if (!swal || swal.offsetParent === null) return null
-      return swal.innerText.toLowerCase()
-    })
-    .catch(() => null)
-
-  if (swalText !== null) {
-    if (DEVICE_CONFLICT_PATTERNS.some((kw) => swalText.includes(kw))) {
-      log('warn', 'STATE', 'DEVICE_CONFLICT — detectado en SweetAlert', {
-        snippet: swalText.substring(0, 200),
-      })
-      return KwResearchState.DEVICE_CONFLICT
-    }
-    log('info', 'STATE', 'OVERLAY_VISIBLE — SweetAlert sin conflicto de dispositivo')
-    return KwResearchState.OVERLAY_VISIBLE
-  }
-
-  // 2.5 Otras Overlays y Tutoriales
-  const overlayDetected = await page
-    .evaluate(() => {
-      const selectors = [
-        '#tutorialBox',
-        '.introjs-overlay',
-        '.popup-overlay',
-        '#skipBtn',
-        '#divGuiaKresearch',
-        '.sweet-alert',
-        '.modal',
-      ]
-      let overlayVisible = false
-      for (let s = 0; s < selectors.length; s++) {
-        const el = document.querySelector(selectors[s]) as HTMLElement | null
-        if (el) {
-          const style = window.getComputedStyle(el)
-          if (
-            style.display !== 'none' &&
-            (el.offsetParent !== null || style.position === 'fixed')
-          ) {
-            overlayVisible = true
-            break
-          }
-        }
-      }
-
-      return overlayVisible
-    })
-    .catch(() => false)
-
-  if (overlayDetected) {
-    log('info', 'STATE', 'OVERLAY_VISIBLE — Tutorial, popup o skip detectado')
-    return KwResearchState.OVERLAY_VISIBLE
-  }
-
-  // 3. Conflicto de dispositivo en body (fuera de SweetAlert)
-  const bodyText = await page.evaluate(() => document.body.innerText.toLowerCase()).catch(() => '')
-  if (DEVICE_CONFLICT_PATTERNS.some((kw) => bodyText.includes(kw))) {
-    log('warn', 'STATE', 'DEVICE_CONFLICT — detectado en body', {
-      snippet: bodyText.substring(0, 300),
-    })
-    return KwResearchState.DEVICE_CONFLICT
-  }
-
-  // 4. Resultados listos (Checkboxes o Tablas con datos)
-  const hasResultsData = await page
-    .evaluate((expectedKws) => {
-      let rowsCount = 0
-
-      // 1. Selector por ID de checkbox (muy fiable en DinoRank)
-      const checkboxes = Array.from(document.querySelectorAll('input[id^="checkClip"]'))
-      if (checkboxes.length > 0) {
-        rowsCount = checkboxes.length
-      } else {
-        // 2. Fallback: filas con datos en tablas conocidas
-        const selectors = ['#tablaKresearch', '#tablaKresearchtrackeo']
-
-        for (let i = 0; i < selectors.length; i++) {
-          const table = document.querySelector(selectors[i])
-          if (table) {
-            const tableRows = table.querySelectorAll('tr')
-            let validRowCount = 0
-            for (let j = 0; j < tableRows.length; j++) {
-              const tr = tableRows[j] as HTMLElement
-              const hasText = tr.innerText.trim().length > 0
-              const isHeader = tr.querySelector('th') !== null
-              const isVisible = tr.offsetParent !== null
-              if (hasText && !isHeader && isVisible) {
-                validRowCount++
-              }
-            }
-            if (validRowCount > rowsCount) {
-              rowsCount = validRowCount
-            }
-          }
-        }
-      }
-
-      const bodyTextStr = document.body.innerText.toLowerCase()
-      const hasXls = bodyTextStr.includes('xls')
-      // Usamos el keyword pasado como argumento
-      const hasTargetKw =
-        expectedKws.length > 0 && bodyTextStr.includes(expectedKws[0].toLowerCase())
-
-      // Debug object to capture what we see
-      const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
-      const checkboxIds = []
-      for (let k = 0; k < allCheckboxes.length; k++) {
-        checkboxIds.push(allCheckboxes[k].id)
-      }
-
-      const debugInfo: any = {
-        rowsCount,
-        hasXls,
-        hasTargetKw,
-        checkboxes: checkboxIds,
-        tableExists: document.querySelector('#tablaKresearch') ? true : false,
-        tableTrCount: document.querySelector('#tablaKresearch')?.querySelectorAll('tr').length,
-        checkClipCount: document.querySelectorAll('input[id^="checkClip"]').length,
-      }
-
-      // Si hay filas, o si hay botón XLS + la keyword buscada aparece en el cuerpo
-      if (rowsCount > 0 || (hasXls && hasTargetKw)) {
-        return {
-          found: true,
-          rowsCount,
-          viaXls: rowsCount === 0 && hasXls && hasTargetKw,
-          debugInfo,
-        }
-      }
-
-      // Debug: si vemos texto que parece de resultados pero no filas detectadas
-      if (
-        bodyTextStr.includes('vol.') &&
-        (bodyTextStr.includes('competencia') || bodyTextStr.includes('cpc'))
-      ) {
-        return { found: false, suspected: true, debugInfo }
-      }
-
-      const needsHistoryClick = (() => {
-        const historyTable =
-          document.querySelector('#historicalKresearch') || document.querySelector('table')
-        if (!historyTable) return false
-
-        const rows = Array.from(historyTable.querySelectorAll('tr'))
-        for (let i = 0; i < rows.length; i++) {
-          const tr = rows[i]
-          // If row text contains exact keyword (avoid broad matches)
-          const trText = tr.textContent?.toLowerCase() || ''
-          if (
-            expectedKws &&
-            expectedKws.length > 0 &&
-            trText.includes(expectedKws[0].toLowerCase()) &&
-            trText.includes('see analysis')
-          ) {
-            return true
-          }
-        }
-        return false
-      })()
-
-      if (needsHistoryClick && rowsCount === 0) {
-        return { found: false, wantsClick: true, debugInfo }
-      }
-
-      return { found: false, debugInfo }
-    }, keywords)
-    .catch((err) => {
-      return { found: false, error: err.message }
-    })
-
-  if (hasResultsData && (hasResultsData as any).found) {
-    log('info', 'STATE', 'RESULTS_READY', hasResultsData)
-    return KwResearchState.RESULTS_READY
-  }
-
-  if (hasResultsData && (hasResultsData as any).wantsClick) {
-    log('info', 'STATE', 'HISTORY_NEEDS_CLICK', hasResultsData)
-    return KwResearchState.HISTORY_NEEDS_CLICK
-  }
-
-  if (hasResultsData && !(hasResultsData as any).found) {
-    log('warn', 'STATE', 'Evaluación de RESULT_READY falló la detección', hasResultsData)
-  }
-
-  if (hasResultsData && (hasResultsData as any).suspected) {
-    log(
-      'warn',
-      'STATE',
-      'Resultados sospechosos pero no detectados via selectores de tabla',
-      hasResultsData,
-    )
-  }
-
-  // 4.5 Pantalla intermedia de selección IA (si aparece)
-  const isAiSelecting = await page
-    .evaluate(() => {
-      const buttons = document.querySelectorAll('a.button-fondomagentadinobrain[id^="button-"]')
-      return (
-        buttons.length > 0 && !!document.body.innerText.includes('Recomendaciones alternativas')
-      )
-    })
-    .catch(() => false)
-
-  if (isAiSelecting) {
-    log('info', 'STATE', 'AI_SELECTING')
-    return KwResearchState.AI_SELECTING
-  }
-
-  // 5. Sin créditos (solo checar si la página ya cargó, evitar false positives al inicio)
-  const credits = await extractCredits(page)
-  if (credits === 0) {
-    log('warn', 'STATE', 'NO_CREDITS — créditos restantes = 0')
-    return KwResearchState.NO_CREDITS
-  }
-
-  // 6. Esperando resultados: loading gif visible o indicadores de texto
-  if (keywordEntered) {
-    const isLoading = await page
-      .evaluate(() => {
-        // Selector de carga específico de DinoRank y DinoBRAIN
-        const loaderSelectors = [
-          '.kresearchIACargando',
-          '#cargandoKresearch',
-          '#loading',
-          '.loader',
-        ]
-
-        for (const sel of loaderSelectors) {
-          const el = document.querySelector(sel) as HTMLElement | null
-          if (el && el.offsetParent !== null && window.getComputedStyle(el).display !== 'none') {
-            // Verificar si el contenedor de carga realmente tiene contenido o un gif
-            if (el.innerHTML.includes('gif') || el.innerText.trim().length > 0) {
-              return true
-            }
-          }
-        }
-
-        // Búsqueda de imágenes de carga visibles
-        const images = document.querySelectorAll('img')
-        let hasLoadingImg = false
-        for (let i = 0; i < images.length; i++) {
-          const img = images[i]
-          const src = img.src.toLowerCase()
-          if (
-            (src.includes('loading') || src.includes('cargando')) &&
-            img.offsetParent !== null &&
-            window.getComputedStyle(img).display !== 'none'
-          ) {
-            hasLoadingImg = true
-            break
-          }
-        }
-        if (hasLoadingImg) return true
-
-        const text = document.body.innerText.toLowerCase()
-        // Solo considerar "cargando" si no hay resultados ni selección IA
-        const hasAnyData = !!(
-          document.querySelector('input.checkKresearchCC') ||
-          document.querySelector('a.button-fondomagentadinobrain') ||
-          document.querySelector('#tablaKresearch tr.botonesFila') ||
-          document.querySelector('#tablaKresearchtrackeo tr.botonesFila')
-        )
-
-        if (!hasAnyData) {
-          const text = document.body.innerText.toLowerCase()
-          return (
-            text.includes('generando sugerencias') ||
-            text.includes('analizando palabras') ||
-            text.includes('obteniendo datos')
-          )
-        }
-        return false
-      })
-      .catch(() => false)
-
-    if (isLoading) {
-      log('info', 'STATE', 'AWAITING_RESULTS — carga detectada')
-      return KwResearchState.AWAITING_RESULTS
-    }
-  }
-
-  // 7. Input de keyword
-  // Update the inputValue check in detectState to look at either #keyword or #grupokeywordbuscar.
-  const inputLoc = page.locator('#keyword').first()
-  const bulkLoc = page.locator('#grupokeywordbuscar').first()
-  const isVisible =
-    (await inputLoc.isVisible().catch(() => false)) ||
-    (await bulkLoc.isVisible().catch(() => false))
-  if (isVisible) {
-    const val = await inputLoc.inputValue().catch(() => '')
-    const bulkVal = await bulkLoc.inputValue().catch(() => '')
-    if (val.trim() === '' && bulkVal.trim() === '') {
-      log('info', 'STATE', 'INPUT_READY — input vacío visible')
-      return KwResearchState.INPUT_READY
-    } else {
-      log('info', 'STATE', 'INPUT_FILLED', { keywordInput: val, bulkInput: bulkVal })
-      return KwResearchState.INPUT_FILLED
-    }
-  }
-
-  log('info', 'STATE', 'UNKNOWN', { url: page.url() })
-  return KwResearchState.UNKNOWN
-}
-
-// ─── Session Management ───────────────────────────────────────────────────────
-
-async function saveSession(page: Page): Promise<void> {
-  const cookies = await page.context().cookies()
-  writeFileSync(KW_SESSION_FILE, JSON.stringify(cookies, null, 2))
-  log('info', 'SESSION', 'Sesión guardada')
-}
-
-function clearSession(): void {
-  if (existsSync(KW_SESSION_FILE)) {
-    writeFileSync(KW_SESSION_FILE, '[]')
-    log('info', 'SESSION', 'Sesión invalidada')
+    return results
   }
 }
 
-async function restoreSession(page: Page): Promise<boolean> {
-  if (!existsSync(KW_SESSION_FILE)) return false
-  try {
-    const cookies = JSON.parse(readFileSync(KW_SESSION_FILE, 'utf-8'))
-    if (!Array.isArray(cookies) || cookies.length === 0) return false
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await page.context().addCookies(cookies as any)
-    await page.goto(DINORANK_KW_RESEARCH_URL, { waitUntil: 'domcontentloaded', timeout: 20_000 })
-    await page.waitForTimeout(2000)
-    if (page.url().includes('/login')) return false
-    const hasInput = await page
-      .locator('#keyword')
-      .isVisible()
-      .catch(() => false)
-    log('info', 'SESSION', hasInput ? 'Sesión restaurada OK' : 'Sesión expirada')
-    return hasInput
-  } catch {
-    return false
-  }
-}
-
-// ─── Login ────────────────────────────────────────────────────────────────────
-
-async function loginToDinoRank(page: Page, email: string, password: string): Promise<void> {
-  log('info', 'LOGIN', `Autenticando: ${email}`)
-  p.log.info(`Autenticando con ${email}...`)
-  await page.goto(DINORANK_LOGIN_URL, { waitUntil: 'domcontentloaded', timeout: 30_000 })
-  await page.waitForTimeout(1000)
-
-  // Esperar el input de usuario
-  try {
-    await page.waitForSelector('#usuario', { state: 'visible', timeout: 10_000 })
-  } catch {
-    const isLoggedIn = await page
-      .evaluate(() => !!document.querySelector('#enlaceCierraCabecera'))
-      .catch(() => false)
-    if (isLoggedIn) {
-      log('info', 'LOGIN', 'Sesión ya activa en DOM')
-      p.log.success('Sesión ya activa.')
-      return
-    }
-    await dumpDebugInfo(page, 'login-no-input')
-    throw new Error('El input #usuario no apareció y no hay sesión activa.')
-  }
-
-  await page.locator('#usuario').fill(email)
-  await page.locator('#password').fill(password)
-  await page.locator('#botonLogin').click()
-
-  // Esperar resultado: éxito o popup de error/conflicto
-  await Promise.race([
-    page.waitForSelector('#enlaceCierraCabecera', { timeout: 14_000 }),
-    page.waitForSelector('.swal2-popup', { timeout: 14_000 }),
-  ]).catch(() => {})
-
-  await page.waitForTimeout(800)
-
-  // Comprobar conflicto de dispositivo en popup o body
-  const conflictFound = await page
-    .evaluate((patterns: string[]) => {
-      const sources = [
-        (document.querySelector('.swal2-popup') as HTMLElement | null)?.innerText?.toLowerCase() ??
-          '',
-        document.body.innerText.toLowerCase(),
-      ]
-      let found = false
-      for (let i = 0; i < patterns.length; i++) {
-        for (let j = 0; j < sources.length; j++) {
-          if (sources[j].includes(patterns[i])) {
-            found = true
-            break
-          }
-        }
-        if (found) break
-      }
-      return found
-    }, DEVICE_CONFLICT_PATTERNS)
-    .catch(() => false)
-
-  if (conflictFound) {
-    log('warn', 'LOGIN', `Conflicto de dispositivo para ${email}`)
-    throw new DeviceConflictError(email)
-  }
-
-  // Cerrar cualquier popup genérico
-  await page
-    .evaluate(() => {
-      const btn = document.querySelector('.swal2-confirm') as HTMLElement | null
-      if (btn) btn.click()
-    })
-    .catch(() => {})
-
-  const isLoggedIn = await page
-    .evaluate(() => !!document.querySelector('#enlaceCierraCabecera'))
-    .catch(() => false)
-
-  if (!isLoggedIn) {
-    await dumpDebugInfo(page, 'login-failed')
-    throw new Error(`Login fallido para ${email}: perfil no encontrado en DOM.`)
-  }
-
-  await saveSession(page)
-  log('info', 'LOGIN', `Autenticación exitosa: ${email}`)
-  p.log.success('Autenticación exitosa.')
-}
-
-// ─── Account Management ───────────────────────────────────────────────────────
-
-function getAvailableAccount(
-  state: DinoRankState,
-  excludedEmails: Set<string>,
-): DinoRankAccount | null {
-  for (const acc of state.accounts) {
-    if (!excludedEmails.has(acc.email)) return acc
-  }
-  return null
-}
-
-async function createDinoRankAccount(): Promise<{ email: string; password: string }> {
+/** 
+ * Creates a new DinoRank account using pure HTTP (no browser).
+ * Optimized for speed and reliability.
+ */
+export async function createDinoRankAccount(): Promise<{ email: string; password: string }> {
   const email = `${randomStr(8)}${randomStr(4)}@gmail.com`
   const password = randomPassword()
-  log('info', 'ACCOUNT', 'Creando nueva cuenta DinoRank', { email })
-  p.log.info(`Nueva cuenta: ${email}`)
-  const browser = await chromium.launch({ headless: false, slowMo: 120 })
-  const page = await browser.newPage()
-  try {
-    await page.goto(DINORANK_REGISTER_URL, { waitUntil: 'domcontentloaded' })
-    await page.locator('#usuarior').fill(email)
-    await page.locator('#telefonor').fill('+34666000000')
-    await page.locator('#passwordr').fill(password)
-    await page.locator('#passwordr2').fill(password)
-    if (!(await page.locator('#aceptoPrivacidad').isChecked())) {
-      await page.locator('#aceptoPrivacidad').check()
-    }
-    p.note('Completa el registro manualmente si hay CAPTCHA y pulsa continuar.', 'Acción requerida')
-    const confirmed = await p.confirm({ message: '¿Registro completado?' })
-    if (p.isCancel(confirmed) || !confirmed) throw new Error('Registro cancelado por el usuario.')
-  } finally {
-    await browser.close()
+  const registerUrl = 'https://dinorank.com/registro/?codPromo=dinoTrial25'
+  
+  const api = new DinoRankApiClient(email, password)
+  
+  p.log.info(`Creando cuenta DinoRank: ${email}`)
+
+  // 1. Get initial cookies
+  const initRes = await fetch(registerUrl, { headers: { 'User-Agent': UA } })
+  const h = initRes.headers as unknown as { getSetCookie?: () => string[] }
+  const setCookies = typeof h.getSetCookie === 'function' ? h.getSetCookie() : []
+  api['mergeCookies'](setCookies)
+
+  // 2. Perform registration
+  const regBody = `email=${encodeURIComponent(email)}&clave=${encodeURIComponent(password)}&elemento=&telefono=%2B34666000000`
+  const regRes = await api['post']('https://dinorank.com/ajax/registro1.php', regBody, registerUrl)
+  
+  if (!regRes.includes('creado satisfactoriamente')) {
+    throw new Error(`Error en el registro HTTP: ${regRes.slice(0, 100)}`)
   }
+
+  // 3. Landing and Onboarding initialization
+  await api['get']('https://dinorank.com/homed/', registerUrl)
+  await api['get']('https://dinorank.com/onboarding/', 'https://dinorank.com/homed/')
+  
+  // 4. Complete multi-step onboarding
+  await api.completeOnboarding()
+
+  p.log.success(`Cuenta creada y onboarding completado: ${email}`)
   return { email, password }
 }
 
-async function ensureAccount(
-  state: DinoRankState,
-  excludedEmails: Set<string>,
-): Promise<DinoRankAccount> {
-  const acc = getAvailableAccount(state, excludedEmails)
-  if (acc) return acc
+// ─── Session ──────────────────────────────────────────────────────────────────
 
-  p.log.warn('Sin cuentas disponibles. Creando una nueva...')
-  log('warn', 'ACCOUNT', 'Sin cuentas disponibles, creando nueva')
-  const { email, password } = await createDinoRankAccount()
-  registerAccount(state, email, password)
-  saveState(state)
-  return state.accounts[state.accounts.length - 1]!
+function clearSession(): void {
+  if (existsSync(KW_SESSION_FILE)) writeFileSync(KW_SESSION_FILE, '[]')
 }
 
-// ─── Data Extraction ──────────────────────────────────────────────────────────
+// ─── Scraper Functions ────────────────────────────────────────────────────────
 
-async function extractResults(
-  page: Page,
-  keywords: string[],
-  country: string,
+export async function scrapeOnce(
+  keywords: string[], 
+  country: string, 
+  account: DinoRankAccount, 
+  language: string = 'es',
+  mode: 'research' | 'suggestions' = 'research'
 ): Promise<KWCacheEntry[]> {
-  await page.waitForTimeout(2000) // Dejar que el JS renderice completamente
-
-  const data = await page.evaluate((searchKws) => {
-    let volume = ''
-    let cpc = ''
-    let competency = ''
-    let trend: number[] = []
-    const related: string[] = []
-    const aiSuggestions: Array<{
-      keyword: string
-      volume: string
-      competency: string
-      cpc: string
-      trend?: number[]
-    }> = []
-
-    const selectors = ['#tablaKresearch', '#tablaKresearchtrackeo']
-    let allRows: Element[] = []
-
-    for (let s = 0; s < selectors.length; s++) {
-      const table = document.querySelector(selectors[s])
-      if (table) {
-        const tableRows = table.querySelectorAll('tr')
-        for (let r = 0; r < tableRows.length; r++) {
-          const tr = tableRows[r] as HTMLElement
-          const hasText = tr.innerText.trim().length > 0
-          const isHeader = tr.querySelector('th') !== null
-          const isVisible = tr.offsetParent !== null
-          if (hasText && !isHeader && isVisible) {
-            allRows.push(tr)
-          }
-        }
-      }
-    }
-
-    if (allRows.length === 0) {
-      // Backup: buscar cualquier tr que contenga el checkbox ID
-      const allTrs = document.querySelectorAll('tr')
-      for (let t = 0; t < allTrs.length; t++) {
-        if (allTrs[t].querySelector('input[id^="checkClip"]')) {
-          allRows.push(allTrs[t])
-        }
-      }
-    }
-
-    const debugRows: any[] = []
-
-    const rows = allRows
-    for (let i = 0; i < Math.min(rows.length, 200); i++) {
-      const row = rows[i]!
-      // En DinoRank, la keyword suele ser el texto cerca del checkbox
-      const kwInput = row.querySelector('input[id^="checkClip"]')
-      if (!kwInput) continue
-
-      // Intentar obtener la keyword desde el texto de la fila, quitando saltos de línea ruidosos
-      const rawText = (row as HTMLElement).innerText
-      const splitCells = rawText.split('\t')
-      const innerTextCells = []
-      for (let c = 0; c < splitCells.length; c++) {
-        const trimmed = splitCells[c].trim()
-        if (trimmed.length > 0) {
-          innerTextCells.push(trimmed)
-        }
-      }
-
-      const tdCells = Array.from(row.querySelectorAll('td'))
-      const isExpandedRow = tdCells.length === 1 && tdCells[0]?.hasAttribute('colspan')
-
-      let txt = ''
-      if (isExpandedRow) {
-        // En filas expandidas, el texto está dentro de div.paddingderechobotones
-        const kwDiv = row.querySelector('.paddingderechobotones > div:first-child')
-        if (kwDiv && kwDiv.textContent) {
-          txt = kwDiv.textContent.trim()
-        } else {
-          txt =
-            row
-              .querySelector('.paddingderechobotones')
-              ?.textContent?.split(/[\n\r]/)[0]
-              ?.trim() || ''
-
-          if (!txt) {
-            txt =
-              row
-                .querySelector('input[type="checkbox"]')
-                ?.closest('span')
-                ?.parentElement?.nextElementSibling?.textContent?.split(/[\n\r]/)[0]
-                ?.trim() || ''
-          }
-        }
-      } else if (tdCells.length > 1) {
-        const kwCell = tdCells[1] as HTMLElement
-        if (kwCell) {
-          const text = kwCell.innerText || ''
-          txt = text.split('\n')[0]?.trim() || ''
-        }
-      } else if (tdCells.length === 1) {
-        txt = (tdCells[0] as HTMLElement)?.innerText?.split('\n')[0]?.trim() || ''
-      }
-
-      if (!txt || txt.length < 2) {
-        txt = innerTextCells[0] || ''
-      }
-
-      // Cleanup de seguridad por si hay colisiones visuales o tabs
-      txt = txt.split(/[\n\r]/)[0]?.trim() || ''
-
-      let rawVol = ''
-      let rawComp = ''
-      let rawCpc = ''
-      let trendData: number[] = []
-
-      // Extraer datos históricos (trend) del script
-      const scriptContent = row.innerHTML
-      const serieMatch = scriptContent.match(/var serie=\[([0-9,]+)\]/)
-      if (serieMatch && serieMatch[1]) {
-        trendData = serieMatch[1]
-          .split(',')
-          .map((n) => parseInt(n.trim(), 10))
-          .filter((n) => !isNaN(n))
-      }
-
-      if (isExpandedRow) {
-        const dataDivs = Array.from(row.querySelectorAll('div.listadobordelefttabla.derecha'))
-        rawVol = dataDivs[0]?.textContent?.trim() || ''
-        rawComp = dataDivs[1]?.textContent?.trim() || ''
-        rawCpc = dataDivs[2]?.textContent?.trim() || ''
-      } else {
-        const volCell = row.querySelector('td.derecha:not(.ellipsis)')
-        const compCell = row.querySelector('td.derecha.ellipsis')
-        const cpcCell =
-          row.querySelector('td.izquierda[nowrap]') ||
-          Array.from(row.querySelectorAll('td.izquierda')).find(
-            (el) => el.textContent?.includes('€') || el.textContent?.includes('$'),
-          )
-
-        rawVol = volCell?.textContent?.trim() || tdCells[2]?.textContent?.trim() || ''
-        rawComp = compCell?.textContent?.trim() || tdCells[3]?.textContent?.trim() || ''
-        rawCpc = cpcCell?.textContent?.trim() || tdCells[4]?.textContent?.trim() || ''
-      }
-
-      const volCleaned = rawVol.replace(/[^0-9.]/g, '') || '0'
-
-      debugRows.push({
-        txt,
-        exactMatch: searchKws.some((k: string) => txt.toLowerCase() === k.toLowerCase()),
-        isExpandedRow,
-        rawVol,
-        volCleaned,
-      })
-
-      if (
-        !txt ||
-        txt.toLowerCase().includes('keywords') ||
-        txt.length > 100 ||
-        txt.includes('var serie=')
-      )
-        continue
-
-      const tableId = row.closest('table')?.id || ''
-      const isAI = tableId === 'tablaKresearchtrackeo' || tableId === 'tablaKwords'
-
-      let volume = ''
-      let cpc = ''
-      let competency = ''
-
-      if (isAI) {
-        const rawVol = tdCells[1]?.textContent?.trim() || ''
-        volume = rawVol.replace(/[^0-9.]/g, '') || '0'
-
-        const rawComp = tdCells[2]?.textContent?.trim() || ''
-        const compMatch = rawComp.match(/[\d,.]+/)
-        competency = compMatch ? compMatch[0].replace(',', '.') : '0'
-
-        const rawCpc = tdCells[3]?.textContent?.trim() || ''
-        const cpcMatch = rawCpc.match(/[\d,.]+/)
-        cpc = cpcMatch ? cpcMatch[0].replace(',', '.') : '0'
-      } else {
-        volume = row.querySelector('td:nth-child(3)')?.textContent?.trim() || ''
-        cpc = row.querySelector('td:nth-child(4)')?.textContent?.trim() || ''
-        competency = row.querySelector('td:nth-child(5)')?.textContent?.trim() || ''
-      }
-
-      aiSuggestions.push({
-        keyword: txt,
-        volume: volume.replace(/\D/g, ''),
-        cpc: cpc.replace(/[^\d,.]/g, ''),
-        competency: competency.replace(/[^\d,.]/g, ''),
-        trend: trendData,
-      })
-    }
-
-    return {
-      items: aiSuggestions, // we reuse this array for all found rows in bulk
-      debugRows,
-    }
-  }, keywords)
-
-  if (data.items.length === 0) {
-    log('error', 'EXTRACT', 'Debug rows of failed extraction', { debugRows: data.debugRows })
-    throw new Error('No se pudieron extraer datos. La tabla de resultados está vacía.')
+  const api = new DinoRankApiClient(account.email, account.password)
+  const loginResult = await api.login(language)
+  
+  if (loginResult === 'device_conflict') throw new DeviceConflictError(account.email)
+  if (loginResult !== 'ok') {
+    p.log.warn(`Eliminando cuenta fallida: ${account.email}`)
+    deleteAccount(account.email)
+    throw new Error(`Login fallido para ${account.email} - CUENTA ELIMINADA`)
   }
 
-  log('info', 'EXTRACT', 'Datos extraídos', {
-    keywordsCount: keywords.length,
-    foundItems: data.items.length,
-    debugFirstRow: data.debugRows[0],
-  })
-
-  const results: KWCacheEntry[] = []
-
-  for (const item of data.items) {
-    results.push({
-      keyword: item.keyword,
-      country,
-      volume: item.volume || '0',
-      cpc: item.cpc || '0',
-      competency: item.competency || '0',
-      trend: item.trend || [],
-      relatedSearches: '',
-      timestamp: new Date().toISOString(),
-    })
-  }
-
-  return results
-}
-
-// ─── Scraper Core (state machine) ────────────────────────────────────────────
-
-async function scrapeOnce(
-  keywords: string[],
-  country: string,
-  account: DinoRankAccount,
-  useAI: boolean,
-): Promise<KWCacheEntry[]> {
-  const browser = await chromium.launch({ headless: false, slowMo: 100 })
-  const page = await browser.newPage()
-
-  if (DEBUG_MODE) {
-    page.on('console', (msg) => log('info', 'BROWSER', msg.text()))
-  }
-
-  let keywordEntered = false
-  /** true cuando el análisis se cargó desde el historial de DinoRank (sin consumir crédito) */
-  let usedHistoryReplay = false
-  /** true en cuanto se hace click en #buscaKresearch — impide reenvíos múltiples */
-  let submitted = false
-
+  const allResults: KWCacheEntry[] = []
   try {
-    log(
-      'info',
-      'SCRAPE',
-      `Inicio — keywords: [${keywords.join(', ')}], país: ${country}, cuenta: ${account.email}`,
-    )
-
-    const sessionOk = await restoreSession(page)
-    if (!sessionOk) {
-      await loginToDinoRank(page, account.email, account.password)
-      await page.goto(DINORANK_KW_RESEARCH_URL, { waitUntil: 'domcontentloaded' })
-    }
-
-    await dumpDebugInfo(page, 'post-init')
-
-    for (let i = 0; i < MAX_ITERATIONS; i++) {
-      await page.waitForTimeout(POLL_MS)
-      const state = await detectState(page, keywords, keywordEntered)
-      log('info', 'LOOP', `[${i + 1}/${MAX_ITERATIONS}] Estado: ${state}`)
-
-      switch (state) {
-        case KwResearchState.NEEDS_LOGIN:
-          p.log.step('Redirigido a login — autenticando...')
-          await loginToDinoRank(page, account.email, account.password)
-          await page.goto(DINORANK_KW_RESEARCH_URL, { waitUntil: 'domcontentloaded' })
-          break
-
-        case KwResearchState.DEVICE_CONFLICT:
-          // La cuenta está en uso en otro dispositivo.
-          // Hay que rotar a otra cuenta — el retry wrapper lo gestiona.
-          throw new DeviceConflictError(account.email)
-
-        case KwResearchState.NO_CREDITS:
-          // Créditos agotados en esta cuenta.
-          // El retry wrapper creará/elegirá otra cuenta.
-          throw new NoCreditsError(account.email)
-
-        case KwResearchState.OVERLAY_VISIBLE:
-          p.log.step('Cerrando overlay...')
-          await clearOverlays(page)
-          await dumpDebugInfo(page, `overlay-${i}`)
-          break
-
-        case KwResearchState.AI_SELECTING:
-          log('info', 'SCRAPE', 'Seleccionando keyword en pantalla IA...')
-          await page.click('a.button-fondomagentadinobrain[id^="button-0"]').catch(() => {})
-          await page.waitForTimeout(2000)
-          break
-
-        case KwResearchState.HISTORY_NEEDS_CLICK:
-          p.log.step('Clicando "See analysis" desde el historial para recargar sin gastar salto...')
-          await page
-            .evaluate((kws: string[]) => {
-              const historyTable =
-                document.querySelector('#historicalKresearch') || document.querySelector('table')
-              if (!historyTable) return
-              const rows = Array.from(historyTable.querySelectorAll('tr'))
-              for (let j = 0; j < rows.length; j++) {
-                const tr = rows[j]
-                const text = tr.textContent?.toLowerCase() || ''
-                if (
-                  kws.some((kw) => text.includes(kw.toLowerCase())) &&
-                  text.includes('see analysis')
-                ) {
-                  const btn = tr.querySelector('div[onclick*="kresarch"]') as HTMLElement
-                  if (btn) {
-                    btn.click()
-                    break
-                  }
-                }
-              }
-            }, keywords)
-            .catch(() => {})
-
-          await page.waitForTimeout(3000)
-          usedHistoryReplay = true
-          keywordEntered = true
-          break
-
-        case KwResearchState.INPUT_READY: {
-          // Antes de gastar un crédito, buscar en el historial de análisis anteriores de DinoRank.
-          // La sección #analisisAnteriores lista búsquedas previas con un botón "See analysis"
-          // que recarga los resultados usando kresarch() sin consumir crédito.
-          if (keywords.length === 1) {
-            p.log.step('Comprobando historial de análisis anteriores en DinoRank...')
-            await page.waitForTimeout(3000) // Esperar a que JS cargue el historial
-
-            const prevAnalysis = await page
-              .evaluate(
-                (arg: { kw: string; requestedCountry: string }) => {
-                  const { kw, requestedCountry } = arg
-                  const rows = document.querySelectorAll('#analisisAnteriores tbody tr')
-                  for (let j = 0; j < rows.length; j++) {
-                    const row = rows[j]!
-                    const kwCell = row.querySelector('td:nth-child(1)')
-                    const kwText = kwCell?.textContent?.trim().toLowerCase() ?? ''
-                    if (!kwText.includes(kw.toLowerCase())) continue
-
-                    const btn = row.querySelector('[onclick*="kresarch"]') as HTMLElement | null
-                    if (!btn) continue
-
-                    // Extraer el país del onclick: setSimpleDropdownValue('keyword_pais', 'MX', ...)
-                    const onclick = btn.getAttribute('onclick') ?? ''
-                    const countryMatch = onclick.match(/keyword_pais[^,]*,\s*'([A-Z]{2,3})'/)
-                    const analysisCountry = countryMatch?.[1]?.toLowerCase() ?? ''
-
-                    // Usar análisis existente ignorando el país para no gastar créditos repetidos
-                    btn.click()
-                    return { found: true, analysisCountry }
-                  }
-                  return { found: false, analysisCountry: '' }
-                },
-                { kw: keywords[0], requestedCountry: country },
-              )
-              .catch(() => ({ found: false, analysisCountry: '' }))
-
-            if (prevAnalysis.found) {
-              p.log.success(
-                `Análisis anterior encontrado (${(prevAnalysis.analysisCountry || country).toUpperCase()}) — cargando sin consumir crédito.`,
-              )
-              log(
-                'info',
-                'HISTORY',
-                `Keyword "${keywords[0]}" encontrada en historial DinoRank, recargando`,
-                {
-                  country: prevAnalysis.analysisCountry,
-                },
-              )
-              keywordEntered = true
-              usedHistoryReplay = true
-              break
-            }
-          }
-
-          // Sin historial coincidente — búsqueda nueva
-          const kwsToSearch = keywords.join('\n')
-          p.log.step(
-            `Introduciendo ${keywords.length} ${keywords.length === 1 ? 'keyword' : 'keywords'} (búsqueda nueva)`,
-          )
-
-          if (keywords.length > 1) {
-            await page
-              .locator('#despliegaMas')
-              .click({ force: true })
-              .catch(() => {})
-            await page.waitForTimeout(500)
-            await page.evaluate(() => {
-              const textarea = document.getElementById('grupokeywordbuscar') as HTMLTextAreaElement
-              if (textarea) {
-                textarea.style.display = 'block'
-              }
-            })
-            await page
-              .locator('#grupokeywordbuscar')
-              .fill(kwsToSearch)
-              .catch(() => {})
-          } else {
-            await page.locator('#keyword').fill(keywords[0])
-          }
-          keywordEntered = true
-
-          // Activar sugerencias de IA si el flag está activo
-          if (useAI) {
-            const iaCheckbox = page.locator('#kresearchConIAInput').first()
-            if (await iaCheckbox.isVisible().catch(() => false)) {
-              const isChecked = await iaCheckbox.isChecked().catch(() => false)
-              if (!isChecked) {
-                await iaCheckbox
-                  .check({ force: true })
-                  .catch(() => p.log.warn('No se pudo marcar checkbox de sugerencias IA.'))
-                await page.waitForTimeout(500)
-              }
-            }
-          }
-
-          const countrySelect = page.locator('#localizar').first()
-          if (await countrySelect.isVisible().catch(() => false)) {
-            await countrySelect
-              .selectOption(country)
-              .catch(() => p.log.warn(`No se pudo seleccionar país: ${country}`))
-            await page.waitForTimeout(500)
-          }
-
-          break
+    for (const kw of keywords) {
+      p.log.step(`${mode === 'research' ? 'Buscando' : 'Sugiriendo'}: ${kw} (${country.toUpperCase()})`)
+      try {
+        const res = mode === 'research' 
+          ? await api.search(kw, country, language)
+          : await api.getSuggestions(kw, country, language)
+        
+        allResults.push(...res)
+        
+        // Deduct credits and track keyword
+        const registry = loadRegistry()
+        const accIdx = registry.findIndex(a => a.email === account.email)
+        if (accIdx !== -1) {
+          registry[accIdx].kwCredits = Math.max(0, registry[accIdx].kwCredits - 1)
+          if (!registry[accIdx].keywords.includes(kw)) registry[accIdx].keywords.push(kw)
+          registry[accIdx].lastUsed = new Date().toISOString()
+          saveRegistry(registry)
         }
-
-        case KwResearchState.INPUT_FILLED: {
-          // Si el replay de historial ya disparó kresarch(), o el formulario ya fue enviado,
-          // el input puede seguir relleno mientras carga — no reenviar.
-          if (usedHistoryReplay || submitted) {
-            p.log.step('Esperando carga de resultados...')
-            if (i > 10) await dumpDebugInfo(page, `stuck-input-filled-${i}`)
-            // Si llevamos mucho tiempo esperando, volver a intentar clic en analizar
-            if (i > 20 && i % 5 === 0) {
-              log('warn', 'SCRAPE', 'Re-intentando envío de búsqueda...')
-              const btn = page.locator('#buscaKresearch').first()
-              if (await btn.isVisible()) await btn.click({ force: true })
-            }
-            break
-          }
-          p.log.step('Enviando búsqueda...')
-          const submitBtn = page.locator('#buscaKresearch').first()
-          if (await submitBtn.isVisible().catch(() => false)) {
-            await submitBtn.click({ force: true })
-          } else {
-            await page.locator('#keyword').press('Enter')
-          }
-          submitted = true
-          if (i > 10) await dumpDebugInfo(page, `stuck-input-filled-${i}`)
-          break
-        }
-
-        case KwResearchState.AWAITING_RESULTS:
-          p.log.step(`Esperando resultados... (${i + 1}/${MAX_ITERATIONS})`)
-          break
-
-        case KwResearchState.RESULTS_READY: {
-          p.log.step('Extrayendo resultados...')
-          const results = await extractResults(page, keywords, country)
-          await saveSession(page)
-
-          // Guardar resultados
-          for (const res of results) {
-            appendHistory({ ...res, fromDinoRankHistory: usedHistoryReplay })
-          }
-
-          const mainRes =
-            results.find((r) =>
-              keywords.some((k) => r.keyword.toLowerCase() === k.toLowerCase()),
-            ) || results[0]
-          if (mainRes) {
-            p.log.success(`Extracción exitosa: ${mainRes.keyword} (Vol: ${mainRes.volume})`)
-          }
-
-          if (results.length > 1) {
-            p.log.info(`Se guardaron ${results.length - 1} sugerencias adicionales.`)
-          }
-
-          return results
-        }
-
-        case KwResearchState.UNKNOWN:
-          await dumpDebugInfo(page, `unknown-${i}`)
-          // Si llevamos varios ciclos perdidos, volver a la página de KW Research
-          if (i >= 3 && i % 4 === 0) {
-            p.log.warn('Estado desconocido — volviendo a la página de keyword research...')
-            await page.goto(DINORANK_KW_RESEARCH_URL, { waitUntil: 'domcontentloaded' })
-          }
-          break
+      } catch (e: unknown) {
+        if (e instanceof NoCreditsError) { updateAccount(account.email, { kwCredits: 0 }); throw e }
+        p.log.warn(`Error en ${kw}: ${e instanceof Error ? e.message : String(e)}`)
       }
     }
-
-    throw new Error(
-      `Timeout tras ${MAX_ITERATIONS} iteraciones sin completar el scrape de "${keywords.join(', ')}".`,
-    )
   } finally {
-    await browser.close()
+    await api.logout()
   }
+  return allResults
 }
 
-// ─── Retry Wrapper ────────────────────────────────────────────────────────────
+async function ensureAccount(state: DinoRankState, excluded: Set<string>): Promise<DinoRankAccount> {
+  const registry = loadRegistry()
+  const available = registry
+    .filter(a => a.kwCredits > 0 && !excluded.has(a.email))
+    .sort((a, b) => b.kwCredits - a.kwCredits)
+
+  if (available.length > 0) {
+    const acc = available[0]!
+    return { ...acc, postsGenerated: acc.content.length } as any
+  }
+
+  p.log.warn('Creando nueva cuenta DinoRank...')
+  const { email, password } = await internals.createDinoRankAccount()
+  const newAcc = registerAccount(email, password)
+  return { ...newAcc, postsGenerated: 0 } as any
+}
+
+export const internals = { scrapeOnce, ensureAccount, clearSession, createDinoRankAccount }
 
 export async function scrapeWithRetry(
-  keywords: string[],
-  country: string,
-  dinoState: DinoRankState,
-  useAI: boolean,
-  attempt = 1,
-  excludedEmails = new Set<string>(),
+  keywords: string[], 
+  country: string, 
+  dinoState: DinoRankState, 
+  _useAI: boolean, 
+  language: string = 'es',
+  mode: 'research' | 'suggestions' = 'research',
+  maxAccountsToCreate: number = 2
 ): Promise<KWCacheEntry[]> {
-  for (; attempt <= MAX_RETRIES; attempt++) {
-    const account = await ensureAccount(dinoState, excludedEmails)
-    log('info', 'RETRY', `Intento ${attempt}/${MAX_RETRIES} — cuenta: ${account.email}`)
-    p.log.step(`Intento ${attempt}/${MAX_RETRIES} con ${account.email}`)
+  const excluded = new Set<string>()
+  let accountsCreated = 0
 
+  for (let attempt = 1; attempt <= 10; attempt++) {
+    const account = await internals.ensureAccount(dinoState, excluded)
     try {
-      return await scrapeOnce(keywords, country, account, useAI)
+      return await internals.scrapeOnce(keywords, country, account, language, mode)
     } catch (err) {
       if (err instanceof DeviceConflictError) {
-        p.log.warn(`Conflicto de sesión (${err.email}) — rotando a otra cuenta...`)
-        log('warn', 'RETRY', 'DeviceConflict — rotando cuenta', { email: err.email, attempt })
-        excludedEmails.add(err.email)
-        clearSession() // Invalidar la sesión para forzar login fresco con la siguiente cuenta
+        p.log.warn(`Conflicto de sesión (${err.email}) — rotando cuenta...`)
+        excluded.add(err.email)
+        internals.clearSession()
         continue
       }
-
       if (err instanceof NoCreditsError) {
+        if (accountsCreated >= maxAccountsToCreate) {
+          throw new Error(`Límite de creación de cuentas (${maxAccountsToCreate}) alcanzado.`)
+        }
         p.log.warn(`Sin créditos (${err.email}) — creando nueva cuenta...`)
-        log('warn', 'RETRY', 'NoCredits — creando nueva cuenta', { email: err.email, attempt })
-        excludedEmails.add(err.email)
-        clearSession()
-        // Forzar creación de cuenta nueva en el siguiente ensureAccount
-        const { email, password } = await createDinoRankAccount()
-        registerAccount(dinoState, email, password)
-        saveState(dinoState)
+        excluded.add(err.email)
+        internals.clearSession()
+        const { email, password } = await internals.createDinoRankAccount()
+        registerAccount(email, password)
+        accountsCreated++
         continue
       }
 
-      // Error no recuperable: propagar
-      throw err
+      // Generic error (login failure, network, or invalid response) — exclude account and retry
+      const msg = err instanceof Error ? err.message : String(err)
+      p.log.warn(`Error con ${account.email}: ${msg} — rotando cuenta...`)
+      excluded.add(account.email)
+      
+      if (msg.includes('Respuesta inválida')) {
+        await new Promise(r => setTimeout(r, 5000))
+      }
+      continue
     }
   }
-
-  throw new Error(`Fallaron ${MAX_RETRIES} intentos para la keyword "${keywords.join(', ')}".`)
+  throw new Error('Máximo de reintentos alcanzado o sin resultados válidos.')
 }
 
 // ─── MD File Updater ──────────────────────────────────────────────────────────
@@ -1403,10 +531,7 @@ export function updateMarkdownTable(
   if (tableStartIndex === -1) return mdContent
 
   const headers = splitByPipe(lines[tableStartIndex]!).map((h) =>
-    h
-      .trim()
-      .toLowerCase()
-      .replace(/[\s.]+/g, '_'),
+    h.trim().toLowerCase().replace(/[\s.]+/g, '_'),
   )
   const kwIdx = headers.indexOf('keyword')
   if (kwIdx === -1) return mdContent
@@ -1424,7 +549,6 @@ export function updateMarkdownTable(
     return !isNaN(f) ? Math.round(f * 100).toString() : raw
   }
 
-  // Helper functions para el formateo previo a Prettier
   const cell = (content: string): string => ` ${content} `
 
   let updated = false
@@ -1437,21 +561,17 @@ export function updateMarkdownTable(
 
     if (volumeIdx !== -1) cells[volumeIdx] = cell(result.volume.replace(/\D/g, ''))
     if (difficultyIdx !== -1) cells[difficultyIdx] = cell(compToPercent(result.competency))
-    if (trendIdx !== -1)
-      cells[trendIdx] = cell(result.trend && result.trend.length ? result.trend.join(',') : '')
+    if (trendIdx !== -1) cells[trendIdx] = cell(result.trend?.length ? result.trend.join(',') : '')
     if (relatedIdx !== -1) cells[relatedIdx] = cell(result.relatedSearches)
     if (sourceIdx !== -1) cells[sourceIdx] = cell('DinoRank')
-    if (countryIdx !== -1 && (!cells[countryIdx] || !cells[countryIdx].trim()))
-      cells[countryIdx] = cell(country)
-    if (langIdx !== -1 && (!cells[langIdx] || !cells[langIdx].trim()))
-      cells[langIdx] = cell(language)
+    if (countryIdx !== -1 && !cells[countryIdx]?.trim()) cells[countryIdx] = cell(country)
+    if (langIdx !== -1 && !cells[langIdx]?.trim()) cells[langIdx] = cell(language)
 
     updated = true
     return '|' + cells.join('|') + '|'
   })
 
   if (!updated && headers.length > 0) {
-    // La keyword no estaba en la tabla — añadir fila al final
     const endIdx = newLines.findIndex(
       (line, i) => i > tableStartIndex + 1 && !line.trim().startsWith('|') && line.trim() !== '',
     )
@@ -1460,8 +580,7 @@ export function updateMarkdownTable(
     newRow[kwIdx] = cell(kw)
     if (volumeIdx !== -1) newRow[volumeIdx] = cell(result.volume.replace(/\D/g, ''))
     if (difficultyIdx !== -1) newRow[difficultyIdx] = cell(compToPercent(result.competency))
-    if (trendIdx !== -1)
-      newRow[trendIdx] = cell(result.trend && result.trend.length ? result.trend.join(',') : '')
+    if (trendIdx !== -1) newRow[trendIdx] = cell(result.trend?.length ? result.trend.join(',') : '')
     if (relatedIdx !== -1) newRow[relatedIdx] = cell(result.relatedSearches)
     if (sourceIdx !== -1) newRow[sourceIdx] = cell('DinoRank')
     if (countryIdx !== -1) newRow[countryIdx] = cell(country)
@@ -1472,63 +591,61 @@ export function updateMarkdownTable(
   return newLines.join('\n')
 }
 
+// ─── Cache Utilities ──────────────────────────────────────────────────────────
+
+export function loadCache(): KWCache {
+  if (!existsSync(CACHE_FILE)) return {}
+  try { return JSON.parse(readFileSync(CACHE_FILE, 'utf-8')) } catch { return {} }
+}
+
+export function saveCache(cache: KWCache): void {
+  writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2))
+}
+
+export function isCacheValid(timestamp: string): boolean {
+  return Math.ceil(Math.abs(Date.now() - new Date(timestamp).getTime()) / (1000 * 60 * 60 * 24)) <= 30
+}
+
+export function setDebug(_val: boolean) {}
+
+import { exportToCsv } from './export-keywords-csv'
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
   const args = resolveArgs()
   if (!args) {
-    console.error(
-      'Uso: pnpm scrape:dinorank "tu palabra clave, otra keyword" [--country=es] [--debug]',
-    )
+    console.error('Uso: pnpm scrape:dinorank "tu palabra clave" [--country=es] [--debug]')
     process.exit(1)
   }
 
-  let { keywords, country, debug } = args
+  const { keywords } = args
+  let { country } = args
   let language = 'es'
 
-  // Pre-cargar país e idioma desde keywords.md si existe y está definido ahí
+  // Pre-cargar país e idioma desde keywords.md si la keyword ya está en la tabla
   if (existsSync(KEYWORDS_FILE)) {
     try {
       const content = readFileSync(KEYWORDS_FILE, 'utf-8')
       const lines = content.split(/\r?\n/)
-      const tableStartIndex = lines.findIndex((line) => line.trim().startsWith('|'))
+      const tableStartIndex = lines.findIndex(l => l.trim().startsWith('|'))
       if (tableStartIndex !== -1) {
-        const headers = splitByPipe(lines[tableStartIndex]!).map((h) =>
-          h
-            .trim()
-            .toLowerCase()
-            .replace(/[\s.]+/g, '_'),
-        )
-        const kwIdx = headers.indexOf('keyword')
-        const countryIdx = headers.indexOf('country')
-        const langIdx = headers.indexOf('language')
-
+        const headers = splitByPipe(lines[tableStartIndex]!).map(h => h.trim().toLowerCase().replace(/[\s.]+/g, '_'))
+        const kwIdx = headers.indexOf('keyword'), countryIdx = headers.indexOf('country'), langIdx = headers.indexOf('language')
         if (kwIdx !== -1) {
           for (let i = tableStartIndex + 2; i < lines.length; i++) {
             const line = lines[i]!
             if (!line.trim().startsWith('|')) continue
             const cells = splitByPipe(line)
-            // Just map country/language from the first matching keyword if any
-            if (
-              cells[kwIdx] &&
-              keywords.some((k) => cells[kwIdx].toLowerCase() === k.toLowerCase())
-            ) {
-              if (countryIdx !== -1) {
-                const fileCountry = cells[countryIdx]?.trim()
-                if (fileCountry) country = fileCountry.toLowerCase()
-              }
-              if (langIdx !== -1) {
-                const fileLang = cells[langIdx]?.trim()
-                if (fileLang) language = fileLang.toLowerCase()
-              }
+            if (cells[kwIdx] && keywords.some(k => cells[kwIdx]!.toLowerCase() === k.toLowerCase())) {
+              if (countryIdx !== -1 && cells[countryIdx]?.trim()) country = cells[countryIdx]!.trim().toLowerCase()
+              if (langIdx !== -1 && cells[langIdx]?.trim()) language = cells[langIdx]!.trim().toLowerCase()
               break
             }
           }
         }
       }
-    } catch (e) {
-      // Ignorar errores de parseo inicial
-    }
+    } catch {}
   }
 
   p.intro('🦖 Scrape DinoRank — Keyword Research')
@@ -1536,28 +653,23 @@ async function main() {
   log('info', 'MAIN', 'Inicio', { keywords, country })
 
   const cache = loadCache()
-
   const uncachedKeywords: string[] = []
   const results: KWCacheEntry[] = []
 
   for (const kw of keywords) {
     const cacheKey = `${kw.toLowerCase()}_${country}`
-    const cachedData = cache[cacheKey]
-    if (cachedData && isCacheValid(cachedData.timestamp)) {
-      results.push(cachedData)
+    const cached = cache[cacheKey]
+    if (cached && isCacheValid(cached.timestamp)) {
+      p.log.success(`Caché hit: ${kw}`)
+      results.push(cached)
     } else {
       uncachedKeywords.push(kw)
     }
   }
 
-  if (results.length > 0) {
-    p.log.success(`Datos obtenidos de caché local para ${results.length} keywords.`)
-    log('info', 'CACHE', 'Hit de caché', { count: results.length })
-  }
-
   if (uncachedKeywords.length > 0) {
     const s = p.spinner()
-    s.start(`Iniciando extracción con DinoRank para ${uncachedKeywords.length} palabras clave...`)
+    s.start(`Extrayendo ${uncachedKeywords.length} keywords con DinoRank...`)
     const dinoState = loadState()
 
     try {
@@ -1569,6 +681,7 @@ async function main() {
         results.push(res)
       }
       saveCache(cache)
+      log('info', 'MAIN', 'Cache guardado', { count: scraped.length })
     } catch (err: unknown) {
       s.stop('Error en la extracción.')
       const msg = err instanceof Error ? err.message : 'Error desconocido'
@@ -1582,13 +695,11 @@ async function main() {
   p.note(
     [
       `Total capturadas: ${results.length}`,
-      ...results.slice(0, 3).map((r) => `  - ${r.keyword} (${r.volume} vol)`),
-      results.length > 3 ? `  ...y ${results.length - 3} sugerencias más` : '',
+      ...results.slice(0, 5).map(r => `  - ${r.keyword} (${r.volume} vol, CPC: ${r.cpc}, Comp: ${r.competency})`),
+      results.length > 5 ? `  ...y ${results.length - 5} más` : '',
       ``,
-      `Historial local: ${historyCount} ${historyCount === 1 ? 'entrada' : 'entradas'} en ${KW_HISTORY_FILE.replace(ROOT + '/', '')}`,
-    ]
-      .filter(Boolean)
-      .join('\n'),
+      `Historial: ${historyCount} entradas`,
+    ].filter(Boolean).join('\n'),
     'Resultados',
   )
 
@@ -1598,17 +709,12 @@ async function main() {
       content = updateMarkdownTable(content, res.keyword, res, res.country || country, language)
     }
     writeFileSync(KEYWORDS_FILE, content)
+    exportToCsv()
     p.log.success(`keywords.md actualizado con ${results.length} entradas.`)
     log('info', 'MAIN', 'keywords.md actualizado', { count: results.length })
-
     try {
       execSync(`npx prettier --write "${KEYWORDS_FILE}"`, { stdio: 'ignore' })
-      p.log.success(`Tabla formateada correctamente con Prettier.`)
-    } catch (e) {
-      p.log.warn(`No se pudo formatear la tabla con Prettier automáticamente.`)
-    }
-  } else {
-    p.log.warn(`No se encontró el archivo ${KEYWORDS_FILE}`)
+    } catch {}
   }
 
   p.outro('✅ Finalizado')
@@ -1616,8 +722,5 @@ async function main() {
 
 const isMainModule = process.argv[1] && process.argv[1].endsWith('scrape-dinorank.ts')
 if (process.env.NODE_ENV !== 'test' && isMainModule) {
-  main().catch((err) => {
-    console.error('FATAL:', err)
-    process.exit(1)
-  })
+  main().catch(err => { console.error('FATAL:', err); process.exit(1) })
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import type { Schema } from '@/utilities/schema/types'
 import type { Post, User, Category, Media } from '@/payload-types'
 import { extractText } from '@/utilities/extractText'
+import { generatePersonSchema } from '@/utilities/schema'
 
 interface LayoutBlock {
   blockType?: string
@@ -69,6 +70,44 @@ export const JsonLd = ({
   // 4. Combine all items in a single, static assignment to prevent interleaving
   const allFaqItems = [...layoutFaqs, ...embeddedFaqs, ...expertFaq]
 
+  // 5. Home-only schemas: Person + ProfessionalService
+  const homeSchemas: Schema[] = isHome ? (() => {
+    const personSchema = generatePersonSchema({
+      name: 'Juan Carlos Angulo',
+      url: `${siteUrl}${locale === 'es' ? '' : '/en'}/authors/juan-carlos-angulo`,
+      jobTitle: 'Technical SEO Engineer & Full-Stack Developer',
+      sameAs: [
+        'https://www.linkedin.com/in/juancangulo/',
+        'https://github.com/sve-nnn',
+      ],
+      knowsAbout: [
+        'Technical SEO',
+        'Next.js',
+        'TypeScript',
+        'Payload CMS',
+        'Web Performance',
+        'Content Strategy',
+      ],
+    })
+
+    const professionalServiceSchema: Schema = {
+      '@type': 'ProfessionalService',
+      '@id': `${siteUrl}/#service`,
+      name: 'Juan-Tech — Technical SEO & Web Development',
+      url: siteUrl,
+      description: locale === 'es'
+        ? 'Servicios de SEO técnico, desarrollo web con Next.js y automatización de contenido para negocios digitales.'
+        : 'Technical SEO services, Next.js web development, and content automation for digital businesses.',
+      provider: {
+        '@id': `${siteUrl}/#person`,
+      },
+      areaServed: 'Worldwide',
+      serviceType: ['Technical SEO', 'Web Development', 'Content Strategy'],
+    }
+
+    return [personSchema, professionalServiceSchema]
+  })() : []
+
   const schemas: Schema[] = []
 
   if (allFaqItems.length > 0) {
@@ -84,6 +123,9 @@ export const JsonLd = ({
       }))
     })
   }
+
+  // Add home-only schemas (Person + ProfessionalService)
+  schemas.push(...homeSchemas)
 
   // Add explicit schema (Organization, etc.)
   if (schema) {

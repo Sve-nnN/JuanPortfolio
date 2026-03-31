@@ -79,10 +79,10 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 3. All 26+ published posts show the author relationship in Payload (none empty)
 4. Author bio page has >300 words of original content and is not marked noindex
 
-**Plans:**
-- [ ] 04-01: Create `content/author-profile.md` with comprehensive person/expertise data
-- [ ] 04-02: Update Payload Users collection author record via local API script (bio, avatar, socials)
-- [ ] 04-03: Audit all posts for author relationship; bulk-assign author via script where missing
+**Plans:** 3 plans
+- [ ] 04-01-PLAN.md — Write bilingual author-profile.md (ES + EN bio, expertise, services, education, social links)
+- [ ] 04-02-PLAN.md — Update Payload user record via MCP: bio, jobTitle (ES + EN), socialMedia (LinkedIn + GitHub)
+- [ ] 04-03-PLAN.md — Audit published posts for missing author; bulk-assign via MCP; write VERIFICATION.md; human checkpoint
 
 ---
 

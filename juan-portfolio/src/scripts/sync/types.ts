@@ -62,8 +62,8 @@ export interface PayloadPostData {
   meta: {
     title: string | undefined
     description: string | undefined
-    noindex?: boolean
   }
+  noindex?: boolean
   authors: string[]
   categories: string[]
 }

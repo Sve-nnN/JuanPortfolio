@@ -309,6 +309,16 @@ export const Posts: CollectionConfig<'posts'> = {
         readOnly: true,
       },
     },
+    {
+      name: 'noindex',
+      type: 'checkbox',
+      label: { en: 'No Index', es: 'No Indexar' },
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Prevent search engines from indexing this post.',
+      },
+    },
     slugField(),
   ],
   hooks: {

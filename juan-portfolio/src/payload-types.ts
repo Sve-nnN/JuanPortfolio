@@ -367,6 +367,10 @@ export interface Post {
    * Número de enlaces internos detectados en el contenido.
    */
   internalLinksCount?: number | null;
+  /**
+   * Prevent search engines from indexing this post.
+   */
+  noindex?: boolean | null;
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -737,6 +741,9 @@ export interface User {
   };
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -3307,6 +3314,7 @@ export interface PostsSelect<T extends boolean = true> {
       };
   indexStatus?: T;
   internalLinksCount?: T;
+  noindex?: T;
   slug?: T;
   meta?:
     | T
@@ -3558,6 +3566,9 @@ export interface UsersSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;

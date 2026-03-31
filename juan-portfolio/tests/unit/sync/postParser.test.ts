@@ -276,15 +276,15 @@ describe('buildPostData', () => {
     expect(data.primaryKeyword).toBeUndefined()
   })
 
-  it('buildPostData con noindex: true produce meta.noindex === true', () => {
+  it('buildPostData con noindex: true produce data.noindex === true (campo top-level)', () => {
     const post = parsePostFile('content/posts/article.md', NOINDEX_FRONTMATTER)
     const data = buildPostData(post, RESOLVED_IDS)
-    expect(data.meta.noindex).toBe(true)
+    expect(data.noindex).toBe(true)
   })
 
-  it('buildPostData con noindex undefined produce meta.noindex === undefined', () => {
+  it('buildPostData con noindex undefined produce data.noindex === undefined (campo top-level)', () => {
     const post = parsePostFile('content/posts/article.md', VALID_FRONTMATTER)
     const data = buildPostData(post, RESOLVED_IDS)
-    expect(data.meta.noindex).toBeUndefined()
+    expect(data.noindex).toBeUndefined()
   })
 })

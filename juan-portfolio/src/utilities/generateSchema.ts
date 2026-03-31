@@ -58,6 +58,7 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
     mainEntity = {
       ...baseSchema,
       '@type': 'BlogPosting',
+      '@id': url,
       headline: title,
       description: (doc.content as Post['content'])?.tldr || description,
       datePublished: doc.publishedAt,
@@ -67,7 +68,11 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
         '@id': authorId,
         name: authorName,
         url: `${process.env.NEXT_PUBLIC_SERVER_URL}/author/juan-carlos-angulo`
-      }
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': url,
+      },
     }
   } else {
     mainEntity = {

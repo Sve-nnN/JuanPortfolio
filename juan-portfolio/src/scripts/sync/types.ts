@@ -29,6 +29,7 @@ export interface PostFrontmatter {
   status?: string
   uploaded?: boolean
   tldr?: string
+  noindex?: boolean
 }
 
 export interface ParsedPost {
@@ -61,6 +62,7 @@ export interface PayloadPostData {
   meta: {
     title: string | undefined
     description: string | undefined
+    noindex?: boolean
   }
   authors: string[]
   categories: string[]

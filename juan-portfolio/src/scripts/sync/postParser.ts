@@ -52,6 +52,7 @@ export function buildPostData(post: ParsedPost, resolved: ResolvedIds): PayloadP
     meta: {
       title: post.frontmatter.metaTitle,
       description: post.frontmatter.metaDescription,
+      noindex: post.frontmatter.noindex,
     },
     authors: resolved.authorIds,
     categories: resolved.categoryIds,

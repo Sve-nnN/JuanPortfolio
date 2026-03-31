@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Defining requirements
-stopped_at: "Completed Phase 1: Crawl Errors & Indexability (plans 01-01, 01-02, 01-03)"
-last_updated: "2026-03-31T04:07:30.552Z"
-last_activity: 2026-03-30 — Milestone v1.0 started
+status: In Progress
+stopped_at: "Completed Phase 2: Content Fixes (plans 02-01, 02-02, 02-03)"
+last_updated: "2026-03-31T04:45:00.000Z"
+last_activity: 2026-03-31 — Phase 2 completed
 progress:
   total_phases: 5
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 100
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 6
+  percent: 40
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-03-30)
 
 ## Current Position
 
-Phase: Phase 1 — Crawl Errors & Indexability (COMPLETE)
-Plan: 01-03 (all 3 plans complete)
-Status: Phase 1 complete — ready for Phase 2
-Last activity: 2026-03-31 — Phase 1 completed (crawl errors, noindex, slug rename)
+Phase: Phase 2 — Content Fixes (COMPLETE)
+Plan: 02-03 (all 3 plans complete)
+Status: Phase 2 complete — ready for Phase 3
+Last activity: 2026-03-31 — Phase 2 completed (content rewrite, dev category, meta audit)
 
-Progress: [██████████] 100%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
@@ -47,6 +47,7 @@ Progress: [██████████] 100%
 
 ## Accumulated Context
 | Phase 01-crawl-errors-indexability P01-01-01-03 | 75 | 7 tasks | 9 files |
+| Phase 02-content-fixes P02-01-02-03 | 55 | 7 tasks | 36 files |
 
 ### Decisions
 
@@ -57,6 +58,9 @@ Recent decisions affecting current work:
 - Pre-GSD: Pivoted homepage KW to "consultor SEO freelance" (450/mo, KD:0) — impact measurement pending
 - [Phase 01-crawl-errors-indexability]: noindex is top-level on Post document (not in meta group) — added checkbox field to Posts collection
 - [Phase 01-crawl-errors-indexability]: Payload redirects return HTTP 308 (not 301) — Next.js plugin behavior, SEO-equivalent to 301
+- [Phase 02-content-fixes]: Used disableRevalidate context in Payload API scripts to avoid static generation store errors
+- [Phase 02-content-fixes]: Used --force flag on sync push for meta desc fixes due to pre-existing remote conflicts
+- [Phase 02-content-fixes]: development/ articles created as draft status pending individual editorial review
 
 ### Pending Todos
 
@@ -73,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-31T04:07:20.508Z
-Stopped at: Completed Phase 1: Crawl Errors & Indexability (plans 01-01, 01-02, 01-03)
+Last session: 2026-03-31T04:45:00.000Z
+Stopped at: Completed Phase 2: Content Fixes (plans 02-01, 02-02, 02-03)
 Resume file: None

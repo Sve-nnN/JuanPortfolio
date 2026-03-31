@@ -12,10 +12,10 @@ relatedPosts:
   - redaccion-seo
   - estrategia-topic-clusters
 sidebarBanners: []
+noindex: true
 metaTitle: 'E-E-A-T SEO 2026: How to Demonstrate Authority (Guide + Python Script)'
-metaDescription: >-
-  Optimize your E-E-A-T for 2026. Includes Python script to validate trust
-  signals, strategies for YMYL content and optimization for AI Overviews (SGE).
+metaDescription: >
+  Complete guide on EEAT for SEO: Experience, Expertise, Authority and Trust. Practical strategies, Python audit script and AI Overviews optimization.
 primary_keywords:
   - what is e-e-a-t seo
   - brand authority

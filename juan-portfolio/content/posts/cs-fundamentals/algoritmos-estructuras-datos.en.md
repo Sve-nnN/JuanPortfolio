@@ -18,10 +18,8 @@ relatedPosts:
   - programacion-dinamica
 sidebarBanners: []
 metaTitle: 'Algorithms and Data Structures: Complete Guide for Modern Programmers'
-metaDescription: >-
-  Master essential Algorithms and Data Structures to build efficient, scalable
-  and robust software. Explore types, complexity, optimization and practical
-  applications in languages like Python, JavaScript, C and Java.
+metaDescription: >
+  Master essential Algorithms and Data Structures to build efficient, scalable software. Covers types, Big O complexity, optimization and real-world applications.
 primary_keywords:
   - algorithms and data structures
   - essential data structures

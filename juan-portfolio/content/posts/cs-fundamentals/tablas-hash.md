@@ -12,7 +12,8 @@ relatedPosts: null
 sidebarBanners: []
 tldr: Resumen ejecutivo de 40-60 palabras optimizado para AI Overviews (SGE).
 metaTitle: null
-metaDescription: null
+metaDescription: >
+  Aprende qué son las tablas hash, cómo funcionan las funciones de dispersión y cómo resolver colisiones. Guía práctica con ejemplos en Python.
 contentRole: satellite
 pillarSlug: guia-keyword-research
 semantic_keywords:

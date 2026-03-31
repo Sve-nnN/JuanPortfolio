@@ -13,10 +13,8 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: 'Dynamic Programming: From Recursion to Optimization'
-metaDescription: >-
-  Learn to solve complex problems with dynamic programming. We cover
-  Memoization, Tabulation and the Knapsack Problem, with clear code examples and
-  optimizations.
+metaDescription: >
+  Learn dynamic programming with memoization and tabulation. Solve the knapsack problem and optimize algorithms with practical Python examples.
 primary_keywords:
   - dynamic programming
   - optimization algorithms

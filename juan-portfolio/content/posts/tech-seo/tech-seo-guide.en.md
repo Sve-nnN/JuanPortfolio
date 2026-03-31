@@ -17,9 +17,8 @@ relatedPosts:
   - ssr-vs-csr-seo
 sidebarBanners: []
 metaTitle: 'Technical SEO Guide 2026: Crawling, Code and Performance'
-metaDescription: >-
-  Learn to manage crawl budget, indexing, Core Web Vitals and Schema Markup.
-  Includes technical checklists.
+metaDescription: >
+  Manage crawl budget, indexing, Core Web Vitals and Schema Markup to improve technical SEO. Includes step-by-step checklists for modern websites.
 primary_keywords:
   - technical SEO guide
   - technical SEO for developers

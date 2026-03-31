@@ -17,9 +17,8 @@ sidebarBanners: []
 tldr: >-
   La Programación Dinámica es una técnica avanzada de diseño algorítmico que optimiza la resolución de problemas complejos mediante la descomposición en subproblemas y el almacenamiento de sus resultados. Esta guía profundiza en los pilares de subestructura óptima y subproblemas superpuestos, comparando métodos de memoización y tabulación para maximizar la eficiencia en software de alto rendimiento.
 metaTitle: 'Programación Dinámica: Guía de Memoización, Tabulación y Big O'
-metaDescription: >-
-  Aprende a resolver problemas complejos con programación dinámica. Domina la
-  memoización, tabulación y el problema de la mochila con ejemplos en Python y optimización de recursos.
+metaDescription: >
+  Aprende programación dinámica con memoización y tabulación. Resuelve el problema de la mochila y optimiza código con ejemplos en Python.
 primary_keywords:
   - programación dinámica
   - algoritmos de optimización

@@ -15,9 +15,8 @@ relatedPosts:
   - technical-seo-guide
 sidebarBanners: []
 metaTitle: 'Advanced Web Performance 2026: Code, CDN Caching and LCP Optimization'
-metaDescription: >-
-  Optimize your site's web performance. Control TTFB, implement Resource Hints
-  and distribute load through CDN.
+metaDescription: >
+  Optimize your site web performance with TTFB control, Resource Hints, CDN strategies and Core Web Vitals improvements. Practical guide for developers.
 primary_keywords:
   - web performance optimization
   - improve page load speed

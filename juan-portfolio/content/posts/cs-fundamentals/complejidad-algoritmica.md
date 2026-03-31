@@ -17,9 +17,8 @@ sidebarBanners: []
 tldr: >-
   La complejidad algorítmica cuantifica los recursos de tiempo y memoria que un algoritmo necesita para ejecutarse. Esta guía detalla cómo el análisis asintótico (Big O, Ω, Θ) permite predecir el rendimiento y la escalabilidad de tus aplicaciones, siendo una competencia crítica para ingenieros que buscan optimizar la experiencia de usuario y reducir costos de infraestructura.
 metaTitle: 'Complejidad Algorítmica: Guía de Análisis, Big O y Escalabilidad'
-metaDescription: >-
-  Domina el análisis de algoritmos. Diferencias entre complejidad temporal,
-  espacial, Big O, Ω y Θ. Guía esencial para optimizar software y reducir costos en la nube.
+metaDescription: >
+  Domina el análisis de algoritmos: complejidad temporal, espacial, Big O, Ω y Θ. Guía para optimizar software y reducir costos en la nube.
 primary_keywords:
   - complejidad algorítmica
   - análisis de algoritmos

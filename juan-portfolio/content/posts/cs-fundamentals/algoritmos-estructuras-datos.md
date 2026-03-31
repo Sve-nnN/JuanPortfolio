@@ -20,10 +20,8 @@ sidebarBanners: []
 tldr: >-
   Los algoritmos y estructuras de datos son los cimientos de la programación eficiente. Un algoritmo define el proceso paso a paso, mientras que la estructura de datos organiza la información para optimizar recursos. Dominarlos es clave para construir software escalable, de alto rendimiento y robusto ante grandes volúmenes de datos.
 metaTitle: 'Algoritmos y Estructuras de Datos: Guía Completa para Programadores Modernos'
-metaDescription: >-
-  Domina los Algoritmos y Estructuras de Datos esenciales para construir
-  software eficiente, escalable y robusto. Explora tipos, complejidad,
-  optimización y aplicaciones prácticas.
+metaDescription: >
+  Domina los algoritmos y estructuras de datos clave para construir software eficiente. Explora tipos, complejidad Big O y aplicaciones prácticas.
 primary_keywords:
   - algoritmos y estructuras de datos
   - fundamentos de programación

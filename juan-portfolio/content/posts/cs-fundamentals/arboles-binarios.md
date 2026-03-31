@@ -18,9 +18,8 @@ sidebarBanners: []
 tldr: >-
   Los árboles binarios son estructuras de datos jerárquicas fundamentales para la optimización de búsquedas y organización de información. Esta guía explora desde conceptos básicos hasta tipos avanzados como BST, AVL y Árboles Rojinegros. Aprende a implementar recorridos DFS/BFS y técnicas de balanceo para garantizar un rendimiento logarítmico (O(log N)) en tus aplicaciones.
 metaTitle: 'Árboles Binarios: Estructura, Algoritmos BST, AVL y Red-Black'
-metaDescription: >-
-  Domina la teoría y práctica de árboles binarios. Explora BST, árboles AVL y
-  Rojinegros, recorridos DFS/BFS, balanceo y optimización Big O para ingenieros de software.
+metaDescription: >
+  Domina los árboles binarios: BST, AVL y Rojinegros. Recorridos DFS/BFS, balanceo y complejidad Big O. Guía esencial para ingenieros de software.
 primary_keywords:
   - árboles binarios
   - árbol binario de búsqueda BST

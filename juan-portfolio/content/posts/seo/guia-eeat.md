@@ -12,10 +12,9 @@ relatedPosts:
   - redaccion-seo
   - estrategia-topic-clusters
 sidebarBanners: []
-metaTitle: 'E-E-A-T SEO 2026: Cómo Demostrar Autoridad (Guía + Script Python)'
-metaDescription: >-
-  Domina el E-E-A-T en 2026. Guía avanzada para optimizar Experiencia, 
-  Expertise, Autoridad y Confianza. Incluye validación SGE y script de auditoría.
+metaTitle: 'Qué es el EEAT en SEO y Cómo Aplicarlo en 2026'
+metaDescription: >
+  Guía completa sobre EEAT en SEO: Experiencia, Expertise, Autoridad y Confianza. Estrategias prácticas y optimización para AI Overviews.
 primary_keywords:
   - que es e-e-a-t seo
   - autoridad de marca

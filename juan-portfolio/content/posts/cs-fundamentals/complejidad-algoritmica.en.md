@@ -13,10 +13,8 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: 'Algorithmic Complexity: Performance Analysis, Scalability and UX'
-metaDescription: >-
-  Master algorithm analysis. Differences between time complexity, space
-  complexity, Big O, Big Omega and Big Theta. Essential guide for senior
-  developers and software architects.
+metaDescription: >
+  Master algorithm analysis: time complexity, space complexity, Big O, Big Omega and Theta. Essential guide for senior developers and software architects.
 primary_keywords:
   - algorithmic complexity
   - space complexity

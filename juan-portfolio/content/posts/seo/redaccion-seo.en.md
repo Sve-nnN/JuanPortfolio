@@ -13,10 +13,8 @@ relatedPosts:
   - guia-keyword-research
 sidebarBanners: []
 metaTitle: 'SEO Writing for AI (2026): Writing Guide for SGE and GEO'
-metaDescription: >-
-  Learn to write optimized content for the AI era. Master the "Atomic Answer"
-  pattern to be cited in AI Overviews (SGE) and add "Information Gain" to
-  outperform the competition.
+metaDescription: >
+  Write optimized content for the AI era with the Atomic Answer pattern to appear in AI Overviews and Information Gain to outperform the competition.
 primary_keywords:
   - SEO writing
   - writing for Google

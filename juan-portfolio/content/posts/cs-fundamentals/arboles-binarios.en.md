@@ -14,10 +14,8 @@ relatedPosts:
   - complejidad-algoritmica
 sidebarBanners: []
 metaTitle: 'Binary Trees: Structure, BST Algorithms, AVL and Red-Black'
-metaDescription: >-
-  Master the theory and practice of binary trees. Explore BST, AVL and Red-Black
-  trees, DFS/BFS traversals, balancing, and key applications in database
-  systems, compilers and more. Essential guide for developers.
+metaDescription: >
+  Master binary trees: BST, AVL and Red-Black trees, DFS/BFS traversals, balancing algorithms and applications in databases, compilers and search systems.
 primary_keywords:
   - binary trees
   - binary search tree

@@ -66,6 +66,12 @@ export const generateMeta = async (args: {
 
   const title = meta?.title || doc?.title || 'Juan Carlos Angulo'
 
+  // Derive noindex flag from meta.noindex (Posts/Pages via seoPlugin) or doc.noindex (Categories)
+  const noindex =
+    (meta as { noindex?: boolean | null } | undefined)?.noindex ??
+    (doc as { noindex?: boolean | null } | null)?.noindex ??
+    false
+
   // --- OG image resolution ---
   // When the editor has set an explicit OG image, use it as-is.
   // When there is no explicit OG image, generate a Cloudinary URL with the
@@ -119,6 +125,7 @@ export const generateMeta = async (args: {
     description: meta?.description ?? doc?.meta?.description,
     title,
     alternates,
+    ...(noindex ? { robots: { index: false, follow: false } } : {}),
     openGraph: mergeOpenGraph({
       description: meta?.description || doc?.meta?.description || '',
       images: ogImage

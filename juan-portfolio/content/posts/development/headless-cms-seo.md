@@ -38,6 +38,9 @@ semantic_keywords:
   - mejores prácticas headless seo
   - SSR vs SSG para SEO
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 ## ¿Qué es un CMS Headless y cómo afecta al SEO?
 - Desmontando mitos: El CMS no posiciona solo, lo hace tu implementación.

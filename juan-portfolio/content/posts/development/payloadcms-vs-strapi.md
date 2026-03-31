@@ -36,6 +36,9 @@ semantic_keywords:
   - Strapi 5 vs Payload 3
   - CMS comparison for developers
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 ## La batalla por el trono de los CMS en Node.js
 - Introducción a los dos frameworks más populares actualmente.

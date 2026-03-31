@@ -34,6 +34,9 @@ semantic_keywords:
 uploaded: false
 idioma: es
 slug: typescript-best-practices
+categories:
+  - development
+status: draft
 ---
 ## ¿Por qué el tipado estricto es indispensable?
 - Beneficios en el mantenimiento y la reducción de bugs.

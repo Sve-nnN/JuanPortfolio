@@ -36,6 +36,9 @@ semantic_keywords:
   - rendimiento web Next.js
   - Next.js 15 features
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 ## El Cambio de Paradigma en React
 - Por qué surgieron los Server Components y qué problema resuelven.

@@ -34,6 +34,9 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: headless-cms-seo
+categories:
+  - development
+status: draft
 ---
 English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 

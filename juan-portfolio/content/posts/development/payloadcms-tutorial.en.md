@@ -30,6 +30,9 @@ semantic_keywords:
   - Payload CMS vs otros CMS
   - desarrollo web con Payload CMS
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 English version coming soon.
 

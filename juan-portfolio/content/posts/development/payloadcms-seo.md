@@ -35,6 +35,9 @@ semantic_keywords:
   - gestión de imágenes SEO
   - Payload CMS technical SEO
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 ## Introducción
 Payload CMS destaca por su enfoque "code-first", lo que otorga un control total sobre cómo se estructuran y consumen los datos de SEO. A diferencia de otros CMS visuales, Payload permite una integración profunda con frameworks modernos como Next.js para ofrecer experiencias de usuario rápidas y optimizadas para buscadores.

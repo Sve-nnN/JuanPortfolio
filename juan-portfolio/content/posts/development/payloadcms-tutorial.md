@@ -35,6 +35,9 @@ semantic_keywords:
   - desarrollo backend TypeScript
   - Payload CMS best practices
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 ## ¿Qué es Payload CMS?
 - Por qué es el CMS preferido para desarrolladores JavaScript/TypeScript.

@@ -29,6 +29,9 @@ semantic_keywords:
   - version
   - coming
   - soon
+categories:
+  - development
+status: draft
 ---
 English version coming soon.
 

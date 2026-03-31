@@ -34,6 +34,9 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: nextjs-server-components
+categories:
+  - development
+status: draft
 ---
 English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 

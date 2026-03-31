@@ -35,6 +35,9 @@ semantic_keywords:
   - arquitectura frontend moderno
   - Next.js 15 portfolio tutorial
 uploaded: false
+categories:
+  - development
+status: draft
 ---
 ## ¿Por qué elegir Next.js para tu portfolio?
 - Velocidad, SEO y experiencia de usuario como cartas de presentación.

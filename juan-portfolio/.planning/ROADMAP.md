@@ -61,11 +61,11 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 4. Zero validation errors when running any page through schema.org validator
 5. `BreadcrumbList` schema present on at least one post page and one category page
 
-**Plans:**
-- [ ] 03-01: Audit current schema.org implementation in `src/utilities/`; map what exists vs gaps
-- [ ] 03-02: Add/fix `Person` schema on homepage; add `sameAs` and `knowsAbout`
-- [ ] 03-03: Verify/fix `Article`/`BlogPosting` on posts; add `BreadcrumbList` to posts and categories
-- [ ] 03-04: Validate all schema changes; document findings
+**Plans:** 4 plans
+- [ ] 03-01-PLAN.md — Audit current schema emission points; document gaps for BlogPosting, homepage, BreadcrumbList
+- [ ] 03-02-PLAN.md — Add Person + ProfessionalService schemas to homepage via JsonLd component
+- [ ] 03-03-PLAN.md — Add mainEntityOfPage + @id to BlogPosting in generateSchema.ts
+- [ ] 03-04-PLAN.md — Validate all schema changes via curl; write VERIFICATION.md; human checkpoint
 
 ---
 

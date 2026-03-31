@@ -43,10 +43,10 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 2. `development/` articles either appear under a published "Development" category or are removed from the repo
 3. A query of all published posts confirms no post has a missing or over-limit meta description
 
-**Plans:**
-- [ ] 02-01: Rewrite mejores-cursos body (remove HTML artifacts, write clean structured content)
-- [ ] 02-02: Resolve development/ category — create category in Payload + sync, or delete files
-- [ ] 02-03: Audit all post meta descriptions programmatically; fix any remaining gaps
+**Plans:** 3 plans
+- [ ] 02-01-PLAN.md — Rewrite mejores-cursos body: strip HTML/JS artifacts, write clean ~1000-word Markdown, fix semantic_keywords, sync
+- [ ] 02-02-PLAN.md — Create Development category in Payload + add categories/status:draft to all 14 development/ files + sync
+- [ ] 02-03-PLAN.md — Audit all published post meta descriptions via Payload MCP; fix missing/short/long; write report
 
 ---
 

@@ -13,6 +13,14 @@ import type { ResolvedIds } from '../../../src/scripts/sync/types'
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
+const NOINDEX_FRONTMATTER = `---
+title: "Post con noindex"
+slug: post-con-noindex
+noindex: true
+---
+Contenido del post.
+`
+
 const VALID_FRONTMATTER = `---
 title: "Guía de SEO Técnico"
 slug: guia-seo-tecnico
@@ -131,6 +139,16 @@ describe('parsePostFile', () => {
     const result = parsePostFile('content/posts/min.md', MINIMAL_FRONTMATTER)
     expect(result.tldr).toBe('')
     expect(result.title).toBe('Artículo Mínimo')
+  })
+
+  it('frontmatter con noindex: true retorna frontmatter.noindex === true', () => {
+    const result = parsePostFile('content/posts/article.md', NOINDEX_FRONTMATTER)
+    expect(result.frontmatter.noindex).toBe(true)
+  })
+
+  it('frontmatter sin noindex retorna frontmatter.noindex === undefined', () => {
+    const result = parsePostFile('content/posts/article.md', VALID_FRONTMATTER)
+    expect(result.frontmatter.noindex).toBeUndefined()
   })
 })
 
@@ -256,5 +274,17 @@ describe('buildPostData', () => {
     const post = parsePostFile('content/posts/article.md', VALID_FRONTMATTER)
     const data = buildPostData(post, { ...RESOLVED_IDS, primaryKeywordId: undefined })
     expect(data.primaryKeyword).toBeUndefined()
+  })
+
+  it('buildPostData con noindex: true produce meta.noindex === true', () => {
+    const post = parsePostFile('content/posts/article.md', NOINDEX_FRONTMATTER)
+    const data = buildPostData(post, RESOLVED_IDS)
+    expect(data.meta.noindex).toBe(true)
+  })
+
+  it('buildPostData con noindex undefined produce meta.noindex === undefined', () => {
+    const post = parsePostFile('content/posts/article.md', VALID_FRONTMATTER)
+    const data = buildPostData(post, RESOLVED_IDS)
+    expect(data.meta.noindex).toBeUndefined()
   })
 })

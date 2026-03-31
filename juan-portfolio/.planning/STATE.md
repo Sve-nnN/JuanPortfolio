@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: In Progress
-stopped_at: "Completed Phase 2: Content Fixes (plans 02-01, 02-02, 02-03)"
-last_updated: "2026-03-31T04:45:00.000Z"
-last_activity: 2026-03-31 — Phase 2 completed
+stopped_at: "Completed Phase 4: Author Profile & E-E-A-T (plans 04-01, 04-02, 04-03)"
+last_updated: "2026-03-31T17:55:00.000Z"
+last_activity: 2026-03-31 — Phase 4 completed
 progress:
   total_phases: 5
-  completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
-  percent: 40
+  completed_phases: 4
+  total_plans: 13
+  completed_plans: 13
+  percent: 80
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-03-30)
 
 ## Current Position
 
-Phase: Phase 2 — Content Fixes (COMPLETE)
-Plan: 02-03 (all 3 plans complete)
-Status: Phase 2 complete — ready for Phase 3
-Last activity: 2026-03-31 — Phase 2 completed (content rewrite, dev category, meta audit)
+Phase: Phase 4 — Author Profile & E-E-A-T (COMPLETE)
+Plan: 04-03 (all 3 plans complete)
+Status: Phase 4 complete — ready for Phase 5
+Last activity: 2026-03-31 — Phase 4 completed (author-profile.md, Payload user record updated, all 9 posts author-assigned, VERIFICATION.md written)
 
-Progress: [████░░░░░░] 40%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
@@ -61,6 +61,13 @@ Recent decisions affecting current work:
 - [Phase 02-content-fixes]: Used disableRevalidate context in Payload API scripts to avoid static generation store errors
 - [Phase 02-content-fixes]: Used --force flag on sync push for meta desc fixes due to pre-existing remote conflicts
 - [Phase 02-content-fixes]: development/ articles created as draft status pending individual editorial review
+- [Phase 03-schema-audit]: generateArticleSchema.ts is dead code — active BlogPosting comes from generateSchema.ts inline
+- [Phase 03-schema-audit]: Person schema hardcoded in JsonLd.tsx (not from CMS) — persona data is stable, avoids extra Payload query
+- [Phase 03-schema-audit]: BreadcrumbList was already wired on post + category pages — no SCHEMA-05 implementation needed
+- [Phase 03-schema-audit]: SCHEMA-04 validation deferred to post-deploy manual Google Rich Results Test
+- [Phase 04-author-profile]: test-sync-post is a corrupt test artifact (published, no Title/Content) — authors field set via direct MongoDB to bypass Payload validation
+- [Phase 04-author-profile]: mejores-cursos-seo-espanol patched with disableRevalidate context (same pattern as Phase 2)
+- [Phase 04-author-profile]: Education institution names are placeholder text — user should fill in actual institution names in Payload admin
 
 ### Pending Todos
 
@@ -77,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-31T04:45:00.000Z
-Stopped at: Completed Phase 2: Content Fixes (plans 02-01, 02-02, 02-03)
+Last session: 2026-03-31T17:55:00.000Z
+Stopped at: Completed Phase 4: Author Profile & E-E-A-T (plans 04-01, 04-02, 04-03)
 Resume file: None

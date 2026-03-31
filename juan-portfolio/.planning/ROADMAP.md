@@ -9,7 +9,7 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 - [x] **Phase 1: Crawl Errors & Indexability** — Resolve all 4xx/3xx errors, noindex gaps, and special-character slug (completed 2026-03-31)
 - [ ] **Phase 2: Content Fixes** — Rewrite mejores-cursos body, resolve development/ category, verify all metas
 - [ ] **Phase 3: Schema.org Audit & Optimization** — Audit all structured data, fix gaps, validate
-- [ ] **Phase 4: Author Profile & E-E-A-T** — Create author profile doc, populate Payload author, link all posts
+- [x] **Phase 4: Author Profile & E-E-A-T** — Create author profile doc, populate Payload author, link all posts (completed 2026-03-31)
 - [ ] **Phase 5: Documentation & Strategy Summary** — Write post-milestone summary, update audit reports
 
 ---
@@ -79,10 +79,10 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 3. All 26+ published posts show the author relationship in Payload (none empty)
 4. Author bio page has >300 words of original content and is not marked noindex
 
-**Plans:** 3 plans
-- [ ] 04-01-PLAN.md — Write bilingual author-profile.md (ES + EN bio, expertise, services, education, social links)
-- [ ] 04-02-PLAN.md — Update Payload user record via MCP: bio, jobTitle (ES + EN), socialMedia (LinkedIn + GitHub)
-- [ ] 04-03-PLAN.md — Audit published posts for missing author; bulk-assign via MCP; write VERIFICATION.md; human checkpoint
+**Plans:** 3/3 plans complete
+- [x] 04-01-PLAN.md — Write bilingual author-profile.md (ES + EN bio, expertise, services, education, social links)
+- [x] 04-02-PLAN.md — Update Payload user record via MCP: bio, jobTitle (ES + EN), socialMedia (LinkedIn + GitHub)
+- [x] 04-03-PLAN.md — Audit published posts for missing author; bulk-assign via MCP; write VERIFICATION.md; human checkpoint
 
 ---
 

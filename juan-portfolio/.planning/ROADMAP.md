@@ -27,10 +27,10 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 4. `guia-eeat.en` and `sql-vs-nosql.en` rendered HTML contains `<meta name="robots" content="noindex">`
 5. `experiencia-de-usuario` EN route has noindex applied (stub `.en.md` or code-level solution)
 
-**Plans:**
-- [ ] 01-01: Rename mejores-cursos slug + add 301 redirect in Payload redirects collection
-- [ ] 01-02: Implement noindex for /blog/general category page (code or CMS)
-- [ ] 01-03: Verify noindex rendering for guia-eeat.en + sql-vs-nosql.en; add experiencia-de-usuario EN noindex
+**Plans:** 3 plans
+- [ ] 01-01-PLAN.md — Wire noindex end-to-end: sync types + postParser + generateMeta + CMS updates for EN placeholders
+- [ ] 01-02-PLAN.md — Rename mejores-cursos slug (remove ñ), create 301 redirect, set noindex on General category
+- [ ] 01-03-PLAN.md — Verify all Phase 1 success criteria in rendered HTML; write verification report
 
 ---
 

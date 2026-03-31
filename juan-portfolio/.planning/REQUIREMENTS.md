@@ -10,11 +10,11 @@
 
 ### Crawl Audit
 
-- [ ] **CRAWL-01**: All URLs in the sitemap return 2xx status codes (no 4xx/3xx errors surfaced by crawler)
-- [ ] **CRAWL-02**: `/blog/general` category page has `noindex` so it doesn't waste crawl budget
-- [ ] **CRAWL-03**: `experiencia-de-usuario` EN route is excluded from indexing (no EN content exists for it)
-- [ ] **CRAWL-04**: `noindex` on `guia-eeat.en.md` and `sql-vs-nosql.en.md` is verified to emit correct `<meta name="robots">` in rendered HTML
-- [ ] **CRAWL-05**: `mejores-cursos-seo-en-español` slug is renamed to `mejores-cursos-seo-espanol` with a 301 redirect, eliminating the special-character URL
+- [x] **CRAWL-01**: All URLs in the sitemap return 2xx status codes (no 4xx/3xx errors surfaced by crawler)
+- [x] **CRAWL-02**: `/blog/general` category page has `noindex` so it doesn't waste crawl budget
+- [x] **CRAWL-03**: `experiencia-de-usuario` EN route is excluded from indexing (no EN content exists for it)
+- [x] **CRAWL-04**: `noindex` on `guia-eeat.en.md` and `sql-vs-nosql.en.md` is verified to emit correct `<meta name="robots">` in rendered HTML
+- [x] **CRAWL-05**: `mejores-cursos-seo-en-español` slug is renamed to `mejores-cursos-seo-espanol` with a 301 redirect, eliminating the special-character URL
 
 ### Content Fixes
 
@@ -79,11 +79,11 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CRAWL-01 | Phase 1 | Pending |
-| CRAWL-02 | Phase 1 | Pending |
-| CRAWL-03 | Phase 1 | Pending |
-| CRAWL-04 | Phase 1 | Pending |
-| CRAWL-05 | Phase 1 | Pending |
+| CRAWL-01 | Phase 1 | Complete |
+| CRAWL-02 | Phase 1 | Complete |
+| CRAWL-03 | Phase 1 | Complete |
+| CRAWL-04 | Phase 1 | Complete |
+| CRAWL-05 | Phase 1 | Complete |
 | CONTENT-01 | Phase 2 | Pending |
 | CONTENT-02 | Phase 2 | Pending |
 | CONTENT-03 | Phase 2 | Pending |

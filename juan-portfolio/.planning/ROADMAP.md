@@ -7,10 +7,10 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 ## Phases
 
 - [x] **Phase 1: Crawl Errors & Indexability** — Resolve all 4xx/3xx errors, noindex gaps, and special-character slug (completed 2026-03-31)
-- [ ] **Phase 2: Content Fixes** — Rewrite mejores-cursos body, resolve development/ category, verify all metas
-- [ ] **Phase 3: Schema.org Audit & Optimization** — Audit all structured data, fix gaps, validate
+- [x] **Phase 2: Content Fixes** — Rewrite mejores-cursos body, resolve development/ category, verify all metas (completed 2026-03-31)
+- [x] **Phase 3: Schema.org Audit & Optimization** — Audit all structured data, fix gaps, validate (completed 2026-03-31)
 - [x] **Phase 4: Author Profile & E-E-A-T** — Create author profile doc, populate Payload author, link all posts (completed 2026-03-31)
-- [ ] **Phase 5: Documentation & Strategy Summary** — Write post-milestone summary, update audit reports
+- [x] **Phase 5: Documentation & Strategy Summary** — Write post-milestone summary, update audit reports (completed 2026-03-31)
 
 ---
 
@@ -28,9 +28,9 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 5. `experiencia-de-usuario` EN route has noindex applied (stub `.en.md` or code-level solution)
 
 **Plans:** 3/3 plans complete
-- [ ] 01-01-PLAN.md — Wire noindex end-to-end: sync types + postParser + generateMeta + CMS updates for EN placeholders
-- [ ] 01-02-PLAN.md — Rename mejores-cursos slug (remove ñ), create 301 redirect, set noindex on General category
-- [ ] 01-03-PLAN.md — Verify all Phase 1 success criteria in rendered HTML; write verification report
+- [x] 01-01-PLAN.md — Wire noindex end-to-end: sync types + postParser + generateMeta + CMS updates for EN placeholders
+- [x] 01-02-PLAN.md — Rename mejores-cursos slug (remove ñ), create 301 redirect, set noindex on General category
+- [x] 01-03-PLAN.md — Verify all Phase 1 success criteria in rendered HTML; write verification report
 
 ---
 
@@ -44,9 +44,9 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 3. A query of all published posts confirms no post has a missing or over-limit meta description
 
 **Plans:** 3 plans
-- [ ] 02-01-PLAN.md — Rewrite mejores-cursos body: strip HTML/JS artifacts, write clean ~1000-word Markdown, fix semantic_keywords, sync
-- [ ] 02-02-PLAN.md — Create Development category in Payload + add categories/status:draft to all 14 development/ files + sync
-- [ ] 02-03-PLAN.md — Audit all published post meta descriptions via Payload MCP; fix missing/short/long; write report
+- [x] 02-01-PLAN.md — Rewrite mejores-cursos body: strip HTML/JS artifacts, write clean ~1000-word Markdown, fix semantic_keywords, sync
+- [x] 02-02-PLAN.md — Create Development category in Payload + add categories/status:draft to all 14 development/ files + sync
+- [x] 02-03-PLAN.md — Audit all published post meta descriptions via Payload MCP; fix missing/short/long; write report
 
 ---
 
@@ -62,10 +62,10 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 5. `BreadcrumbList` schema present on at least one post page and one category page
 
 **Plans:** 4 plans
-- [ ] 03-01-PLAN.md — Audit current schema emission points; document gaps for BlogPosting, homepage, BreadcrumbList
-- [ ] 03-02-PLAN.md — Add Person + ProfessionalService schemas to homepage via JsonLd component
-- [ ] 03-03-PLAN.md — Add mainEntityOfPage + @id to BlogPosting in generateSchema.ts
-- [ ] 03-04-PLAN.md — Validate all schema changes via curl; write VERIFICATION.md; human checkpoint
+- [x] 03-01-PLAN.md — Audit current schema emission points; document gaps for BlogPosting, homepage, BreadcrumbList
+- [x] 03-02-PLAN.md — Add Person + ProfessionalService schemas to homepage via JsonLd component
+- [x] 03-03-PLAN.md — Add mainEntityOfPage + @id to BlogPosting in generateSchema.ts
+- [x] 03-04-PLAN.md — Validate all schema changes via curl; write VERIFICATION.md; human checkpoint
 
 ---
 
@@ -96,15 +96,54 @@ Five phases turning the initial SEO audit findings into a fully clean, schema-ri
 3. MILESTONES.md entry for v1.0 is written with stats and git range
 
 **Plans:**
-- [ ] 05-01: Write `content/strategy-audit-2026.md` — full audit narrative and change log
-- [ ] 05-02: Update `.planning/seo-audit/04-full-audit-log.md` with remaining issues resolved status
-- [ ] 05-03: Write MILESTONES.md v1.0 entry; commit all planning artifacts
+- [x] 05-01: Write `content/strategy-audit-2026.md` — full audit narrative and change log
+- [x] 05-02: Update `.planning/seo-audit/04-full-audit-log.md` with remaining issues resolved status
+- [x] 05-03: Write MILESTONES.md v1.0 entry; commit all planning artifacts
+
+### Phase 6: DinoBrain HTTP API Integration for Post Creation
+
+**Goal:** Replace the Playwright-based BrainState machine in `create-post.ts` with the pure HTTP `DinoBrainApiAdapter` from seo-content-engine, adding country/language/tone/site-type parameters; extend the accounts registry schema with DinoBrain-specific fields; keep all existing tests green.
+**Depends on:** Phase 5
+**Requirements:** BRAIN-01, BRAIN-02, BRAIN-03, BRAIN-04, BRAIN-05
+**Success Criteria** (what must be TRUE):
+1. `pnpm create-post` generates a complete post body via HTTP (no Playwright for content generation)
+2. DinoBrain parameters (country, language, site type, domain, word count) are accepted as CLI flags and forwarded to the API
+3. Account registry `content/dinorank-accounts-registry.json` carries the new fields: `createdLanguage`, `createdCountry`, `createdDomain`, `createdProjectType`, `assignedClientId`, `cooldownUntil`
+4. Existing `pnpm test:int` suite passes with no regressions
+5. CLAUDE.md / README updated to document new CLI flags
+
+**Plans:**
+- [x] 06-01-PLAN.md — Port DinoRankApiClient HTTP layer (login, get, post, logout, extractContentCredits, login-language)
+- [x] 06-02-PLAN.md — Port DinoBrainApiAdapter (generate(), account selection, cooldown, provision flow)
+- [x] 06-03-PLAN.md — Migrate create-post.ts: remove BrainState Playwright block, wire DinoBrainApiAdapter, add CLI flags
+- [x] 06-04-PLAN.md — Extend account registry schema + migrate existing entries + update tests
+- [x] 06-05-PLAN.md — Verification: run full pipeline dry-run, update CLAUDE.md, write VERIFICATION.md
+
+### Phase 7: Crear pipeline editorial autónomo: analizar content/ y estrategia, detectar gaps, asignar keyword por post faltante, lanzar redacción con DinoRank, y completar title/metaTitle/metaDescription según contenido generado
+
+**Goal:** Ejecutar un pipeline editorial autonomo y auditable que detecte gaps de contenido, asigne keywords por post faltante, genere borradores con DinoRank y garantice title/metaTitle/metaDescription validos antes de sync.
+**Requirements:** PIPE-01, PIPE-02, PIPE-03, PIPE-04, PIPE-05, PIPE-06
+**Success Criteria** (what must be TRUE):
+1. El pipeline detecta de forma determinista los posts faltantes comparando estrategia + contenido existente.
+2. Cada gap recibe una keyword unica y trazable en artefactos de salida.
+3. Existe comando CLI para ejecutar modo autonomo con --dry-run y --limit.
+4. Los drafts generados siempre contienen title, metaTitle y metaDescription no vacios.
+5. La metadata queda validada (y reportada) con reglas de longitud antes del sync.
+6. Hay cobertura de tests unit/integration y reporte de verificacion de fase.
+
+**Depends on:** Phase 6
+**Plans:** 3 plans
+
+Plans:
+- [ ] 07-01-PLAN.md - Contratos + gap analyzer + keyword assigner determinista
+- [ ] 07-02-PLAN.md - Orquestador autonomo + comando CLI de pipeline
+- [ ] 07-03-PLAN.md - Metadata guard + validacion integral + cierre de evidencia
 
 ---
 
 ## Stats
 
-- **Total phases:** 5
-- **Total plans:** 14
-- **Requirements mapped:** 19 / 19 (100% coverage)
+- **Total phases:** 7
+- **Total plans:** 22
+- **Requirements mapped:** 24 / 24 (100% coverage)
 - **Starting phase:** 1 (first milestone)

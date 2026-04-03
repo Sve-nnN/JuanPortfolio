@@ -102,6 +102,65 @@ This project features a bidirectional synchronization engine designed to keep lo
 
 ---
 
+## JuanTech Content Engine (Unified CLI)
+
+The project includes a centralized orchestration engine that unifies all automation scripts into a single, modular CLI. This engine manages the full lifecycle of content from research to publication and optimization.
+
+### Key Commands
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm engine research "<keyword>"` | Researches metrics using DinoRank and updates `keywords.md`. |
+| `pnpm engine automate "<keyword>"` | **The Flywheel**: Runs Research → Content Generation → AI Enrichment → CMS Sync → Internal Linking. |
+| `pnpm engine sync <push|pull|status>` | Managed content synchronization with Payload CMS. |
+| `pnpm engine links [--locale <es|en>]` | Optimizes and enforces internal linking across all posts. |
+
+### Architecture (Service-Oriented)
+
+The engine is built using a service-oriented architecture located in `src/scripts/services/`:
+
+- **KeywordService**: Manages the `keywords.md` source of truth and metrics.
+- **DinoRankService**: Keyword research and AI suggestions via DinoRank HTTP API.
+- **DinoBrainApiAdapter**: Content generation via DinoRank's DinoBrain tool (pure HTTP, no Playwright).
+- **PostService**: Handles frontmatter AI generation (LLM) and Markdown assembly.
+- **SyncService**: Automates the transfer of content between local files and the CMS.
+- **LinkService**: Programmatically enforces topic cluster rules and NLP-based internal links.
+
+### DinoBrain Content Generation (API-based)
+
+`DinoBrainApiAdapter` orchestrates article generation via DinoRank's DinoBrain HTTP API:
+
+| Method | URL | Purpose |
+| :----- | :-- | :------ |
+| `GET` | `/dinobrain/` | Initialize session, extract `contentCredits` from `Consumos restantes: N` |
+| `POST` | `/ajax/generaContenido.php` | Start generation. Body: `keyword=&contexto=&exclusiones=&numPalabras=&imagenes=no`. Response: plain numeric ID (e.g. `304927`) — **not** JSON (API change, 2026-03-13). |
+| `POST` | `/ajax/controlIA.php` | Poll status. Body: `idContenido=<id>`. Finished when response contains `finalizado` or `100%`. |
+| `POST` | `/ajax/obtieneContenidoGenerado.php` | Download result. Body: `id=<id>&modo=undefined&keyword=`. Returns full HTML page. |
+
+**Content extraction (2026-03-13):** `obtieneContenidoGenerado.php` now returns the full DinoRank page HTML, not just the article. Extract the article from `<div id="textodelcontenido">` using JSDOM. The `<h1>` inside this div is used as the post title and removed from the body HTML.
+
+**Multi-account fallback:** If a `login()` call fails for the first account with `contentCredits > 0`, the adapter iterates through all available accounts until one succeeds.
+
+### Keyword Pivot
+
+After keyword research, `ContentFlywheelService` calls `DinoRankService.getSuggestions()` to get AI-suggested alternative keywords via `kresearchIAsimilares.php`. Each keyword is scored as:
+
+```
+score = volume / competition_weight
+competition_weight: Baja=1, Media=2, Alta=3 (or unknown=2)
+```
+
+If the best alternative scores **more than 50% better** than the researched keyword, the pipeline pivots to the alternative. This automatically optimizes for lower-competition, higher-volume opportunities. The pivot decision is logged as `[Flywheel] Pivoted keyword: "X" → "Y"`.
+
+### Usage Example
+
+```bash
+# Trigger the full content flywheel for a new topic
+pnpm tsx src/scripts/engine.ts automate "patrones de diseño en react" --provider anthropic
+```
+
+---
+
 ## Content Generation Pipeline
 
 ### Overview
@@ -152,10 +211,12 @@ pnpm create-post -- --re-export
 | Method | URL | Purpose |
 | :----- | :-- | :------ |
 | `GET` | `/login/` | Obtain session cookies (`PHPSESSID`, `csrf_token`) |
-| `POST` | `/ajax/login.php` | Authenticate. Body: `nombreUsuario=&clave=&permanecer=si&elemento=&tiempo=<ts>`. Success: response includes `"status":"activo"` |
+| `POST` | `/ajax/login.php` | Authenticate. Body: `nombreUsuario=&clave=&permanecer=no&elemento=&tiempo=<ts>`. Success: response includes `"status":"activo"`. Use `permanecer=no` (not `si`) to create short-lived sessions (~20-30 min server-side). |
+| `GET` | `/homed/` | Post-login redirect; confirms session is active |
 | `GET` | `/keyword-research/` | Initialize KW research session (required before search) |
-| `POST` | `/ajax/kresearch.php` | Launch and poll keyword search. Body: `keyword=&keyword_pais=&keyword_idioma=es&...` |
-| `POST` | `/ajax/cierra.php` | **Logout** — always called on exit. Body: `t=<timestamp>` |
+| `POST` | `/ajax/kresearch.php` | Launch keyword search. Body: `keyword=&keyword_pais=&keyword_idioma=es&...`. Retry on no-JSON response (server still processing). |
+| `POST` | `/ajax/kresearchIAsimilares.php` | AI-suggested alternative keywords. Body: `keyword=<kw>&keyword_pais=<COUNTRY>&keyword_idioma=<lang>`. Same response format as `kresearch.php`. |
+| `POST` | `/ajax/cierra.php` | **Logout** — always called on exit. Body: `t=<timestamp>`. Critical: must call to close the server-side session, otherwise the next login from a different location triggers `device_conflict`. |
 | `GET` | `/registro/?codPromo=dinoTrial25` | Begin account registration flow |
 | `POST` | `/ajax/registro1.php` | Create account. Body: `email=&clave=&elemento=&telefono=%2B34666000000` |
 | `POST` | `/ajax/tracking/agregarKeyword.php` | Onboarding step 1 |
@@ -163,26 +224,30 @@ pnpm create-post -- --re-export
 
 ### Response Parsing
 
-`kresearch.php` returns a string with a URL prefix before the JSON payload:
+`kresearch.php` and `kresearchIAsimilares.php` return a string with a URL prefix before the JSON payload:
 
 ```
-https://visibilidad.dinorank.com/...{"status":"OK","message":"<HTML>","keyword_vol":140,"total_results":33}
+https://visibilidad.dinorank.com/...{"status":"OK","total_results":0,"message":"<HTML table>"}
 ```
 
-Parse with: `msg.substring(msg.lastIndexOf('{"status":"OK",'))`. Poll until `total_results > 0`. The `message` field contains the full HTML table with all keyword results.
+Parse with: `raw.slice(raw.indexOf('{'))` then `JSON.parse()`. **`total_results` is always 0** regardless of actual results (API change, 2026-03-13) — do not use it as a signal. The `message` field always contains the full HTML table with all results when `status === "OK"`. Retry only when the response contains no JSON at all (server still processing).
 
-**Table column order** (real structure observed 2026-03-05):
+**Table column order** (10-column layout, updated 2026-03-13):
 
 | Index | Header | Example value |
 | :---- | :----- | :------------ |
-| 0 | *(empty)* | — |
+| 0 | *(checkbox)* | — |
 | 1 | Palabras clave | `algoritmos y estructuras de datos` |
-| 2 | Vol. | `140` |
-| 3 | Competencia | `0,48 Media` |
-| 4 | CPC | `0,20` or `Sin datos` |
-| 5 | *(action)* | `Ver más` |
+| 2 | Vol. | `1400` |
+| 3 | Tendencia | *(sparkline graph)* |
+| 4 | Snippets | *(snippet types)* |
+| 5 | Intención | *(search intent)* |
+| 6 | CPC | `0.20` |
+| 7 | Competencia | `Baja` / `Media` / `Alta` *(categorical, not decimal)* |
+| 8 | Dificultad | *(score)* |
+| 9 | Palabras | *(word count)* |
 
-Each keyword produces 2 `<tr>` rows: the summary row (6 cells, parsed) and a detail row (1 cell, contains chart JS — ignored by `cells.length < 5` guard).
+**Keyword text extraction:** The keyword cell (`cells[1]`) `textContent` starts with `\n\t...`. Use `.split('\n').map(s => s.trim()).find(s => s.length > 1)` to extract the non-empty text token.
 
 **Cookie handling:** Use `response.headers.getSetCookie()` (Node 18.14+). Never use `headers.get('set-cookie').split(',')` — it breaks on date values in `expires` attributes (e.g. `expires=Thu, 05-Mar-2026`).
 
@@ -195,6 +260,10 @@ Each keyword produces 2 `<tr>` rows: the summary row (6 cells, parsed) and a det
 - **Any other error** — account silently excluded, next account tried.
 
 Account registry: `content/dinorank-accounts-registry.json`. Fields: `email`, `password`, `kwCredits`, `contentCredits`, `keywords[]`, `content[]`, `lastUsed`.
+
+**Account onboarding fix (2026-03-13):** After `completeOnboarding()` finishes, the API now calls `await api.logout()` to close the DinoRank session server-side. Without this, subsequent login attempts from the same account fail with `device_conflict`. The `--onboarding` CLI flag also now correctly calls `registerAccount(email, password)` to persist the new account to the registry.
+
+**Credits exhaustion detection:** `kresearch.php` responses with `créditos`, `agotado`, or `límites` text indicate the account's trial has expired. The account's `kwCredits` is set to `0` and it is skipped in future requests. New accounts are created only when the registry has *no accounts with credits at all*.
 
 ### Usage
 
@@ -433,3 +502,23 @@ To localize a new field in a Payload collection:
 ## License
 
 MIT © Juan Carlos Angulo
+
+---
+
+## Actualizaciones Recientes (2026-04-03)
+
+Pipeline DinoRank completado en orden EN -> ES para cerrar gaps estrategicos del backlog.
+
+Nuevos posts EN:
+- content/posts/seo/content-pillar.en.md
+- content/posts/seo/seo-copywriting-guide.en.md
+- content/posts/seo/keyword-research-guide.en.md
+- content/posts/tech-seo/structured-data-seo.en.md
+
+Nuevos posts ES:
+- content/posts/seo/content-pillar.md
+- content/posts/seo/seo-copywriting-guide.md
+- content/posts/seo/keyword-research-guide.md
+- content/posts/tech-seo/structured-data-seo.md
+
+Se actualizo content/keywords_backlog.md para incluir los targets faltantes EN/ES y habilitar asignacion automatica en pipeline.

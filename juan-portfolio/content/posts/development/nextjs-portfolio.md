@@ -1,5 +1,5 @@
 ---
-title: 'Cómo Crear un Portfolio Profesional con Next.js y Tailwind CSS 2026'
+title: 'Nextjs Portfolio: Cómo Crear un Portfolio Profesional con Next.js y Tail...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -15,11 +15,15 @@ relatedPosts:
   - payloadcms-tutorial
 sidebarBanners: []
 tldr: >-
-  Crear un portfolio profesional con Next.js y Tailwind CSS es la mejor forma de demostrar tu expertise técnico y SEO. Esta guía detalla la planificación de secciones, el uso del App Router para una navegación fluida y la optimización de metadatos dinámicos para posicionar tu marca personal en los primeros resultados de Google.
-metaTitle: 'Next.js Portfolio Guide 2026: Construye tu Marca Personal con Código'
+  Crear un portfolio profesional con Next.js y Tailwind CSS es la mejor forma de
+  demostrar tu expertise técnico y SEO. Esta guía detalla la planificación de
+  secciones, el uso del App Router para una navegación fluida y la optimización
+  de metadatos dinámicos para posicionar tu marca personal en los primeros
+  resultados de Google.
+metaTitle: 'Nextjs Portfolio: Next.js Portfolio Guide 2026: | Juan Tech'
 metaDescription: >-
-  Aprende a construir un portfolio de alto rendimiento con Next.js. Guía de
-  diseño moderno, SEO personal y optimización Lighthouse para desarrolladores.
+  Aprende nextjs portfolio con pasos practicos, ejemplos y buenas practicas para
+  mejorar la visibilidad organica y el rendimiento del contenido.
 primary_keywords:
   - portfolio con Next.js
   - crear portafolio personal web
@@ -38,6 +42,7 @@ uploaded: false
 categories:
   - development
 status: draft
+keyword: nextjs portfolio
 ---
 ## ¿Por qué elegir Next.js para tu portfolio?
 - Velocidad, SEO y experiencia de usuario como cartas de presentación.

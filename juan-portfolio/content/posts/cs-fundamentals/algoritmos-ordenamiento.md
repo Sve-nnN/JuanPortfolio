@@ -15,11 +15,15 @@ relatedPosts:
   - big-o-notation
 sidebarBanners: []
 tldr: >-
-  Los algoritmos de ordenamiento son herramientas esenciales para organizar datos de manera eficiente. Esta guía analiza métodos clásicos como Bubble y Selection Sort, junto a estrategias avanzadas de "divide y vencerás" como Quick y Merge Sort. Exploramos su complejidad temporal (Big O), estabilidad y criterios técnicos para elegir el algoritmo óptimo según el volumen de datos.
-metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ingeniería y Big O'
+  Los algoritmos de ordenamiento son herramientas esenciales para organizar
+  datos de manera eficiente. Esta guía analiza métodos clásicos como Bubble y
+  Selection Sort, junto a estrategias avanzadas de "divide y vencerás" como
+  Quick y Merge Sort. Exploramos su complejidad temporal (Big O), estabilidad y
+  criterios técnicos para elegir el algoritmo óptimo según el volumen de datos.
+metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ing | Juan Tech'
 metaDescription: >-
-  Aprende Bubble, Quick y Merge Sort. Comparativa de eficiencia (Big O),
-  estabilidad y casos de uso en el desarrollo real de software con ejemplos en C y Python.
+  Aprende algoritmos de ordenamiento con pasos practicos, ejemplos y buenas
+  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
 primary_keywords:
   - algoritmos de ordenamiento
   - eficiencia de algoritmos
@@ -34,6 +38,7 @@ semantic_keywords:
   - implementación de algoritmos en C y Python
   - estructuras de datos y algoritmos
 uploaded: false
+keyword: algoritmos de ordenamiento
 ---
 Los [algoritmos de ordenamiento](/posts/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de algoritmos de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
 

@@ -1,7 +1,5 @@
 ---
-title: >-
-  Algorithms and Data Structures: Fundamentals of Efficient and Scalable
-  Programming
+title: 'Algoritmos Estructuras Datos: Algorithms and Data Structures: Fundamenta...'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: 2026-02-17T00:00:00.000Z
 authors:
@@ -17,9 +15,10 @@ relatedPosts:
   - big-o-notation
   - programacion-dinamica
 sidebarBanners: []
-metaTitle: 'Algorithms and Data Structures: Complete Guide for Modern Programmers'
-metaDescription: >
-  Master essential Algorithms and Data Structures to build efficient, scalable software. Covers types, Big O complexity, optimization and real-world applications.
+metaTitle: 'Algoritmos Estructuras Datos: Algorithms and Dat | Juan Tech'
+metaDescription: >-
+  Learn algoritmos estructuras datos with practical steps, examples, and best
+  practices to improve organic visibility and content performance.
 primary_keywords:
   - algorithms and data structures
   - essential data structures
@@ -36,6 +35,7 @@ semantic_keywords:
   - big o notation
   - programación competitiva
 uploaded: false
+keyword: algoritmos estructuras datos
 ---
 English version coming soon.
 

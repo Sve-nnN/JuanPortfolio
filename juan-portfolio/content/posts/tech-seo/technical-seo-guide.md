@@ -1,5 +1,4 @@
 ---
-```yaml
 publishedAt: '2026-03-01T21:44:11.056Z'
 updatedAt: '2026-03-01T21:44:11.056Z'
 authors:
@@ -10,6 +9,28 @@ slug: technical-seo-guide
 idioma: es
 sidebarBanners: []
 uploaded: false
+semantic_keywords:
+  - posicionamiento implementaci mantenimiento
+  - estructurados correctamente implementado
+  - implementar canonicalizaci correctamente
+  - posicionamiento optimizaci dispositivos
+  - posicionamiento algunas recomendaciones
+  - compatibilidad optimizaci dispositivos
+  - adaptabilidad optimizaci dispositivos
+  - recomendaciones implementar etiquetas
+  - identificar posibles vulnerabilidades
+  - descubrimiento importante actualizar
+  - compatibilidad evaluar adaptabilidad
+  - mejorar posicionamiento implementaci
+  - monitoreada regularmente certificado
+  - asegurar estabilidad posicionamiento
+  - importantes facilita descubrimiento
+title: Guia de technical seo guide
+metaTitle: Guia de technical seo guide | Juan Tech | Juan Tech
+metaDescription: >-
+  Aprende technical seo guide con pasos practicos, ejemplos y buenas practicas
+  para mejorar la visibilidad organica y el rendimiento del contenido.
+keyword: technical seo guide
 ---
 
 **Fundamentos del SEO técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
@@ -214,7 +235,7 @@ La salud del certificado SSL debe ser monitoreada regularmente. Un certificado c
 Comprobar la fecha de expiración de los certificados.
 Validar que la cadena de certificados sea correcta.
 Ejecutar auditorías de seguridad periódicas para identificar posibles vulnerabilidades.
-Monitoreo y análisis del rendimiento SEO técnico
+Monitoreo y análisis del [rendimiento SEO técnico](https://juan-tech.com/blog/tech-seo/ssr-vs-csr-seo)
 
 El monitoreo y análisis del rendimiento técnico del SEO son fundamentales para asegurar que un sitio web se mantenga optimizado y competitivo en los motores de búsqueda. A través de herramientas especializadas es posible identificar áreas que requieren ajustes y mejoras continuas.
 

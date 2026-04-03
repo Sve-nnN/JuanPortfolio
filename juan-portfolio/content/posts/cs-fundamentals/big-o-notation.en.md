@@ -1,5 +1,5 @@
 ---
-title: "Big O Notation: Algorithmic Complexity Guide with Examples"
+title: 'Big O Notation: Algorithmic Complexity Guide with Examples'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: 2026-02-17T00:00:00.000Z
 authors:
@@ -12,8 +12,10 @@ relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: "Big O Notation: Tutorial and Code Scalability Guide"
-metaDescription: Learn to measure your code efficiency. Complete guide on Big O Notation, time and space complexity with practical examples.
+metaTitle: 'Big O Notation: Tutorial and Code Scalability Gu | Juan Tech'
+metaDescription: >-
+  Learn to measure your code efficiency. Complete guide on Big O Notation, time
+  and space complexity with practical examples. Includes practical examples...
 primary_keywords:
   - Big O notation
   - time complexity
@@ -33,6 +35,7 @@ uploaded: false
 idioma: es
 slug: big-o-notation
 tldr: Resumen ejecutivo de 40-60 palabras optimizado para AI Overviews (SGE).
+keyword: big o notation
 ---
 
 # [Título del Post]

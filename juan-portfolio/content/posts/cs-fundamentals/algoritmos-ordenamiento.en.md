@@ -12,10 +12,10 @@ relatedPosts:
   - algoritmos-estructuras-datos
   - big-o-notation
 sidebarBanners: []
-metaTitle: 'Sorting Algorithms: Complete Engineering Guide'
+metaTitle: 'Sorting Algorithms: Complete Engineering Guide | | Juan Tech'
 metaDescription: >-
-  Learn Bubble, Quick and Merge Sort. Efficiency comparison (Big O), stability
-  and use cases in real software development.
+  Learn sorting algorithms with practical steps, examples, and best practices to
+  improve organic visibility and content performance. Includes practical ex...
 primary_keywords:
   - sorting algorithms
   - sorting arrays programming
@@ -34,6 +34,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: algoritmos-ordenamiento
+keyword: sorting algorithms
 ---
 English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 

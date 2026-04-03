@@ -1,5 +1,5 @@
 ---
-title: 'Notación Big O: Guía técnica de complejidad y escalabilidad'
+title: 'Notacion Big O: Notación Big O: Guía técnica de complejidad y escalabilidad'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -15,10 +15,15 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 tldr: >-
-  La notación Big O es la métrica estándar para medir la eficiencia y escalabilidad de los algoritmos. Esta guía explica cómo el tiempo de ejecución y el uso de memoria crecen según el tamaño de la entrada (n), cubriendo desde O(1) hasta O(n!) con ejemplos prácticos en Python y comparativas de rendimiento real.
-metaTitle: 'Notación Big O: Guía de Complejidad Algorítmica y Escalabilidad'
-metaDescription: >
-  Aprende a medir la eficiencia de tu código con Notación Big O. Complejidad temporal y espacial con ejemplos en Python y curvas de rendimiento.
+  La notación Big O es la métrica estándar para medir la eficiencia y
+  escalabilidad de los algoritmos. Esta guía explica cómo el tiempo de ejecución
+  y el uso de memoria crecen según el tamaño de la entrada (n), cubriendo desde
+  O(1) hasta O(n!) con ejemplos prácticos en Python y comparativas de
+  rendimiento real.
+metaTitle: 'Notacion Big O: Notación Big O: Guía de Compleji | Juan Tech'
+metaDescription: >-
+  Aprende notacion big o con pasos practicos, ejemplos y buenas practicas para
+  mejorar la visibilidad organica y el rendimiento del contenido.
 primary_keywords:
   - notación Big O
   - complejidad algorítmica
@@ -34,6 +39,7 @@ semantic_keywords:
   - algoritmos de búsqueda y ordenamiento
   - Big O notation tutorial
 uploaded: false
+keyword: notacion big o
 ---
 # Notación Big O: Entendiendo la Complejidad Algorítmica
 

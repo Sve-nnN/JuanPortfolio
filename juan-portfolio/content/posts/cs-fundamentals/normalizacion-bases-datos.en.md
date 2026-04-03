@@ -13,9 +13,10 @@ relatedPosts:
   - algoritmos-estructuras-datos
   - complejidad-algoritmica
 sidebarBanners: []
-metaTitle: 'Database Normalization: 1NF, 2NF, 3NF, BCNF and More for Devs'
-metaDescription: >
-  Eliminate redundancy and prevent anomalies with database normalization. Complete guide to 1NF, 2NF, 3NF and BCNF with performance impact analysis.
+metaTitle: 'Database Normalization: 1NF, 2NF, 3NF, BCNF and | Juan Tech'
+metaDescription: >-
+  Eliminate redundancy and prevent anomalies with database normalization.
+  Complete guide to 1NF, 2NF, 3NF and BCNF with performance impact analysis.
 primary_keywords:
   - database normalization
   - database normal forms
@@ -36,6 +37,7 @@ uploaded: false
 idioma: en
 slug: normalizacion-bases-datos
 status: published
+keyword: database normalization
 ---
 English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 

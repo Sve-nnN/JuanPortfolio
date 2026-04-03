@@ -1,5 +1,5 @@
 ---
-title: 'Next.js Server Components: Architecture and Performance Guide'
+title: 'Nextjs Server Components: Next.js Server Components: Architecture and Pe...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-11T00:00:00.000Z
 authors:
@@ -12,10 +12,11 @@ relatedPosts:
   - nextjs-seo-optimization
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: 'React Server Components in Next.js: Everything You Should Know'
+metaTitle: 'Nextjs Server Components: React Server Component | Juan Tech'
 metaDescription: >-
-  Learn to use Server Components to reduce JavaScript on the client and improve
-  the performance and SEO of your website.
+  Learn nextjs server components with practical steps, examples, and best
+  practices to improve organic visibility and content performance. Includes
+  practi...
 primary_keywords:
   - Next.js Server Components
   - React Server Components guide
@@ -37,6 +38,7 @@ slug: nextjs-server-components
 categories:
   - development
 status: draft
+keyword: nextjs server components
 ---
 English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 

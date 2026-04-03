@@ -1,5 +1,5 @@
 ---
-title: 'Next.js SEO: Guía técnica de App Router y Metadata API 2026'
+title: 'Nextjs Seo Optimization: Next.js SEO: Guía técnica de App Router y Metad...'
 publishedAt: 2026-02-09T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -16,11 +16,15 @@ relatedPosts:
   - schema-markup-guide
 sidebarBanners: []
 tldr: >-
-  Optimizar el SEO en Next.js 15 requiere dominar la Metadata API y los React Server Components. Esta guía explica cómo configurar metadatos dinámicos, inyectar JSON-LD para motores SGE y utilizar el componente next/image para maximizar el LCP, garantizando una arquitectura web de alto rendimiento y visibilidad orgánica.
-metaTitle: 'Next.js 15 SEO: Guía Completa de App Router y Metadata API'
+  Optimizar el SEO en Next.js 15 requiere dominar la Metadata API y los React
+  Server Components. Esta guía explica cómo configurar metadatos dinámicos,
+  inyectar JSON-LD para motores SGE y utilizar el componente next/image para
+  maximizar el LCP, garantizando una arquitectura web de alto rendimiento y
+  visibilidad orgánica.
+metaTitle: 'Nextjs Seo Optimization: Next.js 15 SEO: Guía Co | Juan Tech'
 metaDescription: >-
-  Aprende a optimizar el SEO en Next.js 15. Domina la Metadata API, JSON-LD
-  estructurado, optimización de imágenes y generación de sitemaps dinámicos.
+  Aprende nextjs seo optimization con pasos practicos, ejemplos y buenas
+  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
 primary_keywords:
   - Next.js SEO
   - optimización SEO Next.js 15
@@ -36,6 +40,7 @@ semantic_keywords:
   - optimización de Core Web Vitals en Next.js
   - Next.js 15 SEO best practices
 uploaded: true
+keyword: nextjs seo optimization
 ---
 
 El **App Router de Next.js 15** eliminó la necesidad de manipular manualmente la etiqueta `<Head>`, integrando la optimización SEO directamente en el ciclo de vida de los React Server Components (RSC). En este artículo, te enseñaré cómo implementar la **Metadata API**, estructurar JSON-LD dinámico y optimizar el rendimiento visual (LCP) utilizando componentes nativos.
@@ -174,6 +179,7 @@ La **Metadata API** solo funciona originada en React Server Components (RSC). Si
 
 No. Utilizar manualmente la etiqueta HTML `<head>` en el `app/layout.tsx` es redundante y generará metadatos duplicados. La **Metadata API** de Next.js inyecta automáticamente las etiquetas `<title>`, `<meta>` y `<link>` adecuadas en el árbol HTML final antes de servir el documento.
 
-## See Also
+## Ver también
 
 - [Optimización de Rendimiento Web 2026: TTFB, Caching y Resource Hints](https://juan-tech.com/blog/tech-seo/web-performance-guide)
+- [Guía de SEO Técnico para Desarrolladores: Rendimiento y Rastreabilidad 2026](https://juan-tech.com/blog/tech-seo/tech-seo-guide)

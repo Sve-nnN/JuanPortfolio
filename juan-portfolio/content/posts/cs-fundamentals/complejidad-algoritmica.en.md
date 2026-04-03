@@ -1,5 +1,5 @@
 ---
-title: 'Algorithmic Complexity: Understand Its Impact on Programming'
+title: 'Complejidad Algoritmica: Algorithmic Complexity: Understand Its Impact o...'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: 2026-02-17T00:00:00.000Z
 authors:
@@ -12,9 +12,11 @@ relatedPosts:
   - big-o-notation
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: 'Algorithmic Complexity: Performance Analysis, Scalability and UX'
-metaDescription: >
-  Master algorithm analysis: time complexity, space complexity, Big O, Big Omega and Theta. Essential guide for senior developers and software architects.
+metaTitle: 'Complejidad Algoritmica: Algorithmic Complexity: | Juan Tech'
+metaDescription: >-
+  Learn complejidad algoritmica with practical steps, examples, and best
+  practices to improve organic visibility and content performance. Includes
+  practic...
 primary_keywords:
   - algorithmic complexity
   - space complexity
@@ -35,6 +37,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: complejidad-algoritmica
+keyword: complejidad algoritmica
 ---
 English [version coming soon](https://juan-tech.com/en/blog/cs-fundamentals/sql-vs-nosql).
 

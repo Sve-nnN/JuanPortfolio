@@ -12,10 +12,11 @@ relatedPosts:
   - payloadcms-tutorial
   - nextjs-server-components
 sidebarBanners: []
-metaTitle: TypeScript Best Practices Guide for Pro Developers
+metaTitle: TypeScript Best Practices Guide for Pro Develope | Juan Tech
 metaDescription: >-
-  Learn to write better code with TypeScript. We cover complex types, generics
-  and professional design patterns.
+  Learn typescript best practices with practical steps, examples, and best
+  practices to improve organic visibility and content performance. Includes
+  pract...
 primary_keywords:
   - TypeScript best practices
   - advanced TypeScript patterns
@@ -37,6 +38,7 @@ slug: typescript-best-practices
 categories:
   - development
 status: draft
+keyword: typescript best practices
 ---
 English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 

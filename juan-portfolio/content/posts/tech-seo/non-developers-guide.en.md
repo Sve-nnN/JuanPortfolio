@@ -1,5 +1,5 @@
 ---
-title: Basic Technical SEO Optimization Guide
+title: 'Non Developers Guide: Basic Technical SEO Optimization Guide'
 publishedAt: 2026-02-09T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -12,10 +12,10 @@ relatedPosts:
   - technical-seo-guide
   - core-web-vitals-guide
 sidebarBanners: []
-metaTitle: 'Technical SEO for Non-Developers: Practical Guide 2026'
+metaTitle: 'Non Developers Guide: Technical SEO for Non-Deve | Juan Tech'
 metaDescription: >-
-  Understand technical SEO without programming. Master concepts like crawling,
-  indexing, sitemaps and Core Web Vitals to improve your business visibility.
+  Learn non developers guide with practical steps, examples, and best practices
+  to improve organic visibility and content performance. Includes practical...
 primary_keywords:
   - technical SEO for non-developers
   - basic SEO
@@ -29,6 +29,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: non-developers-guide
+keyword: non developers guide
 ---
 English version coming soon.
 

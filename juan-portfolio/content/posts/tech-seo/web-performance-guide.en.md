@@ -1,5 +1,5 @@
 ---
-title: 'Web Performance Optimization 2026: TTFB, Caching and Resource Hints'
+title: 'Web Performance Guide: Web Performance Optimization 2026: TTFB, Caching ...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -14,9 +14,10 @@ relatedPosts:
   - core-web-vitals-guide
   - technical-seo-guide
 sidebarBanners: []
-metaTitle: 'Advanced Web Performance 2026: Code, CDN Caching and LCP Optimization'
-metaDescription: >
-  Optimize your site web performance with TTFB control, Resource Hints, CDN strategies and Core Web Vitals improvements. Practical guide for developers.
+metaTitle: 'Web Performance Guide: Advanced Web Performance | Juan Tech'
+metaDescription: >-
+  Learn web performance guide with practical steps, examples, and best practices
+  to improve organic visibility and content performance. Includes practical...
 primary_keywords:
   - web performance optimization
   - improve page load speed
@@ -31,6 +32,7 @@ semantic_keywords:
   - web performance pyramid
   - CDN
 uploaded: false
+keyword: web performance guide
 ---
 English version coming soon.
 

@@ -1,5 +1,5 @@
 ---
-title: 'SEO in Headless CMS: Strategies and Best Practices'
+title: 'Headless Cms Seo: SEO in Headless CMS: Strategies and Best Practices'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-11T00:00:00.000Z
 authors:
@@ -12,10 +12,10 @@ relatedPosts:
   - technical-seo-guide
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: 'Headless CMS SEO: Complete Optimization Guide'
+metaTitle: 'Headless CMS SEO: Complete Optimization Guide | | Juan Tech'
 metaDescription: >-
-  Discover how to manage SEO in a decoupled architecture. Learn about metadata,
-  sitemaps and rendering.
+  Learn headless cms seo with practical steps, examples, and best practices to
+  improve organic visibility and content performance. Includes practical exam...
 primary_keywords:
   - SEO in Headless CMS
   - headless SEO optimization
@@ -37,6 +37,7 @@ slug: headless-cms-seo
 categories:
   - development
 status: draft
+keyword: headless cms seo
 ---
 English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 

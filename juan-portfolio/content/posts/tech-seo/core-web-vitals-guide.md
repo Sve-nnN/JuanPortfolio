@@ -14,11 +14,15 @@ relatedPosts:
   - tech-seo-guide
 sidebarBanners: []
 tldr: >-
-  Optimizar los Core Web Vitals (LCP, INP, CLS) es imperativo para el SEO en 2026. Esta guía técnica ofrece soluciones directas en código, como el uso de fetchpriority para LCP, estrategias de yielding para INP y el control de mutaciones visuales con aspect-ratio para CLS, garantizando una experiencia de usuario fluida y estable.
-metaTitle: 'Core Web Vitals 2026: Guía Técnica de Optimización LCP, CLS e INP'
+  Optimizar los Core Web Vitals (LCP, INP, CLS) es imperativo para el SEO en
+  2026. Esta guía técnica ofrece soluciones directas en código, como el uso de
+  fetchpriority para LCP, estrategias de yielding para INP y el control de
+  mutaciones visuales con aspect-ratio para CLS, garantizando una experiencia de
+  usuario fluida y estable.
+metaTitle: 'Core Web Vitals 2026: Guía Técnica de Optimizaci | Juan Tech'
 metaDescription: >-
   Domina los Core Web Vitals. Aprende a optimizar LCP, CLS e INP con soluciones
-  reales en HTML, CSS y JS para mejorar tu ranking en Google.
+  reales en HTML, CSS y JS para mejorar tu ranking en Google. Incluye ejempl...
 primary_keywords:
   - Core Web Vitals 2026
   - optimizar LCP INP CLS
@@ -34,6 +38,7 @@ semantic_keywords:
   - latencia de interacción
   - Web Vitals thresholds
 uploaded: true
+keyword: core web vitals
 ---
 Optimizar los **Core Web Vitals** impacta directamente en el rendimiento de tu sitio y su clasificación en los motores de búsqueda. En esta guía vamos a analizar cómo configurar HTML, CSS y JavaScript para alcanzar los umbrales exigidos para 2026: **LCP menor a 2.5s**, **INP por debajo de 200ms** y un **CLS inferior a 0.1**.
 

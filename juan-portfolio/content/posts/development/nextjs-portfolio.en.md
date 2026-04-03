@@ -1,5 +1,5 @@
 ---
-title: How to Create a Professional Portfolio with Next.js and Tailwind CSS
+title: 'Nextjs Portfolio: How to Create a Professional Portfolio with Next.js an...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-11T00:00:00.000Z
 authors:
@@ -12,10 +12,10 @@ relatedPosts:
   - nextjs-seo-optimization
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: 'Next.js Portfolio: Step-by-Step Guide for Developers'
+metaTitle: 'Nextjs Portfolio: Next.js Portfolio: Step-by-Ste | Juan Tech'
 metaDescription: >-
-  Learn to build a high-performance portfolio with Next.js. Focused on modern
-  design, SEO and ease of maintenance.
+  Learn nextjs portfolio with practical steps, examples, and best practices to
+  improve organic visibility and content performance. Includes practical exam...
 primary_keywords:
   - portfolio with Next.js
   - create personal web portfolio
@@ -37,6 +37,7 @@ slug: nextjs-portfolio
 categories:
   - development
 status: draft
+keyword: nextjs portfolio
 ---
 English [version](https://juan-tech.com/en/blog/development/payloadcms-seo) coming soon.
 

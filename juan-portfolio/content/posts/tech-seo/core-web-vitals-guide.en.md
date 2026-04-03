@@ -1,5 +1,5 @@
 ---
-title: 'Core Web Vitals Technical Guide 2026: Optimize LCP, CLS and INP with Code'
+title: 'Core Web Vitals Guide: Core Web Vitals Technical Guide 2026: Optimize LC...'
 publishedAt: '2026-02-10'
 updatedAt: '2026-02-24'
 authors:
@@ -11,10 +11,10 @@ pillarSlug: web-performance-guide
 relatedPosts:
   - tech-seo-guide
 sidebarBanners: []
-metaTitle: 'Core Web Vitals 2026: Technical Guide with Code for LCP, CLS and INP'
+metaTitle: 'Core Web Vitals Guide: Core Web Vitals 2026: Tec | Juan Tech'
 metaDescription: >-
-  Master Core Web Vitals. Technical guide to optimize LCP, CLS and INP with HTML
-  code and Javascript validation improving web performance in search engines.
+  Learn core web vitals guide with practical steps, examples, and best practices
+  to improve organic visibility and content performance. Includes practical...
 primary_keywords:
   - Core Web Vitals
   - optimize Core Web Vitals
@@ -34,6 +34,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: core-web-vitals-guide
+keyword: core web vitals guide
 ---
 English version coming soon.
 

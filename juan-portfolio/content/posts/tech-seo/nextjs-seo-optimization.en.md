@@ -1,5 +1,5 @@
 ---
-title: 'Next.js SEO: Optimizing App Router and Metadata API'
+title: 'Nextjs Seo Optimization: Next.js SEO: Optimizing App Router and Metadata...'
 publishedAt: 2026-02-09T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -13,10 +13,11 @@ relatedPosts:
   - robots-txt-best-practices
   - schema-markup-guide
 sidebarBanners: []
-metaTitle: 'Next.js 15 App Router SEO: Complete Optimization Guide'
+metaTitle: 'Nextjs Seo Optimization: Next.js 15 App Router S | Juan Tech'
 metaDescription: >-
-  Learn to optimize SEO in Next.js 15. Master the Metadata API, structured
-  JSON-LD, image optimization (next/image) and sitemap generation.
+  Learn nextjs seo optimization with practical steps, examples, and best
+  practices to improve organic visibility and content performance. Includes
+  practic...
 primary_keywords:
   - Next.js SEO optimization
   - Next.js SEO
@@ -35,6 +36,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: nextjs-seo-optimization
+keyword: nextjs seo optimization
 ---
 English version coming soon.
 

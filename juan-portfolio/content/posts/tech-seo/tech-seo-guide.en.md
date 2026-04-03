@@ -1,5 +1,5 @@
 ---
-title: Technical SEO Guide for Developers (2026)
+title: 'Tech Seo Guide: Technical SEO Guide for Developers (2026)'
 publishedAt: 2026-02-08T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -16,9 +16,11 @@ relatedPosts:
   - schema-markup-guide
   - ssr-vs-csr-seo
 sidebarBanners: []
-metaTitle: 'Technical SEO Guide 2026: Crawling, Code and Performance'
-metaDescription: >
-  Manage crawl budget, indexing, Core Web Vitals and Schema Markup to improve technical SEO. Includes step-by-step checklists for modern websites.
+metaTitle: 'Tech Seo Guide: Technical SEO Guide 2026: Crawli | Juan Tech'
+metaDescription: >-
+  Learn tech seo guide with practical steps, examples, and best practices to
+  improve organic visibility and content performance. Includes practical
+  exampl...
 primary_keywords:
   - technical SEO guide
   - technical SEO for developers
@@ -33,6 +35,7 @@ semantic_keywords:
   - GEO
   - E-E-A-T
 uploaded: false
+keyword: tech seo guide
 ---
 English version coming soon.
 

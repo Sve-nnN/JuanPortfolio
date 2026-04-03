@@ -1,5 +1,5 @@
 ---
-title: 'Next.js Server Components: Guía Maestra de Arquitectura y Rendimiento 2026'
+title: 'Nextjs Server Components: Next.js Server Components: Guía Maestra de Arq...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -15,11 +15,15 @@ relatedPosts:
   - payloadcms-tutorial
 sidebarBanners: []
 tldr: >-
-  Los React Server Components (RSC) representan un cambio de paradigma en el desarrollo web moderno. Esta guía detalla cómo el App Router de Next.js utiliza RSC para reducir drásticamente el JavaScript enviado al cliente, optimizar el fetching de datos directamente en el servidor y mejorar tanto el rendimiento como el SEO de aplicaciones fullstack escalables.
-metaTitle: 'React Server Components 2026: Guía Completa en Next.js'
+  Los React Server Components (RSC) representan un cambio de paradigma en el
+  desarrollo web moderno. Esta guía detalla cómo el App Router de Next.js
+  utiliza RSC para reducir drásticamente el JavaScript enviado al cliente,
+  optimizar el fetching de datos directamente en el servidor y mejorar tanto el
+  rendimiento como el SEO de aplicaciones fullstack escalables.
+metaTitle: 'Nextjs Server Components: React Server Component | Juan Tech'
 metaDescription: >-
-  Domina los Server Components. Aprende a reducir el bundle de JavaScript,
-  optimizar el fetching de datos y mejorar el SEO con la arquitectura RSC de Next.js.
+  Aprende nextjs server components con pasos practicos, ejemplos y buenas
+  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
 primary_keywords:
   - Next.js Server Components
   - React Server Components guía
@@ -39,6 +43,7 @@ uploaded: false
 categories:
   - development
 status: draft
+keyword: nextjs server components
 ---
 ## El Cambio de Paradigma en React
 - Por qué surgieron los Server Components y qué problema resuelven.

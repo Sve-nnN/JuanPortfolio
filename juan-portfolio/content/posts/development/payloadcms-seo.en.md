@@ -1,5 +1,5 @@
 ---
-title: 'SEO in Payload CMS: Complete Configuration Guide'
+title: 'Payloadcms Seo: SEO in Payload CMS: Complete Configuration Guide'
 publishedAt: 2026-02-25T00:00:00.000Z
 updatedAt: 2026-02-25T00:00:00.000Z
 authors:
@@ -14,10 +14,11 @@ relatedPosts:
   - payloadcms-tutorial
   - nextjs-seo-optimization
 sidebarBanners: []
-metaTitle: 'Payload CMS SEO Tutorial: Configure Your Headless for SEO'
+metaTitle: 'Payloadcms Seo: Payload CMS SEO Tutorial: Config | Juan Tech'
 metaDescription: >-
-  Learn to configure the official Payload CMS SEO plugin. Master metadata
-  management, previews and custom fields for SEO.
+  Learn payloadcms seo with practical steps, examples, and best practices to
+  improve organic visibility and content performance. Includes practical
+  exampl...
 primary_keywords:
   - SEO in Payload CMS
   - Payload metadata configuration
@@ -32,6 +33,7 @@ semantic_keywords:
 categories:
   - development
 status: draft
+keyword: payloadcms seo
 ---
 English version coming soon.
 

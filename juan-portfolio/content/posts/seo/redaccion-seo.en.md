@@ -14,7 +14,7 @@ relatedPosts:
 sidebarBanners: []
 metaTitle: 'Redaccion Seo: SEO Writing for AI (2026): Writin | Juan Tech'
 metaDescription: >-
-  Learn redaccion seo with practical steps, examples, and best practices to
+  Learn seo copywriting with practical steps, examples, and best practices to
   improve organic visibility and content performance. Includes practical
   example...
 primary_keywords:
@@ -35,7 +35,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: redaccion-seo
-keyword: redaccion seo
+keyword: seo copywriting
 ---
 English version coming soon.
 

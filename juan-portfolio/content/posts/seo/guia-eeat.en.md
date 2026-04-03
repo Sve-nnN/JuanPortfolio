@@ -15,7 +15,7 @@ sidebarBanners: []
 noindex: true
 metaTitle: 'Guia Eeat: E-E-A-T SEO 2026: How to Demonstrate | Juan Tech'
 metaDescription: >-
-  Learn guia eeat with practical steps, examples, and best practices to improve
+  Learn eeat guide with practical steps, examples, and best practices to improve
   organic visibility and content performance. Includes practical examples an...
 primary_keywords:
   - what is e-e-a-t seo
@@ -35,7 +35,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: guia-eeat
-keyword: guia eeat
+keyword: eeat guide
 ---
 English version coming soon.
 

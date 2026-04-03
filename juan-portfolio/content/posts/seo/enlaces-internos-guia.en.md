@@ -14,8 +14,9 @@ relatedPosts:
 sidebarBanners: []
 metaTitle: 'Enlaces Internos Guia: Internal Linking Strategy | Juan Tech'
 metaDescription: >-
-  Learn enlaces internos guia with practical steps, examples, and best practices
-  to improve organic visibility and content performance. Includes practical...
+  Learn internal linking guide with practical steps, examples, and best
+  practices to improve organic visibility and content performance. Includes
+  practical...
 primary_keywords:
   - internal linking strategy
   - internal link building
@@ -34,7 +35,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: enlaces-internos-guia
-keyword: enlaces internos guia
+keyword: internal linking guide
 ---
 English version coming soon.
 

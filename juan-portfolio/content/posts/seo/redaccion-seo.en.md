@@ -1,5 +1,5 @@
 ---
-title: 'SEO Writing in 2026: How to Write for Humans and be Cited by AI (GEO)'
+title: 'Redaccion Seo: SEO Writing in 2026: How to Write for Humans and be Cited...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -12,9 +12,11 @@ relatedPosts:
   - estrategia-topic-clusters
   - guia-keyword-research
 sidebarBanners: []
-metaTitle: 'SEO Writing for AI (2026): Writing Guide for SGE and GEO'
-metaDescription: >
-  Write optimized content for the AI era with the Atomic Answer pattern to appear in AI Overviews and Information Gain to outperform the competition.
+metaTitle: 'Redaccion Seo: SEO Writing for AI (2026): Writin | Juan Tech'
+metaDescription: >-
+  Learn redaccion seo with practical steps, examples, and best practices to
+  improve organic visibility and content performance. Includes practical
+  example...
 primary_keywords:
   - SEO writing
   - writing for Google
@@ -33,6 +35,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: redaccion-seo
+keyword: redaccion seo
 ---
 English version coming soon.
 

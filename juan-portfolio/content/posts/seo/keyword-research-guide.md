@@ -1,10 +1,9 @@
 ---
-title: 'Guía de Keyword Research: Estrategias Clave para Mejorar tu SEO'
-metaTitle: 'Guía de Keyword Research: Estrategias Clave para Mejorar ...'
+title: 'Guia De Keyword Research: Guía de Keyword Research: Estrategias Clave pa...'
+metaTitle: 'Guia De Keyword Research: Guía de Keyword Resear | Juan Tech'
 metaDescription: >-
-  La investigación de palabras clave es una herramienta fundamental para
-  cualquier estrategia de SEO efectiva. Esta guía de keyword research te
-  proporcionará l...
+  Aprende guia de keyword research con pasos practicos, ejemplos y buenas
+  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
 slug: keyword-research-guide
 publishedAt: '2026-04-03'
 idioma: es
@@ -28,6 +27,7 @@ semantic_keywords:
   - algunas utilizadas funcionalidades
   - backlinks ejecutar investigaciones
   - pueden optimizar considerablemente
+keyword: guia de keyword research
 ---
 La [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) es una herramienta fundamental para cualquier estrategia de SEO efectiva. Esta guía de keyword research te proporcionará los conocimientos necesarios para entender y aplicar las mejores prácticas en la selección de palabras clave, lo que te permitirá optimizar tu contenido y atraer tráfico de calidad.
 

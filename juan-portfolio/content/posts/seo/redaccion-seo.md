@@ -1,5 +1,5 @@
 ---
-title: 'Redacción SEO en 2026: Guía de Escritura para Humanos y Algoritmos de IA'
+title: 'Redaccion Seo: Redacción SEO en 2026: Guía de Escritura para Humanos y A...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -15,10 +15,15 @@ relatedPosts:
   - guia-keyword-research
 sidebarBanners: []
 tldr: >-
-  La redacción SEO en 2026 se centra en la Generative Engine Optimization (GEO). Esta guía enseña a estructurar contenidos mediante "Atomic Answers" para maximizar la citabilidad en AI Overviews (SGE) y a inyectar "Information Gain" para diferenciar tu autoridad frente al contenido genérico generado por IA.
-metaTitle: 'Redacción SEO 2026: Guía de Escritura para SGE, GEO y Authority'
+  La redacción SEO en 2026 se centra en la Generative Engine Optimization (GEO).
+  Esta guía enseña a estructurar contenidos mediante "Atomic Answers" para
+  maximizar la citabilidad en AI Overviews (SGE) y a inyectar "Information Gain"
+  para diferenciar tu autoridad frente al contenido genérico generado por IA.
+metaTitle: 'Redaccion Seo: Redacción SEO 2026: Guía de Escri | Juan Tech'
 metaDescription: >-
-  Aprende el patrón "Atomic Answer" y "Information Gain" para ser citado en AI Overviews (SGE). Guía avanzada de redacción SEO para la era de la IA.
+  Aprende redaccion seo con pasos practicos, ejemplos y buenas practicas para
+  mejorar la visibilidad organica y el rendimiento del contenido. Incluye
+  ejem...
 primary_keywords:
   - redacción SEO 2026
   - GEO (Generative Engine Optimization)
@@ -34,6 +39,7 @@ semantic_keywords:
   - redacción de autoridad
   - calidad de contenido Google 2026
 uploaded: false
+keyword: redaccion seo
 ---
 ## ¿Qué es la Redacción SEO en 2026?
 

@@ -1,10 +1,9 @@
 ---
-title: 'Guía de SEO Copywriting: Estrategias para Principiantes'
-metaTitle: 'Guía de SEO Copywriting: Estrategias para Principiantes |...'
+title: 'Guia De Seo Copywriting: Guía de SEO Copywriting: Estrategias para Princ...'
+metaTitle: 'Guia De Seo Copywriting: Guía de SEO Copywriting | Juan Tech'
 metaDescription: >-
-  El SEO copywriting es una habilidad esencial para aquellos que buscan mejorar
-  la visibilidad de su contenido en motores de búsqueda. En esta guía de SEO
-  copy...
+  Aprende guia de seo copywriting con pasos practicos, ejemplos y buenas
+  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
 slug: seo-copywriting-guide
 publishedAt: '2026-04-03'
 idioma: es
@@ -28,6 +27,7 @@ semantic_keywords:
   - fundamentos copywriting principiantes
   - copywriting principiantes copywriting
   - copywriting principiantes proporciona
+keyword: guia de seo copywriting
 ---
 El SEO copywriting es una habilidad esencial para aquellos que buscan mejorar la visibilidad de su contenido en motores de búsqueda. En esta guía de SEO copywriting para principiantes, exploraremos los fundamentos que te permitirán crear textos optimizados que atraigan a los usuarios y cumplan con las expectativas de Google.
 

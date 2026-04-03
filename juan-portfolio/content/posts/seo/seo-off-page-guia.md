@@ -1,10 +1,10 @@
 ---
 title: 'SEO Off Page: Clave para Mejorar tu Visibilidad en Línea'
-metaTitle: 'SEO Off Page: Clave para Mejorar tu Visibilidad en Línea ...'
+metaTitle: 'SEO Off Page: Clave para Mejorar tu Visibilidad | Juan Tech'
 metaDescription: >-
   El SEO Off Page es un componente crucial para aumentar la visibilidad de tu
   sitio web en línea. A través de estrategias efectivas, se pueden mejorar
-  posicion...
+  pos...
 slug: seo-off-page-guia
 publishedAt: '2026-04-03'
 idioma: es
@@ -28,6 +28,7 @@ semantic_keywords:
   - oportunidades mejorar posicionamiento
   - fundamentales desarrollar estrategia
   - cualquiera optimizaciones realizadas
+keyword: seo off page
 ---
 El SEO Off Page es un componente crucial para aumentar la visibilidad de tu sitio web en línea. A través de estrategias efectivas, se pueden mejorar posiciones en los motores de búsqueda, atrayendo así más tráfico y potenciales clientes.
 

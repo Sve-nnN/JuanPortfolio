@@ -1,5 +1,5 @@
 ---
-title: 'E-E-A-T in SEO 2026: Guide to Dominating Authority in the AI Era'
+title: 'Guia Eeat: E-E-A-T in SEO 2026: Guide to Dominating Authority in the AI Era'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -13,9 +13,10 @@ relatedPosts:
   - estrategia-topic-clusters
 sidebarBanners: []
 noindex: true
-metaTitle: 'E-E-A-T SEO 2026: How to Demonstrate Authority (Guide + Python Script)'
-metaDescription: >
-  Complete guide on EEAT for SEO: Experience, Expertise, Authority and Trust. Practical strategies, Python audit script and AI Overviews optimization.
+metaTitle: 'Guia Eeat: E-E-A-T SEO 2026: How to Demonstrate | Juan Tech'
+metaDescription: >-
+  Learn guia eeat with practical steps, examples, and best practices to improve
+  organic visibility and content performance. Includes practical examples an...
 primary_keywords:
   - what is e-e-a-t seo
   - brand authority
@@ -34,6 +35,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: guia-eeat
+keyword: guia eeat
 ---
 English version coming soon.
 

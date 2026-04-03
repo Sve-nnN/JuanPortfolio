@@ -1,5 +1,5 @@
 ---
-title: 'Keyword Research 2026: From Keywords to Entities and Audiences'
+title: 'Guia Keyword Research: Keyword Research 2026: From Keywords to Entities ...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-24T00:00:00.000Z
 authors:
@@ -12,9 +12,10 @@ relatedPosts:
   - estrategia-topic-clusters
   - redaccion-seo
 sidebarBanners: []
-metaTitle: 'Keyword Research 2026: Advanced Guide with NLP and Python'
-metaDescription: >
-  Master Keyword Research in 2026: prioritize entities, analyze search intent with NLP and build a semantic strategy. Includes practical Python script.
+metaTitle: 'Guia Keyword Research: Keyword Research 2026: Ad | Juan Tech'
+metaDescription: >-
+  Learn guia keyword research with practical steps, examples, and best practices
+  to improve organic visibility and content performance. Includes practical...
 primary_keywords:
   - keyword research
   - keyword research step by step
@@ -33,6 +34,7 @@ semantic_keywords:
 uploaded: false
 idioma: en
 slug: guia-keyword-research
+keyword: guia keyword research
 ---
 English version coming soon.
 

@@ -1,10 +1,9 @@
 ---
 title: 'Content Pillar Strategy: Building Your Social Media Success'
-metaTitle: 'Content Pillar Strategy: Building Your Social Media Succe...'
+metaTitle: 'Content Pillar Strategy: Building Your Social Me | Juan Tech'
 metaDescription: >-
   A well-defined content pillar strategy is essential for any brand aiming for
-  success on social media. By establishing core themes that resonate with both
-  aud...
+  success on social media. By establishing core themes that resonate with bot...
 slug: content-pillar
 publishedAt: '2026-04-03'
 idioma: en
@@ -28,6 +27,7 @@ semantic_keywords:
   - analytics professionals understand
   - collaborative approach streamlines
   - effectiveness optimizing reporting
+keyword: content pillar
 ---
 A well-defined content pillar strategy is essential for any brand aiming for success on social media. By establishing core themes that resonate with both audience interests and business objectives, marketers can create a cohesive and effective content framework.
 

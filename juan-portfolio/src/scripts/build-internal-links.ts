@@ -200,7 +200,7 @@ async function main(): Promise<void> {
     posts = posts.filter(p => (p.idioma ?? 'es') === config.locale)
   }
 
-  const keywordIndex = extractor.buildIndex()
+  const keywordIndex = extractor.buildIndex(posts)
   process.stdout.write(
     `\r${c.green}✅ Loaded ${allPosts.length} posts (processing ${posts.length}), indexed ${keywordIndex.size} keywords.    \n\n${c.reset}`,
   )
@@ -293,8 +293,15 @@ async function main(): Promise<void> {
 
   if (!config.clusterOnly) {
     process.stdout.write(`${c.blue}🔍 Scanning posts for keyword link opportunities…${c.reset}`)
-    const scanner = new ContentScanner(keywordIndex, config)
-    opportunitiesMap = scanner.scanAllPosts(posts)
+    const scanner = new ContentScanner(keywordIndex, {
+      ...config,
+      semantic: {
+        enabled: true,
+        provider: 'auto',
+        model: 'Xenova/paraphrase-multilingual-MiniLM-L12-v2',
+      },
+    })
+    opportunitiesMap = await scanner.scanAllPosts(posts)
     process.stdout.write(
       `\r${c.green}✅ Scan complete! Found opportunities in ${opportunitiesMap.size} posts.${c.reset}\n\n`,
     )
@@ -319,7 +326,7 @@ async function main(): Promise<void> {
 
   // ── Step 4: Content gaps ──────────────────────────────────────────────────
   if (!config.clusterOnly) {
-    const scanner = new ContentScanner(keywordIndex, config)
+    const scanner = new ContentScanner(keywordIndex, { ...config, semantic: { enabled: false } })
     const contentGaps = scanner.findContentGaps(posts)
     const gaps = Array.from(contentGaps.entries())
       .filter(([, d]) => d.count >= 3)
@@ -398,7 +405,7 @@ async function main(): Promise<void> {
 
   // Content gap recommendations
   if (!config.clusterOnly) {
-    const scanner = new ContentScanner(keywordIndex, config)
+    const scanner = new ContentScanner(keywordIndex, { ...config, semantic: { enabled: false } })
     const contentGaps = scanner.findContentGaps(posts)
     const gaps = Array.from(contentGaps.entries())
       .filter(([, d]) => d.count >= 3)

@@ -2,6 +2,9 @@ import * as fs from 'fs';
 import matter from 'gray-matter';
 import natural from 'natural';
 import type { PostMetadata, KeywordMatch, LinkOpportunity, LinkingConfig } from './types';
+import { createEmbeddingProvider } from './semantic/embedding-provider';
+import { scoreOpportunities } from './semantic/scorer';
+import type { EmbeddingProvider } from './semantic/types';
 
 /**
  * Scans post content for keyword matches and identifies linking opportunities.
@@ -24,7 +27,8 @@ export class ContentScanner {
 
     constructor(
         private keywordIndex: Map<string, KeywordMatch>,
-        private config: LinkingConfig
+        private config: LinkingConfig,
+        private embeddingProvider?: EmbeddingProvider,
     ) {
         this.groupKeywords();
     }
@@ -305,11 +309,19 @@ export class ContentScanner {
     /**
      * Scan all posts and return opportunities.
      */
-    scanAllPosts(posts: PostMetadata[]): Map<string, LinkOpportunity[]> {
+    async scanAllPosts(posts: PostMetadata[]): Promise<Map<string, LinkOpportunity[]>> {
         const allOpportunities = new Map<string, LinkOpportunity[]>();
+        const semanticConfig = this.config.semantic;
+        const semanticEnabled = semanticConfig?.enabled !== false;
+        const provider = semanticEnabled
+            ? (this.embeddingProvider ?? await createEmbeddingProvider(semanticConfig))
+            : undefined;
 
         for (const post of posts) {
-            const opportunities = this.scanPost(post, posts);
+            let opportunities = this.scanPost(post, posts);
+            if (opportunities.length > 0 && provider) {
+                opportunities = await scoreOpportunities(opportunities, provider, semanticConfig?.weights);
+            }
             if (opportunities.length > 0) {
                 allOpportunities.set(post.slug, opportunities);
             }

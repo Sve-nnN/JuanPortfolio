@@ -16,7 +16,8 @@ const createMockFile = async (filePath: string, content: string) => {
 describe('Internal Linking Script - Exclusions', () => {
     const config: LinkingConfig = {
         dryRun: true, verbose: false, maxLinksPerKeyword: 3,
-        minWordLength: 3, excludePatterns: []
+        minWordLength: 3, excludePatterns: [],
+        semantic: { enabled: false }
     };
 
     beforeAll(async () => {

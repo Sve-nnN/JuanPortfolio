@@ -215,10 +215,11 @@ export class KeywordExtractor {
      * Build keyword index mapping primary keywords to target posts.
      * Each keyword will link to one definitive post.
      */
-    buildIndex(): Map<string, KeywordMatch> {
+    buildIndex(postsOverride?: PostMetadata[]): Map<string, KeywordMatch> {
         this.keywordIndex.clear();
+        const sourcePosts = postsOverride ?? this.posts;
 
-        for (const post of this.posts) {
+        for (const post of sourcePosts) {
             // Index both primary and semantic keywords
             const keywordsToIndex = [...post.primary_keywords, ...(post.semantic_keywords || [])];
 

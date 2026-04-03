@@ -1,3 +1,5 @@
+import type { SemanticRuntimeConfig, SemanticScore } from './semantic/types';
+
 /**
  * Type definitions for the internal linking system.
  * 
@@ -77,6 +79,8 @@ export interface LinkOpportunity {
     lineNumber: number;
     /** Relevance score (0-1) */
     relevance: number;
+    /** Optional semantic scoring breakdown */
+    semantic?: SemanticScore;
 }
 
 /**
@@ -95,6 +99,8 @@ export interface LinkingConfig {
     category?: string;
     /** Enable verbose logging */
     verbose: boolean;
+    /** Semantic scoring runtime settings */
+    semantic?: SemanticRuntimeConfig;
 }
 
 /**

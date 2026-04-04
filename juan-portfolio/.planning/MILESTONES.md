@@ -4,6 +4,64 @@
 
 ---
 
+## v1.1 — Internal Linking Intelligence
+
+**Date:** 2026-04-04
+**Status:** Complete
+**Phases completed:** 5 (6: DinoBrain HTTP API, 7: Editorial Pipeline, 8: Semantic Scoring, 9: Admin Tab, 10: Reporting & Guardrails)
+
+### What This Milestone Covers
+
+Extended the content automation stack with a full semantic internal linking engine. Posts are scored by vector similarity, safe anchor text replacement avoids code blocks and headings, and the Payload admin exposes a review/apply tab for editors. The milestone closes with audit logging and an explicit locale isolation guardrail test.
+
+### Git Range
+
+**First commit:** `d59e68f` (docs(06): research phase DinoBrain HTTP API integration)
+**Last commit:** `9e8cf25` (test(10-01): add 4 locale isolation tests for bulk apply path)
+
+Full commit range: `d59e68f..9e8cf25`
+
+### Key Stats
+
+| Category | Metric |
+|---|---|
+| Total phases | 5 (phases 6–10) |
+| Requirements addressed | BRAIN-01–05, PIPE-01–06, LINK-01–06 |
+| New CLI flags added | --country, --language, --site-type, --domain, --words (Phase 6); --locale, --classify, --cluster-only (Phase 8+) |
+| Test coverage added | ~50 new int/unit tests across phases 6–10 |
+| Audit file auto-written | `content/linking-run-YYYY-MM-DD.md` on every non-dry-run apply |
+| Locale isolation tests | 4 (`tests/int/internal-linking-bulk-locale.int.test.ts`) |
+| Operational runbook | `content/linking-ops-2026.md` |
+
+### Changes Per Phase
+
+**Phase 6 — DinoBrain HTTP API Integration**
+- Replaced Playwright BrainState with pure HTTP DinoBrainApiAdapter
+- Extended account registry with DinoBrain-specific fields
+- Added --country, --language, --site-type, --domain, --words CLI flags
+
+**Phase 7 — Editorial Pipeline**
+- Gap analyzer: detects missing posts by comparing strategy + existing content
+- Keyword assigner: deterministic per-gap keyword selection
+- Metadata guard: validates title/metaTitle/metaDescription before sync
+
+**Phase 8 — Semantic Scoring Foundation**
+- Vector similarity scoring via Xenova/paraphrase-multilingual-MiniLM-L12-v2
+- Safe anchor replacement: skips code blocks, headings, existing links
+- Candidate model + scoring contracts in types.ts
+
+**Phase 9 — Admin Review/Apply Tab**
+- Payload Posts custom tab: suggestion list, inline diff preview, per-link apply
+- API route: /api/internal-linking/suggestions and /api/internal-linking/apply
+- Wired to semantic engine output (no bespoke duplicate logic)
+
+**Phase 10 — Reporting, Rollout, and Guardrails**
+- writeAuditReport() auto-writes content/linking-run-YYYY-MM-DD.md on every apply
+- 4 integration tests confirm locale isolation in bulk apply path
+- Operational runbook: content/linking-ops-2026.md
+
+---
+
 ## v1.0 — Site Audit & SEO Fixes
 
 **Date:** 2026-03-31

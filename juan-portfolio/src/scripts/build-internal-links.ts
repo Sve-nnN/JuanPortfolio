@@ -19,7 +19,7 @@ import {
   getMissingClusterLinks,
   getClusterSummaries,
 } from './internal-linking/topicCluster'
-import type { LinkingConfig, LinkOpportunity } from './internal-linking/types'
+import type { LinkingConfig, LinkingResult, LinkOpportunity } from './internal-linking/types'
 import enquirer from 'enquirer'
 
 interface EnquirerConfirmClass {
@@ -39,6 +39,95 @@ const c = {
   cyan: '\x1b[36m',
   red: '\x1b[31m',
   magenta: '\x1b[35m',
+}
+
+/**
+ * Writes a Markdown audit report to content/linking-run-YYYY-MM-DD.md.
+ * Called after every non-dry-run apply. Non-fatal: logs a warning on failure.
+ */
+export function writeAuditReport(
+  result: LinkingResult,
+  clusterModified: number,
+  opts: { locale?: string; postsDir: string },
+): void {
+  try {
+    const date = new Date().toISOString().slice(0, 10)
+
+    // Derive locale breakdown from modified post filenames
+    let esCount = 0
+    let enCount = 0
+    for (const filePath of result.modifiedPosts) {
+      if (filePath.endsWith('.en.md')) {
+        enCount++
+      } else {
+        esCount++
+      }
+    }
+
+    // Summary section
+    const localeSuffix = opts.locale ? ` (locale: ${opts.locale})` : ''
+    const lines: string[] = [
+      `# Linking Run — ${date}${localeSuffix}`,
+      '',
+      '## Summary',
+      '',
+      `Applied on ${date} — ${result.linksAdded} keyword link${result.linksAdded !== 1 ? 's' : ''} added across ${result.modifiedPosts.length} post${result.modifiedPosts.length !== 1 ? 's' : ''}. ${clusterModified} cluster link${clusterModified !== 1 ? 's' : ''} applied.`,
+      '',
+      '## Changed Posts',
+      '',
+    ]
+
+    if (result.modifiedPosts.length > 0) {
+      lines.push('| Slug | Links Added |')
+      lines.push('|---|---|')
+      for (const filePath of result.modifiedPosts) {
+        const slug = path.basename(filePath).replace(/\.(en|es)?\.md$/, '')
+        lines.push(`| ${slug} | ${result.linksAdded} |`)
+      }
+    } else {
+      lines.push('No posts were modified.')
+    }
+
+    lines.push('')
+    lines.push('## Skipped Matches')
+    lines.push('')
+
+    if (result.skipped.length > 0) {
+      lines.push('| Slug | Keyword | Reason |')
+      lines.push('|---|---|---|')
+      for (const { opportunity, reason } of result.skipped) {
+        const slug = opportunity.sourcePost.slug
+        lines.push(`| ${slug} | ${opportunity.keyword} | ${reason} |`)
+      }
+    } else {
+      lines.push('No matches were skipped.')
+    }
+
+    lines.push('')
+    lines.push('## Locale Summary')
+    lines.push('')
+    lines.push(`ES links: ${esCount} | EN links: ${enCount} | Cluster: ${clusterModified}`)
+
+    lines.push('')
+    lines.push('## Errors')
+    lines.push('')
+
+    if (result.errors.length > 0) {
+      for (const { post, error } of result.errors) {
+        lines.push(`- **${post}**: ${error}`)
+      }
+    } else {
+      lines.push('No errors.')
+    }
+
+    lines.push('')
+
+    const reportPath = path.resolve(opts.postsDir, '..', `linking-run-${date}.md`)
+    fs.writeFileSync(reportPath, lines.join('\n'), 'utf-8')
+    console.log(`${c.green}✅ Audit written to content/linking-run-${date}.md${c.reset}`)
+  } catch (err) {
+    console.warn(`${c.yellow}⚠️  Could not write audit report: ${err instanceof Error ? err.message : String(err)}${c.reset}`)
+  }
 }
 
 // Parse command line arguments
@@ -384,24 +473,35 @@ async function main(): Promise<void> {
   }
 
   // Apply structural cluster links first (highest priority)
+  let clusterModified = 0
   if (missingClusterLinks.length > 0) {
     console.log(`\n${c.blue}🔗 Enforcing ${missingClusterLinks.length} structural cluster link(s)…${c.reset}`)
-    const clusterModified = injector.applyClusterLinks(missingClusterLinks, false)
+    clusterModified = injector.applyClusterLinks(missingClusterLinks, false)
     console.log(`${c.green}✅ ${clusterModified} file(s) updated with cluster links.${c.reset}`)
   }
 
   // Apply keyword-based links
+  let keywordResult: LinkingResult = {
+    linksAdded: 0,
+    modifiedPosts: [],
+    skipped: [],
+    errors: [],
+    contentGaps: [],
+  }
   if (opportunitiesMap.size > 0) {
     console.log(`\n${c.blue}✍️  Applying keyword links…${c.reset}`)
-    const result = injector.applyLinks(opportunitiesMap, false)
+    keywordResult = injector.applyLinks(opportunitiesMap, false)
     console.log(
-      `${c.green}✅ Added ${result.linksAdded} keyword links across ${result.modifiedPosts.length} files.${c.reset}`,
+      `${c.green}✅ Added ${keywordResult.linksAdded} keyword links across ${keywordResult.modifiedPosts.length} files.${c.reset}`,
     )
-    if (result.errors.length > 0) {
-      console.log(`\n${c.red}❌ ${result.errors.length} error(s):${c.reset}`)
-      result.errors.forEach(e => console.log(`   - ${e.post}: ${e.error}`))
+    if (keywordResult.errors.length > 0) {
+      console.log(`\n${c.red}❌ ${keywordResult.errors.length} error(s):${c.reset}`)
+      keywordResult.errors.forEach(e => console.log(`   - ${e.post}: ${e.error}`))
     }
   }
+
+  // Write audit report (only when work was actually done)
+  writeAuditReport(keywordResult, clusterModified, { locale: config.locale, postsDir })
 
   // Content gap recommendations
   if (!config.clusterOnly) {

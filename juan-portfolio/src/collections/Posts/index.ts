@@ -217,6 +217,21 @@ export const Posts: CollectionConfig<'posts'> = {
             },
           ],
         },
+        {
+          name: 'internalLinks',
+          label: 'Internal Links',
+          fields: [
+            {
+              name: 'internalLinksTab',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/components/admin/InternalLinksTab#InternalLinksTab',
+                },
+              },
+            },
+          ],
+        },
       ],
     },
     {
@@ -288,6 +303,16 @@ export const Posts: CollectionConfig<'posts'> = {
         position: 'sidebar',
         components: {
           Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'dinoRankAction',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/DinoRankWriteButton#DinoRankWriteButton',
         },
       },
     },

@@ -15,6 +15,7 @@ The roadmap started with the v1.0 SEO audit and fix cycle, then continued into t
 - [x] **Phase 7: Pipeline Editorial Autónomo** — Gap analyzer, keyword assigner, DinoRank orchestrator, metadata guard (completed 2026-04-03)
 - [x] **Phase 8: Semantic Internal-Link Scoring Foundation** — Convert keyword linker to semantic ranking engine with embeddings/vector similarity (completed 2026-04-04)
 - [x] **Phase 9: Admin review/apply tab for internal linking** — Payload Posts admin tab with suggestion list, inline diff preview, and per-link apply (completed 2026-04-04)
+- [x] **Phase 10: Reporting, rollout, and guardrails** — Audit report output, locale isolation tests, operational runbook, v1.1 milestone close-out (completed 2026-04-04)
 
 ---
 
@@ -189,8 +190,8 @@ The roadmap started with the v1.0 SEO audit and fix cycle, then continued into t
 3. The milestone ships with a repeatable verification flow and operational notes.
 
 **Plans:** 2 plans
-- [ ] 10-01-PLAN.md - Add audit reporting, dry-run summaries, and locale guardrails to the application flow
-- [ ] 10-02-PLAN.md - Run end-to-end verification, document the rollout, and finalize milestone notes
+- [x] 10-01-PLAN.md - Add audit reporting, dry-run summaries, and locale guardrails to the application flow
+- [x] 10-02-PLAN.md - Run end-to-end verification, document the rollout, and finalize milestone notes
 
 ## Stats
 

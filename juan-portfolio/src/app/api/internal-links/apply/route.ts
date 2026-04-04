@@ -4,7 +4,7 @@ import configPromise from '@payload-config'
 import { headers } from 'next/headers'
 import * as path from 'path'
 import * as fs from 'fs'
-import { spawnSync } from 'child_process'
+import * as childProcess from 'child_process'
 import matter from 'gray-matter'
 import type { ApplyLinkBody, ApplyLinkResponse } from '@/types/admin/internal-links'
 import { isPathSafe, escapeRegex } from '../_helpers'
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     const newContent = matter.stringify(lines.join('\n'), frontmatter)
     fs.writeFileSync(resolvedPath, newContent, 'utf-8')
 
-    const syncResult = spawnSync(
+    const syncResult = childProcess.spawnSync(
       'pnpm',
       ['sync', 'push', '--', `--post=${path.basename(resolvedPath)}`],
       {

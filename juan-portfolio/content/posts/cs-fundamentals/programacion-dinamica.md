@@ -39,14 +39,13 @@ semantic_keywords:
   - complejidad temporal y espacial
   - diseño de algoritmos eficientes
   - recursión optimizada
-uploaded: false
 keyword: programacion dinamica
 ---
 ¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un algoritmo específico, sino de una **metodología de diseño de algoritmos** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
 
 Esta técnica es fundamental en campos que van desde la informática, con aplicaciones en optimización de rutas, inteligencia artificial y procesamiento de datos, hasta la economía, la biología y la ingeniería. Su esencia radica en una observación simple pero profunda: muchos problemas complejos tienen estructuras que se repiten y soluciones óptimas que pueden construirse a partir de componentes más pequeños.
 
-En este artículo, desglosaremos la Programación Dinámica, explorando sus conceptos fundamentales, sus enfoques principales (memoización y tabulación), algoritmos clásicos y aplicaciones prácticas, todo ello con ejemplos de código claros y concisos para que puedas aplicarla en tus propios proyectos.
+En este artículo, desglosaremos la Programación Dinámica, explorando sus conceptos fundamentales, sus enfoques principales (memoización y tabulación), algoritmos clásicos y [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures), todo ello con ejemplos de código claros y concisos para que puedas aplicarla en tus propios proyectos.
 
 ## Fundamentos Clave de la Programación Dinámica
 

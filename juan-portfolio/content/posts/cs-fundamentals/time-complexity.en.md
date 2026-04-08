@@ -7,7 +7,6 @@ metaDescription: >-
 slug: time-complexity
 publishedAt: '2026-04-03'
 idioma: en
-uploaded: false
 categoryTitle: CS Fundamentals
 authors:
   - juan-carlos-angulo

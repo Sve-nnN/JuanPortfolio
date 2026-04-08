@@ -9,7 +9,6 @@ slug: seo-on-page-guia
 keyword: seo on page
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: TECH-SEO
 authors:
   - juan-carlos-angulo
@@ -108,7 +107,7 @@ La correcta implementación de etiquetas de encabezado debe ser parte de cualqui
 
 ## Optimización de Imágenes para SEO On Page
 
-La optimización de imágenes juega un papel crucial en la estrategia de SEO On Page. Las imágenes no solo enriquecen el contenido visualmente, sino que también pueden influir en la velocidad de carga y la experiencia del usuario, aspectos que los motores de búsqueda consideran para determinar el posicionamiento de una página. Por esta razón, es fundamental aplicar técnicas específicas para asegurar que cada imagen contribuya positivamente al SEO del sitio web.
+La optimización de imágenes juega un papel crucial en la estrategia de SEO On Page. Las imágenes no solo enriquecen el contenido visualmente, sino que también pueden influir en la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la experiencia del usuario, aspectos que los motores de búsqueda consideran para determinar el posicionamiento de una página. Por esta razón, es fundamental aplicar técnicas específicas para asegurar que cada imagen contribuya positivamente al SEO del sitio web.
 
 ### Implementación correcta de etiquetas alt
 
@@ -142,7 +141,7 @@ Los enlaces internos son fundamentales para una estrategia de SEO On Page robust
 
 Es recomendable utilizar texto ancla descriptivo que contenga palabras clave, ya que esto no solo proporciona contexto a los usuarios, sino que también ayuda a los motores de búsqueda a comprender mejor el contenido al que se vincula. Un enfoque estratégico consiste en enlazar de forma contextual, donde los enlaces aparecen de manera natural dentro del contenido, en vez de ser añadidos de forma arbitraria.
 
-Además, una práctica común es utilizar herramientas de auditoría como un **on page seo checker tool** para identificar páginas que carecen de enlaces internos. Estas herramientas pueden proporcionar recomendaciones precisas sobre cómo mejorar la interconexión entre las páginas, fortaleciendo así la autoridad de toda la web y optimizando su rendimiento en los motores de búsqueda.
+Además, una práctica común es utilizar [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide) como un **on page seo checker tool** para identificar páginas que carecen de enlaces internos. Estas herramientas pueden proporcionar recomendaciones precisas sobre cómo mejorar la interconexión entre las páginas, fortaleciendo así la autoridad de toda la web y optimizando su rendimiento en los motores de búsqueda.
 
 ### Selección y vinculación a fuentes externas autorizadas
 

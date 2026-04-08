@@ -9,7 +9,6 @@ slug: time-complexity
 keyword: time complexity
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: CS-FUNDAMENTALS
 authors:
   - juan-carlos-angulo
@@ -31,7 +30,7 @@ semantic_keywords:
   - representativos complejidad notaci
 ---
 
-La complejidad temporal es un aspecto crucial en el diseño de algoritmos, ya que determina el rendimiento y la eficiencia en la resolución de problemas. Comprender este concepto nos ayuda a elegir las mejores soluciones en función del tamaño y la naturaleza de las entradas.
+La [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) es un aspecto crucial en el diseño de algoritmos, ya que determina el rendimiento y la eficiencia en la resolución de problemas. Comprender este concepto nos ayuda a elegir las mejores soluciones en función del tamaño y la naturaleza de las entradas.
 
 En este artículo, exploraremos los fundamentos de la complejidad temporal y su notación, así como el [análisis de algoritmos](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) como el de Prim. Un entendimiento profundo de la complejidad temporal permite optimizar el código y mejorar la experiencia del usuario en aplicaciones prácticas.
 

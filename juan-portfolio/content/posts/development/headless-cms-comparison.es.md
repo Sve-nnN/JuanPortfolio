@@ -7,7 +7,6 @@ metaDescription: >-
 slug: headless-cms-comparison
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: Development
 authors:
   - juan-carlos-angulo

@@ -7,7 +7,6 @@ metaDescription: >-
 slug: seo-content-strategy
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: SEO
 authors:
   - juan-carlos-angulo
@@ -29,7 +28,7 @@ semantic_keywords:
   - comportamiento consumidor palabras
 keyword: seo content strategy
 ---
-La estrategia de contenido SEO es esencial para mejorar la visibilidad de un sitio en los motores de búsqueda. Esta estrategia busca crear y optimizar contenido alineado con las necesidades del público objetivo y las intenciones de búsqueda. Para definir mejor el mapa temático y priorizar oportunidades, conviene partir de una [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) sólida. El enfoque correcto permite atraer tráfico orgánico y aumentar las tasas de conversión. A lo largo de este artículo, se explorarán los pasos clave para desarrollar una estrategia efectiva de contenido SEO.
+La [estrategia de contenido](https://juan-tech.com/blog/seo/estrategia-de-contenidos) SEO es esencial para mejorar la visibilidad de un sitio en los motores de búsqueda. Esta estrategia busca crear y optimizar contenido alineado con las necesidades del público objetivo y las intenciones de búsqueda. Para definir mejor el mapa temático y priorizar oportunidades, conviene partir de una [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) sólida. El enfoque correcto permite atraer tráfico orgánico y aumentar las tasas de conversión. A lo largo de este artículo, se explorarán los pasos clave para desarrollar una estrategia efectiva de contenido SEO.
 
 ## Fundamentos de la estrategia de contenido SEO
 
@@ -72,7 +71,7 @@ Identificar la intención detrás de la búsqueda de los usuarios supone observa
 
 ### Adaptación del contenido según la intención
 
-Al crear contenido, es esencial adaptarse a la intención del usuario. Para hacerlo de manera efectiva, se deben considerar los siguientes aspectos:
+Al crear contenido, es esencial adaptarse a la [intención del usuario](https://juan-tech.com/blog/seo/redaccion-seo). Para hacerlo de manera efectiva, se deben considerar los siguientes aspectos:
 
 -   Crear contenido que responda de manera directa a preguntas comunes cuando se hable de intención informativa.
 -   Diseñar páginas de aterrizaje claras y concisas para recordar la navegación y facilitar el acceso a información específica.
@@ -169,7 +168,7 @@ La combinación de una sólida optimización técnica con un contenido bien elab
 
 ### SEO On-Page: uso estratégico de palabras clave en texto y títulos
 
-El SEO On-Page centra su atención en elementos que pueden modificarse dentro del sitio para mejorar su posicionamiento. Esto implica apuntar a palabras clave específicas de forma estratégica.
+El [SEO On-Page](https://juan-tech.com/blog/seo/seo-copywriting) centra su atención en elementos que pueden modificarse dentro del sitio para mejorar su posicionamiento. Esto implica apuntar a palabras clave específicas de forma estratégica.
 
 -   Incluir keywords relevantes en títulos, subtítulos y en el cuerpo del texto.
 -   Utilizar variaciones de la palabra clave principal para enriquecer el contenido.

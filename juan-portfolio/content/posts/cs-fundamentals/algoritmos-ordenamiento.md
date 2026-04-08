@@ -37,7 +37,6 @@ semantic_keywords:
   - ordenamiento interno vs externo
   - implementación de algoritmos en C y Python
   - estructuras de datos y algoritmos
-uploaded: false
 keyword: algoritmos de ordenamiento
 ---
 Los [algoritmos de ordenamiento](/posts/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de algoritmos de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
@@ -98,7 +97,7 @@ El análisis de complejidad en los algoritmos de ordenamiento es fundamental par
 
 ### Complejidad temporal: mejor caso, caso promedio y peor caso
 
-La complejidad temporal de un algoritmo indica el tiempo que tarda en ejecutarse en función del tamaño de la entrada. Se distingue entre tres categorías:
+La [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) de un algoritmo indica el tiempo que tarda en ejecutarse en función del tamaño de la entrada. Se distingue entre tres categorías:
 
 - **Mejor caso:** Representa la situación más óptima en que el algoritmo realiza el menor número de comparaciones e intercambios. Por ejemplo, el ordenamiento por inserción tiene un mejor caso de O(n) si la lista ya está casi ordenada.
 - **Caso promedio:** Refleja el tiempo de ejecución esperado en una situación típica, considerando entradas aleatorias. Por ejemplo, el algoritmo Quick Sort, en promedio, opera en O(n log n), lo que muestra una buena eficiencia.

@@ -38,6 +38,12 @@ export const ArchiveBlock: React.FC<
       depth: 2,
       limit,
       locale,
+      select: {
+        slug: true,
+        title: true,
+        meta: true,
+        categories: true,
+      },
       where: {
         and: [
           ...(flattenedCategories && flattenedCategories.length > 0
@@ -58,7 +64,11 @@ export const ArchiveBlock: React.FC<
       },
     })
 
-    posts = fetchedPosts.docs as Post[]
+      posts = (fetchedPosts.docs as Post[]).map(p => ({
+        ...p,
+        // Ensure meta is type-safe for Card
+        meta: p.meta || {},
+      })) as Post[]
   } else {
     if (selectedDocs) {
       posts = selectedDocs

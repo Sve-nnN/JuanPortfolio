@@ -9,7 +9,6 @@ slug: heap-data-structure
 keyword: heap data structure
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: CS-FUNDAMENTALS
 authors:
   - juan-carlos-angulo
@@ -34,7 +33,7 @@ semantic_keywords:
 
 La estructura de datos heap es fundamental en el ámbito de la informática, ofreciendo soluciones eficientes para la gestión de prioridades. Su diseño, basado en un árbol binario, permite operaciones rápidas, como la inserción y eliminación de elementos, lo que la convierte en una herramienta esencial para diversas aplicaciones. En este artículo, exploraremos su funcionamiento y operaciones, desglosando sus propiedades y métodos para optimizar su uso.
 
-Desde la construcción de Max-Heaps y Min-Heaps hasta las operaciones específicas, comprenderemos cómo estas estructuras pueden mejorar el desempeño en algoritmos y aplicaciones prácticas. Profundizaremos en las características que hacen del heap una elección popular entre ingenieros de software y en su relevancia en el mundo del análisis de datos y colas de prioridad.
+Desde la construcción de Max-Heaps y Min-Heaps hasta las operaciones específicas, comprenderemos cómo estas estructuras pueden mejorar el desempeño en algoritmos y [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures). Profundizaremos en las características que hacen del heap una elección popular entre ingenieros de software y en su relevancia en el mundo del análisis de datos y colas de prioridad.
 
 ## Estructura y propiedades del Heap
 

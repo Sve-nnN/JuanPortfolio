@@ -9,7 +9,6 @@ slug: dynamic-programming
 keyword: dynamic programming
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: CS-FUNDAMENTALS
 authors:
   - juan-carlos-angulo
@@ -32,7 +31,7 @@ semantic_keywords:
 ---
 # Dynamic Programming: complete practical guide
 
-La [programación dinámica](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) es una técnica clave en el desarrollo de algoritmos eficientes, permitiendo descomponer problemas complejos en subproblemas más manejables. A través de esta guía, exploraremos sus fundamentos, estrategias de implementación y aplicaciones prácticas.
+La [programación dinámica](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) es una técnica clave en el desarrollo de algoritmos eficientes, permitiendo descomponer problemas complejos en subproblemas más manejables. A través de esta guía, exploraremos sus fundamentos, estrategias de implementación y [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures).
 
 Desde la resolución de la subsecuencia creciente máxima hasta el análisis de la 'edit distance dynamic programming', este artículo proporcionará un marco claro para entender cómo aplicar esta metodología de manera eficaz en diversos escenarios.
 

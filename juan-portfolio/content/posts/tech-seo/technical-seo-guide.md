@@ -8,7 +8,6 @@ categoryTitle: Tech SEO
 slug: technical-seo-guide
 idioma: es
 sidebarBanners: []
-uploaded: false
 semantic_keywords:
   - posicionamiento implementaci mantenimiento
   - estructurados correctamente implementado
@@ -44,7 +43,7 @@ La optimización técnica se centra en facilitar el rastreo e indexación de un 
 
 Rastreo eficiente: Permitir a los motores de búsqueda descubrir todas las páginas relevantes.
 Indexación adecuada: Asegurarse de que las páginas se almacenen correctamente en los índices de búsqueda.
-Mejora de la experiencia del usuario: Optimizar la velocidad de carga y la usabilidad de la interfaz.
+Mejora de la experiencia del usuario: Optimizar la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la usabilidad de la interfaz.
 Relación entre arquitectura web y SEO técnico
 
 La arquitectura de un sitio impacta directamente en su rendimiento SEO. Elementos como la jerarquía de las páginas, la organización de las URLs y la navegación son críticos.
@@ -83,7 +82,7 @@ Un sitemap XML actúa como un mapa del sitio para los motores de búsqueda. Incl
 
 Incluir las páginas más relevantes y eliminar las que ya no existan.
 Actualizar el sitemap periódicamente para reflejar cambios recientes.
-Enviar el sitemap actualizado a Google Search Console.
+Enviar el sitemap actualizado a [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation).
 Uso correcto del archivo robots.txt
 
 El archivo robots.txt regula cómo los robots de los motores de búsqueda interactúan con el sitio. Permite bloquear el acceso a secciones no deseadas y garantizar que el rastreo se realice de manera eficiente. Es necesario:
@@ -119,7 +118,7 @@ Utilizar herramientas para analizar el rendimiento es fundamental para identific
 
 Evaluar el tiempo de respuesta del servidor y la eficiencia de los recursos multimedia.
 Realizar auditorías periódicas para asegurar el cumplimiento de los estándares de rendimiento.
-Datos estructurados y schema markup
+[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y schema markup
 
 Los datos estructurados permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
@@ -198,7 +197,7 @@ Cambiar URLs es un proceso que puede provocar pérdida de tráfico. Implementar 
 
 Configurar redirecciones 301 en el archivo .htaccess o en la configuración del servidor.
 Revisar que todas las redirecciones apunten a la página adecuada.
-Utilizar herramientas de auditoría para verificar que no haya cadenas de redirección innecesarias.
+Utilizar [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide) para verificar que no haya cadenas de redirección innecesarias.
 Prevención y resolución de contenido duplicado
 
 El contenido duplicado puede confundir a los motores de búsqueda y diluir el valor de clasificación de un sitio. Para abordarlo, se deben seguir estas recomendaciones:

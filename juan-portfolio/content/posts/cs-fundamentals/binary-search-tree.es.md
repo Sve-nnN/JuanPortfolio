@@ -7,7 +7,6 @@ metaDescription: >-
 slug: binary-search-tree
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: CS Fundamentals
 authors:
   - juan-carlos-angulo
@@ -29,7 +28,7 @@ semantic_keywords:
   - utilizan recoloraciones rotaciones
 keyword: binary search tree
 ---
-Los árboles de búsqueda binaria (BST) son estructuras de datos fundamentales en programación. Permiten organizar y acceder a datos de manera eficiente, gracias a su propiedad de orden. Cada nodo en un BST tiene un valor único, y los valores en su subárbol izquierdo son menores, mientras que los del derecho son mayores. Estas características facilitan diversas operaciones, como búsqueda, inserción y eliminación de nodos.
+Los árboles de búsqueda binaria (BST) son [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) fundamentales en programación. Permiten organizar y acceder a datos de manera eficiente, gracias a su propiedad de orden. Cada nodo en un BST tiene un valor único, y los valores en su subárbol izquierdo son menores, mientras que los del derecho son mayores. Estas características facilitan diversas operaciones, como búsqueda, inserción y eliminación de nodos.
 
 ## Definición y propiedades del árbol de búsqueda binaria
 

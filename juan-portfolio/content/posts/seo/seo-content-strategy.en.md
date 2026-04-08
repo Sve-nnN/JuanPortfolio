@@ -8,7 +8,6 @@ metaDescription: >-
 slug: seo-content-strategy
 publishedAt: '2026-04-03'
 idioma: en
-uploaded: false
 categoryTitle: SEO
 authors:
   - juan-carlos-angulo

@@ -7,7 +7,6 @@ metaDescription: >-
 slug: pillar-page-seo
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: SEO
 authors:
   - juan-carlos-angulo

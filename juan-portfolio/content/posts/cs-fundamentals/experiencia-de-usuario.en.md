@@ -13,7 +13,6 @@ metaDescription: >-
   Learn user experience with practical examples, clear steps, and actionable
   recommendations to improve your results. Includes strategy, implementa...
 contentRole: satellite
-uploaded: false
 semantic_keywords:
   - fundamentals experiencia usuario
   - tech fundamentals experiencia

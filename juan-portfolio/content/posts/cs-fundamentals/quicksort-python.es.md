@@ -7,7 +7,6 @@ metaDescription: >-
 slug: quicksort-python
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: CS Fundamentals
 authors:
   - juan-carlos-angulo
@@ -215,7 +214,7 @@ Quicksort muestra su fortaleza al trabajar con grandes conjuntos de datos, princ
 
 ### Integración con estructuras de datos y flujos de trabajo en python
 
-Al ser un algoritmo in-place, quicksort puede integrarse eficazmente en diversos tipos de estructuras de datos, como listas y arreglos. Esto permite mejorar el [rendimiento de aplicaciones](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) que necesitan ordenar datos de manera frecuente.
+Al ser un algoritmo in-place, quicksort puede integrarse eficazmente en diversos tipos de [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures), como listas y arreglos. Esto permite mejorar el [rendimiento de aplicaciones](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) que necesitan ordenar datos de manera frecuente.
 
 ### Quicksort en entornos con restricciones de memoria y tiempo
 

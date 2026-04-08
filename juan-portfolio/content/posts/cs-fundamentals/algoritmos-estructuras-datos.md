@@ -39,12 +39,11 @@ semantic_keywords:
   - notación Big O
   - programación competitiva
   - desarrollo de software escalable
-uploaded: false
 keyword: algoritmos estructuras datos
 ---
 En el corazón de cada aplicación innovadora, desde la inteligencia artificial hasta los sistemas de bases de datos masivas, residen los algoritmos y las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios). No son meros conceptos académicos, sino las herramientas fundamentales que permiten a los programadores construir software que no solo *funcione*, sino que lo haga de manera *óptima*, *eficiente* y *escalable*. Un algoritmo es la receta paso a paso para resolver un problema, mientras que una estructura de datos es la forma en que organizamos la información para que esa receta sea lo más efectiva posible.
 
-Entender su intrínseca relación y dominarlos es crucial para transformar soluciones básicas en sistemas de alto rendimiento capaces de manejar grandes volúmenes de datos y operaciones complejas. En esta guía, exploraremos a fondo estos pilares de la computación, desde sus fundamentos teóricos hasta sus aplicaciones prácticas en el desarrollo de software moderno, garantizando que tu código no solo sea funcional, sino también una obra de ingeniería eficiente.
+Entender su intrínseca relación y dominarlos es crucial para transformar soluciones básicas en sistemas de alto rendimiento capaces de manejar grandes volúmenes de datos y operaciones complejas. En esta guía, exploraremos a fondo estos pilares de la computación, desde sus fundamentos teóricos hasta sus [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures) en el desarrollo de software moderno, garantizando que tu código no solo sea funcional, sino también una obra de ingeniería eficiente.
 
 ## Fundamentos de algoritmos y estructuras: La dupla esencial de la computación
 

@@ -36,7 +36,6 @@ semantic_keywords:
   - trade-off tiempo-espacio
   - optimización de recursos computacionales
   - rendimiento de aplicaciones escalables
-uploaded: false
 keyword: complejidad algoritmica
 ---
 La [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) es un pilar fundamental en la ciencia de la computación y el desarrollo de software moderno. Se refiere a la cuantificación de los **recursos computacionales** (principalmente tiempo y memoria) que un algoritmo requiere para procesar una entrada de datos y completar su tarea. Comprender a fondo la complejidad algorítmica no solo permite a los programadores optimizar su código, sino también prever el comportamiento de sus aplicaciones ante volúmenes crecientes de datos. En el entorno actual, donde la escala y la velocidad son críticas, una elección algorítmica deficiente puede traducirse en una mala [experiencia de usuario](https://juan-tech.com/blog/cs-fundamentals/experiencia-de-usuario) (UX), mayores costos operativos y una drástica pérdida de competitividad.
@@ -46,7 +45,7 @@ La [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/big-o-n
 ### Definición de complejidad temporal y espacial
 
 El análisis de un algoritmo se cimienta en dos métricas interconectadas:
-- **Complejidad Temporal (Time Complexity):** Mide la cantidad de tiempo que un algoritmo tarda en ejecutarse en función del tamaño de su entrada. No se trata del tiempo real en segundos (que varía con el hardware), sino del número de "operaciones básicas" que realiza.
+- **[Complejidad Temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) (Time Complexity):** Mide la cantidad de tiempo que un algoritmo tarda en ejecutarse en función del tamaño de su entrada. No se trata del tiempo real en segundos (que varía con el hardware), sino del número de "operaciones básicas" que realiza.
 - **Complejidad Espacial (Space Complexity):** Se refiere a la cantidad de memoria (espacio de almacenamiento) que el algoritmo necesita para funcionar, también en relación con el tamaño de la entrada. Incluye la memoria para almacenar las entradas, salidas y cualquier dato auxiliar durante la ejecución.
 
 Ambos aspectos son vitales para entender el rendimiento de un algoritmo en escenarios prácticos. La complejidad temporal es un predictor clave de la **velocidad de procesamiento** y la capacidad de respuesta, mientras que la espacial es fundamental para evaluar la **eficiencia en el uso de la memoria**, especialmente en dispositivos con recursos limitados (móviles, IoT) o en entornos de computación en la nube donde el consumo de memoria impacta directamente en los costos.

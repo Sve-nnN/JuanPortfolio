@@ -129,17 +129,10 @@ export default async function RootLayout({
       lang={locale}
       suppressHydrationWarning
     >
-      <head>
+      <body className="dark">
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-        <link rel="preconnect" href="https://res.cloudinary.com" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://va.vercel-scripts.com" />
         {organizationSchema && <JsonLd schema={organizationSchema} />}
         {websiteSchema && <JsonLd schema={websiteSchema} />}
-      </head>
-      <body className="dark">
         <Providers>
           <ThemeProvider>
             <LocaleProvider initialLocale={locale}>
@@ -196,6 +189,12 @@ export async function generateMetadata({
     openGraph: mergeOpenGraph({
       locale: locale === 'es' ? 'es_ES' : 'en_US',
     }),
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: '32x32' },
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+      ],
+    },
     twitter: {
       card: 'summary_large_image',
       creator: '@jcangulo',

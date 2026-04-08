@@ -9,7 +9,6 @@ slug: space-complexity
 keyword: space complexity
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: CS-FUNDAMENTALS
 authors:
   - juan-carlos-angulo
@@ -36,7 +35,7 @@ La complejidad espacial es un aspecto fundamental al analizar algoritmos, ya que
 
 ## Complejidad en algoritmos: tiempo y espacio
 
-La complejidad de un algoritmo no se mide únicamente en tiempo; la **complejidad espacial** juega un papel crucial en su eficiencia y rendimiento. Entender tanto la complejidad temporal como la espacial es esencial para el diseño de algoritmos efectivos y óptimos. La complejidad espacial se refiere a la cantidad de memoria que un algoritmo necesita para ejecutarse, lo cual incluye la memoria para las entradas y cualquier memoria adicional utilizada durante su procesamiento.
+La complejidad de un algoritmo no se mide únicamente en tiempo; la **complejidad espacial** juega un papel crucial en su eficiencia y rendimiento. Entender tanto la [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) como la espacial es esencial para el diseño de algoritmos efectivos y óptimos. La complejidad espacial se refiere a la cantidad de memoria que un algoritmo necesita para ejecutarse, lo cual incluye la memoria para las entradas y cualquier memoria adicional utilizada durante su procesamiento.
 
 ### Concepto y relación entre time complexity and space complexity
 

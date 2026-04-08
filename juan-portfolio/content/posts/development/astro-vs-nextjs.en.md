@@ -8,7 +8,6 @@ metaDescription: >-
 slug: astro-vs-nextjs
 publishedAt: '2026-04-03'
 idioma: en
-uploaded: false
 categoryTitle: Development
 authors:
   - juan-carlos-angulo

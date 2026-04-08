@@ -7,7 +7,6 @@ metaDescription: >-
 slug: graph-algorithms
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: CS Fundamentals
 authors:
   - juan-carlos-angulo
@@ -105,7 +104,7 @@ Un elemento interesante en el manejo de flujos es la detección de ciclos. En re
 -   Algoritmo de Dinic: Mejora la eficiencia utilizando búsqueda por niveles.
 -   Detección de ciclos: Imprescindible en redes con retroalimentación.
 
-Estos algoritmos tienen aplicaciones prácticas en sectores como la logística, donde la optimización de rutas depende de la gestión eficiente de flujos, o en telecomunicaciones, donde se busca maximizar la capacidad de transmisión de datos entre nodos.
+Estos algoritmos tienen [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures) en sectores como la logística, donde la optimización de rutas depende de la gestión eficiente de flujos, o en telecomunicaciones, donde se busca maximizar la capacidad de transmisión de datos entre nodos.
 
 ## Algoritmos de coloreo y detección de comunidades en grafos
 

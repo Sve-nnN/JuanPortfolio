@@ -7,7 +7,6 @@ metaDescription: >-
 slug: structured-data-seo
 publishedAt: '2026-04-03'
 idioma: en
-uploaded: false
 categoryTitle: Tech SEO
 authors:
   - juan-carlos-angulo

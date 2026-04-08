@@ -7,7 +7,6 @@ metaDescription: >-
 slug: astro-vs-nextjs
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: Development
 authors:
   - juan-carlos-angulo
@@ -29,7 +28,7 @@ semantic_keywords:
   - importantes desarrolladores caracter
 keyword: astro vs nextjs
 ---
-Astro y Next.js son frameworks populares para el desarrollo web, cada uno con características que los hacen únicos. Astro se enfoca en la creación de sitios estáticos, mientras que Next.js permite un manejo dinámico del contenido. Este artículo compara sus características fundamentales, rendimiento y casos de uso, facilitando la elección según las necesidades específicas del proyecto. Ambas soluciones se adaptan a diferentes requisitos y estilos de desarrollo, ofreciendo ventajas importantes para los desarrolladores.
+Astro y Next.js son frameworks populares para el [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), cada uno con características que los hacen únicos. Astro se enfoca en la creación de sitios estáticos, mientras que Next.js permite un manejo dinámico del contenido. Este artículo compara sus características fundamentales, rendimiento y casos de uso, facilitando la elección según las necesidades específicas del proyecto. Ambas soluciones se adaptan a diferentes requisitos y estilos de desarrollo, ofreciendo ventajas importantes para los desarrolladores.
 
 ## Características fundamentales de Astro y Next.js
 
@@ -198,4 +197,4 @@ Astro proporciona un enfoque diferente al uso de APIs. Permite la inclusión de 
 
 #### Ecosistemas comunes y adaptabilidad
 
-Ambos frameworks son compatibles con los principales sistemas de gestión de contenido (CMS), facilitando la integración con plataformas populares. Esta capacidad de adaptación es crucial para proyectos que requieren flexibilidad en las fuentes de contenido.
+Ambos frameworks son compatibles con los principales sistemas de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) (CMS), facilitando la integración con plataformas populares. Esta capacidad de adaptación es crucial para proyectos que requieren flexibilidad en las fuentes de contenido.

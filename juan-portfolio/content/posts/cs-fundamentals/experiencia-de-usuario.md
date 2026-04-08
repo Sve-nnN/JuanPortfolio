@@ -38,7 +38,6 @@ categoryTitle: CS Fundamentals
 slug: experiencia-de-usuario
 idioma: es
 sidebarBanners: []
-uploaded: false
 keyword: experiencia de usuario
 ---
 

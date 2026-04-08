@@ -19,6 +19,12 @@ async function fetchRelatedPosts({ currentPostId, categoryIds, limit, locale }: 
         depth: 1,
         sort: '-publishedAt',
         locale,
+        select: {
+            slug: true,
+            title: true,
+            meta: true,
+            categories: true,
+        },
         where: {
             and: [
                 {

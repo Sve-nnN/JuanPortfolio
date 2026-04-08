@@ -39,7 +39,6 @@ semantic_keywords:
   - rendimiento de lectura y escritura
   - base de datos por servicio
   - SQL vs NoSQL performance
-uploaded: false
 keyword: sql vs nosql
 ---
 Las bases de datos son esenciales en la gestión de información y su elección impacta en el desarrollo de aplicaciones. Existen dos tipos principales: relacionales y no relacionales. Cada una tiene características particulares que las hacen adecuadas para diferentes necesidades. Las bases de datos relacionales organizan información en tablas y son ideales para datos estructurados. En cambio, las bases no relacionales ofrecen flexibilidad para manejar datos no estructurados, siendo favorables en entornos que requieren agilidad y escalabilidad.

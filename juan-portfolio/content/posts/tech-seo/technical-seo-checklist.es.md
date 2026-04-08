@@ -8,7 +8,6 @@ slug: technical-seo-checklist
 keyword: technical seo checklist
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: TECH-SEO
 authors:
   - juan-carlos-angulo
@@ -33,7 +32,7 @@ semantic_keywords:
 
 La optimización técnica para motores de búsqueda es esencial para garantizar que tu sitio web esté bien posicionado y sea fácilmente accesible para los usuarios. En este artículo, te presentaré una lista de verificación del SEO técnico que te guiará en diez pasos clave para mejorar tu sitio web.
 
-Desde la implementación de HTTPS hasta la optimización de la velocidad de carga, cada uno de estos elementos es crítico para el éxito de tu estrategia de SEO. ¡Comencemos a revisar esta 'technical SEO checklist template' y a transformar tu sitio en un recurso eficaz!
+Desde la implementación de HTTPS hasta la optimización de la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), cada uno de estos elementos es crítico para el éxito de tu estrategia de SEO. ¡Comencemos a revisar esta 'technical SEO checklist template' y a transformar tu sitio en un recurso eficaz!
 
 ## Seguridad y Protocolo HTTPS
 
@@ -53,11 +52,11 @@ Una vez adquirido el certificado SSL, debes configurarlo en tu servidor web. Si 
 
 Para simplificar la migración a HTTPS, existen diversas herramientas y plugins útiles. Para sitios de WordPress, el plugin **Really Simple SSL** es una opción popular que maneja automáticamente la mayoría de los ajustes necesarios para implementar HTTPS. Este plugin configura de manera sencilla las redirecciones y actualiza las URLs a la versión segura.
 
-Además, es recomendable realizar auditorías con Google Search Console después de la migración. Esta herramienta permite identificar y corregir cualquier problema relacionado con la indexación de la nueva versión de tu sitio. Por último, un **technical SEO checklist template** puede ser muy útil para asegurarte de que no se omita ningún paso crítico en este proceso de migración a HTTPS.
+Además, es recomendable realizar auditorías con [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation) después de la migración. Esta herramienta permite identificar y corregir cualquier problema relacionado con la indexación de la nueva versión de tu sitio. Por último, un **technical SEO checklist template** puede ser muy útil para asegurarte de que no se omita ningún paso crítico en este proceso de migración a HTTPS.
 
 ## Detección y Corrección de Errores de Rastreo
 
-Detectar y corregir errores de rastreo es fundamental para asegurar que tu sitio web sea accesible para los motores de búsqueda. Los errores pueden impedir que Google y otros buscadores indexen correctamente tu contenido, lo cual afecta tu visibilidad en los resultados de búsqueda. Una versión bien elaborada de una **technical seo checklist template** debe incluir un enfoque sistemático para identificar y solucionar estos errores.
+Detectar y corregir [errores de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) es fundamental para asegurar que tu sitio web sea accesible para los motores de búsqueda. Los errores pueden impedir que Google y otros buscadores indexen correctamente tu contenido, lo cual afecta tu visibilidad en los resultados de búsqueda. Una versión bien elaborada de una **technical seo checklist template** debe incluir un enfoque sistemático para identificar y solucionar estos errores.
 
 ### Uso de Google Search Console para identificar errores
 

@@ -8,7 +8,6 @@ metaDescription: >-
 slug: tree-traversal
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: CS Fundamentals
 authors:
   - juan-carlos-angulo
@@ -101,7 +100,7 @@ Un enfoque común para implementar el recorrido por niveles es utilizar una cola
 El recorrido por niveles tiene diversas aplicaciones en la informática. Es utilizado en:
 
 -   La búsqueda de la profundidad máxima de un árbol.
--   La visualización de estructuras de datos en forma de niveles.
+-   La visualización de [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) en forma de niveles.
 -   La implementación de algoritmos que requieren procesamiento en paralelo.
 
 ## Algoritmos y llamadas recursivas para traversal

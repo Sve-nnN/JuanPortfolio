@@ -7,7 +7,6 @@ metaDescription: >-
 slug: queue-data-structure
 publishedAt: '2026-04-02'
 idioma: es
-uploaded: false
 categoryTitle: CS Fundamentals
 authors:
   - juan-carlos-angulo
@@ -29,7 +28,7 @@ semantic_keywords:
   - impacta significativamente eficiencia
 keyword: queue data structure
 ---
-La estructura de datos conocida como cola es fundamental en la programación y se basa en el principio FIFO (First In, First Out). Esto significa que el primer elemento agregado es el primero en ser eliminado. Las colas son útiles en diversos contextos, desde la gestión de procesos hasta la implementación de algoritmos. Existen diferentes maneras de implementar colas, incluyendo arreglos y listas enlazadas. Cada método presenta ventajas y desventajas, especialmente en términos de eficiencia y manejo de memoria. Este artículo abordará sus fundamentos, implementaciones comunes y aplicaciones prácticas en diversos lenguajes de programación.
+La estructura de datos conocida como cola es fundamental en la programación y se basa en el principio FIFO (First In, First Out). Esto significa que el primer elemento agregado es el primero en ser eliminado. Las colas son útiles en diversos contextos, desde la gestión de procesos hasta la implementación de algoritmos. Existen diferentes maneras de implementar colas, incluyendo arreglos y [listas enlazadas](https://juan-tech.com/blog/cs-fundamentals/data-structures). Cada método presenta ventajas y desventajas, especialmente en términos de eficiencia y manejo de memoria. Este artículo abordará sus fundamentos, implementaciones comunes y aplicaciones prácticas en diversos lenguajes de programación.
 
 ## Fundamentos de la estructura de datos queue
 

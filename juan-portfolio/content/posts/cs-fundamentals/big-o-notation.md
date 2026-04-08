@@ -38,7 +38,6 @@ semantic_keywords:
   - peor caso de rendimiento
   - algoritmos de búsqueda y ordenamiento
   - Big O notation tutorial
-uploaded: false
 keyword: notacion big o
 ---
 # Notación Big O: Entendiendo la Complejidad Algorítmica
@@ -67,7 +66,7 @@ La tasa de crecimiento describe cómo se incrementan el tiempo de ejecución o e
 
 ### Diferencia entre complejidad temporal y espacial
 
-La complejidad temporal se refiere al tiempo que un algoritmo requiere para completar su ejecución a medida que cambia el tamaño de la entrada. Este parámetro es esencial para evaluar la eficiencia de un algoritmo en términos de tiempo. Por otro lado, la [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad-algoritmica) evalúa el espacio de memoria que un algoritmo necesita durante su ejecución. Por lo general, se espera que un diseño óptimo no solo minimice el tiempo requerido para procesar los datos, sino también la cantidad de memoria utilizada.
+La [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) se refiere al tiempo que un algoritmo requiere para completar su ejecución a medida que cambia el tamaño de la entrada. Este parámetro es esencial para evaluar la eficiencia de un algoritmo en términos de tiempo. Por otro lado, la [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad-algoritmica) evalúa el espacio de memoria que un algoritmo necesita durante su ejecución. Por lo general, se espera que un diseño óptimo no solo minimice el tiempo requerido para procesar los datos, sino también la cantidad de memoria utilizada.
 
 Comprender la diferencia entre ambos conceptos es fundamental para elegir la mejor estrategia algorítmica al abordar problemas específicos. Algoritmos que son eficientes en tiempo pueden no serlo necesariamente en espacio y viceversa. Esta dualidad en el análisis permite a los desarrolladores tomar decisiones informadas sobre qué algoritmos implementar en función del ambiente y los recursos disponibles.
 

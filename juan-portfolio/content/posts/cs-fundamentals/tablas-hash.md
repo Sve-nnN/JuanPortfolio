@@ -35,7 +35,7 @@ semantic_keywords:
   - implementaci especialmente lenguajes
 keyword: tablas hash
 ---
-Las tablas hash son estructuras de datos que permiten almacenar pares de clave-valor y realizan operaciones de búsqueda, inserción y eliminación de manera eficiente. Su funcionamiento se basa en una función hash que convierte claves en índices dentro de una tabla. Este artículo explora los fundamentos, operaciones básicas y mejores prácticas relacionadas con las tablas hash. También se abordarán temas como la gestión de colisiones, rendimiento y aplicaciones en sistemas informáticos. Se ofrecerán ejemplos prácticos para ilustrar su uso.
+Las tablas hash son [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) que permiten almacenar pares de clave-valor y realizan operaciones de búsqueda, inserción y eliminación de manera eficiente. Su funcionamiento se basa en una función hash que convierte claves en índices dentro de una tabla. Este artículo explora los fundamentos, operaciones básicas y mejores prácticas relacionadas con las tablas hash. También se abordarán temas como la gestión de colisiones, rendimiento y aplicaciones en sistemas informáticos. Se ofrecerán ejemplos prácticos para ilustrar su uso.
 
 ## Fundamentos de las tablas hash como estructura de datos
 

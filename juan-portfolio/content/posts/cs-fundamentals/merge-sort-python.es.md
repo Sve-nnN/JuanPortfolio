@@ -9,7 +9,6 @@ slug: merge-sort-python
 keyword: merge sort python
 publishedAt: '2026-04-03'
 idioma: es
-uploaded: false
 categoryTitle: CS-FUNDAMENTALS
 authors:
   - juan-carlos-angulo
@@ -141,7 +140,7 @@ El **merge sort python algorithm** es especialmente recomendable en aplicaciones
 
 Algoritmo
 
-Complejidad Temporal Promedio
+[Complejidad Temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) Promedio
 
 Mejor Caso
 

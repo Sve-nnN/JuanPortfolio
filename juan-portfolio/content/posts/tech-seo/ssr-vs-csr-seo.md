@@ -67,7 +67,7 @@ El **Server-Side Rendering (SSR)** es un patrón de arquitectura donde un nodo d
 
 ### C. ¿Qué es Static Site Generation (SSG)?
 
-La **Static Site Generation (SSG)** es la estrategia que ejecuta el modelo lógico previamente en el momento único de su compilación técnica (build-time). El servidor general emite archivos inmutables HTML finalizados en repositorios estables que CDNs periféricas sirven globalmente a nivel local.
+La **Static Site Generation (SSG)** es la estrategia que ejecuta el modelo lógico previamente en el momento único de su compilación técnica (build-time). El servidor general emite archivos inmutables HTML finalizados en repositorios estables que [CDNs](https://juan-tech.com/blog/tech-seo/web-performance-guide) periféricas sirven globalmente a nivel local.
 
 - **Impacto SEO Práctico:** Alcanza la optimización máxima permitida en métricas de peso SEO técnico, reduciendo a cero la latencia de respuesta primaria (TTFB). Para enciclopedias, plataformas corporativas de baja mutación y redes de blogs; es mi recomendación oficial indiscutible.
 

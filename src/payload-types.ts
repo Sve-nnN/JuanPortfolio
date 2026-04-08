@@ -351,6 +351,7 @@ export interface Post {
    */
   sidebarBanners?: (string | AdBanner)[] | null;
   searchConsole?: {};
+  internalLinks?: {};
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
   populatedAuthors?:
@@ -741,9 +742,6 @@ export interface User {
   };
   updatedAt: string;
   createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -3304,6 +3302,7 @@ export interface PostsSelect<T extends boolean = true> {
   categories?: T;
   sidebarBanners?: T;
   searchConsole?: T | {};
+  internalLinks?: T | {};
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -3316,6 +3315,13 @@ export interface PostsSelect<T extends boolean = true> {
   internalLinksCount?: T;
   noindex?: T;
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3559,9 +3565,6 @@ export interface UsersSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;

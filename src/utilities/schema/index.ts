@@ -1,7 +1,6 @@
 export { generateOrganizationSchema } from './generateOrganizationSchema'
 export { generateWebSiteSchema } from './generateWebSiteSchema'
 export { generateBreadcrumbSchema } from './generateBreadcrumbSchema'
-export { generateArticleSchema } from './generateArticleSchema'
 export { generatePersonSchema } from './generatePersonSchema'
 export { generateFAQSchema } from './generateFAQSchema'
 export { generateCollectionPageSchema } from './generateCollectionPageSchema'

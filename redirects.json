@@ -1,0 +1,12 @@
+[
+  {
+    "source": "/blog/seo/mejores-cursos-seo-en-español",
+    "destination": "/blog/seo/mejores-cursos-seo-espanol",
+    "permanent": true
+  },
+  {
+    "source": "/blog/seo/mejores-cursos-seo-en-espa%C3%B1ol",
+    "destination": "/blog/seo/mejores-cursos-seo-espanol",
+    "permanent": true
+  }
+]

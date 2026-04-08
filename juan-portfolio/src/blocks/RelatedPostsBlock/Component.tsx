@@ -1,45 +1,29 @@
 import React from 'react'
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
-import type { RelatedPostsBlockType, Post, Category } from '@/payload-types'
-import { getRelatedPosts } from '@/utilities/getRelatedPosts'
+import type { RelatedPostsBlockType, Post } from '@/payload-types'
+import { Card } from '@/components/Card'
 
-export const RelatedPostsBlockComponent: React.FC<
-  RelatedPostsBlockType & { currentPostId?: string; categories?: (string | Category)[] }
-> = async (props) => {
-  const { title, posts, autoSelect = true, limit = 3, currentPostId, categories } = props
+export const RelatedPostsBlockComponent: React.FC<RelatedPostsBlockType & { locale?: 'en' | 'es' }> = (props) => {
+  const { title, posts, locale = 'es' } = props
 
-  let displayPosts: Post[] = []
-
-  // If specific posts are selected, use them
-  if (posts && Array.isArray(posts) && posts.length > 0) {
-    displayPosts = posts
-      .filter((p): p is Post => typeof p === 'object')
-      .slice(0, limit || 3)
-  } else if (autoSelect && categories && categories.length > 0) {
-    // Auto-select posts by category
-    const categoryIds = categories
-      .map((c: string | Category) => {
-        if (typeof c === 'string') return c
-        if (c && typeof c === 'object') return c.id
-        return undefined
-      })
-      .filter(Boolean) as string[]
-
-    if (categoryIds.length > 0) {
-      displayPosts = await getRelatedPosts({
-        currentPostId,
-        categoryIds,
-        limit: limit || 3
-      })
-    }
-  }
-
-  if (displayPosts.length === 0) return null
+  if (!posts || posts.length === 0) return null
 
   return (
-    <div className="mt-12">
-      {title && <h3 className="text-2xl font-display font-bold mb-4">{title}</h3>}
-      <RelatedPosts className="" docs={displayPosts} />
+    <div className="related-posts mt-16 pt-16 border-t border-border">
+      {title && <h2 className="text-3xl font-display font-bold mb-8">{title}</h2>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {posts.map((post) => {
+          if (typeof post === 'string') return null
+          return (
+            <Card 
+              key={post.id} 
+              doc={post as Post} 
+              relationTo="posts" 
+              showCategories={true} 
+              locale={locale}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }

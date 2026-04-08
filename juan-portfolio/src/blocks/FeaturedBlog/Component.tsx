@@ -1,11 +1,13 @@
 import React from 'react'
-import Image from 'next/image'
 import type { FeaturedBlogBlock, Post } from '@/payload-types'
+import { Media } from '@/components/Media'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { getPostUrl } from '@/utilities/getPostUrl'
+import Link from 'next/link'
 
-export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
-  const { title, description, posts, limit = 3, ctaLabel, ctaUrl } = props
+export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }> = async (props) => {
+  const { title, description, posts, limit = 3, ctaLabel, ctaUrl, locale = 'es' } = props
 
   let displayPosts: Post[] = []
 
@@ -21,6 +23,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
         limit: limit || 3,
         pagination: false,
         sort: '-publishedAt',
+        locale,
       })
       displayPosts = (res.docs as Post[]) || []
     } catch {
@@ -29,67 +32,58 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
     }
   }
 
+  const localePrefix = locale === 'es' ? '' : '/en'
+
   return (
-    <section id="blog" className="py-20 md:py-28 bg-gray-50 dark:bg-card-dark">
+    <section id="blog" className="py-24 md:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         {(title || description) && (
-          <div className="text-center mb-12">
+          <div className="text-center mb-20">
             {title && (
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-current">{title}</h2>
+              <h2 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             )}
-            {description && <p className="mt-4 text-lg text-muted">{description}</p>}
+            {description && <p className="mt-6 text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed max-w-3xl mx-auto">{description}</p>}
           </div>
         )}
 
         {/* Posts Grid */}
         {displayPosts.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
             {displayPosts.map((p) => {
-              const heroUrl =
-                p.content?.heroImage &&
-                typeof p.content.heroImage === 'object' &&
-                'url' in p.content.heroImage
-                  ? p.content.heroImage.url
-                  : null
-
-              const heroAlt =
-                p.content?.heroImage &&
-                typeof p.content.heroImage === 'object' &&
-                'alt' in p.content.heroImage
-                  ? p.content.heroImage.alt
-                  : p.title || ''
+              const href = getPostUrl(p, locale)
 
               return (
                 <div
                   key={p.id}
-                  className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+                  className="card-elevated overflow-hidden border-t-[6px] border-t-primary/10 group cursor-pointer"
                 >
-                  <a href={`/blog/${p.slug}`}>
-                    {heroUrl && (
-                      <div className="relative w-full h-48">
-                        <Image
-                          src={heroUrl}
-                          alt={heroAlt || ''}
+                  <Link href={href}>
+                    {p.content?.heroImage && typeof p.content.heroImage === 'object' && (
+                      <div className="relative w-full h-56 overflow-hidden">
+                        <Media
+                          resource={p.content.heroImage}
                           fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          imgClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                          htmlElement={null}
                         />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
                       </div>
                     )}
-                    <div className="p-6">
+                    <div className="p-8">
                       {p.publishedAt && (
-                        <p className="text-sm text-muted mb-2">
-                          {new Date(p.publishedAt).toLocaleDateString()}
-                        </p>
+                        <div className="text-xs text-primary font-bold uppercase tracking-widest mb-4 bg-primary/10 w-fit px-2.5 py-1 rounded-full">
+                          {new Date(p.publishedAt).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}
+                        </div>
                       )}
-                      <h3 className="text-lg font-bold text-current mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300 line-clamp-2">
                         {p.title}
                       </h3>
                       {p.meta?.description && (
-                        <p className="text-muted text-sm">{p.meta.description}</p>
+                        <p className="text-base text-muted-foreground line-clamp-3 leading-relaxed font-medium">{p.meta.description}</p>
                       )}
                     </div>
-                  </a>
+                  </Link>
                 </div>
               )
             })}
@@ -98,13 +92,13 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock> = async (props) => {
 
         {/* CTA Button */}
         {ctaLabel && ctaUrl && (
-          <div className="text-center mt-12">
-            <a
-              className="bg-primary text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors inline-block"
-              href={ctaUrl}
+          <div className="text-center mt-20">
+            <Link
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-5 px-10 text-lg rounded-full transition-all shadow-xl hover:shadow-primary/20 hover:-translate-y-1 inline-block"
+              href={`${localePrefix}${ctaUrl.startsWith('/') ? '' : '/'}${ctaUrl}`}
             >
               {ctaLabel}
-            </a>
+            </Link>
           </div>
         )}
       </div>

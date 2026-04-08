@@ -75,9 +75,13 @@ export interface Config {
     users: User;
     works: Work;
     'case-studies': CaseStudy;
-    clients: Client;
+    clientes: Cliente;
     'ad-banners': AdBanner;
     testimonials: Testimonial;
+    'keyword-metrics': KeywordMetric;
+    'page-metrics': PageMetric;
+    'gsc-metrics': GscMetric;
+    'broken-links': BrokenLink;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -97,9 +101,13 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     works: WorksSelect<false> | WorksSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
-    clients: ClientsSelect<false> | ClientsSelect<true>;
+    clientes: ClientesSelect<false> | ClientesSelect<true>;
     'ad-banners': AdBannersSelect<false> | AdBannersSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    'keyword-metrics': KeywordMetricsSelect<false> | KeywordMetricsSelect<true>;
+    'page-metrics': PageMetricsSelect<false> | PageMetricsSelect<true>;
+    'gsc-metrics': GscMetricsSelect<false> | GscMetricsSelect<true>;
+    'broken-links': BrokenLinksSelect<false> | BrokenLinksSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -119,6 +127,9 @@ export interface Config {
     home: Home;
     'blog-listing': BlogListing;
     'case-studies-listing': CaseStudiesListing;
+    styles: Style;
+    'site-settings': SiteSetting;
+    llm: Llm;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -126,6 +137,9 @@ export interface Config {
     home: HomeSelect<false> | HomeSelect<true>;
     'blog-listing': BlogListingSelect<false> | BlogListingSelect<true>;
     'case-studies-listing': CaseStudiesListingSelect<false> | CaseStudiesListingSelect<true>;
+    styles: StylesSelect<false> | StylesSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    llm: LlmSelect<false> | LlmSelect<true>;
   };
   locale: 'en' | 'es';
   user:
@@ -189,26 +203,6 @@ export interface PayloadMcpApiKeyAuthOperations {
 export interface Page {
   id: string;
   title: string;
-  /**
-   * Campos para SEO: título, descripción e imagen para compartir en redes sociales.
-   */
-  meta_group?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-    /**
-     * Sobreescribe o añade Schema.org JSON-LD para esta página.
-     */
-    jsonLD?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
   hero: {
     hero: {
       type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -262,7 +256,7 @@ export interface Page {
     /**
      * Selecciona los clientes destacados para la sección de empresas
      */
-    featuredClients?: (string | Client)[] | null;
+    featuredClients?: (string | Cliente)[] | null;
     blogTitle?: string | null;
     blogDescription?: string | null;
   };
@@ -297,10 +291,86 @@ export interface Page {
       | FormBlock
       | IntroBlock
       | WorkCardsBlock
-      | ClientsCarousel
+      | CalendlyEmbedBlock
     )[];
   };
+  searchConsole?: {};
   publishedAt?: string | null;
+  /**
+   * Estado de indexación en Google. Se actualiza con Check Status.
+   */
+  indexStatus?: string | null;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  content: {
+    heroImage?: (string | null) | Media;
+    /**
+     * A brief summary of the post for AI Overviews and quick reading.
+     */
+    tldr?: string | null;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  primaryKeyword?: (string | null) | KeywordMetric;
+  semanticKeywords?: (string | KeywordMetric)[] | null;
+  relatedPosts?: (string | Post)[] | null;
+  categories?: (string | Category)[] | null;
+  /**
+   * Select banners to show in the right sidebar for this post.
+   */
+  sidebarBanners?: (string | AdBanner)[] | null;
+  searchConsole?: {};
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  /**
+   * Estado de indexación en Google. Se actualiza con Check Status.
+   */
+  indexStatus?: string | null;
+  /**
+   * Número de enlaces internos detectados en el contenido.
+   */
+  internalLinksCount?: number | null;
+  /**
+   * Prevent search engines from indexing this post.
+   */
+  noindex?: boolean | null;
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -336,7 +406,11 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  imgbbUrl?: string | null;
+  cloudinaryUrl?: string | null;
+  /**
+   * Extracted automatically from the image
+   */
+  dominantColor?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -409,55 +483,53 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "keyword-metrics".
  */
-export interface Post {
+export interface KeywordMetric {
   id: string;
-  title: string;
-  content: {
-    heroImage?: (string | null) | Media;
-    content: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-  };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
+  keyword: string;
+  targetURL?: string | null;
+  volume: number;
+  difficulty: number;
+  intent?: ('Informational' | 'Commercial' | 'Transactional' | 'Navigational') | null;
+  source: string;
+  status?: string | null;
+  paaCount?: number | null;
   /**
-   * Select banners to show in the right sidebar for this post.
+   * People Also Ask questions fetched from SerpAPI
    */
-  sidebarBanners?: (string | AdBanner)[] | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
+  paaQuestions?:
     | {
-        id?: string | null;
-        name?: string | null;
-      }[]
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
-  slug?: string | null;
+  topDomain?: string | null;
+  hasAiOverview?: boolean | null;
+  /**
+   * Full text response from SGE/AI Overview
+   */
+  aiOverviewSnippet?: string | null;
+  post?: (string | null) | Post;
+  page?: (string | null) | Page;
+  funnelStage?: ('Awareness (TOFU)' | 'Consideration (MOFU)' | 'Decision (BOFU)') | null;
+  informationGain?: string | null;
+  recommendedFormat?: string | null;
+  clusterType?: ('Pillar' | 'Supporting') | null;
+  opportunityScore?: number | null;
+  avgWordCount?: number | null;
+  competitorHeadings?: string | null;
+  competitorMeta?: string | null;
+  clicks?: number | null;
+  impressions?: number | null;
+  ctr?: number | null;
+  avgPosition?: number | null;
+  lastGSCUpdate?: string | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -468,6 +540,10 @@ export interface Category {
   title: string;
   description?: string | null;
   slug?: string | null;
+  /**
+   * Estado de indexación en Google. Se actualiza con Check Status.
+   */
+  indexStatus?: string | null;
   faqs?:
     | {
         question: string;
@@ -544,7 +620,80 @@ export interface User {
   id: string;
   name: string;
   role?: string | null;
+  /**
+   * Ej: Full-Stack Developer, Senior Software Engineer
+   */
+  jobTitle?: string | null;
   bio?: string | null;
+  /**
+   * Temas en los que eres experto (mejora E-E-A-T)
+   */
+  expertise?:
+    | {
+        topic: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Links a perfiles profesionales (mejora autoridad)
+   */
+  socialMedia?: {
+    linkedin?: string | null;
+    github?: string | null;
+    twitter?: string | null;
+    website?: string | null;
+  };
+  /**
+   * Títulos académicos, certificaciones profesionales, cursos relevantes
+   */
+  education?:
+    | {
+        /**
+         * Ej: Master en Ingeniería, AWS Certified Developer
+         */
+        degree: string;
+        /**
+         * Ej: Universidad XYZ, Amazon Web Services
+         */
+        institution?: string | null;
+        /**
+         * Logo pequeño de la institución (opcional, se mostrará junto al nombre)
+         */
+        logo?: (string | null) | Media;
+        startDate?: string | null;
+        /**
+         * Dejar vacío si está en curso
+         */
+        endDate?: string | null;
+        /**
+         * Imagen del certificado o diploma (opcional)
+         */
+        certificate?: (string | null) | Media;
+        /**
+         * Detalles adicionales, logros, especialización
+         */
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * DEPRECADO: Usa el campo Education arriba. Este campo se mantendrá para compatibilidad.
+   */
+  credentials?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   experience?:
     | {
         company?: string | null;
@@ -592,6 +741,9 @@ export interface User {
   };
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -615,14 +767,6 @@ export interface User {
 export interface CaseStudy {
   id: string;
   title: string;
-  /**
-   * Campos para SEO: título, descripción e imagen para compartir en redes sociales.
-   */
-  meta_group?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (string | null) | Media;
-  };
   content: {
     heroImage?: (string | null) | Media;
     content: {
@@ -657,14 +801,15 @@ export interface CaseStudy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
+ * via the `definition` "clientes".
  */
-export interface Client {
+export interface Cliente {
   id: string;
   name: string;
-  logo?: (string | null) | Media;
+  logo: string | Media;
   url?: string | null;
-  order?: number | null;
+  invertInDark?: boolean | null;
+  forceWhiteBackground?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -824,13 +969,19 @@ export interface FeaturedClientsBlock {
    */
   title?: string | null;
   /**
+   * Breve texto explicando la relación con los clientes (opcional)
+   */
+  description?: string | null;
+  /**
    * Selecciona los clientes destacados
    */
-  clients?: (string | Client)[] | null;
+  clients?: (string | Cliente)[] | null;
   /**
    * Activar scroll automático del carrusel
    */
   autoScroll?: boolean | null;
+  ctaLabel?: string | null;
+  ctaUrl?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'featuredClients';
@@ -889,6 +1040,18 @@ export interface ContactFormBlock {
    * Texto del botón de enviar
    */
   submitLabel?: string | null;
+  /**
+   * Título del panel lateral derecho (ej: "Charlemos sobre tu próximo proyecto")
+   */
+  sidebarTitle?: string | null;
+  /**
+   * Descripción del panel lateral (ej: disponibilidad, tipo de proyectos)
+   */
+  sidebarDescription?: string | null;
+  /**
+   * Texto de prueba social en la parte inferior del panel (ej: "Más de 50 proyectos completados")
+   */
+  socialProofText?: string | null;
   /**
    * Información de contacto mostrada al lado del formulario
    */
@@ -1322,6 +1485,7 @@ export interface FeaturedCaseStudiesBlock {
 export interface AboutWithFeaturesBlock {
   eyebrow?: string | null;
   title?: string | null;
+  image?: (string | null) | Media;
   description?: {
     root: {
       type: string;
@@ -1378,7 +1542,7 @@ export interface SectionBlock {
         | FormBlock
         | IntroBlock
         | WorkCardsBlock
-        | ClientsCarousel
+        | FeaturedClientsBlock
       )[]
     | null;
   id?: string | null;
@@ -1809,20 +1973,48 @@ export interface WorkCardsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ClientsCarousel".
+ * via the `definition` "CalendlyEmbedBlock".
  */
-export interface ClientsCarousel {
+export interface CalendlyEmbedBlock {
+  /**
+   * URL del evento Calendly (ej: https://calendly.com/tu-usuario/30min)
+   */
+  calendlyUrl: string;
+  /**
+   * Título opcional sobre el widget
+   */
   title?: string | null;
-  clients?:
-    | {
-        logo?: (string | null) | Media;
-        href?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Descripción opcional bajo el título
+   */
+  subtitle?: string | null;
+  /**
+   * Altura del widget de calendario
+   */
+  height?: ('compact' | 'default' | 'tall') | null;
+  /**
+   * Ocultar detalles del tipo de evento
+   */
+  hideEventTypeDetails?: boolean | null;
+  /**
+   * Ocultar banner GDPR
+   */
+  hideGdprBanner?: boolean | null;
+  /**
+   * Color de fondo (ej: ffffff)
+   */
+  backgroundColor?: string | null;
+  /**
+   * Color primario (ej: 00a2ff)
+   */
+  primaryColor?: string | null;
+  /**
+   * Color de texto (ej: 4d5055)
+   */
+  textColor?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'clientsCarousel';
+  blockType: 'calendlyEmbed';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1855,6 +2047,87 @@ export interface Testimonial {
   testimonial: string;
   avatar?: (string | null) | Media;
   rating?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-metrics".
+ */
+export interface PageMetric {
+  id: string;
+  url: string;
+  /**
+   * The path of the URL (e.g. /about)
+   */
+  path?: string | null;
+  /**
+   * Date of the last PageSpeed Insights scan
+   */
+  lastScan?: string | null;
+  mobile?: {
+    score?: number | null;
+    lcp?: number | null;
+    cls?: number | null;
+    inp?: number | null;
+    fcp?: number | null;
+    fid?: number | null;
+  };
+  history?:
+    | {
+        date?: string | null;
+        metrics?: {
+          lcp?: number | null;
+          fcp?: number | null;
+          fid?: number | null;
+          inp?: number | null;
+          cls?: number | null;
+          score?: number | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gsc-metrics".
+ */
+export interface GscMetric {
+  id: string;
+  date: string;
+  page: string;
+  query: string;
+  clicks: number;
+  impressions: number;
+  ctr: number;
+  position: number;
+  country?: string | null;
+  device?: string | null;
+  indexStatus?: ('INDEXED' | 'NOT_INDEXED' | 'UNKNOWN') | null;
+  /**
+   * Razón técnica de GSC (ej. Rastreada pero no indexada)
+   */
+  indexingIssue?: string | null;
+  lastInspected?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "broken-links".
+ */
+export interface BrokenLink {
+  id: string;
+  url: string;
+  statusCode?: number | null;
+  statusText?: string | null;
+  /**
+   * Página donde se encontró el enlace roto
+   */
+  sourcePage?: string | null;
+  lastChecked?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2076,21 +2349,21 @@ export interface PayloadMcpApiKey {
      */
     delete?: boolean | null;
   };
-  clients?: {
+  clientes?: {
     /**
-     * Allow clients to find clients.
+     * Allow clients to find clientes.
      */
     find?: boolean | null;
     /**
-     * Allow clients to create clients.
+     * Allow clients to create clientes.
      */
     create?: boolean | null;
     /**
-     * Allow clients to update clients.
+     * Allow clients to update clientes.
      */
     update?: boolean | null;
     /**
-     * Allow clients to delete clients.
+     * Allow clients to delete clientes.
      */
     delete?: boolean | null;
   };
@@ -2127,6 +2400,24 @@ export interface PayloadMcpApiKey {
     update?: boolean | null;
     /**
      * Allow clients to delete testimonials.
+     */
+    delete?: boolean | null;
+  };
+  pageMetrics?: {
+    /**
+     * Allow clients to find page-metrics.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create page-metrics.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update page-metrics.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete page-metrics.
      */
     delete?: boolean | null;
   };
@@ -2264,8 +2555,8 @@ export interface PayloadLockedDocument {
         value: string | CaseStudy;
       } | null)
     | ({
-        relationTo: 'clients';
-        value: string | Client;
+        relationTo: 'clientes';
+        value: string | Cliente;
       } | null)
     | ({
         relationTo: 'ad-banners';
@@ -2274,6 +2565,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonials';
         value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'keyword-metrics';
+        value: string | KeywordMetric;
+      } | null)
+    | ({
+        relationTo: 'page-metrics';
+        value: string | PageMetric;
+      } | null)
+    | ({
+        relationTo: 'gsc-metrics';
+        value: string | GscMetric;
+      } | null)
+    | ({
+        relationTo: 'broken-links';
+        value: string | BrokenLink;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2357,14 +2664,6 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  meta_group?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-        jsonLD?: T;
-      };
   hero?:
     | T
     | {
@@ -2434,10 +2733,12 @@ export interface PagesSelect<T extends boolean = true> {
               formBlock?: T | FormBlockSelect<T>;
               intro?: T | IntroBlockSelect<T>;
               workCards?: T | WorkCardsBlockSelect<T>;
-              clientsCarousel?: T | ClientsCarouselSelect<T>;
+              calendlyEmbed?: T | CalendlyEmbedBlockSelect<T>;
             };
       };
+  searchConsole?: T | {};
   publishedAt?: T;
+  indexStatus?: T;
   slug?: T;
   meta?:
     | T
@@ -2523,8 +2824,11 @@ export interface FeaturedWorksBlockSelect<T extends boolean = true> {
  */
 export interface FeaturedClientsBlockSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   clients?: T;
   autoScroll?: T;
+  ctaLabel?: T;
+  ctaUrl?: T;
   id?: T;
   blockName?: T;
 }
@@ -2551,6 +2855,9 @@ export interface ContactFormBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   submitLabel?: T;
+  sidebarTitle?: T;
+  sidebarDescription?: T;
+  socialProofText?: T;
   contactInfo?:
     | T
     | {
@@ -2778,6 +3085,7 @@ export interface FeaturedCaseStudiesBlockSelect<T extends boolean = true> {
 export interface AboutWithFeaturesBlockSelect<T extends boolean = true> {
   eyebrow?: T;
   title?: T;
+  image?: T;
   description?: T;
   ctaText?: T;
   ctaLink?: T;
@@ -2814,7 +3122,7 @@ export interface SectionBlockSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         intro?: T | IntroBlockSelect<T>;
         workCards?: T | WorkCardsBlockSelect<T>;
-        clientsCarousel?: T | ClientsCarouselSelect<T>;
+        featuredClients?: T | FeaturedClientsBlockSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -2962,17 +3270,18 @@ export interface WorkCardsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ClientsCarousel_select".
+ * via the `definition` "CalendlyEmbedBlock_select".
  */
-export interface ClientsCarouselSelect<T extends boolean = true> {
+export interface CalendlyEmbedBlockSelect<T extends boolean = true> {
+  calendlyUrl?: T;
   title?: T;
-  clients?:
-    | T
-    | {
-        logo?: T;
-        href?: T;
-        id?: T;
-      };
+  subtitle?: T;
+  height?: T;
+  hideEventTypeDetails?: T;
+  hideGdprBanner?: T;
+  backgroundColor?: T;
+  primaryColor?: T;
+  textColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -2986,18 +3295,15 @@ export interface PostsSelect<T extends boolean = true> {
     | T
     | {
         heroImage?: T;
+        tldr?: T;
         content?: T;
       };
+  primaryKeyword?: T;
+  semanticKeywords?: T;
   relatedPosts?: T;
   categories?: T;
   sidebarBanners?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
+  searchConsole?: T | {};
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -3006,6 +3312,9 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  indexStatus?: T;
+  internalLinksCount?: T;
+  noindex?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3018,7 +3327,8 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
-  imgbbUrl?: T;
+  cloudinaryUrl?: T;
+  dominantColor?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -3113,6 +3423,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   slug?: T;
+  indexStatus?: T;
   faqs?:
     | T
     | {
@@ -3172,7 +3483,35 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  jobTitle?: T;
   bio?: T;
+  expertise?:
+    | T
+    | {
+        topic?: T;
+        id?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        linkedin?: T;
+        github?: T;
+        twitter?: T;
+        website?: T;
+      };
+  education?:
+    | T
+    | {
+        degree?: T;
+        institution?: T;
+        logo?: T;
+        startDate?: T;
+        endDate?: T;
+        certificate?: T;
+        description?: T;
+        id?: T;
+      };
+  credentials?: T;
   experience?:
     | T
     | {
@@ -3220,6 +3559,9 @@ export interface UsersSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -3259,13 +3601,6 @@ export interface WorksSelect<T extends boolean = true> {
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
-  meta_group?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   content?:
     | T
     | {
@@ -3287,13 +3622,14 @@ export interface CaseStudiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients_select".
+ * via the `definition` "clientes_select".
  */
-export interface ClientsSelect<T extends boolean = true> {
+export interface ClientesSelect<T extends boolean = true> {
   name?: T;
   logo?: T;
   url?: T;
-  order?: T;
+  invertInDark?: T;
+  forceWhiteBackground?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3320,6 +3656,111 @@ export interface TestimonialsSelect<T extends boolean = true> {
   testimonial?: T;
   avatar?: T;
   rating?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "keyword-metrics_select".
+ */
+export interface KeywordMetricsSelect<T extends boolean = true> {
+  keyword?: T;
+  targetURL?: T;
+  volume?: T;
+  difficulty?: T;
+  intent?: T;
+  source?: T;
+  status?: T;
+  paaCount?: T;
+  paaQuestions?: T;
+  topDomain?: T;
+  hasAiOverview?: T;
+  aiOverviewSnippet?: T;
+  post?: T;
+  page?: T;
+  funnelStage?: T;
+  informationGain?: T;
+  recommendedFormat?: T;
+  clusterType?: T;
+  opportunityScore?: T;
+  avgWordCount?: T;
+  competitorHeadings?: T;
+  competitorMeta?: T;
+  clicks?: T;
+  impressions?: T;
+  ctr?: T;
+  avgPosition?: T;
+  lastGSCUpdate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-metrics_select".
+ */
+export interface PageMetricsSelect<T extends boolean = true> {
+  url?: T;
+  path?: T;
+  lastScan?: T;
+  mobile?:
+    | T
+    | {
+        score?: T;
+        lcp?: T;
+        cls?: T;
+        inp?: T;
+        fcp?: T;
+        fid?: T;
+      };
+  history?:
+    | T
+    | {
+        date?: T;
+        metrics?:
+          | T
+          | {
+              lcp?: T;
+              fcp?: T;
+              fid?: T;
+              inp?: T;
+              cls?: T;
+              score?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gsc-metrics_select".
+ */
+export interface GscMetricsSelect<T extends boolean = true> {
+  date?: T;
+  page?: T;
+  query?: T;
+  clicks?: T;
+  impressions?: T;
+  ctr?: T;
+  position?: T;
+  country?: T;
+  device?: T;
+  indexStatus?: T;
+  indexingIssue?: T;
+  lastInspected?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "broken-links_select".
+ */
+export interface BrokenLinksSelect<T extends boolean = true> {
+  url?: T;
+  statusCode?: T;
+  statusText?: T;
+  sourcePage?: T;
+  lastChecked?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3579,7 +4020,7 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         update?: T;
         delete?: T;
       };
-  clients?:
+  clientes?:
     | T
     | {
         find?: T;
@@ -3596,6 +4037,14 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         delete?: T;
       };
   testimonials?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  pageMetrics?:
     | T
     | {
         find?: T;
@@ -3698,6 +4147,26 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Primary CTA button displayed in the header
+   */
+  cta: {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3707,6 +4176,107 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  brand: {
+    logoText: string;
+    logoImage?: (string | null) | Media;
+    description?: string | null;
+  };
+  mainNav?: {
+    title?: string | null;
+    navItems?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  latestPosts?: {
+    show?: boolean | null;
+    title?: string | null;
+    limit?: number | null;
+    viewAllText?: string | null;
+    viewAllLink?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
+  caseStudies?: {
+    show?: boolean | null;
+    title?: string | null;
+    limit?: number | null;
+    viewAllText?: string | null;
+    viewAllLink?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
+  socialLinks?:
+    | {
+        platform: 'github' | 'linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  copyright?: string | null;
+  bottomNav?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Use las pestañas principales para configurar las columnas estándar. Use esto solo si necesita columnas adicionales personalizadas.
+   */
   columns?:
     | {
         title: string;
@@ -3733,14 +4303,6 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  socialLinks?:
-    | {
-        platform: 'github' | 'linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube';
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
-  copyright?: string | null;
   navItems?:
     | {
         link: {
@@ -3780,15 +4342,16 @@ export interface Home {
     | FeaturedWorksBlock
     | FeaturedClientsBlock
     | FeaturedBlogBlock
+    | FAQBlock
     | FeaturedBlogPostsBlock
     | FeaturedCaseStudiesBlock
-    | ClientsCarousel
     | ContactFormBlock
     | TestimonialSectionBlock
     | ResultsSectionBlock
     | LatestBlogPostsBlock
     | LatestCaseStudiesBlock
     | TestimonialsCarouselBlock
+    | CalendlyEmbedBlock
     | CallToActionBlock
     | ContentBlock
   )[];
@@ -3802,6 +4365,37 @@ export interface Home {
   };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock".
+ */
+export interface FAQBlock {
+  title?: string | null;
+  faqs?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3885,6 +4479,100 @@ export interface CaseStudiesListing {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "styles".
+ */
+export interface Style {
+  id: string;
+  colors?: {
+    accent?: string | null;
+    text?: string | null;
+    muted?: string | null;
+    border?: string | null;
+    buttonBackground?: string | null;
+    buttonText?: string | null;
+    secondaryButtonBackground?: string | null;
+    secondaryButtonText?: string | null;
+  };
+  fonts?: {
+    primary?: string | null;
+    secondary?: string | null;
+  };
+  borderRadius?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: string;
+  /**
+   * Official name of your organization/business
+   */
+  organizationName: string;
+  /**
+   * Brief description of your organization
+   */
+  organizationDescription?: string | null;
+  /**
+   * Your organization logo for structured data
+   */
+  logo?: (string | null) | Media;
+  /**
+   * Your website URL (e.g., https://example.com)
+   */
+  siteUrl: string;
+  /**
+   * URL for your site search page (e.g., /search)
+   */
+  searchUrl?: string | null;
+  socialProfiles?:
+    | {
+        platform: 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'youtube' | 'github' | 'tiktok' | 'other';
+        /**
+         * Full URL to your social profile
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  contactType?: ('customer service' | 'technical support' | 'sales' | 'general') | null;
+  contactEmail?: string | null;
+  /**
+   * Phone number in international format (e.g., +1-555-555-5555)
+   */
+  contactPhone?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "llm".
+ */
+export interface Llm {
+  id: string;
+  /**
+   * Breve descripción de qué es este sitio para inteligencias artificiales.
+   */
+  summary: string;
+  /**
+   * El cuerpo principal del archivo llms.txt. Puedes usar markdown.
+   */
+  fullContent?: string | null;
+  resources?:
+    | {
+        title: string;
+        url: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -3902,6 +4590,19 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  cta?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -3911,6 +4612,88 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  brand?:
+    | T
+    | {
+        logoText?: T;
+        logoImage?: T;
+        description?: T;
+      };
+  mainNav?:
+    | T
+    | {
+        title?: T;
+        navItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  latestPosts?:
+    | T
+    | {
+        show?: T;
+        title?: T;
+        limit?: T;
+        viewAllText?: T;
+        viewAllLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  caseStudies?:
+    | T
+    | {
+        show?: T;
+        title?: T;
+        limit?: T;
+        viewAllText?: T;
+        viewAllLink?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  copyright?: T;
+  bottomNav?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
   columns?:
     | T
     | {
@@ -3931,14 +4714,6 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  socialLinks?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
-  copyright?: T;
   navItems?:
     | T
     | {
@@ -3971,15 +4746,16 @@ export interface HomeSelect<T extends boolean = true> {
         featuredWorks?: T | FeaturedWorksBlockSelect<T>;
         featuredClients?: T | FeaturedClientsBlockSelect<T>;
         featuredBlog?: T | FeaturedBlogBlockSelect<T>;
+        faq?: T | FAQBlockSelect<T>;
         featuredBlogPosts?: T | FeaturedBlogPostsBlockSelect<T>;
         featuredCaseStudies?: T | FeaturedCaseStudiesBlockSelect<T>;
-        clientsCarousel?: T | ClientsCarouselSelect<T>;
         contactForm?: T | ContactFormBlockSelect<T>;
         testimonialSection?: T | TestimonialSectionBlockSelect<T>;
         resultsSection?: T | ResultsSectionBlockSelect<T>;
         latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
         latestCaseStudies?: T | LatestCaseStudiesBlockSelect<T>;
         testimonialsCarousel?: T | TestimonialsCarouselBlockSelect<T>;
+        calendlyEmbed?: T | CalendlyEmbedBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
       };
@@ -3993,6 +4769,22 @@ export interface HomeSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  title?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4078,6 +4870,77 @@ export interface CaseStudiesListingSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "styles_select".
+ */
+export interface StylesSelect<T extends boolean = true> {
+  colors?:
+    | T
+    | {
+        accent?: T;
+        text?: T;
+        muted?: T;
+        border?: T;
+        buttonBackground?: T;
+        buttonText?: T;
+        secondaryButtonBackground?: T;
+        secondaryButtonText?: T;
+      };
+  fonts?:
+    | T
+    | {
+        primary?: T;
+        secondary?: T;
+      };
+  borderRadius?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  organizationName?: T;
+  organizationDescription?: T;
+  logo?: T;
+  siteUrl?: T;
+  searchUrl?: T;
+  socialProfiles?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  contactType?: T;
+  contactEmail?: T;
+  contactPhone?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "llm_select".
+ */
+export interface LlmSelect<T extends boolean = true> {
+  summary?: T;
+  fullContent?: T;
+  resources?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -4129,14 +4992,14 @@ export interface BannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CodeBlock".
+ * via the `definition` "CodeBlockProps".
  */
-export interface CodeBlock {
+export interface CodeBlockProps {
   language?: ('typescript' | 'javascript' | 'css') | null;
   code: string;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'code';
+  blockType: 'code-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,124 +1,129 @@
 import type { Variants } from 'framer-motion'
 import type { AnimationConfig } from '@/fields/animation'
 
-// Easing curves mapping - using Framer Motion easing strings
+// Easing curves mapping - using Framer Motion easing strings or arrays
 const easingMap = {
-    ease: 'easeInOut',
-    easeIn: 'easeIn',
-    easeOut: 'easeOut',
-    easeInOut: 'easeInOut',
-    linear: 'linear',
+  ease: [0.25, 0.1, 0.25, 1], // Better default
+  easeIn: [0.4, 0, 1, 1],
+  easeOut: [0, 0, 0.2, 1],
+  easeInOut: [0.4, 0, 0.2, 1],
+  linear: 'linear',
 } as const
 
 // Generate animation variants based on config
 export function getAnimationVariants(config?: AnimationConfig | null): Variants {
-    if (!config?.enabled) {
-        return {}
+  if (!config?.enabled) {
+    return {}
+  }
+
+  const {
+    type = 'fade',
+    direction = 'up',
+    duration = 0.6,
+    delay = 0,
+    easing = 'easeOut',
+    staggerChildren = 0,
+  } = config
+
+  const transition = {
+    duration: duration ?? 0.6,
+    delay: delay ?? 0,
+    ease: easingMap[easing ?? 'easeOut'] || easingMap.easeOut,
+  }
+
+  const staggerTransition = (staggerChildren ?? 0) > 0 ? { staggerChildren: staggerChildren! } : {}
+
+  // Base variants
+  const variants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        ...transition,
+        ...staggerTransition,
+      },
+    },
+  }
+
+  // Fade animations
+  if (type === 'fade') {
+    variants.hidden = { opacity: 0 }
+    variants.visible = { ...variants.visible, opacity: 1 }
+  }
+
+  // Slide animations
+  if (type === 'slide') {
+    const offset = 50
+    variants.hidden = { opacity: 0 }
+    variants.visible = { ...variants.visible, opacity: 1 }
+
+    switch (direction) {
+      case 'up':
+        variants.hidden = { ...variants.hidden, y: offset }
+        variants.visible = { ...variants.visible, y: 0 }
+        break
+      case 'down':
+        variants.hidden = { ...variants.hidden, y: -offset }
+        variants.visible = { ...variants.visible, y: 0 }
+        break
+      case 'left':
+        variants.hidden = { ...variants.hidden, x: offset }
+        variants.visible = { ...variants.visible, x: 0 }
+        break
+      case 'right':
+        variants.hidden = { ...variants.hidden, x: -offset }
+        variants.visible = { ...variants.visible, x: 0 }
+        break
     }
+  }
 
-    const {
-        type = 'fade',
-        direction = 'up',
-        duration = 0.6,
-        delay = 0,
-        easing = 'easeOut',
-        staggerChildren = 0,
-    } = config
+  // Scale animations
+  if (type === 'scale') {
+    variants.hidden = { opacity: 0, scale: 0.8 }
+    variants.visible = { ...variants.visible, opacity: 1, scale: 1 }
+  }
 
-    const transition = {
-        duration: duration ?? 0.6,
-        delay: delay ?? 0,
-        ease: easingMap[easing ?? 'easeOut'] || easingMap.easeOut,
+  // Rotate animations
+  if (type === 'rotate') {
+    variants.hidden = { opacity: 0, rotate: -10, scale: 0.95 }
+    variants.visible = { ...variants.visible, opacity: 1, rotate: 0, scale: 1 }
+  }
+
+  // Bounce animations
+  if (type === 'bounce') {
+    variants.hidden = { opacity: 0, y: 30, scale: 0.9 }
+    variants.visible = {
+      ...variants.visible,
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        ...transition,
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
+        ...staggerTransition,
+      },
     }
+  }
 
-    const staggerTransition = (staggerChildren ?? 0) > 0 ? { staggerChildren: staggerChildren! } : {}
-
-    // Base variants
-    const variants: Variants = {
-        hidden: {},
-        visible: {
-            transition: {
-                ...transition,
-                ...staggerTransition,
-            },
-        },
-    }
-
-    // Fade animations
-    if (type === 'fade') {
-        variants.hidden = { opacity: 0 }
-        variants.visible = { ...variants.visible, opacity: 1 }
-    }
-
-    // Slide animations
-    if (type === 'slide') {
-        const offset = 50
-        variants.hidden = { opacity: 0 }
-        variants.visible = { ...variants.visible, opacity: 1 }
-
-        switch (direction) {
-            case 'up':
-                variants.hidden = { ...variants.hidden, y: offset }
-                variants.visible = { ...variants.visible, y: 0 }
-                break
-            case 'down':
-                variants.hidden = { ...variants.hidden, y: -offset }
-                variants.visible = { ...variants.visible, y: 0 }
-                break
-            case 'left':
-                variants.hidden = { ...variants.hidden, x: offset }
-                variants.visible = { ...variants.visible, x: 0 }
-                break
-            case 'right':
-                variants.hidden = { ...variants.hidden, x: -offset }
-                variants.visible = { ...variants.visible, x: 0 }
-                break
-        }
-    }
-
-    // Scale animations
-    if (type === 'scale') {
-        variants.hidden = { opacity: 0, scale: 0.8 }
-        variants.visible = { ...variants.visible, opacity: 1, scale: 1 }
-    }
-
-    // Rotate animations
-    if (type === 'rotate') {
-        variants.hidden = { opacity: 0, rotate: -10, scale: 0.95 }
-        variants.visible = { ...variants.visible, opacity: 1, rotate: 0, scale: 1 }
-    }
-
-    // Bounce animations
-    if (type === 'bounce') {
-        variants.hidden = { opacity: 0, y: 30, scale: 0.9 }
-        variants.visible = {
-            ...variants.visible,
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            transition: {
-                ...transition,
-                type: 'spring',
-                stiffness: 300,
-                damping: 20,
-                ...staggerTransition,
-            },
-        }
-    }
-
-    return variants
+  return variants
 }
 
 // Viewport options based on config
 export function getViewportOptions(config?: AnimationConfig | null) {
-    if (!config?.enabled) {
-        return {}
-    }
+  if (!config?.enabled) {
+    return {}
+  }
 
-    const viewportAmount = ((config.viewportAmount ?? 20) / 100)
+  // Using a very small amount ensures that even if the element is taller
+  // than the viewport, the animation will still trigger.
+  const viewportAmount =
+    typeof config.viewportAmount === 'number' && config.viewportAmount > 0
+      ? config.viewportAmount / 100
+      : 0.2
 
-    return {
-        once: true, // Only animate once for better performance
-        amount: viewportAmount,
-    }
+  return {
+    once: true, // Only animate once for better performance
+    amount: viewportAmount,
+  }
 }

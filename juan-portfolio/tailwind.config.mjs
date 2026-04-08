@@ -52,6 +52,7 @@ const config = {
         'fade-in': 'fade-in 0.5s ease-out',
         'fade-in-up': 'fade-in-up 0.5s ease-out',
         'slide-up': 'slide-up 0.5s ease-out',
+        'pulse-slow': 'pulse-slow 8s ease-in-out infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -59,61 +60,59 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        /* Design tokens mapped to CSS variables (hex-compatible) so classes like
-           `text-text-light` and `bg-primary` work with Tailwind utilities. */
-        primary: 'var(--primary)',
-        'background-light': 'var(--background-light)',
-        'background-dark': 'var(--background-dark)',
-        'text-light': 'var(--text-light)',
-        'text-dark': 'var(--text-dark)',
-        'card-light': 'var(--card-light)',
-        'card-dark': 'var(--card-dark)',
-        /* keep legacy tokens available for other components */
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+        border: "oklch(var(--border) / <alpha-value>)",
+        input: "oklch(var(--input) / <alpha-value>)",
+        ring: "oklch(var(--ring) / <alpha-value>)",
+        background: "oklch(var(--background) / <alpha-value>)",
+        foreground: "oklch(var(--foreground) / <alpha-value>)",
+        primary: {
+          DEFAULT: "oklch(var(--primary) / <alpha-value>)",
+          foreground: "oklch(var(--primary-foreground) / <alpha-value>)",
         },
-        background: 'hsl(var(--background))',
-        border: 'hsla(var(--border))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+        secondary: {
+          DEFAULT: "oklch(var(--secondary) / <alpha-value>)",
+          foreground: "oklch(var(--secondary-foreground) / <alpha-value>)",
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: "oklch(var(--destructive) / <alpha-value>)",
+          foreground: "oklch(var(--destructive-foreground) / <alpha-value>)",
         },
-        foreground: 'hsl(var(--foreground))',
-        input: 'hsl(var(--input))',
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: "oklch(var(--muted) / <alpha-value>)",
+          foreground: "oklch(var(--muted-foreground) / <alpha-value>)",
+        },
+        accent: {
+          DEFAULT: "oklch(var(--accent) / <alpha-value>)",
+          foreground: "oklch(var(--accent-foreground) / <alpha-value>)",
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: "oklch(var(--popover) / <alpha-value>)",
+          foreground: "oklch(var(--popover-foreground) / <alpha-value>)",
         },
-        primary_hsl: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+        card: {
+          DEFAULT: "oklch(var(--card) / <alpha-value>)",
+          foreground: "oklch(var(--card-foreground) / <alpha-value>)",
         },
-        ring: 'hsl(var(--ring))',
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        success: 'hsl(var(--success))',
-        error: 'hsl(var(--error))',
-        warning: 'hsl(var(--warning))',
+        success: "oklch(0.62 0.17 145 / <alpha-value>)",
+        error: "oklch(0.55 0.2 25 / <alpha-value>)",
+        warning: "oklch(0.79 0.15 85 / <alpha-value>)",
+      },
+      boxShadow: {
+        'sm': '0 1px 2px 0 var(--shadow-ambient)',
+        'md': '0 4px 6px -1px var(--shadow-ambient), 0 2px 4px -2px var(--shadow-directional)',
+        'lg': '0 10px 15px -3px var(--shadow-ambient), 0 4px 6px -4px var(--shadow-directional)',
+        'xl': '0 20px 25px -5px var(--shadow-ambient), 0 8px 10px -6px var(--shadow-directional)',
+        '2xl': '0 25px 50px -12px var(--shadow-ambient)',
+        'inner': 'inset 0 2px 4px 0 var(--shadow-directional)',
       },
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
         // Base UI font: Khand (loaded as --font-khand)
-        sans: ['var(--font-khand)'],
+        sans: ['var(--font-khand)', 'ui-sans-serif', 'system-ui'],
         // Headings: Array (loaded as --font-array)
-        heading: ['var(--font-array)'],
+        heading: ['var(--font-array)', 'serif'],
         // 'display' provides the utility class `font-display`
-        display: ['var(--font-array)'],
+        display: ['var(--font-array)', 'serif'],
       },
       keyframes: {
         'accordion-down': {
@@ -136,6 +135,10 @@ const config = {
           '0%': { transform: 'translateY(100%)' },
           '100%': { transform: 'translateY(0)' },
         },
+        'pulse-slow': {
+          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+          '50%': { opacity: '0.8', transform: 'scale(1.1)' },
+        },
       },
       typography: () => ({
         DEFAULT: {
@@ -146,6 +149,39 @@ const config = {
               h1: {
                 fontWeight: 'normal',
                 marginBottom: '0.25em',
+              },
+              ol: {
+                listStyleType: 'decimal',
+                paddingLeft: '1.5em',
+              },
+              'ol li': {
+                paddingLeft: '0.25em',
+              },
+              ul: {
+                listStyleType: 'disc',
+                paddingLeft: '1.5em',
+              },
+              'ul li': {
+                paddingLeft: '0.25em',
+              },
+              // Explicit styles for nested lists within ordered lists
+              'ol li ul': {
+                marginTop: '0.5em', // Add some space above nested ul
+                marginBottom: '0.5em', // Add some space below nested ul
+                paddingLeft: '1.5em', // Indent nested ul
+                listStyleType: 'disc', // Ensure disc bullet for nested ul
+              },
+              'ol li ul li': {
+                paddingLeft: '0.25em', // Adjust padding for nested ul li
+              },
+              'ol li ol': { // If there are nested ordered lists
+                marginTop: '0.5em',
+                marginBottom: '0.5em',
+                paddingLeft: '1.5em',
+                listStyleType: 'lower-alpha', // Example: a., b., c. for nested ol
+              },
+              'ol li ol li': {
+                paddingLeft: '0.25em',
               },
             },
           ],

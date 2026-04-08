@@ -13,9 +13,17 @@ export const FeaturedClients: Block = {
       },
     },
     {
+      name: 'description',
+      type: 'textarea',
+      localized: true,
+      admin: {
+        description: 'Breve texto explicando la relación con los clientes (opcional)',
+      },
+    },
+    {
       name: 'clients',
       type: 'relationship',
-      relationTo: 'clients',
+      relationTo: 'clientes',
       hasMany: true,
       admin: {
         description: 'Selecciona los clientes destacados',
@@ -28,6 +36,15 @@ export const FeaturedClients: Block = {
       admin: {
         description: 'Activar scroll automático del carrusel',
       },
+    },
+    {
+      name: 'ctaLabel',
+      type: 'text',
+      localized: true,
+    },
+    {
+      name: 'ctaUrl',
+      type: 'text',
     },
   ],
   labels: {

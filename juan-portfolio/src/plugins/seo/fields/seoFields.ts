@@ -19,6 +19,7 @@ export const seoFields = ({ defaults = {}, jsonLd = true }: SEOFieldsConfig = {}
         {
           name: 'title',
           type: 'text',
+          localized: true,
           label: { en: 'Meta Title', es: 'Título Meta' },
           maxLength: 60,
           defaultValue: defaults.title,
@@ -26,6 +27,7 @@ export const seoFields = ({ defaults = {}, jsonLd = true }: SEOFieldsConfig = {}
         {
           name: 'description',
           type: 'textarea',
+          localized: true,
           label: { en: 'Meta Description', es: 'Descripción Meta' },
           maxLength: 160,
           defaultValue: defaults.description,
@@ -62,11 +64,13 @@ export const seoFields = ({ defaults = {}, jsonLd = true }: SEOFieldsConfig = {}
         {
           name: 'title',
           type: 'text',
+          localized: true,
           label: { en: 'OG Title', es: 'Título OG' },
         },
         {
           name: 'description',
           type: 'textarea',
+          localized: true,
           label: { en: 'OG Description', es: 'Descripción OG' },
         },
         {
@@ -105,11 +109,13 @@ export const seoFields = ({ defaults = {}, jsonLd = true }: SEOFieldsConfig = {}
         {
           name: 'title',
           type: 'text',
+          localized: true,
           label: { en: 'Twitter Title', es: 'Título' },
         },
         {
           name: 'description',
           type: 'textarea',
+          localized: true,
           label: { en: 'Twitter Description', es: 'Descripción' },
         },
         {

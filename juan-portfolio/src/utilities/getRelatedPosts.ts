@@ -1,15 +1,16 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Post, Category } from '@/payload-types'
+import type { Post } from '@/payload-types'
 import { unstable_cache } from 'next/cache'
 
 type Args = {
     currentPostId?: string
     categoryIds: string[]
     limit?: number
+    locale?: 'en' | 'es'
 }
 
-async function fetchRelatedPosts({ currentPostId, categoryIds, limit }: Args): Promise<Post[]> {
+async function fetchRelatedPosts({ currentPostId, categoryIds, limit, locale }: Args): Promise<Post[]> {
     const payload = await getPayload({ config: configPromise })
 
     const res = await payload.find({
@@ -17,6 +18,13 @@ async function fetchRelatedPosts({ currentPostId, categoryIds, limit }: Args): P
         limit: limit || 3,
         depth: 1,
         sort: '-publishedAt',
+        locale,
+        select: {
+            slug: true,
+            title: true,
+            meta: true,
+            categories: true,
+        },
         where: {
             and: [
                 {
@@ -31,6 +39,11 @@ async function fetchRelatedPosts({ currentPostId, categoryIds, limit }: Args): P
                         },
                     })),
                 },
+                {
+                    _status: {
+                        equals: 'published',
+                    },
+                },
             ],
         },
     })
@@ -38,7 +51,12 @@ async function fetchRelatedPosts({ currentPostId, categoryIds, limit }: Args): P
     return (res.docs as Post[]) || []
 }
 
-export const getRelatedPosts = unstable_cache(fetchRelatedPosts, ['related-posts'], {
-    tags: ['posts'],
-    revalidate: 3600,
-})
+export const getRelatedPosts = (args: Args) => 
+    unstable_cache(
+        () => fetchRelatedPosts(args), 
+        ['related-posts', args.currentPostId || 'none', (args.categoryIds || []).join(','), args.locale || 'es'], 
+        {
+            tags: ['posts'],
+            revalidate: 3600,
+        }
+    )()

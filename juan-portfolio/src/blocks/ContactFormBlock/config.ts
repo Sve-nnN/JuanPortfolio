@@ -39,6 +39,30 @@ export const ContactFormBlock: Block = {
       },
     },
     {
+      name: 'sidebarTitle',
+      type: 'text',
+      localized: true,
+      admin: {
+        description: 'Título del panel lateral derecho (ej: "Charlemos sobre tu próximo proyecto")',
+      },
+    },
+    {
+      name: 'sidebarDescription',
+      type: 'textarea',
+      localized: true,
+      admin: {
+        description: 'Descripción del panel lateral (ej: disponibilidad, tipo de proyectos)',
+      },
+    },
+    {
+      name: 'socialProofText',
+      type: 'text',
+      localized: true,
+      admin: {
+        description: 'Texto de prueba social en la parte inferior del panel (ej: "Más de 50 proyectos completados")',
+      },
+    },
+    {
       name: 'contactInfo',
       type: 'array',
       fields: [

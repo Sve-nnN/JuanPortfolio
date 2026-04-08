@@ -1,43 +1,26 @@
 import React from 'react'
 import { Card, CardPostData } from '@/components/Card'
-import type { Post, Category } from '@/payload-types'
+import type { Post } from '@/payload-types'
 
 interface RelatedPostsProps {
-  currentPostId: string | number
-  categoryId: string | number
   posts: Post[]
+  locale?: 'en' | 'es'
 }
 
-const RelatedPosts: React.FC<RelatedPostsProps> = ({ currentPostId, categoryId, posts }) => {
-  // Filtrar posts de la misma categoría, omitiendo el actual
-  const related = posts
-    .filter(
-      (post) =>
-        post.id !== currentPostId &&
-        post.categories?.some((cat: string | Category) => {
-          if (!cat) return false
-          if (typeof cat === 'string') return cat === categoryId
-          return cat.id === categoryId
-        }),
-    )
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 3)
+const RelatedPosts: React.FC<RelatedPostsProps> = ({ posts, locale = 'es' }) => {
+  // Use posts directly since they are already filtered by getRelatedPosts
+  const related = posts.slice(0, 3)
 
   if (related.length === 0) return null
 
   return (
-    <section className="mt-16">
-      <h2 className="text-2xl font-bold mb-6">Posts relacionados</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section className="mt-24 pt-16 border-t border-border/50">
+      <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 tracking-tight text-foreground">
+        {locale === 'es' ? 'También te puede interesar' : 'You may also like'}
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
         {related.map((post) => {
-          // Aseguramos que Card recibe solo las props requeridas
-          const cardData: CardPostData = {
-            slug: post.slug ?? '',
-            categories: post.categories ?? [],
-            meta: post.meta ?? {},
-            title: post.title ?? '',
-          }
-          return <Card key={post.id} doc={cardData} relationTo="posts" showCategories />
+          return <Card key={post.id} doc={post as CardPostData} relationTo="posts" showCategories locale={locale} />
         })}
       </div>
     </section>

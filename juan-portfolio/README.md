@@ -1,345 +1,524 @@
-# Payload Website Template
+# JuanTech / JuanPortfolio
 
-This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+A high-performance, enterprise-grade portfolio and blog platform built with Next.js and Payload CMS.
 
----
+This project is a modern web application designed to showcase a professional portfolio and host a content-rich blog. It combines the power of **Next.js 15 (App Router)** for a high-performance frontend with **Payload CMS** for a flexible, headless content management backend.
 
-## Page Builder (MVP tipo Elementor)
+## Features
 
-Este proyecto ahora incluye un MVP de constructor de páginas basado en Blocks que permite crear páginas totalmente editables y personalizables.
+- **Performance First**: Built on Next.js 15 with Turbopack, optimized for speed and SEO.
+- **Algorithmic SEO 2026**: Advanced NLP integration for entity-based internal linking and SGE optimization.
+- **Headless CMS**: Powered by Payload CMS (MongoDB), offering a customizable admin panel.
+- **Rich Content Management**:
+  - **Blog**: Full-featured blog with categories, authors, and rich text editing.
+  - **Portfolio**: Showcase projects and case studies with dedicated collections.
+  - **Page Builder**: Flexible layout building blocks (Hero, Content, Media, CTA) for dynamic page creation.
+- **Markdown Importer**: Robust utility to migrate content from Markdown files with automated categorization, author resolution, and SEO generation.
+- **SEO Optimized**: Built-in SEO plugin, meta tag management, and sitemap generation.
+- **GSC Integrated**: Direct integration with Google Search Console for performance monitoring.
+- **Modern UI**: Styled with Tailwind CSS and Shadcn UI components for a responsive design.
+- **Internationalization**: Full support for multiple languages (English & Spanish).
 
-- Bloque Section: controla ancho (container o full), padding, fondo (color o imagen), id de ancla y clases personalizadas, y admite bloques internos.
-- Bloques disponibles dentro de Section y a nivel de página: Content, Media, Call To Action, Form, Archive, Intro, WorkCards, ClientsCarousel.
-- Renderizado recursivo: puedes anidar cuantos bloques desees dentro de una Section.
+## Tech Stack
 
-Cómo usarlo:
-1. Crea o edita una Page en el admin.
-2. En la pestaña Content, añade un bloque Section y configura estilo (ancho, padding, fondo, id, clases).
-3. Dentro de Section, agrega bloques internos (Content, Media, CTA, etc.). Reordena para diseñar tu layout.
-4. Guarda en draft y usa Live Preview para ver cambios en tiempo real. Publica cuando esté listo.
-
-Extender el builder:
-- Para crear un nuevo bloque, añade `src/blocks/MiBloque/config.ts` y `src/blocks/MiBloque/Component.tsx`, exporta `slug` e `interfaceName`, y mapea el `slug` en `src/blocks/RenderBlocks.tsx`.
-- Opcional: agrega el nuevo bloque a `src/collections/Pages/index.ts` (lista `layout.blocks`).
-
-Notas:
-- SEO, Draft/Versions, Live Preview y Revalidation ya están integrados.
-- El bloque Section no se puede anidar dentro de otro Section en este MVP para evitar bucles.
-
-This template is right for you if you are working on:
-
-- A personal or enterprise-grade website, blog, or portfolio
-- A content publishing platform with a fully featured publication workflow
-- Exploring the capabilities of Payload
-
-Core features:
-
-- [Pre-configured Payload Config](#how-it-works)
-- [Authentication](#users-authentication)
-- [Access Control](#access-control)
-- [Layout Builder](#layout-builder)
-- [Draft Preview](#draft-preview)
-- [Live Preview](#live-preview)
-- [On-demand Revalidation](#on-demand-revalidation)
-- [SEO](#seo)
-- [Search](#search)
-- [Redirects](#redirects)
-- [Jobs and Scheduled Publishing](#jobs-and-scheduled-publish)
-- [Website](#website)
+- **Framework**: [Next.js 15](https://nextjs.org/)
+- **CMS**: [Payload CMS](https://payloadcms.com/)
+- **Database**: [MongoDB](https://www.mongodb.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) / [Lucide React](https://lucide.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
 
 ## Quick Start
 
-To spin up this example locally, follow these steps:
+### Prerequisites
 
-### Clone
+- Node.js 18+
+- MongoDB (running locally or via Atlas)
+- pnpm
 
-If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### Installation
 
-#### Method 1 (recommended)
+1.  **Clone the repository:**
 
-Go to Payload Cloud and [clone this template](https://payloadcms.com/new/clone/website). This will create a new repository on your GitHub account with this template's code which you can then clone to your own machine.
+    ```bash
+    git clone https://github.com/juantech/JuanPortfolio.git
+    cd JuanPortfolio
+    ```
 
-#### Method 2
+2.  **Install dependencies:**
 
-Use the `create-payload-app` CLI to clone this template directly to your machine:
+    ```bash
+    pnpm install
+    ```
+
+3.  **Setup Environment:**
+    Copy the example environment file and configure your variables (MongoDB URI, Payload Secret, GSC Credentials, etc.):
+
+    ```bash
+    cp .env.example .env
+    ```
+
+4.  **Run Development Server:**
+
+    ```bash
+    pnpm dev
+    ```
+
+    The app will be available at `http://localhost:3000`.
+    The Admin Panel is at `http://localhost:3000/admin`.
+
+## Content Synchronization System (pSEO-ready)
+
+This project features a bidirectional synchronization engine designed to keep local Markdown files and Payload CMS documents in perfect sync. This utility is located at `src/scripts/syncContent.ts`.
+
+### Key Features
+- **Git-like Workflow**: Supports `status`, `push`, `pull`, and `fetch`.
+- **Bidirectional Conversion**: Automatically transforms Markdown to Lexical (CMS) and Lexical back to Markdown.
+- **Keyword Management**: Synchronize `keywords.md` directly to the CMS and track performance.
+- **Automatic Linking**: Markdown keywords are automatically resolved to Payload document IDs for deep SEO tracking.
+- **Bilingual Support**: English posts use the `.en.md` file suffix; Spanish posts use `.md` or `.es.md`. Locale is detected from the filename before falling back to the `idioma` frontmatter field, ensuring backward compatibility with existing content.
+- **Modular Architecture**: The engine is composed of focused modules under `src/scripts/sync/` — `localeDetector`, `stateManager`, `postParser`, and `payloadRepository` — each independently testable.
+
+### Bilingual File Naming Convention
+
+| File suffix | Locale | Notes |
+| :---------- | :----- | :---- |
+| `article.md` | `es` | Default. All existing posts are backward compatible. |
+| `article.es.md` | `es` | Explicit Spanish designation. |
+| `article.en.md` | `en` | English variant of the same article. |
+
+### Command Line Interface
+
+| Command                               | Description                                                                         |
+| :------------------------------------ | :---------------------------------------------------------------------------------- |
+| `pnpm sync status`                    | Shows local vs remote change status.                                                |
+| `pnpm sync push [--post=<filename.md>] [--force]` | Uploads local Markdown changes (optionally for a specific post) and links keywords to entries. `--force` overwrites remote content. |
+| `pnpm sync pull`                      | Downloads remote CMS changes to local Markdown files.                               |
+| `pnpm sync:keywords [--fetch-serp] [--verbose]` | Synchronizes the `keywords.md` table with the KeywordMetrics collection. Optionally enriches with SerpAPI (PAA, AI Overviews, Competitors). |
+| `npx tsx src/scripts/search-keyword.ts "keyword"` | Searches for a keyword in the local keywords.md file and returns all its data. |
+| `pnpm run sync:gsc`                   | Syncs Search Console data and aggregates it into the KeywordMetrics.                |
+| `pnpm sync push --force`              | Overwrites remote CMS content with local files regardless of conflicts.             |
+
+---
+
+## JuanTech Content Engine (Unified CLI)
+
+The project includes a centralized orchestration engine that unifies all automation scripts into a single, modular CLI. This engine manages the full lifecycle of content from research to publication and optimization.
+
+### Key Commands
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm engine research "<keyword>"` | Researches metrics using DinoRank and updates `keywords.md`. |
+| `pnpm engine automate "<keyword>"` | **The Flywheel**: Runs Research → Content Generation → AI Enrichment → CMS Sync → Internal Linking. |
+| `pnpm engine sync <push|pull|status>` | Managed content synchronization with Payload CMS. |
+| `pnpm engine links [--locale <es|en>]` | Optimizes and enforces internal linking across all posts. |
+
+### Architecture (Service-Oriented)
+
+The engine is built using a service-oriented architecture located in `src/scripts/services/`:
+
+- **KeywordService**: Manages the `keywords.md` source of truth and metrics.
+- **DinoRankService**: Keyword research and AI suggestions via DinoRank HTTP API.
+- **DinoBrainApiAdapter**: Content generation via DinoRank's DinoBrain tool (pure HTTP, no Playwright).
+- **PostService**: Handles frontmatter AI generation (LLM) and Markdown assembly.
+- **SyncService**: Automates the transfer of content between local files and the CMS.
+- **LinkService**: Programmatically enforces topic cluster rules and NLP-based internal links.
+
+### DinoBrain Content Generation (API-based)
+
+`DinoBrainApiAdapter` orchestrates article generation via DinoRank's DinoBrain HTTP API:
+
+| Method | URL | Purpose |
+| :----- | :-- | :------ |
+| `GET` | `/dinobrain/` | Initialize session, extract `contentCredits` from `Consumos restantes: N` |
+| `POST` | `/ajax/generaContenido.php` | Start generation. Body: `keyword=&contexto=&exclusiones=&numPalabras=&imagenes=no`. Response: plain numeric ID (e.g. `304927`) — **not** JSON (API change, 2026-03-13). |
+| `POST` | `/ajax/controlIA.php` | Poll status. Body: `idContenido=<id>`. Finished when response contains `finalizado` or `100%`. |
+| `POST` | `/ajax/obtieneContenidoGenerado.php` | Download result. Body: `id=<id>&modo=undefined&keyword=`. Returns full HTML page. |
+
+**Content extraction (2026-03-13):** `obtieneContenidoGenerado.php` now returns the full DinoRank page HTML, not just the article. Extract the article from `<div id="textodelcontenido">` using JSDOM. The `<h1>` inside this div is used as the post title and removed from the body HTML.
+
+**Multi-account fallback:** If a `login()` call fails for the first account with `contentCredits > 0`, the adapter iterates through all available accounts until one succeeds.
+
+### Keyword Pivot
+
+After keyword research, `ContentFlywheelService` calls `DinoRankService.getSuggestions()` to get AI-suggested alternative keywords via `kresearchIAsimilares.php`. Each keyword is scored as:
+
+```
+score = volume / competition_weight
+competition_weight: Baja=1, Media=2, Alta=3 (or unknown=2)
+```
+
+If the best alternative scores **more than 50% better** than the researched keyword, the pipeline pivots to the alternative. This automatically optimizes for lower-competition, higher-volume opportunities. The pivot decision is logged as `[Flywheel] Pivoted keyword: "X" → "Y"`.
+
+### Usage Example
 
 ```bash
-pnpx create-payload-app my-project -t website
+# Trigger the full content flywheel for a new topic
+pnpm tsx src/scripts/engine.ts automate "patrones de diseño en react" --provider anthropic
 ```
 
-#### Method 3
+---
 
-Use the `git` CLI to clone this template directly to your machine:
+## Content Generation Pipeline
+
+### Overview
+
+`src/scripts/create-post.ts` automates the end-to-end workflow for creating SEO-optimized blog posts. It coordinates three systems in sequence: keyword selection from `content/keywords.md`, content generation via DinoRank's DinoBrain tool (Playwright automation), and frontmatter generation via a configurable LLM provider.
+
+### Workflow
+
+1. Select a keyword from `keywords.md` that does not yet have a corresponding post file.
+2. Open a DinoRank browser session and generate the article body using DinoBrain with a custom writing persona and style guide.
+3. Pass the generated content and keyword metadata to the configured LLM to produce SEO-optimized frontmatter: `title`, `metaDescription`, `primary_keywords`, `semantic_keywords`, `contentRole`, `pillarSlug`, and `relatedPosts`.
+4. Write the assembled Markdown file to `content/posts/<category>/<slug>.md`.
+5. Run `pnpm sync push` automatically to upload the post to Payload CMS.
+
+### LLM Providers
+
+| Flag | Provider | Environment variable |
+| :--- | :------- | :------------------- |
+| `--provider=anthropic` (default) | Claude (claude-sonnet-4-6) | `ANTHROPIC_API_KEY` |
+| `--provider=openai` | GPT-4o-mini | `OPENAI_API_KEY` |
+| `--provider=gemini` | Gemini 2.0 Flash | `GOOGLE_AI_API_KEY` |
+
+The active provider can also be set via the `LLM_PROVIDER` environment variable.
+
+### Account Management
+
+DinoRank accounts are persisted in `content/dinorank-state.json`. Each account supports up to 5 content generations. When credits are exhausted the script creates a new account interactively (manual CAPTCHA step required). Previous generations are stored in a history array for re-export without re-generating content via `--re-export`.
+
+### Usage
 
 ```bash
-git clone -n --depth=1 --filter=tree:0 https://github.com/payloadcms/payload my-project && cd my-project && git sparse-checkout set --no-cone templates/website && git checkout && rm -rf .git && git init && git add . && git mv -f templates/website/{.,}* . && git add . && git commit -m "Initial commit"
+pnpm create-post
+pnpm create-post -- --provider=openai
+pnpm create-post -- --provider=gemini --keyword="big-o notation"
+pnpm create-post -- --re-export
 ```
 
-### Development
+---
 
-1. First [clone the repo](#clone) if you have not done so already
-1. `cd my-project && cp .env.example .env` to copy the example environment variables
-1. `pnpm install && pnpm dev` to install dependencies and start the dev server
-1. open `http://localhost:3000` to open the app in your browser
+## Keyword Research Automation
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+### Overview
 
-## How it works
+`src/scripts/scrape-dinorank.ts` extracts keyword metrics — search volume, competition index (0–1), and CPC — from DinoRank's Keyword Research tool via **pure HTTP API** (no Playwright). Results are written back to the `Volume`, `Difficulty`, and `CPC` columns in `content/keywords.md` and cached locally for 30 days.
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+### API Endpoints
 
-### Collections
+| Method | URL | Purpose |
+| :----- | :-- | :------ |
+| `GET` | `/login/` | Obtain session cookies (`PHPSESSID`, `csrf_token`) |
+| `POST` | `/ajax/login.php` | Authenticate. Body: `nombreUsuario=&clave=&permanecer=no&elemento=&tiempo=<ts>`. Success: response includes `"status":"activo"`. Use `permanecer=no` (not `si`) to create short-lived sessions (~20-30 min server-side). |
+| `GET` | `/homed/` | Post-login redirect; confirms session is active |
+| `GET` | `/keyword-research/` | Initialize KW research session (required before search) |
+| `POST` | `/ajax/kresearch.php` | Launch keyword search. Body: `keyword=&keyword_pais=&keyword_idioma=es&...`. Retry on no-JSON response (server still processing). |
+| `POST` | `/ajax/kresearchIAsimilares.php` | AI-suggested alternative keywords. Body: `keyword=<kw>&keyword_pais=<COUNTRY>&keyword_idioma=<lang>`. Same response format as `kresearch.php`. |
+| `POST` | `/ajax/cierra.php` | **Logout** — always called on exit. Body: `t=<timestamp>`. Critical: must call to close the server-side session, otherwise the next login from a different location triggers `device_conflict`. |
+| `GET` | `/registro/?codPromo=dinoTrial25` | Begin account registration flow |
+| `POST` | `/ajax/registro1.php` | Create account. Body: `email=&clave=&elemento=&telefono=%2B34666000000` |
+| `POST` | `/ajax/tracking/agregarKeyword.php` | Onboarding step 1 |
+| `POST` | `/ajax/enviaOnboardingPasosDetalle.php` | Onboarding steps (paso=3, paso=5) |
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+### Response Parsing
 
-- #### Users (Authentication)
+`kresearch.php` and `kresearchIAsimilares.php` return a string with a URL prefix before the JSON payload:
 
-  Users are auth-enabled collections that have access to the admin panel and unpublished content. See [Access Control](#access-control) for more details.
+```
+https://visibilidad.dinorank.com/...{"status":"OK","total_results":0,"message":"<HTML table>"}
+```
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+Parse with: `raw.slice(raw.indexOf('{'))` then `JSON.parse()`. **`total_results` is always 0** regardless of actual results (API change, 2026-03-13) — do not use it as a signal. The `message` field always contains the full HTML table with all results when `status === "OK"`. Retry only when the response contains no JSON at all (server still processing).
 
-- #### Posts
+**Table column order** (10-column layout, updated 2026-03-13):
 
-  Posts are used to generate blog posts, news articles, or any other type of content that is published over time. All posts are layout builder enabled so you can generate unique layouts for each post using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Posts are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+| Index | Header | Example value |
+| :---- | :----- | :------------ |
+| 0 | *(checkbox)* | — |
+| 1 | Palabras clave | `algoritmos y estructuras de datos` |
+| 2 | Vol. | `1400` |
+| 3 | Tendencia | *(sparkline graph)* |
+| 4 | Snippets | *(snippet types)* |
+| 5 | Intención | *(search intent)* |
+| 6 | CPC | `0.20` |
+| 7 | Competencia | `Baja` / `Media` / `Alta` *(categorical, not decimal)* |
+| 8 | Dificultad | *(score)* |
+| 9 | Palabras | *(word count)* |
 
-- #### Pages
+**Keyword text extraction:** The keyword cell (`cells[1]`) `textContent` starts with `\n\t...`. Use `.split('\n').map(s => s.trim()).find(s => s.length > 1)` to extract the non-empty text token.
 
-  All pages are layout builder enabled so you can generate unique layouts for each page using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Pages are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+**Cookie handling:** Use `response.headers.getSetCookie()` (Node 18.14+). Never use `headers.get('set-cookie').split(',')` — it breaks on date values in `expires` attributes (e.g. `expires=Thu, 05-Mar-2026`).
 
-- #### Media
+### Account Rotation & Retry
 
-  This is the uploads enabled collection used by pages, posts, and projects to contain media like images, videos, downloads, and other assets. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+`scrapeWithRetry` retries up to 10 times, excluding failed accounts each round:
 
-- #### Categories
+- **`DeviceConflictError`** — login response hints at device conflict. Account excluded, session cleared.
+- **`NoCreditsError`** — `kresearch.php` returns no valid JSON. Account excluded; new account registered via API.
+- **Any other error** — account silently excluded, next account tried.
 
-  A taxonomy used to group posts together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://payloadcms.com/docs/plugins/nested-docs) for more details.
+Account registry: `content/dinorank-accounts-registry.json`. Fields: `email`, `password`, `kwCredits`, `contentCredits`, `keywords[]`, `content[]`, `lastUsed`.
 
-### Globals
+**Account onboarding fix (2026-03-13):** After `completeOnboarding()` finishes, the API now calls `await api.logout()` to close the DinoRank session server-side. Without this, subsequent login attempts from the same account fail with `device_conflict`. The `--onboarding` CLI flag also now correctly calls `registerAccount(email, password)` to persist the new account to the registry.
 
-See the [Globals](https://payloadcms.com/docs/configuration/globals) docs for details on how to extend this functionality.
+**Credits exhaustion detection:** `kresearch.php` responses with `créditos`, `agotado`, or `límites` text indicate the account's trial has expired. The account's `kwCredits` is set to `0` and it is skipped in future requests. New accounts are created only when the registry has *no accounts with credits at all*.
 
-- `Header`
-
-  The data required by the header on your front-end like nav links.
-
-- `Footer`
-
-  Same as above but for the footer of your site.
-
-## Access control
-
-Basic access control is setup to limit access to various content based based on publishing status.
-
-- `users`: Users can access the admin panel and create or edit content.
-- `posts`: Everyone can access published posts, but only users can create, update, or delete them.
-- `pages`: Everyone can access published pages, but only users can create, update, or delete them.
-
-For more details on how to extend this functionality, see the [Payload Access Control](https://payloadcms.com/docs/access-control/overview#access-control) docs.
-
-## Layout Builder
-
-Create unique page layouts for any type of content using a powerful layout builder. This template comes pre-configured with the following layout building blocks:
-
-- Hero
-- Content
-- Media
-- Call To Action
-- Archive
-
-Each block is fully designed and built into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Lexical editor
-
-A deep editorial experience that allows complete freedom to focus just on writing content without breaking out of the flow with support for Payload blocks, media, links and other features provided out of the box. See [Lexical](https://payloadcms.com/docs/rich-text/overview) docs.
-
-## Draft Preview
-
-All posts and pages are draft-enabled so you can preview them before publishing them to your website. To do this, these collections use [Versions](https://payloadcms.com/docs/configuration/collections#versions) with `drafts` set to `true`. This means that when you create a new post, project, or page, it will be saved as a draft and will not be visible on your website until you publish it. This also means that you can preview your draft before publishing it to your website. To do this, we automatically format a custom URL which redirects to your front-end to securely fetch the draft version of your content.
-
-Since the front-end of this template is statically generated, this also means that pages, posts, and projects will need to be regenerated as changes are made to published documents. To do this, we use an `afterChange` hook to regenerate the front-end when a document has changed and its `_status` is `published`.
-
-For more details on how to extend this functionality, see the official [Draft Preview Example](https://github.com/payloadcms/payload/tree/examples/draft-preview).
-
-## Live preview
-
-In addition to draft previews you can also enable live preview to view your end resulting page as you're editing content with full support for SSR rendering. See [Live preview docs](https://payloadcms.com/docs/live-preview/overview) for more details.
-
-## On-demand Revalidation
-
-We've added hooks to collections and globals so that all of your pages, posts, footer, or header changes will automatically be updated in the frontend via on-demand revalidation supported by Nextjs.
-
-> Note: if an image has been changed, for example it's been cropped, you will need to republish the page it's used on in order to be able to revalidate the Nextjs image cache.
-
-## SEO
-
-This template comes pre-configured with the official [Payload SEO Plugin](https://payloadcms.com/docs/plugins/seo) for complete SEO control from the admin panel. All SEO data is fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Search
-
-This template also pre-configured with the official [Payload Search Plugin](https://payloadcms.com/docs/plugins/search) to showcase how SSR search features can easily be implemented into Next.js with Payload. See [Website](#website) for more details.
-
-## Redirects
-
-If you are migrating an existing site or moving content to a new URL, you can use the `redirects` collection to create a proper redirect from old URLs to new ones. This will ensure that proper request status codes are returned to search engines and that your users are not left with a broken link. This template comes pre-configured with the official [Payload Redirects Plugin](https://payloadcms.com/docs/plugins/redirects) for complete redirect control from the admin panel. All redirects are fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Jobs and Scheduled Publish
-
-We have configured [Scheduled Publish](https://payloadcms.com/docs/versions/drafts#scheduled-publish) which uses the [jobs queue](https://payloadcms.com/docs/jobs-queue/jobs) in order to publish or unpublish your content on a scheduled time. The tasks are run on a cron schedule and can also be run as a separate instance if needed.
-
-> Note: When deployed on Vercel, depending on the plan tier, you may be limited to daily cron only.
-
-## Website
-
-This template includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a instance. This makes it so that you can deploy both your backend and website where you need it.
-
-Core features:
-
-- [Next.js App Router](https://nextjs.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [React Hook Form](https://react-hook-form.com)
-- [Payload Admin Bar](https://github.com/payloadcms/payload/tree/main/packages/admin-bar)
-- [TailwindCSS styling](https://tailwindcss.com/)
-- [shadcn/ui components](https://ui.shadcn.com/)
-- User Accounts and Authentication
-- Fully featured blog
-- Publication workflow
-- Dark mode
-- Pre-made layout building blocks
-- SEO
-- Search
-- Redirects
-- Live preview
-
-### Cache
-
-Although Next.js includes a robust set of caching strategies out of the box, Payload Cloud proxies and caches all files through Cloudflare using the [Official Cloud Plugin](https://www.npmjs.com/package/@payloadcms/payload-cloud). This means that Next.js caching is not needed and is disabled by default. If you are hosting your app outside of Payload Cloud, you can easily reenable the Next.js caching mechanisms by removing the `no-store` directive from all fetch requests in `./src/app/_api` and then removing all instances of `export const dynamic = 'force-dynamic'` from pages files, such as `./src/app/(pages)/[slug]/page.tsx`. For more details, see the official [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching).
-
-## Development
-
-To spin up this example locally, follow the [Quick Start](#quick-start). Then [Seed](#seed) the database with a few pages, posts, and projects.
-
-### Working with Postgres
-
-Postgres and other SQL-based databases follow a strict schema for managing your data. In comparison to our MongoDB adapter, this means that there's a few extra steps to working with Postgres.
-
-Note that often times when making big schema changes you can run the risk of losing data if you're not manually migrating it.
-
-#### Local development
-
-Ideally we recommend running a local copy of your database so that schema updates are as fast as possible. By default the Postgres adapter has `push: true` for development environments. This will let you add, modify and remove fields and collections without needing to run any data migrations.
-
-If your database is pointed to production you will want to set `push: false` otherwise you will risk losing data or having your migrations out of sync.
-
-#### Migrations
-
-[Migrations](https://payloadcms.com/docs/database/migrations) are essentially SQL code versions that keeps track of your schema. When deploy with Postgres you will need to make sure you create and then run your migrations.
-
-Locally create a migration
+### Usage
 
 ```bash
-pnpm payload migrate:create
+pnpm scrape:dinorank "big-o notation"
+pnpm scrape:dinorank "seo técnico" --country=mx
+pnpm scrape:dinorank "algoritmos y estructuras de datos" --country=es
 ```
 
-This creates the migration files you will need to push alongside with your new configuration.
+NDJSON logs written to `logs/scrape-dinorank.log`. Set `DINO_DEBUG=1` to dump raw `kresearch.php` HTML to `/tmp/dino-raw.html`.
 
-On the server after building and before running `pnpm start` you will want to run your migrations
+---
+
+## Google Search Console Integration
+
+### Overview
+
+Full integration with Google Search Console API to track organic performance directly within the CMS.
+
+### Core Capabilities
+
+- **Automated Data Sync**: Daily synchronization of clicks, impressions, CTR, and position data using a service account.
+- **Global Dashboard**: A centralized panel in Payload Admin (`/admin/gsc-dashboard`) showing Top 10 pages and queries.
+- **In-Context Analytics**: A "Search Console" tab inside every Page and Post editor showing performance specific to that URL.
+- **List View Clicks**: Real-time visibility of latest clicks directly in the collection list views.
+
+### Usage
 
 ```bash
-pnpm payload migrate
+# Manually trigger GSC data synchronization
+pnpm run sync:gsc
 ```
 
-This command will check for any migrations that have not yet been run and try to run them and it will keep a record of migrations that have been run in the database.
+---
 
-### Docker
+## SEO Metrics & Intelligence
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+### Overview
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+The `update-seo-metrics.ts` script enriches the `content/keywords.md` file with real-time SEO intelligence. It uses an interactive selection interface and advanced crawling to build a comprehensive view of the competitive landscape.
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+### Core Capabilities
 
-### Seed
+- **Interactive Selection**: Terminal UI to selectively update keywords.
+- **Competitive Crawling**: 
+  - **Heading Extraction**: Maps H2/H3 structure of top organic competitors.
+  - **Average Word Count**: Automatically calculates the average word count of the top-ranking articles.
+- **Keyword Gap Analysis**: Integrated deep-crawling of competitor body content to identify missing long-tail opportunities.
+- **Funnel Stage Automation**: Automatically maps keywords to Awareness (TOFU), Consideration (MOFU), or Decision (BOFU) based on intent.
+- **Information Gain Suggestions**: Generates unique angles ("My Angle") for each topic to ensure content differentiation.
+- **Opportunity Scoring**: Intelligence-based prioritization score.
 
-To seed the database with a few pages, posts, and projects you can click the 'seed database' link from the admin panel.
-
-The seed script will also create a demo user for demonstration purposes only:
-
-- Demo Author
-  - Email: `demo-author@payloadcms.com`
-  - Password: `password`
-
-> NOTICE: seeding the database is destructive because it drops your current database to populate a fresh one from the seed template. Only run this command if you are starting a new project or can afford to lose your current data.
-
-## Production
-
-To run Payload in production, you need to build and start the Admin panel. To do so, follow these steps:
-
-1. Invoke the `next build` script by running `pnpm build` or `npm run build` in your project root. This creates a `.next` directory with a production-ready admin bundle.
-1. Finally run `pnpm start` or `npm run start` to run Node in production and serve Payload from the `.build` directory.
-1. When you're ready to go live, see Deployment below for more details.
-
-### Deploying to Payload Cloud
-
-The easiest way to deploy your project is to use [Payload Cloud](https://payloadcms.com/new/import), a one-click hosting solution to deploy production-ready instances of your Payload apps directly from your GitHub repo.
-
-### Deploying to Vercel
-
-This template can also be deployed to Vercel for free. You can get started by choosing the Vercel DB adapter during the setup of the template or by manually installing and configuring it:
+### Usage
 
 ```bash
-pnpm add @payloadcms/db-vercel-postgres
+# Update metrics for selected keywords
+npx tsx src/scripts/update-seo-metrics.ts
+
+# Discover new opportunities via Keyword Gap Analysis
+npx tsx src/scripts/update-seo-metrics.ts --analyze-gap
 ```
 
-```ts
-// payload.config.ts
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+---
 
-export default buildConfig({
-  // ...
-  db: vercelPostgresAdapter({
-    pool: {
-      connectionString: process.env.POSTGRES_URL || '',
-    },
-  }),
-  // ...
-```
+## Core Web Vitals Monitoring
 
-We also support Vercel's blob storage:
+### Overview
+
+The `update-cwv.ts` script provides an automated system for tracking Core Web Vitals (CWV) performance metrics for all frontend pages. It integrates directly with Google PageSpeed Insights (PSI).
+
+### Usage
 
 ```bash
-pnpm add @payloadcms/storage-vercel-blob
+# Run the CWV monitoring script
+npx tsx src/scripts/seo/update-cwv.ts
 ```
 
-```ts
-// payload.config.ts
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+---
 
-export default buildConfig({
-  // ...
-  plugins: [
-    vercelBlobStorage({
-      collections: {
-        [Media.slug]: true,
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN || '',
-    }),
-  ],
-  // ...
+## Internal Linking System
+
+Automated system that enforces topic cluster architecture and distributes authority via context-aware internal links.
+
+### Topic Cluster Model
+
+Content is classified into three roles set directly in post frontmatter:
+
+| Role | Frontmatter | Description |
+| :--- | :---------- | :---------- |
+| `pillar` | `contentRole: pillar` | Comprehensive guide (3,000+ words) targeting a broad keyword. Links out to all satellites. |
+| `satellite` | `contentRole: satellite`<br>`pillarSlug: <slug>` | Deep-dive article on a long-tail keyword. Always links back to its pillar. |
+| `standalone` | `contentRole: standalone` | Self-contained post with no cluster relationship. |
+
+Structural links between pillar and satellite posts are enforced automatically. If a satellite does not link to its pillar — or a pillar does not link back to a satellite — the script detects and injects the missing link.
+
+### Key Features
+- **Cluster Health Dashboard**: Displays the link status of every pillar and its satellites before applying any changes.
+- **Structural Link Enforcement**: Guarantees every satellite links to its pillar and every pillar links back to all satellites, independent of keyword matching.
+- **NLP Semantic Matching**: Uses Dice's Coefficient (via `natural` library) to ensure keyword-based links are contextually relevant beyond simple string matching.
+- **Language Isolation**: Spanish posts only link to Spanish content; English posts only link to English content.
+- **Content Gap Detection**: Identifies keywords mentioned three or more times across posts with no dedicated target page.
+
+### Frontmatter Fields
+
+```yaml
+contentRole: pillar          # pillar | satellite | standalone
+pillarSlug: digital-marketing # required for satellite posts; omit for pillar and standalone
 ```
 
-There is also a simplified [one click deploy](https://github.com/payloadcms/payload/tree/templates/with-vercel-postgres) to Vercel should you need it.
+### Usage
 
-### Self-hosting
+```bash
+# Preview cluster health and keyword opportunities without modifying files
+npx tsx src/scripts/build-internal-links.ts --dry-run
 
-Before deploying your app, you need to:
+# Tag unclassified posts with contentRole (heuristic: word count, title patterns)
+npx tsx src/scripts/build-internal-links.ts --classify [--dry-run]
 
-1. Ensure your app builds and serves in production. See [Production](#production) for more details.
-2. You can then deploy Payload as you would any other Node.js or Next.js application either directly on a VPS, DigitalOcean's Apps Platform, via Coolify or more. More guides coming soon.
+# Enforce structural cluster links only, skipping keyword scan
+npx tsx src/scripts/build-internal-links.ts --cluster-only
 
-You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
+# Process a single locale
+npx tsx src/scripts/build-internal-links.ts --locale es
+npx tsx src/scripts/build-internal-links.ts --locale en
 
-## Questions
+# Full run with verbose output
+npx tsx src/scripts/build-internal-links.ts --verbose
+```
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+---
+
+## Auto-Generated OG Images (Cloudinary Overlay)
+
+Every page and post automatically gets a branded Open Graph (OG) image with the page title rendered as a text overlay directly in the Cloudinary URL — no server-side image generation, no build step, zero additional infra.
+
+### How It Works
+
+When `generateMeta` runs for any route, it resolves the OG image through a three-tier chain:
+
+| Priority | Source | Overlay applied? |
+| :------- | :----- | :--------------- |
+| 1 | Explicit `meta.image` set by the editor in the CMS | No — used as-is |
+| 2 | `content.heroImage.cloudinaryUrl` (or `.url` if it's a Cloudinary URL) | Yes |
+| 3 | Deterministic fallback from `getFallbackBySlug(slug)` (53 images, hash-selected) | Yes |
+
+When the overlay is applied (`getCloudinaryOgWithTitle`), the URL-based transformation chain is:
+
+```
+/upload/
+  w_1200,h_630,c_fill,g_auto,f_jpg,q_auto,right   ← base resize to OG dimensions
+  /l_portfolio:og-scrim/w_1200,h_300,c_fill/fl_layer_apply,g_south   ← dark gradient at bottom
+  /l_text:Array-Bold.woff2_70_right:<ENCODED_TITLE>,co_white,w_1100,c_fit/fl_layer_apply,g_south_east,x_50,y_50
+  /<publicId>
+```
+
+All transformations happen in Cloudinary's CDN — no image processing on the server, cached at the edge after the first request.
+
+### Transformation Details
+
+| Step | Transform | Purpose |
+| :--- | :-------- | :------ |
+| Base | `w_1200,h_630,c_fill,g_auto,f_jpg,q_auto` | Standard OG crop, JPEG output, smart gravity |
+| Scrim | `l_portfolio:og-scrim/w_1200,h_300,c_fill/fl_layer_apply,g_south` | Semi-transparent dark gradient covering the bottom 300px — ensures text is readable on both bright and dark images |
+| Text | `l_text:Array-Bold.woff2_70_right:<title>,co_white,w_1100,c_fit/fl_layer_apply,g_south_east,x_50,y_50` | Title in Array Bold 70px, white, right-aligned, constrained to 1100px, positioned bottom-right with 50px inset |
+
+**Title encoding rules:**
+- Titles longer than 65 characters are truncated to 62 chars + `…` before encoding
+- The title is passed through `encodeURIComponent()` (spaces → `%20`, accents → `%C3%ADa`, commas → `%2C`, slashes → `%2F`)
+- Existing transformation segments in the source URL are stripped before the OG transforms are applied, so the function is safe to call on already-transformed Cloudinary URLs
+
+### Cloudinary Assets Required
+
+Two assets must be uploaded once to the Cloudinary account (`dmufha3qv`):
+
+| Asset | Resource type | Public ID | Description |
+| :---- | :------------ | :-------- | :---------- |
+| Array Bold font | `raw / authenticated` | `Array-Bold.woff2` | Custom woff2 font for text overlays |
+| OG scrim | `image / upload` | `portfolio/og-scrim` | 1200×300 PNG gradient (transparent → ~82% black) |
+
+> **Why 1200×300?** Cloudinary's megapixel limit (25 Mpx) is hit if a small PNG is scaled up during a `c_fill` transform. Using the exact target dimensions means no upscaling is needed.
+
+### Implementation Files
+
+| File | Role |
+| :--- | :--- |
+| `src/utilities/cloudinaryUrl.ts` | `getCloudinaryOgWithTitle(url, title)` — pure function, builds the Cloudinary URL |
+| `src/utilities/generateMeta.ts` | Resolves OG image through the three-tier chain and calls `getCloudinaryOgWithTitle` |
+| `src/constants/fallbackImages.ts` | `getFallbackBySlug(slug)` — deterministic hash selection from 53 pre-uploaded fallback images |
+| `tests/unit/utilities/cloudinaryUrl.test.ts` | 27 unit tests covering guard rails, transform structure, public-id extraction, encoding, truncation |
+| `tests/unit/utilities/generateMeta.test.ts` | 16 unit tests for the full OG resolution chain |
+| `tests/int/utilities/cloudinaryOg.int.test.ts` | 7 live integration tests that hit Cloudinary and verify HTTP 200 responses |
+
+### Running the Tests
+
+```bash
+# Unit tests only (fast, no network)
+pnpm test:int -- tests/unit/utilities/cloudinaryUrl.test.ts
+pnpm test:int -- tests/unit/utilities/generateMeta.test.ts
+
+# Live integration tests (requires network, hits real Cloudinary CDN)
+pnpm test:int -- tests/int/utilities/cloudinaryOg.int.test.ts
+```
+
+---
+
+## Internationalization (i18n)
+
+The platform supports a dual-language architecture (Spanish and English) integrated at both the CMS and Frontend layers.
+
+### Language Routing
+
+- **Root (/)**: Serves content in Spanish.
+- **Prefix (/en)**: Serves content in English.
+- **Automatic Detection**: The system uses a custom middleware to handle internal rewrites and locale detection via headers.
+
+### Content Localization
+
+To localize a new field in a Payload collection:
+1.  Set `localized: true` in the field configuration.
+2.  **Constraint**: Never localize `slug` fields or block-level layout arrays. Only localize text, textarea, and richText fields.
+3.  The frontend will automatically receive the correct language version based on the current URL prefix.
+
+### Key Components
+
+- **LocaleProvider**: Synchronizes the active language across client-side components.
+- **Language Toggle**: Located in the Header, allows instant switching between ES and EN while maintaining the current page context.
+- **CMSLink**: A wrapper around Next.js Link that handles localized path resolution automatically.
+
+---
+
+## Documentation
+
+- [Payload CMS Documentation](https://payloadcms.com/docs)
+- [Next.js Documentation](https://nextjs.org/docs)
+
+## License
+
+MIT © Juan Carlos Angulo
+
+---
+
+## Actualizaciones Recientes (2026-04-03)
+
+Pipeline DinoRank completado en orden EN -> ES para cerrar gaps estrategicos del backlog.
+
+Nuevos posts EN:
+- content/posts/seo/content-pillar.en.md
+- content/posts/seo/seo-copywriting-guide.en.md
+- content/posts/seo/keyword-research-guide.en.md
+- content/posts/tech-seo/structured-data-seo.en.md
+
+Nuevos posts ES:
+- content/posts/seo/content-pillar.md
+- content/posts/seo/seo-copywriting-guide.md
+- content/posts/seo/keyword-research-guide.md
+- content/posts/tech-seo/structured-data-seo.md
+
+Se actualizo content/keywords_backlog.md para incluir los targets faltantes EN/ES y habilitar asignacion automatica en pipeline.

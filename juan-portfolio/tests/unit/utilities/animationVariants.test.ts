@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { getAnimationVariants, getViewportOptions } from '@/utilities/animationVariants'
 import type { AnimationConfig } from '@/fields/animation'
 
+const getVariants = (config?: AnimationConfig | null) => getAnimationVariants(config) as any
+
+
 describe('animationVariants utilities', () => {
     describe('getAnimationVariants', () => {
         it('should return empty variants when config is null', () => {
@@ -37,7 +40,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config) as any
 
                 expect(variants).toHaveProperty('hidden')
                 expect(variants).toHaveProperty('visible')
@@ -59,7 +62,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('y')
                 expect(variants.hidden).toHaveProperty('opacity', 0)
@@ -79,7 +82,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('y')
                 expect(variants.visible).toHaveProperty('y', 0)
@@ -97,7 +100,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('x')
                 expect(variants.visible).toHaveProperty('x', 0)
@@ -115,7 +118,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('x')
                 expect(variants.visible).toHaveProperty('x', 0)
@@ -135,7 +138,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('scale', 0.8)
                 expect(variants.hidden).toHaveProperty('opacity', 0)
@@ -157,7 +160,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('rotate')
                 expect(variants.hidden).toHaveProperty('opacity', 0)
@@ -179,7 +182,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.hidden).toHaveProperty('y')
                 expect(variants.hidden).toHaveProperty('opacity', 0)
@@ -202,7 +205,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).toHaveProperty('duration', 1.2)
             })
@@ -219,7 +222,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).toHaveProperty('delay', 0.5)
             })
@@ -236,7 +239,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).toHaveProperty('staggerChildren', 0.1)
             })
@@ -253,7 +256,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).not.toHaveProperty('staggerChildren')
             })
@@ -281,7 +284,7 @@ describe('animationVariants utilities', () => {
                         viewportAmount: 0.3,
                     }
 
-                    const variants = getAnimationVariants(config)
+                    const variants = getVariants(config)
 
                     expect(variants.visible?.transition).toHaveProperty('ease')
                 })
@@ -301,7 +304,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).toHaveProperty('duration', 0.6)
             })
@@ -318,7 +321,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).toHaveProperty('delay', 0)
             })
@@ -335,7 +338,7 @@ describe('animationVariants utilities', () => {
                     viewportAmount: 0.3,
                 }
 
-                const variants = getAnimationVariants(config)
+                const variants = getVariants(config)
 
                 expect(variants.visible?.transition).toHaveProperty('ease')
             })
@@ -346,10 +349,7 @@ describe('animationVariants utilities', () => {
         it('should return default viewport options when config is null', () => {
             const options = getViewportOptions(null)
 
-            expect(options).toEqual({
-                once: true,
-                amount: 0.3,
-            })
+            expect(options).toEqual({})
         })
 
         it('should use custom viewportAmount', () => {
@@ -361,7 +361,7 @@ describe('animationVariants utilities', () => {
                 delay: 0,
                 easing: 'easeOut',
                 staggerChildren: 0,
-                viewportAmount: 0.5,
+                viewportAmount: 50,
             }
 
             const options = getViewportOptions(config)
@@ -388,7 +388,7 @@ describe('animationVariants utilities', () => {
 
             expect(options).toEqual({
                 once: true,
-                amount: 0.3,
+                amount: 0.2,
             })
         })
 

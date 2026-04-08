@@ -5,7 +5,7 @@ import { Code } from './Component.client'
 export type CodeBlockProps = {
   code: string
   language?: string
-  blockType: 'code'
+  blockType: 'code-block'
 }
 
 type Props = CodeBlockProps & {

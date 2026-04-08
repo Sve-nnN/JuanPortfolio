@@ -1,0 +1,118 @@
+# SEO Source of Truth: Absolute Strategic & Technical Framework
+
+This document is the authoritative reference for all SEO operations within the JuanPortfolio platform. It integrates Google’s Search Essentials with advanced high-performance methodologies from 12 specialized SEO disciplines.
+
+---
+
+## 1. Core Philosophy: People-First & Intent-Driven
+We create content for humans first, while ensuring search engine bots and **Generative AI models** can discover, understand, and cite it.
+- **GEO (Generative Engine Optimization)**: Our strategy evolves from just "Ranking" to "Citability" in LLMs (ChatGPT, Gemini, SGE).
+- **Search Essentials**: Adherence to Google’s baseline technical requirements is mandatory.
+- **Intent Mapping**: Every page must target a specific user journey stage:
+    - *Informational*: Learning/Answers (e.g., Blog posts).
+    - *Navigational*: Brand/Product access.
+    - *Commercial*: Comparison/Reviews.
+    - *Transactional*: Direct action/Purchase (e.g., Service pages).
+- **E-E-A-T Framework**: Prioritize Experience, Expertise, Authoritativeness, and Trustworthiness. Trust is the non-negotiable foundation.
+
+---
+
+## 2. Technical Foundation: The Crawl-Index-Rank Pipeline
+
+### A. Discovery & Crawling (Crawlability)
+- **Robots.txt**: Use to manage crawl budget. **NEVER** block CSS, JS, or images required for rendering. Declare the sitemap URL.
+- **Sitemaps XML**: Automatically generated, valid, and contains only canonical, indexable URLs with `<lastmod>` tags.
+- **Site Architecture**: Key pages must be within ~3 clicks from the homepage. Ensure no orphaned URLs.
+- **Crawl Efficiency**: Minimize redirect chains and loops. Avoid session IDs in URLs.
+
+### B. Understanding & Indexing (Indexation)
+- **Semantic HTML**: Use H1-H4, `<article>`, `<nav>`, and `<header>` to provide explicit structural context.
+- **DOM Accessibility**: All critical text content must be in the initial DOM. Content added via CSS `content` is ignored.
+- **Canonicalization**: Enforce a single "Source of Truth" URL via `rel="canonical"` to consolidate ranking signals.
+- **Metadata**: Unique title tags (50-60 chars) and meta descriptions (150-160 chars) for every indexable page.
+
+### C. Performance & Core Web Vitals (Ranking Signals)
+- **LCP (Largest Contentful Paint)**: < 2.5s. Optimize hero images (AVIF/WebP) and use `fetchpriority="high"`.
+- **INP (Interaction to Next Paint)**: < 200ms. Minimize main-thread JavaScript execution.
+- **CLS (Cumulative Layout Shift)**: < 0.1. Define dimensions for all media and use `aspect-ratio`.
+- **HTTPS**: Mandatory. Secure every connection and eliminate mixed content.
+
+---
+
+## 3. Keyword & Semantic Strategy
+
+### Entity-Based Optimization (NLP-First)
+- **Semantic Depth**: Prioritize semantic depth (TF-IDF / LSI Entities) over exact keyword repetition. Ensure topical completeness by covering relevant sub-entities.
+- **Semantic Similarity (Dice's Coefficient)**: All automated internal links must satisfy a similarity threshold (>0.7) to ensure contextual relevance between the source and target entities.
+- **Entity SEO**: Focus on building a "Knowledge Graph" within the site where concepts are interconnected via defined relationships (Pillar vs. Supporting).
+- **Semantic Keywords (LSI)**: Integrate related entities and concepts naturally to build topical depth.
+- **Anchor Text Standards**: **NEVER** use "click here." Use descriptive, intent-aligned anchor text:
+    - `[Date] + [Content Type] + [Publication]` (External).
+    - `[Post Title / Semantic Keyword]` (Internal).
+
+### Cannibalization & Semantic Deduplication
+- **One Entity, One Page**: Maintain a strict mapping to prevent internal competition.
+- **Semantic Filtering**: New keyword opportunities must be checked against existing entities using NLP to avoid targeting the same concept with different synonyms.
+- **Intent Differentiation**: If two pages target the same keyword, rewrite one for a different search intent or consolidate them.
+
+---
+
+## 4. Content Architecture: Authority Clusters
+
+We use a weighted **Authority Cluster** model:
+1.  **Pillar Pages (Priority 2)**: Comprehensive "Source of Truth" guides (3,000+ words) for broad, competitive terms. They act as the primary authority nodes.
+2.  **Supporting Content (Priority 1)**: Focused articles (Spokes) that solve specific sub-intents and funnel authority back to the Pillar with high-relevance anchor text.
+3.  **Cross-Linking**: Strategic links are weighted by authority. Links pointing to Pillars have higher distribution priority in automated scripts.
+
+---
+
+## 5. Generative AI (SGE / GEO) Optimization
+
+### The "Atomic Answer" Pattern
+- **TL;DR Summary**: Place a direct, high-value summary paragraph (40-60 words) immediately below the H1. It must contain the primary entity and its definition to facilitate AI summarization and improve user retention.
+- **H2 Direct Response**: Every H2 heading should ideally be followed by an "Atomic Answer"—a concise, bolded response that directly addresses the heading's intent.
+- **Clean Data Extraction**: Use standard HTML lists (`<ul>`, `<ol>`) and tables for key data points to ensure AI crawlers can accurately parse and cite your content.
+
+### Information Gain & Delta
+- **The "Delta" Requirement**: Every piece of content must provide a measurable "Information Gain"—unique data, personal experience, or unique perspectives ("My Angle") that a generative AI cannot invent or find in top competitor content.
+- **Expert Verdicts**: Include "Winner" or "Use Case" boxes in technical comparisons to build E-E-A-T signals that AI models use to verify authority.
+
+### Snippet Hunting (Position Zero)
+- **Direct Answers**: Provide a 40–60 word answer paragraph immediately after a question-based heading (H2/H3).
+- **Structured Lists**: Use numbered steps (5-8 items) or bullet points for "how-to" queries.
+- **Comparison Tables**: Use clean HTML tables for specifications and comparison data.
+
+### Image & Video SEO
+- **Alt Text**: Descriptive, keyword-rich (but natural) text explaining the image's context.
+- **Captions**: Place high-quality images near relevant textual explanations.
+- **Video**: Standalone pages with transcripts and structured data.
+
+---
+
+## 6. Structured Data (Schema.org)
+
+Always implement **JSON-LD** in the `<head>` for:
+- **Article/BlogPosting**: For all blog content.
+- **FAQPage**: To dominate People Also Ask (PAA) sections.
+- **BreadcrumbList**: To improve SERP snippet presentation.
+- **Organization/Person**: To establish brand and author entities.
+
+---
+
+## 7. Audit & Maintenance Protocol
+
+- **SEO Health Index**: Monthly audits scoring Crawlability (30%), Foundations (25%), On-Page (20%), E-E-A-T (15%), and Authority (10%).
+- **SGE Compliance Validation**: Use automated scripts (`validateSGECompliance`) to audit summary length, list density, and direct answer placement in all new drafts.
+- **Content Refreshing**:
+    - Update statistics older than 2 years.
+    - Refresh examples/case studies older than 3 years.
+    - Update titles with the current year for freshness signals.
+- **Monitoring**: Continuous tracking via Google Search Console (Index Coverage, CWV) and Lighthouse CI.
+
+---
+
+## 8. Prohibited Practices (Strategic Non-Focus)
+- **Meta Keywords**: Ignored by Google.
+- **Word Count Obsession**: Write for value, not length.
+- **Keyword-First URLs**: Follow business logic; keywords in slugs are low-impact beyond breadcrumbs.
+- **Heading Order Obsession**: Prioritize logic and accessibility over "SEO order."

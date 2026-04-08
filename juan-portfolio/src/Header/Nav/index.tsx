@@ -1,44 +1,84 @@
 'use client'
-
 import React from 'react'
-
+import { m } from 'framer-motion'
 import type { Header as HeaderType } from '@/payload-types'
-
 import { CMSLink } from '@/components/Link'
-// Link and icons not required here
+import { NavSearch } from './NavSearch'
 
-type Props = { data: HeaderType; mobile?: boolean; onItemClick?: () => void }
+type Props = {
+  data: HeaderType
+  mobile?: boolean
+  onItemClick?: () => void
+  locale?: 'en' | 'es'
+}
 
-export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick }) => {
+export const HeaderNav: React.FC<Props> = ({ data, mobile, onItemClick, locale = 'es' }) => {
   const navItems = data?.navItems || []
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: 20 },
+    show: { opacity: 1, x: 0 },
+  }
 
   if (mobile) {
     return (
-      <nav className="flex flex-col space-y-3">
+      <m.nav
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="flex flex-col space-y-2"
+      >
         {navItems.map(({ link }, i) => (
-          <div key={i}>
+          <m.div
+            key={i}
+            variants={itemVariants}
+            whileTap={{ scale: 0.98, x: 5 }}
+            className="w-full"
+          >
             <CMSLink
               {...link}
-              className="block text-lg font-medium py-3 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800 text-black dark:text-white"
-              onClick={onItemClick}
+              locale={locale}
+              className="block text-3xl font-bold font-array py-4 transition-colors text-foreground hover:text-primary border-b border-border/50 w-full"
+              onClick={() => {
+                // Instantly trigger closure without blocking navigation
+                setTimeout(() => onItemClick?.(), 100)
+              }}
             />
-          </div>
+          </m.div>
         ))}
-      </nav>
+        <m.div variants={itemVariants} className="w-full pt-4 mt-4 border-t border-border/50">
+          <NavSearch mobile onItemClick={onItemClick} />
+        </m.div>
+      </m.nav>
     )
   }
 
   return (
-    <nav className="hidden md:flex items-center space-x-8">
+    <nav className="flex items-center space-x-1">
       {navItems.map(({ link }, i) => {
         return (
-          <div key={i} className="relative group">
+          <m.div key={i} className="relative px-4 py-2 group" whileTap={{ scale: 0.95 }}>
             <CMSLink
               {...link}
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors flex items-center gap-1"
+              locale={locale}
+              className="text-sm font-semibold text-foreground/70 group-hover:text-foreground transition-colors relative z-10"
             />
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-          </div>
+            <m.span
+              layoutId="nav-pill"
+              className="absolute inset-0 bg-secondary/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              initial={false}
+            />
+          </m.div>
         )
       })}
     </nav>

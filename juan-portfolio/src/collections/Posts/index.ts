@@ -7,6 +7,12 @@ import {
   HorizontalRuleFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  OrderedListFeature,
+  UnorderedListFeature,
+  ChecklistFeature,
+  BlockquoteFeature,
+  LinkFeature,
+  EXPERIMENTAL_TableFeature,
 } from '@payloadcms/richtext-lexical'
 
 import { authenticated } from '../../access/authenticated'
@@ -14,9 +20,13 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { FAQ } from '../../blocks/FAQ/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { triggerCWVScan } from './hooks/triggerCWVScan'
+import { updateInternalLinksCount } from './hooks/updateInternalLinksCount'
+import { syncKeywordsAfterPostSave } from './hooks/syncKeywordsAfterPostSave'
 
 import { slugField } from '@/fields/slug'
 
@@ -28,16 +38,13 @@ export const Posts: CollectionConfig<'posts'> = {
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  // This config controls what's populated by default when a post is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
   defaultPopulate: {
     title: true,
     slug: true,
     authors: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks', 'internalLinksCount'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -78,6 +85,18 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             },
             {
+              name: 'tldr',
+              type: 'textarea',
+              localized: true,
+              label: {
+                en: 'TL;DR (Summary)',
+                es: 'TL;DR (Resumen Ejecutivo)',
+              },
+              admin: {
+                description: 'A brief summary of the post for AI Overviews and quick reading.',
+              },
+            },
+            {
               name: 'content',
               type: 'richText',
               localized: true,
@@ -86,10 +105,38 @@ export const Posts: CollectionConfig<'posts'> = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock, FAQ] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
+                    EXPERIMENTAL_TableFeature(),
+                    OrderedListFeature(),
+                    UnorderedListFeature(),
+                    ChecklistFeature(),
+                    BlockquoteFeature(),
+                    LinkFeature({
+                      enabledCollections: ['pages', 'posts'],
+                      fields: ({ defaultFields }) => {
+                        const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
+                          if ('name' in field && field.name === 'url') return false
+                          return true
+                        })
+
+                        return [
+                          ...defaultFieldsWithoutUrl,
+                          {
+                            name: 'url',
+                            type: 'text',
+                            admin: {
+                              condition: (_data, siblingData) =>
+                                siblingData?.linkType !== 'internal',
+                            },
+                            label: ({ t }) => t('fields:enterURL'),
+                            required: true,
+                          },
+                        ]
+                      },
+                    }),
                   ]
                 },
               }),
@@ -101,6 +148,23 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           label: 'Meta',
           fields: [
+            {
+              name: 'primaryKeyword',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'semanticKeywords',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
+            },
             {
               name: 'relatedPosts',
               type: 'relationship',
@@ -139,33 +203,31 @@ export const Posts: CollectionConfig<'posts'> = {
           ],
         },
         {
-          label: 'SEO',
-          name: 'meta',
+          name: 'searchConsole',
+          label: 'Search Console',
           fields: [
             {
-              name: 'title',
-              type: 'text',
-              label: 'Meta título',
-              localized: true,
-            },
-            {
-              name: 'description',
-              type: 'textarea',
-              label: 'Meta descripción',
-              localized: true,
-            },
-            {
-              name: 'image',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Imagen para compartir (OpenGraph)',
-            },
-            {
-              name: 'jsonLD',
-              type: 'json',
-              label: 'Schema JSON-LD Customizado',
+              name: 'gscData',
+              type: 'ui',
               admin: {
-                description: 'Sobreescribe o añade Schema.org JSON-LD para este post.',
+                components: {
+                  Field: '@/components/admin/GSCField#GSCField',
+                },
+              },
+            },
+          ],
+        },
+        {
+          name: 'internalLinks',
+          label: 'Internal Links',
+          fields: [
+            {
+              name: 'internalLinksTab',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/components/admin/InternalLinksTab#InternalLinksTab',
+                },
               },
             },
           ],
@@ -201,9 +263,6 @@ export const Posts: CollectionConfig<'posts'> = {
       hasMany: true,
       relationTo: 'users',
     },
-    // This field is only used to populate the user data via the `populateAuthors` hook
-    // This is because the `user` collection has access control locked to protect user privacy
-    // GraphQL will also not return mutated user data that differs from the underlying schema
     {
       name: 'populatedAuthors',
       type: 'array',
@@ -225,17 +284,78 @@ export const Posts: CollectionConfig<'posts'> = {
         },
       ],
     },
+    {
+      name: 'gscClicks',
+      type: 'ui',
+      admin: {
+        components: {
+          Cell: '@/components/admin/GSCCell#GSCCell',
+        },
+      },
+      custom: {
+        collection: 'posts',
+      },
+    },
+    {
+      name: 'indexingControl',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'dinoRankAction',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/DinoRankWriteButton#DinoRankWriteButton',
+        },
+      },
+    },
+    {
+      name: 'indexStatus',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Estado de indexación en Google. Se actualiza con Check Status.',
+      },
+    },
+    {
+      name: 'internalLinksCount',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description: 'Número de enlaces internos detectados en el contenido.',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'noindex',
+      type: 'checkbox',
+      label: { en: 'No Index', es: 'No Indexar' },
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Prevent search engines from indexing this post.',
+      },
+    },
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
+    afterChange: [revalidatePost, triggerCWVScan, syncKeywordsAfterPostSave],
+    beforeChange: [updateInternalLinksCount],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 100,
       },
       schedulePublish: true,
     },

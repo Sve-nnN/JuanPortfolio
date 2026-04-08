@@ -1,0 +1,459 @@
+{
+  "files": {
+    "seo/guia-eeat.md": {
+      "id": "69a0edfcc972337377d01c46",
+      "slug": "guia-eeat",
+      "locale": "es",
+      "lastLocalHash": "ada47be7300a404099cf462064641b587836889f002c1b8c65b4f4ca81558cd4",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:17.647Z"
+    },
+    "cs-fundamentals/algoritmos-estructuras-datos.en.md": {
+      "id": "698b8bceb3dbec82be7064b9",
+      "slug": "algoritmos-estructuras-datos",
+      "locale": "en",
+      "lastLocalHash": "674143316597e5b88121743528ec62ca5aa7930079c9bcab0de332cf9b12aeae",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:52.722Z"
+    },
+    "cs-fundamentals/algoritmos-estructuras-datos.md": {
+      "id": "698b8bceb3dbec82be7064b9",
+      "slug": "algoritmos-estructuras-datos",
+      "locale": "es",
+      "lastLocalHash": "18ce980d78c62a587ae5a089d9aa422ab385734698295c40d9edd8f20a92ff78",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:53.757Z"
+    },
+    "cs-fundamentals/algoritmos-ordenamiento.en.md": {
+      "id": "699fb9d74f64195c0b759cae",
+      "slug": "algoritmos-ordenamiento",
+      "locale": "en",
+      "lastLocalHash": "93878937341a0e0d5fcc27a80b2afe586d03c097f2e72d1d56246894d30a13b7",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:54.623Z"
+    },
+    "cs-fundamentals/algoritmos-ordenamiento.md": {
+      "id": "699fb9d74f64195c0b759cae",
+      "slug": "algoritmos-ordenamiento",
+      "locale": "es",
+      "lastLocalHash": "584cda5858dd4609bb36e1c3d03e1dd02b0f9eb796da797a5cb07a05eb44184b",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:55.398Z"
+    },
+    "cs-fundamentals/arboles-binarios.en.md": {
+      "id": "699fb9d84f64195c0b759cf4",
+      "slug": "arboles-binarios",
+      "locale": "en",
+      "lastLocalHash": "982af66197a52bedbbf1c5993024f748366157387a8b54567013852a29526eb1",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:56.306Z"
+    },
+    "cs-fundamentals/arboles-binarios.md": {
+      "id": "699fb9d84f64195c0b759cf4",
+      "slug": "arboles-binarios",
+      "locale": "es",
+      "lastLocalHash": "a2be22882e78c27b15aa7d4cda0ba8c85ace4664b9252b840aad65830dbd0de5",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:57.121Z"
+    },
+    "cs-fundamentals/big-o-notation.en.md": {
+      "id": "698ba8abbc7b845c4c267b3d",
+      "slug": "big-o-notation",
+      "locale": "en",
+      "lastLocalHash": "dba550cd89c7a20fdc7fb5df63df56d96f04f5c0bf881d8b710cb8d879849761",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:58.003Z"
+    },
+    "cs-fundamentals/big-o-notation.md": {
+      "id": "698ba8abbc7b845c4c267b3d",
+      "slug": "big-o-notation",
+      "locale": "es",
+      "lastLocalHash": "c3273ed5fc8c151bfd14ee55eb22cad33cd3707ea1144739e716d10171c98c99",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:58.861Z"
+    },
+    "cs-fundamentals/sql-vs-nosql.md": {
+      "id": "699fa1c3bc5679ea5f9d3a10",
+      "slug": "sql-vs-nosql",
+      "locale": "es",
+      "lastLocalHash": "0f0e94ff9dcad99922e248fda545a477a13b7a1034a3b9698ddef968480637fb",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:08.070Z"
+    },
+    "cs-fundamentals/complejidad-algoritmica.en.md": {
+      "id": "698ba8acbc7b845c4c267b77",
+      "slug": "complejidad-algoritmica",
+      "locale": "en",
+      "lastLocalHash": "6ec6f2847dedab84b7befa99497bddeddd8561e8915f75366da75b33bd7953a2",
+      "lastRemoteUpdatedAt": "2026-03-27T23:46:59.769Z"
+    },
+    "cs-fundamentals/complejidad-algoritmica.md": {
+      "id": "698ba8acbc7b845c4c267b77",
+      "slug": "complejidad-algoritmica",
+      "locale": "es",
+      "lastLocalHash": "34c9a7f38329063475bdd545de41492d1a02c9caa9ea3975c1327f95b594641b",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:00.668Z"
+    },
+    "cs-fundamentals/diseno-bases-datos.en.md": {
+      "id": "699fb9de4f64195c0b759e40",
+      "slug": "diseno-bases-datos",
+      "locale": "en",
+      "lastLocalHash": "2080061d580e31464c5634c617b7609d652a3753fda441507256257555110f23",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:01.534Z"
+    },
+    "cs-fundamentals/diseno-bases-datos.md": {
+      "id": "699fb9de4f64195c0b759e40",
+      "slug": "diseno-bases-datos",
+      "locale": "es",
+      "lastLocalHash": "9ca079b63bce369c97207ff1c987648ea2af5cdad4071236f4872685ca6238a4",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:02.338Z"
+    },
+    "cs-fundamentals/normalizacion-bases-datos.en.md": {
+      "id": "699fb9df4f64195c0b759e94",
+      "slug": "normalizacion-bases-datos",
+      "locale": "en",
+      "lastLocalHash": "d1a401551023823e01de576eb3f4a523cefffa35da1b1df32a4383b75dd557ed",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:03.856Z"
+    },
+    "cs-fundamentals/normalizacion-bases-datos.md": {
+      "id": "699fb9df4f64195c0b759e94",
+      "slug": "normalizacion-bases-datos",
+      "locale": "es",
+      "lastLocalHash": "99b0994ef9d10906bdc3c13af8c73d92ad6114bea083b40c77ed6213ea1f4ca4",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:04.691Z"
+    },
+    "cs-fundamentals/programacion-dinamica.en.md": {
+      "id": "699fb9e74f64195c0b759ee2",
+      "slug": "programacion-dinamica",
+      "locale": "en",
+      "lastLocalHash": "4e47b004946684721383d8316f26ccff44622a944af53cdf6d3490f7e4e95a40",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:05.546Z"
+    },
+    "cs-fundamentals/programacion-dinamica.md": {
+      "id": "699fb9e74f64195c0b759ee2",
+      "slug": "programacion-dinamica",
+      "locale": "es",
+      "lastLocalHash": "b5f620301abb9110cb692229626856be898ab1d3972d749c76462be27b2dc7a7",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:06.293Z"
+    },
+    "cs-fundamentals/sql-vs-nosql.en.md": {
+      "id": "699fa1c3bc5679ea5f9d3a10",
+      "slug": "sql-vs-nosql",
+      "locale": "en",
+      "lastLocalHash": "3c8d22ab95d3b0cd7d806c422ed531bdb8e7ccd2b58c307a03e49e5f03ac388d",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:07.299Z"
+    },
+    "development/headless-cms-seo.en.md": {
+      "id": "69a2460b60fc8fbb953c7135",
+      "slug": "headless-cms-seo",
+      "locale": "en",
+      "lastLocalHash": "5eaed98f899ad935f1522cf4c31f2b889fd8614abfe53d493e84589c03c0ce87",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:03.818Z"
+    },
+    "development/headless-cms-seo.md": {
+      "id": "69a2460b60fc8fbb953c7135",
+      "slug": "headless-cms-seo",
+      "locale": "es",
+      "lastLocalHash": "bd65815d803c43bdb380e09c9d47a866806325793eba4ae3246d64f5018577e4",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:04.443Z"
+    },
+    "development/nextjs-portfolio.en.md": {
+      "id": "69a2460d60fc8fbb953c719f",
+      "slug": "nextjs-portfolio",
+      "locale": "en",
+      "lastLocalHash": "3bb4955e361a194a758a7e18e0c5e124faac35cc02831e050f4a5718b7296ffc",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:05.037Z"
+    },
+    "development/nextjs-portfolio.md": {
+      "id": "69a2460d60fc8fbb953c719f",
+      "slug": "nextjs-portfolio",
+      "locale": "es",
+      "lastLocalHash": "05b4487755e0846349b38e4f58417919327b8a98762c4ec054975400c54d3041",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:05.591Z"
+    },
+    "development/nextjs-server-components.en.md": {
+      "id": "69a2460e60fc8fbb953c7203",
+      "slug": "nextjs-server-components",
+      "locale": "en",
+      "lastLocalHash": "f93fa360ae8e4883a084ee0f4330d3060eeac94d0947242a6ca7eb969c0ff6a4",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:06.197Z"
+    },
+    "development/nextjs-server-components.md": {
+      "id": "69a2460e60fc8fbb953c7203",
+      "slug": "nextjs-server-components",
+      "locale": "es",
+      "lastLocalHash": "75d0225c2803333a60a9e18c6fa3975242d88f94c8f6891e20f65274c254ff11",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:06.771Z"
+    },
+    "development/payloadcms-seo.en.md": {
+      "id": "69a2460f60fc8fbb953c7261",
+      "slug": "payloadcms-seo",
+      "locale": "en",
+      "lastLocalHash": "33582b46dbc057ae41fe452f98699d12bde501d306c3a5d686caffa8be7f1149",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:07.317Z"
+    },
+    "development/payloadcms-seo.md": {
+      "id": "69a2460f60fc8fbb953c7261",
+      "slug": "payloadcms-seo",
+      "locale": "es",
+      "lastLocalHash": "d04ee22d8dc5591d428fca5e614c4d93a0c3adf62f96ba9ded3d38257186b098",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:07.983Z"
+    },
+    "development/payloadcms-tutorial.en.md": {
+      "id": "69a2461060fc8fbb953c72cc",
+      "slug": "payloadcms-tutorial",
+      "locale": "en",
+      "lastLocalHash": "b8aa1b098b46c93f4eae2edeac3f16d234f1efc6b120df1ca8ae8040f0c18891",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:08.670Z"
+    },
+    "development/payloadcms-tutorial.md": {
+      "id": "69a2461060fc8fbb953c72cc",
+      "slug": "payloadcms-tutorial",
+      "locale": "es",
+      "lastLocalHash": "061dc757c8a03f39258b381e51985adc36e71604d6a5c0f1bec3b1a2693bc5f9",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:09.226Z"
+    },
+    "development/payloadcms-vs-strapi.en.md": {
+      "id": "69a2461160fc8fbb953c7330",
+      "slug": "payloadcms-vs-strapi",
+      "locale": "en",
+      "lastLocalHash": "ad0cd024269bcfc13937838f25994dffd111d7a67a5f96964de2defbff325065",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:09.936Z"
+    },
+    "development/payloadcms-vs-strapi.md": {
+      "id": "69a2461160fc8fbb953c7330",
+      "slug": "payloadcms-vs-strapi",
+      "locale": "es",
+      "lastLocalHash": "abc78cadf688eab2e7a0f2edc3279a69a6a46a633c44c1e91456525a06bfbbb9",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:10.768Z"
+    },
+    "development/typescript-best-practices.en.md": {
+      "id": "69a2461360fc8fbb953c7396",
+      "slug": "typescript-best-practices",
+      "locale": "en",
+      "lastLocalHash": "ca15c72e32a6a46ce9dadab4dbf43c2ff537de8a98e5edf10b969a1a767712de",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:11.386Z"
+    },
+    "development/typescript-best-practices.md": {
+      "id": "69a2461360fc8fbb953c7396",
+      "slug": "typescript-best-practices",
+      "locale": "es",
+      "lastLocalHash": "5b83641489232b2e769e549a9ea1a6d153f1ba00e256afc08677968f2c90e8a3",
+      "lastRemoteUpdatedAt": "2026-02-28T01:34:12.140Z"
+    },
+    "seo/enlaces-internos-guia.en.md": {
+      "id": "69a2461460fc8fbb953c73fe",
+      "slug": "enlaces-internos-guia",
+      "locale": "en",
+      "lastLocalHash": "e9a1389a9fb46953509490d082b6f980dd0da2a3a324b5d98f9e4cdf59a7baad",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:13.911Z"
+    },
+    "seo/enlaces-internos-guia.md": {
+      "id": "69a2461460fc8fbb953c73fe",
+      "slug": "enlaces-internos-guia",
+      "locale": "es",
+      "lastLocalHash": "3675ea3f24b5468e4777f4c9b18ea4099894f94c649266b324f61c0e92964d08",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:14.621Z"
+    },
+    "seo/estrategia-topic-clusters.en.md": {
+      "id": "69a2461660fc8fbb953c7463",
+      "slug": "estrategia-topic-clusters",
+      "locale": "en",
+      "lastLocalHash": "e3f012fd0ade1ab53ce924f7d838553beefdbf958b5aba68a9f97ebe38d631dd",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:15.247Z"
+    },
+    "seo/estrategia-topic-clusters.md": {
+      "id": "69a2461660fc8fbb953c7463",
+      "slug": "estrategia-topic-clusters",
+      "locale": "es",
+      "lastLocalHash": "d4931c8dac56b65971764be6f9eae5214ac0dd43e91472286eabd06784c7c14f",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:15.962Z"
+    },
+    "seo/guia-eeat.en.md": {
+      "id": "69a0edfcc972337377d01c46",
+      "slug": "guia-eeat",
+      "locale": "en",
+      "lastLocalHash": "7c3e2092084ccd7fcc60e92c7f2682fb592f5f99928b66358c5b3009d29f94bb",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:16.884Z"
+    },
+    "seo/guia-keyword-research.en.md": {
+      "id": "69a2461860fc8fbb953c7519",
+      "slug": "guia-keyword-research",
+      "locale": "en",
+      "lastLocalHash": "2913c596e4f7e5dfbfa732e93b43ae488b4fbf8e8aeb686248e0d040c1278e67",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:18.336Z"
+    },
+    "seo/guia-keyword-research.md": {
+      "id": "69a2461860fc8fbb953c7519",
+      "slug": "guia-keyword-research",
+      "locale": "es",
+      "lastLocalHash": "33c91119a59efab77e8d297ca0283329683a4fb9f66bdfc6135cca20944b4b5b",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:19.036Z"
+    },
+    "seo/redaccion-seo.en.md": {
+      "id": "69a2461a60fc8fbb953c7586",
+      "slug": "redaccion-seo",
+      "locale": "en",
+      "lastLocalHash": "4ebdae4a9c73164f6a686edf93e65c65d3e9f1b3e3640baf31f3854fd0e8f727",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:20.241Z"
+    },
+    "seo/redaccion-seo.md": {
+      "id": "69a2461a60fc8fbb953c7586",
+      "slug": "redaccion-seo",
+      "locale": "es",
+      "lastLocalHash": "3602ef6a27a8459019dc797fafd94cd390cecb70b2f020317b4dd9e8c32d9a19",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:20.883Z"
+    },
+    "tech-seo/nextjs-seo-optimization.en.md": {
+      "id": "69c715683736a0dfd0e949c6",
+      "slug": "nextjs-seo-optimization",
+      "locale": "en",
+      "lastLocalHash": "3a089c792b6822cfbdbf5e282cfbff6747b2dd56893c3e4b99f4963d4fa10754",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:22.711Z"
+    },
+    "tech-seo/nextjs-seo-optimization.md": {
+      "id": "69c715683736a0dfd0e949c6",
+      "slug": "nextjs-seo-optimization",
+      "locale": "es",
+      "lastLocalHash": "8b22a922849452ee841bdd17a9b2e23db4694b16de200e1e87c9d65711f3042b",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:23.414Z"
+    },
+    "tech-seo/non-developers-guide.en.md": {
+      "id": "69c715683736a0dfd0e949f4",
+      "slug": "non-developers-guide",
+      "locale": "en",
+      "lastLocalHash": "30b694c86f3b19edb6b9db807966f3a323e378f14aa9148e2336156d797eb064",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:24.022Z"
+    },
+    "tech-seo/non-developers-guide.md": {
+      "id": "69c715683736a0dfd0e949f4",
+      "slug": "non-developers-guide",
+      "locale": "es",
+      "lastLocalHash": "0a85ff0d0491b3fa973abaae3f26e10ad1560dcbfa187998d9d7a85db2597d53",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:24.723Z"
+    },
+    "tech-seo/tech-seo-guide.en.md": {
+      "id": "69c715693736a0dfd0e94a22",
+      "slug": "tech-seo-guide",
+      "locale": "en",
+      "lastLocalHash": "d1a9d856eaeacc6b7e91c0c6a1fdcf2f98ba8aec0fc651512c16f0f9c71ea42c",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:29.482Z"
+    },
+    "tech-seo/tech-seo-guide.md": {
+      "id": "69c715693736a0dfd0e94a22",
+      "slug": "tech-seo-guide",
+      "locale": "es",
+      "lastLocalHash": "187030f28a5800037844ad0ca70de6aaacc2868915c396924a1df889b34e043f",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:30.666Z"
+    },
+    "tech-seo/web-performance-guide.en.md": {
+      "id": "69c715829d0b75ffa6779c8d",
+      "slug": "web-performance-guide",
+      "locale": "en",
+      "lastLocalHash": "2eca1d1b474e186d8be4930a48ee595165db98f5c1a0a39e85aa9c1d19b348dd",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:31.216Z"
+    },
+    "tech-seo/web-performance-guide.md": {
+      "id": "69c715829d0b75ffa6779c8d",
+      "slug": "web-performance-guide",
+      "locale": "es",
+      "lastLocalHash": "1f113076a4e08105f33898561c698f9b94fde5f273ea3f7b63c83f559ff09049",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:31.894Z"
+    },
+    "cs-fundamentals/experiencia-de-usuario.md": {
+      "id": "69a5bd0b455ba5651633e895",
+      "slug": "experiencia-de-usuario",
+      "locale": "es",
+      "lastLocalHash": "89aa36a6e6f73fddcda9d320eaa9c2eb26217e718762ccfe27e8f273f1118a1f",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:03.115Z"
+    },
+    "seo/mejores-cursos-seo-en-español.md": {
+      "id": "69b4b82863f0ee46a5b5fd93",
+      "slug": "mejores-cursos-seo-en-español",
+      "locale": "es",
+      "lastLocalHash": "66362e8ad07fc3c2ee4d0b8b7e094956503910add108b580191b4d73410f96ba",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:19.805Z"
+    },
+    "cs-fundamentals/tablas-hash.md": {
+      "id": "69c715673736a0dfd0e94999",
+      "slug": "tablas-hash",
+      "locale": "es",
+      "lastLocalHash": "f600cdf85e3285ad21fd9a96c3a4cda6820c14b3dfc377414c3ab115e0d473c5",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:08.939Z"
+    },
+    "tech-seo/core-web-vitals-guide.en.md": {
+      "id": "69c716d85b5ecd41db75baef",
+      "slug": "core-web-vitals-guide",
+      "locale": "en",
+      "lastLocalHash": "70afc1ad4b807573e9d74abe8542d7634fec7426b086631f3dc861ffecb2b48e",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:21.592Z"
+    },
+    "tech-seo/core-web-vitals-guide.md": {
+      "id": "69c716d85b5ecd41db75baef",
+      "slug": "core-web-vitals-guide",
+      "locale": "es",
+      "lastLocalHash": "2214ffd045b96cd626fdac0f0259c99f3b485510e494ef29d9a62341aef1844a",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:22.217Z"
+    },
+    "tech-seo/robots-txt-best-practices.en.md": {
+      "id": "69c716dc5b5ecd41db75bc24",
+      "slug": "robots-txt-best-practices",
+      "locale": "en",
+      "lastLocalHash": "dbec9a261d4efd844e099aea716f97264458306e1ab39f4d22dfe659089d3069",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:25.420Z"
+    },
+    "tech-seo/robots-txt-best-practices.md": {
+      "id": "69c716dc5b5ecd41db75bc24",
+      "slug": "robots-txt-best-practices",
+      "locale": "es",
+      "lastLocalHash": "13899e3823fa7bef478dca029c3b314dcbc7f8f0ee11bf57150c4604a24c988a",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:26.040Z"
+    },
+    "tech-seo/schema-markup-guide.en.md": {
+      "id": "69c716dd5b5ecd41db75bc90",
+      "slug": "schema-markup-guide",
+      "locale": "en",
+      "lastLocalHash": "adca3ab785734969ef846551b0910280650d8c3eb64379f8b32412024058bc76",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:26.714Z"
+    },
+    "tech-seo/schema-markup-guide.md": {
+      "id": "69c716dd5b5ecd41db75bc90",
+      "slug": "schema-markup-guide",
+      "locale": "es",
+      "lastLocalHash": "9bab2a10e149f5342ef9eeedb02664b24e70059127a7d5d66d68013d1b58d34a",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:27.334Z"
+    },
+    "tech-seo/ssr-vs-csr-seo.en.md": {
+      "id": "69c716df5b5ecd41db75bcf5",
+      "slug": "ssr-vs-csr-seo",
+      "locale": "en",
+      "lastLocalHash": "6beff466e1f24af30498aea58b0af7edfabd100a61e3f9ae5acf586669820814",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:28.051Z"
+    },
+    "tech-seo/ssr-vs-csr-seo.md": {
+      "id": "69c716df5b5ecd41db75bcf5",
+      "slug": "ssr-vs-csr-seo",
+      "locale": "es",
+      "lastLocalHash": "9546b236ff84b4938097ea976a5d9052a3e57246ed71b88ab1adea65a6cfd972",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:28.793Z"
+    },
+    "tech-seo/xml-sitemap-automation.en.md": {
+      "id": "69c716e35b5ecd41db75be23",
+      "slug": "xml-sitemap-automation",
+      "locale": "en",
+      "lastLocalHash": "88bb4b8c2765ab8af5ffe8e98d966b8a27c5d9550ee7a5169a383ca5997b43e5",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:32.576Z"
+    },
+    "tech-seo/xml-sitemap-automation.md": {
+      "id": "69c716e35b5ecd41db75be23",
+      "slug": "xml-sitemap-automation",
+      "locale": "es",
+      "lastLocalHash": "3e78ca9b5b8da24dcd2e3290ebc789b359b0638665d43801ca6594d67b3c1fb8",
+      "lastRemoteUpdatedAt": "2026-03-27T23:47:33.197Z"
+    },
+    "cs-fundamentals/experiencia-de-usuario.en.md": {
+      "id": "69a5bd0b455ba5651633e895",
+      "slug": "experiencia-de-usuario",
+      "locale": "en",
+      "lastLocalHash": "7f275031c3fc91fb74113392c9de64a0b8bae8238cf539e762f491511dd6b4c2",
+      "lastRemoteUpdatedAt": "2026-03-31T03:37:13.460Z"
+    },
+    "seo/mejores-cursos-seo-espanol.md": {
+      "id": "69b4b82863f0ee46a5b5fd93",
+      "slug": "mejores-cursos-seo-espanol",
+      "locale": "es",
+      "lastLocalHash": "c598cad4caa166474b78baec8cf159422f0a38d9cb5886c3232ef7a1b266dcc1",
+      "lastRemoteUpdatedAt": "2026-03-31T03:57:28.624Z"
+    }
+  }
+}

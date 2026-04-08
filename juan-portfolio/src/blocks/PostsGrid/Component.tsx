@@ -4,16 +4,24 @@ import { Card } from '@/components/Card'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { AnimateOnScroll } from '@/components/AnimateOnScroll'
+import { AnimatedCard } from './AnimatedCard'
 
-export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts?: Post[] }> = async (props) => {
+// Define PostsGridProps type based on used props
+type PostsGridProps = PostsGridBlock & { 
+  page?: number; 
+  overridePosts?: Post[]; 
+  locale?: 'en' | 'es' 
+}
+
+export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
   const {
     postsPerPage = 12,
     showCategories = true,
     gridColumns = '3',
-    showExcerpt = true,
-    showDate = true,
+
     page = 1,
     animation,
+    locale = 'es',
   } = props
 
   // Fetch posts
@@ -31,6 +39,12 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts
         page,
         depth: 1,
         sort: '-publishedAt',
+        locale,
+        where: {
+          _status: {
+            equals: 'published',
+          },
+        },
       })
       posts = (res.docs as Post[]) || []
       totalPages = res.totalPages
@@ -49,6 +63,7 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts
         collection: 'categories',
         limit: 100,
         pagination: false,
+        locale,
       })
       categories = (res.docs as Category[]) || []
     } catch {
@@ -63,17 +78,17 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts
   }[gridColumns || '3']
 
   return (
-    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
       {/* Category Filters */}
       {showCategories && categories.length > 0 && (
-        <div className="mb-12 flex flex-wrap justify-center gap-2">
-          <button className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-full">
-            Todo
+        <div className="mb-20 flex flex-wrap justify-center gap-3">
+          <button className="px-6 py-2.5 text-lg font-bold text-white bg-primary rounded-full shadow-lg shadow-primary/20 transition-all hover:shadow-xl active:scale-95">
+            {locale === 'es' ? 'Todo' : 'All'}
           </button>
           {categories.map((cat) => (
             <button
               key={cat.id}
-              className="px-4 py-2 text-sm font-medium text-muted bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="px-6 py-2.5 text-lg font-bold text-muted-foreground bg-secondary/50 rounded-full border border-border/50 hover:bg-secondary hover:text-foreground transition-all active:scale-95"
             >
               {cat.title}
             </button>
@@ -82,29 +97,31 @@ export const PostsGrid: React.FC<PostsGridBlock & { page?: number; overridePosts
       )}
 
       {/* Posts Grid */}
-      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-8`}>
-        {posts.map((p) => {
-          return (
-            <div
+      {posts.length > 0 ? (
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-10 lg:gap-12`}>
+          {posts.map((p, i) => (
+            <AnimatedCard 
               key={p.id}
-              className="group flex flex-col h-full"
-            >
-              <Card
-                className="h-full"
-                doc={p}
-                relationTo="posts"
-                showCategories={Boolean(showCategories)}
-              />
-            </div>
-          )
-        })}
-      </div>
+              post={p}
+              index={i}
+              showCategories={Boolean(showCategories)}
+              locale={locale}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-48">
+          <p className="text-xl text-muted-foreground font-medium">
+            {locale === 'es' ? 'No se encontraron posts.' : 'No posts found.'}
+          </p>
+        </div>
+      )}
 
       {/* Pagination (simple display - can be enhanced) */}
       {totalPages > 1 && (
         <div className="mt-12 flex justify-center gap-2">
           <p className="text-muted">
-            Página {page} de {totalPages}
+            {locale === 'es' ? `Página ${page} de ${totalPages}` : `Page ${page} of ${totalPages}`}
           </p>
         </div>
       )}

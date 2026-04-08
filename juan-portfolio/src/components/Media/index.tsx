@@ -8,7 +8,7 @@ import { VideoMedia } from './VideoMedia'
 export type { Props as MediaProps }
 
 export function Media(props: Props) {
-  const { className, htmlElement = 'div', resource } = props
+  const { className, resource, htmlElement = 'div' } = props
 
   const isVideo = typeof resource === 'object' && resource?.mimeType?.includes('video')
   const Tag = htmlElement || Fragment

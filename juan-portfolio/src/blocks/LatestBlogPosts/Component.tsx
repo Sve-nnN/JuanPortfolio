@@ -3,13 +3,15 @@ import type { LatestBlogPostsBlock as LatestBlogPostsBlockType, Post } from '@/p
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
-import { Media } from '@/components/Media'
-import { getPostUrl } from '@/utilities/getPostUrl'
+import { Card } from '@/components/Card'
+import { ArrowRight } from 'lucide-react'
 
-const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
-  title = 'Últimos posts del blog',
+export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType & { locale?: 'en' | 'es' }> = async ({
+  title,
   count = 3,
+  locale = 'es',
 }) => {
+  const displayTitle = title || (locale === 'es' ? 'Últimos posts del blog' : 'Latest blog posts')
   let posts: Post[] = []
   try {
     const payload = await getPayload({ config: configPromise })
@@ -17,69 +19,71 @@ const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType> = async ({
       collection: 'posts',
       limit: count || 3,
       sort: '-publishedAt',
-      depth: 1,
+      depth: 2,
+      locale,
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
     })
     posts = (res.docs as Post[]) || []
   } catch {
     posts = []
   }
 
-  if (!posts.length) return null
-
-  // Formato de fecha
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
-  }
-
-  // Calcular tiempo de lectura (aprox. 200 palabras/min)
-  const calculateReadTime = (content: unknown): number => {
-    if (!content) return 5
-    const text = JSON.stringify(content)
-    const wordCount = text.split(/\s+/).length
-    return Math.ceil(wordCount / 200)
-  }
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <section className="py-20 md:py-28" id="latest-blog-posts">
+    <section className="py-24 md:py-32 bg-background" id="latest-blog-posts">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-current">{title}</h2>
+        <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
+          <div className="max-w-3xl">
+            <h2 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-[1.1] tracking-tight">
+              {displayTitle}
+            </h2>
+          </div>
+          <Link
+            href={`${localePrefix}/blog`}
+            className="hidden md:inline-flex items-center text-xl font-bold text-foreground hover:text-primary transition-all group border-b-4 border-primary/20 hover:border-primary pb-2"
+          >
+            {locale === 'es' ? 'Ver todos los artículos' : 'View all articles'}
+            <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform" />
+          </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {posts.map((post) => {
-            const heroImage = post.content?.heroImage
-            const postUrl = getPostUrl(post)
 
-            return (
-              <div
-                key={post.id}
-                className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
-              >
-                <Link href={postUrl}>
-                  {heroImage && (
-                    <div className="w-full h-48 overflow-hidden">
-                      <Media resource={heroImage} className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      {post.publishedAt && formatDate(post.publishedAt)} ·{' '}
-                      {calculateReadTime(post.content)} min de lectura
-                    </p>
-                    <h3 className="text-lg font-bold text-current mb-2 group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h3>
-                    {post.meta?.description && (
-                      <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
-                        {post.meta.description}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              </div>
-            )
-          })}
+        {posts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+            {posts.map((post) => {
+              return (
+                <div key={post.id} className="h-full">
+                  <Card
+                    className="h-full"
+                    doc={post}
+                    relationTo="posts"
+                    showCategories={true}
+                    locale={locale}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-24 bg-card rounded-[2rem] border border-border/50 shadow-inner">
+            <p className="text-muted-foreground text-xl font-medium leading-relaxed">
+              {locale === 'es' ? 'No se encontraron artículos publicados recientemente.' : 'No recently published articles found.'}
+            </p>
+          </div>
+        )}
+
+        <div className="mt-16 md:hidden text-center">
+          <Link
+            href={`${localePrefix}/blog`}
+            className="inline-flex items-center text-lg font-bold text-foreground hover:text-primary transition-all group border-b-2 border-primary/20 hover:border-primary pb-1"
+          >
+            {locale === 'es' ? 'Ver todos los artículos' : 'View all articles'}
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
     </section>

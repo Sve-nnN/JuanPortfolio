@@ -10,8 +10,8 @@ describe('ContentBlock component', () => {
         richText: { root: { type: 'root', version: 1, children: [] } },
         enableLink: false,
       },
-    ];
-    render(<ContentBlock columns={columns} />);
+    ] as any;
+    render(<ContentBlock columns={columns} blockType="content" />);
     expect(screen.getByText('')).toBeInTheDocument();
   });
 
@@ -27,8 +27,8 @@ describe('ContentBlock component', () => {
         richText: { root: { type: 'root', version: 1, children: [] } },
         enableLink: false,
       },
-    ];
-    render(<ContentBlock columns={columns} />);
+    ] as any;
+    render(<ContentBlock columns={columns} blockType="content" />);
     expect(screen.getAllByText('').length).toBe(2);
   });
 
@@ -40,8 +40,8 @@ describe('ContentBlock component', () => {
         enableLink: true,
         link: { type: 'custom', url: '/custom-url', label: 'Custom Link' },
       },
-    ];
-    render(<ContentBlock columns={columns} />);
+    ] as any;
+    render(<ContentBlock columns={columns} blockType="content" />);
     expect(screen.getByText('')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Custom Link' })).toBeInTheDocument();
   });

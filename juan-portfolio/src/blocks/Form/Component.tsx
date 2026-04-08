@@ -32,7 +32,7 @@ export const FormBlock: React.FC<
   } = props
 
   const formMethods = useForm({
-    defaultValues: formFromProps.fields,
+    defaultValues: formFromProps?.fields,
   })
   const {
     control,
@@ -48,6 +48,8 @@ export const FormBlock: React.FC<
 
   const onSubmit = useCallback(
     (data: FormFieldBlock[]) => {
+      if (!formID) return
+
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
@@ -112,6 +114,10 @@ export const FormBlock: React.FC<
     },
     [router, formID, redirect, confirmationType],
   )
+
+  if (!formFromProps || !formFromProps.fields) {
+    return null
+  }
 
   return (
     <div className="container lg:max-w-[48rem]">

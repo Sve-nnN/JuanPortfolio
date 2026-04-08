@@ -9,9 +9,18 @@ const normalizedUrl = SITE_URL.replace(/\/$/, '')
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: normalizedUrl,
-  generateRobotsTxt: true,
+  generateRobotsTxt: false,
   // Do not exclude site sections like /case-studies or /authors so they are discoverable
-  exclude: ['/admin/*', '/api/*', '/next-sitemap.xml', '/server-sitemap.xml'],
+  // But exclude static pages that act duplicates of pages-sitemap.xml
+  exclude: [
+    '/admin/*',
+    '/api/*',
+    '/next-sitemap.xml',
+    '/server-sitemap.xml',
+    '/search',
+    '/blog',
+    '/robots.txt',
+  ],
   robotsTxtOptions: {
     policies: [
       {
@@ -22,7 +31,7 @@ module.exports = {
     additionalSitemaps: [
       `${normalizedUrl}/pages-sitemap.xml`,
       `${normalizedUrl}/posts-sitemap.xml`,
-      `${normalizedUrl}/case-studies-sitemap.xml`,
+      `${normalizedUrl}/categories-sitemap.xml`,
       `${normalizedUrl}/authors-sitemap.xml`,
     ],
   },

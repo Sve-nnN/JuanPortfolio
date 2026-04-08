@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
 import { slugField } from '@/fields/slug'
 import { seoFields } from '@/plugins/seo/fields/seoFields'
 
@@ -65,14 +64,17 @@ const ensureUniqueSlug: CollectionBeforeChangeHook = async ({
   return { ...data, slug: desired }
 }
 
+import { admins, adminsField } from '../../access/admins'
+import { adminsAndUser } from '../../access/adminsAndUser'
+
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    admin: admins,
+    create: admins,
+    delete: admins,
+    read: adminsAndUser,
+    update: adminsAndUser,
   },
   admin: {
     defaultColumns: ['name', 'email'],
@@ -87,8 +89,140 @@ export const Users: CollectionConfig = {
           label: 'Perfil',
           fields: [
             { name: 'name', type: 'text', required: true },
-            { name: 'role', type: 'text', label: 'Cargo / Role' },
+
+            {
+              name: 'role',
+              type: 'text',
+              access: {
+                create: adminsField,
+                read: adminsField,
+                update: adminsField,
+              },
+              label: 'Cargo / Role',
+            },
+            {
+              name: 'jobTitle',
+              type: 'text',
+              localized: true,
+              label: 'Título Profesional',
+              admin: {
+                description: 'Ej: Full-Stack Developer, Senior Software Engineer',
+              },
+            },
             { name: 'bio', type: 'textarea', localized: true, label: { en: 'Bio', es: 'Biografía' } },
+            {
+              name: 'expertise',
+              type: 'array',
+              label: 'Áreas de Expertise',
+              admin: {
+                description: 'Temas en los que eres experto (mejora E-E-A-T)',
+              },
+              fields: [
+                {
+                  name: 'topic',
+                  type: 'text',
+                  required: true,
+                  label: 'Tema',
+                },
+              ],
+            },
+            {
+              name: 'socialMedia',
+              type: 'group',
+              label: 'Redes Sociales',
+              admin: {
+                description: 'Links a perfiles profesionales (mejora autoridad)',
+              },
+              fields: [
+                { name: 'linkedin', type: 'text', label: 'LinkedIn URL' },
+                { name: 'github', type: 'text', label: 'GitHub URL' },
+                { name: 'twitter', type: 'text', label: 'Twitter/X URL' },
+                { name: 'website', type: 'text', label: 'Website URL' },
+              ],
+            },
+            {
+              name: 'education',
+              type: 'array',
+              label: 'Educación y Certificaciones',
+              admin: {
+                description: 'Títulos académicos, certificaciones profesionales, cursos relevantes',
+              },
+              fields: [
+                {
+                  name: 'degree',
+                  type: 'text',
+                  required: true,
+                  label: 'Título / Certificación',
+                  admin: {
+                    description: 'Ej: Master en Ingeniería, AWS Certified Developer',
+                  },
+                },
+                {
+                  name: 'institution',
+                  type: 'text',
+                  label: 'Institución / Organización',
+                  admin: {
+                    description: 'Ej: Universidad XYZ, Amazon Web Services',
+                  },
+                },
+                {
+                  name: 'logo',
+                  type: 'upload',
+                  label: 'Logo de la Institución',
+                  relationTo: 'media',
+                  admin: {
+                    description: 'Logo pequeño de la institución (opcional, se mostrará junto al nombre)',
+                  },
+                },
+                {
+                  name: 'startDate',
+                  type: 'date',
+                  label: 'Fecha de Inicio',
+                  admin: {
+                    date: {
+                      pickerAppearance: 'monthOnly',
+                    },
+                  },
+                },
+                {
+                  name: 'endDate',
+                  type: 'date',
+                  label: 'Fecha de Finalización',
+                  admin: {
+                    description: 'Dejar vacío si está en curso',
+                    date: {
+                      pickerAppearance: 'monthOnly',
+                    },
+                  },
+                },
+                {
+                  name: 'certificate',
+                  type: 'upload',
+                  label: 'Certificado / Diploma',
+                  relationTo: 'media',
+                  admin: {
+                    description: 'Imagen del certificado o diploma (opcional)',
+                  },
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  label: 'Descripción',
+                  admin: {
+                    description: 'Detalles adicionales, logros, especialización',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'credentials',
+              type: 'richText',
+              label: 'Credenciales y Educación (Legacy)',
+              admin: {
+                description: 'DEPRECADO: Usa el campo Education arriba. Este campo se mantendrá para compatibilidad.',
+                condition: () => false, // Hide from UI
+              },
+            },
             {
               name: 'experience',
               type: 'array',

@@ -50,7 +50,7 @@ test.describe('Frontend routes (isolated)', () => {
 
   test('homepage loads', async ({ page }) => {
     await page.goto(BASE)
-    await expect(page).toHaveTitle(/Payload Website Template/)
+    await expect(page).toHaveTitle(/Juan Carlos Angulo|Juan Tech|Software Engineer/)
   })
 
   test('blog post page loads (created in beforeAll)', async ({ page }) => {

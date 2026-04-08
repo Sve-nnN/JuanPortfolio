@@ -12,9 +12,10 @@ const heroes = {
   mediumImpact: MediumImpactHero,
 }
 
-export const RenderHero: React.FC<Page['hero']> = (props) => {
+export const RenderHero: React.FC<Page['hero'] & { locale?: 'en' | 'es' }> = (props) => {
   const heroData = props?.hero
   const type = heroData?.type
+  const locale = props?.locale
 
   if (!type || type === 'none') return null
 
@@ -22,5 +23,5 @@ export const RenderHero: React.FC<Page['hero']> = (props) => {
 
   if (!HeroToRender) return null
 
-  return <HeroToRender hero={heroData} />
+  return <HeroToRender hero={heroData} locale={locale} />
 }

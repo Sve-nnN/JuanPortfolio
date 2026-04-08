@@ -2,11 +2,11 @@
 import React from 'react'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import Image from 'next/image'
-import type { Client } from '@/payload-types'
+import type { Cliente } from '@/payload-types'
 
 import '@splidejs/splide/dist/css/splide.min.css'
 
-export default function ClientsCarousel({ clients }: { clients: Client[] }) {
+export default function ClientsCarousel({ clients }: { clients: Cliente[] }) {
   if (!clients || !clients.length) return null
 
   return (
@@ -33,14 +33,22 @@ export default function ClientsCarousel({ clients }: { clients: Client[] }) {
         >
           {clients.map((c) => (
             <SplideSlide key={c.id}>
-              <div className="flex justify-center items-center h-20">
+              <div
+                className={`
+                  flex justify-center items-center h-20 p-2 
+                  ${c.forceWhiteBackground ? 'bg-white rounded-md' : ''}
+                `}
+              >
                 {c.logo && typeof c.logo === 'object' && c.logo.url ? (
                   <Image
                     src={c.logo.url}
                     alt={c.name || 'Logo'}
                     width={160}
                     height={40}
-                    className="h-10 opacity-80 hover:opacity-100 transition-opacity dark:invert"
+                    className={`
+                      h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity 
+                      ${c.invertInDark ? 'dark:invert' : ''}
+                    `}
                   />
                 ) : (
                   <span className="opacity-80">{c.name}</span>

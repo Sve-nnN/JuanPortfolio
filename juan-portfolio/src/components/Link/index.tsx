@@ -1,7 +1,10 @@
+'use client'
+
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React from 'react'
+import { trackEvent } from '@/utilities/analytics'
 
 import type { Page, Post } from '@/payload-types'
 import { getPostUrl } from '@/utilities/getPostUrl'
@@ -20,6 +23,7 @@ type CMSLinkType = {
   type?: 'custom' | 'reference' | null
   url?: string | null
   onClick?: React.MouseEventHandler<HTMLAnchorElement>
+  locale?: 'en' | 'es'
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -34,7 +38,10 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     size: sizeFromProps,
     url,
     onClick,
+    locale = 'es',
   } = props
+
+  const localePrefix = locale === 'es' ? '' : '/en'
 
   // Resolve href consistently with site routes
   const href: string | null = (() => {
@@ -44,9 +51,15 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
       if (!slug) return null
       // Posts use /blog/{category}/[slug]; pages use /[slug]
       if (reference.relationTo === 'posts') {
-        return getPostUrl(value as Post)
+        return getPostUrl(value as Post, locale)
       }
-      return `/${slug}`
+      if (reference.relationTo as string === 'categories') {
+        return `${localePrefix}/blog/${slug}`
+      }
+      if (reference.relationTo as string === 'case-studies') {
+        return `${localePrefix}/case-studies/${slug}`
+      }
+      return `${localePrefix}/${slug === 'home' ? '' : slug}`
     }
     if (url) return url
     return null
@@ -73,15 +86,33 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   const size = appearance === 'link' ? 'clear' : sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}
 
+  const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    const isSocial = href.includes('linkedin.com') || href.includes('github.com') || href.includes('twitter.com') || href.includes('x.com')
+    const isInternal = href.startsWith('/') || href.includes('juan-tech.com')
+    
+    if (isSocial) {
+      trackEvent('social_engagement', { network: href.split('.')[1], url: href })
+    } else if (appearance !== 'inline') {
+      trackEvent('cta_click', { label: derivedLabel, url: href, variant: appearance })
+    } else if (isInternal && (href.includes('/blog/') || href.includes('/case-studies/'))) {
+      trackEvent('content_navigation', { destination: href, label: derivedLabel })
+    }
+
+    if (onClick) onClick(e)
+  }
+
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
       <Link
-        className={cn(className)}
+        className={cn(
+          'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm transition-colors hover:text-primary',
+          className
+        )}
         href={href}
         aria-label={derivedLabel}
         {...newTabProps}
-        onClick={onClick}
+        onClick={handleClick}
       >
         {derivedLabel}
         {children}
@@ -96,7 +127,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
         href={href}
         aria-label={derivedLabel}
         {...newTabProps}
-        onClick={onClick}
+        onClick={handleClick}
       >
         {derivedLabel}
         {children}

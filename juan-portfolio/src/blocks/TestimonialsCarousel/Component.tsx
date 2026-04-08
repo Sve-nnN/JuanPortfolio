@@ -1,69 +1,61 @@
 import React from 'react'
 import type { TestimonialsCarouselBlock, Testimonial } from '@/payload-types'
+import { Media } from '@/components/Media'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { Media } from '@/components/Media'
-import { Star } from 'lucide-react'
 
-export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock> = async ({
-  title = 'Testimonios',
-  showRating = true,
-  limit = 8,
+export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock & { locale?: 'en' | 'es' }> = async ({
+  title,
+  limit,
+  locale: _locale
 }) => {
   let testimonials: Testimonial[] = []
+  
   try {
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
       collection: 'testimonials',
-      limit: limit || 10,
+      limit: limit || 8,
       sort: '-createdAt',
-      depth: 1,
     })
-    testimonials = (res.docs as Testimonial[]) || []
-  } catch {
-    testimonials = []
+    testimonials = res.docs || []
+  } catch (error) {
+    console.error('Error fetching testimonials:', error)
   }
 
-  if (!testimonials.length) return null
+  if (testimonials.length === 0) return null
 
   return (
-    <section className="py-20 md:py-28">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-current">{title}</h2>
-        </div>
-        <div className="w-full overflow-x-auto">
-          <div className="flex gap-8 snap-x snap-mandatory overflow-x-auto pb-4">
-            {testimonials.map((t, idx) => (
-              <div
-                key={t.id || idx}
-                className="min-w-[320px] max-w-xs bg-card rounded-lg shadow-lg p-6 flex flex-col items-center snap-center mx-auto"
-              >
-                {t.avatar && (
-                  <div className="w-16 h-16 mb-4 rounded-full overflow-hidden border-2 border-primary">
-                    <Media resource={t.avatar} className="w-full h-full object-cover" />
+    <section className="py-24 md:py-32 bg-background">
+      <div className="container mx-auto px-4 text-center">
+        {title && <h2 className="text-5xl md:text-7xl font-display font-bold text-center mb-24 tracking-tighter leading-tight">{title}</h2>}
+        
+        <div className="flex flex-wrap justify-center gap-10 lg:gap-12">
+          {testimonials.map((t, i) => {
+            return (
+              <div key={i} className="card-elevated max-w-md p-10 text-left group cursor-default border-t-[6px] border-t-primary/10">
+                <div className="text-2xl md:text-3xl italic mb-10 leading-tight tracking-tight text-foreground font-medium">&ldquo;{t.testimonial}&rdquo;</div>
+                <div className="flex items-center gap-5 mt-auto">
+                  {t.avatar && typeof t.avatar === 'object' && (
+                    <div className="relative w-16 h-16 rounded-full overflow-hidden ring-4 ring-primary/10 shadow-lg">
+                      <Media
+                        resource={t.avatar}
+                        fill
+                        imgClassName="object-cover"
+                        htmlElement={null}
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <div className="text-xl font-bold text-foreground">{t.author}</div>
+                    <div className="text-base text-muted-foreground font-semibold uppercase tracking-widest leading-none mt-1">{t.role}</div>
                   </div>
-                )}
-                <blockquote className="italic text-lg text-muted mb-4">
-                  “{t.testimonial}”
-                </blockquote>
-                <div className="font-semibold text-current mb-1">{t.author}</div>
-                {t.role && <div className="text-sm text-gray-500 mb-1">{t.role}</div>}
-                {t.company && <div className="text-sm text-gray-500 mb-2">{t.company}</div>}
-                {showRating && t.rating && (
-                  <div className="flex gap-1 mt-2">
-                    {[...Array(t.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                )}
+                </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
       </div>
     </section>
   )
 }
-
-export default TestimonialsCarousel

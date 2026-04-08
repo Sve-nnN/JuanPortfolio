@@ -1,38 +1,31 @@
 import React from 'react'
 import type { ResultsSectionBlock } from '@/payload-types'
 
-export const ResultsSection: React.FC<ResultsSectionBlock> = (props) => {
-  const { title, description, stats, backgroundColor = 'gray' } = props
-
-  const bgColorClass =
-    backgroundColor === 'gray'
-      ? 'bg-gray-50 dark:bg-card-dark'
-      : backgroundColor === 'primary'
-        ? 'bg-primary/5 dark:bg-primary/10'
-        : 'bg-white dark:bg-card'
+export const ResultsSection: React.FC<ResultsSectionBlock & { locale?: 'en' | 'es' }> = (props) => {
+  const { title, description, stats, locale: _locale = 'es' } = props
 
   return (
-    <section className={`py-20 md:py-28 ${bgColorClass}`}>
+    <section className={`py-24 md:py-32 bg-background`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-current">{title}</h2>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             {description && (
-              <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">{description}</p>
+              <p className="mt-6 text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">{description}</p>
             )}
           </div>
 
           {stats && stats.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="bg-card p-6 rounded-lg shadow-lg text-center transform hover:scale-105 transition-transform duration-300"
+                  className="card-elevated p-10 text-center group cursor-default border-t-[6px] border-t-primary/10"
                 >
-                  <span className="text-5xl font-bold text-primary gradient-text block mb-2">
+                  <span className="text-6xl md:text-7xl font-bold text-primary block mb-4 tracking-tighter transition-transform duration-500 group-hover:scale-110">
                     {stat.value}
                   </span>
-                  <p className="text-lg font-semibold text-current">{stat.label}</p>
+                  <p className="text-lg md:text-xl font-bold text-foreground uppercase tracking-widest leading-tight">{stat.label}</p>
                 </div>
               ))}
             </div>

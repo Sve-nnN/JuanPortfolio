@@ -8,7 +8,6 @@ import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { WorkCards } from '../../blocks/WorkCards/config'
-import { ClientsCarousel } from '../../blocks/ClientsCarousel/config'
 import { Intro } from '../../blocks/Intro/config'
 import { HeroHome } from '../../blocks/HeroHome/config'
 import { AboutSection } from '../../blocks/AboutSection/config'
@@ -36,8 +35,10 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { syncKeywordsAfterPostSave } from '../Posts/hooks/syncKeywordsAfterPostSave'
 import { createRedirectOnSlugChange } from '../../hooks/createRedirectOnSlugChange'
 import { Section } from '../../blocks/Section/config'
+import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -55,7 +56,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -83,44 +84,7 @@ export const Pages: CollectionConfig<'pages'> = {
         es: 'Título',
       },
     },
-    // Grupo SEO
-    {
-      type: 'group',
-      name: 'meta_group',
-      label: 'SEO',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Meta título',
-          localized: true,
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          label: 'Meta descripción',
-          localized: true,
-        },
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Imagen para compartir (OpenGraph)',
-        },
-        {
-          name: 'jsonLD',
-          type: 'json',
-          label: 'Schema JSON-LD Customizado',
-          admin: {
-            description: 'Sobreescribe o añade Schema.org JSON-LD para esta página.',
-          },
-        },
-      ],
-      admin: {
-        description:
-          'Campos para SEO: título, descripción e imagen para compartir en redes sociales.',
-      },
-    },
+
     {
       type: 'tabs',
       tabs: [
@@ -152,7 +116,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'featuredClients',
               type: 'relationship',
-              relationTo: 'clients',
+              relationTo: 'clientes',
               hasMany: true,
               admin: {
                 description: 'Selecciona los clientes destacados para la sección de empresas',
@@ -212,17 +176,30 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 Intro,
                 WorkCards,
-                ClientsCarousel,
+                CalendlyEmbed,
               ],
               required: true,
-              // localize layout so pages can have different block content per locale
-              localized: true,
               admin: {
                 initCollapsed: true,
               },
             },
           ],
           label: 'Content',
+        },
+        {
+          name: 'searchConsole',
+          label: 'Search Console',
+          fields: [
+            {
+              name: 'gscData',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/components/admin/GSCField#GSCField',
+                },
+              },
+            },
+          ],
         },
       ],
     },
@@ -233,10 +210,41 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'gscClicks',
+      type: 'ui',
+      admin: {
+        components: {
+          Cell: '@/components/admin/GSCCell#GSCCell',
+        },
+      },
+      custom: {
+        collection: 'pages',
+      },
+    },
+    {
+      name: 'indexingControl',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'indexStatus',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Estado de indexación en Google. Se actualiza con Check Status.',
+      },
+    },
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePage, createRedirectOnSlugChange],
+    afterChange: [revalidatePage, createRedirectOnSlugChange, syncKeywordsAfterPostSave],
     beforeChange: [populatePublishedAt],
     afterDelete: [revalidateDelete],
   },

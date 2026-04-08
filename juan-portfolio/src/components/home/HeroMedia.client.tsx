@@ -17,6 +17,10 @@ export default function HeroMedia({ media }: Props) {
       return
     }
     if (typeof media === 'object' && media !== null) {
+      if ('cloudinaryUrl' in media && media.cloudinaryUrl) {
+        setSrc(media.cloudinaryUrl as string)
+        return
+      }
       if ('url' in media && media.url) {
         setSrc(media.url)
         return

@@ -7,7 +7,7 @@ import { MediaBlock } from '../MediaBlock/config'
 import { Archive } from '../ArchiveBlock/config'
 import { Intro } from '../Intro/config'
 import { WorkCards } from '../WorkCards/config'
-import { ClientsCarousel } from '../ClientsCarousel/config'
+import { FeaturedClients } from '../FeaturedClients/config'
 
 export const Section: Block = {
   slug: 'section',
@@ -91,7 +91,7 @@ export const Section: Block = {
       label: 'Inner blocks',
       type: 'blocks',
       // No permitimos Section dentro de Section en el MVP para evitar bucles
-      blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Intro, WorkCards, ClientsCarousel],
+      blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Intro, WorkCards, FeaturedClients],
       localized: true,
     },
   ],

@@ -1,8 +1,8 @@
 import type { Block } from 'payload'
 
 export const Code: Block = {
-  slug: 'code',
-  interfaceName: 'CodeBlock',
+  slug: 'code-block',
+  interfaceName: 'CodeBlockProps',
   fields: [
     {
       name: 'language',

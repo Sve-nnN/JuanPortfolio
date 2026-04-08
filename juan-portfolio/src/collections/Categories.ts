@@ -1,8 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-import { slugField } from '@/fields/slug'
-import { seoFields } from '@/plugins/seo/fields/seoFields'
+import { slugField } from '../fields/slug'
+import { seoFields } from '../plugins/seo/fields/seoFields'
 
 import type { Field } from 'payload'
 
@@ -12,6 +12,7 @@ function getCategoryFields(): Field[] {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       label: {
         en: 'Name',
         es: 'Nombre',
@@ -22,6 +23,7 @@ function getCategoryFields(): Field[] {
       name: 'description',
       type: 'textarea',
       required: false,
+      localized: true,
       label: {
         en: 'Description',
         es: 'Descripción',
@@ -40,6 +42,25 @@ function getCategoryFields(): Field[] {
       },
     },
     {
+      name: 'indexingControl',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'indexStatus',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Estado de indexación en Google. Se actualiza con Check Status.',
+      },
+    },
+    {
       name: 'faqs',
       label: { en: 'FAQs', es: 'Preguntas Frecuentes' },
       type: 'array',
@@ -47,6 +68,7 @@ function getCategoryFields(): Field[] {
         {
           name: 'question',
           type: 'text',
+          localized: true,
           label: { en: 'Question', es: 'Pregunta' },
           required: true,
           admin: {},
@@ -54,6 +76,7 @@ function getCategoryFields(): Field[] {
         {
           name: 'answer',
           type: 'textarea',
+          localized: true,
           label: { en: 'Answer', es: 'Respuesta' },
           required: true,
           admin: {},

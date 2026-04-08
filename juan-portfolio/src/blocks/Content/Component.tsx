@@ -18,8 +18,8 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   }
 
   return (
-    <AnimateOnScroll config={animation} className="container my-16">
-      <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-16">
+    <AnimateOnScroll config={animation} className="container py-16 md:py-24 lg:py-32">
+      <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-12 lg:gap-x-16">
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
@@ -28,13 +28,19 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
             return (
               <div
                 className={cn(`col-span-4 lg:col-span-${colsSpanClasses[size!]}`, {
-                  'md:col-span-2': size !== 'full',
+                  'md:col-span-2': size !== 'full' && size !== 'twoThirds',
                 })}
                 key={index}
               >
-                {richText && <RichText data={richText} enableGutter={false} />}
+                {richText && (
+                  <RichText
+                    data={richText}
+                    enableGutter={false}
+                    className="prose-lg"
+                  />
+                )}
 
-                {enableLink && <CMSLink {...link} />}
+                {enableLink && <CMSLink {...link} className="mt-6" />}
               </div>
             )
           })}

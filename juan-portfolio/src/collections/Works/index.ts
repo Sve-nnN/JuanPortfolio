@@ -17,10 +17,12 @@ const Works: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'excerpt',
       type: 'textarea',
+      localized: true,
     },
     {
       name: 'cover',
@@ -30,7 +32,7 @@ const Works: CollectionConfig = {
     {
       name: 'tags',
       type: 'array',
-      fields: [{ name: 'label', type: 'text' }],
+      fields: [{ name: 'label', type: 'text', localized: true }],
     },
     {
       name: 'caseStudyUrl',

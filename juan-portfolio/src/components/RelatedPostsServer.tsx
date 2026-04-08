@@ -4,17 +4,19 @@ import { getRelatedPosts } from '@/utilities/getRelatedPosts'
 
 interface RelatedPostsServerProps {
   currentPostId: string | number
-  categoryId: string | number
+  categoryIds: (string | number)[]
+  locale?: 'en' | 'es'
 }
 
-const RelatedPostsServer = async ({ currentPostId, categoryId }: RelatedPostsServerProps) => {
+const RelatedPostsServer = async ({ currentPostId, categoryIds, locale }: RelatedPostsServerProps) => {
   const posts = await getRelatedPosts({
     currentPostId: String(currentPostId),
-    categoryIds: [String(categoryId)],
-    limit: 3
+    categoryIds: categoryIds.map(id => String(id)),
+    limit: 3,
+    locale
   })
 
-  return <RelatedPosts currentPostId={currentPostId} categoryId={categoryId} posts={posts} />
+  return <RelatedPosts posts={posts} locale={locale} />
 }
 
 export default RelatedPostsServer

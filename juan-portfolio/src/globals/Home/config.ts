@@ -4,8 +4,8 @@ import { AboutSection } from '../../blocks/AboutSection/config'
 import { FeaturedWorks } from '../../blocks/FeaturedWorks/config'
 import { FeaturedClients } from '../../blocks/FeaturedClients/config'
 import { FeaturedBlog } from '../../blocks/FeaturedBlog/config'
+import { FAQ } from '../../blocks/FAQ/config'
 import { ContactFormBlock } from '../../blocks/ContactFormBlock/config'
-import { ClientsCarousel } from '../../blocks/ClientsCarousel/config'
 import { FeaturedBlogPosts } from '../../blocks/FeaturedBlogPosts/config'
 import { FeaturedCaseStudies } from '../../blocks/FeaturedCaseStudies/config'
 import { AboutWithFeatures } from '../../blocks/AboutWithFeatures/config'
@@ -16,6 +16,7 @@ import { Content } from '../../blocks/Content/config'
 import { LatestBlogPosts } from '../../blocks/LatestBlogPosts/config'
 import { LatestCaseStudies } from '../../blocks/LatestCaseStudies/config'
 import { TestimonialsCarousel } from '../../blocks/TestimonialsCarousel/config'
+import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
 
 export const Home: GlobalConfig = {
   slug: 'home',
@@ -35,9 +36,9 @@ export const Home: GlobalConfig = {
         FeaturedWorks,
         FeaturedClients,
         FeaturedBlog,
+        FAQ,
         FeaturedBlogPosts,
         FeaturedCaseStudies,
-        ClientsCarousel,
         ContactFormBlock,
         TestimonialSection,
         ResultsSection,
@@ -45,6 +46,7 @@ export const Home: GlobalConfig = {
         LatestCaseStudies,
         TestimonialsCarousel,
         // Bloques generales
+        CalendlyEmbed,
         CallToAction,
         Content,
       ],

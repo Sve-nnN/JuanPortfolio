@@ -1,7 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { CopyIcon } from '@payloadcms/ui/icons/Copy'
+import { Copy } from 'lucide-react'
 import { useState } from 'react'
+import { trackEvent } from '@/utilities/analytics'
 
 export function CopyButton({ code }: { code: string }) {
   const [text, setText] = useState('Copy')
@@ -23,10 +24,14 @@ export function CopyButton({ code }: { code: string }) {
         onClick={async () => {
           await navigator.clipboard.writeText(code)
           updateCopyStatus()
+          trackEvent('code_copied', { 
+            code_length: code.length,
+            timestamp: new Date().toISOString()
+          })
         }}
       >
         <p>{text}</p>
-        <CopyIcon />
+        <Copy />
       </Button>
     </div>
   )

@@ -1,80 +1,52 @@
 import React from 'react'
 import type { CaseStudyHeaderBlock } from '@/payload-types'
 import { Media } from '@/components/Media'
-import Link from 'next/link'
-import { ChevronRight, Home } from 'lucide-react'
 
-export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock> = (props) => {
-  const { eyebrow, title, description, featuredImage, projectInfo } = props
-
+export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock & { locale?: 'en' | 'es' }> = ({
+  eyebrow,
+  title,
+  description,
+  featuredImage,
+  projectInfo,
+  locale: _locale,
+}) => {
   return (
-    <section className="py-20 md:py-32">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Breadcrumb */}
-          <nav
-            aria-label="Breadcrumb"
-            className="flex text-sm text-gray-600 dark:text-gray-400 mb-8"
-          >
-            <ol className="inline-flex items-center space-x-1 md:space-x-3">
-              <li className="inline-flex items-center">
-                <Link
-                  href="/"
-                  className="inline-flex items-center hover:text-primary transition-colors"
-                >
-                  <Home className="w-4 h-4 mr-2" />
-                  Home
-                </Link>
-              </li>
-              <li>
-                <div className="flex items-center">
-                  <ChevronRight className="w-4 h-4" />
-                  <Link href="/#work" className="ml-1 md:ml-2 hover:text-primary transition-colors">
-                    Casos de Estudio
-                  </Link>
-                </div>
-              </li>
-              <li aria-current="page">
-                <div className="flex items-center">
-                  <ChevronRight className="w-4 h-4" />
-                  <span className="ml-1 md:ml-2 font-medium text-current">{title}</span>
-                </div>
-              </li>
-            </ol>
-          </nav>
-
-          {/* Header content */}
-          <div className="text-center mb-12">
-            {eyebrow && <span className="text-primary font-semibold">{eyebrow}</span>}
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-current mt-4 mb-6 leading-tight">
-              {title}
-            </h1>
-            {description && (
-              <p className="text-lg text-gray-700 dark:text-gray-300">{description}</p>
-            )}
-          </div>
-
-          {/* Featured image */}
-          {featuredImage && typeof featuredImage === 'object' && (
-            <div className="w-full h-auto rounded-lg shadow-2xl mb-16 aspect-video overflow-hidden">
-              <Media resource={featuredImage} className="w-full h-full object-cover" />
-            </div>
+    <section className="container mx-auto px-4 pt-16 pb-8">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-16">
+          {eyebrow && (
+            <span className="inline-block text-primary font-bold uppercase tracking-widest text-sm mb-6 bg-primary/10 px-4 py-1.5 rounded-full">
+              {eyebrow}
+            </span>
           )}
-
-          {/* Project info grid */}
-          {projectInfo && projectInfo.length > 0 && (
-            <div
-              className={`grid grid-cols-1 md:grid-cols-${Math.min(projectInfo.length, 4)} gap-8 mb-16`}
-            >
-              {projectInfo.map((info, index) => (
-                <div key={index} className="bg-card p-6 rounded-lg shadow-md text-center">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{info.label}</p>
-                  <p className="font-bold text-current text-lg mt-1">{info.value}</p>
-                </div>
-              ))}
-            </div>
+          <h1 className="text-5xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter mb-8 leading-[0.9] text-foreground">
+            {title}
+          </h1>
+          {description && (
+            <p className="text-xl md:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium">
+              {description}
+            </p>
           )}
         </div>
+
+        {featuredImage && typeof featuredImage === 'object' && (
+          <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl mb-16">
+            <Media resource={featuredImage} fill className="object-cover" />
+          </div>
+        )}
+
+        {projectInfo && projectInfo.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-border">
+            {projectInfo.map((info, i) => (
+              <div key={i} className="flex flex-col gap-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  {info.label}
+                </span>
+                <span className="text-lg font-medium">{info.value}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

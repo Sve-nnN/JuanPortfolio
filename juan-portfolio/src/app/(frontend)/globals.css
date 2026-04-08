@@ -3,42 +3,78 @@
 @tailwind utilities;
 
 @layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: unset;
-    font-weight: unset;
-  }
-
   :root {
-    /* Design color tokens (light theme) */
-    --color-primary: #2563eb; /* Stronger blue */
-    --color-bg: #ffffff;
-    --color-bg-2: #f8fafc;
-    --color-text: #0f172a;
-    --color-muted: #64748b;
-    --color-card: #ffffff;
-    --color-border: #e2e8f0;
-
-    /* keep legacy tokens (if some code refers to them) but avoid overriding main colors */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --radius: 0.5rem; /* Rounder corners = more modern */
+    /* OKLCH Design Tokens (Light Theme) */
+    --background: 0.98 0.01 220;
+    --foreground: 0.15 0.01 220;
+    
+    --card: 0.96 0.01 220;
+    --card-foreground: 0.15 0.01 220;
+    
+    --popover: 0.98 0.01 220;
+    --popover-foreground: 0.15 0.01 220;
+    
+    --primary: 0.55 0.18 250;
+    --primary-foreground: 0.98 0.01 220;
+    
+    --secondary: 0.92 0.02 220;
+    --secondary-foreground: 0.2 0.02 220;
+    
+    --muted: 0.88 0.02 220;
+    --muted-foreground: 0.45 0.02 220;
+    
+    --accent: 0.92 0.02 220;
+    --accent-foreground: 0.2 0.02 220;
+    
+    --destructive: 0.55 0.2 25;
+    --destructive-foreground: 0.98 0.01 220;
+    
+    --border: 0.88 0.02 220;
+    --input: 0.88 0.02 220;
+    --ring: 0.55 0.18 250;
+    
+    --radius: 1rem;
+    
+    /* Depth Tokens */
+    --highlight: 1 0 0;
+    --shadow-ambient: oklch(0 0 0 / 0.05);
+    --shadow-directional: oklch(0 0 0 / 0.1);
   }
 
-  /* Toggle dark mode via the `dark` class on <html> (project's ThemeProvider uses this) */
   .dark {
-    /* Dark theme color tokens - Premium Tech Look */
-    --color-primary: #3b82f6; /* Bright Blue */
-    --color-bg: #020617; /* Very deep slate/black */
-    --color-bg-2: #0f172a; /* Slate 900 */
-    --color-text: #f8fafc; /* Slate 50 */
-    --color-muted: #94a3b8; /* Slate 400 */
-    --color-card: #0f172a; /* Card background match bg-2 usually or slightly lighter */
-    --color-border: #1e293b; /* Slate 800 */
+    /* OKLCH Design Tokens (Dark Theme - 100-L Symmetry) */
+    --background: 0.12 0.01 220;
+    --foreground: 0.95 0.01 220;
+    
+    --card: 0.16 0.01 220;
+    --card-foreground: 0.95 0.01 220;
+    
+    --popover: 0.12 0.01 220;
+    --popover-foreground: 0.95 0.01 220;
+    
+    --primary: 0.65 0.18 250;
+    --primary-foreground: 0.12 0.01 220;
+    
+    --secondary: 0.22 0.02 220;
+    --secondary-foreground: 0.95 0.02 220;
+    
+    --muted: 0.25 0.02 220;
+    --muted-foreground: 0.65 0.02 220;
+    
+    --accent: 0.22 0.02 220;
+    --accent-foreground: 0.95 0.02 220;
+    
+    --destructive: 0.45 0.2 25;
+    --destructive-foreground: 0.95 0.01 220;
+    
+    --border: 0.22 0.02 220;
+    --input: 0.22 0.02 220;
+    --ring: 0.65 0.18 250;
+
+    /* Depth Tokens Dark */
+    --highlight: oklch(1 0 0 / 0.1);
+    --shadow-ambient: oklch(0 0 0 / 0.2);
+    --shadow-directional: oklch(0 0 0 / 0.4);
   }
 }
 
@@ -48,142 +84,50 @@
   }
 
   html {
+    font-size: 14px;
     scroll-behavior: smooth;
   }
 
   body {
-    /* Use design tokens for background and text so components match the provided HTML */
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    /* Use Khand as the base UI font (variable set by next/font/local)
-       The variable contains a fallback font name; provide sensible fallbacks. */
-    font-family:
-      var(--font-khand),
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial;
+    @apply bg-background text-foreground min-h-screen flex flex-col antialiased;
+    font-family: var(--font-khand), ui-sans-serif, system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight text-foreground;
+    line-height: 1.1;
+    margin-bottom: 0.5em;
+  }
+
+  h1 { @apply text-5xl md:text-7xl lg:text-8xl; }
+  h2 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h3 { @apply text-3xl md:text-4xl; }
+  h4 { @apply text-2xl md:text-3xl; }
+}
+
+@layer components {
+  .card-elevated {
+    @apply bg-card rounded-3xl border border-border shadow-sm transition-all duration-300;
+    border-top-color: var(--highlight);
+    box-shadow: 0 4px 6px -1px var(--shadow-ambient), 0 2px 4px -2px var(--shadow-directional);
+  }
+
+  .card-elevated:hover {
+    @apply -translate-y-1 shadow-xl;
+    box-shadow: 0 20px 25px -5px var(--shadow-ambient), 0 8px 10px -6px var(--shadow-directional);
   }
 }
 
-html {
-  opacity: 0;
-}
-
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
-}
-
-/* Ensure headings use Array */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family:
-    var(--font-array),
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial;
-  color: var(--color-text);
-}
-
-/* Utilities and helpers to match the provided HTML design */
-.gradient-text {
-  background: linear-gradient(to right, #a78bfa, var(--primary));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.font-array {
+/* Utilities */
+.font-display {
   font-family: var(--font-array) !important;
 }
 
-.font-khand {
+.font-body {
   font-family: var(--font-khand) !important;
 }
 
-/* Color helper classes used throughout the project components */
-.text-primary {
-  color: var(--color-primary);
-}
-.text-muted {
-  color: var(--color-muted);
-}
-.bg-page {
-  background-color: var(--color-bg);
-}
-.bg-card {
-  background-color: var(--color-card);
-}
-.border-default {
-  border-color: var(--color-border);
-}
-
-/* Hero gradient that adapts to theme colors */
-.hero-gradient {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.35), transparent 30%),
-    radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.25), transparent 40%);
-}
-
-/* dark mode adjustments */
-.dark .hero-gradient {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(96, 165, 250, 0.25), transparent 30%),
-    radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.18), transparent 40%);
-}
-
-/* Small helper to match primary/10 usage (approximated with CSS variable + opacity) */
-.bg-primary\/10 {
-  background-color: rgba(59, 130, 246, 0.1);
-}
-
-/* Post specific styles */
-.prose > p:first-of-type {
-  font-size: 1.125rem;
-  color: var(--color-muted);
-  margin-top: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.post-meta {
-  display: flex;
-  gap: 1.25rem;
-  align-items: center;
-  color: var(--color-muted);
-  font-size: 0.875rem;
-}
-
-.lead {
-  font-size: 1.125rem;
-  color: var(--color-muted);
-  line-height: 1.6;
-}
-
-/* Marquee infinite animation for clients carousel */
-@keyframes marquee-infinite {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee-infinite {
-  animation: marquee-infinite 30s linear infinite;
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
 }

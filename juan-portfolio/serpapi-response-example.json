@@ -1,0 +1,994 @@
+{
+"search_metadata":
+{
+"id":
+"69a0ee668976f7096122ae44",
+"status":
+"Success",
+"json_endpoint":
+"https://serpapi.com/searches/Ihcw27ZP5sW92LwapBwZag/69a0ee668976f7096122ae44.json",
+"pixel_position_endpoint":
+"https://serpapi.com/searches/Ihcw27ZP5sW92LwapBwZag/69a0ee668976f7096122ae44.json_with_pixel_position",
+"created_at":
+"2026-02-27 01:07:50 UTC",
+"processed_at":
+"2026-02-27 01:07:50 UTC",
+"google_url":
+"https://www.google.com/search?q=guia+eeat&oq=guia+eeat&gl=mx&sourceid=chrome&ie=UTF-8",
+"raw_html_file":
+"https://serpapi.com/searches/Ihcw27ZP5sW92LwapBwZag/69a0ee668976f7096122ae44.html",
+"total_time_taken":
+5.81
+},
+"search_parameters":
+{
+"engine":
+"google",
+"q":
+"guia eeat",
+"google_domain":
+"google.com",
+"gl":
+"mx",
+"device":
+"desktop"
+},
+"search_information":
+{
+"query_displayed":
+"guia eeat",
+"total_results":
+101000,
+"time_taken_displayed":
+0.78,
+"organic_results_state":
+"Showing results for exact spelling despite spelling suggestion",
+"spelling_fix":
+"guia aeat"
+},
+"inline_videos":
+[
+{
+"position":
+1,
+"title":
+"¿Qué es el EEAT en SEO y cómo trabajarlo en la web ...",
+"link":
+"https://www.youtube.com/watch?v=ZVTVSuJk8hA",
+"thumbnail":
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWdDmNTzEgvyLIJfSlum6TZWAqQSWAU-IkqErVG0R4XxGlbjjMBpAj-A&s",
+"channel":
+"VISIBILIDADON",
+"platform":
+"YouTube"
+},
+{
+"position":
+2,
+"title":
+"Descubre el Significado de \"EEAT\" en SEO | Guía Completa ...",
+"link":
+"https://www.youtube.com/watch?v=Cun75mmKGF0",
+"thumbnail":
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOhBzA2Vu2hD1fbz-sInRX7ch3JhML8V9FQSOdRxQgZappf9Fk5ktj3g&s",
+"channel":
+"COINTIC",
+"platform":
+"YouTube"
+},
+{
+"position":
+3,
+"title":
+"¿Qué es el EEAT en SEO y cómo puedes aplicarlo a tu sitio ...",
+"link":
+"https://www.youtube.com/watch?v=Wvi9wFCluE4",
+"thumbnail":
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNajvssm48aRc1jGuOSCOFNotdOluYZg4sPlZKIjeGjAxfG74BJFdHZA&s",
+"channel":
+"SiteGround España",
+"platform":
+"YouTube"
+}
+],
+"related_questions":
+[
+{
+"question":
+"¿Qué es el contenido eeat?",
+"type":
+"featured_snippet",
+"snippet":
+"EEAT son las siglas en inglés de “Experience, Expertise, Authoritativeness y Trustworthiness”, que traducido al español vendría a ser: Experiencia, Conocimiento, Autoridad y Confianza, y es un conjunto de premisas que Google utiliza para determinar la calidad de un sitio web y su contenido en relación con su relevancia ...",
+"title":
+"Qué es EEAT en SEO, beneficios y ejemplos - Wix.com",
+"date":
+"14 dic 2023",
+"link":
+"https://es.wix.com/blog/que-es-eeat#:~:text=EEAT%20son%20las%20siglas%20en,en%20relaci%C3%B3n%20con%20su%20relevancia",
+"displayed_link":
+"https://es.wix.com › blog › que-es-eeat",
+"source_logo":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/l2f3R-XlZ6BKoA9lB_XhOT7k7q3WkcEyXGDTu5eM4xI.png",
+"next_page_token":
+"eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv1F1w6kgZXMgZWwgY29udGVuaWRvIGVlYXQ/IiwibGsiOiJHaGh4ZFdVZ1pYTWdaV3dnWTI5dWRHVnVhV1J2SUdWbFlYUSIsImJzIjoiYy1PeTVaSTV0RC13OVBCS2hkUmloZFFjaGVUOHZKTFV2TXlVZklYVTFNUVNlNGtYRmtaU1VoS0ZwYWxZNWJuOHVOUU83WGN1UGJ3d0J5aGRuSi1ua0pOZnJHQ2lVSkNaazFnRUZFbEpWU2pOVXdoMjliYzNVcEZTU2k1TnhLZXNPRFdmUzVtTEg4azVZQmZNU1RmaWxlSXN6MGdzQVF0b01IRDVjS2xDRlJWbnB1ZGxwbVVtSndKTlRDd0djVUdVcTY2cnJxTnVpTDNFOGdRakJTazVrT094S3dTWko4QUlBQSIsImlkIjoiZmNfYS02Z2FjMWxtcXlhMlFfdDlkN29BZ18yIn0=",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google_related_questions&google_domain=google.com&next_page_token=eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv1F1w6kgZXMgZWwgY29udGVuaWRvIGVlYXQ%2FIiwibGsiOiJHaGh4ZFdVZ1pYTWdaV3dnWTI5dWRHVnVhV1J2SUdWbFlYUSIsImJzIjoiYy1PeTVaSTV0RC13OVBCS2hkUmloZFFjaGVUOHZKTFV2TXlVZklYVTFNUVNlNGtYRmtaU1VoS0ZwYWxZNWJuOHVOUU83WGN1UGJ3d0J5aGRuSi1ua0pOZnJHQ2lVSkNaazFnRUZFbEpWU2pOVXdoMjliYzNVcEZTU2k1TnhLZXNPRFdmUzVtTEg4azVZQmZNU1RmaWxlSXN6MGdzQVF0b01IRDVjS2xDRlJWbnB1ZGxwbVVtSndKTlRDd0djVUdVcTY2cnJxTnVpTDNFOGdRakJTazVrT094S3dTWko4QUlBQSIsImlkIjoiZmNfYS02Z2FjMWxtcXlhMlFfdDlkN29BZ18yIn0%3D"
+},
+{
+"question":
+"¿Cuáles son los 4 pilares de un SEO?",
+"type":
+"ai_overview",
+"text_blocks":
+[
+{
+"type":
+"paragraph",
+"snippet":
+"Los 4 pilares fundamentales del SEO son: SEO Técnico, SEO On-Page, SEO Off-Page y Contenido (a veces integrado en On-Page, pero crucial) o a veces se añade SEO Local, enfocándose en la velocidad del sitio, optimización de palabras clave, construcción de autoridad con enlaces, y contenido relevante y de calidad para la experiencia del usuario y los motores de búsqueda.",
+"snippet_highlighted_words":
+[
+"SEO Técnico, SEO On-Page, SEO Off-Page y Contenido"
+],
+"reference_indexes":
+[
+1,
+2,
+3,
+4
+]
+},
+{
+"type":
+"heading",
+"snippet":
+"Desglose de los pilares:"
+},
+{
+"type":
+"list",
+"list":
+[
+{
+"title":
+"SEO Técnico:",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=SEO+T%C3%A9cnico&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QxccNegUIlgEQAQ",
+"snippet":
+"Se enfoca en la infraestructura del sitio web para que los motores de búsqueda puedan rastrear e indexar las páginas eficientemente.",
+"list":
+[
+{
+"snippet":
+"Aspectos clave: Velocidad de carga, optimización móvil (responsive design), arquitectura del sitio, estructura de URLs, sitemaps, robots.txt, marcado de datos estructurados (Schema) y manejo de errores (enlaces rotos).",
+"reference_indexes":
+[
+0,
+1
+]
+}
+],
+"reference_indexes":
+[
+1,
+4,
+0
+]
+},
+{
+"title":
+"SEO On-Page (Optimización en la página):",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=SEO+On-Page&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QxccNegUIhwEQAQ",
+"snippet":
+"Optimiza los elementos dentro de cada página para mejorar su relevancia para las consultas de búsqueda.",
+"list":
+[
+{
+"snippet":
+"Aspectos clave: Títulos (title tags), meta descripciones, encabezados (H1, H2, etc.), optimización de imágenes (alt text), palabras clave, enlaces internos, usabilidad y contenido de alta calidad.",
+"reference_indexes":
+[
+1
+]
+}
+],
+"reference_indexes":
+[
+1,
+3
+]
+},
+{
+"title":
+"SEO Off-Page (Optimización fuera de la página):",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=SEO+Off-Page&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QxccNegUIkAEQAQ",
+"snippet":
+"Acciones realizadas fuera de tu sitio web para construir su autoridad y reputación.",
+"list":
+[
+{
+"snippet":
+"Aspectos clave: Construcción de enlaces (backlinks) de calidad, menciones de marca, marketing en redes sociales y SEO local (Google Business Profile).",
+"reference_indexes":
+[
+1,
+3
+]
+}
+],
+"reference_indexes":
+[
+1,
+3
+]
+},
+{
+"title":
+"Contenido (Keyword Research y Calidad):",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Keyword+Research&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QxccNegUInwEQAQ",
+"snippet":
+"El corazón de cualquier estrategia SEO, creando contenido valioso que responda a las necesidades del usuario y use las palabras clave correctas.",
+"list":
+[
+{
+"snippet":
+"Aspectos clave: Investigación de palabras clave (keyword research), creación de contenido útil, relevante, original y profundo, y experiencia del usuario (UX).",
+"reference_indexes":
+[
+1,
+3
+]
+}
+],
+"reference_indexes":
+[
+1,
+3,
+4
+]
+}
+]
+},
+{
+"type":
+"paragraph",
+"snippet":
+"Algunos expertos agrupan contenido dentro del SEO On-Page, mientras que otros lo tratan como un pilar separado debido a su importancia fundamental, y a veces, se incluye el SEO Local como un pilar independiente para negocios geolocalizados, según este artículo.",
+"reference_indexes":
+[
+1,
+3
+]
+}
+],
+"thumbnail":
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8ptYk66uJQLforXyLw_RWoZaTpr9YW4YFP35wbi_jhlUJThNBRnW1AQTIlQ&s",
+"references":
+[
+{
+"title":
+"4 Pilares de tu estrategia SEO + IA en 2026: Lo vigente y como evolucinó",
+"link":
+"https://www.hint.mx/blog/4-pilares-de-tu-estrategia-seo-que-son-y-seguiran-vigentes#:~:text=Un%20sitio%20t%C3%A9cnicamente%20s%C3%B3lido%20no,(entity%2Dbased%20SEO).",
+"snippet":
+"2 dic 2025 — Un sitio técnicamente sólido no es solo responsivo: tiene arquitectura limpia, indexación controlada, enlazado interno e...",
+"source":
+"HINT.MX",
+"index":
+0
+},
+{
+"title":
+"¿El fin del SEO? Los 4 pilares que necesitas HOY",
+"link":
+"https://www.youtube.com/watch?t=254&v=ysirEWmZ0k0",
+"snippet":
+"15 may 2024 — lo hacen también en chatbots y ya encuentran una respuesta el chatbot ya entrega una respuesta es importante recordar q...",
+"source":
+"YouTube · Semrush en español",
+"index":
+1
+},
+{
+"title":
+"SEO 101: Los cuatro pilares de un SEO eficaz | SGD",
+"link":
+"https://translate.google.com/translate?client=sge&hl=es&sl=en&tl=es&u=https%3A%2F%2Fsgd.com.au%2Ffour-pillars-seo%2F#:~:text=Los%20cuatro%20pilares%20del%20SEO%20son:,SEO%20fuera%20del%20sitio",
+"snippet":
+"Traducido — Los cuatro pilares del SEO son: SEO técnico. Contenido. Optimización in situ. SEO fuera del sitio.",
+"source":
+"sgd.com.au",
+"index":
+2
+},
+{
+"title":
+"Los 4 pilares del SEO: las bases de una estrategia SEO exitosa - WebFX",
+"link":
+"https://translate.google.com/translate?client=sge&hl=es&sl=en&tl=es&u=https%3A%2F%2Fwww.webfx.com%2Fblog%2Fseo%2Fpillars-of-seo%2F#:~:text=M%C3%A1s%20informaci%C3%B3n-,%C2%BFCu%C3%A1les%20son%20los%20pilares%20del%20SEO?,:%20autoridad%2C%20relevancia%20y%20experiencia.",
+"snippet":
+"Traducido — ¿Cuáles son los pilares del SEO? Los cuatro pilares del SEO son: SEO on-page, SEO off-page, SEO técnico y contenido. Por ...",
+"source":
+"webfx.com",
+"index":
+3
+},
+{
+"title":
+"Los 4 pilares del SEO y cómo definen tu éxito online - DevriX",
+"link":
+"https://translate.google.com/translate?client=sge&hl=es&sl=en&tl=es&u=https%3A%2F%2Fdevrix.com%2Ftutorial%2Fseo-pillars-strategy%2F#:~:text=Dicho%20esto%2C%20deconstruyamos%20cada%20uno,SEO%20fuera%20de%20la%20p%C3%A1gina.",
+"snippet":
+"Traducido — Dicho esto, deconstruyamos cada uno de los cuatro pilares del SEO: SEO técnico, SEO en la página, contenido y SEO fuera d...",
+"source":
+"devrix.com",
+"index":
+4
+}
+],
+"next_page_token":
+"eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv0N1w6FsZXMgc29uIGxvcyA0IHBpbGFyZXMgZGUgdW4gU0VPPyIsImxrIjoiR2lKamRXRnNaWE1nYzI5dUlHeHZjeUEwSUhCcGJHRnlaWE1nWkdVZ2RXNGdjMlZ2IiwiYnMiOiJjLU95NVpJNXRELXc5UEJLaGRSaWhkUWNoZVQ4dkpMVXZNeVVmSVhVMU1RU2U0a1hGa1pTVWhLRnBhbFk1Ym44dU5RTzdYY3VQYnd3QnloZG5KLW5rSk5mckdDaVVKQ1prMWdFRkVsSlZTak5Vd2gyOWJjM1VwRlNTaTVOeEtlc09EV2ZTNW1MSDhrNVlCZk1TVGZpbGVJc3owZ3NBUXRvTUhENWNLbENGUlZucHVkbHBtVW1Kd0pOVEN3R2NVR1VxNjZycnFOdWlMM0U4Z1FqQlNrNWtPT3hLd1NaSjhBSUFBIiwiaWQiOiJmY19hLTZnYWMxbG1xeWEyUV90OWQ3b0FnXzIifQ==",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google_related_questions&google_domain=google.com&next_page_token=eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv0N1w6FsZXMgc29uIGxvcyA0IHBpbGFyZXMgZGUgdW4gU0VPPyIsImxrIjoiR2lKamRXRnNaWE1nYzI5dUlHeHZjeUEwSUhCcGJHRnlaWE1nWkdVZ2RXNGdjMlZ2IiwiYnMiOiJjLU95NVpJNXRELXc5UEJLaGRSaWhkUWNoZVQ4dkpMVXZNeVVmSVhVMU1RU2U0a1hGa1pTVWhLRnBhbFk1Ym44dU5RTzdYY3VQYnd3QnloZG5KLW5rSk5mckdDaVVKQ1prMWdFRkVsSlZTak5Vd2gyOWJjM1VwRlNTaTVOeEtlc09EV2ZTNW1MSDhrNVlCZk1TVGZpbGVJc3owZ3NBUXRvTUhENWNLbENGUlZucHVkbHBtVW1Kd0pOVEN3R2NVR1VxNjZycnFOdWlMM0U4Z1FqQlNrNWtPT3hLd1NaSjhBSUFBIiwiaWQiOiJmY19hLTZnYWMxbG1xeWEyUV90OWQ3b0FnXzIifQ%3D%3D"
+},
+{
+"question":
+"¿Qué es eeat?",
+"type":
+"featured_snippet",
+"snippet":
+"EEAT significa Experiencia, Conocimiento, Autoridad y Confiabilidad , factores cruciales que Google utiliza para evaluar y clasificar la calidad y relevancia del contenido de un sitio web. Redactado por Savannah Swanson. Última actualización: 6 de febrero de 2026.",
+"title":
+"¿Qué es EEAT y por qué es importante para el SEO?",
+"date":
+"6 feb 2026",
+"link":
+"https://translate.google.com/translate?u=https://www.seo.com/basics/glossary/e-e-a-t/&hl=es&sl=en&tl=es&client=rq#:~:text=E%2DE%2DA%2DT%20stands%20for%20Expertise%2C%20Experience,Last%20Updated%20February%206%2C%202026",
+"displayed_link":
+"https://www.seo.com › basics › glossary › e-e-a-t",
+"source_logo":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/l2f3R-XlZ6BKoA9lB_XhOfPkoa8JTWDYHgzSHhpXTJ8.png",
+"next_page_token":
+"eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv1F1w6kgZXMgZWVhdD8iLCJsayI6IkdnbDNhR0YwSUdWbFlYUW9BQSIsImJzIjoiYy1PeTVaSTV0RC13OVBCS2hkUmloZFFjaGVUOHZKTFV2TXlVZklYVTFNUVNlNGtYRmtaU1VoS0ZwYWxZNWJuOHVOUU83WGN1UGJ3d0J5aGRuSi1ua0pOZnJHQ2lVSkNaazFnRUZFbEpWU2pOVXdoMjliYzNVcEZTU2k1TnhLZXNPRFdmUzVtTEg4azVZQmZNU1RmaWxlSXN6MGdzQVF0b01IRDVjS2xDRlJWbnB1ZGxwbVVtSndKTlRDd0djVUdVcTY2cnJxTnVpTDNFOGdRakJTazVrT094S3dTWko4QUlBQSIsImlkIjoiZmNfYS02Z2FjMWxtcXlhMlFfdDlkN29BZ18yIn0=",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google_related_questions&google_domain=google.com&next_page_token=eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv1F1w6kgZXMgZWVhdD8iLCJsayI6IkdnbDNhR0YwSUdWbFlYUW9BQSIsImJzIjoiYy1PeTVaSTV0RC13OVBCS2hkUmloZFFjaGVUOHZKTFV2TXlVZklYVTFNUVNlNGtYRmtaU1VoS0ZwYWxZNWJuOHVOUU83WGN1UGJ3d0J5aGRuSi1ua0pOZnJHQ2lVSkNaazFnRUZFbEpWU2pOVXdoMjliYzNVcEZTU2k1TnhLZXNPRFdmUzVtTEg4azVZQmZNU1RmaWxlSXN6MGdzQVF0b01IRDVjS2xDRlJWbnB1ZGxwbVVtSndKTlRDd0djVUdVcTY2cnJxTnVpTDNFOGdRakJTazVrT094S3dTWko4QUlBQSIsImlkIjoiZmNfYS02Z2FjMWxtcXlhMlFfdDlkN29BZ18yIn0%3D"
+},
+{
+"question":
+"¿Qué significan las siglas E-E-A-T?",
+"type":
+"featured_snippet",
+"snippet":
+"E-E-A-T es el acrónimo de experiencia, conocimiento, autoridad y confiabilidad (experience, expertise, authoritativeness, trustworthiness).",
+"title":
+"E-E-A-T: Importancia en SEO para tu estrategia online - ESIC",
+"link":
+"https://www.esic.edu/rethink/business/que-es-e-e-a-t-importancia-seo-c#:~:text=E%2DE%2DA%2DT%20es%20el%20acr%C3%B3nimo%20de,expertise%2C%20authoritativeness%2C%20trustworthiness).",
+"displayed_link":
+"https://www.esic.edu › rethink › business › que-es-e-e-a-t...",
+"source_logo":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/l2f3R-XlZ6BKoA9lB_XhOQuUeLsyk5r7cG3BGAILyzk.png",
+"next_page_token":
+"eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv1F1w6kgc2lnbmlmaWNhbiBsYXMgc2lnbGFzIEUtRS1BLVQ/IiwibGsiOiJjNU9TS3l4TlZTak9UTV9MVE10TVRzeFR5RWtzQm5GQlZHcHFZZ2tBIiwiYnMiOiJjLU95NVpJNXRELXc5UEJLaGRSaWhkUWNoZVQ4dkpMVXZNeVVmSVhVMU1RU2U0a1hGa1pTVWhLRnBhbFk1Ym44dU5RTzdYY3VQYnd3QnloZG5KLW5rSk5mckdDaVVKQ1prMWdFRkVsSlZTak5Vd2gyOWJjM1VwRlNTaTVOeEtlc09EV2ZTNW1MSDhrNVlCZk1TVGZpbGVJc3owZ3NBUXRvTUhENWNLbENGUlZucHVkbHBtVW1Kd0pOVEN3R2NVR1VxNjZycnFOdWlMM0U4Z1FqQlNrNWtPT3hLd1NaSjhBSUFBIiwiaWQiOiJmY19hLTZnYWMxbG1xeWEyUV90OWQ3b0FnXzIifQ==",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google_related_questions&google_domain=google.com&next_page_token=eyJvbnMiOiIxMDA0MSIsImZjIjoiRXFBQkNtSkJUVzR6TFhsVWVHMVdObVpHWTB4RFNsQlllalJNVVU0MVExSnVNMDB6UlVneGQxaGhjbnBMZWsxS2FVTk1RbUpIVDBkVU9FMUZaVUZUZVVaUmMxRnNSWGx1Y0VWalNrbFZkMlZMUWpORFJuQldka3BYYTNaYVJtaHlSRTlsY213eFFSSVdZUzAyWjJGak1XeHRjWGxoTWxGZmREbGtOMjlCWnhvaVFVcExURVp0U1dJdE5reExjMEZ4TkRsTk5uZE5WRm95Tm5aNVpqUXhSM2RhVVEiLCJmY3YiOiIzIiwiZWkiOiJhLTZnYWMxbG1xeWEyUV90OWQ3b0FnIiwicWMiOiJDZ2xuZFdsaElHVmxZWFFRRG4wYnZ4MF9vZ0VDWlhNIiwicXVlc3Rpb24iOiLCv1F1w6kgc2lnbmlmaWNhbiBsYXMgc2lnbGFzIEUtRS1BLVQ%2FIiwibGsiOiJjNU9TS3l4TlZTak9UTV9MVE10TVRzeFR5RWtzQm5GQlZHcHFZZ2tBIiwiYnMiOiJjLU95NVpJNXRELXc5UEJLaGRSaWhkUWNoZVQ4dkpMVXZNeVVmSVhVMU1RU2U0a1hGa1pTVWhLRnBhbFk1Ym44dU5RTzdYY3VQYnd3QnloZG5KLW5rSk5mckdDaVVKQ1prMWdFRkVsSlZTak5Vd2gyOWJjM1VwRlNTaTVOeEtlc09EV2ZTNW1MSDhrNVlCZk1TVGZpbGVJc3owZ3NBUXRvTUhENWNLbENGUlZucHVkbHBtVW1Kd0pOVEN3R2NVR1VxNjZycnFOdWlMM0U4Z1FqQlNrNWtPT3hLd1NaSjhBSUFBIiwiaWQiOiJmY19hLTZnYWMxbG1xeWEyUV90OWQ3b0FnXzIifQ%3D%3D"
+}
+],
+"ai_overview":
+{
+"page_token":
+"yvV7gHicxZTdkqJGFMev8yDhJquI304VleoG1NaZUZSRMTcUNEyDgrg2yOhd3iVPtRf7LGlQGfya3aRSlVNlN8Lpw_n48f_zL99bLb_98t2NojV94PkkScokDInvlHEY8CbdrTD_Fvp0g93fiS8G79xuK9Y4TMUK53iiWWoSEwt-8HVnVlUj6titEBAuOycalkmdBQv7vqC8wbNl-WtNZn_KtOxQoy50ylH1fWDslyVl2C5XK-zGiDcD5gT-eyMASIcNLNMFnT-G7Kdm622D7Gm6Shc-yjF2wZLMBUKJpEdA91Y4CSCYHVSnAMhGtCiR7AUfMc-ci-8k4CXdkKsqqad77Q9u1XHIEeVNuGWX91VwaBoA_UIy922euxAAjWJEmWT3TyXGiHVJPYWSEXDkdwDqk5u9So0VBHWAp_0GuBpd0YbAs8Bal1WAeJswkiq8tWGbwHvYxdnFhqaASVqnEnb1xO7PSDTDdotaenulaSpZbl-iOQQ8tpifH5q2YxuuUfmS4YxpzjMt8mxvnXpEX82KhcuPZSgUQE6zVc8HwrL7mPaP7N6wWIR08L3sap43RU7S0Ovci3VeZx7qR9NgdnkT5DzyyTX9udd-haMSgmeHZHBV2qECCTylzZif8joDSSnWCSEE7NtRjjJQGDcBKCFEymqQIDuVFPOGRcfskyUQFnJL1_4pGmKIpkDKoFc_JKUQBUwOYVT2NaI0ZUIuaIPk4y2shTEiyc-P8qzg-1pzjH4i9wLEIsBKq9bFYeIq2vR1L-98u1G1fCS_0tVSPQIbBtY_VGD8v2Cd67Oa6XMPXWOtfoI1BBP0I30-5nbUZ_dMny-wlqQLfTau9TnHWgKDAtZ39bmAdRr7E6zJHazJDaylC6y9T7CeF7AeXOgzzPU5x_pf6TP8eX3O6HYO27lYxwtyV7T73mgaqsks9mK0j5ctXUCYJvHb2O2Sa9F-C6IH0_a_GJ79AKuDaGdzX0USe-ZvjmNGXOBvQrFithQr8F8sZC6iuNFsxIIvPGGIu5PnxxHSh5E7K1Ueld64upnQqTN_2gsTc7iWngZbrb8idFENNE9otKetAOC5lsx31VFts-7sk0Bv_OHTujxbGWjmJZrzLIUlRdG2YWdJxzEaLjd-w-8lxGuO9dHa7DY1xyqRLC8q1tsjx9wjuzsOuWCDRTaQOgHPKtAJxABwFJuGQ7dix3KEtuPUnGbdbtabmAtItFuLdYGjq40o_A2oatYQ",
+"serpapi_link":
+"https://serpapi.com/search.json?engine=google_ai_overview&page_token=yvV7gHicxZTdkqJGFMev8yDhJquI304VleoG1NaZUZSRMTcUNEyDgrg2yOhd3iVPtRf7LGlQGfya3aRSlVNlN8Lpw_n48f_zL99bLb_98t2NojV94PkkScokDInvlHEY8CbdrTD_Fvp0g93fiS8G79xuK9Y4TMUK53iiWWoSEwt-8HVnVlUj6titEBAuOycalkmdBQv7vqC8wbNl-WtNZn_KtOxQoy50ylH1fWDslyVl2C5XK-zGiDcD5gT-eyMASIcNLNMFnT-G7Kdm622D7Gm6Shc-yjF2wZLMBUKJpEdA91Y4CSCYHVSnAMhGtCiR7AUfMc-ci-8k4CXdkKsqqad77Q9u1XHIEeVNuGWX91VwaBoA_UIy922euxAAjWJEmWT3TyXGiHVJPYWSEXDkdwDqk5u9So0VBHWAp_0GuBpd0YbAs8Bal1WAeJswkiq8tWGbwHvYxdnFhqaASVqnEnb1xO7PSDTDdotaenulaSpZbl-iOQQ8tpifH5q2YxuuUfmS4YxpzjMt8mxvnXpEX82KhcuPZSgUQE6zVc8HwrL7mPaP7N6wWIR08L3sap43RU7S0Ovci3VeZx7qR9NgdnkT5DzyyTX9udd-haMSgmeHZHBV2qECCTylzZif8joDSSnWCSEE7NtRjjJQGDcBKCFEymqQIDuVFPOGRcfskyUQFnJL1_4pGmKIpkDKoFc_JKUQBUwOYVT2NaI0ZUIuaIPk4y2shTEiyc-P8qzg-1pzjH4i9wLEIsBKq9bFYeIq2vR1L-98u1G1fCS_0tVSPQIbBtY_VGD8v2Cd67Oa6XMPXWOtfoI1BBP0I30-5nbUZ_dMny-wlqQLfTau9TnHWgKDAtZ39bmAdRr7E6zJHazJDaylC6y9T7CeF7AeXOgzzPU5x_pf6TP8eX3O6HYO27lYxwtyV7T73mgaqsks9mK0j5ctXUCYJvHb2O2Sa9F-C6IH0_a_GJ79AKuDaGdzX0USe-ZvjmNGXOBvQrFithQr8F8sZC6iuNFsxIIvPGGIu5PnxxHSh5E7K1Ueld64upnQqTN_2gsTc7iWngZbrb8idFENNE9otKetAOC5lsx31VFts-7sk0Bv_OHTujxbGWjmJZrzLIUlRdG2YWdJxzEaLjd-w-8lxGuO9dHa7DY1xyqRLC8q1tsjx9wjuzsOuWCDRTaQOgHPKtAJxABwFJuGQ7dix3KEtuPUnGbdbtabmAtItFuLdYGjq40o_A2oatYQ"
+},
+"organic_results":
+[
+{
+"position":
+1,
+"title":
+"el E-A-T adquiere una E adicional de Experiencia",
+"link":
+"https://developers.google.com/search/blog/2022/12/google-raters-guidelines-e-e-a-t?hl=es",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://developers.google.com/search/blog/2022/12/google-raters-guidelines-e-e-a-t%3Fhl%3Des&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECCAQAQ",
+"displayed_link":
+"https://developers.google.com › search › blog › 2022/12",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGnw6g0eCP3s0iGu4EBsZTDE.png",
+"snippet":
+"El E-E-A-T ahora es parte de las directrices para evaluadores de la búsqueda actualizadas que acabamos de lanzar. En las directrices también verás ...",
+"snippet_highlighted_words":
+[
+"El E-E-A-T ahora es parte de las directrices para evaluadores"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"El E-E-A-T ahora es parte de las directrices para evaluadores de la búsqueda actualizadas que acabamos de lanzar. En las directrices también verás ...",
+"source_info_link":
+"https://developers.google.com/search/blog/2022/12/google-raters-guidelines-e-e-a-t?hl=es",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGumu9nfojbrlg6wd5B9kS9xd7xOI8Ga5-pxCv5Si2KXL.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://developers.google.com/search/blog/2022/12/google-raters-guidelines-e-e-a-t?hl=es&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fdevelopers.google.com%2Fsearch%2Fblog%2F2022%2F12%2Fgoogle-raters-guidelines-e-e-a-t%3Fhl%3Des",
+"source":
+"Google for Developers"
+},
+{
+"position":
+2,
+"title":
+"E-E-A-T SEO Google [2026]: Guía Completa + 12 Acciones ...",
+"link":
+"https://ninjaseo.es/eeat-seo-google/",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ninjaseo.es/eeat-seo-google/&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECBsQAQ",
+"displayed_link":
+"https://ninjaseo.es › eeat-seo-google",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGiSHiUhh6cac8Y_0n-ADeYs.png",
+"date":
+"7 ene 2026",
+"snippet":
+"El EEAT (Experiencia, Conocimiento, Autoridad y Fiabilidad) es un conjunto de criterios que Google utiliza para evaluar la calidad de los ...",
+"snippet_highlighted_words":
+[
+\"EEAT\"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"El EEAT (Experiencia, Conocimiento, Autoridad y Fiabilidad) es un conjunto de criterios que Google utiliza para evaluar la calidad de los ...",
+"source_info_link":
+"https://ninjaseo.es/eeat-seo-google/",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGipFvPOXbSIHdsCguCOOTZ4dVMfBapZRcsa13W01OX4r.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://ninjaseo.es/eeat-seo-google/&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fninjaseo.es%2Feeat-seo-google%2F",
+"source":
+"ninjaseo.es"
+},
+{
+"position":
+3,
+"title":
+"EEAT: sácale ventaja a la credibilidad de tu sitio",
+"link":
+"https://www.wearecontent.com/blog/seo/eeat-conoce-las-claves",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.wearecontent.com/blog/seo/eeat-conoce-las-claves&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECBkQAQ",
+"displayed_link":
+"https://www.wearecontent.com › eeat-conoce-las-claves",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGthqGqr8-R-91YNeNfOh08Q.png",
+"date":
+"14 oct 2025",
+"snippet":
+"EEAT son los criterios que Google toma en cuenta para determinar la calidad del contenido. Aquí encuentras las claves para usarlo a tu ...",
+"snippet_highlighted_words":
+[
+\"EEAT\"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"EEAT son los criterios que Google toma en cuenta para determinar la calidad del contenido. Aquí encuentras las claves para usarlo a tu ...",
+"source_info_link":
+"https://www.wearecontent.com/blog/seo/eeat-conoce-las-claves",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGskWteu8KpJyDzNaJlETunjx3muMtovdeCuGR-6IhWDx.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://www.wearecontent.com/blog/seo/eeat-conoce-las-claves&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.wearecontent.com%2Fblog%2Fseo%2Feeat-conoce-las-claves",
+"source":
+"WeAreContent"
+},
+{
+"position":
+4,
+"title":
+"EEAT: Más que una introducción a la experiencia, la pericia ...",
+"link":
+"https://translate.google.com/translate?u=https://www.kopp-online-marketing.com/e-a-t-expertise-authority-trust&hl=es&sl=en&tl=es&client=srp",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://translate.google.com/translate%3Fu%3Dhttps://www.kopp-online-marketing.com/e-a-t-expertise-authority-trust%26hl%3Des%26sl%3Den%26tl%3Des%26client%3Dsrp&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECB8QAQ",
+"displayed_link":
+"https://www.kopp-online-marketing.com › e-a-t-experti...",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGub1q4Wkcu5aU-kqApQfzK0.png",
+"snippet":
+"Primero, el concepto EEAT se introdujo como una guía para evaluar la calidad manualmente mediante calificaciones de calidad humanas para evaluar la calidad ...",
+"snippet_highlighted_words":
+[
+"una guía para evaluar la calidad manualmente"
+],
+"rich_snippet":
+{
+"top":
+{
+"detected_extensions":
+{
+"rating":
+4.3,
+"reviews":
+80
+},
+"extensions":
+[
+"4.3(80)"
+]
+}
+},
+"about_this_result":
+{
+"source":
+{
+"description":
+"Primero, el concepto EEAT se introdujo como una guía para evaluar la calidad manualmente mediante calificaciones de calidad humanas para evaluar la calidad ...",
+"source_info_link":
+"https://www.kopp-online-marketing.com/e-a-t-expertise-authority-trust",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGg3XZYU01uqr8PkmAZnG-C67MaYmlUM9-BdtyLBGdU9z.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://www.kopp-online-marketing.com/e-a-t-expertise-authority-trust&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.kopp-online-marketing.com%2Fe-a-t-expertise-authority-trust",
+"source":
+"kopp-online-marketing.com"
+},
+{
+"position":
+5,
+"title":
+"¿Qué es Google EEAT? Una guía práctica para potenciar ...",
+"link":
+"https://translate.google.com/translate?u=https://www.seoinc.com/seo-blog/what-is-e-a-t/&hl=es&sl=en&tl=es&client=srp",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://translate.google.com/translate%3Fu%3Dhttps://www.seoinc.com/seo-blog/what-is-e-a-t/%26hl%3Des%26sl%3Den%26tl%3Des%26client%3Dsrp&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECCsQAQ",
+"displayed_link":
+"https://www.seoinc.com › SEO Blog",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGt594LUsZrGQ7ylCYd2H3ms.png",
+"snippet":
+"Es un marco que Google utiliza para evaluar la calidad del contenido de sus sitios web. EEAT es un aspecto esencial del algoritmo de búsqueda de Google, ya que ...",
+"snippet_highlighted_words":
+[
+"Es un marco que Google utiliza para evaluar la calidad del contenido de sus sitios web"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"Es un marco que Google utiliza para evaluar la calidad del contenido de sus sitios web. EEAT es un aspecto esencial del algoritmo de búsqueda de Google, ya que ...",
+"source_info_link":
+"https://www.seoinc.com/seo-blog/what-is-e-a-t/",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGru5NB6RC01im6Mx64zYA9P6opsoo3dzaswUOSG3UkpD.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://www.seoinc.com/seo-blog/what-is-e-a-t/&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.seoinc.com%2Fseo-blog%2Fwhat-is-e-a-t%2F",
+"source":
+"SEO Inc"
+},
+{
+"position":
+6,
+"title":
+"EEAT en 2026: Cómo Google y la IA evalúan tu contenido",
+"link":
+"https://www.iomarketing.es/blog/eeat-google-guia-2026/",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.iomarketing.es/blog/eeat-google-guia-2026/&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECC0QAQ",
+"displayed_link":
+"https://www.iomarketing.es › Blog",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGvqi9xr2Wgu2Wxnhps_QGrY.png",
+"date":
+"17 dic 2025",
+"snippet":
+"En esta guía encontrarás una explicación clara, actualizada y accionable sobre qué es el EEAT, cómo aplicarlo y cómo convertirlo en una ventaja ...",
+"snippet_highlighted_words":
+[
+"guía",
+\"EEAT\"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"En esta guía encontrarás una explicación clara, actualizada y accionable sobre qué es el EEAT, cómo aplicarlo y cómo convertirlo en una ventaja ...",
+"source_info_link":
+"https://www.iomarketing.es/blog/eeat-google-guia-2026/",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGlGc4xXoXwSOnlTMrlgt0ceGR4UVoyh-FG8QrQvdFpqG.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://www.iomarketing.es/blog/eeat-google-guia-2026/&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.iomarketing.es%2Fblog%2Feeat-google-guia-2026%2F",
+"source":
+"IOMarketing"
+},
+{
+"position":
+7,
+"title":
+"▷ Guía EEAT y SEO | Mejora tu posicionamiento en Google",
+"link":
+"https://agenciaseo.eu/eeat-seo/",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://agenciaseo.eu/eeat-seo/&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECCwQAQ",
+"displayed_link":
+"https://agenciaseo.eu › SEO › Visitas",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGr_u1k0_8AsiMTdJqp1YlxA.png",
+"date":
+"26 nov 2025",
+"snippet":
+"8 Estrategias prácticas para mejorar el EEAT de tu web · 1. Genera contenido basado en experiencia y evidencia original · 2. Cuenta y destaca ...",
+"snippet_highlighted_words":
+[
+"8 Estrategias prácticas para mejorar el EEAT de tu web"
+],
+"sitelinks":
+{
+"inline":
+[
+{
+"title":
+"¿Por qué el EEAT en Google...",
+"link":
+"https://agenciaseo.eu/eeat-seo/#Por_que_el_EEAT_en_Google_es_crucial_para_tu_posicionamiento"
+},
+{
+"title":
+"8 Estrategias prácticas para...",
+"link":
+"https://agenciaseo.eu/eeat-seo/#8_Estrategias_practicas_para_mejorar_el_EEAT_de_tu_web"
+}
+]
+},
+"about_this_result":
+{
+"source":
+{
+"description":
+"8 Estrategias prácticas para mejorar el EEAT de tu web · 1. Genera contenido basado en experiencia y evidencia original · 2. Cuenta y destaca ...",
+"source_info_link":
+"https://agenciaseo.eu/eeat-seo/",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGtLZbUK_9TUjFLuU0Q1CCsI8wdl0xDMfmB7NVFM-aOEu.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://agenciaseo.eu/eeat-seo/&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fagenciaseo.eu%2Feeat-seo%2F",
+"source":
+"Agencia SEO"
+},
+{
+"position":
+8,
+"title":
+"Cómo potenciar tu SEO con la guía EAT de Google 2025",
+"link":
+"https://www.q2bstudio.com/nuestro-blog/342413/descubre-como-mejorar-tu-seo-guia-eat-google-2025-mayor-relevancia-confiabilidad-online-potencia-presencia-web",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.q2bstudio.com/nuestro-blog/342413/descubre-como-mejorar-tu-seo-guia-eat-google-2025-mayor-relevancia-confiabilidad-online-potencia-presencia-web&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECC8QAQ",
+"displayed_link":
+"https://www.q2bstudio.com › nuestro-blog › descubre-c...",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGktMX6ftOH1zClC4Uw6RNxk.png",
+"date":
+"9 dic 2025",
+"snippet":
+"La guía E-A-T de Google 2025: Cómo mejorar tu SEO con calidad y ganar visibilidad orgánica sin trucos ni atajos.",
+"snippet_highlighted_words":
+[
+"Cómo mejorar tu SEO con calidad"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"La guía E-A-T de Google 2025: Cómo mejorar tu SEO con calidad y ganar visibilidad orgánica sin trucos ni atajos.",
+"source_info_link":
+"https://www.q2bstudio.com/nuestro-blog/342413/descubre-como-mejorar-tu-seo-guia-eat-google-2025-mayor-relevancia-confiabilidad-online-potencia-presencia-web",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGjvRfinSEs7ntdBsJ7x4cadKvUPwKIMPlaotWNhTm_8F.png"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://www.q2bstudio.com/nuestro-blog/342413/descubre-como-mejorar-tu-seo-guia-eat-google-2025-mayor-relevancia-confiabilidad-online-potencia-presencia-web&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.q2bstudio.com%2Fnuestro-blog%2F342413%2Fdescubre-como-mejorar-tu-seo-guia-eat-google-2025-mayor-relevancia-confiabilidad-online-potencia-presencia-web",
+"source":
+"Q2BStudio"
+},
+{
+"position":
+9,
+"title":
+"La guía definitiva para optimizar sitios web para EEAT",
+"link":
+"https://www.adrenalina.es/la-guia-definitiva-para-optimizar-sitios-web-para-eeat/",
+"redirect_link":
+"https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.adrenalina.es/la-guia-definitiva-para-optimizar-sitios-web-para-eeat/&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0QFnoECDEQAQ",
+"displayed_link":
+"https://www.adrenalina.es › la-guia-definitiva-para-opti...",
+"favicon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGo3ayMP8M226rijx0LTen6M.jpeg",
+"date":
+"17 may 2024",
+"snippet":
+"EEAT se enfoca en evaluar la experiencia, autoridad y confiabilidad de un sitio web. La letra E representa si el autor y titular del sitio web ...",
+"snippet_highlighted_words":
+[
+"EEAT se enfoca en evaluar la experiencia, autoridad y confiabilidad de un sitio web"
+],
+"about_this_result":
+{
+"source":
+{
+"description":
+"EEAT se enfoca en evaluar la experiencia, autoridad y confiabilidad de un sitio web. La letra E representa si el autor y titular del sitio web ...",
+"source_info_link":
+"https://www.adrenalina.es/la-guia-definitiva-para-optimizar-sitios-web-para-eeat/",
+"icon":
+"https://serpapi.com/searches/69a0ee668976f7096122ae44/images/SIyBvmb4TNfM4Ny2x2yUGqs0NL5nANFMGle37lnb7_lFY6CioKmXkyqVmsHoF8E_.jpeg"
+},
+"languages":
+[
+"es"
+],
+"regions":
+[
+"419"
+]
+},
+"about_page_link":
+"https://www.google.com/search?q=About+https://www.adrenalina.es/la-guia-definitiva-para-optimizar-sitios-web-para-eeat/&tbm=ilp",
+"about_page_serpapi_link":
+"https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.adrenalina.es%2Fla-guia-definitiva-para-optimizar-sitios-web-para-eeat%2F",
+"source":
+"adrenalina.es"
+}
+],
+"related_searches":
+[
+{
+"block_position":
+1,
+"query":
+"E-E-A-T Google",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=E-E-A-T+Google&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAgpEAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=E-E-A-T+Google"
+},
+{
+"block_position":
+1,
+"query":
+"EEAT SEO",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=EEAT+SEO&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAg4EAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=EEAT+SEO"
+},
+{
+"block_position":
+1,
+"query":
+"Contenido EEAT",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Contenido+EEAT&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAg1EAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=Contenido+EEAT"
+},
+{
+"block_position":
+1,
+"query":
+"Guia de seo google",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Guia+de+seo+google&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAgzEAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=Guia+de+seo+google"
+},
+{
+"block_position":
+1,
+"query":
+"Guía de SEO para principiantes",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Gu%C3%ADa+de+SEO+para+principiantes&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAgyEAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=Gu%C3%ADa+de+SEO+para+principiantes"
+},
+{
+"block_position":
+1,
+"query":
+"Eaat google",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Eaat+google&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAgwEAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=Eaat+google"
+},
+{
+"block_position":
+1,
+"query":
+"Como hacer SEO en mi página web",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Como+hacer+SEO+en+mi+p%C3%A1gina+web&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAguEAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=Como+hacer+SEO+en+mi+p%C3%A1gina+web"
+},
+{
+"block_position":
+1,
+"query":
+"Como posicionar una página web",
+"link":
+"https://www.google.com/search?sca_esv=9be18ee3e64d646c&gl=mx&q=Como+posicionar+una+p%C3%A1gina+web&sa=X&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q1QJ6BAgqEAE",
+"serpapi_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=Como+posicionar+una+p%C3%A1gina+web"
+}
+],
+"pagination":
+{
+"current":
+1,
+"next":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=10&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8NMDegQIDBAW",
+"other_pages":
+{
+"2":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=10&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAE",
+"3":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=20&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAG",
+"4":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=30&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAI",
+"5":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=40&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAK",
+"6":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=50&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAM",
+"7":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=60&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAO",
+"8":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=70&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAQ",
+"9":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=80&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAS",
+"10":
+"https://www.google.com/search?q=guia+eeat&sca_esv=9be18ee3e64d646c&gl=mx&ei=a-6gac1lmqya2Q_t9d7oAg&start=90&sa=N&sstk=Af77f_dRgSD_o3lsajPo0CEjXkvGWsFAl-TNTqzsa0Zffe8Yj8OZJHfQbZnuAe1cG8G3GvYH5Ywposxd2zOZw-pIh7ad2v89-3ju3g&ved=2ahUKEwiNx-HvvfiSAxUaliYFHe26Fy0Q8tMDegQIDBAU"
+}
+},
+"serpapi_pagination":
+{
+"current":
+1,
+"next_link":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=10",
+"next":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=10",
+"other_pages":
+{
+"2":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=10",
+"3":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=20",
+"4":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=30",
+"5":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=40",
+"6":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=50",
+"7":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=60",
+"8":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=70",
+"9":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=80",
+"10":
+"https://serpapi.com/search.json?device=desktop&engine=google&gl=mx&google_domain=google.com&q=guia+eeat&start=90"
+}
+}
+}

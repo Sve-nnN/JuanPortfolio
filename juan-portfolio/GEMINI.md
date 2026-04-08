@@ -1,80 +1,191 @@
-# GEMINI.md
+1. Before writing any code, describe your approach and wait for aproval.
+2. If the requirements I give you are ambiguous, as clarifying questions before  writing any code.
+3.  After you finish writing any code, list the edge cases and suggest test cases to cover them.
+4. If a task requires changes to more than 3 files, stop and break it into smaller tasks firsts.
+5. When there's a bug, start by writing a test that reproduces it. Then fix it until the test passes.
+6. Every time I correct you, reflect on what you did wrong and come up with a plan to never make the same mistake again.
+
+# JuanPortfolio / JuanTech - AI instructional Context
+
+This project is a high-performance, enterprise-grade portfolio and blog platform built with **Next.js 15** and **Payload CMS 3.0**. It follows a code-first approach where the CMS configuration and the frontend reside in the same repository, sharing types and utilities.
 
 ## Project Overview
 
-This is a website project built with Next.js and Payload CMS. It serves as a template for creating websites, blogs, or portfolios. The project includes a fully-functional backend, an enterprise-grade admin panel, and a production-ready website.
+- **Frontend**: Next.js 15 (App Router) with Turbopack support. Styled with Tailwind CSS and Shadcn UI.
+- **Backend (CMS)**: Payload CMS 3.0 (Headless), using MongoDB as the database via Mongoose.
+- **Language**: strict TypeScript throughout.
+- **Localization**: Full support for English (`en`) and Spanish (`es`) at both the CMS and Frontend levels.
+## Content Strategy
 
-**Main Technologies:**
-
-*   **Next.js:** A React framework for building server-side rendered and statically generated web applications.
-*   **Payload CMS:** A headless CMS for managing content.
-*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
-*   **MongoDB:** A NoSQL database used by Payload CMS.
-*   **React:** A JavaScript library for building user interfaces.
-*   **Tailwind CSS:** A utility-first CSS framework for rapid UI development.
-
-**Architecture:**
-
-The project is structured as a monorepo with the Next.js frontend and Payload CMS backend integrated. The `src` directory contains the source code for both the frontend and the backend. The `src/app` directory contains the Next.js application, while the `src/collections` and `src/globals` directories define the Payload CMS data structures.
+- **Source of truth**: Markdown files in `content/posts/`.
+- **Bidirectional Sync**: Advanced Git-like synchronization between local Markdown files and Payload CMS.
+- **Conversion**: Automatic Markdown <-> Lexical JSON transformation.
+- **Bilingual Naming**: `article.md` (Spanish default), `article.en.md` (English), `article.es.md` (explicit Spanish). Locale is resolved from the filename first, then the `idioma` frontmatter field, then defaults to `es`.
 
 ## Building and Running
 
-**Installation:**
+### Commands
+
+| Action               | Command                                       |
+| :------------------- | :-------------------------------------------- |
+| **Install**          | `pnpm install`                                |
+| **Development**      | `pnpm dev`                                    |
+| **Generate Post**    | `pnpm create-post [-- --provider=anthropic\|openai\|gemini]` |
+| **Re-export Post**   | `pnpm create-post -- --re-export`             |
+| **Scrape KW Metrics**| `pnpm scrape:dinorank "keyword" [--country=es]` |
+| **Sync Status**      | `pnpm sync status`                            |
+| **Push Content**     | `pnpm sync push [--post=<filename.md>] [--force]`   |
+| **Sync Keywords**    | `pnpm sync:keywords [--fetch-serp] [--verbose]` |
+| **Search Keyword**   | `npx tsx src/scripts/search-keyword.ts "tu palabra clave"` |
+| **Link Automation**  | `npx tsx src/scripts/build-internal-links.ts [--classify] [--cluster-only] [--locale en\|es] [--dry-run]` |
+| **SEO Metrics**      | `npx tsx src/scripts/update-seo-metrics.ts`   |
+| **Keyword Gap**      | `npx tsx src/scripts/update-seo-metrics.ts --analyze-gap` |
+| **Sync GSC Data**    | `pnpm run sync:gsc`                           |
+| **CWV Monitoring**   | `npx tsx src/scripts/seo/update-cwv.ts`       |
+
+## Content Automation Scripts
+
+### create-post (`src/scripts/create-post.ts`)
+
+Automates the full post-creation pipeline: keyword selection from `content/keywords.md`, article generation via DinoRank DinoBrain (Playwright), LLM frontmatter generation, and `pnpm sync push` to Payload CMS.
+
+- Provider flag: `--provider=anthropic` (default), `--provider=openai`, `--provider=gemini`. Also reads `LLM_PROVIDER` env var.
+- `--re-export`: Re-assemble a post from history without re-generating content.
+- `--keyword=<value>`: Skip interactive selection.
+- Account state persisted in `content/dinorank-state.json`. Max 5 posts per account; new accounts created automatically when exhausted.
+- Adapters: `src/scripts/create-post/llm-adapters.ts` — `AnthropicAdapter`, `OpenAiAdapter`, `GeminiAdapter`, `createAdapter(provider)`.
+
+### scrape-dinorank (`src/scripts/scrape-dinorank.ts`)
+
+Extracts volume, competition, and CPC from DinoRank Keyword Research via **pure HTTP API**.
+
+**Features:**
+- **Atomic Sync**: Updates `keywords.md` line-by-line during enrichment.
+- **Smart Discover**: `--discover` flag iterates countries to find best volume/difficulty.
+- **Onboarding**: Auto-completes DinoRank onboarding to activate 150 trial credits.
+- **Account Health**: Auto-deletes failed logins and filters expired trials (7 days).
+
+**HTTP flow:**
+1. `GET /login/` → get initial cookies.
+2. `POST /ajax/login.php` → authenticate.
+3. `GET /homed/` → initialize session (navigation headers required).
+4. `GET /keyword-research/` → prepare session.
+5. `POST /ajax/kresearch.php` → poll results.
+6. `POST /ajax/kresearchTrackeo.php` → browser-like tracking.
+7. `POST /ajax/cierra.php` → **Logout in `finally`**.
+
+**Error handling & retry:**
+- `DeviceConflictError` — login response hints at device conflict. Account excluded, session cleared, retry with next account.
+- `NoCreditsError` — `kresearch.php` returns no valid JSON. Account excluded, new account created via API.
+- Any other error (login failure, network) — account excluded and rotated silently.
+- Up to 10 retry attempts total in `scrapeWithRetry`.
+
+**Account registry:** `content/dinorank-accounts-registry.json` — fields: `email`, `password`, `kwCredits`, `contentCredits`, `keywords[]`, `content[]`, `lastUsed`.
+
+**Cache:** `content/dinorank-kw-cache.json` — 30-day TTL per keyword+country key. Format: `{ "<keyword>_<country>": KWCacheEntry }`.
+
+**Exported for tests:** `updateMarkdownTable`, `isCacheValid`, `loadCache`, `saveCache`, `scrapeOnce`, `scrapeWithRetry`, `DeviceConflictError`, `NoCreditsError`, `internals`.
+
+## Content Synchronization (Git-like)
+
+The project uses a custom synchronization engine (`src/scripts/syncContent.ts`) to manage content and keywords across local files and the CMS database. The engine delegates to focused modules under `src/scripts/sync/`:
+
+| Module | Responsibility |
+| :----- | :------------- |
+| `localeDetector.ts` | Resolves locale from filename suffix, then frontmatter, then defaults to `es` |
+| `stateManager.ts` | Loads/saves `content/content-sync.json`; migrates legacy `idioma` field to `locale` |
+| `postParser.ts` | Parses frontmatter, validates required fields, builds Payload-compatible post data |
+| `payloadRepository.ts` | Single repository for all CMS reads/writes using a generic `resolveByField()` helper |
+
+### Core Workflow
+1. **Keywords**: Sync `keywords.md` to the CMS using `pnpm sync:keywords`.
+2. **Content**: Push local Markdown edits using `pnpm sync push [--post=<filename.md>] [--force]`. This automatically links posts to their primary and semantic keywords in the CMS.
+3. **Analytics**: Run `pnpm run sync:gsc` to download Search Console data and aggregate performance metrics directly into your keywords.
+4. **Pull**: Download remote CMS edits back to local Markdown with `pnpm sync pull`.
+
+### Intelligence Layer
+- **Automatic Linking**: Frontmatter keywords are resolved to Payload document IDs during sync.
+- **Semantic Link Matching**: Uses Dice's Coefficient (NLP) to validate context before inserting internal links.
+- **Performance Tracking**: Clicks, impressions, and position are tracked at both the Page and Keyword levels.
+- **SGE Citability Score**: Competitor analysis detects if top-ranking pages are optimized for AI extraction.
+- **Intent Multipliers**: Opportunity scores are weighted by conversion intent (BOFU > MOFU > TOFU).
+- **Top-Down Semantic Gap**: Integrated crawler identifies missing 3-5 word technical phrases from competitors, filtered by semantic similarity to avoid duplicates.
+- **i18n Isolation**: Enforced language-specific internal linking and keyword extraction.
+
+## Topic Cluster System
+
+Internal linking is governed by `src/scripts/build-internal-links.ts` using a hub-and-spoke model.
+
+### Frontmatter Fields
+
+| Field | Values | Notes |
+| :---- | :----- | :---- |
+| `contentRole` | `pillar` \| `satellite` \| `standalone` | Required for cluster linking |
+| `pillarSlug` | e.g. `digital-marketing` | Required on satellite posts |
+
+### Key Modules
+
+| Module | Responsibility |
+| :----- | :------------- |
+| `topicCluster.ts` | Pure functions: `buildClusterMap`, `getMissingClusterLinks`, `getClusterSummaries` |
+| `FrontmatterTagger.ts` | Infers and writes `contentRole` to post frontmatter using word count and title heuristics |
+| `ContentScanner.ts` | Scans posts for keyword opportunities; enforces locale isolation |
+| `LinkInjector.ts` | Inserts markdown links into post bodies; appends "See Also" when no natural anchor exists |
+
+### Structural Link Rules
+
+- A satellite without a link to its pillar gets one injected automatically.
+- A pillar without a link to a satellite gets one injected automatically.
+- Structural links are applied before keyword-based links and are not subject to the `maxLinksPerKeyword` limit.
+
+### Locale Isolation
+
+Posts only receive links to content in the same locale (`idioma` field). Cross-locale linking is never injected.
+
+### CLI Usage
 
 ```bash
-pnpm install
+npx tsx src/scripts/build-internal-links.ts --dry-run         # preview only
+npx tsx src/scripts/build-internal-links.ts --classify        # tag unclassified posts
+npx tsx src/scripts/build-internal-links.ts --cluster-only    # structural links only
+npx tsx src/scripts/build-internal-links.ts --locale es       # single locale
 ```
 
-**Running in Development:**
+## 2026 SEO Strategy (Source of Truth)
 
-```bash
-pnpm dev
-```
+- **AI Overviews (SGE) Optimization**: 
+  - Mandatary 40-50 word TL;DR summary below H1.
+  - Clean HTML lists (`<ul>`, `<ol>`) for crawler extraction.
+  - Mandatory "Information Gain" (unique data/perspective not found in competitors).
+  - **SGE Validator**: Use `validateSGECompliance` in `src/scripts/seo/seo-logic.ts` to audit draft quality.
+- **Semantic Depth & NLP**: 
+  - Focus on entities rather than keyword density.
+  - Semantic similarity check using Dice's Coefficient for all automated internal links.
+- **Topic Cluster Architecture**:
+  - **Pillar Pages** (`contentRole: pillar`): Comprehensive guides (3,000+ words) with high internal link density, linking out to all satellites.
+  - **Satellite Pages** (`contentRole: satellite`, `pillarSlug: <slug>`): Focused long-tail articles that always link back to their pillar.
+  - **Standalone Pages** (`contentRole: standalone`): Self-contained posts with no cluster relationship.
+  - Structural links are enforced automatically by `build-internal-links.ts` regardless of keyword matching.
+- **pSEO Verdicts**: Strong expert verdicts in technical comparisons ("Use Case Winner") to build E-E-A-T.
 
-This will start the development server at `http://localhost:3000`.
 
-**Building for Production:**
 
-```bash
-pnpm build
-```
+### Environment Variables
 
-**Running in Production:**
+Ensure `.env` is configured with:
 
-```bash
-pnpm start
-```
-
-**Testing:**
-
-*   **End-to-end tests:**
-
-    ```bash
-    pnpm test:e2e
-    ```
-
-*   **Integration tests:**
-
-    ```bash
-    pnpm test:int
-    ```
-
-**Linting:**
-
-```bash
-pnpm lint
-```
-
-To fix linting errors:
-
-```bash
-pnpm lint:fix
-```
+- `DATABASE_URI`: MongoDB connection string.
+- `PAYLOAD_SECRET`: Secret for CMS authentication.
+- `GSC_CLIENT_EMAIL`: Google Service Account email.
+- `GSC_PRIVATE_KEY`: Google Service Account private key.
+- `GSC_PROPERTY_URL`: Search Console property (e.g., `sc-domain:example.com`).
+- `NEXT_PUBLIC_GSC_PROPERTY_URL`: Base URL for GSC page mapping.
 
 ## Development Conventions
 
-*   **Package Manager:** The project uses `pnpm` as the package manager.
-*   **Code Style:** The project uses Prettier for code formatting and ESLint for linting.
-*   **Testing:** The project uses Playwright for end-to-end testing and Vitest for integration testing.
-*   **Commits:** The project follows the Conventional Commits specification for commit messages.
-*   **Branching:** The project uses the GitFlow branching model.
+- **Clean Code**: Adhere strictly to the "Clean Code" principles.
+- **TypeScript**: No `any` allowed. Use `pnpm generate:types` for CMS schema changes.
+- **SEO Workflow**:
+  - Update `content/keywords.md` using the metrics script.
+  - Sync GSC data regularly to monitor ranking improvements.
+  - Use the "Search Console" tab in Payload to analyze specific page performance.

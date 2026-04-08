@@ -8,8 +8,6 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 // Import built-in translations
 // If you want to customize admin translations, you can import them:
-// import { en } from '@payloadcms/translations/languages/en'
-// import { es } from '@payloadcms/translations/languages/es'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -19,14 +17,21 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
-import Clients from './collections/Clients'
+import Clientes from './collections/Clientes'
 import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanner'
 import Testimonials from './collections/Testimonials'
+import { KeywordMetrics } from './collections/KeywordMetrics'
+import { PageMetrics } from './collections/PageMetrics'
+import { GSCMetrics } from './collections/GSCMetrics'
+import { BrokenLinks } from './collections/BrokenLinks'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Home } from './globals/Home/config'
 import { BlogListing } from './globals/BlogListing/config'
 import { CaseStudiesListing } from './globals/CaseStudiesListing/config'
+import { Styles } from './globals/Styles/config'
+import { SiteSettings } from './globals/SiteSettings'
+import { LLM } from './globals/LLM/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -39,6 +44,14 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
+      beforeDashboard: ['@/components/admin/GSCSummary#GSCSummary'],
+      afterNavLinks: ['@/components/admin/GSCDashboardLink#GSCDashboardLink'],
+      views: {
+        GSCDashboard: {
+          Component: '@/components/admin/GSCDashboard#GSCDashboard',
+          path: '/gsc-dashboard',
+        },
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -70,10 +83,8 @@ export default buildConfig({
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   // Internationalization (admin UI translations)
-  // Keep only a fallback language for now. Removing `supportedLanguages`
-  // avoids runtime admin errors when translation objects are not installed.
   i18n: {
-    fallbackLanguage: 'en',
+    fallbackLanguage: 'es',
   },
   // Content localization (localized fields per document)
   localization: {
@@ -87,11 +98,15 @@ export default buildConfig({
         code: 'es',
       },
     ],
-    defaultLocale: 'en',
+    defaultLocale: 'es',
     fallback: true,
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      maxPoolSize: 5, // Maintain up to 5 socket connections
+      serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+    },
   }),
   collections: [
     Pages,
@@ -101,12 +116,16 @@ export default buildConfig({
     Users,
     Works,
     CaseStudies,
-    Clients,
+    Clientes,
     AdBannersCollection,
     Testimonials,
+    KeywordMetrics,
+    PageMetrics,
+    GSCMetrics,
+    BrokenLinks,
   ],
-  cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing],
+  cors: [getServerSideURL(), 'http://localhost:3000'].filter(Boolean),
+  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM],
   plugins: [
     ...plugins,
     mcpPlugin({
@@ -139,7 +158,7 @@ export default buildConfig({
           enabled: true,
           description: 'Detailed case studies',
         },
-        [Clients.slug]: {
+        [Clientes.slug]: {
           enabled: true,
           description: 'Client logos and info',
         },
@@ -150,6 +169,10 @@ export default buildConfig({
         [Testimonials.slug]: {
           enabled: true,
           description: 'Customer testimonials',
+        },
+        [PageMetrics.slug]: {
+          enabled: true,
+          description: 'Core Web Vitals metrics for pages',
         },
       },
       mcp: {
@@ -171,8 +194,8 @@ export default buildConfig({
     }),
   ],
   email: resendAdapter({
-    defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@example.com',
-    defaultFromName: process.env.EMAIL_FROM_NAME || 'Website',
+    defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@juan-tech.com',
+    defaultFromName: process.env.EMAIL_FROM_NAME || 'JuanTech',
     apiKey: process.env.RESEND_SECRET || '',
   }),
   secret: process.env.PAYLOAD_SECRET,

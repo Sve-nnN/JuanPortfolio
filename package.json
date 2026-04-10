@@ -139,8 +139,8 @@
     "vitest": "4.0.3"
   },
   "engines": {
-    "node": ">=18.20.2",
-    "pnpm": ">=9.0.0"
+    "node": "^20",
+    "pnpm": "^10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

@@ -137,3 +137,10 @@ dist
 
 .gemini/
 gha-creds-*.json
+
+# DinoRank Data
+content/dinorank-*.json
+content/keywords.csv
+
+# Agent State and Skills
+.agent/

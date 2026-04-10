@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Disallow: /admin/*
+
+# Host
+Host: https://juan-tech.com
+
+# Sitemaps
+Sitemap: https://juan-tech.com/sitemap.xml
+Sitemap: https://juan-tech.com/pages-sitemap.xml
+Sitemap: https://juan-tech.com/posts-sitemap.xml
+Sitemap: https://juan-tech.com/categories-sitemap.xml
+Sitemap: https://juan-tech.com/authors-sitemap.xml

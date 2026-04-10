@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { domAnimation, LazyMotion, m } from 'framer-motion'
+import React, { useEffect, useState, useMemo } from 'react'
+import { m } from 'framer-motion'
 import type { AnimationConfig } from '@/fields/animation'
 import { getAnimationVariants, getViewportOptions } from '@/utilities/animationVariants'
 
@@ -13,36 +13,33 @@ interface AnimateOnScrollProps {
 }
 
 export function AnimateOnScroll({ children, config, className, as = 'div' }: AnimateOnScrollProps) {
-  const [isMounted, setIsMounted] = useState(false)
+  // Check prefers-reduced-motion on mount only (avoid every render)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true)
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+      setPrefersReducedMotion(mediaQuery.matches)
+    }
   }, [])
 
-  // Respect reduced motion preference
-  const prefersReducedMotion =
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  // If animations are explicitly disabled, or not mounted, or reduced motion, just render children
-  if (config?.enabled === false || !isMounted || prefersReducedMotion) {
+  // If animations are explicitly disabled or reduced motion, just render children
+  if (config?.enabled === false || prefersReducedMotion) {
     return React.createElement(as as string, { className }, children)
   }
 
   const variants = getAnimationVariants(config)
-  // Added comment to force Hot Module Replacement (HMR) to clear the webpack cache for this file
   const MotionComponent = m[as] as React.ElementType
 
   return (
-    <LazyMotion features={domAnimation}>
-      <MotionComponent
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ ...getViewportOptions(config), margin: '0px 0px 500px 0px' }}
-        variants={variants}
-        className={className}
-      >
-        {children}
-      </MotionComponent>
-    </LazyMotion>
+    <MotionComponent
+      initial={false}
+      whileInView="visible"
+      viewport={{ ...getViewportOptions(config), margin: '0px 0px 500px 0px' }}
+      variants={variants}
+      className={className}
+    >
+      {children}
+    </MotionComponent>
   )
 }

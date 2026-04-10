@@ -1,15 +1,7 @@
 {
-  "buildCommand": "pnpm install --frozen-lockfile && pnpm build",
-  "installCommand": "pnpm install --frozen-lockfile",
+  "$schema": "https://vercel.com/schemas/vercel.json",
   "framework": "nextjs",
-  "nodeVersion": "20.x",
-  "env": {
-    "NODE_OPTIONS": "--no-deprecation --max-old-space-size=4096"
-  },
-  "rewrites": [
-    {
-      "source": "/admin/(.*)",
-      "destination": "/api/admin"
-    }
-  ]
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": ".next"
 }

@@ -1,0 +1,43 @@
+name: Validate Branch Name
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name format
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+
+          # Valid patterns:
+          # - main, develop (protected branches)
+          # - feat/*, feature/*
+          # - fix/*, bugfix/*
+          # - docs/*
+          # - refactor/*
+          # - chore/*
+          # - style/*
+          # - perf/*
+
+          if [[ "$BRANCH_NAME" =~ ^(main|develop|feat|feature|fix|bugfix|docs|refactor|chore|style|perf|ci|test)/ ]] || \
+             [[ "$BRANCH_NAME" == "main" ]] || \
+             [[ "$BRANCH_NAME" == "develop" ]]; then
+            echo "✅ Branch name '$BRANCH_NAME' is valid"
+            exit 0
+          else
+            echo "❌ Invalid branch name: '$BRANCH_NAME'"
+            echo ""
+            echo "Valid patterns:"
+            echo "  feat/feature-name       (new feature)"
+            echo "  fix/bug-name            (bug fix)"
+            echo "  docs/update-name        (documentation)"
+            echo "  refactor/change-name    (refactoring)"
+            echo "  chore/task-name         (maintenance)"
+            echo "  style/format-name       (styling)"
+            echo "  perf/optimization-name  (performance)"
+            echo ""
+            exit 1
+          fi

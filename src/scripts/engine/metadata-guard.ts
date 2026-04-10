@@ -26,9 +26,9 @@ export function validateAndRepairMetadata(metadata: DraftMetadata, keyword: stri
   const issues: string[] = []
   let repaired = false
 
-  let title = trimAndCollapse(metadata.title)
-  let metaTitle = trimAndCollapse(metadata.metaTitle)
-  let metaDescription = trimAndCollapse(metadata.metaDescription)
+  const title = trimAndCollapse(metadata.title)
+  const metaTitle = trimAndCollapse(metadata.metaTitle)
+  const metaDescription = trimAndCollapse(metadata.metaDescription)
 
   if (!title) {
     issues.push('Missing title')

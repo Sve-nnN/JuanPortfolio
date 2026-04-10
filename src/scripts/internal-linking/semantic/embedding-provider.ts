@@ -73,8 +73,8 @@ export class TransformersEmbeddingProvider implements EmbeddingProvider {
   private async getExtractor(): Promise<(text: string, options?: Record<string, unknown>) => Promise<unknown>> {
     if (!this.extractorPromise) {
       this.extractorPromise = (async () => {
-        const module = await dynamicImport<{ pipeline: (task: string, model: string, options?: Record<string, unknown>) => Promise<(text: string, options?: Record<string, unknown>) => Promise<unknown>> }>('@xenova/transformers');
-        return module.pipeline('feature-extraction', this.modelName, { quantized: true });
+        const transformers = await dynamicImport<{ pipeline: (task: string, model: string, options?: Record<string, unknown>) => Promise<(text: string, options?: Record<string, unknown>) => Promise<unknown>> }>('@xenova/transformers');
+        return transformers.pipeline('feature-extraction', this.modelName, { quantized: true });
       })();
     }
 

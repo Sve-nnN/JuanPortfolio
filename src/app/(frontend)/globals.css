@@ -131,3 +131,34 @@
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
 }
+
+/* Blob animations — CSS (compositor thread, zero INP impact) */
+@keyframes blob-primary {
+  0%, 100% {
+    opacity: 0.15;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translate3d(0, 0, 0) scale(1.15) rotate(90deg);
+  }
+}
+
+@keyframes blob-secondary {
+  0%, 100% {
+    opacity: 0.1;
+    transform: translate3d(0, 0, 0) scale(1.1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.2;
+    transform: translate3d(0, 0, 0) scale(1) rotate(-90deg);
+  }
+}
+
+.animate-blob-primary {
+  animation: blob-primary 20s linear infinite;
+}
+
+.animate-blob-secondary {
+  animation: blob-secondary 25s linear infinite;
+}

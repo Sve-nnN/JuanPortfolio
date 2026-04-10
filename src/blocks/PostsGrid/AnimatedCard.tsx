@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Card } from '@/components/Card'
 import type { Post } from '@/payload-types'
 
@@ -18,11 +18,12 @@ export const AnimatedCard: React.FC<AnimatedCardProps> = ({
   locale,
 }) => {
   return (
-    <motion.div
+    <m.div
       key={post.id}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.24) }}
+      viewport={{ once: true, margin: '0px 0px -100px 0px' }}
       className="group flex flex-col h-full"
     >
       <Card
@@ -32,6 +33,6 @@ export const AnimatedCard: React.FC<AnimatedCardProps> = ({
         showCategories={showCategories}
         locale={locale}
       />
-    </motion.div>
+    </m.div>
   )
 }

@@ -24,49 +24,51 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
     locale = 'es',
   } = props
 
-  // Fetch posts
+  // Fetch posts and categories in parallel
   let posts: Post[] = []
   let totalPages = 1
+  let categories: Category[] = []
 
   if (props.overridePosts) {
     posts = props.overridePosts
   } else {
     try {
       const payload = await getPayload({ config: configPromise })
-      const res = await payload.find({
-        collection: 'posts',
-        limit: postsPerPage || 6,
-        page,
-        depth: 1,
-        sort: '-publishedAt',
-        locale,
-        where: {
-          _status: {
-            equals: 'published',
-          },
-        },
-      })
-      posts = (res.docs as Post[]) || []
-      totalPages = res.totalPages
-    } catch {
-      // Fallback mock
-      posts = []
-    }
-  }
 
-  // Fetch categories if needed
-  let categories: Category[] = []
-  if (showCategories) {
-    try {
-      const payload = await getPayload({ config: configPromise })
-      const res = await payload.find({
-        collection: 'categories',
-        limit: 100,
-        pagination: false,
-        locale,
-      })
-      categories = (res.docs as Category[]) || []
+      // Run both queries in parallel
+      const [postsRes, categoriesRes] = await Promise.all([
+        payload.find({
+          collection: 'posts',
+          limit: postsPerPage || 6,
+          page,
+          depth: 1,
+          sort: '-publishedAt',
+          locale,
+          where: {
+            _status: {
+              equals: 'published',
+            },
+          },
+        }),
+        showCategories
+          ? payload.find({
+              collection: 'categories',
+              limit: 100,
+              pagination: false,
+              locale,
+            })
+          : Promise.resolve(null),
+      ])
+
+      posts = (postsRes.docs as Post[]) || []
+      totalPages = postsRes.totalPages
+
+      if (categoriesRes) {
+        categories = (categoriesRes.docs as Category[]) || []
+      }
     } catch {
+      // Fallback
+      posts = []
       categories = []
     }
   }

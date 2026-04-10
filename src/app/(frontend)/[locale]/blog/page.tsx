@@ -16,6 +16,7 @@ import { Metadata } from 'next'
  * @returns {Promise<React.ReactElement>} A promise that resolves to the blog page component.
  */
 
+export const revalidate = 3600
 
 type Args = {
   params: Promise<{

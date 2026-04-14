@@ -2,6 +2,6 @@
   "$schema": "https://vercel.com/schemas/vercel.json",
   "framework": "nextjs",
   "buildCommand": "pnpm build",
-  "installCommand": "npm install -g pnpm@10.28.1 && pnpm install --no-frozen-lockfile",
+  "installCommand": "pnpm install",
   "outputDirectory": ".next"
 }

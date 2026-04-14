@@ -5,7 +5,7 @@
 
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
-import { registerAccount } from './utils/accountRegistry'
+import { registerAccount, updateAccount } from './utils/accountRegistry'
 
 const REGISTRY_FILE = resolve(process.cwd(), 'content/dinorank-accounts-registry.json')
 
@@ -53,11 +53,12 @@ async function main() {
   const email = `${randomStr(8)}${randomStr(4)}@gmail.com`
   const password = randomPassword()
 
-  registerAccount(email, password, {
-    language: 'English',
-    country: 'US',
-    domain: 'juan-tech.com',
-    projectType: 'nicho',
+  registerAccount(email, password)
+  updateAccount(email, {
+    createdLanguage: 'English',
+    createdCountry: 'US',
+    createdDomain: 'juan-tech.com',
+    createdProjectType: 'nicho',
   })
 
   console.log('[english-setup] ✅ English account registered in system:')

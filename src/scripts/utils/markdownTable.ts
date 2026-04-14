@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { KeywordData } from '../seo/keyword-utils'
+import { KeywordData } from '../syncKeywords'
 
 export const OFFICIAL_HEADERS = [
   'Keyword', 'Target URL', 'Language', 'Country', 'Volume', 'Difficulty',

@@ -1,4 +1,4 @@
-import { KeywordData } from '../seo/keyword-utils';
+import { KeywordData } from '../syncKeywords';
 
 export interface GeneratedContent {
   title: string;

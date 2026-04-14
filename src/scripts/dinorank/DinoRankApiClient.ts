@@ -129,6 +129,26 @@ export class DinoRankApiClient {
     return this.cookies
   }
 
+  async completeOnboarding(): Promise<void> {
+    const referer = 'https://dinorank.com/onboarding/'
+    const t = Date.now()
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=NaN`, referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=ecommerce&como=&que_estas_interesado=&paso=1`, referer)
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=1`, referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=redessociales&que_estas_interesado=&paso=2`, referer)
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=2`, referer)
+    const interests = 'auditoria;keywordresearch;SEOlocal;contenido;tracking;backlinks;Analizarcompetencia;'
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=&que_estas_interesado=${encodeURIComponent(interests)}&paso=3`, referer)
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=3`, referer)
+    await this.post('https://dinorank.com/ajax/common/agregaDominio.php', 'dominio=neilpatel.com&pais=MX&idioma=es&tipoproyecto=nicho', referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=&que_estas_interesado=&paso=4`, referer)
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=4`, referer)
+    await this.post('https://dinorank.com/ajax/sugerenciasKeywords.php', `t=${t}`, referer)
+    await this.post('https://dinorank.com/ajax/tracking/agregarKeyword.php', 'keyword=how+to+start+a+blog&fuente=pc&geoID=0', referer)
+    await this.post('https://dinorank.com/ajax/enviaOnboardingPasosDetalle.php', `t=${t}&idActive=&tipo=&como=&que_estas_interesado=&paso=5`, referer)
+    await this.post('https://dinorank.com/views/verOnboardingPasosDetalle.php', `t=${t}&paso=5`, referer)
+  }
+
   private buildHeaders(referer?: string, extra: Record<string, string> = {}): Headers {
     const headers = new Headers({
       accept: '*/*',

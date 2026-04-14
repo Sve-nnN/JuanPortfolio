@@ -36,6 +36,7 @@ export interface PipelineOptions {
   locale?: Locale
   strictMetadata?: boolean
   validateContent?: boolean
+  provider?: string
 }
 
 export interface PipelineResult {

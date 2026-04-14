@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { createAdapter, type LlmProvider } from '../create-post/llm-adapters';
-import { KeywordData } from '../seo/keyword-utils';
+import { KeywordData } from '../syncKeywords';
 import matter from 'gray-matter';
 
 const __filename = fileURLToPath(import.meta.url);

@@ -311,7 +311,7 @@ export class DinoBrainApiAdapter {
     const { JSDOM } = await import('jsdom')
     const dom = new JSDOM(html)
     return Array.from(dom.window.document.querySelectorAll(selector))
-      .map(node => node.getAttribute(attr) || '')
+      .map(node => (node as Element).getAttribute(attr) || '')
       .map(value => value.trim())
       .filter(Boolean)
       .slice(0, limit)
@@ -323,8 +323,8 @@ export class DinoBrainApiAdapter {
     const document = dom.window.document
 
     const candidates = [
-      ...Array.from(document.querySelectorAll('.dbpro-longtail-check[data-keyword]')).map(node => node.getAttribute('data-keyword') || ''),
-      ...Array.from(document.querySelectorAll('[data-keyword]')).map(node => node.getAttribute('data-keyword') || ''),
+      ...Array.from(document.querySelectorAll('.dbpro-longtail-check[data-keyword]')).map(node => (node as Element).getAttribute('data-keyword') || ''),
+      ...Array.from(document.querySelectorAll('[data-keyword]')).map(node => (node as Element).getAttribute('data-keyword') || ''),
       ...Array.from(document.querySelectorAll('input[name="selected_keywords"]')).map(node => (node as HTMLInputElement).value || ''),
       ...Array.from(document.querySelectorAll('input[type="checkbox"][value]')).map(node => (node as HTMLInputElement).value || ''),
     ]
@@ -362,7 +362,7 @@ export class DinoBrainApiAdapter {
     const context = (document.querySelector('#dinobrainProContext') as HTMLTextAreaElement | null)?.value || ''
     const exclusions = (document.querySelector('#dinobrainProExclusions') as HTMLTextAreaElement | null)?.value || ''
 
-    const rows = Array.from(document.querySelectorAll('#dinobrainProOutlineTable tbody tr'))
+    const rows = Array.from(document.querySelectorAll('#dinobrainProOutlineTable tbody tr')) as Element[]
     const structure: ProStructureNode[] = []
     let currentBlock: ProStructureNode | null = null
 

@@ -30,6 +30,7 @@ import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/s
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { SiteSetting } from '@/payload-types'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -81,7 +82,7 @@ export default async function RootLayout({
   const pathname = hdrs.get('x-pathname') || '/'
   const locale = (pathname.startsWith('/en') ? 'en' : 'es') as Locale
 
-  const siteSettings = await getCachedGlobal('site-settings', 3600, locale)().catch(() => null)
+  const siteSettings = (await getCachedGlobal('site-settings', 3600, locale)().catch(() => null)) as SiteSetting | null
 
   const baseUrl = getServerSideURL()
 

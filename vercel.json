@@ -2,6 +2,6 @@
   "$schema": "https://vercel.com/schemas/vercel.json",
   "framework": "nextjs",
   "buildCommand": "pnpm build",
-  "installCommand": "pnpm install --frozen-lockfile",
+  "installCommand": "npm install -g pnpm@10.28.1 && pnpm install --frozen-lockfile",
   "outputDirectory": ".next"
 }

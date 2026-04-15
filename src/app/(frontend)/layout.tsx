@@ -161,10 +161,33 @@ export default async function RootLayout({
           )}
         </React.Suspense>
         {/* Ahrefs Analytics - Loaded after page is interactive to protect performance */}
-        <Script 
-          src="https://analytics.ahrefs.com/analytics.js" 
-          data-key="MKWDNj5f8/fviyOxhzLSPA" 
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="MKWDNj5f8/fviyOxhzLSPA"
           strategy="afterInteractive"
+        />
+        {/* Speculation Rules API — prefetch on hover intent (~200ms), internal links only */}
+        <Script
+          id="speculation-rules"
+          type="speculationrules"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              prefetch: [
+                {
+                  source: 'document',
+                  where: {
+                    and: [
+                      { href_matches: '/*' },
+                      { not: { href_matches: '/admin/**' } },
+                      { not: { href_matches: '/api/**' } },
+                    ],
+                  },
+                  eagerness: 'moderate',
+                },
+              ],
+            }),
+          }}
         />
       </body>
     </html>

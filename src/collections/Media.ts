@@ -102,6 +102,7 @@ export const Media: CollectionConfig = {
               id: id as string,
               data: {
                 cloudinaryUrl,
+                url: cloudinaryUrl,
               },
             })
             return Response.json({ success: true, url: cloudinaryUrl })
@@ -181,6 +182,7 @@ export const Media: CollectionConfig = {
                   id: doc.id,
                   data: {
                     cloudinaryUrl,
+                    url: cloudinaryUrl,
                   },
                 })
                 results.success++
@@ -266,6 +268,8 @@ export const Media: CollectionConfig = {
                 )
                 if (cloudinaryUrl) {
                   data.cloudinaryUrl = cloudinaryUrl
+                  // Override the local /media/ path so url always points to Cloudinary
+                  data.url = cloudinaryUrl
                 }
               }
             }
@@ -278,7 +282,7 @@ export const Media: CollectionConfig = {
     ],
   },
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
+    disableLocalStorage: true,
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: ({ doc }) => {
       if (doc.cloudinaryUrl) {

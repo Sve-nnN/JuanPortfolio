@@ -1,4 +1,3 @@
-'use client'
 import {
   Pagination as PaginationComponent,
   PaginationContent,
@@ -9,94 +8,97 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination'
 import { cn } from '@/utilities/ui'
-import { useRouter } from 'next/navigation'
 import React from 'react'
-import { useLocale } from '@/providers/Locale'
 
 export const Pagination: React.FC<{
   className?: string
   page: number
   totalPages: number
-}> = (props) => {
-  const router = useRouter()
-  const { locale } = useLocale()
+  locale?: 'en' | 'es'
+  basePath?: string
+}> = ({ className, page, totalPages, locale = 'es', basePath = '/blog' }) => {
   const localePrefix = locale === 'es' ? '' : '/en'
 
-  const { className, page, totalPages } = props
-  const hasNextPage = page < totalPages
-  const hasPrevPage = page > 1
+  const getPageUrl = (p: number) => `${localePrefix}${basePath}/page/${p}`
 
-  const hasExtraPrevPages = page - 1 > 1
-  const hasExtraNextPages = page + 1 < totalPages
+  const hasPrevPage = page > 1
+  const hasNextPage = page < totalPages
+
+  // Window: show first, last, and up to 1 neighbour on each side of current page.
+  // Example (page=5, total=10): 1 … 4 [5] 6 … 10
+  const showFirstPage = page > 2
+  const showLastPage = page < totalPages - 1
+  const showPrevEllipsis = page > 3
+  const showNextEllipsis = page < totalPages - 2
 
   return (
     <div className={cn('my-12', className)}>
       <PaginationComponent>
         <PaginationContent>
+
+          {/* ← Previous */}
           <PaginationItem>
             <PaginationPrevious
               disabled={!hasPrevPage}
-              onClick={() => {
-                router.push(`${localePrefix}/blog/page/${page - 1}`)
-              }}
+              href={hasPrevPage ? getPageUrl(page - 1) : undefined}
             />
           </PaginationItem>
 
-          {hasExtraPrevPages && (
+          {/* First page */}
+          {showFirstPage && (
+            <PaginationItem>
+              <PaginationLink href={getPageUrl(1)}>1</PaginationLink>
+            </PaginationItem>
+          )}
+
+          {showPrevEllipsis && (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           )}
 
+          {/* Previous neighbour */}
           {hasPrevPage && (
             <PaginationItem>
-              <PaginationLink
-                onClick={() => {
-                  router.push(`${localePrefix}/blog/page/${page - 1}`)
-                }}
-              >
-                {page - 1}
-              </PaginationLink>
+              <PaginationLink href={getPageUrl(page - 1)}>{page - 1}</PaginationLink>
             </PaginationItem>
           )}
 
+          {/* Current page */}
           <PaginationItem>
-            <PaginationLink
-              isActive
-              onClick={() => {
-                router.push(`${localePrefix}/blog/page/${page}`)
-              }}
-            >
+            <PaginationLink isActive href={getPageUrl(page)}>
               {page}
             </PaginationLink>
           </PaginationItem>
 
+          {/* Next neighbour */}
           {hasNextPage && (
             <PaginationItem>
-              <PaginationLink
-                onClick={() => {
-                  router.push(`${localePrefix}/blog/page/${page + 1}`)
-                }}
-              >
-                {page + 1}
-              </PaginationLink>
+              <PaginationLink href={getPageUrl(page + 1)}>{page + 1}</PaginationLink>
             </PaginationItem>
           )}
 
-          {hasExtraNextPages && (
+          {showNextEllipsis && (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           )}
 
+          {/* Last page */}
+          {showLastPage && (
+            <PaginationItem>
+              <PaginationLink href={getPageUrl(totalPages)}>{totalPages}</PaginationLink>
+            </PaginationItem>
+          )}
+
+          {/* Next → */}
           <PaginationItem>
             <PaginationNext
               disabled={!hasNextPage}
-              onClick={() => {
-                router.push(`${localePrefix}/blog/page/${page + 1}`)
-              }}
+              href={hasNextPage ? getPageUrl(page + 1) : undefined}
             />
           </PaginationItem>
+
         </PaginationContent>
       </PaginationComponent>
     </div>

@@ -167,11 +167,10 @@ export default async function RootLayout({
           data-key="MKWDNj5f8/fviyOxhzLSPA"
           strategy="afterInteractive"
         />
-        {/* Speculation Rules API — prefetch on hover intent (~200ms), internal links only */}
-        <Script
-          id="speculation-rules"
+        {/* Speculation Rules API — raw <script> (not next/script) so Chrome processes it
+            via the HTML parser from SSR output, not via dynamic JS injection. */}
+        <script
           type="speculationrules"
-          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               prefetch: [

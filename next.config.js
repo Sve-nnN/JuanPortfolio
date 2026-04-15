@@ -1,9 +1,11 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import redirectsLocal from './redirects.json' with { type: 'json' }
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
+const NEXT_PUBLIC_SERVER_URL =
+  process.env.NEXT_PUBLIC_SERVER_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000')
 
 const nextConfig = {
   redirects: async () => {
@@ -153,7 +155,7 @@ const nextConfig = {
       {
         source: '/api/(.*)',
         headers: [
-          { key: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' },
+          { key: 'Access-Control-Allow-Origin', value: NEXT_PUBLIC_SERVER_URL },
           { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,OPTIONS' },
           { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
@@ -199,6 +201,11 @@ const nextConfig = {
             value: 'cross-origin',
           },
         ],
+      },
+      {
+        // Disable nginx buffering to enable streaming (Suspense, RSC, etc.)
+        source: '/:path*{/}?',
+        headers: [{ key: 'X-Accel-Buffering', value: 'no' }],
       },
       {
         source: '/_next/static/(.*)',

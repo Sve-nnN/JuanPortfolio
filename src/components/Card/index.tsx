@@ -31,6 +31,11 @@ export const Card: React.FC<{
   const { slug, categories, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}
 
+  // Only use metaImage if it has a Cloudinary URL — otherwise fall back to the
+  // deterministic Cloudinary fallback so there are never broken images.
+  const hasCloudinaryImage =
+    metaImage && typeof metaImage !== 'string' && !!(metaImage as { cloudinaryUrl?: string }).cloudinaryUrl
+
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
@@ -56,20 +61,19 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative w-full aspect-video overflow-hidden bg-muted">
-        {!metaImage && (
+        {hasCloudinaryImage ? (
+          <Media
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+            resource={metaImage as Parameters<typeof Media>[0]['resource']}
+            size="33vw"
+          />
+        ) : (
           <Image
             src={getFallbackBySlug(slug || '')}
             alt={titleToUse || 'Post Image'}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        )}
-        {metaImage && typeof metaImage !== 'string' && (
-          <Media 
-            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
-            resource={metaImage} 
-            size="33vw" 
           />
         )}
       </div>

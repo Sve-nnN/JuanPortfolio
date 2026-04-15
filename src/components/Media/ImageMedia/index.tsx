@@ -47,14 +47,19 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
     const cacheTag = resource.updatedAt
 
-    // Priorize cloudinaryUrl, then standard payload URL
-    src = cloudinaryUrl
-      ? getOptimizedCloudinaryUrl(cloudinaryUrl, {
-          width: props.width,
-          height: props.height,
-        })
-      : getMediaUrl(url, cacheTag)
+    // Cloudinary is the sole image source. Absolute fallback URLs (e.g. old Vercel Blob)
+    // are still accepted. Local /media/ paths are skipped — files are not stored on disk.
+    if (cloudinaryUrl) {
+      src = getOptimizedCloudinaryUrl(cloudinaryUrl, {
+        width: props.width,
+        height: props.height,
+      })
+    } else if (url?.startsWith('http')) {
+      src = getMediaUrl(url, cacheTag)
+    }
   }
+
+  if (!src) return null
 
   // Optimize loading: eager and high priority for critical images, lazy for others
   const loading = loadingFromProps || (priority ? 'eager' : 'lazy')

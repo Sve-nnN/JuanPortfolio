@@ -1,7 +1,3 @@
-/**
- * @file Defines the page for a specific page of blog posts.
- * @author Juan Carlos Angulo <juan@jcangulo.com>
- */
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
@@ -12,13 +8,12 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from '../../page.client'
 import { notFound } from 'next/navigation'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const revalidate = 600
 
-/**
- * @typedef {object} Args
- * @property {Promise<{ pageNumber: string, locale: string }>} params - The page parameters.
- */
+const POSTS_PER_PAGE = 12
+
 type Args = {
   params: Promise<{
     pageNumber: string
@@ -26,32 +21,40 @@ type Args = {
   }>
 }
 
-/**
- * The page component for a specific page of blog posts.
- * @param {Args} props - The component props.
- * @returns {Promise<React.ReactElement>} A promise that resolves to the page component.
- */
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber, locale: rawLocale } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
-
-  if (!Number.isInteger(sanitizedPageNumber)) notFound()
+  if (!Number.isInteger(sanitizedPageNumber) || sanitizedPageNumber < 1) notFound()
 
   const posts = await payload.find({
     collection: 'posts',
     depth: 1,
-    limit: 12,
+    limit: POSTS_PER_PAGE,
     page: sanitizedPageNumber,
     overrideAccess: false,
     locale,
   })
 
+  if (sanitizedPageNumber > 1 && posts.docs.length === 0) notFound()
+
+  const localePrefix = locale === 'es' ? '' : '/en'
+  const baseUrl = getServerSideURL()
+
   return (
     <div className="pt-8 pb-24">
       <PageClient />
+
+      {/* rel="prev" / rel="next" — hoisted to <head> by React 19, signals pagination to crawlers */}
+      {sanitizedPageNumber > 1 && (
+        <link rel="prev" href={`${baseUrl}${localePrefix}/blog/page/${sanitizedPageNumber - 1}`} />
+      )}
+      {sanitizedPageNumber < posts.totalPages && (
+        <link rel="next" href={`${baseUrl}${localePrefix}/blog/page/${sanitizedPageNumber + 1}`} />
+      )}
+
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>{locale === 'es' ? 'Posts' : 'Articles'}</h1>
@@ -62,7 +65,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PageRange
           collection="posts"
           currentPage={posts.page}
-          limit={12}
+          limit={POSTS_PER_PAGE}
           totalDocs={posts.totalDocs}
           locale={locale}
         />
@@ -71,30 +74,44 @@ export default async function Page({ params: paramsPromise }: Args) {
       <CollectionArchive posts={posts.docs} />
 
       <div className="container">
-        {posts?.page && posts?.totalPages > 1 && (
-          <Pagination page={posts.page} totalPages={posts.totalPages} />
+        {posts.totalPages > 1 && (
+          <Pagination
+            locale={locale}
+            page={posts.page}
+            totalPages={posts.totalPages}
+          />
         )}
       </div>
     </div>
   )
 }
 
-/**
- * Generates metadata for the page.
- * @param {Args} props - The component props.
- * @returns {Promise<Metadata>} A promise that resolves to the page metadata.
- */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { pageNumber, locale } = await paramsPromise
+  const { pageNumber, locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const page = Number(pageNumber)
+  const localePrefix = locale === 'es' ? '' : '/en'
+  const baseUrl = getServerSideURL()
+
+  const payload = await getPayload({ config: configPromise })
+  const { totalDocs } = await payload.count({ collection: 'posts', overrideAccess: false })
+  const totalPages = Math.ceil(totalDocs / POSTS_PER_PAGE)
+
+  const canonical = `${baseUrl}${localePrefix}/blog/page/${page}`
+
   return {
-    title: locale === 'es' ? `JuanTech Posts Página ${pageNumber || ''}` : `JuanTech Articles Page ${pageNumber || ''}`,
+    title:
+      locale === 'es'
+        ? `Blog · Página ${page} de ${totalPages}`
+        : `Blog · Page ${page} of ${totalPages}`,
+    alternates: {
+      canonical,
+      ...(page > 1 && { previous: `${baseUrl}${localePrefix}/blog/page/${page - 1}` }),
+      ...(page < totalPages && { next: `${baseUrl}${localePrefix}/blog/page/${page + 1}` }),
+    },
   }
 }
 
-/**
- * Generates static parameters for all pages of blog posts across all locales.
- * @returns {Promise<Array<{ pageNumber: string, locale: string }>>} A promise that resolves to an array of parameters.
- */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const { totalDocs } = await payload.count({
@@ -102,13 +119,12 @@ export async function generateStaticParams() {
     overrideAccess: false,
   })
 
+  const totalPages = Math.ceil(totalDocs / POSTS_PER_PAGE)
   const locales = ['en', 'es']
-  const totalPages = Math.ceil(totalDocs / 10)
-
-  const params: { pageNumber: string, locale: string }[] = []
+  const params: { pageNumber: string; locale: string }[] = []
 
   for (let i = 1; i <= totalPages; i++) {
-    locales.forEach(locale => {
+    locales.forEach((locale) => {
       params.push({ pageNumber: String(i), locale })
     })
   }

@@ -3,6 +3,7 @@ import type { ButtonProps } from '@/components/ui/button'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
+import Link from 'next/link'
 import * as React from 'react'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
@@ -26,22 +27,52 @@ const PaginationItem: React.FC<
 
 type PaginationLinkProps = {
   isActive?: boolean
+  href?: string
+  disabled?: boolean
 } & Pick<ButtonProps, 'size'> &
-  React.ComponentProps<'button'>
+  Omit<React.ComponentProps<'a'>, 'href'>
 
-const PaginationLink = ({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) => (
-  <button
-    aria-current={isActive ? 'page' : undefined}
-    className={cn(
-      buttonVariants({
-        size,
-        variant: isActive ? 'outline' : 'ghost',
-      }),
-      className,
-    )}
-    {...props}
-  />
-)
+// Renders as <Link> when href is provided (crawlable), <span> when disabled.
+// This is critical for SEO — paginated pages must be reachable via real anchor tags.
+const PaginationLink = ({
+  className,
+  isActive,
+  size = 'icon',
+  href,
+  disabled,
+  children,
+  ...props
+}: PaginationLinkProps) => {
+  const classes = cn(
+    buttonVariants({ size, variant: isActive ? 'outline' : 'ghost' }),
+    disabled && 'pointer-events-none opacity-50',
+    className,
+  )
+
+  if (disabled || !href) {
+    return (
+      <span
+        aria-current={isActive ? 'page' : undefined}
+        aria-disabled={disabled ? 'true' : undefined}
+        className={classes}
+        {...(props as React.HTMLAttributes<HTMLSpanElement>)}
+      >
+        {children}
+      </span>
+    )
+  }
+
+  return (
+    <Link
+      aria-current={isActive ? 'page' : undefined}
+      className={classes}
+      href={href}
+      {...(props as React.ComponentProps<typeof Link>)}
+    >
+      {children}
+    </Link>
+  )
+}
 
 const PaginationPrevious = ({
   className,

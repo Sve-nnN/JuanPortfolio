@@ -21,6 +21,8 @@ import { DynamicBackground } from '@/components/DynamicBackground'
 import { generateMeta } from '@/utilities/generateMeta'
 import { JsonLd } from '@/components/JsonLd'
 import { generateSchema } from '@/utilities/generateSchema'
+import { extractFaqsFromLexical } from '@/utilities/extractFaqs'
+import { generateFAQSchema } from '@/utilities/schema'
 import { getServerSideURL } from '@/utilities/getURL'
 import type { Media as MediaType } from '@/payload-types'
 
@@ -130,6 +132,21 @@ export default async function PostPage({
   ]
 
   const schema = generateSchema({ doc: post, collection: 'posts', url: fullUrl, breadcrumbs })
+
+  // SEO audit jun-2026, issue #46: if the post embeds an FAQ block, emit a
+  // FAQPage node alongside the BlogPosting/Breadcrumb graph for AI/answer-engine
+  // extraction. JsonLd flattens the @graph container.
+  const faqs = post.content?.content ? extractFaqsFromLexical(post.content.content) : []
+  if (
+    faqs.length >= 2 &&
+    schema &&
+    typeof schema === 'object' &&
+    Array.isArray((schema as { '@graph'?: unknown[] })['@graph'])
+  ) {
+    ;(schema as { '@graph': unknown[] })['@graph'].push(
+      generateFAQSchema(faqs as { question: string; answer: string }[]),
+    )
+  }
 
   const dominantColor =
     post.content?.heroImage &&

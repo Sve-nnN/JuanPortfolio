@@ -1,6 +1,7 @@
 import type { Page, Post } from '@/payload-types'
 import { generateBreadcrumbSchema } from './schema/generateBreadcrumbSchema'
 import type { Schema } from './schema/types'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 
 type GenerateSchemaArgs = {
   doc: Partial<Page> | Partial<Post> | null
@@ -21,12 +22,20 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
   const metaImage = meta?.image && typeof meta.image === 'object' ? meta.image : undefined
   const image = metaImage?.url || metaImage?.sizes?.og?.url
 
+  // Always resolve to an absolute image. Article/BlogPosting `image` is a
+  // recommended property for Google rich results; when the post has no meta
+  // image, fall back to the deterministic per-slug hero used by PostHero so the
+  // node is never emitted without an image. SEO audit jun-2026, issue #19.
+  const resolvedImage = image
+    ? `${process.env.NEXT_PUBLIC_SERVER_URL}${image}`
+    : getFallbackBySlug(doc.slug || '')
+
   const baseSchema: Schema = {
     '@context': 'https://schema.org',
     url,
     name: title,
     description: description,
-    image: image ? `${process.env.NEXT_PUBLIC_SERVER_URL}${image}` : undefined,
+    image: resolvedImage,
     publisher: {
       '@id': `${process.env.NEXT_PUBLIC_SERVER_URL}/#organization`,
       '@type': 'Organization',
@@ -67,7 +76,11 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
         '@type': 'Person',
         '@id': authorId,
         name: authorName,
-        url: `${process.env.NEXT_PUBLIC_SERVER_URL}/author/juan-carlos-angulo`
+        // Canonical author URL uses the plural /authors/ path that the homepage
+        // Person node and the authors sitemap use; the singular /author/ form
+        // produced a conflicting url for the same #person @id.
+        // SEO audit jun-2026, issue #25.
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL}/authors/juan-carlos-angulo`
       },
       mainEntityOfPage: {
         '@type': 'WebPage',

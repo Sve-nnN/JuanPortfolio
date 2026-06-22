@@ -1,4 +1,5 @@
 ---
+
 title: 'Tree traversal: Guía práctica y aplicaciones en programación'
 metaTitle: 'Tree traversal: Guía práctica y aplicaciones en | Juan Tech'
 metaDescription: >-
@@ -7,6 +8,7 @@ metaDescription: >-
   en...
 slug: tree-traversal
 publishedAt: '2026-04-02'
+updatedAt: '2026-04-02'
 idioma: es
 categoryTitle: CS Fundamentals
 authors:
@@ -28,8 +30,10 @@ semantic_keywords:
   - fundamentales optimizar algoritmos
   - recorrido utilizado principalmente
 keyword: tree traversal
+
 ---
-El recorrido de árboles, o "tree traversal", es esencial para manipular y acceder a los datos de estas estructuras jerárquicas. Permite visitar nodos en un orden específico, facilitando operaciones como búsqueda, evaluación y serialización. Existen varios tipos de recorridos, cada uno con sus propias características y aplicaciones. Entre ellos se encuentran el recorrido en profundidad y el recorrido por niveles, que son fundamentales para optimizar algoritmos y procesos en programación.
+
+El recorrido de árboles, o "tree traversal", es esencial para manipular y acceder a los datos de estas estructuras jerárquicas. Permite visitar nodos en un orden específico, facilitando operaciones como búsqueda, evaluación y serialización. Existen varios tipos de recorridos, cada uno con sus propias características y aplicaciones. Entre ellos se encuentran el recorrido en profundidad y el recorrido por niveles, que son fundamentales para optimizar [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] y procesos en programación.
 
 ## Tipos fundamentales de recorrido en árboles
 
@@ -196,7 +200,7 @@ El nodo raíz, siendo el punto de entrada del árbol, juega un papel crucial en 
 La eficiencia al recorrer subárboles depende de la estrategia adoptada. Separar el proceso de navegación entre el subárbol izquierdo y el derecho permite implementar técnicas específicas para cada parte. Esto optimiza la operación y reduce la complejidad. Por ejemplo:
 
 -   Las llamadas recursivas aseguran un recorrido completo de cada subárbol.
--   El uso de pilas puede simplificar el manejo de los recorridos.
+-   El uso de [[pilas-y-colas|pilas]] puede simplificar el manejo de los recorridos.
 
 ## Comparación entre traversal en profundidad y en anchura
 
@@ -208,7 +212,7 @@ El recorrido en profundidad ofrece varias ventajas que son especialmente útiles
 
 -   Memoria eficiente: Dado que utiliza una pila (recursiva o no) para realizar el seguimiento de los nodos, tiende a consumir menos memoria en comparación con el recorrido por niveles.
 -   Orden de nodos: Los métodos como inorder permiten obtener los nodos de un árbol de búsqueda binaria en orden ascendente.
--   Flexibilidad en la estructura: Facilita la manipulación de estructuras de datos complejas como árboles de decisión y evaluaciones de expresiones.
+-   Flexibilidad en la estructura: Facilita la manipulación de [[data-structures|estructuras de datos]] complejas como árboles de decisión y evaluaciones de expresiones.
 
 ### Beneficios y limitaciones del recorrido por niveles
 

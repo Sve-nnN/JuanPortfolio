@@ -1,4 +1,5 @@
 ---
+
 title: 'Technical Seo Checklist: complete practical guide'
 metaTitle: 'Technical Seo Checklist: complete practical guid | Juan Tech'
 metaDescription: >-
@@ -7,6 +8,7 @@ metaDescription: >-
 slug: technical-seo-checklist
 keyword: technical seo checklist
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: es
 categoryTitle: TECH-SEO
 authors:
@@ -27,12 +29,14 @@ semantic_keywords:
   - adicional configuraciones servidor
   - herramientas plugins recomendados
   - impacto significativo visibilidad
+
 ---
+
 # Technical Seo Checklist: complete practical guide
 
-La optimización técnica para motores de búsqueda es esencial para garantizar que tu sitio web esté bien posicionado y sea fácilmente accesible para los usuarios. En este artículo, te presentaré una lista de verificación del SEO técnico que te guiará en diez pasos clave para mejorar tu sitio web.
+La optimización técnica para motores de búsqueda es esencial para garantizar que tu sitio web esté bien posicionado y sea fácilmente accesible para los usuarios. En este artículo, te presentaré una lista de verificación del [[technical-seo-guide|SEO técnico]] que te guiará en diez pasos clave para mejorar tu sitio web.
 
-Desde la implementación de HTTPS hasta la optimización de la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), cada uno de estos elementos es crítico para el éxito de tu estrategia de SEO. ¡Comencemos a revisar esta 'technical SEO checklist template' y a transformar tu sitio en un recurso eficaz!
+Desde la implementación de HTTPS hasta la optimización de la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), cada uno de estos elementos es crítico para el éxito de tu estrategia de [[estrategia-seo|SEO]]. ¡Comencemos a revisar esta 'technical SEO checklist template' y a transformar tu sitio en un recurso eficaz!
 
 ## Seguridad y Protocolo HTTPS
 
@@ -60,7 +64,7 @@ Detectar y corregir [errores de rastreo](https://juan-tech.com/blog/tech-seo/rob
 
 ### Uso de Google Search Console para identificar errores
 
-Google Search Console es una herramienta imprescindible para cualquier webmaster o profesional de SEO. Permite monitorear y optimizar la presencia de un sitio web en los resultados de búsqueda. Para detectar errores de rastreo, es necesario acceder al panel de cobertura, donde se obtiene un resumen claro de los problemas que enfrenta el sitio. Los errores destacados pueden incluir problemas de rastreo que impiden que Google acceda a ciertas páginas, así como la exclusión de URLs que no se deben indexar.
+[[guia-google-search-console|Google Search Console]] es una herramienta imprescindible para cualquier webmaster o profesional de SEO. Permite monitorear y optimizar la presencia de un sitio web en los resultados de búsqueda. Para detectar errores de rastreo, es necesario acceder al panel de cobertura, donde se obtiene un resumen claro de los problemas que enfrenta el sitio. Los errores destacados pueden incluir problemas de rastreo que impiden que Google acceda a ciertas páginas, así como la exclusión de URLs que no se deben indexar.
 
 ### Clasificación de errores: errores de sitio versus errores de URL
 
@@ -68,7 +72,7 @@ Los errores de rastreo se pueden clasificar en dos categorías principales: erro
 
 ### Estrategias para solucionar problemas comunes de rastreo
 
-La corrección de errores de rastreo puede variar según el tipo de problema. Es recomendable verificar primero la configuración de archivos robots.txt y asegurarse de que no bloqueen páginas importantes. También se debe revisar la conectividad del servidor; problemas de tiempo de respuesta pueden hacer que Google no pueda acceder a las páginas. Además, es útil implementar redirecciones 301 para redirigir tráfico de URLs eliminadas o cambiadas a nuevas ubicaciones. Para errores por falta de contenido o problemas con los enlaces, asegúrate de realizar auditorías periódicas y utilizar herramientas de análisis para mantener una buena salud del sitio.
+La corrección de errores de rastreo puede variar según el tipo de problema. Es recomendable verificar primero la configuración de archivos [[robots-txt-best-practices|robots.txt]] y asegurarse de que no bloqueen páginas importantes. También se debe revisar la conectividad del servidor; problemas de tiempo de respuesta pueden hacer que Google no pueda acceder a las páginas. Además, es útil implementar redirecciones 301 para redirigir tráfico de URLs eliminadas o cambiadas a nuevas ubicaciones. Para errores por falta de contenido o problemas con los enlaces, asegúrate de realizar auditorías periódicas y utilizar herramientas de análisis para mantener una buena salud del sitio.
 
 ### Cómo cambiar de hosting para mejorar el rastreo
 
@@ -80,7 +84,7 @@ La gestión y reparación de enlaces rotos es un aspecto crítico en la lista de
 
 ### Identificación de enlaces internos rotos
 
-Los enlaces internos son vitales para la estructura y navegación de un sitio web. Estos enlaces permiten que los usuarios y los rastreadores de Google se muevan entre las distintas páginas, mejorando tanto la experiencia del usuario como el SEO. Para identificar enlaces internos rotos, se pueden realizar auditorías periódicas del sitio. Una auditoría completa ayudará a descubrir enlaces que apuntan a páginas inexistentes o que han cambiado de ubicación. Herramientas como Screaming Frog y Google Search Console son especialmente útiles para detectar estos problemas. Al corregir enlaces internos rotos, se mejora la fluidez del flujo de la navegación, lo que beneficia tanto a los usuarios como a los motores de búsqueda.
+Los [[enlaces-internos-guia|enlaces internos]] son vitales para la estructura y navegación de un sitio web. Estos enlaces permiten que los usuarios y los rastreadores de Google se muevan entre las distintas páginas, mejorando tanto la experiencia del usuario como el SEO. Para identificar enlaces internos rotos, se pueden realizar auditorías periódicas del sitio. Una auditoría completa ayudará a descubrir enlaces que apuntan a páginas inexistentes o que han cambiado de ubicación. Herramientas como Screaming Frog y Google Search Console son especialmente útiles para detectar estos problemas. Al corregir enlaces internos rotos, se mejora la fluidez del flujo de la navegación, lo que beneficia tanto a los usuarios como a los motores de búsqueda.
 
 ### Monitoreo y corrección de enlaces externos
 
@@ -103,7 +107,7 @@ La optimización de la estructura de tu sitio web y de sus URLs es fundamental p
 
 ### Mejores prácticas para URLs amigables
 
-Una URL optimizada es un aspecto crucial del SEO técnico. Debe ser breve, descriptiva y fácilmente comprensible tanto para los usuarios como para los crawlers. Es recomendable utilizar palabras clave relevantes dentro de la URL, y estructurarlas con guiones en lugar de guiones bajos para facilitar su lectura. Por ejemplo, en lugar de **tusitio.com/articulo?id=123**, es preferible usar **tusitio.com/articulo-optimizar-urls**. Además, evitar el uso de caracteres especiales y números innecesarios contribuye a que las URLs sean más amigables y compartibles. Implementar estas prácticas no solo optimiza el posicionamiento en SERPs, sino que también ayuda a los usuarios a entender rápidamente el contenido al que están accediendo.
+Una URL optimizada es un aspecto crucial del SEO técnico. Debe ser breve, descriptiva y fácilmente comprensible tanto para los usuarios como para los crawlers. Es recomendable utilizar [[guia-keyword-research|palabras clave]] relevantes dentro de la URL, y estructurarlas con guiones en lugar de guiones bajos para facilitar su lectura. Por ejemplo, en lugar de **tusitio.com/articulo?id=123**, es preferible usar **tusitio.com/articulo-optimizar-urls**. Además, evitar el uso de caracteres especiales y números innecesarios contribuye a que las URLs sean más amigables y compartibles. Implementar estas prácticas no solo optimiza el posicionamiento en SERPs, sino que también ayuda a los usuarios a entender rápidamente el contenido al que están accediendo.
 
 ### Arquitectura web basada en hubs de contenido
 
@@ -143,7 +147,7 @@ Las Redes de Distribución de Contenidos (CDN) son esenciales para mejorar la ve
 
 ### Medición y seguimiento de Core Web Vitals
 
-Los Core Web Vitals son métricas específicas que Google utiliza para medir la experiencia del usuario en términos de velocidad, interactividad y estabilidad visual. Las métricas clave son:
+Los [[core-web-vitals-guide|Core Web Vitals]] son métricas específicas que Google utiliza para medir la experiencia del usuario en términos de velocidad, interactividad y estabilidad visual. Las métricas clave son:
 
 Métrica
 

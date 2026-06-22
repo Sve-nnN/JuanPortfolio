@@ -47,7 +47,7 @@ Exploraremos cómo su potente API y funcionalidades específicas facilitan la ge
 
 ## Payload CMS y su arquitectura para SEO
 
-Payload CMS, siendo un sistema de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) headless, se ha diseñado no solo para facilitar la creación y gestión de contenido, sino también para optimizar ese contenido para motores de búsqueda de manera efectiva. Su arquitectura moderna y flexible permite a los desarrolladores construir aplicaciones que cumplen con los estándares SEO más exigentes, adaptándose a las necesidades y estrategias de marketing digital actuales.
+[[payload-cms-guide|Payload CMS]], siendo un sistema de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) headless, se ha diseñado no solo para facilitar la creación y gestión de contenido, sino también para optimizar ese contenido para motores de búsqueda de manera efectiva. Su arquitectura moderna y flexible permite a los desarrolladores construir aplicaciones que cumplen con los estándares SEO más exigentes, adaptándose a las necesidades y estrategias de marketing digital actuales.
 
 ### Características clave de Payload CMS para optimización
 
@@ -61,7 +61,7 @@ Asimismo, la generación automática de sitemaps y la gestión de archivos robot
 
 Payload CMS se basa en una potente API que permite a los desarrolladores integrar y personalizar sus aplicaciones y funcionalidades a un nivel profundo. Esta flexibilidad no solo facilita la personalización del contenido, sino que también permite implementar técnicas avanzadas de SEO, como el marcado estructurado mediante Schema.org. Incorporar datos estructurados mejora la interpretación que los motores de búsqueda hacen del contenido, aumentando la probabilidad de alcanzar posiciones destacadas en los resultados de búsqueda y logrando que el contenido destaque a través de rich snippets.
 
-La posibilidad de integrar la API de Payload con frameworks como Next.js optimiza aún más el rendimiento SEO. Al utilizar renderizado del lado del servidor (SSR), se reduce el tiempo de carga de las páginas, un factor crítico en la estrategia SEO actual. Esto respalda la premisa de que un sitio rápido no solo ofrece una mejor experiencia al usuario, sino que también es favorecido por los algoritmos de búsqueda, lo que resulta en una mejora en el ranking y la visibilidad del sitio.
+La posibilidad de integrar la API de Payload con frameworks como [[nextjs-portfolio|Next.js]] optimiza aún más el rendimiento SEO. Al utilizar renderizado del lado del servidor (SSR), se reduce el tiempo de carga de las páginas, un factor crítico en la estrategia SEO actual. Esto respalda la premisa de que un sitio rápido no solo ofrece una mejor experiencia al usuario, sino que también es favorecido por los algoritmos de búsqueda, lo que resulta en una mejora en el ranking y la visibilidad del sitio.
 
 En resumen, la arquitectura de Payload CMS está diseñada para soportar y potenciar las prácticas SEO más efectivas, brindando a los desarrolladores las herramientas necesarias para crear sitios web optimizados y de alto rendimiento. La integración de estas características hace que PayloadCMS sea una opción privilegiada para aquellos que buscan destacarse en el competitivo entorno digital.
 

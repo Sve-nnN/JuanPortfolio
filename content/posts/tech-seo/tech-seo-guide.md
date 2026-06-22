@@ -43,17 +43,17 @@ semantic_keywords:
 uploaded: true
 keyword: tech seo guide
 ---
-El **SEO Técnico** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
+El **[[technical-seo-guide|SEO técnico]]** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
 
 En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: Rastreabilidad, Rendimiento [Core Web Vitals](https://juan-tech.com/blog/tech-seo/web-performance-guide) y Semántica Estructurada.
 
 ## 1. Fase de Rastreabilidad e Indexación Limitada
 
-Antes de que Google pondere tus palabras clave, su bot debe acceder a la topología web y decodificar eficientemente el HTML.
+Antes de que Google pondere tus [[guia-keyword-research|palabras clave]], su bot debe acceder a la topología web y decodificar eficientemente el HTML.
 
 ### Control y Restricción: robots.txt
 
-El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo robots.txt para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
+El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [[robots-txt-best-practices|robots.txt]] para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
 
 - Aísla carpetas internas de sistema administrativo.
 - Excluye rastreadores y scrapers destructivos de Inteligencia Artificial (LLMs) si violan y compilan tus datos sin reciprocidad de clics.
@@ -63,7 +63,7 @@ El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sum
 
 El patrón que utilices para delegar la compilación JavaScript define tu índice de latencia de publicación y el desahogo de index.
 
-- **Server-Side Rendering (SSR) y SSG:** El servidor envía el documento final HTML completamente pre-masticado. Es el modelo imperativo e indiscutible de negocio para retener resultados dominantes SEO inmediatos.
+- **Server-Side Rendering ([[ssr-vs-csr-seo|SSR vs CSR]]) y SSG:** El servidor envía el documento final HTML completamente pre-masticado. Es el modelo imperativo e indiscutible de negocio para retener resultados dominantes [[estrategia-seo|SEO]] inmediatos.
 - **Client-Side Rendering (CSR):** Obliga al cliente local web a iterar la carga bruta de JS para formar su vista. Manda tus URLs a una cola lenta perimetral del buscador con un inmenso riesgo a un abandono indexativo del motor.
 - Analiza mi despiece algorítmico exhaustivo técnico en la [Comparativa SSR vs CSR](./ssr-vs-csr-seo).
 

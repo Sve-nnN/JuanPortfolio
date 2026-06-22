@@ -64,7 +64,7 @@ Al combinar los datos de laboratorio con los de campo, PageSpeed Insights propor
 
 ## Métricas Críticas para Evaluar el Rendimiento Web
 
-Evaluar el rendimiento web es esencial para ofrecer una experiencia de usuario óptima, lo que a su vez afecta el posicionamiento SEO. Existen métricas críticas que, al ser monitoreadas, permiten a los desarrolladores y administradores identificar áreas de mejora. A continuación, se describen cuatro métricas fundamentales que deben ser consideradas al momento de medir el rendimiento de una página web.
+Evaluar el rendimiento web es esencial para ofrecer una experiencia de usuario óptima, lo que a su vez afecta el posicionamiento [[estrategia-seo|SEO]]. Existen métricas críticas que, al ser monitoreadas, permiten a los desarrolladores y administradores identificar áreas de mejora. A continuación, se describen cuatro métricas fundamentales que deben ser consideradas al momento de medir el rendimiento de una página web.
 
 ### First Contentful Paint (FCP)
 

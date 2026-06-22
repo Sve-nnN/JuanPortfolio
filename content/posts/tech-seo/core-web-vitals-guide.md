@@ -36,7 +36,7 @@ semantic_keywords:
   - seo signals
 keyword: core web vitals
 ---
-Las Core Web Vitals son métricas esenciales que impactan de manera directa en la experiencia del usuario en la web. Estas indican la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), la interactividad y la estabilidad visual de una página, aspectos fundamentales para mantener la atención del visitante. En este artículo, abordaremos qué son las Core Web Vitals, su importancia en el SEO y cómo optimizar las métricas LCP, CLS e INP para mejorar el rendimiento de tu sitio.
+Las Core Web Vitals son métricas esenciales que impactan de manera directa en la experiencia del usuario en la web. Estas indican la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), la interactividad y la estabilidad visual de una página, aspectos fundamentales para mantener la atención del visitante. En este artículo, abordaremos qué son las Core Web Vitals, su importancia en el [[estrategia-seo|SEO]] y cómo optimizar las métricas LCP, CLS e INP para mejorar el rendimiento de tu sitio.
 
 Entender y aplicar correctamente estas métricas no solo mejorará la experiencia del usuario, sino que también podrá influir en tu posicionamiento en los motores de búsqueda. Acompáñame en este recorrido para conocer a fondo las Core Web Vitals y cómo implementarlas eficazmente.
 
@@ -186,7 +186,7 @@ A través de esta implementación, los desarrolladores pueden tener un control m
 
 ## Integración de Core Web Vitals en Arquitectura Web y SEO Técnico
 
-La integración de Core Web Vitals en la arquitectura web y el SEO técnico es fundamental para asegurar que un sitio web no solo sea accesible, sino que también ofrezca una experiencia de usuario óptima. Es esencial que los desarrolladores y especialistas en SEO trabajen en conjunto para optimizar las métricas LCP, CLS e INP, ya que su desempeño impacta directamente en el posicionamiento y la retención de usuarios.
+La integración de Core Web Vitals en la arquitectura web y el [[technical-seo-guide|SEO técnico]] es fundamental para asegurar que un sitio web no solo sea accesible, sino que también ofrezca una experiencia de usuario óptima. Es esencial que los desarrolladores y especialistas en SEO trabajen en conjunto para optimizar las métricas LCP, CLS e INP, ya que su desempeño impacta directamente en el posicionamiento y la retención de usuarios.
 
 ### Impacto en Renderizado y Crawl Budget
 
@@ -196,7 +196,7 @@ Por ejemplo, una página con un LCP de más de 2.5 segundos genera un retardo en
 
 ### Recomendaciones para Frameworks como Next.js y CMS como PayloadCMS
 
-Para maximizar el rendimiento de Core Web Vitals en tecnologías específicas como Next.js y CMS como PayloadCMS, se deben seguir ciertos principios:
+Para maximizar el rendimiento de Core Web Vitals en tecnologías específicas como [[nextjs-seo|Next.js SEO]] y CMS como PayloadCMS, se deben seguir ciertos principios:
 
 1\. \*\*Optimización de imágenes\*\*: Utilizar formatos modernos (como WebP) y establecer tamaños de imagen responsivos contribuye a un mejor LCP. Next.js, por ejemplo, incluye un componente de imagen que ayuda a manejar esto de manera eficiente.
 
@@ -224,4 +224,4 @@ Es crucial establecer indicadores clave de rendimiento (KPIs) para llevar a cabo
 -   Porcentaje de cambios inesperados en el diseño (CLS).
 -   Tiempo promedio de respuesta a interacciones (INP).
 
-Monitorear estos KPIs permite realizar ajustes necesarios y asegurar que las mejoras implementadas se mantengan a lo largo del tiempo. La integración constante de análisis y optimización en la arquitectura técnica del sitio puede llevar a resultados consistentes en el rendimiento web y, por lo tanto, en el SEO. La atención a estos detalles es lo que puede convertir una página lenta y poco interactiva en un sitio altamente competitivo en su nicho.
+Monitorear estos KPIs permite realizar ajustes necesarios y asegurar que las mejoras implementadas se mantengan a lo largo del tiempo. La integración constante de análisis y optimización en la arquitectura técnica del sitio puede llevar a resultados consistentes en el [[web-performance-guide|rendimiento web]] y, por lo tanto, en el SEO. La atención a estos detalles es lo que puede convertir una página lenta y poco interactiva en un sitio altamente competitivo en su nicho.

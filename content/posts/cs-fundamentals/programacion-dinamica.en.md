@@ -120,5 +120,5 @@ Dynamic programming is applicable across a variety of problem domains, making it
 
 ## See Also
 
-- [Algorithms and Data Structures 2026: The Engineer"s Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)
+- [Algorithms and Data Structures 2026: The Engineer's Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)
 - [Algorithm Complexity 2026: Evaluating Performance Limits](https://juan-tech.com/en/blog/cs-fundamentals/complejidad-algoritmica)

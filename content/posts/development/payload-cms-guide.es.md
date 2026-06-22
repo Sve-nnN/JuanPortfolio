@@ -7,6 +7,7 @@ metaDescription: >-
 slug: payload-cms-guide
 keyword: payload cms
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: es
 categoryTitle: DEVELOPMENT
 authors:
@@ -66,7 +67,7 @@ Payload CMS se ha convertido en una herramienta altamente valiosa para desarroll
 
 ### Integración con frameworks modernos como Next.js
 
-Una de las grandes ventajas de Payload CMS es su capacidad para integrarse con frameworks modernos como Next.js, lo que permite construir aplicaciones web dinámicas y escalables. La integración es sencilla y aprovecha las potentes características de Next.js, como su soporte para el renderizado del lado del servidor (SSR) y la generación de sitios estáticos (SSG).
+Una de las grandes ventajas de Payload CMS es su capacidad para integrarse con frameworks modernos como [[nextjs-portfolio|Next.js]], lo que permite construir aplicaciones web dinámicas y escalables. La integración es sencilla y aprovecha las potentes características de Next.js, como su soporte para el renderizado del lado del servidor (SSR) y la generación de sitios estáticos (SSG).
 
 Al utilizar Payload CMS con Next.js, los datos se pueden gestionar a través de APIs REST o GraphQL, lo que facilita el acceso y la manipulación de contenido a través de la interfaz de usuario de Next.js. Esto significa que los desarrolladores pueden obtener datos estructurados de manera efectiva y dinámicamente, permitiendo una experiencia de usuario más fluida.
 

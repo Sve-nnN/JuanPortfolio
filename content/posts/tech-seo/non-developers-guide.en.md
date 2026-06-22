@@ -33,7 +33,7 @@ idioma: en
 slug: non-developers-guide
 keyword: non developers guide
 tldr: >-
-  Technical SEO doesn"t require a degree in computer science. This guide
+  Technical SEO doesn't require a degree in computer science. This guide
   explains indexing, site structure, and speed metrics in plain language,
   empowering you to make strategic decisions for your web presence.
 ---

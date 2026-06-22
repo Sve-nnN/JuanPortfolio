@@ -1,11 +1,12 @@
 ---
-title: 'Astro Vs Nextjs: Astro vs Next.js: ¿Cuál es el mejor framework para tu p...'
-metaTitle: 'Astro Vs Nextjs: Astro vs Next.js: ¿Cuál es el m | Juan Tech'
+title: 'Astro vs Next.js: ¿Cuál es el mejor framework para tu p...'
+metaTitle: 'Astro vs Next.js: ¿Cuál es el m | Juan Tech'
 metaDescription: >-
   Aprende astro vs nextjs con pasos practicos, ejemplos y buenas practicas para
   mejorar la visibilidad organica y el rendimiento del contenido.
 slug: astro-vs-nextjs
 publishedAt: '2026-04-02'
+updatedAt: '2026-04-02'
 idioma: es
 categoryTitle: Development
 authors:
@@ -28,7 +29,7 @@ semantic_keywords:
   - importantes desarrolladores caracter
 keyword: astro vs nextjs
 ---
-Astro y Next.js son frameworks populares para el [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), cada uno con características que los hacen únicos. Astro se enfoca en la creación de sitios estáticos, mientras que Next.js permite un manejo dinámico del contenido. Este artículo compara sus características fundamentales, rendimiento y casos de uso, facilitando la elección según las necesidades específicas del proyecto. Ambas soluciones se adaptan a diferentes requisitos y estilos de desarrollo, ofreciendo ventajas importantes para los desarrolladores.
+Astro y [[nextjs-portfolio|Next.js]] son frameworks populares para el [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), cada uno con características que los hacen únicos. Astro se enfoca en la creación de sitios estáticos, mientras que Next.js permite un manejo dinámico del contenido. Este artículo compara sus características fundamentales, rendimiento y casos de uso, facilitando la elección según las necesidades específicas del proyecto. Ambas soluciones se adaptan a diferentes requisitos y estilos de desarrollo, ofreciendo ventajas importantes para los desarrolladores.
 
 ## Características fundamentales de Astro y Next.js
 

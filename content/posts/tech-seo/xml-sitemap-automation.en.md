@@ -42,6 +42,6 @@ uploaded: false
 
 ## See Also
 
-- [Technical SEO Guide 2026: The Comprehensive Developer"s Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Technical SEO Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
 - [Schema Markup Guide 2026: Mastering JSON-LD](https://juan-tech.com/en/blog/tech-seo/schema-markup-guide)
 - [SSR vs CSR for SEO 2026: The Definitive Ranking Guide](https://juan-tech.com/en/blog/tech-seo/ssr-vs-csr-seo)

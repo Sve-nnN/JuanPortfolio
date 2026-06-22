@@ -7,6 +7,7 @@ metaDescription: >-
   in...
 slug: payload-cms-guide
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: en
 categoryTitle: Development
 authors:
@@ -29,7 +30,7 @@ semantic_keywords:
   - significantly optimizes performance
 keyword: payload cms
 ---
-Payload CMS is rapidly gaining traction as a modern content management solution that emphasizes flexibility and performance. Designed with developers in mind, it offers a unique API-first approach, making integration seamless with tools like Next.js and Figma.
+[[payload-cms-guide|Payload CMS]] is rapidly gaining traction as a modern content management solution that emphasizes flexibility and performance. Designed with developers in mind, it offers a unique API-first approach, making integration seamless with tools like [[nextjs-portfolio|Next.js]] and Figma.
 
 This article explores the core features of Payload CMS, its integration capabilities, and how it compares to other popular CMS options, particularly Sanity. Let's delve into what makes Payload a compelling choice for content management.
 

@@ -110,4 +110,4 @@ Dijkstra's algorithm is used to find the shortest paths from a source node to al
 
 ## See Also
 
-- [Algorithms and Data Structures 2026: The Engineer"s Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)
+- [Algorithms and Data Structures 2026: The Engineer's Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)

@@ -6,6 +6,7 @@ metaDescription: >-
   practicas para mejorar la visibilidad organica y el rendimiento del contenido.
 slug: headless-cms-comparison
 publishedAt: '2026-04-02'
+updatedAt: '2026-04-02'
 idioma: es
 categoryTitle: Development
 authors:
@@ -92,7 +93,7 @@ El mercado de los CMS headless ha visto un notable crecimiento en los últimos a
 
 ### Integración con arquitecturas Jamstack
 
-La creciente adopción de arquitecturas Jamstack está transformando la manera en que se construyen y despliegan aplicaciones web. Los headless CMS son fundamentales en este entorno, ya que permiten una entrega de contenido optimizada y rápida.
+La creciente adopción de arquitecturas Jamstack está transformando la manera en que se construyen y despliegan aplicaciones web. Los [[headless-cms-comparison|Headless CMS]] son fundamentales en este entorno, ya que permiten una entrega de contenido optimizada y rápida.
 
 #### Ventajas y desafíos en proyectos Jamstack
 
@@ -162,7 +163,7 @@ Prismic es popular entre los equipos de marketing, proporcionando herramientas p
 
 #### Integración con generadores de sitios
 
-Su compatibilidad con frameworks como Next.js permite una integración sencilla y eficiente para la creación de sitios web.
+Su compatibilidad con frameworks como [[nextjs-portfolio|Next.js]] permite una integración sencilla y eficiente para la creación de sitios web.
 
 #### Limitaciones del modelo de contenido
 

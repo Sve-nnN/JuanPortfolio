@@ -190,4 +190,4 @@ By following these processes and practices, developers and organizations can eff
 
 ## See Also
 
-- [Algorithms and Data Structures 2026: The Engineer"s Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)
+- [Algorithms and Data Structures 2026: The Engineer's Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)

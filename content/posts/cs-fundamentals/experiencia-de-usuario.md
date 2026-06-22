@@ -197,7 +197,7 @@ La \*\*accesibilidad\*\* también juega un papel crucial. Asegurarse de que todo
 
 La \*\*tecnología emergente\*\* presenta un doble filo. Mientras que las herramientas avanzadas pueden mejorar la experiencia del usuario, también pueden dar lugar a \*\*manipulación\*\*. Es fundamental establecer salvaguardias éticas que prevengan prácticas engañosas, respetando la inteligencia del usuario y evitando la explotación de comportamientos predecibles.
 
-La \*\*transparencia\*\* en el uso de algoritmos también es clave. A medida que se implementan sistemas más complejos, los diseñadores deben considerar la opacidad de las decisiones algorítmicas y sus efectos en los usuarios. La falta de claridad puede llevar a la desconfianza y a la percepción de sesgo en los resultados.
+La \*\*transparencia\*\* en el uso de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] también es clave. A medida que se implementan sistemas más complejos, los diseñadores deben considerar la opacidad de las decisiones algorítmicas y sus efectos en los usuarios. La falta de claridad puede llevar a la desconfianza y a la percepción de sesgo en los resultados.
 
 Por último, la \*\*evaluación continua\*\* es vital en este campo. Las pruebas y la retroalimentación no deben ser eventos aislados. Se requiere un proceso iterativo donde se evalúen constantemente las implicaciones éticas de las decisiones de diseño, proporcionando así experiencias que no solo sean efectivas, sino también justas y respetuosas.
 

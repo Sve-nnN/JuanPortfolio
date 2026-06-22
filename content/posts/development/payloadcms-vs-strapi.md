@@ -40,7 +40,7 @@ categories:
 status: draft
 keyword: payloadcms vs strapi
 ---
-En el panorama actual del [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), elegir el CMS headless adecuado puede marcar la diferencia en la eficiencia y calidad del proyecto. Payload CMS y Strapi se presentan como dos opciones destacadas, cada una con enfoques y características únicas que se adaptan a diversas necesidades. A lo largo de este artículo, analizaremos sus diferencias fundamentales y cómo se adecuan a distintos perfiles de usuarios, desde desarrolladores hasta editores de contenido.
+En el panorama actual del [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), elegir el CMS headless adecuado puede marcar la diferencia en la eficiencia y calidad del proyecto. [[payload-cms-guide|Payload CMS]] y Strapi se presentan como dos opciones destacadas, cada una con enfoques y características únicas que se adaptan a diversas necesidades. A lo largo de este artículo, analizaremos sus diferencias fundamentales y cómo se adecuan a distintos perfiles de usuarios, desde desarrolladores hasta editores de contenido.
 
 ## Diferencias Filosóficas entre Payload CMS y Strapi
 
@@ -54,7 +54,7 @@ En contraposición, Strapi se presenta como un CMS headless más amigable para e
 
 ### Integración Backend con Next.js vs. CMS Headless Independiente
 
-Payload se integra directamente dentro de la estructura de un proyecto Next.js, lo que transforma cada implementación de Payload en un proyecto complementario a sus capacidades de frontend. Esta integración ofrece ventajas en términos de despliegue, ya que permite que el CMS y la interfaz de usuario se alojen en las mismas plataformas, como Vercel o Cloudflare, optimizando así el flujo de trabajo y la gestión de recursos.
+Payload se integra directamente dentro de la estructura de un proyecto [[nextjs-portfolio|Next.js]], lo que transforma cada implementación de Payload en un proyecto complementario a sus capacidades de frontend. Esta integración ofrece ventajas en términos de despliegue, ya que permite que el CMS y la interfaz de usuario se alojen en las mismas plataformas, como Vercel o Cloudflare, optimizando así el flujo de trabajo y la gestión de recursos.
 
 Por otro lado, Strapi se establece como un CMS headless independiente, con una arquitectura que también es robusta pero se desacopla de un frontend específico. Su backend se basa en Node.js y expone datos a través de APIs REST o GraphQL, lo que le otorga características similares a un backend tradicional. Esto puede ser ventajoso para proyectos que requieren flexibilidad en la elección del frontend, aunque podría resultar en complicaciones adicionales al gestionar las interacciones entre el backend y el cliente.
 
@@ -68,7 +68,7 @@ Payload CMS se integra de forma nativa en proyectos Next.js, permitiendo a los d
 
 ### Modelos de Datos y Personalización en Código
 
-En cuanto a la personalización, Payload CMS permite a los desarrolladores definir completamente los modelos de datos a través de código TypeScript. Esto no solo proporciona flexibilidad, sino que también asegura una mayor seguridad de tipo, lo que reduce errores en la producción. Esta característica es especialmente valiosa para proyectos que requieren estructuras de datos complejas. En contraste, Strapi ofrece un sistema de modelado visual que permite a los editores crear, modificar y gestionar modelos de datos sin necesidad de profundidad técnica en programación. Aunque esto puede resultar más accesible para aquellos sin experiencia de programación, limita a los desarrolladores que buscan exprimir al máximo la personalización del sistema.
+En cuanto a la personalización, Payload CMS permite a los desarrolladores definir completamente los modelos de datos a través de código [[typescript-best-practices|TypeScript]]. Esto no solo proporciona flexibilidad, sino que también asegura una mayor seguridad de tipo, lo que reduce errores en la producción. Esta característica es especialmente valiosa para proyectos que requieren estructuras de datos complejas. En contraste, Strapi ofrece un sistema de modelado visual que permite a los editores crear, modificar y gestionar modelos de datos sin necesidad de profundidad técnica en programación. Aunque esto puede resultar más accesible para aquellos sin experiencia de programación, limita a los desarrolladores que buscan exprimir al máximo la personalización del sistema.
 
 ### Opciones de Hospedaje y Escalabilidad
 

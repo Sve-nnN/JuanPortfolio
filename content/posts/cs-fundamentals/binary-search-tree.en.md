@@ -7,6 +7,7 @@ metaDescription: >-
   facili...
 slug: binary-search-tree
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: en
 categoryTitle: CS Fundamentals
 authors:
@@ -85,7 +86,7 @@ El recorrido in order traversal es una de las formas más intuitivas y efectivas
 
 ### Explicación del recorrido in order traversal
 
-Durante el recorrido in order, el algoritmo comienza en la raíz del árbol y se mueve hacia el nodo más a la izquierda. Una vez alcanzado el nodo más pequeño, se procesa este nodo y luego se retrocede al nodo padre para explorar su subárbol derecho. Este proceso se repite hasta que todos los nodos del árbol se han visitado. La complejidad temporal de este recorrido es O(n), donde n representa el número de nodos, lo que lo convierte en una elección eficiente para este tipo de estructuras de datos.
+Durante el recorrido in order, el algoritmo comienza en la raíz del árbol y se mueve hacia el nodo más a la izquierda. Una vez alcanzado el nodo más pequeño, se procesa este nodo y luego se retrocede al nodo padre para explorar su subárbol derecho. Este proceso se repite hasta que todos los nodos del árbol se han visitado. La complejidad temporal de este recorrido es O(n), donde n representa el número de nodos, lo que lo convierte en una elección eficiente para este tipo de [[data-structures|data structures]].
 
 ### Comparación con pre order y post order
 
@@ -93,4 +94,4 @@ Aparte del recorrido in order, dos variantes comunes son el pre order y el post 
 
 ### Aplicaciones prácticas del recorrido in order traversal
 
-El recorrido in order traversal tiene múltiples aplicaciones prácticas en el ámbito del desarrollo de software y la gestión de datos. Por ejemplo, es común en sistemas de bases de datos, donde se necesita recuperar registros en un orden específico. También se utiliza en algoritmos que requieren la extracción de datos ordenados, como aquellos que implementan algoritmos de búsqueda. Además, en aplicaciones que implementan sistemas de archivo o estructuras de datos complejas, el in order traversal puede facilitar la optimización del rendimiento al permitir accesos rápidos y eficientes a los datos. Por lo tanto, comprender y aplicar correctamente este tipo de recorrido en un **binary search tree** es esencial para cualquier ingeniero de software que trabaje con estructuras de datos que requieren orden y eficiencia.
+El recorrido in order traversal tiene múltiples aplicaciones prácticas en el ámbito del desarrollo de software y la gestión de datos. Por ejemplo, es común en sistemas de [[diseno-bases-datos|database design]], donde se necesita recuperar registros en un orden específico. También se utiliza en [[algoritmos-estructuras-datos|Algorithms and Data Structures]] que requieren la extracción de datos ordenados, como aquellos que implementan algoritmos de búsqueda. Además, en aplicaciones que implementan sistemas de archivo o estructuras de datos complejas, el in order traversal puede facilitar la optimización del rendimiento al permitir accesos rápidos y eficientes a los datos. Por lo tanto, comprender y aplicar correctamente este tipo de recorrido en un **binary search tree** es esencial para cualquier ingeniero de software que trabaje con estructuras de datos que requieren orden y eficiencia.

@@ -69,6 +69,12 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     ? sizeFromProps
     : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 
+  // The src is already a Cloudinary-optimized URL (f_avif/q_auto, sized via
+  // getOptimizedCloudinaryUrl). Routing it through /_next/image would re-encode
+  // an already-optimized asset; let Cloudinary be the single optimizer.
+  // SEO audit jun-2026, issue #38.
+  const isCloudinary = typeof src === 'string' && src.includes('res.cloudinary.com')
+
   return (
     <picture className={cn(fill && 'relative block h-full w-full', pictureClassName)}>
       <NextImage
@@ -85,6 +91,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         src={src}
         width={!fill ? width : undefined}
         crossOrigin="anonymous"
+        unoptimized={isCloudinary}
         fetchPriority={priority ? 'high' : 'auto'}
       />
     </picture>

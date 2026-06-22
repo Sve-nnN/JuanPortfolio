@@ -187,6 +187,9 @@ export const PostHero: React.FC<{
             src={getFallbackBySlug(post.slug ?? '')}
             alt="Hero Background"
             className="object-cover w-full h-full"
+            width={1200}
+            height={630}
+            decoding="async"
             fetchPriority="high"
             loading="eager"
           />

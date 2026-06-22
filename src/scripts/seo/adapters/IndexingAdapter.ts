@@ -1,8 +1,11 @@
 import { google, indexing_v3 } from 'googleapis'
-import { JWT } from 'google-auth-library'
+
+// See GSCAdapter.ts: derive the JWT type from `googleapis` so a duplicated
+// google-auth-library copy (Vercel npm vs CI pnpm) can't break the build.
+type GoogleJWT = InstanceType<typeof google.auth.JWT>
 
 export class IndexingAdapter {
-  private auth: JWT
+  private auth: GoogleJWT
   private indexing: indexing_v3.Indexing
 
   constructor() {

@@ -1,5 +1,11 @@
 import { google, searchconsole_v1 } from 'googleapis'
-import { JWT } from 'google-auth-library'
+
+// Derive the JWT type from the same `googleapis` source as `new google.auth.JWT`
+// below. Importing JWT from the standalone `google-auth-library` breaks the
+// build when the package manager (e.g. Vercel's `npm install --legacy-peer-deps`
+// vs CI's pnpm) hoists a second, type-incompatible copy of google-auth-library
+// under googleapis-common. SEO audit jun-2026 (Vercel deploy fix).
+type GoogleJWT = InstanceType<typeof google.auth.JWT>
 
 export interface GSCPerformanceRow {
   date: string
@@ -14,7 +20,7 @@ export interface GSCPerformanceRow {
 }
 
 export class GSCAdapter {
-  private auth: JWT
+  private auth: GoogleJWT
   private sc: searchconsole_v1.Searchconsole
   private siteUrl: string
 

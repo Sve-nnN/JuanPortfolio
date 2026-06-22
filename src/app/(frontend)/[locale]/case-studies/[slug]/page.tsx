@@ -23,6 +23,8 @@ import PageClient from '../../blog/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { JsonLd } from '@/components/JsonLd'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
+import { generateBreadcrumbSchema } from '@/utilities/schema/generateBreadcrumbSchema'
 // import { headers } from 'next/headers'
 
 /**
@@ -104,18 +106,45 @@ export default async function CaseStudy({ params: paramsPromise }: Args) {
     // @ts-expect-error - URLSearchParams type mismatch
     const metaImage = post.meta?.image?.url || post.meta?.image?.sizes?.og?.url || post.meta_group?.image?.url
 
-    schema = {
-      '@context': 'https://schema.org',
+    // SEO audit jun-2026, issue #28: the TechArticle lacked publisher, a fully
+    // referenced author, an image fallback and a BreadcrumbList. Emit a complete
+    // node graph (JsonLd flattens the @graph container).
+    const SERVER = process.env.NEXT_PUBLIC_SERVER_URL || ''
+    const localePrefix = locale === 'es' ? '' : '/en'
+    const absoluteUrl = `${SERVER}${url}`
+
+    const techArticle = {
       '@type': 'TechArticle', // Good for case studies
+      '@id': absoluteUrl,
       headline: metaTitle,
       description: metaDesc,
-      image: metaImage ? `${process.env.NEXT_PUBLIC_SERVER_URL}${metaImage}` : undefined,
+      image: metaImage ? `${SERVER}${metaImage}` : getFallbackBySlug(slug),
       datePublished: post.publishedAt,
       dateModified: post.updatedAt,
       author: {
         '@type': 'Person',
+        '@id': `${SERVER}/#person`,
         name: 'Juan Carlos Angulo',
+        url: `${SERVER}/authors/juan-carlos-angulo`,
       },
+      publisher: {
+        '@id': `${SERVER}/#organization`,
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': absoluteUrl,
+      },
+    }
+
+    const breadcrumb = generateBreadcrumbSchema([
+      { name: locale === 'es' ? 'Inicio' : 'Home', url: localePrefix || '/' },
+      { name: locale === 'es' ? 'Casos de estudio' : 'Case studies', url: `${localePrefix}/case-studies` },
+      { name: metaTitle, url },
+    ])
+
+    schema = {
+      '@context': 'https://schema.org',
+      '@graph': breadcrumb ? [techArticle, breadcrumb] : [techArticle],
     }
   }
 

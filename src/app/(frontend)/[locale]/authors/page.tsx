@@ -7,6 +7,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
+import { JsonLd } from '@/components/JsonLd'
+import { generateCollectionPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 /**
  * @typedef {object} AuthorRef
@@ -76,8 +78,25 @@ const AuthorsPage = async ({ params: paramsPromise }: Args) => {
   const authors = (await getAuthors()) as AuthorRef[]
   const localePrefix = locale === 'es' ? '' : '/en'
 
+  // CollectionPage + breadcrumb schema, mirroring the category templates so the
+  // listing indexes aren't schema-less. SEO audit jun-2026, issue #29.
+  const collectionSchema = generateCollectionPageSchema({
+    name: locale === 'es' ? 'Autores' : 'Authors',
+    url: `${localePrefix}/authors`,
+    numberOfItems: authors.length,
+  })
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: locale === 'es' ? 'Inicio' : 'Home', url: localePrefix || '/' },
+    { name: locale === 'es' ? 'Autores' : 'Authors', url: `${localePrefix}/authors` },
+  ])
+  const listingSchema = {
+    '@context': 'https://schema.org',
+    '@graph': breadcrumbSchema ? [collectionSchema, breadcrumbSchema] : [collectionSchema],
+  }
+
   return (
     <main>
+      <JsonLd schema={listingSchema} />
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">

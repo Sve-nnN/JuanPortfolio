@@ -10,6 +10,9 @@ const { generateWebSiteSchema } = await import('@/utilities/schema/generateWebSi
 const { generateOrganizationSchema } = await import(
   '@/utilities/schema/generateOrganizationSchema'
 )
+const { generateCollectionPageSchema } = await import(
+  '@/utilities/schema/generateCollectionPageSchema'
+)
 
 /**
  * Regression suite for the SEO audit (jun-2026) schema fixes:
@@ -96,5 +99,19 @@ describe('generateOrganizationSchema — logo fallback (issue #27)', () => {
       logo: 'https://cdn.example.com/logo.svg',
     }) as { logo?: string }
     expect(schema.logo).toBe('https://cdn.example.com/logo.svg')
+  })
+})
+
+describe('generateCollectionPageSchema — optional count (issue #29)', () => {
+  it('omits numberOfItems when not provided (index pages have no count)', () => {
+    const s = generateCollectionPageSchema({ name: 'Blog', url: '/blog' }) as Record<string, unknown>
+    expect(s['@type']).toBe('CollectionPage')
+    expect(s.url).toBe(`${SITE}/blog`)
+    expect('numberOfItems' in s).toBe(false)
+  })
+
+  it('includes numberOfItems when provided', () => {
+    const s = generateCollectionPageSchema({ name: 'Authors', url: '/authors', numberOfItems: 3 }) as Record<string, unknown>
+    expect(s.numberOfItems).toBe(3)
   })
 })

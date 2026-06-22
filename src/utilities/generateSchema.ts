@@ -40,9 +40,9 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
       '@id': `${process.env.NEXT_PUBLIC_SERVER_URL}/#organization`,
       '@type': 'Organization',
       name: 'Juan Tech',
-      founder: {
-        '@id': `${process.env.NEXT_PUBLIC_SERVER_URL}/#person`,
-      },
+      // Don't reference a #person founder here: the full Person node is only
+      // emitted on the home page, so on posts this would be a dangling @id.
+      // SEO audit jun-2026, issue #49.
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.NEXT_PUBLIC_SERVER_URL}/logo.png`

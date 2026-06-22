@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { getServerSideURL } from '@/utilities/getURL'
+import { JsonLd } from '@/components/JsonLd'
+import { generateWebPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 export async function generateStaticParams() {
   return [{ locale: 'es' }, { locale: 'en' }]
@@ -40,9 +42,27 @@ export default async function PrivacyPage({
   const { locale: rawLocale } = await paramsPromise
   const locale = rawLocale === 'en' ? 'en' : 'es'
   const isEn = locale === 'en'
+  const localePrefix = isEn ? '/en' : ''
+
+  // SEO audit jun-2026, issue #48: give the standalone page a basic WebPage +
+  // BreadcrumbList structured-data identity.
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      generateWebPageSchema({
+        name: isEn ? 'Privacy Policy' : 'Política de Privacidad',
+        url: `${localePrefix}/privacy`,
+      }),
+      generateBreadcrumbSchema([
+        { name: isEn ? 'Home' : 'Inicio', url: localePrefix || '/' },
+        { name: isEn ? 'Privacy Policy' : 'Política de Privacidad', url: `${localePrefix}/privacy` },
+      ]),
+    ].filter(Boolean),
+  }
 
   return (
     <main className="container mx-auto px-4 py-24 max-w-3xl">
+      <JsonLd schema={pageSchema} />
       <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-8 text-foreground">
         {isEn ? 'Privacy Policy' : 'Política de Privacidad'}
       </h1>

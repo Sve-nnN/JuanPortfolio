@@ -44,14 +44,16 @@ export function generatePersonSchema(input: PersonSchemaInput): Schema {
 
   if (input.alumniOf && input.alumniOf.length > 0) {
     schema.alumniOf = input.alumniOf.map(edu => ({
-      '@type': 'Organization',
+      '@type': 'EducationalOrganization',
       name: edu.name,
       ...(edu.url && { url: edu.url }),
     }))
   }
 
-  if (input.hasCredential && input.hasCredential.length > 0) {
-    schema.hasCredential = input.hasCredential.map(cred => ({
+  // Combine explicit credentials with any degrees declared on alumniOf entries,
+  // which were previously silently dropped. SEO audit jun-2026, issue #50.
+  const credentials = [
+    ...(input.hasCredential || []).map(cred => ({
       '@type': 'EducationalOccupationalCredential',
       name: cred.name,
       recognizedBy: {
@@ -59,7 +61,22 @@ export function generatePersonSchema(input: PersonSchemaInput): Schema {
         name: cred.organization,
       },
       ...(cred.datePublished && { datePublished: cred.datePublished }),
-    }))
+    })),
+    ...(input.alumniOf || [])
+      .filter(edu => edu.degree)
+      .map(edu => ({
+        '@type': 'EducationalOccupationalCredential',
+        name: edu.degree as string,
+        credentialCategory: 'degree',
+        recognizedBy: {
+          '@type': 'EducationalOrganization',
+          name: edu.name,
+        },
+      })),
+  ]
+
+  if (credentials.length > 0) {
+    schema.hasCredential = credentials
   }
 
   return schema

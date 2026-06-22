@@ -27,6 +27,7 @@ export interface PersonSchemaInput {
   alumniOf?: {
     name: string
     url?: string
+    degree?: string
   }[]
   hasCredential?: {
     name: string

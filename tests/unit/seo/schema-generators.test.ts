@@ -13,6 +13,8 @@ const { generateOrganizationSchema } = await import(
 const { generateCollectionPageSchema } = await import(
   '@/utilities/schema/generateCollectionPageSchema'
 )
+const { generatePersonSchema } = await import('@/utilities/schema/generatePersonSchema')
+const { generateWebPageSchema } = await import('@/utilities/schema/generateWebPageSchema')
 
 /**
  * Regression suite for the SEO audit (jun-2026) schema fixes:
@@ -113,5 +115,47 @@ describe('generateCollectionPageSchema — optional count (issue #29)', () => {
   it('includes numberOfItems when provided', () => {
     const s = generateCollectionPageSchema({ name: 'Authors', url: '/authors', numberOfItems: 3 }) as Record<string, unknown>
     expect(s.numberOfItems).toBe(3)
+  })
+})
+
+
+describe('generateWebPageSchema (issue #48)', () => {
+  it('emits a WebPage linked to #website and #organization', () => {
+    const s = generateWebPageSchema({ name: 'Privacy', url: '/privacy' }) as Record<string, any>
+    expect(s['@type']).toBe('WebPage')
+    expect(s['@id']).toBe(`${SITE}/privacy`)
+    expect(s.isPartOf['@id']).toBe(`${SITE}/#website`)
+    expect(s.publisher['@id']).toBe(`${SITE}/#organization`)
+  })
+  it('honors a subtype like ContactPage', () => {
+    const s = generateWebPageSchema({ type: 'ContactPage', name: 'Contact', url: '/contact' }) as Record<string, any>
+    expect(s['@type']).toBe('ContactPage')
+  })
+})
+
+describe('generatePersonSchema alumniOf degree (issue #50)', () => {
+  const s = generatePersonSchema({
+    name: 'Juan', url: SITE,
+    alumniOf: [{ name: 'Some University', url: 'https://u.edu', degree: 'BSc Computer Science' }],
+  }) as Record<string, any>
+  it('keeps alumniOf as EducationalOrganization', () => {
+    expect(s.alumniOf[0]['@type']).toBe('EducationalOrganization')
+    expect(s.alumniOf[0].name).toBe('Some University')
+  })
+  it('surfaces the degree as a hasCredential (no longer dropped)', () => {
+    const cred = (s.hasCredential || []).find((c: any) => c.name === 'BSc Computer Science')
+    expect(cred).toBeTruthy()
+    expect(cred.credentialCategory).toBe('degree')
+    expect(cred.recognizedBy.name).toBe('Some University')
+  })
+})
+
+describe('generateSchema publisher (issue #49)', () => {
+  it('does not emit a dangling #person founder on posts', () => {
+    const post = generateSchema({
+      collection: 'posts', url: `${SITE}/blog/x/y`,
+      doc: { slug: 'y', title: 'Y', meta: {} } as never,
+    }) as Record<string, any>
+    expect(post.publisher?.founder).toBeUndefined()
   })
 })

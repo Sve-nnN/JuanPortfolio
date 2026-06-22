@@ -6,6 +6,8 @@ import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { CaseStudiesListing } from '@/payload-types'
+import type { Metadata } from 'next'
+import { generateMeta } from '@/utilities/generateMeta'
 
 /**
  * The main case studies listing page component.
@@ -19,6 +21,23 @@ type Args = {
   params: Promise<{
     locale: string
   }>
+}
+
+/**
+ * Self-referential metadata for the case-studies listing. Without it the page
+ * inherited the root layout's homepage canonical (cross-canonical to /).
+ * SEO audit jun-2026, issue #14.
+ */
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const title = locale === 'es' ? 'Casos de estudio | Juan Tech' : 'Case studies | Juan Tech'
+  const description =
+    locale === 'es'
+      ? 'Proyectos reales de SEO técnico y desarrollo web con Next.js y Payload, con resultados medibles en tráfico orgánico y rendimiento.'
+      : 'Real technical SEO and web development projects with Next.js and Payload, with measurable organic-traffic and performance results.'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return generateMeta({ doc: { title, meta: { description } } as any, locale, path: '/case-studies' })
 }
 
 const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {

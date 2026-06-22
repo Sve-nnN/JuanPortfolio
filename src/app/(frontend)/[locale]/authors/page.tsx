@@ -5,6 +5,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import type { Metadata } from 'next'
+import { generateMeta } from '@/utilities/generateMeta'
 
 /**
  * @typedef {object} AuthorRef
@@ -44,6 +46,24 @@ type Args = {
   params: Promise<{
     locale: string
   }>
+}
+
+/**
+ * Self-referential metadata for the authors listing. Without it the page
+ * inherited the root layout's homepage canonical (cross-canonical to /),
+ * which Google flagged ("chose /authors instead of user-declared /").
+ * SEO audit jun-2026, issue #14.
+ */
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { locale: rawLocale } = await paramsPromise
+  const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const title = locale === 'es' ? 'Autores | Juan Tech' : 'Authors | Juan Tech'
+  const description =
+    locale === 'es'
+      ? 'Conoce a las personas que escriben en el blog de Juan Tech sobre SEO técnico, desarrollo web con Next.js y automatización de contenido.'
+      : 'Meet the people who write on the Juan Tech blog about technical SEO, Next.js web development and content automation.'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return generateMeta({ doc: { title, meta: { description } } as any, locale, path: '/authors' })
 }
 
 /**

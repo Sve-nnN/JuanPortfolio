@@ -65,6 +65,42 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
 }
 
 /**
+ * Coerces a Cloudinary image URL into a 1200×630 JPG suitable for social/OG
+ * cards. AVIF og:images are not rendered by Facebook/LinkedIn/X scrapers, so an
+ * explicit editor-set Cloudinary OG image (often .avif) must be served as JPG.
+ * SEO audit jun-2026, issue #33. Non-Cloudinary URLs are returned unchanged.
+ */
+export function getCloudinaryOgJpg(url: string): string {
+  if (!url || !url.includes('cloudinary.com')) return url
+
+  const uploadIndex = url.indexOf('/upload/')
+  if (uploadIndex === -1) return url
+
+  const baseUrl = url.substring(0, uploadIndex)
+  const afterUpload = url.substring(uploadIndex + '/upload/'.length)
+
+  // Same publicId isolation as getCloudinaryOgWithTitle: drop transform/version
+  // segments to reach the raw public_id.
+  const segments = afterUpload.split('/')
+  let pidStart = 0
+  for (let i = 0; i < segments.length; i++) {
+    if (/^v\d+$/.test(segments[i])) {
+      pidStart = i
+      break
+    }
+    if (/^[a-z]{1,3}_/.test(segments[i])) {
+      pidStart = i + 1
+      continue
+    }
+    pidStart = i
+    break
+  }
+  const publicId = segments.slice(pidStart).join('/')
+
+  return `${baseUrl}/upload/w_1200,h_630,c_fill,g_auto,f_jpg,q_auto/${publicId}`
+}
+
+/**
  * Transforms a Cloudinary URL with optimization parameters.
  * Pure function safe for both client and server.
  * @param url - The original Cloudinary URL.

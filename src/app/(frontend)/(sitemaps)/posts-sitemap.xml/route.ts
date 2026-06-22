@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 // import config from '@payload-config'
 import config from '../../../../payload.config'
 import { unstable_cache } from 'next/cache'
+import { buildAlternateRefs } from '@/utilities/sitemap'
 
 const getPostsSitemap = unstable_cache(
   async () => {
@@ -32,7 +33,6 @@ const getPostsSitemap = unstable_cache(
         },
       })
 
-      const locales = ['en', 'es']
       const dateFallback = new Date().toISOString()
 
       const sitemap = results.docs
@@ -55,13 +55,14 @@ const getPostsSitemap = unstable_cache(
                 }
               }
 
-              return locales.map(locale => {
-                const prefix = locale === 'es' ? '' : `/${locale}`
-                return {
-                  loc: `${SITE_URL}${prefix}/blog/${categorySlug}/${post.slug}`,
-                  lastmod: post.updatedAt || dateFallback,
-                }
-              })
+              const esLoc = `${SITE_URL}/blog/${categorySlug}/${post.slug}`
+              const enLoc = `${SITE_URL}/en/blog/${categorySlug}/${post.slug}`
+              const alternateRefs = buildAlternateRefs(esLoc, enLoc)
+              const lastmod = post.updatedAt || dateFallback
+              return [
+                { loc: esLoc, lastmod, alternateRefs },
+                { loc: enLoc, lastmod, alternateRefs },
+              ]
             })
         : []
 

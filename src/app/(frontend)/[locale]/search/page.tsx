@@ -125,17 +125,25 @@ export async function generateMetadata({
   const { q: query } = await searchParamsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
 
-  const title = query
+  const titleBase = query
     ? locale === 'es'
-      ? `resultados sobre: ${query}`
-      : `results for: ${query}`
+      ? `Resultados sobre: ${query}`
+      : `Results for: ${query}`
     : locale === 'es'
-      ? 'búsqueda'
-      : 'search'
+      ? 'Búsqueda'
+      : 'Search'
 
-  return generateMeta({
-    doc: { title },
+  const meta = await generateMeta({
+    doc: { title: titleBase },
     locale,
     path: '/search',
   })
+
+  // Internal search-results pages are utility pages: keep them out of the index
+  // (still follow links) so they don't compete with real content.
+  // SEO audit jun-2026, issue #34.
+  return {
+    ...meta,
+    robots: { index: false, follow: true },
+  }
 }

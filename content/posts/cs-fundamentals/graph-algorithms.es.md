@@ -6,6 +6,7 @@ metaDescription: >-
   mejorar la visibilidad organica y el rendimiento del contenido.
 slug: graph-algorithms
 publishedAt: '2026-04-02'
+updatedAt: '2026-04-02'
 idioma: es
 categoryTitle: CS Fundamentals
 authors:
@@ -28,7 +29,7 @@ semantic_keywords:
   - optimiza infraestructura garantizar
 keyword: graph algorithms
 ---
-Los algoritmos de grafos son fundamentales en el análisis de datos y la optimización de procesos. Estas herramientas permiten modelar relaciones y resolver problemas complejos en diversas aplicaciones, desde redes sociales hasta logística. Este artículo explora la estructura y tipos de grafos, así como sus algoritmos de recorrido, caminos más cortos, árboles de expansión mínima y flujo máximo. Se abordará también su implementación en Python, ofreciendo una visión integral sobre su utilidad y relevancia.
+Los [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] de grafos son fundamentales en el análisis de datos y la optimización de procesos. Estas herramientas permiten modelar relaciones y resolver problemas complejos en diversas aplicaciones, desde redes sociales hasta logística. Este artículo explora la estructura y tipos de grafos, así como sus algoritmos de recorrido, caminos más cortos, árboles de expansión mínima y flujo máximo. Se abordará también su implementación en Python, ofreciendo una visión integral sobre su utilidad y relevancia.
 
 ## Estructura y tipos de grafos
 
@@ -122,7 +123,7 @@ Estos métodos han demostrado ser valiosos no solo en redes sociales, sino tambi
 
 ## Implementación y uso de algoritmos de grafos en Python
 
-Python se ha convertido en el lenguaje preferido para la implementación de algoritmos de grafos, gracias a su sintaxis intuitiva y la disponibilidad de bibliotecas poderosas. Las bibliotecas más populares incluyen NetworkX y graph-tool, las cuales proporcionan estructuras de datos y funciones ya implementadas que facilitan el trabajo con grafos.
+Python se ha convertido en el lenguaje preferido para la implementación de algoritmos de grafos, gracias a su sintaxis intuitiva y la disponibilidad de bibliotecas poderosas. Las bibliotecas más populares incluyen NetworkX y graph-tool, las cuales proporcionan [[data-structures|estructuras de datos]] y funciones ya implementadas que facilitan el trabajo con grafos.
 
 Usar NetworkX es un excelente punto de partida para quienes desean experimentar con algoritmos de grafos. Esta biblioteca permite crear, manipular y estudiar la estructura, dinámica y funciones de las redes. Tiene una completa documentación y es fácil de instalar a través de pip. Los pasos básicos para implementar un grafo con NetworkX son:
 

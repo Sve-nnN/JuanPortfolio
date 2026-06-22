@@ -130,6 +130,13 @@ export default async function RootLayout({
       lang={locale}
       suppressHydrationWarning
     >
+      <head>
+        {/* LCP hero images are served from Cloudinary; open the connection
+            early so the high-priority image preload doesn't pay the TLS/DNS
+            cost on the critical path. SEO audit jun-2026, issue #36. */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className="dark">
         <InitTheme />
         {organizationSchema && <JsonLd schema={organizationSchema} />}

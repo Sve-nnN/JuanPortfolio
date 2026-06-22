@@ -1,5 +1,5 @@
 ---
-title: 'Algorithms and Data Structures 2026: The Engineer"s Foundation'
+title: 'Algorithms and Data Structures 2026: The Engineer's Foundation'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: '2026-04-06T15:58:44.064Z'
 authors:
@@ -60,7 +60,7 @@ An algorithm is a finite set of well-defined instructions for solving a specific
 
 Analyzing the efficiency of an algorithm is fundamental for understanding its performance in practical scenarios. The complexity of an algorithm can be determined by measuring various factors:
 
--   **Time Complexity:** Refers to the amount of time an algorithm takes to complete as a function of the input size, typically expressed using Big O notation (e.g., O(n), O(log n)).
+-   **Time Complexity:** Refers to the amount of time an algorithm takes to complete as a function of the input size, typically expressed using [[big-o-notation|Big O]] notation (e.g., O(n), O(log n)).
 -   **Space Complexity:** Measures the total amount of memory space used by the algorithm in terms of input size, also expressed in Big O notation.
 -   **Best, Average, and Worst Cases:** Evaluating performance in different scenarios allows developers to predict how algorithms behave under various conditions.
 

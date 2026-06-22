@@ -8,7 +8,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/admin',
+      // /api/* exposes the Payload REST API (posts/pages/categories as JSON),
+      // which duplicates all page content and must not be crawled/indexed.
+      // SEO audit jun-2026, issue #15.
+      disallow: ['/admin', '/api/'],
     },
     sitemap: [
       `${url}/sitemap.xml`,

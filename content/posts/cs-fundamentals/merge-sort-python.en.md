@@ -6,6 +6,7 @@ metaDescription: >-
   improve organic visibility and content performance. Includes practical exa...
 slug: merge-sort-python
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: en
 categoryTitle: CS Fundamentals
 authors:

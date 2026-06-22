@@ -112,7 +112,7 @@ Existen diversos modelos que se utilizan en el diseño lógico, cada uno con car
 - Modelo relacional: Organiza los datos en tablas que se pueden relacionar entre sí.
 - Modelo entidad-relación: Se enfoca en la representación de las entidades y las relaciones entre ellas.
 - Modelo orientado a objetos: Integra características de las bases de datos relacionales con conceptos de programación orientada a objetos.
-- **Modelos NoSQL (mención):** Aunque el diseño lógico se asocia a menudo con lo relacional, la aparición de bases de datos NoSQL ha introducido modelos como el documental (ej. MongoDB) o clave-valor (ej. Redis) que flexibilizan la estructura para casos de uso específicos, ofreciendo alta escalabilidad y flexibilidad para datos no estructurados.
+- **Modelos [[sql-vs-nosql|SQL vs NoSQL]] (mención):** Aunque el diseño lógico se asocia a menudo con lo relacional, la aparición de bases de datos NoSQL ha introducido modelos como el documental (ej. MongoDB) o clave-valor (ej. Redis) que flexibilizan la estructura para casos de uso específicos, ofreciendo alta escalabilidad y flexibilidad para datos no estructurados.
 
 Estos modelos permiten establecer una estructura clara que facilita la comprensión y manipulación de los datos, adaptándose a diversas necesidades arquitectónicas.
 

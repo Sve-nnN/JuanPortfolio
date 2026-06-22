@@ -6,6 +6,7 @@ metaDescription: >-
   para mejorar la visibilidad organica y el rendimiento del contenido.
 slug: binary-search-tree
 publishedAt: '2026-04-02'
+updatedAt: '2026-04-02'
 idioma: es
 categoryTitle: CS Fundamentals
 authors:
@@ -166,7 +167,7 @@ A diferencia del recorrido inorden, el recorrido preorden visita primero el nodo
 
 #### Aplicaciones en copia y serialización
 
-Al implementar un recorrido preorden, se obtiene una representación completa de la estructura del árbol, que permite recrearlo en otro contexto, manteniendo la misma jerarquía de nodos. Este aspecto es vital en algoritmos donde es necesario transmitir la estructura de datos original.
+Al implementar un recorrido preorden, se obtiene una representación completa de la estructura del árbol, que permite recrearlo en otro contexto, manteniendo la misma jerarquía de nodos. Este aspecto es vital en [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] donde es necesario transmitir la estructura de datos original.
 
 ### Recorrido postorden
 
@@ -182,7 +183,7 @@ Los árboles de búsqueda binaria tienen diversas aplicaciones en la informátic
 
 ### Indexación y búsqueda eficiente en bases de datos
 
-En sistemas de bases de datos, la indexación es fundamental para asegurar que las consultas se realicen de manera rápida. Los BST permiten que las búsquedas se realicen en un tiempo logarítmico, optimizando así la eficiencia en la recuperación de información. Esto resulta en consultas más eficientes al reducir el número de comparaciones necesarias para encontrar un registro específico.
+En sistemas de [[diseno-bases-datos|diseño de bases de datos]], la indexación es fundamental para asegurar que las consultas se realicen de manera rápida. Los BST permiten que las búsquedas se realicen en un tiempo logarítmico, optimizando así la eficiencia en la recuperación de información. Esto resulta en consultas más eficientes al reducir el número de comparaciones necesarias para encontrar un registro específico.
 
 ### Manejo y organización de datos ordenados
 
@@ -194,7 +195,7 @@ La capacidad de los BST para manejar rangos de valores es una de sus caracterís
 
 ### Implementación de estructuras derivadas y optimizaciones
 
-Los árboles de búsqueda binaria también sirven como base para el desarrollo de estructuras de datos más complejas. Por ejemplo, se pueden mejorar con características de balanceo, como en los árboles AVL o rojo-negro, lo que les permite mantener un rendimiento consistente bajo diversos volúmenes de datos.
+Los árboles de búsqueda binaria también sirven como base para el desarrollo de [[data-structures|estructuras de datos]] más complejas. Por ejemplo, se pueden mejorar con características de balanceo, como en los árboles AVL o rojo-negro, lo que les permite mantener un rendimiento consistente bajo diversos volúmenes de datos.
 
 ## Complejidad y análisis de rendimiento
 

@@ -77,7 +77,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         {posts.totalPages > 1 && (
           <Pagination
             locale={locale}
-            page={posts.page}
+            page={posts.page ?? Number(pageNumber)}
             totalPages={posts.totalPages}
           />
         )}

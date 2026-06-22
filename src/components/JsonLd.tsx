@@ -78,7 +78,9 @@ export const JsonLd = ({
       jobTitle: 'Technical SEO Engineer & Full-Stack Developer',
       sameAs: [
         'https://www.linkedin.com/in/juancangulo/',
-        'https://github.com/sve-nnn',
+        // Canonical GitHub casing must match the Organization sameAs
+        // (github.com/Sve-nnN). SEO audit jun-2026, issue #52.
+        'https://github.com/Sve-nnN',
       ],
       knowsAbout: [
         'Technical SEO',
@@ -127,13 +129,27 @@ export const JsonLd = ({
   // Add home-only schemas (Person + ProfessionalService)
   schemas.push(...homeSchemas)
 
-  // Add explicit schema (Organization, etc.)
-  if (schema) {
-    if (Array.isArray(schema)) {
-      schemas.push(...schema.filter(s => s != null))
-    } else {
-      schemas.push(schema)
+  // Add explicit schema (Organization, BlogPosting+Breadcrumb graph, etc.).
+  // generateSchema may return a pre-wrapped { '@context', '@graph': [...] }
+  // container; pushing it as-is and then re-wrapping in the outer @graph below
+  // produced a malformed double-nested @graph. Flatten any @graph container and
+  // drop redundant inner @context. SEO audit jun-2026, issue #18.
+  const pushSchema = (node: Schema | null | undefined): void => {
+    if (!node) return
+    if (Array.isArray(node)) {
+      node.forEach(pushSchema)
+      return
     }
+    const graph = (node as { '@graph'?: Schema[] })['@graph']
+    if (Array.isArray(graph)) {
+      graph.forEach(pushSchema)
+      return
+    }
+    const { ['@context']: _ctx, ...rest } = node as Record<string, unknown>
+    schemas.push(rest as Schema)
+  }
+  if (schema) {
+    pushSchema(schema as Schema)
   }
 
   // Auto-generate Article Schema

@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 // import config from '@payload-config'
 import config from '../../../../payload.config'
 import { unstable_cache } from 'next/cache'
+import { buildPagesSitemap } from '@/utilities/sitemap'
 
 const getPagesSitemap = unstable_cache(
   async () => {
@@ -31,38 +32,7 @@ const getPagesSitemap = unstable_cache(
         },
       })
 
-      const locales = ['en', 'es']
-      const dateFallback = new Date().toISOString()
-
-      const defaultSitemap = locales.flatMap(locale => {
-        const prefix = locale === 'es' ? '' : `/${locale}`
-        return [
-          {
-            loc: `${SITE_URL}${prefix}/search`,
-            lastmod: dateFallback,
-          },
-          {
-            loc: `${SITE_URL}${prefix}/blog`,
-            lastmod: dateFallback,
-          },
-        ]
-      })
-
-      const sitemap = results.docs
-        ? results.docs
-            .filter((page) => Boolean(page?.slug))
-            .flatMap((page) => {
-              return locales.map(locale => {
-                const prefix = locale === 'es' ? '' : `/${locale}`
-                return {
-                  loc: page?.slug === 'home' ? `${SITE_URL}${prefix}/` : `${SITE_URL}${prefix}/${page?.slug}`,
-                  lastmod: page.updatedAt || dateFallback,
-                }
-              })
-            })
-        : []
-
-      return [...defaultSitemap, ...sitemap]
+      return buildPagesSitemap(SITE_URL, results.docs || [])
     } catch (error) {
       console.error('Error generating pages sitemap:', error)
       return []

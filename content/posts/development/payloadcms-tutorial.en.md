@@ -36,7 +36,7 @@ categories:
 status: draft
 keyword: payloadcms tutorial
 tldr: >-
-  Payload CMS is the developer"s choice for a headless CMS. This tutorial covers
+  Payload CMS is the developer's choice for a headless CMS. This tutorial covers
   everything from initial setup in 2026 to advanced customization using
   TypeScript, ensuring your content architecture is robust and performant.
 ---
@@ -46,11 +46,11 @@ From installation to optimization techniques, you'll gain a comprehensive unders
 
 ## Getting Started with Payload CMS
 
-Payload CMS is an innovative content management system designed for developers who seek flexibility and extensibility. This section outlines the essential steps to embark on your journey with Payload CMS, ensuring you have a solid foundation for your first project.
+[[payload-cms-guide|Payload CMS]] is an innovative content management system designed for developers who seek flexibility and extensibility. This section outlines the essential steps to embark on your journey with Payload CMS, ensuring you have a solid foundation for your first project.
 
 ### Understanding Payload CMS Architecture
 
-The architecture of Payload CMS is built around a headless CMS model, which separates the content management backend from the frontend presentation layer. This architecture enables developers to utilize the power of their preferred frontend frameworks while leveraging Payload’s robust content management features. At its core, the architecture is based on a [Node.js backend](https://juan-tech.com/en/blog/development/payloadcms-vs-strapi), using MongoDB for data storage, offering high performance and scalability. This structure supports creating customizable APIs, which provide the necessary endpoints for fetching and delivering content seamlessly to your applications.
+The architecture of Payload CMS is built around a [[headless-cms-comparison|Headless CMS]] model, which separates the content management backend from the frontend presentation layer. This architecture enables developers to utilize the power of their preferred frontend frameworks while leveraging Payload’s robust content management features. At its core, the architecture is based on a [Node.js backend](https://juan-tech.com/en/blog/development/payloadcms-vs-strapi), using MongoDB for data storage, offering high performance and scalability. This structure supports creating customizable APIs, which provide the necessary endpoints for fetching and delivering content seamlessly to your applications.
 
 ### Prerequisites for Your First Payload Project
 
@@ -98,7 +98,7 @@ Effective management of multimedia content is crucial for any modern web applica
 
 ### Integrating Payload CMS with Frontend Frameworks
 
-Payload CMS is designed with flexibility in mind, allowing seamless integration with various frontend frameworks. Popular choices among developers include React, Vue.js, and Next.js. When integrating Payload CMS with these frameworks, the first step is to set up API calls to fetch and manipulate data. The RESTful API capabilities of Payload CMS enable efficient data retrieval, which can then be rendered dynamically in the frontend application.
+Payload CMS is designed with flexibility in mind, allowing seamless integration with various frontend frameworks. Popular choices among developers include React, Vue.js, and [[nextjs-portfolio|Next.js]]. When integrating Payload CMS with these frameworks, the first step is to set up API calls to fetch and manipulate data. The RESTful API capabilities of Payload CMS enable efficient data retrieval, which can then be rendered dynamically in the frontend application.
 
 Typically, a framework like React can leverage hooks or state management tools, such as Redux, to manage data fetched from Payload CMS. This setup ensures that developers can create rich, interactive user experiences while maintaining optimal workflow efficiency.
 

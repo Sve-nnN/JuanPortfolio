@@ -8,6 +8,7 @@ metaDescription: >-
 slug: merge-sort-python
 keyword: merge sort python
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: es
 categoryTitle: CS-FUNDAMENTALS
 authors:
@@ -45,7 +46,7 @@ El enfoque de divide y vencerás se basa en tres pasos clave: dividir, conquista
 
 ### Complejidad y notación Big O
 
-La [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) del **merge sort** se clasifica como O(N log N) en el peor y promedio de los casos. Esta complejidad se debe a que cada división de la lista requiere un número de comparaciones proporcional al tamaño de la lista, mientras que el logaritmo se introduce a través del proceso de división en mitades. La notación Big O ofrece una forma de medir el rendimiento del algoritmo según cómo crece el tiempo de ejecución en relación con la cantidad de datos. Esto hace del merge sort una opción ideal para conjuntos de datos grandes, dado que su rendimiento supera a algoritmos de ordenación más simples, como el selection sort, que tienen una complejidad O(n²).
+La [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) del **merge sort** se clasifica como O(N log N) en el peor y promedio de los casos. Esta complejidad se debe a que cada división de la lista requiere un número de comparaciones proporcional al tamaño de la lista, mientras que el logaritmo se introduce a través del proceso de división en mitades. La [[big-o-notation|Big O]] ofrece una forma de medir el rendimiento del algoritmo según cómo crece el tiempo de ejecución en relación con la cantidad de datos. Esto hace del merge sort una opción ideal para conjuntos de datos grandes, dado que su rendimiento supera a [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] de ordenación más simples, como el selection sort, que tienen una complejidad O(n²).
 
 ### Comparación con otros algoritmos de ordenación
 
@@ -128,7 +129,7 @@ Este código permite ordenar la lista de estudiantes en función de sus puntajes
 
 ### Ventajas en listas grandes
 
-El algoritmo **merge sort** destaca por su eficacia en el manejo de listas grandes. Su estructura basada en la técnica de 'divide y vencerás' le permite gestionar conjuntos de datos masivos de manera eficiente, minimizando el tiempo de procesamiento. Al dividir la lista en partes más pequeñas, el algoritmo puede aplicar su lógica de ordenación de forma recursiva. Esto no solo mejora la velocidad de ejecución, sino que también facilita el manejo de datos que no caben en la memoria principal, permitiendo su utilización en aplicaciones que deben procesar grandes volúmenes de información, como en sistemas de bases de datos o aplicaciones de análisis de datos.
+El algoritmo **merge sort** destaca por su eficacia en el manejo de listas grandes. Su estructura basada en la técnica de 'divide y vencerás' le permite gestionar conjuntos de datos masivos de manera eficiente, minimizando el tiempo de procesamiento. Al dividir la lista en partes más pequeñas, el algoritmo puede aplicar su lógica de ordenación de forma recursiva. Esto no solo mejora la velocidad de ejecución, sino que también facilita el manejo de datos que no caben en la memoria principal, permitiendo su utilización en aplicaciones que deben procesar grandes volúmenes de información, como en sistemas de [[diseno-bases-datos|diseño de bases de datos]] o aplicaciones de análisis de datos.
 
 ### Diferencias en eficiencia frente a Selection Sort
 

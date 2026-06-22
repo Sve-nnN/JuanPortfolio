@@ -66,8 +66,8 @@ const PaginationLink = ({
     <Link
       aria-current={isActive ? 'page' : undefined}
       className={classes}
-      href={href}
       {...(props as React.ComponentProps<typeof Link>)}
+      href={href}
     >
       {children}
     </Link>

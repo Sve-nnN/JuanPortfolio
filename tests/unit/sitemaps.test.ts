@@ -58,11 +58,16 @@ describe('Sitemaps', () => {
       const sitemapData = response.props.sitemap
 
       expect(sitemapData).toHaveLength(4)
-      // We expect entries for both locales for each category
-      expect(sitemapData[0].loc).toContain('/en/blog/tech')
-      expect(sitemapData[1].loc).toContain('/blog/tech')
-      expect(sitemapData[2].loc).toContain('/en/blog/life')
-      expect(sitemapData[3].loc).toContain('/blog/life')
+      // Entries for both locales per category, es (default, prefix-less) first.
+      expect(sitemapData[0].loc).toBe('https://example.com/blog/tech')
+      expect(sitemapData[1].loc).toBe('https://example.com/en/blog/tech')
+      expect(sitemapData[2].loc).toBe('https://example.com/blog/life')
+      expect(sitemapData[3].loc).toBe('https://example.com/en/blog/life')
+      // Each entry carries es/en/x-default hreflang alternates (#35).
+      expect(sitemapData[0].alternateRefs).toHaveLength(3)
+      expect(
+        sitemapData[0].alternateRefs.find((r: { hreflang: string }) => r.hreflang === 'en').href,
+      ).toBe('https://example.com/en/blog/tech')
     })
   })
 

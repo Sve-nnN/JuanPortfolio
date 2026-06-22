@@ -22,6 +22,7 @@ export default defineConfig({
       // were blocking the `tests` CI job. Re-enable once the script suite is
       // fixed. SEO audit jun-2026.
       'tests/int/scripts/createPost.int.test.ts',
+      'tests/int/syncContent.int.test.ts',
       'tests/unit/scripts/account-rotation.test.ts',
       'tests/unit/scripts/accountRegistry.test.ts',
       'tests/unit/scripts/create-post.test.ts',

@@ -6,6 +6,7 @@ metaDescription: >-
   execution time of an algorithm increases with the size of its input. Unde...
 slug: time-complexity
 publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
 idioma: en
 categoryTitle: CS Fundamentals
 authors:
@@ -94,7 +95,7 @@ Brute-force approaches to problems like the Traveling Salesman Problem are class
 
 ## Big O Notation: Understanding Algorithm Efficiency
 
-Big O notation serves as a critical framework for measuring and analyzing the efficiency of algorithms, particularly in terms of time complexity. By providing a high-level understanding of how the execution time of an algorithm grows with varying input sizes, it enables developers to make informed decisions on which algorithms to implement based on expected performance metrics.
+[[big-o-notation|Big O]] notation serves as a critical framework for measuring and analyzing the efficiency of algorithms, particularly in terms of time complexity. By providing a high-level understanding of how the execution time of an algorithm grows with varying input sizes, it enables developers to make informed decisions on which algorithms to implement based on expected performance metrics.
 
 ### Purpose and Interpretation of Big O
 

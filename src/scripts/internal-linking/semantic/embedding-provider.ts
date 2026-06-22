@@ -5,9 +5,9 @@ const DEFAULT_DIMENSIONS = 64;
 
 type DynamicImportFn = <T = unknown>(moduleName: string) => Promise<T>;
 
-const dynamicImport: DynamicImportFn = (moduleName: string) => {
-  const importer = new Function('m', 'return import(m)') as (m: string) => Promise<unknown>;
-  return importer(moduleName) as Promise<unknown>;
+const dynamicImport: DynamicImportFn = <T = unknown>(moduleName: string): Promise<T> => {
+  const importer = new Function('m', 'return import(m)') as (m: string) => Promise<T>;
+  return importer(moduleName);
 };
 
 export class DeterministicEmbeddingProvider implements EmbeddingProvider {

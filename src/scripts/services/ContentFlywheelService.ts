@@ -6,7 +6,7 @@ import { SyncService } from './SyncService';
 import { linkService } from './LinkService';
 import { dinoRankService } from './DinoRankService';
 import { KWCacheEntry } from '../scrape-dinorank';
-import { KeywordData } from '../seo/keyword-utils';
+import { KeywordData } from '../syncKeywords';
 
 export interface FlywheelResult {
   success: boolean;

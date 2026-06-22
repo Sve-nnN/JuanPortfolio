@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import { DinoRankApiClient } from './dinorank/DinoRankApiClient'
-import { registerAccount } from './utils/accountRegistry'
+import { registerAccount, updateAccount } from './utils/accountRegistry'
 
 const REGISTRY_FILE = resolve(process.cwd(), 'content/dinorank-accounts-registry.json')
 
@@ -94,11 +94,12 @@ async function main() {
 
     // Register in our system
     console.log('[setup-english-dinorank] Registering account in our system...')
-    registerAccount(email, password, {
-      language: 'English',
-      country: 'US',
-      domain: 'juan-tech.com',
-      projectType: 'nicho',
+    registerAccount(email, password)
+    updateAccount(email, {
+      createdLanguage: 'English',
+      createdCountry: 'US',
+      createdDomain: 'juan-tech.com',
+      createdProjectType: 'nicho',
     })
 
     console.log('[setup-english-dinorank] ✅ English account created successfully!')

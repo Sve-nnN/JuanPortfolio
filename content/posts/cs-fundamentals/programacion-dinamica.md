@@ -1,5 +1,5 @@
 ---
-title: 'Programacion Dinamica: Programación Dinámica: Guía técnica de optimizaci...'
+title: 'Programación Dinámica: Guía técnica de optimizaci...'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -21,7 +21,7 @@ tldr: >-
   los pilares de subestructura óptima y subproblemas superpuestos, comparando
   métodos de memoización y tabulación para maximizar la eficiencia en software
   de alto rendimiento.
-metaTitle: 'Programacion Dinamica: Programación Dinámica: Gu | Juan Tech'
+metaTitle: 'Programación Dinámica: Gu | Juan Tech'
 metaDescription: >-
   Aprende programacion dinamica con pasos practicos, ejemplos y buenas practicas
   para mejorar la visibilidad organica y el rendimiento del contenido.
@@ -41,7 +41,7 @@ semantic_keywords:
   - recursión optimizada
 keyword: programacion dinamica
 ---
-¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un algoritmo específico, sino de una **metodología de diseño de algoritmos** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
+¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un algoritmo específico, sino de una **metodología de diseño de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]]** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
 
 Esta técnica es fundamental en campos que van desde la informática, con aplicaciones en optimización de rutas, inteligencia artificial y procesamiento de datos, hasta la economía, la biología y la ingeniería. Su esencia radica en una observación simple pero profunda: muchos problemas complejos tienen estructuras que se repiten y soluciones óptimas que pueden construirse a partir de componentes más pequeños.
 

@@ -32,7 +32,7 @@ idioma: en
 slug: core-web-vitals-guide
 keyword: core web vitals guide
 tldr: >-
-  Core Web Vitals are direct ranking signals in Google"s algorithm. For 2026, we
+  Core Web Vitals are direct ranking signals in Google's algorithm. For 2026, we
   focus on minimizing layout shifts and optimizing interaction responsiveness to
   meet the new INP standards and provide a flawless user experience.
 ---
@@ -60,7 +60,7 @@ Google's integration of Core Web Vitals into its overall Page Experience algorit
 
 ## Importance of Core Web Vitals for SEO
 
-Core Web Vitals are becoming increasingly essential for SEO, representing key metrics that influence both search rankings and user experience. As Google continuously refines its algorithms, focusing on these metrics can significantly enhance a website's visibility and usability.
+Core Web Vitals are becoming increasingly essential for [[estrategia-seo|SEO]], representing key metrics that influence both search rankings and user experience. As Google continuously refines its algorithms, focusing on these metrics can significantly enhance a website's visibility and usability.
 
 ### Impact on Search Rankings
 

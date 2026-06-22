@@ -13,6 +13,11 @@ export interface AccountEntry {
   createdAt: string
   expiresAt: string
   lastUsed: string
+  cooldownUntil?: string
+  createdLanguage?: string
+  createdCountry?: string
+  createdDomain?: string
+  createdProjectType?: string
 }
 
 export function loadRegistry(): AccountEntry[] {

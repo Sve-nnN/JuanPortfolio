@@ -1,5 +1,5 @@
 ---
-title: 'Notacion Big O: Notación Big O: Guía técnica de complejidad y escalabilidad'
+title: 'Notación Big O: Guía técnica de complejidad y escalabilidad'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -20,7 +20,7 @@ tldr: >-
   y el uso de memoria crecen según el tamaño de la entrada (n), cubriendo desde
   O(1) hasta O(n!) con ejemplos prácticos en Python y comparativas de
   rendimiento real.
-metaTitle: 'Notacion Big O: Notación Big O: Guía de Compleji | Juan Tech'
+metaTitle: 'Notación Big O: Guía de Compleji | Juan Tech'
 metaDescription: >-
   Aprende notacion big o con pasos practicos, ejemplos y buenas practicas para
   mejorar la visibilidad organica y el rendimiento del contenido.
@@ -42,7 +42,7 @@ keyword: notacion big o
 ---
 # Notación Big O: Entendiendo la Complejidad Algorítmica
 
-La notación Big O es una herramienta clave para analizar la eficiencia de los algoritmos. Permite clasificar y comparar algoritmos según cómo su tiempo de ejecución o uso de memoria se incrementa con el tamaño de los datos de entrada. Este artículo abordará sus fundamentos, tipos de complejidades y su aplicación práctica. Se explorarán diferentes escenarios y ejemplos para entender mejor el rendimiento algorítmico y la relevancia de la notación Big O en el desarrollo de software.
+La notación Big O es una herramienta clave para analizar la eficiencia de los [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]]. Permite clasificar y comparar algoritmos según cómo su tiempo de ejecución o uso de memoria se incrementa con el tamaño de los datos de entrada. Este artículo abordará sus fundamentos, tipos de complejidades y su aplicación práctica. Se explorarán diferentes escenarios y ejemplos para entender mejor el rendimiento algorítmico y la relevancia de la notación Big O en el desarrollo de software.
 
 ## Fundamentos de la notación Big O
 
@@ -96,8 +96,8 @@ def get_first_element(arr):
 my_list_small = [1, 2, 3]
 my_list_large = [i for i in range(1000000)]
 
-print(f"Primer elemento (lista pequeña): {get_first_element(my_list_small)}")
-print(f"Primer elemento (lista grande): {get_first_element(my_list_large)}")
+print(f'Primer elemento (lista pequeña): {get_first_element(my_list_small)}")
+print(f'Primer elemento (lista grande): {get_first_element(my_list_large)}")
 ```
 Este ejemplo muestra cómo la operación de acceder a un elemento por su índice directo en una lista tiene una complejidad de O(1). No importa si la lista tiene 3 elementos o un millón, el tiempo para obtener el primer elemento es siempre el mismo.
 
@@ -137,8 +137,8 @@ sorted_list = [1, 5, 8, 12, 16, 23, 38, 56, 72, 91]
 target1 = 23
 target2 = 10
 
-print(f"Buscando {target1} en {sorted_list}: Índice {binary_search(sorted_list, target1)}")
-print(f"Buscando {target2} en {sorted_list}: Índice {binary_search(sorted_list, target2)}")
+print(f'Buscando {target1} en {sorted_list}: Índice {binary_search(sorted_list, target1)}")
+print(f'Buscando {target2} en {sorted_list}: Índice {binary_search(sorted_list, target2)}")
 ```
 El ejemplo de `binary_search` demuestra cómo la complejidad O(log n) se logra al reducir a la mitad el espacio de búsqueda en cada paso. Esto lo hace increíblemente eficiente para buscar en grandes conjuntos de datos ordenados.
 
@@ -166,8 +166,8 @@ def sum_list_elements(arr):
 my_list_small = [1, 2, 3, 4, 5]
 my_list_large = [i for i in range(100000)]
 
-print(f"Suma de lista pequeña: {sum_list_elements(my_list_small)}")
-print(f"Suma de lista grande: {sum_list_elements(my_list_large)}")
+print(f'Suma de lista pequeña: {sum_list_elements(my_list_small)}")
+print(f'Suma de lista grande: {sum_list_elements(my_list_large)}")
 ```
 Este ejemplo de `sum_list_elements` muestra cómo un algoritmo con complejidad O(n) procesa cada elemento una vez. El tiempo total requerido aumenta directamente en proporción al número de elementos en la lista, haciendo que la ejecución sea predecible y eficiente para muchos casos de uso.
 
@@ -270,9 +270,9 @@ def fibonacci_exponential(n):
         return fibonacci_exponential(n-1) + fibonacci_exponential(n-2)
 
 # Ejemplos de uso (¡cuidado con valores altos de n!):
-print(f"Fibonacci(5): {fibonacci_exponential(5)}")
-print(f"Fibonacci(10): {fibonacci_exponential(10)}")
-# print(f"Fibonacci(30): {fibonacci_exponential(30)}") # Descomentar con precaución, puede tardar
+print(f'Fibonacci(5): {fibonacci_exponential(5)}")
+print(f'Fibonacci(10): {fibonacci_exponential(10)}")
+# print(f'Fibonacci(30): {fibonacci_exponential(30)}") # Descomentar con precaución, puede tardar
 ```
 El cálculo recursivo del número de Fibonacci (`fibonacci_exponential`) es un claro ejemplo de complejidad O(2^n). Cada llamada a la función genera dos nuevas llamadas, duplicando el trabajo con cada incremento de `n`. Esto demuestra por qué los algoritmos exponenciales son imprácticos para entradas medianas o grandes.
 
@@ -283,7 +283,7 @@ La complejidad factorial, O(n!), se encuentra en situaciones donde se buscan tod
 
 ## 3. Análisis práctico con ejemplos y ejercicios resueltos
 
-El análisis práctico de algoritmos permite comprender cómo se comportan en escenarios reales. Se mostrarán ejemplos ilustrativos y ejercicios que faciliten el entendimiento de la complejidad algorítmica mediante casos concretos.
+El análisis práctico de algoritmos permite comprender cómo se comportan en escenarios reales. Se mostrarán ejemplos ilustrativos y ejercicios que faciliten el entendimiento de la [[complejidad-algoritmica|complejidad algorítmica]] mediante casos concretos.
 
 ### Ejemplos ilustrativos de algoritmos con diferentes crecimientos
 
@@ -372,7 +372,7 @@ No todos los conjuntos de datos tienen la misma distribución ni característica
 
 La forma en que se implementa un algoritmo puede influir drásticamente en su rendimiento. Diferentes lenguajes de programación, bibliotecas y técnicas de codificación pueden llevar a variaciones significativas en la ejecución. Un mismo algoritmo puede tener distintas implementaciones con diferentes resultados de rendimiento, lo que sugiere que la optimización práctica es esencial.
 
-Es posible que una implementación más sencilla sea más fácil de comprender, pero no siempre es la más eficiente. Los desarrolladores a menudo deben equilibrar la legibilidad del código con la necesidad de mejorar el rendimiento. La optimización puede incluir técnicas como la reducción de operaciones innecesarias, la elección de estructuras de datos más adecuadas o la paralelización de procesos.
+Es posible que una implementación más sencilla sea más fácil de comprender, pero no siempre es la más eficiente. Los desarrolladores a menudo deben equilibrar la legibilidad del código con la necesidad de mejorar el rendimiento. La optimización puede incluir técnicas como la reducción de operaciones innecesarias, la elección de [[data-structures|estructuras de datos]] más adecuadas o la paralelización de procesos.
 
 - La reutilización de resultados previos mediante [memoización](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) o almacenamiento en caché puede ser crucial en ciertos contextos.
 - Implementar algoritmos de manera que se minimicen las llamadas a funciones costosas o que se agrupe el procesamiento puede mejorar el rendimiento.

@@ -30,6 +30,7 @@ import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/s
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { SiteSetting } from '@/payload-types'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -81,7 +82,7 @@ export default async function RootLayout({
   const pathname = hdrs.get('x-pathname') || '/'
   const locale = (pathname.startsWith('/en') ? 'en' : 'es') as Locale
 
-  const siteSettings = await getCachedGlobal('site-settings', 3600, locale)().catch(() => null)
+  const siteSettings = (await getCachedGlobal('site-settings', 3600, locale)().catch(() => null)) as SiteSetting | null
 
   const baseUrl = getServerSideURL()
 
@@ -129,6 +130,13 @@ export default async function RootLayout({
       lang={locale}
       suppressHydrationWarning
     >
+      <head>
+        {/* LCP hero images are served from Cloudinary; open the connection
+            early so the high-priority image preload doesn't pay the TLS/DNS
+            cost on the critical path. SEO audit jun-2026, issue #36. */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className="dark">
         <InitTheme />
         {organizationSchema && <JsonLd schema={organizationSchema} />}
@@ -166,11 +174,10 @@ export default async function RootLayout({
           data-key="MKWDNj5f8/fviyOxhzLSPA"
           strategy="afterInteractive"
         />
-        {/* Speculation Rules API — prefetch on hover intent (~200ms), internal links only */}
-        <Script
-          id="speculation-rules"
+        {/* Speculation Rules API — raw <script> (not next/script) so Chrome processes it
+            via the HTML parser from SSR output, not via dynamic JS injection. */}
+        <script
           type="speculationrules"
-          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               prefetch: [

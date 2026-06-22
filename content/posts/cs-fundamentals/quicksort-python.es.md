@@ -6,6 +6,7 @@ metaDescription: >-
   mejorar la visibilidad organica y el rendimiento del contenido.
 slug: quicksort-python
 publishedAt: '2026-04-02'
+updatedAt: '2026-04-02'
 idioma: es
 categoryTitle: CS Fundamentals
 authors:
@@ -130,7 +131,7 @@ A pesar de sus ventajas, quicksort también tiene limitaciones. En listas extrem
 
 ## Comparativa entre quicksort y otros algoritmos de ordenamiento en python
 
-Analizar cómo quicksort se compara con otros algoritmos de ordenamiento es esencial para entender sus ventajas y desventajas en diferentes contextos.
+Analizar cómo quicksort se compara con otros [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] de ordenamiento es esencial para entender sus ventajas y desventajas en diferentes contextos.
 
 ### Diferencias clave con mergesort
 
@@ -208,7 +209,7 @@ El algoritmo de ordenamiento tiene diversas aplicaciones en situaciones que requ
 
 Quicksort muestra su fortaleza al trabajar con grandes conjuntos de datos, principalmente en aplicaciones donde la velocidad es crucial. Por ejemplo:
 
--   Análisis de registros clientes en bases de datos de comercio electrónico.
+-   Análisis de registros clientes en [[diseno-bases-datos|diseño de bases de datos]] de comercio electrónico.
 -   Clasificación de información en análisis de datos financieros.
 -   Procesamiento de grandes volúmenes de datos científicos, como imágenes o secuencias genómicas.
 

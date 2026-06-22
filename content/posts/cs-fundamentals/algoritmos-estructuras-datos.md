@@ -1,5 +1,6 @@
 ---
-title: 'Algoritmos Estructuras Datos: Algoritmos y estructuras de datos: Fundame...'
+
+title: 'Algoritmos y estructuras de datos: Fundame...'
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: 2026-02-26T00:00:00.000Z
 authors:
@@ -40,14 +41,16 @@ semantic_keywords:
   - programación competitiva
   - desarrollo de software escalable
 keyword: algoritmos estructuras datos
+
 ---
-En el corazón de cada aplicación innovadora, desde la inteligencia artificial hasta los sistemas de bases de datos masivas, residen los algoritmos y las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios). No son meros conceptos académicos, sino las herramientas fundamentales que permiten a los programadores construir software que no solo *funcione*, sino que lo haga de manera *óptima*, *eficiente* y *escalable*. Un algoritmo es la receta paso a paso para resolver un problema, mientras que una estructura de datos es la forma en que organizamos la información para que esa receta sea lo más efectiva posible.
+
+En el corazón de cada aplicación innovadora, desde la inteligencia artificial hasta los sistemas de [[diseno-bases-datos|diseño de bases de datos]] masivas, residen los algoritmos y las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios). No son meros conceptos académicos, sino las herramientas fundamentales que permiten a los programadores construir software que no solo *funcione*, sino que lo haga de manera *óptima*, *eficiente* y *escalable*. Un algoritmo es la receta paso a paso para resolver un problema, mientras que una estructura de datos es la forma en que organizamos la información para que esa receta sea lo más efectiva posible.
 
 Entender su intrínseca relación y dominarlos es crucial para transformar soluciones básicas en sistemas de alto rendimiento capaces de manejar grandes volúmenes de datos y operaciones complejas. En esta guía, exploraremos a fondo estos pilares de la computación, desde sus fundamentos teóricos hasta sus [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures) en el desarrollo de software moderno, garantizando que tu código no solo sea funcional, sino también una obra de ingeniería eficiente.
 
 ## Fundamentos de algoritmos y estructuras: La dupla esencial de la computación
 
-Los algoritmos y las estructuras de datos son los componentes básicos que interactúan de forma sinérgica para resolver cualquier problema computacional. Su correcta comprensión y aplicación son clave para el éxito en el desarrollo de software.
+Los algoritmos y las [[data-structures|estructuras de datos]] son los componentes básicos que interactúan de forma sinérgica para resolver cualquier problema computacional. Su correcta comprensión y aplicación son clave para el éxito en el desarrollo de software.
 
 ### Definición y características de algoritmos: Las recetas de la computación
 
@@ -122,7 +125,7 @@ mi_lista.imprimir() # Salida: 1 -> 2 -> 3 -> None
 
 #### Pilas (Stacks): El principio LIFO
 
-Las pilas operan bajo el principio "Last In, First Out" (LIFO) o "Último en entrar, primero en salir". Esto significa que el último elemento añadido es el primero en ser retirado. Sus aplicaciones incluyen la gestión de llamadas a funciones (pila de llamadas), la implementación de la función "deshacer/reHacer" y la evaluación de expresiones.
+Las [[pilas-y-colas|pilas]] operan bajo el principio "Last In, First Out" (LIFO) o "Último en entrar, primero en salir". Esto significa que el último elemento añadido es el primero en ser retirado. Sus aplicaciones incluyen la gestión de llamadas a funciones (pila de llamadas), la implementación de la función "deshacer/reHacer" y la evaluación de expresiones.
 
 **Ejemplo en Python (usando lista):**
 
@@ -205,7 +208,7 @@ Los arreglos son colecciones de elementos del mismo tipo almacenados en posicion
 ```python
 # Arreglo (lista en Python)
 arreglo = [10, 20, 30, 40]
-print(f"Elemento en índice 2: {arreglo[2]}") # Salida: 30
+print(f'Elemento en índice 2: {arreglo[2]}") # Salida: 30
 
 # Matriz (lista de listas en Python)
 matriz = [
@@ -213,12 +216,12 @@ matriz = [
     [4, 5, 6],
     [7, 8, 9]
 ]
-print(f"Elemento en fila 1, columna 0: {matriz[1][0]}") # Salida: 4
+print(f'Elemento en fila 1, columna 0: {matriz[1][0]}") # Salida: 4
 ```
 
 #### Tablas Hash (Hash Tables): Búsqueda ultra-rápida
 
-Las tablas hash son estructuras de datos que permiten almacenar pares clave-valor y recuperar valores de manera extremadamente rápida, idealmente en tiempo O(1) promedio. Utilizan una función hash para mapear las claves a índices en un arreglo. Son la base de muchas bases de datos, cachés y diccionarios en lenguajes de programación, cruciales para búsquedas, inserciones y eliminaciones rápidas.
+Las [[tablas-hash|tablas hash]] son estructuras de datos que permiten almacenar pares clave-valor y recuperar valores de manera extremadamente rápida, idealmente en tiempo O(1) promedio. Utilizan una función hash para mapear las claves a índices en un arreglo. Son la base de muchas bases de datos, cachés y diccionarios en lenguajes de programación, cruciales para búsquedas, inserciones y eliminaciones rápidas.
 
 **Ejemplo en Python (usando diccionario):**
 
@@ -231,7 +234,7 @@ tabla_hash = {
 }
 
 # Acceso rápido por clave
-print(f"Valor de 'banana': {tabla_hash['banana']}") # Salida: 2
+print(f'Valor de 'banana': {tabla_hash['banana']}") # Salida: 2
 
 # Añadir nuevo par clave-valor
 tabla_hash["dátil"] = 4
@@ -324,7 +327,7 @@ La [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad
 
 ### Medición con notación Big O: El estándar de la industria
 
-La notación Big O (O-grande) es el lenguaje universal para describir el límite superior del crecimiento de una función en el análisis de algoritmos. Permite a los programadores clasificar los algoritmos por su peor caso de rendimiento y compararlos de manera estandarizada, independientemente del hardware o del lenguaje de programación.
+La [[big-o-notation|Big O]] (O-grande) es el lenguaje universal para describir el límite superior del crecimiento de una función en el análisis de algoritmos. Permite a los programadores clasificar los algoritmos por su peor caso de rendimiento y compararlos de manera estandarizada, independientemente del hardware o del lenguaje de programación.
 
 **Tabla de Complejidades Comunes:**
 
@@ -366,8 +369,8 @@ def busqueda_lineal(lista, objetivo):
 
 # Uso
 mi_lista = [4, 2, 7, 1, 9]
-print(f"Búsqueda Lineal (7): {busqueda_lineal(mi_lista, 7)}")  # Salida: 2
-print(f"Búsqueda Lineal (5): {busqueda_lineal(mi_lista, 5)}")  # Salida: -1
+print(f'Búsqueda Lineal (7): {busqueda_lineal(mi_lista, 7)}")  # Salida: 2
+print(f'Búsqueda Lineal (5): {busqueda_lineal(mi_lista, 5)}")  # Salida: -1
 ```
 
 #### Búsqueda Binaria
@@ -393,8 +396,8 @@ def busqueda_binaria(lista_ordenada, objetivo):
 
 # Uso
 lista_ordenada = [1, 2, 4, 7, 9]
-print(f"Búsqueda Binaria (7): {busqueda_binaria(lista_ordenada, 7)}")  # Salida: 3
-print(f"Búsqueda Binaria (5): {busqueda_binaria(lista_ordenada, 5)}")  # Salida: -1
+print(f'Búsqueda Binaria (7): {busqueda_binaria(lista_ordenada, 7)}")  # Salida: 3
+print(f'Búsqueda Binaria (5): {busqueda_binaria(lista_ordenada, 5)}")  # Salida: -1
 ```
 
 **Algoritmos de Ordenamiento:**
@@ -416,7 +419,7 @@ def bubble_sort(lista):
 
 # Uso
 mi_lista = [64, 34, 25, 12, 22, 11, 90]
-print(f"Lista ordenada con Bubble Sort: {bubble_sort(mi_lista)}")
+print(f'Lista ordenada con Bubble Sort: {bubble_sort(mi_lista)}")
 # Salida: [11, 12, 22, 25, 34, 64, 90]
 ```
 
@@ -467,8 +470,8 @@ def fibonacci_memoizado(n, memo={}):
     return memo[n]
 
 # Uso
-print(f"Fibonacci(10) con memoización: {fibonacci_memoizado(10)}") # Salida: 55
-print(f"Fibonacci(30) con memoización: {fibonacci_memoizado(30)}") # Salida: 832040
+print(f'Fibonacci(10) con memoización: {fibonacci_memoizado(10)}") # Salida: 55
+print(f'Fibonacci(30) con memoización: {fibonacci_memoizado(30)}") # Salida: 832040
 ```
 
 ## Algoritmos y estructuras en lenguajes de programación populares: Herramientas del oficio
@@ -581,15 +584,15 @@ Bibliotecas como `collections` proporcionan estructuras más especializadas (e.g
 lista_ejemplo = [1, 2, 3]
 lista_ejemplo.append(4) # Añadir (como pila/cola)
 lista_ejemplo.pop()    # Quitar (como pila)
-print(f"Lista: {lista_ejemplo}") # Salida: [1, 2, 3]
+print(f'Lista: {lista_ejemplo}") # Salida: [1, 2, 3]
 
 # Diccionario (Tabla Hash)
 diccionario_ejemplo = {"a": 1, "b": 2}
-print(f"Valor de 'a': {diccionario_ejemplo['a']}") # Salida: 1
+print(f'Valor de 'a': {diccionario_ejemplo['a']}") # Salida: 1
 
 # Conjunto
 conjunto_ejemplo = {1, 2, 3, 2}
-print(f"Conjunto: {conjunto_ejemplo}") # Salida: {1, 2, 3}
+print(f'Conjunto: {conjunto_ejemplo}") # Salida: {1, 2, 3}
 ```
 
 #### En JavaScript: Objetos, arreglos y Maps para la web

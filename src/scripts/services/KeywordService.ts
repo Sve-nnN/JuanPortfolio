@@ -5,7 +5,7 @@ import {
   updateKeywordInTable, 
   parseKeywordsMarkdown 
 } from '../utils/markdownTable';
-import { KeywordData, detectLang } from '../seo/keyword-utils';
+import { KeywordData, detectLang } from '../syncKeywords';
 import { dinoRankService } from './DinoRankService';
 
 const __filename = fileURLToPath(import.meta.url);

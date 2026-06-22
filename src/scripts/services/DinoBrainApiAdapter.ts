@@ -1,7 +1,7 @@
 import { ContentGenerator, GeneratedContent } from './ContentGenerator';
 import { DinoRankApiClient } from './DinoRankApiClient';
 import { loadRegistry } from '../utils/accountRegistry';
-import { KeywordData } from '../seo/keyword-utils';
+import { KeywordData } from '../syncKeywords';
 import { WRITING_INSTRUCTIONS, CONTENT_EXCLUSIONS } from '../config/engine-prompts';
 
 export class DinoBrainApiAdapter implements ContentGenerator {

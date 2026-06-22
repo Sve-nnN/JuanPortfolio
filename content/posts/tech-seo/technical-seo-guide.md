@@ -1,4 +1,5 @@
 ---
+
 publishedAt: '2026-03-01T21:44:11.056Z'
 updatedAt: '2026-03-01T21:44:11.056Z'
 authors:
@@ -30,9 +31,11 @@ metaDescription: >-
   Aprende technical seo guide con pasos practicos, ejemplos y buenas practicas
   para mejorar la visibilidad organica y el rendimiento del contenido.
 keyword: technical seo guide
+
 ---
 
-**Fundamentos del SEO técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
+
+**Fundamentos del [[estrategia-seo|SEO]] técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
 Fundamentos del SEO técnico para desarrolladores
 
 Esta sección aborda los principios básicos que sustentan el SEO técnico y cómo su correcta implementación puede impactar la visibilidad de un sitio web. Aquí se exploran las conexiones entre la arquitectura web y las prácticas de SEO.
@@ -64,7 +67,7 @@ El diseño de la estructura del sitio es fundamental para facilitar el rastreo y
 
 Diseño de URLs limpias y amigables
 
-Las URLs deben ser claras y descriptivas. Se recomienda que incluyan palabras clave relevantes y eviten parámetros innecesarios. Esto no solo facilita la indexación, sino que también reduce la confusión del usuario. Considerar los siguientes elementos al diseñar URLs:
+Las URLs deben ser claras y descriptivas. Se recomienda que incluyan [[guia-keyword-research|palabras clave]] relevantes y eviten parámetros innecesarios. Esto no solo facilita la indexación, sino que también reduce la confusión del usuario. Considerar los siguientes elementos al diseñar URLs:
 
 Usar guiones (-) en lugar de guiones bajos (_).
 Evitar el uso de caracteres especiales y números innecesarios.
@@ -75,22 +78,22 @@ Una jerarquía bien definida permite a los motores de búsqueda comprender la re
 
 Categorías principales que agrupan similar contenido.
 Subcategorías que desglosan temas más específicos.
-Enlaces internos que conecten el contenido relacionado para mejorar el contexto.
+[[enlaces-internos-guia|enlaces internos]] que conecten el contenido relacionado para mejorar el contexto.
 Implementación y actualización de sitemaps XML
 
-Un sitemap XML actúa como un mapa del sitio para los motores de búsqueda. Incluir todas las páginas importantes facilita su descubrimiento. Es importante actualizar el sitemap cada vez que se realicen cambios en el contenido del sitio. Al considerarlo, tener en cuenta:
+Un [[xml-sitemap-automation|sitemap XML]] XML actúa como un mapa del sitio para los motores de búsqueda. Incluir todas las páginas importantes facilita su descubrimiento. Es importante actualizar el sitemap cada vez que se realicen cambios en el contenido del sitio. Al considerarlo, tener en cuenta:
 
 Incluir las páginas más relevantes y eliminar las que ya no existan.
 Actualizar el sitemap periódicamente para reflejar cambios recientes.
 Enviar el sitemap actualizado a [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation).
-Uso correcto del archivo robots.txt
+Uso correcto del archivo [[robots-txt-best-practices|robots.txt]]
 
 El archivo robots.txt regula cómo los robots de los motores de búsqueda interactúan con el sitio. Permite bloquear el acceso a secciones no deseadas y garantizar que el rastreo se realice de manera eficiente. Es necesario:
 
 Incluir directivas que permitan o deshabiliten el acceso a carpetas específicas.
 Evitar bloqueos innecesarios que puedan afectar la indexación de contenido relevante.
 Revisar el archivo regularmente para asegurar que esté optimizado y acorde a cambios recientes en la estructura del sitio.
-Mejoras en la velocidad y rendimiento web
+Mejoras en la velocidad y [[web-performance-guide|rendimiento web]]
 
 La velocidad de carga es un factor crítico para mejorar la experiencia del usuario y optimizar el rendimiento de un sitio. Implementar estrategias efectivas puede minimizar el tiempo de carga y, a su vez, mejorar el posicionamiento en buscadores.
 
@@ -118,7 +121,7 @@ Utilizar herramientas para analizar el rendimiento es fundamental para identific
 
 Evaluar el tiempo de respuesta del servidor y la eficiencia de los recursos multimedia.
 Realizar auditorías periódicas para asegurar el cumplimiento de los estándares de rendimiento.
-[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y schema markup
+[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y [[schema-markup-guide|datos estructurados]]
 
 Los datos estructurados permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
@@ -188,7 +191,7 @@ Identificación y solución de enlaces rotos
 
 Los enlaces rotos generan frustración en los usuarios y afectan el valor SEO. Para resolver este problema, es recomendable:
 
-Utilizar herramientas como Screaming Frog o Google Search Console para escanear el sitio y detectar enlaces inactivos.
+Utilizar herramientas como Screaming Frog o [[guia-google-search-console|Google Search Console]] para escanear el sitio y detectar enlaces inactivos.
 Verificar periódicamente todos los enlaces internos y externos.
 Actualizar o eliminar los enlaces que no estén funcionando.
 Redirecciones 301 para preservar valor SEO

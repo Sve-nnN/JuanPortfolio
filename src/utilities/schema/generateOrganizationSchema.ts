@@ -3,11 +3,15 @@ import type { OrganizationSchemaInput, Schema } from './types'
 export function generateOrganizationSchema(input: OrganizationSchemaInput): Schema {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
   
+  // Organization `logo` is recommended by Google. When site-settings has no
+  // logo configured, fall back to the site logo.png so the canonical
+  // Organization node is never emitted without a logo (the inline BlogPosting
+  // publisher already used logo.png). SEO audit jun-2026, issue #27.
   const logo = input.logo
     ? input.logo.startsWith('http')
       ? input.logo
       : `${baseUrl}${input.logo}`
-    : undefined
+    : `${baseUrl}/logo.png`
 
   const validSameAs = (input.sameAs || []).filter(url => {
     try {

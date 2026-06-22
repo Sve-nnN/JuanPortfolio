@@ -110,7 +110,10 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
+    // Cloudinary assets are versioned/immutable (public_id carries the version),
+    // so the optimizer never needs to re-fetch them. A 60s TTL caused needless
+    // re-optimization; 30 days is safe. SEO audit jun-2026, issue #60.
+    minimumCacheTTL: 2592000,
   },
 
   // Performance optimizations

@@ -4,7 +4,7 @@ import type { Media, Page, Post, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
-import { getCloudinaryOgWithTitle } from './cloudinaryUrl'
+import { getCloudinaryOgWithTitle, getCloudinaryOgJpg } from './cloudinaryUrl'
 import { getFallbackBySlug } from '@/constants/fallbackImages'
 
 type DocWithContent = { content?: { heroImage?: (string | null) | Media } }
@@ -21,13 +21,15 @@ const getExplicitOgImageURL = (
   const media = image as Media
   const serverUrl = getServerSideURL().replace(/\/$/, '')
 
-  // Prefer full Cloudinary URL stored on the media document
-  if (media.cloudinaryUrl) return media.cloudinaryUrl
+  // Prefer full Cloudinary URL stored on the media document, coerced to a
+  // 1200×630 JPG (AVIF og:images don't render in social scrapers — issue #33).
+  if (media.cloudinaryUrl) return getCloudinaryOgJpg(media.cloudinaryUrl)
 
   // Fall back to Payload's OG-size URL, then the original URL
   const raw = media.sizes?.og?.url ?? media.url
   if (!raw) return null
-  return raw.startsWith('http') ? raw : serverUrl + raw
+  const absolute = raw.startsWith('http') ? raw : serverUrl + raw
+  return getCloudinaryOgJpg(absolute)
 }
 
 /**

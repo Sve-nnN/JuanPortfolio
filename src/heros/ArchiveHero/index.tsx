@@ -75,6 +75,9 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
                 src={heroImage}
                 alt="Hero Background"
                 className="object-cover w-full h-full"
+                width={1200}
+                height={630}
+                decoding="async"
             />
         )
     } else {
@@ -85,6 +88,9 @@ export const ArchiveHero: React.FC<ArchiveHeroProps> = ({
                 src={getFallbackBySlug(fallbackSlug)}
                 alt="Hero Background"
                 className="object-cover w-full h-full"
+                width={1200}
+                height={630}
+                decoding="async"
             />
         )
     }

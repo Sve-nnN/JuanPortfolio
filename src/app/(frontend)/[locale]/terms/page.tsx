@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { getServerSideURL } from '@/utilities/getURL'
+import { JsonLd } from '@/components/JsonLd'
+import { generateWebPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 export async function generateStaticParams() {
   return [{ locale: 'es' }, { locale: 'en' }]
@@ -40,9 +42,26 @@ export default async function TermsPage({
   const { locale: rawLocale } = await paramsPromise
   const locale = rawLocale === 'en' ? 'en' : 'es'
   const isEn = locale === 'en'
+  const localePrefix = isEn ? '/en' : ''
+
+  // SEO audit jun-2026, issue #48.
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      generateWebPageSchema({
+        name: isEn ? 'Terms of Service' : 'Términos de Servicio',
+        url: `${localePrefix}/terms`,
+      }),
+      generateBreadcrumbSchema([
+        { name: isEn ? 'Home' : 'Inicio', url: localePrefix || '/' },
+        { name: isEn ? 'Terms of Service' : 'Términos de Servicio', url: `${localePrefix}/terms` },
+      ]),
+    ].filter(Boolean),
+  }
 
   return (
     <main className="container mx-auto px-4 py-24 max-w-3xl">
+      <JsonLd schema={pageSchema} />
       <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-8 text-foreground">
         {isEn ? 'Terms of Service' : 'Términos de Servicio'}
       </h1>

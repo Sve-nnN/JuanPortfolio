@@ -7,6 +7,7 @@ import {
   SITEMAP_CHILDREN,
   buildPagesSitemap,
   STATIC_PAGE_PATHS,
+  buildAlternateRefs,
 } from '@/utilities/sitemap'
 
 const PROJECT_ROOT = path.resolve(__dirname, '../../..')
@@ -86,5 +87,24 @@ describe('pages-sitemap completeness (issue #17)', () => {
   it('does not duplicate the homepage from a `home` page document', () => {
     const homeCount = locs.filter((l) => l === 'https://juan-tech.com/').length
     expect(homeCount).toBe(1)
+  })
+})
+
+
+describe('hreflang alternates (issue #35)', () => {
+  it('buildAlternateRefs emits es/en/x-default, all absolute', () => {
+    const refs = buildAlternateRefs('https://juan-tech.com/blog', 'https://juan-tech.com/en/blog')
+    expect(refs.map((r) => r.hreflang).sort()).toEqual(['en', 'es', 'x-default'])
+    expect(refs.every((r) => r.hrefIsAbsolute)).toBe(true)
+    expect(refs.find((r) => r.hreflang === 'x-default')!.href).toBe('https://juan-tech.com/blog')
+  })
+
+  it('pages-sitemap entries carry hreflang alternates', () => {
+    const entries = buildPagesSitemap('https://juan-tech.com')
+    const blogEs = entries.find((e) => e.loc === 'https://juan-tech.com/blog')
+    expect(blogEs?.alternateRefs?.length).toBe(3)
+    expect(blogEs?.alternateRefs?.find((r) => r.hreflang === 'en')?.href).toBe(
+      'https://juan-tech.com/en/blog',
+    )
   })
 })

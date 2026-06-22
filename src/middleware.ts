@@ -25,6 +25,16 @@ export function middleware(request: NextRequest) {
     })
   }
 
+  // 1.5 El locale por defecto (es) se sirve SIN prefijo en la raíz. Cualquier
+  // acceso con prefijo /es es un duplicado de la URL canónica: redirigir 301 a
+  // la versión sin prefijo para consolidar. SEO audit jun-2026, issue #32.
+  if (pathname === `/${defaultLocale}` || pathname.startsWith(`/${defaultLocale}/`)) {
+    const url = request.nextUrl.clone()
+    url.pathname =
+      pathname === `/${defaultLocale}` ? '/' : pathname.slice(`/${defaultLocale}`.length)
+    return NextResponse.redirect(url, 301)
+  }
+
   // 2. Verificar si la ruta ya tiene un locale soportado
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

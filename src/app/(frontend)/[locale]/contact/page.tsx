@@ -4,6 +4,8 @@ import configPromise from '@payload-config'
 import { ContactFormBlockComponent } from '@/blocks/ContactFormBlock/Component'
 import type { ContactFormBlock } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { JsonLd } from '@/components/JsonLd'
+import { generateWebPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 export async function generateStaticParams() {
   return [{ locale: 'es' }, { locale: 'en' }]
@@ -78,8 +80,26 @@ export default async function ContactPage({
         : 'Disponible para proyectos freelance, consultoría y posiciones de tiempo completo.',
   }
 
+  const localePrefix = locale === 'en' ? '/en' : ''
+  // SEO audit jun-2026, issue #48: ContactPage + breadcrumb structured data.
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      generateWebPageSchema({
+        type: 'ContactPage',
+        name: locale === 'en' ? 'Contact' : 'Contacto',
+        url: `${localePrefix}/contact`,
+      }),
+      generateBreadcrumbSchema([
+        { name: locale === 'en' ? 'Home' : 'Inicio', url: localePrefix || '/' },
+        { name: locale === 'en' ? 'Contact' : 'Contacto', url: `${localePrefix}/contact` },
+      ]),
+    ].filter(Boolean),
+  }
+
   return (
     <main className="pt-16">
+      <JsonLd schema={pageSchema} />
       <ContactFormBlockComponent {...(contactBlock ?? defaultProps)} locale={locale} />
     </main>
   )

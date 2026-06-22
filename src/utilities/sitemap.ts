@@ -42,9 +42,28 @@ export const STATIC_PAGE_PATHS = [
   '/terms',
 ] as const
 
+export interface AlternateRef {
+  href: string
+  hreflang: string
+  hrefIsAbsolute: boolean
+}
+
+/**
+ * hreflang alternates for a single es/en URL pair, emitted by next-sitemap as
+ * <xhtml:link rel="alternate"> annotations. SEO audit jun-2026, issue #35.
+ */
+export function buildAlternateRefs(esLoc: string, enLoc: string): AlternateRef[] {
+  return [
+    { href: esLoc, hreflang: 'es', hrefIsAbsolute: true },
+    { href: enLoc, hreflang: 'en', hrefIsAbsolute: true },
+    { href: esLoc, hreflang: 'x-default', hrefIsAbsolute: true },
+  ]
+}
+
 export interface SitemapEntry {
   loc: string
   lastmod?: string
+  alternateRefs?: AlternateRef[]
 }
 
 export type PageDoc = { slug?: string | null; updatedAt?: string | null }
@@ -58,28 +77,30 @@ export function buildPagesSitemap(siteUrl: string, pageDocs: PageDoc[] = []): Si
   const seen = new Set<string>()
   const entries: SitemapEntry[] = []
 
-  const push = (loc: string, lastmod?: string) => {
+  const push = (loc: string, lastmod?: string, alternateRefs?: AlternateRef[]) => {
     if (seen.has(loc)) return
     seen.add(loc)
-    entries.push(lastmod ? { loc, lastmod } : { loc })
+    entries.push({ loc, ...(lastmod ? { lastmod } : {}), ...(alternateRefs ? { alternateRefs } : {}) })
   }
 
-  for (const locale of LOCALES) {
-    const prefix = locale === 'es' ? '' : `/${locale}`
-    for (const path of STATIC_PAGE_PATHS) {
-      // homepage must keep a trailing slash on the bare origin
-      const loc = path === '' ? `${base}${prefix}/` : `${base}${prefix}${path}`
-      push(loc)
-    }
+  // Emit es + en for each path, each carrying the full hreflang alternates set.
+  const pushPair = (esLoc: string, enLoc: string, lastmod?: string) => {
+    const alts = buildAlternateRefs(esLoc, enLoc)
+    push(esLoc, lastmod, alts)
+    push(enLoc, lastmod, alts)
+  }
+
+  for (const path of STATIC_PAGE_PATHS) {
+    // homepage must keep a trailing slash on the bare origin
+    const esLoc = path === '' ? `${base}/` : `${base}${path}`
+    const enLoc = path === '' ? `${base}/en/` : `${base}/en${path}`
+    pushPair(esLoc, enLoc)
   }
 
   for (const page of pageDocs) {
     if (!page?.slug) continue
     if (page.slug === 'home') continue // already covered by the static homepage entry
-    for (const locale of LOCALES) {
-      const prefix = locale === 'es' ? '' : `/${locale}`
-      push(`${base}${prefix}/${page.slug}`, page.updatedAt || undefined)
-    }
+    pushPair(`${base}/${page.slug}`, `${base}/en/${page.slug}`, page.updatedAt || undefined)
   }
 
   return entries

@@ -10,7 +10,10 @@ export function generateCollectionPageSchema(input: CollectionPageSchemaInput): 
     '@type': 'CollectionPage',
     name: input.name,
     url,
-    numberOfItems: input.numberOfItems,
+  }
+
+  if (typeof input.numberOfItems === 'number') {
+    schema.numberOfItems = input.numberOfItems
   }
 
   if (input.description) {

@@ -53,6 +53,12 @@ jobs:
         run: pnpm build
         env:
           NODE_OPTIONS: "--no-deprecation --max-old-space-size=4096"
+          # Payload needs these at build time to collect page data; without them
+          # `next build` fails with "missing secret key" while prerendering
+          # /[locale]/[slug]. The repo secrets existed but were never injected.
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          NEXT_PUBLIC_SERVER_URL: ${{ vars.NEXT_PUBLIC_SERVER_URL || 'https://juan-tech.com' }}
 
       - name: Type check
         run: pnpm generate:types --dry-run || true
@@ -94,3 +100,7 @@ jobs:
 
       - name: Run tests
         run: pnpm test:int
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          NEXT_PUBLIC_SERVER_URL: ${{ vars.NEXT_PUBLIC_SERVER_URL || 'https://juan-tech.com' }}

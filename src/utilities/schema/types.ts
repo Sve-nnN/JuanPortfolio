@@ -53,7 +53,7 @@ export interface CollectionPageSchemaInput {
   name: string
   description?: string
   url: string
-  numberOfItems: number
+  numberOfItems?: number
 }
 
 export interface FAQItem {

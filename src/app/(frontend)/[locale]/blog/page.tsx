@@ -8,6 +8,8 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { BlogListing } from '@/payload-types'
 import { generateMeta } from '@/utilities/generateMeta'
 import { Metadata } from 'next'
+import { JsonLd } from '@/components/JsonLd'
+import { generateCollectionPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 /**
  * The main blog listing page component.
@@ -39,6 +41,26 @@ const BlogPage = async ({ params: paramsPromise }: Args) => {
   // Get blog listing global with blocks
   const blogGlobal = (await getCachedGlobal('blog-listing', 0, locale)().catch(() => null)) as BlogListing | null
 
+  // CollectionPage + breadcrumb schema so the blog index isn't schema-less,
+  // mirroring the category templates. SEO audit jun-2026, issue #29.
+  const localePrefix = locale === 'es' ? '' : '/en'
+  const listingSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      generateCollectionPageSchema({
+        name: locale === 'es' ? 'Blog' : 'Engineering Blog',
+        url: `${localePrefix}/blog`,
+      }),
+      ...(() => {
+        const bc = generateBreadcrumbSchema([
+          { name: locale === 'es' ? 'Inicio' : 'Home', url: localePrefix || '/' },
+          { name: 'Blog', url: `${localePrefix}/blog` },
+        ])
+        return bc ? [bc] : []
+      })(),
+    ],
+  }
+
   let layout = blogGlobal?.layout
 
   // Handle case where layout might be an object due to previous localization setting
@@ -51,6 +73,7 @@ const BlogPage = async ({ params: paramsPromise }: Args) => {
   if (layout && Array.isArray(layout) && layout.length > 0) {
     return (
       <main>
+        <JsonLd schema={listingSchema} />
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <RenderBlocks blocks={layout as any} locale={locale} />
       </main>
@@ -61,6 +84,7 @@ const BlogPage = async ({ params: paramsPromise }: Args) => {
   const title = blogGlobal && 'title' in blogGlobal ? blogGlobal.title : (locale === 'es' ? 'Blog' : 'Engineering Blog')
   return (
     <main className="py-8">
+      <JsonLd schema={listingSchema} />
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-8">{title}</h1>
         <p className="text-center text-muted">

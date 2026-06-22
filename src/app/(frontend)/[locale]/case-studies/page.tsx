@@ -8,6 +8,8 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { CaseStudiesListing } from '@/payload-types'
 import type { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
+import { JsonLd } from '@/components/JsonLd'
+import { generateCollectionPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 /**
  * The main case studies listing page component.
@@ -47,6 +49,25 @@ const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
   // Get case studies listing global with blocks
   const caseStudiesGlobal = (await getCachedGlobal('case-studies-listing', 0, locale)().catch(() => null)) as CaseStudiesListing | null
 
+  // CollectionPage + breadcrumb schema for the case-studies index. SEO audit #29.
+  const localePrefix = locale === 'es' ? '' : '/en'
+  const listingSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      generateCollectionPageSchema({
+        name: locale === 'es' ? 'Casos de estudio' : 'Case studies',
+        url: `${localePrefix}/case-studies`,
+      }),
+      ...(() => {
+        const bc = generateBreadcrumbSchema([
+          { name: locale === 'es' ? 'Inicio' : 'Home', url: localePrefix || '/' },
+          { name: locale === 'es' ? 'Casos de estudio' : 'Case studies', url: `${localePrefix}/case-studies` },
+        ])
+        return bc ? [bc] : []
+      })(),
+    ],
+  }
+
   let layout = caseStudiesGlobal?.layout
 
   // Handle case where layout might be an object due to previous localization setting
@@ -59,6 +80,7 @@ const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
   if (layout && Array.isArray(layout) && layout.length > 0) {
     return (
       <main>
+        <JsonLd schema={listingSchema} />
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <RenderBlocks blocks={layout as any} locale={locale} />
       </main>
@@ -70,6 +92,7 @@ const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
     caseStudiesGlobal && 'title' in caseStudiesGlobal ? caseStudiesGlobal.title : 'Casos de estudio'
   return (
     <main className="py-8">
+      <JsonLd schema={listingSchema} />
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-8">{title}</h1>
         <p className="text-center text-muted">

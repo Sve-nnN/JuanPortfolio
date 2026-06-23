@@ -21,9 +21,7 @@ tldr: >-
   Googlebot, mientras que el Client-Side Rendering puede comprometer tu crawl
   budget en aplicaciones SPA modernas.
 metaTitle: 'SSR vs CSR para SEO: Comparativa | Juan Tech'
-metaDescription: >-
-  Aprende ssr vs csr seo con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'SSR, CSR y SSG comparados para SEO: cómo cada modo de renderizado afecta la indexación, el crawl budget y el rendimiento de tu sitio web o SPA.'
 primary_keywords:
   - SSR vs CSR SEO
   - renderizado del lado del servidor

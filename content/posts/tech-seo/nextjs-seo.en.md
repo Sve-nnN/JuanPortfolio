@@ -2,10 +2,7 @@
 
 title: 'Next Js Seo: Next.js SEO Best Practices for Optimal Visibility'
 metaTitle: 'Next Js Seo: Next.js SEO Best Practices for Opti | Juan Tech'
-metaDescription: >-
-  Learn next js seo with practical steps, examples, and best practices to
-  improve organic visibility and content performance. Includes practical
-  examples...
+metaDescription: 'Next.js SEO best practices: rendering strategies, metadata and structured data, i18n, and a checklist to ship pages search engines can index.'
 slug: nextjs-seo
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

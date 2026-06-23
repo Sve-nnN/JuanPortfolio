@@ -21,9 +21,7 @@ tldr: >-
   tus aplicaciones, siendo una competencia crítica para ingenieros que buscan
   optimizar la experiencia de usuario y reducir costos de infraestructura.
 metaTitle: 'Complejidad Algorítmica | Juan Tech'
-metaDescription: >-
-  Aprende complejidad algoritmica con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Cómo medir la complejidad algorítmica: complejidad temporal y espacial, análisis asintótico (Big O, Ω, Θ) y la forma de predecir el rendimiento del código.'
 primary_keywords:
   - complejidad algorítmica
   - análisis de algoritmos

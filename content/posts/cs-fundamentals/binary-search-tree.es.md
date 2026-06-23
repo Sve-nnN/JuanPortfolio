@@ -1,9 +1,7 @@
 ---
 title: 'Binary search tree: Guía completa para entender su funcionamiento'
 metaTitle: 'Binary search tree: Guía completa para entender | Juan Tech'
-metaDescription: >-
-  Aprende binary search tree con pasos practicos, ejemplos y buenas practicas
-  para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Cómo funciona un binary search tree (BST): propiedad de orden, búsqueda, inserción y eliminación de nodos, y por qué el balanceo define su rendimiento.'
 slug: binary-search-tree
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

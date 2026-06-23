@@ -1,9 +1,7 @@
 ---
 title: 'Graph algorithms: Claves para entender su importancia y aplicaciones'
 metaTitle: 'Graph algorithms: Claves para entender su import | Juan Tech'
-metaDescription: >-
-  Aprende graph algorithms con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Graph algorithms explicados: tipos de grafos, recorridos DFS y BFS, caminos más cortos, árboles de expansión mínima y flujo máximo con ejemplos en Python.'
 slug: graph-algorithms
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

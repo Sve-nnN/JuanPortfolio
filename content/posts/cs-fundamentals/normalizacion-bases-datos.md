@@ -22,9 +22,7 @@ tldr: >-
   dependencias funcionales y cómo equilibrar la integridad de los datos con el
   rendimiento de las consultas en sistemas modernos.
 metaTitle: 'Normalización de Bases de Datos: 1NF a BCNF y Op | Juan Tech'
-metaDescription: >-
-  Aprende normalización de bases de datos con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del conte...
+metaDescription: 'Normalización de bases de datos paso a paso: formas normales de 1FN a BCNF, dependencias funcionales y cómo equilibrar integridad y rendimiento de consultas.'
 primary_keywords:
   - normalización de bases de datos
   - formas normales SQL

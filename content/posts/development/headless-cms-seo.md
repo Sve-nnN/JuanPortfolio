@@ -19,9 +19,7 @@ tldr: >-
   estructura técnica. Te enseñamos a conectar tu frontend con el CMS para
   garantizar una indexación perfecta y un control total sobre tus señales SEO.
 metaTitle: Headless CMS SEO 2026 | Guía de Implementación
-metaDescription: >-
-  Optimiza tu arquitectura de CMS Headless para Google. Aprende a gestionar
-  metadatos, sitemaps y renderizado en 2026.
+metaDescription: 'SEO para CMS headless: cómo gestionar metadatos, sitemaps y el renderizado del frontend para lograr una indexación correcta y control de las señales.'
 primary_keywords:
   - headless cms seo
   - arquitectura headless

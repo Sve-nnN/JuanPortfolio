@@ -21,9 +21,7 @@ tldr: >-
   Quick y Merge Sort. Exploramos su complejidad temporal (Big O), estabilidad y
   criterios técnicos para elegir el algoritmo óptimo según el volumen de datos.
 metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ing | Juan Tech'
-metaDescription: >-
-  Aprende algoritmos de ordenamiento con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Comparamos algoritmos de ordenamiento como Bubble, Selection, Quick y Merge Sort: complejidad Big O, estabilidad y cómo elegir el mejor según tus datos.'
 primary_keywords:
   - algoritmos de ordenamiento
   - eficiencia de algoritmos

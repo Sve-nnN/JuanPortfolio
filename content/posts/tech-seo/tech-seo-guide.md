@@ -23,9 +23,7 @@ tldr: >-
   implementar semántica estructurada JSON-LD, asegurando que tu contenido sea
   procesable tanto por humanos como por sistemas de IA.
 metaTitle: 'Tech Seo Guide: Guía de SEO Técnico 2026: Rastre | Juan Tech'
-metaDescription: >-
-  Aprende tech seo guide con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Guía de SEO técnico: rastreabilidad e indexación, Core Web Vitals (LCP, INP, CLS) y datos estructurados JSON-LD para webs y para sistemas de IA.'
 primary_keywords:
   - guía de SEO técnico
   - SEO para desarrolladores

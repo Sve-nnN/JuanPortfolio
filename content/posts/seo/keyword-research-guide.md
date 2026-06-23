@@ -1,9 +1,7 @@
 ---
 title: 'Guía de Keyword Research: Estrategias Clave pa...'
 metaTitle: 'Guia De Keyword Research: Guía de Keyword Resear | Juan Tech'
-metaDescription: >-
-  Aprende guia de keyword research con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Guía de keyword research con el proceso completo: intención de búsqueda, clasificación de términos y herramientas para hallar oportunidades reales.'
 slug: keyword-research-guide
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

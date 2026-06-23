@@ -23,9 +23,7 @@ tldr: >-
   Dominarlos es clave para construir software escalable, de alto rendimiento y
   robusto ante grandes volúmenes de datos.
 metaTitle: 'Algoritmos Estructuras Datos: Algoritmos y Estru | Juan Tech'
-metaDescription: >-
-  Aprende algoritmos estructuras datos con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Guía pilar sobre algoritmos y estructuras de datos: cómo funcionan tablas hash, árboles y grafos para escribir software eficiente, escalable y veloz.'
 primary_keywords:
   - algoritmos y estructuras de datos
   - fundamentos de programación

@@ -1,9 +1,7 @@
 ---
 title: 'Pillar Page SEO: La Clave para Organizar tu Contenido Web'
 metaTitle: 'Pillar Page SEO: La Clave para Organizar tu Cont | Juan Tech'
-metaDescription: >-
-  Aprende pillar page seo con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Qué es una pillar page y cómo construirla: estructura, enlazado interno con los clusters y los tipos de páginas pilar según el tema que cubras.'
 slug: pillar-page-seo
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

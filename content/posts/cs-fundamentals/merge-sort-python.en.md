@@ -1,9 +1,7 @@
 ---
 title: 'Merge Sort Python: A Complete Guide to Implementation'
 metaTitle: 'Merge Sort Python: A Complete Guide to Implement | Juan Tech'
-metaDescription: >-
-  Learn merge sort python with practical steps, examples, and best practices to
-  improve organic visibility and content performance. Includes practical exa...
+metaDescription: 'How merge sort works in Python: the divide and conquer strategy, a step-by-step implementation, O(n log n) time complexity, and its pros and cons.'
 slug: merge-sort-python
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

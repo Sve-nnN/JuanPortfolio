@@ -1,9 +1,7 @@
 ---
 title: 'Topic clusters SEO: Mejora tu posicionamiento y organización de con...'
 metaTitle: 'Topic clusters SEO: Mejora tu posicionamiento y | Juan Tech'
-metaDescription: >-
-  Aprende topic clusters seo con pasos practicos, ejemplos y buenas practicas
-  para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Cómo organizar topic clusters: elegir el tema central, crear la página pilar, desarrollar subtemas y enlazarlos para subir posiciones en buscadores.'
 slug: topic-clusters-seo
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

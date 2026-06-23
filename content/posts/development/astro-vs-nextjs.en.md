@@ -1,10 +1,7 @@
 ---
 title: 'Astro vs Next.js: Key Differences Explained'
 metaTitle: 'Astro vs Next.js: Key Differenc | Juan Tech'
-metaDescription: >-
-  Learn astro vs nextjs with practical steps, examples, and best practices to
-  improve organic visibility and content performance. Includes practical
-  examp...
+metaDescription: 'Astro vs Next.js compared: Islands Architecture versus server-side rendering, performance trade-offs, and a clear framework to decide which fits your project.'
 slug: astro-vs-nextjs
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

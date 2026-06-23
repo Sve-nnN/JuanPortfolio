@@ -27,6 +27,10 @@ import { getFallbackBySlug } from '@/constants/fallbackImages'
 import { generateBreadcrumbSchema } from '@/utilities/schema/generateBreadcrumbSchema'
 // import { headers } from 'next/headers'
 
+// ISR: prerender published case studies and revalidate hourly. draftMode()
+// stays bypass-cookie-gated for preview. Issue #20.
+export const revalidate = 3600
+
 /**
  * Generates static parameters for all case studies across all locales.
  * @returns {Promise<Array<{ slug: string, locale: string }>>} A promise that resolves to an array of parameters.

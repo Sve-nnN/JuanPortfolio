@@ -4,6 +4,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { FileText, BookOpen, Briefcase, Calendar } from 'lucide-react'
 import { getPostUrl } from '@/utilities/getPostUrl'
+import { Header } from '@/Header/Component'
+import { Footer } from '@/Footer/Component'
 
 type Args = {
   params: Promise<{
@@ -115,7 +117,9 @@ export default async function SitemapPage({ params: paramsPromise }: Args) {
   })
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <Header locale={locale} />
+      <div className="min-h-screen bg-background">
       <div className="container py-16 md:py-24">
         {/* Header */}
         <div className="max-w-4xl mx-auto mb-16 space-y-4">
@@ -296,6 +300,8 @@ export default async function SitemapPage({ params: paramsPromise }: Args) {
           </p>
         </div>
       </div>
-    </div>
+      </div>
+      <Footer locale={locale} />
+    </>
   )
 }

@@ -24,6 +24,10 @@ import {
   type FAQItem,
 } from '@/utilities/schema'
 
+// ISR: prerender category pages and revalidate hourly. draftMode() stays
+// bypass-cookie-gated for preview. Issue #20.
+export const revalidate = 3600
+
 /**
  * Generates static parameters for all blog categories across all locales.
  * @returns {Promise<Array<{ category: string, locale: string }>>} A promise that resolves to an array of parameters.

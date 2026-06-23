@@ -19,6 +19,15 @@ import { generateCollectionPageSchema, generateBreadcrumbSchema } from '@/utilit
  */
 
 
+export const revalidate = 3600
+export const dynamicParams = true
+
+// Enumerate the locales so /en/case-studies and /es/case-studies prerender as
+// static ISR HTML instead of being rendered dynamically on demand. Issue #20.
+export async function generateStaticParams() {
+  return [{ locale: 'es' }, { locale: 'en' }]
+}
+
 type Args = {
   params: Promise<{
     locale: string

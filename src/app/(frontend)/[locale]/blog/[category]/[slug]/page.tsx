@@ -26,6 +26,10 @@ import { generateFAQSchema } from '@/utilities/schema'
 import { getServerSideURL } from '@/utilities/getURL'
 import type { Media as MediaType } from '@/payload-types'
 
+// ISR: prerender published posts and revalidate hourly. draftMode() stays
+// bypass-cookie-gated for preview. Issue #20.
+export const revalidate = 3600
+
 /**
  * Generates static parameters for all blog posts across all locales.
  * @returns {Promise<Array<{ category: string; slug: string; locale: string }>>} A promise that resolves to an array of parameters.

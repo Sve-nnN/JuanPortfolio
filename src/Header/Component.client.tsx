@@ -129,7 +129,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
               <button
                 className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-secondary/50 hover:bg-secondary transition-all text-sm font-bold uppercase border border-border/50 hover:border-primary/30 group shadow-sm hover:shadow-md"
                 onClick={toggleLocale}
-                aria-label={currentLocale === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+                // Accessible name must contain the visible text ("ES / EN") to
+                // avoid Lighthouse label-content-name-mismatch. SEO audit #70.
+                aria-label={currentLocale === 'es' ? 'ES / EN, switch to English' : 'ES / EN, cambiar a Español'}
               >
                 <Globe
                   size={16}

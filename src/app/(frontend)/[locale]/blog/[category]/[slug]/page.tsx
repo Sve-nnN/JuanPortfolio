@@ -158,7 +158,9 @@ export default async function PostPage({
 
   return (
     <>
-      <article className="pb-16 relative">
+      {/* <main> landmark for the post template (a11y: landmark-one-main).
+          The inner <article> below still wraps the post body. SEO audit #70. */}
+      <main className="pb-16 relative">
         <JsonLd schema={schema} post={post} locale={locale} siteUrl={getServerSideURL()} />
         <LivePreviewListener />
         <PayloadRedirects disableNotFound url={`${localePrefix}/blog/${category}/${slug}`} />
@@ -218,7 +220,7 @@ export default async function PostPage({
             />
           )}
         </div>
-      </article>
+      </main>
       <DynamicBackground color={dominantColor} />
     </>
   )

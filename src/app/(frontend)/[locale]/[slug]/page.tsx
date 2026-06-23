@@ -89,19 +89,19 @@ export default async function Page({ params: paramsPromise }: Args) {
     })) as Home
 
     return (
-      <article className="pb-24">
-        <JsonLd 
-          isHome={true} 
-          blocks={homeGlobal.layout} 
-          locale={locale} 
-          siteUrl={getServerSideURL()} 
+      <main className="pb-24">
+        <JsonLd
+          isHome={true}
+          blocks={homeGlobal.layout}
+          locale={locale}
+          siteUrl={getServerSideURL()}
         />
         <PageClient />
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
         {/* HomePage will render content from the home global */}
         <HomePage homeGlobal={homeGlobal} locale={locale} />
-      </article>
+      </main>
     )
   }
 
@@ -135,7 +135,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   return (
-    <article className="pb-24">
+    <main className="pb-24">
       <JsonLd schema={schema} />
       <PageClient />
       {/* Allows redirects for valid pages too */}
@@ -145,7 +145,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <RenderHero {...hero} locale={locale} />
       <RenderBlocks blocks={layout} locale={locale} />
-    </article>
+    </main>
   )
 }
 

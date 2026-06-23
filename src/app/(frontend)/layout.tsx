@@ -65,6 +65,10 @@ const Khand = localFont({
   ],
   variable: '--font-khand',
   display: 'swap',
+  // Secondary heading family, not in the LCP/above-the-fold path. Skip preload
+  // so its 3 woff2 stop competing for bandwidth with the LCP image preload.
+  // SEO audit jun-2026, issue #39.
+  preload: false,
 })
 
 /**

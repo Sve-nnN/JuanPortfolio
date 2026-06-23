@@ -58,8 +58,19 @@ Necesita URLs reales de tus perfiles. Cuando existan, agregalos en site-settings
 
 ## Diferidos a PR dedicado (riesgo / esfuerzo alto)
 
-### #20 — Render dinámico sitewide (sin ISR) · ALTO
-El root layout (`src/app/(frontend)/layout.tsx`) llama `draftMode()` + `headers()` (`x-pathname`) para detectar locale, lo que marca **todas** las rutas como dinámicas. Sacar esto exige reestructurar el árbol de rutas (derivar locale del segmento `[locale]` y aislar `draftMode()` a un subárbol). Es un refactor con riesgo real de romper la detección de idioma y el preview en todo el sitio. Recomendación: PR aparte, con verificación de `x-vercel-cache: HIT` post-deploy y QA de locale/preview.
+### #20 — Render dinámico sitewide (sin ISR) · ALTO · requiere sesión dedicada
+El root layout (`src/app/(frontend)/layout.tsx`) llama `draftMode()` + `headers()` (`x-pathname`) para detectar locale, lo que marca **todas** las rutas como dinámicas.
+
+**Landmines detectados (jun-2026), por eso no se hizo a ciegas:**
+1. La home ES (`/`) vive en `src/app/(frontend)/page.tsx`, **fuera** de `[locale]/`, y re-exporta el template. Mover el Header/Footer a un `[locale]/layout.tsx` dejaría la home ES **sin chrome**.
+2. La home y los posts son dinámicos por su **propia página** (`[locale]/[slug]/page.tsx`, `blog/[category]/[slug]/page.tsx`, etc. llaman `draftMode()`+`headers()`), así que arreglar solo el layout no las vuelve ISR.
+3. `<html lang>` (obligatorio en el root) necesita el locale; sin `headers()` hay que corregirlo en cliente.
+
+**Plan correcto (sesión dedicada, dev server arriba para QA en vivo):**
+- Unificar el ruteo bajo `[locale]` (incluida la home ES) vía middleware, para que exista `[locale]/layout.tsx` que sea dueño del chrome + schema + locale por param.
+- Aislar `draftMode()`: rama estática/ISR para publicado, dinámica solo en preview.
+- Corregir `<html lang>` en cliente (efecto que setea `documentElement.lang` según locale).
+- Verificar `x-vercel-cache: HIT` post-deploy + QA de home/i18n/preview/hreflang/sitemap.
 
 ### #61 — 72 client components / chunks JS por página · BAJO
 Auditoría grande, bajo impacto (framer-motion ya usa LazyMotion). Recomendación: pase dedicado moviendo a server component los `'use client'` sin estado/efectos/handlers, validando bundle con `next build`. No bloquea nada.

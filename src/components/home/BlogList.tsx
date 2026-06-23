@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import type { Post } from '@/payload-types'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 
 const BlogList = async () => {
   let posts: Post[] = []
@@ -36,18 +37,28 @@ const BlogList = async () => {
           className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
         >
           <a href={`/blog/${p.slug}`}>
-            {p.content?.heroImage &&
-            typeof p.content.heroImage === 'object' &&
-            p.content.heroImage.url ? (
-              <div className="relative w-full h-48">
-                <Image
-                  src={p.content.heroImage.url}
-                  alt={p.content.heroImage.alt || p.title || ''}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
+            <div className="relative w-full h-48">
+              <Image
+                src={
+                  p.content?.heroImage &&
+                  typeof p.content.heroImage === 'object' &&
+                  p.content.heroImage.url
+                    ? p.content.heroImage.url
+                    // No hero set: deterministic Cloudinary fallback by slug.
+                    // SEO audit jun-2026, issue #44.
+                    : getFallbackBySlug(p.slug ?? '')
+                }
+                alt={
+                  (p.content?.heroImage &&
+                    typeof p.content.heroImage === 'object' &&
+                    p.content.heroImage.alt) ||
+                  p.title ||
+                  ''
+                }
+                fill
+                className="object-cover"
+              />
+            </div>
             <div className="p-6">
               <p className="text-sm text-muted mb-2">
                 {p.publishedAt ? new Date(p.publishedAt).toLocaleDateString() : ''}

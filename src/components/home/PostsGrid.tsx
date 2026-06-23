@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 
 const PostsGrid = ({ posts }: { posts: Array<Partial<Post>> }) => {
   return (
@@ -17,7 +18,9 @@ const PostsGrid = ({ posts }: { posts: Array<Partial<Post>> }) => {
                 ? getServerSideURL().replace(/\/$/, '') + p.content.heroImage.url
                 : typeof p.content?.heroImage === 'string'
                   ? p.content.heroImage
-                  : null
+                  // No hero set: deterministic Cloudinary fallback by slug, same
+                  // as PostHero/OG/Card. SEO audit jun-2026, issue #44.
+                  : getFallbackBySlug(p.slug ?? '')
             return (
               <article key={p.id} className="bg-white border rounded overflow-hidden">
                 {imgUrl ? (

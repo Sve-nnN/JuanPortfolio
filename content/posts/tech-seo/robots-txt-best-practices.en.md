@@ -12,10 +12,8 @@ relatedPosts:
   - tech-seo-guide
   - xml-sitemap-automation
 sidebarBanners: []
-metaTitle: Robots.txt Guide 2026 | Strategic Crawl Control
-metaDescription: >-
-  Master your robots.txt configuration for 2026. Learn how to direct search
-  engine and AI crawlers to your most valuable pages.
+metaTitle: 'Robots.txt Best Practices: Control Crawling the Right Way'
+metaDescription: 'Robots.txt best practices for 2026: which paths to block or allow, why it is not security, how to add your sitemap, and how to test before you deploy.'
 primary_keywords:
   - robots txt best practices
   - crawl control

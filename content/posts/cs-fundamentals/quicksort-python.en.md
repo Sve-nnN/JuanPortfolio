@@ -1,7 +1,7 @@
 ---
 title: 'Quicksort Python: An Informative Guide to Implementation and Optimi...'
-metaTitle: 'Quicksort Python: An Informative Guide to Implem | Juan Tech'
-metaDescription: 'Quicksort in Python explained: how the divide and conquer pivot strategy works, an in-place implementation, optimization techniques, and time complexity.'
+metaTitle: 'Quicksort in Python: Pivot and Partition Explained'
+metaDescription: 'Quicksort in Python explained: how the pivot and partition steps drive this divide and conquer sort, an in-place version, and its best and worst case timing.'
 slug: quicksort-python
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

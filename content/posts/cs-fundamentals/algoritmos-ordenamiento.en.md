@@ -12,10 +12,8 @@ relatedPosts:
   - algoritmos-estructuras-datos
   - big-o-notation
 sidebarBanners: []
-metaTitle: Sorting Algorithms 2026 | Efficiency & Complexity Guide
-metaDescription: >-
-  Explore the most important sorting algorithms in 2026. Understand Quicksort,
-  Mergesort, and Heapsort from a performance perspective.
+metaTitle: "Sorting Algorithms Explained: Methods and Complexity"
+metaDescription: "How the main sorting algorithms work: compare bubble, insertion, quicksort, mergesort, and heapsort by speed, stability, and time complexity."
 primary_keywords:
   - sorting algorithms
   - algorithm efficiency

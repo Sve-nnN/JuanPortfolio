@@ -12,10 +12,8 @@ relatedPosts:
   - technical-seo-guide
   - robots-txt-best-practices
 sidebarBanners: []
-metaTitle: XML Sitemap Automation 2026 | Technical SEO Guide
-metaDescription: >-
-  Automate your XML sitemaps for enterprise-level SEO in 2026. Learn about
-  dynamic generation, priority settings, and Google indexing rules.
+metaTitle: 'XML Sitemap Automation: Keep Your Maps Always Current'
+metaDescription: 'Automate your XML sitemaps so they stay current as your site grows. Learn dynamic generation, priority and lastmod settings, and how Google indexing reads them.'
 primary_keywords:
   - xml sitemap automation
   - indexing strategy

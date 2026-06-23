@@ -13,10 +13,8 @@ relatedPosts:
   - estrategia-topic-clusters
   - guia-keyword-research
 sidebarBanners: []
-metaTitle: SEO Copywriting Guide 2026 | Content Optimization
-metaDescription: >-
-  Master SEO copywriting in 2026. Learn how to write high-ranking content that
-  satisfies both user intent and AI search algorithms.
+metaTitle: 'SEO Copywriting 2026: Win AI Overviews and Readers'
+metaDescription: 'SEO copywriting now means writing for AI Overviews and people at once. Learn how to blend E-E-A-T, semantic depth, and persuasion that actually converts.'
 primary_keywords:
   - seo copywriting
   - content optimization

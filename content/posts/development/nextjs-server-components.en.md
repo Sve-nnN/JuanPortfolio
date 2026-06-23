@@ -12,10 +12,8 @@ relatedPosts:
   - nextjs-seo-optimization
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: Next.js Server Components 2026 | RSC Mastery Guide
-metaDescription: >-
-  Master React Server Components in Next.js for 2026. Learn how to optimize load
-  times, reduce client-side JS, and improve SEO performance.
+metaTitle: 'Next.js Server Components: When to Use RSC in 2026'
+metaDescription: 'Confused by React Server Components? Learn how RSCs work in Next.js, when to use server vs client components, and how they cut bundle size and lift SEO.'
 primary_keywords:
   - nextjs server components
   - react server components

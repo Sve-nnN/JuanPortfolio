@@ -11,10 +11,8 @@ pillarSlug: web-performance-guide
 relatedPosts:
   - tech-seo-guide
 sidebarBanners: []
-metaTitle: Core Web Vitals Guide 2026 | Technical SEO Masterclass
-metaDescription: >-
-  A comprehensive guide to Core Web Vitals in 2026. Master Largest Contentful
-  Paint, Cumulative Layout Shift, and Interaction to Next Paint.
+metaTitle: 'Core Web Vitals Guide: LCP, CLS, and INP Explained'
+metaDescription: 'Learn how Core Web Vitals affect rankings and user experience. This guide explains LCP, CLS, and INP, with practical fixes to improve every score.'
 primary_keywords:
   - core web vitals guide
   - lcp optimization

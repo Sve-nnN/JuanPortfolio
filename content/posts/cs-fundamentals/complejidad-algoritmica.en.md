@@ -12,10 +12,8 @@ relatedPosts:
   - big-o-notation
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: Algorithm Complexity 2026 | Performance & Scaling Guide
-metaDescription: >-
-  Learn to evaluate and optimize algorithm complexity in 2026. Understand the
-  mathematical foundations of performance scaling.
+metaTitle: "Algorithm Complexity: Time and Space Analysis Guide"
+metaDescription: "Understand algorithm complexity: how time and space scale with input, Big O classes, and how to spot bottlenecks before they slow your system down."
 primary_keywords:
   - algorithm complexity
   - performance optimization

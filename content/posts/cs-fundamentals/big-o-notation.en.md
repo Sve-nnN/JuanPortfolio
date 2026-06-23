@@ -12,10 +12,8 @@ relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: Big O Notation Guide 2026 | Computer Science Mastery
-metaDescription: >-
-  Understand Big O notation and algorithmic complexity in 2026. A comprehensive
-  guide for high-performance software engineering.
+metaTitle: "Big O Notation Explained: Algorithm Complexity Guide"
+metaDescription: "Big O notation made simple: measure time and space complexity, read common growth rates like O(n) and O(log n), and compare how algorithms scale."
 primary_keywords:
   - big o notation
   - algorithmic complexity

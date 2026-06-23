@@ -12,10 +12,8 @@ relatedPosts:
   - technical-seo-guide
   - core-web-vitals-guide
 sidebarBanners: []
-metaTitle: Non-Developer Technical SEO Guide 2026 | Fundamentals
-metaDescription: >-
-  Demystify technical SEO in 2026. A guide designed for entrepreneurs and
-  marketers who want to understand the engine under the hood.
+metaTitle: 'Technical SEO for Non-Developers: A Plain Language Guide'
+metaDescription: 'Technical SEO without the code. This plain-English guide helps marketers and founders understand crawling, indexing, and speed so your site gets found.'
 primary_keywords:
   - non developers guide
   - seo basics

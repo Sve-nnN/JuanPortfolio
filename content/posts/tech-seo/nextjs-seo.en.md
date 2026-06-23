@@ -1,8 +1,8 @@
 ---
 
 title: 'Next Js Seo: Next.js SEO Best Practices for Optimal Visibility'
-metaTitle: 'Next Js Seo: Next.js SEO Best Practices for Opti | Juan Tech'
-metaDescription: 'Next.js SEO best practices: rendering strategies, metadata and structured data, i18n, and a checklist to ship pages search engines can index.'
+metaTitle: 'Next.js SEO: Best Practices for Better Search Rankings'
+metaDescription: 'A practical Next.js SEO guide: rendering strategies, metadata, structured data, sitemaps, and a checklist to ship pages search engines can actually index.'
 slug: nextjs-seo
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

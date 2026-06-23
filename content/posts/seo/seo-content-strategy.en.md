@@ -1,10 +1,7 @@
 ---
 title: SEO Content Strategy for Effective SaaS Growth
-metaTitle: SEO Content Strategy for Effective SaaS Growth | | Juan Tech
-metaDescription: >-
-  In the competitive landscape of software as a service SaaS , a robust SEO
-  content strategy is crucial for driving growth and visibility. As companies
-  st...
+metaTitle: 'SEO Content Strategy: A Step-by-Step SaaS Framework'
+metaDescription: 'Build an SEO content strategy that grows SaaS traffic. Set clear goals, map audience intent, and create content that ranks and converts visitors to users.'
 slug: seo-content-strategy
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

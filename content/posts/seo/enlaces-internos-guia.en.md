@@ -12,10 +12,8 @@ relatedPosts:
   - estrategia-topic-clusters
   - guia-keyword-research
 sidebarBanners: []
-metaTitle: Internal Linking Guide | Master SEO Structure 2026
-metaDescription: >-
-  Master internal linking in 2026. Learn how to distribute link equity and build
-  topical authority using topic clusters and strategic anchor text.
+metaTitle: 'Internal Linking Guide 2026: Strategy & Best Practices'
+metaDescription: 'This internal linking guide shows how to spread link equity and build topical authority. Use hub-and-spoke clusters and smart anchor text to rank.'
 primary_keywords:
   - internal linking strategy
   - seo interlinking

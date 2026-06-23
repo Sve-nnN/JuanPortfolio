@@ -14,10 +14,8 @@ relatedPosts:
   - payloadcms-tutorial
   - nextjs-seo-optimization
 sidebarBanners: []
-metaTitle: Payload CMS SEO Guide 2026 | Technical Mastery
-metaDescription: >-
-  Master SEO configuration in Payload CMS for 2026. Learn about custom plugins,
-  metadata management, and sitemap automation.
+metaTitle: 'Payload CMS SEO 2026: Plugins, Metadata & Sitemaps'
+metaDescription: 'Configure SEO in Payload CMS the right way: set up the SEO plugin, manage metadata, map schema markup, and automate sitemaps for search visibility.'
 primary_keywords:
   - payloadcms seo
   - technical cms optimization

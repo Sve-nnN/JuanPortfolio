@@ -1,10 +1,7 @@
 ---
 title: 'Data Structures: An Overview and Their Applications'
-metaTitle: 'Data Structures: An Overview and Their Applicati | Juan Tech'
-metaDescription: >-
-  Data structures are foundational elements of programming that help organize
-  and manage data efficiently. In this article, we will delve into various
-  typ...
+metaTitle: "Data Structures Explained: Types, Uses, and Examples"
+metaDescription: "A practical overview of data structures: arrays, linked lists, stacks, queues, trees, and hash tables, with how each one organizes data and when to use it."
 slug: data-structures
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

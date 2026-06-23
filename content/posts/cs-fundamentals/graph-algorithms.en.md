@@ -1,9 +1,7 @@
 ---
 title: 'Graph Algorithms Explained: Your Comprehensive Guide'
-metaTitle: 'Graph Algorithms Explained: Your Comprehensive G | Juan Tech'
-metaDescription: >-
-  Graph algorithms are essential in solving a variety of complex problems across
-  computer science and mathematics. This comprehensive guide will explore t...
+metaTitle: "Graph Algorithms Explained: Traversal and Shortest Paths"
+metaDescription: "A guide to graph algorithms: how graphs model relationships, plus traversal, shortest paths, and minimum spanning trees with real-world applications."
 slug: graph-algorithms
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

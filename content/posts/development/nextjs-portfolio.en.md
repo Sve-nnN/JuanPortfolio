@@ -12,10 +12,8 @@ relatedPosts:
   - nextjs-seo-optimization
   - payloadcms-tutorial
 sidebarBanners: []
-metaTitle: Next.js Portfolio 2026 | Modern Web Mastery Guide
-metaDescription: >-
-  Create a world-class developer portfolio with Next.js in 2026. Focus on
-  performance, structure, and technical SEO for engineers.
+metaTitle: 'Next.js Portfolio 2026: Build a Fast Developer Site'
+metaDescription: 'Build a standout developer portfolio with Next.js 15. Get practical tips on performance, structure, and technical SEO so your work ranks and loads fast.'
 primary_keywords:
   - nextjs portfolio
   - identity architecture

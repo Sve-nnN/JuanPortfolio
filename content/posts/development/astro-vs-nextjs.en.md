@@ -1,7 +1,7 @@
 ---
 title: 'Astro vs Next.js: Key Differences Explained'
-metaTitle: 'Astro vs Next.js: Key Differenc | Juan Tech'
-metaDescription: 'Astro vs Next.js compared: Islands Architecture versus server-side rendering, performance trade-offs, and a clear framework to decide which fits your project.'
+metaTitle: 'Astro vs Next.js 2026: Which Framework Should You Pick?'
+metaDescription: 'Astro vs Next.js compared for 2026: Islands Architecture versus SSR, real performance trade-offs, and a clear way to decide which framework fits your project.'
 slug: astro-vs-nextjs
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

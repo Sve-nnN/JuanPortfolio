@@ -1,7 +1,7 @@
 ---
 title: 'Next.js CMS: Unlocking Modern Web Development'
-metaTitle: 'Next.js CMS: Unlocking Modern Web De | Juan Tech'
-metaDescription: 'Building a Next.js CMS with Strapi: how SSR and SSG boost performance and SEO, plus a practical guide to integrating a headless backend with Next.js.'
+metaTitle: 'Next.js CMS 2026: Headless Strapi Setup for SSR & SEO'
+metaDescription: 'Pairing Next.js with a headless CMS like Strapi: how SSR and SSG boost performance and SEO, plus a practical guide to wiring up your backend.'
 slug: nextjs-cms
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

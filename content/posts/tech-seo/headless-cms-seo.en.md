@@ -1,7 +1,7 @@
 ---
 title: 'Headless CMS SEO: Complete Guide for Better Search Visibility'
-metaTitle: 'Headless CMS SEO: Complete Guide for Better Sear | Juan Tech'
-metaDescription: 'Headless CMS SEO explained: rendering trade-offs, metadata control, technical setup, and Next.js integrations to keep your content indexable.'
+metaTitle: 'Headless CMS SEO: A Practical Guide to Better Rankings'
+metaDescription: 'Is a headless CMS good for SEO? Here is how rendering, metadata, and clean structure keep your content fast, crawlable, and ready to rank well.'
 slug: headless-cms-seo
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

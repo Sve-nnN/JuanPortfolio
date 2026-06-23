@@ -56,31 +56,29 @@ Diferidos a milestones futuros.
 
 ## Traceability
 
-Se completa durante la creación del roadmap.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| LOCALE-01 | — | Pending |
-| LOCALE-02 | — | Pending |
-| LOCALE-03 | — | Pending |
-| ROUTE-01 | — | Pending |
-| ROUTE-02 | — | Pending |
-| ROUTE-03 | — | Pending |
-| PREVIEW-01 | — | Pending |
-| PREVIEW-02 | — | Pending |
-| PREVIEW-03 | — | Pending |
-| CACHE-01 | — | Pending |
-| CACHE-02 | — | Pending |
-| CACHE-03 | — | Pending |
-| QA-01 | — | Pending |
-| QA-02 | — | Pending |
-| QA-03 | — | Pending |
+| LOCALE-01 | Phase 1 | Pending |
+| LOCALE-02 | Phase 1 | Pending |
+| LOCALE-03 | Phase 1 | Pending |
+| ROUTE-01 | Phase 1 | Pending |
+| ROUTE-02 | Phase 2 | Pending |
+| ROUTE-03 | Phase 2 | Pending |
+| PREVIEW-01 | Phase 1 | Pending |
+| PREVIEW-02 | Phase 3 | Pending |
+| PREVIEW-03 | Phase 3 | Pending |
+| CACHE-01 | Phase 4 | Pending |
+| CACHE-02 | Phase 4 | Pending |
+| CACHE-03 | Phase 4 | Pending |
+| QA-01 | Phase 5 | Pending |
+| QA-02 | Phase 5 | Pending |
+| QA-03 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 15 total
-- Mapped to phases: 0 (pendiente roadmap)
-- Unmapped: 15 ⚠️
+- Mapped to phases: 15
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-23*
-*Last updated: 2026-06-23 after initial definition*
+*Last updated: 2026-06-23 — Traceability completada tras creación de roadmap*

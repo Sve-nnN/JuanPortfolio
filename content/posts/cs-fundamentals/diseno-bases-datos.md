@@ -20,8 +20,8 @@ tldr: >-
   desde el modelado entidad-relación y las reglas de normalización hasta las
   tendencias modernas como bases de datos NoSQL, arquitecturas en la nube
   (DBaaS) y el diseño específico para microservicios y aplicaciones de IA.
-metaTitle: 'Diseño de Bases de Datos: Arquitectura, Integrid | Juan Tech'
-metaDescription: 'Guía de diseño de bases de datos: modelado entidad-relación, normalización, integridad y tendencias como NoSQL, la nube y arquitecturas para microservicios.'
+metaTitle: "Diseño de bases de datos: del modelo ER a la normalización"
+metaDescription: "Cómo diseñar una base de datos paso a paso: modelo entidad-relación, normalización, integridad y decisiones entre SQL y NoSQL según el caso de uso real."
 primary_keywords:
   - diseño de bases de datos
   - modelado de datos

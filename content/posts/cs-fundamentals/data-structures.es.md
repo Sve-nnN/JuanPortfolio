@@ -1,10 +1,8 @@
 ---
 
 title: 'Estructuras de Datos 2026: Fundamentos y Aplicaciones Reales'
-metaTitle: Estructuras de Datos 2026 | Guía Técnica en Español
-metaDescription: >-
-  Domina las estructuras de datos esenciales para el desarrollo de software in
-  2026. Aprende a elegir la estructura adecuada para cada problema.
+metaTitle: "Estructuras de datos: tipos y cuándo usar cada una"
+metaDescription: "Guía de estructuras de datos esenciales: arreglos, listas enlazadas, pilas, colas, árboles, grafos y tablas hash, con criterios para elegir la más adecuada."
 slug: data-structures
 publishedAt: '2026-04-02'
 idioma: es

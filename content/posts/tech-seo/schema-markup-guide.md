@@ -19,10 +19,8 @@ tldr: >-
   contenido. En 2026, el Schema Markup es esencial para aparecer en los
   resultados enriquecidos de la IA y mejorar el CTR mediante fragmentos visuales
   impactantes.
-metaTitle: Schema Markup 2026 | Guía de Datos Estructurados
-metaDescription: >-
-  Implementa Schema Markup y obtén fragmentos enriquecidos en Google. Guía
-  completa sobre JSON-LD y datos estructurados para 2026.
+metaTitle: 'Schema Markup 2026: Guía de Datos Estructurados JSON-LD'
+metaDescription: 'Guía de schema markup paso a paso: qué es, cómo implementar JSON-LD y qué tipos usar para conseguir resultados enriquecidos y contexto para la IA.'
 primary_keywords:
   - schema markup guide
   - datos estructurados

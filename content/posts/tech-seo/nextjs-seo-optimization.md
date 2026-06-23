@@ -19,10 +19,8 @@ tldr: >-
   Next.js revoluciona el SEO en React. Descubre cómo configurar correctamente el
   API de metadatos, optimizar imágenes y asegurar una indexación perfecta en la
   versión 15 de Next.js para 2026.
-metaTitle: Next.js SEO Optimization 2026 | Guía Técnica Avanzada
-metaDescription: >-
-  Lleva tu aplicación Next.js a lo más alto de Google. Domina el SEO técnico con
-  App Router, Server Components y metadatos dinámicos.
+metaTitle: 'Next.js SEO Optimization: Guía Técnica Avanzada 2026'
+metaDescription: 'Optimización SEO en Next.js con App Router: metadatos dinámicos, Server Components, sitemaps y rendimiento para que tu app indexe y posicione mejor.'
 primary_keywords:
   - nextjs seo optimization
   - app router seo

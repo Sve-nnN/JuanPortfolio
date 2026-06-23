@@ -20,10 +20,8 @@ tldr: >-
   prioriza la ganancia de información y la autoridad temática. Esta guía te
   enseña a estructurar tus artículos para maximizar el tiempo de permanencia y
   la relevancia.
-metaTitle: Redacción SEO 2026 | Guía de Escritura Estratégica
-metaDescription: >-
-  Aprende a redactar para Google y para tus usuarios en 2026. Técnicas avanzadas
-  de optimización semántica y estructura de contenidos.
+metaTitle: 'Redacción SEO: Qué Es y Cómo Escribir para Rankear'
+metaDescription: 'Qué es la redacción SEO y cómo aplicarla: investigación de palabras clave, estructura y optimización semántica para escribir contenidos que rankean.'
 primary_keywords:
   - redaccion seo
   - escritura para web

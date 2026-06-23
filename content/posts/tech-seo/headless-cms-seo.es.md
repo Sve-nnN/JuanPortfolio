@@ -1,11 +1,8 @@
 ---
 
 title: 'Headless Cms Seo: complete practical guide for 2026'
-metaTitle: 'Headless Cms Seo: complete practical guide for 2 | Juan Tech'
-metaDescription: >-
-  Learn headless cms seo with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Includes common mistakes and final
-  rec...
+metaTitle: 'Headless CMS y SEO: Guía Práctica para Posicionar Mejor'
+metaDescription: 'Guía de SEO para un headless CMS: cómo manejar metadatos, renderizado, sitemaps y velocidad para que tu contenido indexe bien y posicione en Google.'
 slug: headless-cms-seo
 keyword: headless cms seo
 publishedAt: '2026-04-03'

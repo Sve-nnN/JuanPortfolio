@@ -1,10 +1,7 @@
 ---
 title: 'Merge Sort Python: complete practical guide for 2026'
-metaTitle: 'Merge Sort Python: complete practical guide for | Juan Tech'
-metaDescription: >-
-  Learn merge sort python with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Includes common mistakes and final
-  re...
+metaTitle: 'Merge Sort Python: implementación paso a paso y Big O'
+metaDescription: 'Implementa merge sort en Python con el método divide y vencerás: cómo dividir la lista, fusionar mitades ordenadas y por qué su complejidad es O(n log n).'
 slug: merge-sort-python
 keyword: merge sort python
 publishedAt: '2026-04-03'

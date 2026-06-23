@@ -17,10 +17,8 @@ tldr: >-
   Las Core Web Vitals son críticas para el ranking orgánico. Esta guía te enseña
   a identificar y corregir cuellos de botella técnicos para ofrecer una
   experiencia de página rápida, estable y responsive.
-metaTitle: Core Web Vitals Guide 2026 | Optimización de UX y SEO
-metaDescription: >-
-  Aprende a optimizar el LCP, CLS e INP de tu web. Guía exhaustiva de Core Web
-  Vitals para mejorar rankings y experiencia de usuario en 2026.
+metaTitle: 'Guía de Core Web Vitals 2026: Qué Son y Cómo Mejorarlas'
+metaDescription: 'Qué son las Core Web Vitals y cómo optimizar LCP, INP y CLS para mejorar la velocidad, la experiencia de usuario y el ranking de tu web en Google.'
 primary_keywords:
   - core web vitals guide
   - lcp optimization

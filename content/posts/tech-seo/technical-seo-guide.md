@@ -26,7 +26,7 @@ semantic_keywords:
   - asegurar estabilidad posicionamiento
   - importantes facilita descubrimiento
 title: Guia de technical seo guide
-metaTitle: Guia de technical seo guide | Juan Tech | Juan Tech
+metaTitle: 'Guía de SEO Técnico: Rastreo, Indexación y Velocidad'
 metaDescription: 'Guía de SEO técnico: estructura del sitio, URLs limpias, rastreo e indexación, velocidad, móvil y HTTPS para mejorar tu visibilidad en Google.'
 keyword: technical seo guide
 

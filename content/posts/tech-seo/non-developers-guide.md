@@ -18,10 +18,8 @@ tldr: >-
   No necesitas ser programador para dominar el SEO técnico. Explicamos de forma
   sencilla conceptos como la indexación, la velocidad de carga y el marcado de
   datos para que tomes el control de tu web.
-metaTitle: Guía de SEO Técnico para No Devs | Fundamentos 2026
-metaDescription: >-
-  Entiende el SEO técnico paso a paso. Una guía diseñada para perfiles no
-  técnicos que quieren optimizar su presencia online en 2026.
+metaTitle: 'SEO Técnico para No Programadores: Guía Sin Código'
+metaDescription: 'SEO técnico explicado para perfiles no técnicos: entiende rastreo, indexación y velocidad, y qué pedirle a tu programador para optimizar tu web en 2026.'
 primary_keywords:
   - non developers guide
   - seo técnico básico

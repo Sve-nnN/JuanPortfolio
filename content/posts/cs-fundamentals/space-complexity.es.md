@@ -1,10 +1,7 @@
 ---
 title: 'Space Complexity: complete practical guide for 2026'
-metaTitle: 'Space Complexity: complete practical guide for 2 | Juan Tech'
-metaDescription: >-
-  Learn space complexity with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Includes common mistakes and final
-  rec...
+metaTitle: 'Space Complexity: qué es y cómo calcular la memoria'
+metaDescription: 'Qué es la space complexity y cómo se mide la memoria que usa un algoritmo: notación Big O, casos O(1) y O(n) y ejemplos para calcularla paso a paso.'
 slug: space-complexity
 keyword: space complexity
 publishedAt: '2026-04-03'

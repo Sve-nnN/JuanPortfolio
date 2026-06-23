@@ -1,7 +1,7 @@
 ---
 title: 'Next.js CMS: La Combinación Ideal para Tu Sitio Web'
-metaTitle: 'Next.js CMS: La Combinación Ideal pa | Juan Tech'
-metaDescription: 'Next.js CMS: ventajas de combinar Next.js con un CMS headless, flexibilidad en el modelado de contenido y cómo SSR y SSG mejoran el rendimiento y el SEO.'
+metaTitle: 'Next.js CMS 2026: mejores opciones headless para tu web'
+metaDescription: 'Next.js CMS: ventajas de combinar Next.js con un CMS headless y cómo el SSR y el SSG mejoran el rendimiento, el modelado de contenido y el SEO.'
 slug: nextjs-cms
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

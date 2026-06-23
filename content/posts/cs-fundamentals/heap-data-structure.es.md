@@ -1,11 +1,8 @@
 ---
 
 title: 'Heap Data Structure: complete practical guide'
-metaTitle: 'Heap Data Structure: complete practical guide | | Juan Tech'
-metaDescription: >-
-  Learn heap data structure with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Includes common mistakes and
-  final...
+metaTitle: 'Heap Data Structure: estructura, operaciones y usos'
+metaDescription: 'Qué es un heap data structure: árbol binario completo, propiedad min-heap y max-heap, operaciones de inserción y borrado y usos como las colas de prioridad.'
 slug: heap-data-structure
 keyword: heap data structure
 publishedAt: '2026-04-03'

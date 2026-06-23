@@ -22,7 +22,7 @@ tldr: >-
   la rastreabilidad, dominar las métricas Core Web Vitals (LCP, INP, CLS) e
   implementar semántica estructurada JSON-LD, asegurando que tu contenido sea
   procesable tanto por humanos como por sistemas de IA.
-metaTitle: 'Tech Seo Guide: Guía de SEO Técnico 2026: Rastre | Juan Tech'
+metaTitle: 'Guía de SEO Técnico 2026: Rastreo, Velocidad y Datos'
 metaDescription: 'Guía de SEO técnico: rastreabilidad e indexación, Core Web Vitals (LCP, INP, CLS) y datos estructurados JSON-LD para webs y para sistemas de IA.'
 primary_keywords:
   - guía de SEO técnico

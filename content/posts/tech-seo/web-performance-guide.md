@@ -19,10 +19,8 @@ tldr: >-
   nos enfocamos en el TTFB, la optimización de recursos críticos y el
   cumplimiento estricto de las Core Web Vitals para garantizar la mejor
   experiencia posible.
-metaTitle: Rendimiento Web 2026 | WPO y Experiencia de Usuario
-metaDescription: >-
-  Acelera tu web y mejora tus rankings. Guía exhaustiva sobre optimización de
-  rendimiento (WPO), Core Web Vitals y velocidad de carga en 2026.
+metaTitle: 'Rendimiento Web 2026: Cómo Medir y Mejorar la Velocidad'
+metaDescription: 'Guía de rendimiento web: cómo medir la velocidad con PageSpeed Insights, optimizar Core Web Vitals y acelerar la carga para mejorar el SEO de tu sitio.'
 primary_keywords:
   - rendimiento web
   - wpo

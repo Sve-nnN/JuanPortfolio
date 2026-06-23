@@ -1,10 +1,8 @@
 ---
 
 title: 'Estrategia SEO Global 2026: Arquitectura, Contenido y Autoridad'
-metaTitle: Estrategia SEO 2026 | Guía Técnica y Estratégica
-metaDescription: >-
-  Maximiza tu visibilidad orgánica con una estrategia SEO integral. Unificamos
-  arquitectura técnica, contenido de valor y autoridad de marca.
+metaTitle: 'Estrategia SEO: guía para posicionar tu web en Google'
+metaDescription: 'Conoce cómo construir una estrategia SEO integral que une optimización técnica, contenido de valor y autoridad de marca para subir en buscadores.'
 slug: estrategia-seo
 keyword: estrategia seo
 publishedAt: '2026-04-03'

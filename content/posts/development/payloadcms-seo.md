@@ -19,10 +19,8 @@ tldr: >-
   editorial. Descubre cómo configurar plugins para gestionar títulos,
   descripciones y slugs dinámicos que mejoren la visibilidad de tu contenido
   generado por el CMS.
-metaTitle: SEO en Payload CMS 2026 | Optimización de Contenidos
-metaDescription: >-
-  Optimiza tu instancia de Payload CMS para los buscadores. Aprende a
-  implementar plugins de SEO, sitemaps y previsualización de metadatos.
+metaTitle: 'SEO en Payload CMS 2026: plugin y configuración técnica'
+metaDescription: 'Optimiza el SEO en Payload CMS: instala y configura el plugin oficial para gestionar títulos, descripciones, slugs y sitemaps de tu contenido dinámico.'
 primary_keywords:
   - payloadcms seo
   - optimización de cms

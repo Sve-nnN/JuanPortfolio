@@ -1,7 +1,7 @@
 ---
 title: 'Astro vs Next.js: ¿Cuál es el mejor framework para tu p...'
-metaTitle: 'Astro vs Next.js: ¿Cuál es el m | Juan Tech'
-metaDescription: 'Astro vs Next.js: comparamos arquitectura, rendimiento y casos de uso del generador estático frente al renderizado dinámico para elegir el framework correcto.'
+metaTitle: 'Astro vs Next.js: cuál elegir según tu proyecto 2026'
+metaDescription: 'Astro vs Next.js comparados: arquitectura, rendimiento y casos de uso reales para saber cuándo conviene el sitio estático y cuándo la app dinámica.'
 slug: astro-vs-nextjs
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

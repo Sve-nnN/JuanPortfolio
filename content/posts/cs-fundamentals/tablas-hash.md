@@ -11,10 +11,8 @@ categoryTitle: null
 relatedPosts: null
 sidebarBanners: []
 tldr: Resumen ejecutivo de 40-60 palabras optimizado para AI Overviews (SGE).
-metaTitle: 'Tablas hash: Estructuras clave para un manejo ef | Juan Tech'
-metaDescription: >-
-  Aprende qué son las tablas hash, cómo funcionan las funciones de dispersión y
-  cómo resolver colisiones. Guía práctica con ejemplos en Python.
+metaTitle: 'Tablas Hash: qué son, cómo funcionan y para qué sirven'
+metaDescription: 'Qué son las tablas hash y para qué sirven: cómo trabajan las funciones de dispersión, cómo se resuelven las colisiones y ejemplos prácticos en Python.'
 contentRole: satellite
 pillarSlug: guia-keyword-research
 semantic_keywords:

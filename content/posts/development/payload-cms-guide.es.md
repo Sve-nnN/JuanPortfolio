@@ -1,9 +1,7 @@
 ---
 title: 'Payload Cms: complete practical guide for 2026'
-metaTitle: 'Payload Cms: complete practical guide for 2026 | | Juan Tech'
-metaDescription: >-
-  Learn payload cms with a step-by-step guide, real examples, and an actionable
-  checklist you can apply today. Includes common mistakes and final recommen...
+metaTitle: 'Payload CMS 2026: guía del headless CMS para Next.js'
+metaDescription: 'Qué es Payload CMS: el framework headless para Next.js basado en TypeScript y open source, con guía práctica para modelar datos y montar el panel de admin.'
 slug: payload-cms-guide
 keyword: payload cms
 publishedAt: '2026-04-03'

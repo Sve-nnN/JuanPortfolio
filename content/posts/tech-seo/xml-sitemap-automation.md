@@ -19,10 +19,8 @@ tldr: >-
   cómo automatizar su generación, cómo priorizar URLs críticas y cómo usar
   sitemaps dinámicos para optimizar el presupuesto de rastreo (Crawl Budget) en
   sitios grandes.
-metaTitle: Sitemaps XML Automatizados | Gestión del Crawl Budget
-metaDescription: >-
-  Aprende a automatizar y optimizar tus sitemaps XML para una indexación
-  perfecta en 2026. Controla qué rastrean los buscadores.
+metaTitle: 'Sitemaps XML Automatizados: Guía Técnica Completa 2026'
+metaDescription: 'Cómo automatizar tus sitemaps XML: generación dinámica, envío a Google y buenas prácticas para gestionar el crawl budget y mejorar la indexación.'
 primary_keywords:
   - xml sitemap automation
   - indexación seo

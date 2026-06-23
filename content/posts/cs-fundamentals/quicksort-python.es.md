@@ -1,7 +1,7 @@
 ---
 title: 'Quicksort Python: Optimiza el Ordenamiento de Listas'
-metaTitle: 'Quicksort Python: Optimiza el Ordenamiento de Li | Juan Tech'
-metaDescription: 'Quicksort en Python: cómo ordenar listas con la estrategia de pivote y particiones, análisis de complejidad y comparación con otros métodos de ordenamiento.'
+metaTitle: 'Quicksort Python: implementación paso a paso y Big O'
+metaDescription: 'Cómo implementar quicksort en Python con la estrategia de pivote y particiones: versión recursiva, análisis de complejidad y comparación con otros métodos.'
 slug: quicksort-python
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

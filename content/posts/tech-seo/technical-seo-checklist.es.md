@@ -1,10 +1,8 @@
 ---
 
 title: 'Technical Seo Checklist: complete practical guide'
-metaTitle: 'Technical Seo Checklist: complete practical guid | Juan Tech'
-metaDescription: >-
-  Learn technical seo checklist with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Incluye ejemplos practicos y re...
+metaTitle: 'Checklist de SEO Técnico 2026: Pasos Accionables Clave'
+metaDescription: 'Checklist de SEO técnico paso a paso: HTTPS, errores de rastreo, enlaces rotos, indexación y velocidad para auditar y mejorar la salud de tu sitio.'
 slug: technical-seo-checklist
 keyword: technical seo checklist
 publishedAt: '2026-04-03'

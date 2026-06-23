@@ -18,10 +18,8 @@ tldr: >-
   Un portfolio es tu carta de presentación técnica. Esta guía detalla cómo usar
   Next.js para crear un sitio estático, rápido y optimizado para SEO que
   destaque tus proyectos y habilidades ante reclutadores y clientes.
-metaTitle: Portfolio con Next.js 2026 | Desarrollo y SEO
-metaDescription: >-
-  Construye un portfolio de alto rendimiento con Next.js y Tailwind CSS. Aprende
-  a optimizarlo para buscadores y marca personal en 2026.
+metaTitle: 'Portfolio con Next.js 2026: guía paso a paso y plantillas'
+metaDescription: 'Cómo crear un portfolio con Next.js y Tailwind CSS: estructura, plantillas, optimización de imágenes y despliegue en Vercel para destacar ante reclutadores.'
 primary_keywords:
   - nextjs portfolio
   - desarrollo web

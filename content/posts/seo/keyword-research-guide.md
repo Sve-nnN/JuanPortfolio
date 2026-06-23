@@ -1,7 +1,7 @@
 ---
 title: 'Guía de Keyword Research: Estrategias Clave pa...'
-metaTitle: 'Guia De Keyword Research: Guía de Keyword Resear | Juan Tech'
-metaDescription: 'Guía de keyword research con el proceso completo: intención de búsqueda, clasificación de términos y herramientas para hallar oportunidades reales.'
+metaTitle: 'Guía de Keyword Research: Proceso Paso a Paso 2026'
+metaDescription: 'Guía de keyword research paso a paso: define la intención de búsqueda, clasifica los términos y elige las herramientas para hallar oportunidades reales.'
 slug: keyword-research-guide
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

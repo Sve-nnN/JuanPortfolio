@@ -21,8 +21,8 @@ tldr: >-
   los pilares de subestructura óptima y subproblemas superpuestos, comparando
   métodos de memoización y tabulación para maximizar la eficiencia en software
   de alto rendimiento.
-metaTitle: 'Programación Dinámica: Gu | Juan Tech'
-metaDescription: 'Programación dinámica explicada: subestructura óptima, subproblemas superpuestos y la diferencia entre memoización y tabulación, con ejemplos de código claros.'
+metaTitle: 'Programación Dinámica: conceptos, ejemplos y ejercicios'
+metaDescription: 'Qué es la programación dinámica y cuándo usarla: subestructura óptima, subproblemas superpuestos y la diferencia entre memoización y tabulación, con ejemplos.'
 primary_keywords:
   - programación dinámica
   - algoritmos de optimización

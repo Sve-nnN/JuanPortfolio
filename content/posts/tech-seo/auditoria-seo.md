@@ -1,10 +1,7 @@
 ---
 title: 'Auditoria Seo: guia completa y estrategia practica'
-metaTitle: 'Auditoria Seo: guia completa y estrategia practi | Juan Tech'
-metaDescription: >-
-  Aprende auditoria seo con una guia paso a paso, ejemplos reales y checklist
-  accionable para aplicar hoy. Incluye errores comunes y recomendaciones
-  finales.
+metaTitle: 'Auditoría SEO: Guía Paso a Paso para Hacerla en 2026'
+metaDescription: 'Qué es una auditoría SEO y cómo hacerla paso a paso: revisa lo técnico, el contenido y la autoridad de tu sitio, detecta errores y prioriza mejoras.'
 slug: auditoria-seo
 keyword: auditoria seo
 publishedAt: '2026-04-03'

@@ -1,10 +1,7 @@
 ---
 title: 'Time Complexity: complete practical guide for 2026'
-metaTitle: 'Time Complexity: complete practical guide for 20 | Juan Tech'
-metaDescription: >-
-  Learn time complexity with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Includes common mistakes and final
-  reco...
+metaTitle: 'Time Complexity: qué es y cómo calcularla con Big O'
+metaDescription: 'Qué es la time complexity y cómo calcularla con la notación Big O: clasificación de O(1) a O(n!), ejemplos y una tabla de referencia por algoritmo.'
 slug: time-complexity
 keyword: time complexity
 publishedAt: '2026-04-03'

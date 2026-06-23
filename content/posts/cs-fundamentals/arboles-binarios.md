@@ -22,10 +22,8 @@ tldr: >-
   desde conceptos básicos hasta tipos avanzados como BST, AVL y Árboles
   Rojinegros. Aprende a implementar recorridos DFS/BFS y técnicas de balanceo
   para garantizar un rendimiento logarítmico (O(log N)) en tus aplicaciones.
-metaTitle: 'Árboles Binarios: Estructura, Algoritmos BST, AV | Juan Tech'
-metaDescription: >-
-  Domina los árboles binarios: BST, AVL y Rojinegros. Recorridos DFS/BFS,
-  balanceo y complejidad Big O. Guía esencial para ingenieros de software.
+metaTitle: "Árboles binarios: tipos, BST, AVL, balanceo y recorridos"
+metaDescription: "Qué es un árbol binario y cómo funcionan BST, AVL y rojinegros: recorridos preorden, inorden y postorden, balanceo y complejidad al buscar e insertar datos."
 primary_keywords:
   - árboles binarios
   - árbol binario de búsqueda BST

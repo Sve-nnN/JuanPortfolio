@@ -19,10 +19,8 @@ tldr: >-
   Descubre cómo pasar autoridad entre páginas, mejorar la rastreabilidad y
   aumentar el tiempo de permanencia mediante una arquitectura de enlaces lógica
   y semántica.
-metaTitle: Estrategia de Enlazado Interno 2026 | SEO y Autoridad
-metaDescription: >-
-  Optimiza tu estructura de enlaces internos para dominar el SEO en 2026.
-  Aprende a distribuir la autoridad y guiar a los rastreadores.
+metaTitle: 'Enlaces internos: guía práctica de SEO y arquitectura web'
+metaDescription: 'Guía de enlaces internos para distribuir autoridad, mejorar el rastreo y ordenar tu web. Aprende a construir una arquitectura de enlaces sólida.'
 primary_keywords:
   - enlaces internos guia
   - enlazado interno estratégico

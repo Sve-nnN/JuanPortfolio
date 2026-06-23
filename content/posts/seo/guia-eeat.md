@@ -12,8 +12,8 @@ relatedPosts:
   - redaccion-seo
   - estrategia-topic-clusters
 sidebarBanners: []
-metaTitle: 'Guia Eeat: Qué es el EEAT en SEO y Cómo Aplicarl | Juan Tech'
-metaDescription: 'El E-E-A-T marca la calidad del contenido en Google 2026. Cómo demostrar experiencia real, autoría verificable y confianza en páginas YMYL, con ejemplos.'
+metaTitle: 'Guía EEAT 2026: Qué es y Cómo Aplicarlo en tu Web SEO'
+metaDescription: 'Guía EEAT al día: qué significa Experiencia, Expertise, Autoridad y Confianza y cómo demostrarlas en tu contenido para posicionar en Google 2026.'
 primary_keywords:
   - que es e-e-a-t seo
   - autoridad de marca

@@ -19,10 +19,8 @@ tldr: >-
   El archivo robots.txt es la primera instrucción que leen los buscadores. En
   2026, su configuración es vital para optimizar el rastreo y asegurar que los
   bots consuman tu contenido más relevante primero.
-metaTitle: Robots.txt Best Practices 2026 | Guía Técnica SEO
-metaDescription: >-
-  Configura tu robots.txt como un profesional en 2026. Optimiza el Crawl Budget
-  y protege el acceso a áreas sensibles de tu web.
+metaTitle: 'Robots.txt: Buenas Prácticas y Control del Rastreo 2026'
+metaDescription: 'Buenas prácticas de robots.txt: cómo escribir las reglas, controlar el crawl budget y evitar errores que bloquean páginas clave para el SEO de tu web.'
 primary_keywords:
   - robots txt best practices
   - crawl budget

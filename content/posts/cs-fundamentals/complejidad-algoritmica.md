@@ -20,8 +20,8 @@ tldr: >-
   asintótico (Big O, Ω, Θ) permite predecir el rendimiento y la escalabilidad de
   tus aplicaciones, siendo una competencia crítica para ingenieros que buscan
   optimizar la experiencia de usuario y reducir costos de infraestructura.
-metaTitle: 'Complejidad Algorítmica | Juan Tech'
-metaDescription: 'Cómo medir la complejidad algorítmica: complejidad temporal y espacial, análisis asintótico (Big O, Ω, Θ) y la forma de predecir el rendimiento del código.'
+metaTitle: "Complejidad algorítmica: qué es y cómo se mide con Big O"
+metaDescription: "Qué es la complejidad algorítmica y cómo medirla: complejidad temporal y espacial, análisis asintótico (Big O, Omega y Theta) y cómo predecir el rendimiento."
 primary_keywords:
   - complejidad algorítmica
   - análisis de algoritmos

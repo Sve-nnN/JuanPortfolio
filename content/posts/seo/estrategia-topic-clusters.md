@@ -18,10 +18,8 @@ tldr: >-
   Los topic clusters organizan tu web en islas de conocimiento. Esta guía te
   enseña a crear páginas pilar que centralizan la autoridad y satélites que
   cubren cada intención de búsqueda de forma exhaustiva.
-metaTitle: Estrategia Topic Clusters | SEO y Arquitectura de Contenidos
-metaDescription: >-
-  Crea una estructura de contenidos imbatible con topic clusters. Aprende a
-  organizar tu información para dominar nichos competitivos en 2026.
+metaTitle: 'Estrategia de Topic Clusters: Arquitectura SEO 2026'
+metaDescription: 'Crea una estrategia de topic clusters sólida: organiza páginas pilar y contenido satélite para ganar autoridad semántica y dominar nichos competitivos.'
 primary_keywords:
   - estrategia topic clusters
   - autoridad temática

@@ -125,3 +125,9 @@ In this case, `function_a` calls `function_b`, and `function_b` calls `function_
 
 1. **Simplicity**: Recursive solutions are often more concise and easier to understand compared to their iterative counterparts, particularly for complex problems.
 2. **Problem Decomposition
+
+## See Also
+
+- [Dynamic Programming: Solving Complex Problems Step by Step](https://juan-tech.com/en/blog/cs-fundamentals/dynamic-programming)
+- [Binary Trees 2026: Hierarchical Data Mastery](https://juan-tech.com/en/blog/cs-fundamentals/arboles-binarios)
+- [Stacks and Queues](https://juan-tech.com/en/blog/cs-fundamentals/pilas-y-colas)

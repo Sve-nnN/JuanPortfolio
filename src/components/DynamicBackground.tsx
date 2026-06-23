@@ -1,7 +1,7 @@
-'use client'
-
 import React from 'react'
 
+// Pure CSS-animated background, no state/effects/handlers — render on the
+// server so it stays out of the client bundle. SEO audit jun-2026, #61.
 export const DynamicBackground: React.FC<{ color?: string | null }> = ({ color }) => {
   // Use a fallback color if none provided to keep the DOM nodes stable
   const activeColor = color || 'transparent'

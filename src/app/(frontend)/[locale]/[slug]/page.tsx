@@ -21,6 +21,11 @@ import type { Home } from '@/payload-types'
 import { generateSchema } from '@/utilities/generateSchema'
 import { getServerSideURL } from '@/utilities/getURL'
 
+// ISR: prerender published pages and revalidate hourly. draftMode() below stays
+// bypass-cookie-gated, so only preview requests (with the cookie) render
+// dynamically. Issue #20.
+export const revalidate = 3600
+
 /**
  * Generates static parameters for all pages across all locales.
  * @returns {Promise<Array<{ slug: string, locale: string }>>} A promise that resolves to an array of parameters.

@@ -10,27 +10,17 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import React from 'react'
 
-import { Footer } from '@/Footer/Component'
-import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ThemeProvider } from '@/providers/Theme/ThemeProvider.client'
-import { LocaleProvider } from '@/providers/Locale'
 import { ScrollProvider } from '@/providers/ScrollProvider'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode, headers } from 'next/headers'
 import type { Locale } from '@/i18n/translations'
 
 import { Analytics } from '@vercel/analytics/next'
 import { GoogleTagManager } from '@next/third-parties/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
-import { JsonLd } from '@/components/JsonLd'
-import { generateOrganizationSchema, generateWebSiteSchema } from '@/utilities/schema'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import type { SiteSetting } from '@/payload-types'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -74,54 +64,12 @@ const Khand = localFont({
 /**
  * The root layout component for the frontend.
  */
-export default async function RootLayout({
-  children,
-  params: _paramsPromise,
-}: {
-  children: React.ReactNode
-  params: Promise<{ locale?: string }>
-}) {
-  const { isEnabled } = await draftMode()
-  const hdrs = await headers()
-  const pathname = hdrs.get('x-pathname') || '/'
-  const locale = (pathname.startsWith('/en') ? 'en' : 'es') as Locale
-
-  const siteSettings = (await getCachedGlobal('site-settings', 3600, locale)().catch(() => null)) as SiteSetting | null
-
-  const baseUrl = getServerSideURL()
-
-  const organizationSchema = siteSettings
-    ? generateOrganizationSchema({
-        name: siteSettings.organizationName || 'Juan Tech',
-        url: siteSettings.siteUrl || baseUrl,
-        logo:
-          typeof siteSettings.logo === 'object' && siteSettings.logo
-            ? (siteSettings.logo as { url?: string }).url
-            : undefined,
-        description: siteSettings.organizationDescription || undefined,
-        sameAs: Array.isArray(siteSettings.socialProfiles)
-          ? siteSettings.socialProfiles
-              .map((profile: { url?: string }) => profile?.url)
-              .filter((url): url is string => typeof url === 'string')
-          : undefined,
-        contactPoint: siteSettings.contactType
-          ? {
-              contactType: siteSettings.contactType,
-              email: siteSettings.contactEmail || undefined,
-              telephone: siteSettings.contactPhone || undefined,
-            }
-          : undefined,
-      })
-    : null
-
-  const websiteSchema = siteSettings
-    ? generateWebSiteSchema(
-        siteSettings.organizationName || 'Juan Tech',
-        siteSettings.siteUrl || baseUrl,
-        siteSettings.searchUrl || '/search',
-      )
-    : null
-
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // The root layout is intentionally free of dynamic APIs (no draftMode()/
+  // headers()) so the whole tree can be prerendered/ISR. `<html lang>` is fixed
+  // to the default locale; the locale-dependent chrome (Header, Footer,
+  // Organization/WebSite schema, LocaleProvider) lives in [locale]/layout.tsx,
+  // which derives the locale from params. See issue #20.
   return (
     <html
       className={cn(
@@ -131,7 +79,7 @@ export default async function RootLayout({
         GeistMono.variable,
         'dark',
       )}
-      lang={locale}
+      lang="es"
       suppressHydrationWarning
     >
       <head>
@@ -143,23 +91,15 @@ export default async function RootLayout({
       </head>
       <body className="dark">
         <InitTheme />
-        {organizationSchema && <JsonLd schema={organizationSchema} />}
-        {websiteSchema && <JsonLd schema={websiteSchema} />}
         <Providers>
           <ThemeProvider>
-            <LocaleProvider initialLocale={locale}>
-              <ScrollProvider>
-                <AdminBar
-                  adminBarProps={{
-                    preview: isEnabled,
-                  }}
-                />
+            <ScrollProvider>
+              {/* AdminBar self-detects the logged-in editor on the client, so it
+                  needs no server-side draftMode() preview prop. */}
+              <AdminBar adminBarProps={{}} />
 
-                <Header locale={locale} />
-                {children}
-                <Footer locale={locale} />
-              </ScrollProvider>
-            </LocaleProvider>
+              {children}
+            </ScrollProvider>
           </ThemeProvider>
         </Providers>
         <SpeedInsights />

@@ -87,11 +87,12 @@ describe('generateWebSiteSchema — SearchAction (issue #26)', () => {
 })
 
 describe('generateOrganizationSchema — logo fallback (issue #27)', () => {
-  it('falls back to /logo.png when no logo is configured', () => {
+  it('falls back to the existing /favicon.svg brand mark when no logo is configured', () => {
+    // /logo.png did not exist and 404'd; fall back to a real asset. Issue #65.
     const schema = generateOrganizationSchema({ name: 'Juan Tech', url: SITE }) as {
       logo?: string
     }
-    expect(schema.logo).toBe(`${SITE}/logo.png`)
+    expect(schema.logo).toBe(`${SITE}/favicon.svg`)
   })
 
   it('respects an explicit absolute logo', () => {

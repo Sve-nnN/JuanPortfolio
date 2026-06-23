@@ -4,14 +4,15 @@ export function generateOrganizationSchema(input: OrganizationSchemaInput): Sche
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
   
   // Organization `logo` is recommended by Google. When site-settings has no
-  // logo configured, fall back to the site logo.png so the canonical
-  // Organization node is never emitted without a logo (the inline BlogPosting
-  // publisher already used logo.png). SEO audit jun-2026, issue #27.
+  // logo configured, fall back to the brand mark that actually exists in
+  // /public (favicon.svg). The old /logo.png fallback 404'd (the [locale]
+  // route served it as HTML), emitting an invalid logo on every page.
+  // SEO audit jun-2026, issues #27 and #65.
   const logo = input.logo
     ? input.logo.startsWith('http')
       ? input.logo
       : `${baseUrl}${input.logo}`
-    : `${baseUrl}/logo.png`
+    : `${baseUrl}/favicon.svg`
 
   const validSameAs = (input.sameAs || []).filter(url => {
     try {

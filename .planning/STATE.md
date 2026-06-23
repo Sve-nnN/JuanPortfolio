@@ -5,56 +5,36 @@
 See: .planning/PROJECT.md (updated 2026-06-23)
 
 **Core value:** Páginas públicas servidas como HTML cacheado desde el edge (rápido + cacheable).
-**Current focus:** Phase 1 — Nuevo [locale]/layout.tsx
+**Current focus:** Milestone v1.0 code-complete — pendiente deploy + QA humano
 
 ## Current Position
 
-Phase: 1 of 5 (Nuevo [locale]/layout.tsx)
-Plan: — (pendiente plan-phase)
-Status: Ready to plan
-Last activity: 2026-06-23 — Roadmap v1.0 creado (5 fases, 15 reqs, cobertura 100%)
+Phase: 5 of 5 (QA & Verificación) — todas completas
+Plan: —
+Status: Milestone code-complete, verificado localmente
+Last activity: 2026-06-23 — Fases 1-5 ejecutadas y commiteadas (issue #20)
 
-Progress: [░░░░░░░░░░] 0%
-
-## Performance Metrics
-
-**Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: —
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-**Recent Trend:**
-- Last 5 plans: —
-- Trend: —
-
-*Updated after each plan completion*
+Progress: [██████████] 100% (código); QA prod pendiente post-deploy
 
 ## Accumulated Context
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+Logged in PROJECT.md Key Decisions.
 
-- Bootstrap: `<html lang>` fijo + corrección cliente para `/en`; chrome y locale a `[locale]/layout.tsx`; `/` reescrito a `/es` en middleware; AdminBar sin prop `preview` (autodetección cliente).
+- La premisa del issue ("headers() marca TODO dinámico") era incompleta: la causa real de `ƒ` en home/listings era falta de `generateStaticParams` en el segmento `[locale]`. Fix combinado: quitar dynamic APIs del root + generateStaticParams+revalidate en índices + mover home + revalidate en templates.
+- `draftMode()` es bypass-cookie-gated (Next 15) → no hubo que aislarlo en Suspense; los templates siguen `●`.
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- Landmine de routing: el nuevo `[locale]/layout.tsx` debe existir ANTES de borrar `(frontend)/page.tsx` (Phase 2 depende de Phase 1).
-- El live preview de Payload no debe romperse al aislar `draftMode()` — validar en Phase 3 antes de activar ISR.
+- **Verificación humana post-deploy:** (1) `x-vercel-cache: HIT` real en producción; (2) live preview de Payload sigue funcionando. Localmente equivalentes verificados (`x-nextjs-cache: HIT`), pero confirmar en Vercel.
 
 ## Session Continuity
 
 Last session: 2026-06-23
-Stopped at: Roadmap v1.0 creado — listo para `/gsd:plan-phase 1`
+Stopped at: Milestone v1.0 ejecutado (5 fases). Rama fix/seo-audit-issues. Listo para PR + deploy.
 Resume file: None

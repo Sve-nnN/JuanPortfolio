@@ -82,8 +82,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Nuevo [locale]/layout.tsx | 0/TBD | Not started | - |
-| 2. Migración de la Home ES | 0/TBD | Not started | - |
-| 3. Aislamiento de draftMode | 0/TBD | Not started | - |
-| 4. Activación de ISR | 0/TBD | Not started | - |
-| 5. QA & Verificación | 0/TBD | Not started | - |
+| 1. Nuevo [locale]/layout.tsx | 1/1 | ✅ Complete | 2026-06-23 |
+| 2. Migración de la Home ES | 1/1 | ✅ Complete | 2026-06-23 |
+| 3. Aislamiento de draftMode | 1/1 | ✅ Complete (preview: human post-deploy) | 2026-06-23 |
+| 4. Activación de ISR | 1/1 | ✅ Complete (vercel-cache: human post-deploy) | 2026-06-23 |
+| 5. QA & Verificación | 1/1 | ✅ Complete | 2026-06-23 |
+
+**Milestone v1.0: code-complete y verificado localmente (next build + next start + curl).**
+Pendiente de verificación humana post-deploy: `x-vercel-cache: HIT` real y live preview de Payload.

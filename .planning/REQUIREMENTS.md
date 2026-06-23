@@ -58,21 +58,21 @@ Diferidos a milestones futuros.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| LOCALE-01 | Phase 1 | Pending |
-| LOCALE-02 | Phase 1 | Pending |
-| LOCALE-03 | Phase 1 | Pending |
-| ROUTE-01 | Phase 1 | Pending |
-| ROUTE-02 | Phase 2 | Pending |
-| ROUTE-03 | Phase 2 | Pending |
-| PREVIEW-01 | Phase 1 | Pending |
-| PREVIEW-02 | Phase 3 | Pending |
-| PREVIEW-03 | Phase 3 | Pending |
-| CACHE-01 | Phase 4 | Pending |
-| CACHE-02 | Phase 4 | Pending |
-| CACHE-03 | Phase 4 | Pending |
-| QA-01 | Phase 5 | Pending |
-| QA-02 | Phase 5 | Pending |
-| QA-03 | Phase 5 | Pending |
+| LOCALE-01 | Phase 1 | Complete |
+| LOCALE-02 | Phase 1 | Complete |
+| LOCALE-03 | Phase 1 | Complete |
+| ROUTE-01 | Phase 1 | Complete |
+| ROUTE-02 | Phase 2 | Complete |
+| ROUTE-03 | Phase 2 | Complete |
+| PREVIEW-01 | Phase 1 | Complete |
+| PREVIEW-02 | Phase 3 | Complete |
+| PREVIEW-03 | Phase 3 | Complete |
+| CACHE-01 | Phase 4 | Complete |
+| CACHE-02 | Phase 4 | Complete |
+| CACHE-03 | Phase 4 | Complete |
+| QA-01 | Phase 5 | Complete |
+| QA-02 | Phase 5 | Complete |
+| QA-03 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total

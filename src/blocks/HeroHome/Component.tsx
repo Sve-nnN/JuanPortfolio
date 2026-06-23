@@ -160,6 +160,12 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                     resource={media}
                     fill
                     priority
+                    /* Cap the Cloudinary width: the portrait renders at most
+                       ~560px (lg) but was served at 756px. width/height drive
+                       the Cloudinary w_/h_ transform. CWV milestone v1.1. */
+                    width={640}
+                    height={640}
+                    size="(min-width: 1024px) 560px, (min-width: 768px) 384px, 288px"
                     className="w-full h-full object-cover aspect-square"
                   />
                 </div>

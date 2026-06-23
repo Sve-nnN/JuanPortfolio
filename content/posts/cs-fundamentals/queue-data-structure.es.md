@@ -2,9 +2,7 @@
 
 title: 'Queue Data Structure: Todo lo que Necesitas Saber'
 metaTitle: 'Queue Data Structure: Todo lo que Necesitas Sabe | Juan Tech'
-metaDescription: >-
-  Aprende queue data structure con pasos practicos, ejemplos y buenas practicas
-  para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Qué es una queue (cola) y cómo funciona el principio FIFO: implementación con arreglos y listas enlazadas, ventajas, desventajas y aplicaciones reales.'
 slug: queue-data-structure
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

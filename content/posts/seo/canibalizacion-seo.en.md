@@ -2,7 +2,7 @@
 
 title: 'SEO Cannibalization'
 metaTitle: 'Avoid SEO Cannibalization: Boost Your Site’s Performance'
-metaDescription: 'Discover SEO cannibalization, its impacts, and effective strategies to resolve keyword competition among your pages.'
+metaDescription: 'SEO cannibalization happens when your pages compete for the same keyword. How to spot it with site audits and Search Console, and fix the overlap.'
 slug: 'canibalizacion-seo'
 publishedAt: '2026-04-20'
 updatedAt: '2026-04-20'

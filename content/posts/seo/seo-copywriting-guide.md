@@ -1,9 +1,7 @@
 ---
 title: 'Guía de SEO Copywriting: Estrategias para Princ...'
 metaTitle: 'Guía de SEO Copywriting | Juan Tech'
-metaDescription: >-
-  Aprende guia de seo copywriting con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'SEO copywriting desde cero: selección de keywords, estructura del texto, redacción con valor y optimización de metaetiquetas y enlaces internos.'
 slug: seo-copywriting-guide
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

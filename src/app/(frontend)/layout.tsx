@@ -22,7 +22,7 @@ import { draftMode, headers } from 'next/headers'
 import type { Locale } from '@/i18n/translations'
 
 import { Analytics } from '@vercel/analytics/next'
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager } from '@next/third-parties/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
 import { JsonLd } from '@/components/JsonLd'
@@ -65,6 +65,10 @@ const Khand = localFont({
   ],
   variable: '--font-khand',
   display: 'swap',
+  // Secondary heading family, not in the LCP/above-the-fold path. Skip preload
+  // so its 3 woff2 stop competing for bandwidth with the LCP image preload.
+  // SEO audit jun-2026, issue #39.
+  preload: false,
 })
 
 /**
@@ -161,11 +165,11 @@ export default async function RootLayout({
         <SpeedInsights />
         <Analytics />
         <React.Suspense fallback={null}>
+          {/* GA4 fires through GTM (configure the GA4 tag in the GTM container),
+              so the standalone GoogleAnalytics component would double-count and
+              add a redundant tracking lib. SEO audit jun-2026, issue #58. */}
           {process.env.NEXT_PUBLIC_GTM_ID && (
             <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
-          )}
-          {process.env.NEXT_PUBLIC_GA_ID && (
-            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
           )}
         </React.Suspense>
         {/* Ahrefs Analytics - Loaded after page is interactive to protect performance */}

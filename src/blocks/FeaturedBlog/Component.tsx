@@ -4,6 +4,7 @@ import { Media } from '@/components/Media'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getPostUrl } from '@/utilities/getPostUrl'
+import { getFallbackBySlug } from '@/constants/fallbackImages'
 import Link from 'next/link'
 
 export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }> = async (props) => {
@@ -59,17 +60,28 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
                   className="card-elevated overflow-hidden border-t-[6px] border-t-primary/10 group cursor-pointer"
                 >
                   <Link href={href}>
-                    {p.content?.heroImage && typeof p.content.heroImage === 'object' && (
-                      <div className="relative w-full h-56 overflow-hidden">
+                    <div className="relative w-full h-56 overflow-hidden">
+                      {p.content?.heroImage && typeof p.content.heroImage === 'object' ? (
                         <Media
                           resource={p.content.heroImage}
                           fill
                           imgClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                           htmlElement={null}
                         />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
-                      </div>
-                    )}
+                      ) : (
+                        // No hero set: deterministic Cloudinary fallback by slug,
+                        // consistent with PostHero/OG. SEO audit jun-2026, #44.
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={getFallbackBySlug(p.slug ?? '')}
+                          alt={p.title || ''}
+                          className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-110"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
+                    </div>
                     <div className="p-8">
                       {p.publishedAt && (
                         <div className="text-xs text-primary font-bold uppercase tracking-widest mb-4 bg-primary/10 w-fit px-2.5 py-1 rounded-full">

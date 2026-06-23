@@ -1,10 +1,7 @@
 ---
 title: 'Keyword Research Guide: Discover Effective Strategies for Success'
 metaTitle: 'Keyword Research Guide: Discover Effective Strat | Juan Tech'
-metaDescription: >-
-  Learn keyword research guide with practical steps, examples, and best
-  practices to improve organic visibility and content performance. Includes
-  practica...
+metaDescription: 'A practical keyword research guide: classify search intent, find low-competition terms, and map keywords to content that actually ranks well.'
 slug: keyword-research-guide
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

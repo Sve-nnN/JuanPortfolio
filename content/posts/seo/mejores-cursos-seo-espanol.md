@@ -5,9 +5,14 @@ description: >-
   Descubre los mejores cursos SEO en español para mejorar tu visibilidad en
   línea y desarrollar tus habilidades digitales.
 keywords: mejores cursos seo en español
-author: Senior Tech SEO
+authors:
+  - juan-carlos-angulo
+publishedAt: '2026-04-03'
+updatedAt: '2026-04-03'
+idioma: es
 date: 2023-10-20T00:00:00.000Z
 category: SEO
+categoryTitle: SEO
 metaTitle: Mejores Cursos SEO 2026 | Dónde Estudiar SEO en Español
 metaDescription: >-
   ¿Cuál es el mejor curso de SEO? Comparamos las mejores academias y formaciones

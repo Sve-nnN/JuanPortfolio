@@ -2,10 +2,7 @@
 
 title: 'Technical SEO Checklist for 2026: Your Complete Guide'
 metaTitle: 'Technical SEO Checklist for 2026: Your Complete | Juan Tech'
-metaDescription: >-
-  Learn technical seo checklist with practical steps, examples, and best
-  practices to improve organic visibility and content performance. Includes
-  practic...
+metaDescription: 'A technical SEO checklist for 2026: site audit, speed, crawlability, mobile, Core Web Vitals, and security controls you can work through in order.'
 slug: technical-seo-checklist
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

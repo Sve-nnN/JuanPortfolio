@@ -76,6 +76,13 @@ export const JsonLd = ({
       name: 'Juan Carlos Angulo',
       url: `${siteUrl}${locale === 'es' ? '' : '/en'}/authors/juan-carlos-angulo`,
       jobTitle: 'Technical SEO Engineer & Full-Stack Developer',
+      description: locale === 'es'
+        ? 'Ingeniero de software y consultor SEO técnico con sede en Lima, Perú. Especializado en SEO técnico, Core Web Vitals y desarrollo con Next.js y Payload CMS.'
+        : 'Software engineer and technical SEO consultant based in Lima, Peru. Specialized in technical SEO, Core Web Vitals, and development with Next.js and Payload CMS.',
+      email: 'hola@juan-tech.com',
+      // NAP / GEO: home base for entity disambiguation and local relevance.
+      address: { addressLocality: 'Lima', addressCountry: 'PE' },
+      worksFor: { name: 'Juan-Tech', id: `${siteUrl}/#organization` },
       sameAs: [
         'https://www.linkedin.com/in/juancangulo/',
         // Canonical GitHub casing must match the Organization sameAs
@@ -88,7 +95,12 @@ export const JsonLd = ({
         'TypeScript',
         'Payload CMS',
         'Web Performance',
+        'Core Web Vitals',
+        'Schema.org',
+        'Structured Data',
+        'Server-Side Rendering',
         'Content Strategy',
+        'Generative Engine Optimization',
       ],
     })
 

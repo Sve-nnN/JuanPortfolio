@@ -21,10 +21,7 @@ tldr: >-
   flexibles NoSQL (BASE), explorando casos de uso reales desde sistemas
   financieros hasta big data y microservicios modernos.
 metaTitle: 'Sql Vs Nosql: Bases de Datos Relacionales vs NoS | Juan Tech'
-metaDescription: >-
-  Aprende sql vs nosql con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido. Incluye
-  ejemp...
+metaDescription: 'SQL vs NoSQL: diferencias entre el modelo relacional (ACID) y los modelos NoSQL (BASE), con casos de uso reales para elegir la base de datos correcta.'
 primary_keywords:
   - SQL vs NoSQL
   - bases de datos relacionales y no relacionales

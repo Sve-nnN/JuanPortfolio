@@ -156,3 +156,9 @@ While both stacks and queues are linear data structures, their core operational 
 |------------------------|---------------------------|--------------------------|
 | Ordering               | LIFO                      | FIFO                     |
 | Primary Operations      | Push, Pop, Peek
+
+## See Also
+
+- [Data Structures: An Overview and Their Applications](https://juan-tech.com/en/blog/cs-fundamentals/data-structures)
+- [Algorithms and Data Structures 2026: The Engineer's Foundation](https://juan-tech.com/en/blog/cs-fundamentals/algoritmos-estructuras-datos)
+- [Recursion Algorithms](https://juan-tech.com/en/blog/cs-fundamentals/recursividad)

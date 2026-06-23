@@ -13,9 +13,7 @@ relatedPosts:
   - algoritmos-estructuras-datos
 sidebarBanners: []
 metaTitle: Dynamic Programming Guide 2026 | Algorithmic Mastery
-metaDescription: >-
-  Master dynamic programming in 2026. Learn how to solve complex recursive
-  problems with memoization and optimization.
+metaDescription: 'Dynamic programming explained: memoization, tabulation, and optimal substructure to solve overlapping recursive problems and cut algorithmic complexity.'
 primary_keywords:
   - dynamic programming
   - algorithmic optimization

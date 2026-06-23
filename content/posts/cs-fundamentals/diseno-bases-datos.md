@@ -21,9 +21,7 @@ tldr: >-
   tendencias modernas como bases de datos NoSQL, arquitecturas en la nube
   (DBaaS) y el diseño específico para microservicios y aplicaciones de IA.
 metaTitle: 'Diseño de Bases de Datos: Arquitectura, Integrid | Juan Tech'
-metaDescription: >-
-  Aprende diseño de bases de datos con pasos practicos, ejemplos y buenas
-  practicas para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Guía de diseño de bases de datos: modelado entidad-relación, normalización, integridad y tendencias como NoSQL, la nube y arquitecturas para microservicios.'
 primary_keywords:
   - diseño de bases de datos
   - modelado de datos

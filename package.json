@@ -7,7 +7,6 @@
   "scripts": {
     "build": "npm run redirects && cross-env NODE_OPTIONS='--no-deprecation --max-old-space-size=4096' next build",
     "vercel-build": "npm run build",
-    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "npm run redirects && cross-env NODE_OPTIONS=--no-deprecation next dev --turbo",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && npm run build && npm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",

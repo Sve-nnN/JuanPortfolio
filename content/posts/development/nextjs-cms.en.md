@@ -1,9 +1,7 @@
 ---
 title: 'Next.js CMS: Unlocking Modern Web Development'
 metaTitle: 'Next.js CMS: Unlocking Modern Web De | Juan Tech'
-metaDescription: >-
-  Learn nextjs cms with practical steps, examples, and best practices to improve
-  organic visibility and content performance. Includes practical examples a...
+metaDescription: 'Building a Next.js CMS with Strapi: how SSR and SSG boost performance and SEO, plus a practical guide to integrating a headless backend with Next.js.'
 slug: nextjs-cms
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

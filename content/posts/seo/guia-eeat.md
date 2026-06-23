@@ -13,10 +13,7 @@ relatedPosts:
   - estrategia-topic-clusters
 sidebarBanners: []
 metaTitle: 'Guia Eeat: Qué es el EEAT en SEO y Cómo Aplicarl | Juan Tech'
-metaDescription: >-
-  Aprende guia eeat con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido. Incluye
-  ejemplos...
+metaDescription: 'El E-E-A-T marca la calidad del contenido en Google 2026. Cómo demostrar experiencia real, autoría verificable y confianza en páginas YMYL, con ejemplos.'
 primary_keywords:
   - que es e-e-a-t seo
   - autoridad de marca

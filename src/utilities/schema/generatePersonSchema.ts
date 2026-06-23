@@ -34,6 +34,31 @@ export function generatePersonSchema(input: PersonSchemaInput): Schema {
       : `${baseUrl}${input.image}`
   }
 
+  if (input.email) {
+    schema.email = input.email.startsWith('mailto:')
+      ? input.email
+      : `mailto:${input.email}`
+  }
+
+  // NAP / GEO entity signal — the person's home base. Strengthens entity
+  // disambiguation for AI search and local relevance. SEO audit jun-2026, #47.
+  if (input.address && (input.address.addressLocality || input.address.addressCountry)) {
+    schema.address = {
+      '@type': 'PostalAddress',
+      ...(input.address.addressLocality && { addressLocality: input.address.addressLocality }),
+      ...(input.address.addressRegion && { addressRegion: input.address.addressRegion }),
+      ...(input.address.addressCountry && { addressCountry: input.address.addressCountry }),
+    }
+  }
+
+  if (input.worksFor) {
+    schema.worksFor = {
+      '@type': 'Organization',
+      name: input.worksFor.name,
+      ...(input.worksFor.id && { '@id': input.worksFor.id }),
+    }
+  }
+
   if (validSameAs.length > 0) {
     schema.sameAs = validSameAs
   }

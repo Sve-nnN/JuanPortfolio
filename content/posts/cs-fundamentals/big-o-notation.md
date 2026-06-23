@@ -21,9 +21,7 @@ tldr: >-
   O(1) hasta O(n!) con ejemplos prácticos en Python y comparativas de
   rendimiento real.
 metaTitle: 'Notación Big O: Guía de Compleji | Juan Tech'
-metaDescription: >-
-  Aprende notacion big o con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Qué es la notación Big O y cómo medir la eficiencia de un algoritmo: de O(1) a O(n!), con ejemplos en Python y comparativas de rendimiento real.'
 primary_keywords:
   - notación Big O
   - complejidad algorítmica

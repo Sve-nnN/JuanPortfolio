@@ -1,10 +1,7 @@
 ---
 title: 'Next.js CMS: La Combinación Ideal para Tu Sitio Web'
 metaTitle: 'Next.js CMS: La Combinación Ideal pa | Juan Tech'
-metaDescription: >-
-  Aprende nextjs cms con pasos practicos, ejemplos y buenas practicas para
-  mejorar la visibilidad organica y el rendimiento del contenido. Incluye
-  ejemplo...
+metaDescription: 'Next.js CMS: ventajas de combinar Next.js con un CMS headless, flexibilidad en el modelado de contenido y cómo SSR y SSG mejoran el rendimiento y el SEO.'
 slug: nextjs-cms
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

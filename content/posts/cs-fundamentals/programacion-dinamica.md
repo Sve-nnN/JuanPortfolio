@@ -22,9 +22,7 @@ tldr: >-
   métodos de memoización y tabulación para maximizar la eficiencia en software
   de alto rendimiento.
 metaTitle: 'Programación Dinámica: Gu | Juan Tech'
-metaDescription: >-
-  Aprende programacion dinamica con pasos practicos, ejemplos y buenas practicas
-  para mejorar la visibilidad organica y el rendimiento del contenido.
+metaDescription: 'Programación dinámica explicada: subestructura óptima, subproblemas superpuestos y la diferencia entre memoización y tabulación, con ejemplos de código claros.'
 primary_keywords:
   - programación dinámica
   - algoritmos de optimización

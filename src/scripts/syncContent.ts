@@ -189,6 +189,15 @@ class ContentSyncManager {
       const relPath = path.relative(CONTENT_DIR, fullPath)
       const rawContent = fs.readFileSync(fullPath, 'utf-8')
       const parsed = parsePostFile(fullPath, rawContent)
+
+      // Never publish test/scaffold artifacts to the CMS. Guards against a
+      // stray fixture (e.g. test-sync-post) ending up live. SEO audit #66.
+      const TEST_ARTIFACT = /(^|[/_-])(test|tmp|sample|scratch)([/_-]|$)/i
+      if (TEST_ARTIFACT.test(parsed.slug) || TEST_ARTIFACT.test(relPath)) {
+        console.log(`${c.yellow}⏭️  Skipping test artifact (not synced): ${relPath}${c.reset}`)
+        continue
+      }
+
       const currentHash = calculateHash(rawContent)
 
       const validationErrors = validatePost(parsed)

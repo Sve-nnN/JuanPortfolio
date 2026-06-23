@@ -70,7 +70,9 @@ async function main() {
       bio: ES_BIO,
       socialMedia: {
         linkedin: 'https://www.linkedin.com/in/juancangulo/',
-        github: 'https://github.com/sve-nnn',
+        // Canonical GitHub casing, consistent with the Person/Organization
+        // sameAs (github.com/Sve-nnN). SEO audit jun-2026, issue #52.
+        github: 'https://github.com/Sve-nnN',
         website: 'https://juan-tech.com',
       },
     },

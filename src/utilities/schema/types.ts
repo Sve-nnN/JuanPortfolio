@@ -22,8 +22,20 @@ export interface PersonSchemaInput {
   jobTitle?: string
   description?: string
   image?: string
+  email?: string
   sameAs?: string[]
   knowsAbout?: string[]
+  /** NAP / GEO entity signal: where the person is based. */
+  address?: {
+    addressLocality?: string
+    addressRegion?: string
+    addressCountry?: string
+  }
+  /** Organization the person works for, linked by @id to the site Organization. */
+  worksFor?: {
+    name: string
+    id?: string
+  }
   alumniOf?: {
     name: string
     url?: string

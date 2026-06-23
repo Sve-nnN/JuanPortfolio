@@ -48,9 +48,15 @@ export function middleware(request: NextRequest) {
     })
   }
 
-  // 3. Si es la raíz "/", dejamos que Next.js use src/app/(frontend)/page.tsx
+  // 3. La raíz "/" se reescribe internamente a "/es" para que coincida con
+  // src/app/(frontend)/[locale]/page.tsx y herede el chrome de [locale]/layout.
+  // El usuario sigue viendo "/" (rewrite, no redirect). El redirect 301 de
+  // /es → / (paso 1.5) solo aplica a requests entrantes, no a este rewrite
+  // interno. SEO audit jun-2026, issue #20.
   if (pathname === '/') {
-    return NextResponse.next({
+    const url = request.nextUrl.clone()
+    url.pathname = `/${defaultLocale}`
+    return NextResponse.rewrite(url, {
       request: {
         headers: requestHeaders,
       },

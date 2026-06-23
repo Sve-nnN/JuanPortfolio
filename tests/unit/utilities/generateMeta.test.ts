@@ -24,6 +24,9 @@ vi.mock('../../../src/utilities/cloudinaryUrl', () => ({
   getCloudinaryOgWithTitle: (url: string, title: string) =>
     mockGetCloudinaryOgWithTitle(url, title),
   getOptimizedCloudinaryUrl: vi.fn((url: string) => url),
+  // getExplicitOgImageURL normalizes explicit OG images to 1200x630 JPG via
+  // this helper; identity passthrough keeps the "no overlay" assertions valid.
+  getCloudinaryOgJpg: vi.fn((url: string) => url),
 }))
 
 // Import AFTER mocks are set up

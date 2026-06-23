@@ -1,5 +1,5 @@
 ---
-title: 'Algorithms and Data Structures 2026: The Engineer's Foundation'
+title: "Algorithms and Data Structures 2026: The Engineer's Foundation"
 publishedAt: 2026-02-10T00:00:00.000Z
 updatedAt: '2026-04-06T15:58:44.064Z'
 authors:

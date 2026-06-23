@@ -1,5 +1,5 @@
 ---
-title: 'Technical SEO Guide 2026: The Comprehensive Developer's Handbook'
+title: "Technical SEO Guide 2026: The Comprehensive Developer's Handbook"
 publishedAt: 2026-02-08T00:00:00.000Z
 updatedAt: '2026-04-06T20:36:39.353Z'
 authors:

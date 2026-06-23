@@ -1,11 +1,8 @@
 ---
 
 title: 'Pilar de contenido SEO: Mejora tu estrategia de marketing digital'
-metaTitle: 'Pilar de contenido SEO: Mejora tu estrategia de | Juan Tech'
-metaDescription: >-
-  El pilar de contenido SEO es fundamental para estructurar y organizar la
-  información de manera efectiva en tu estrategia de marketing digital. Esta
-  meto...
+metaTitle: 'Pilar de contenido SEO: qué es y cómo crearlo paso a paso'
+metaDescription: 'Descubre qué es un pilar de contenido SEO y cómo estructurar la página pilar y el contenido de apoyo para mejorar tu visibilidad en buscadores.'
 slug: content-pillar
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

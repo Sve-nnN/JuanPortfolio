@@ -1,9 +1,7 @@
 ---
 title: 'Copywriting SEO 2026: El Arte de Escribir para el Usuario y Google'
-metaTitle: Copywriting SEO 2026 | Redacción que Convierte y Posiciona
-metaDescription: >-
-  Domina el copywriting SEO en 2026. Aprende técnicas de redacción persuasiva
-  que satisfacen a los motores de búsqueda y deleitan a los lectores.
+metaTitle: 'SEO Copywriting: Redacción que Convierte y Posiciona en 2026'
+metaDescription: 'Qué es el SEO copywriting y cómo escribir textos que enamoran al lector y posicionan en Google. Persuasión, intención de búsqueda y profundidad semántica.'
 slug: seo-copywriting
 publishedAt: '2026-04-03'
 idioma: es

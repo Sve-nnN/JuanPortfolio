@@ -1,10 +1,7 @@
 ---
 title: 'Dynamic Programming: complete practical guide'
-metaTitle: 'Dynamic Programming: complete practical guide | | Juan Tech'
-metaDescription: >-
-  Learn dynamic programming with a step-by-step guide, real examples, and an
-  actionable checklist you can apply today. Includes common mistakes and
-  final...
+metaTitle: "Dynamic programming: guía práctica con ejemplos claros"
+metaDescription: "Qué es dynamic programming y cómo aplicarla: subestructura óptima, subproblemas superpuestos y la diferencia entre memoización y tabulación, con ejemplos."
 slug: dynamic-programming
 keyword: dynamic programming
 publishedAt: '2026-04-03'

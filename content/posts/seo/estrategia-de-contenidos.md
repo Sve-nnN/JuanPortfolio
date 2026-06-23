@@ -1,9 +1,7 @@
 ---
 title: 'Estrategia de Contenidos SEO 2026: Dominando la Intención de Búsqueda'
-metaTitle: Estrategia de Contenidos SEO | Guía Práctica 2026
-metaDescription: >-
-  Crea una estrategia de contenidos que posicione. Aprende a alinear tu
-  producción editorial con las entidades semánticas y la intención del usuario.
+metaTitle: 'Estrategia de contenidos: cómo crear un plan que posicione'
+metaDescription: 'Aprende a diseñar una estrategia de contenidos basada en intención de búsqueda y entidades semánticas para posicionar y convertir mejor a tu audiencia.'
 slug: estrategia-de-contenidos
 publishedAt: '2026-04-03'
 idioma: es

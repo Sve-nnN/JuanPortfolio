@@ -1,10 +1,7 @@
 ---
 title: 'Seo ON Page: guia completa y estrategia practica'
-metaTitle: 'Seo ON Page: guia completa y estrategia practica | Juan Tech'
-metaDescription: >-
-  Aprende seo on page con una guia paso a paso, ejemplos reales y checklist
-  accionable para aplicar hoy. Incluye errores comunes y recomendaciones
-  finales.
+metaTitle: 'SEO On Page: Qué Es y Cómo Optimizar tus Páginas Web'
+metaDescription: 'Qué es el SEO on page y cómo aplicarlo: contenido de calidad, títulos y metadescripciones, encabezados y estructura para posicionar cada página.'
 slug: seo-on-page-guia
 keyword: seo on page
 publishedAt: '2026-04-03'

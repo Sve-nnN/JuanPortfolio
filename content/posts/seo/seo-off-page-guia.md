@@ -1,10 +1,8 @@
 ---
 
 title: 'Guía de SEO Off-Page 2026: Más allá del Link Building'
-metaTitle: Guía SEO Off-Page 2026 | Autoridad y Reputación
-metaDescription: >-
-  Aprende las técnicas más efectivas de SEO Off-Page para 2026. Construye
-  autoridad, confianza y una marca sólida fuera de tu sitio web.
+metaTitle: 'Guía de SEO Off Page 2026: Autoridad, Enlaces y Marca'
+metaDescription: 'Guía de SEO off page 2026: construye autoridad con link building, digital PR y menciones de marca para mejorar tu posicionamiento fuera de la web.'
 slug: seo-off-page-guia
 publishedAt: '2026-04-03'
 idioma: es

@@ -18,10 +18,8 @@ tldr: >-
   Los Server Components cambian la forma en que construimos aplicaciones React.
   Descubre cómo reducir el bundle de JavaScript en el cliente, mejorar el tiempo
   de carga y facilitar el rastreo de contenido dinámico por parte de Google.
-metaTitle: Next.js Server Components 2026 | Guía Técnica de RSC
-metaDescription: >-
-  Domina los React Server Components (RSC) en Next.js. Aprende a mejorar el
-  rendimiento y el SEO de tus aplicaciones web en 2026.
+metaTitle: 'Next.js Server Components 2026: guía técnica de RSC'
+metaDescription: 'Qué son los React Server Components en Next.js y cuándo usarlos: menos JavaScript en el cliente, mejor rendimiento y contenido más fácil de rastrear.'
 primary_keywords:
   - nextjs server components
   - react server components

@@ -1,9 +1,7 @@
 ---
 title: 'Datos estructurados SEO: Guía Completa para Mejorar tu Visibilidad ...'
-metaTitle: 'Datos estructurados SEO: Guía Completa para Mejo | Juan Tech'
-metaDescription: >-
-  En el mundo digital actual, la competencia por la atención de los usuarios es
-  feroz. Implementar datos estructurados SEO es una estrategia clave para me...
+metaTitle: 'Datos Estructurados SEO: Qué Son y Cómo Implementarlos'
+metaDescription: 'Qué son los datos estructurados en SEO y cómo implementarlos: tipos de schema, JSON-LD y ejemplos para mejorar tu visibilidad y los rich snippets.'
 slug: structured-data-seo
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

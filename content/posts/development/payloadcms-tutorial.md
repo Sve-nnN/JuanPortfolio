@@ -18,10 +18,8 @@ tldr: >-
   Payload CMS es un gestor de contenidos potente y flexible basado en Node.js.
   En este tutorial aprenderás a definir colecciones, campos personalizados y
   hooks de servidor para construir backends robustos y escalables.
-metaTitle: Payload CMS Tutorial 2026 | Guía de Configuración
-metaDescription: >-
-  Aprende a usar Payload CMS para tus proyectos. Tutorial paso a paso desde la
-  instalación hasta la personalización avanzada en 2026.
+metaTitle: 'Tutorial de Payload CMS 2026: guía paso a paso desde cero'
+metaDescription: 'Tutorial de Payload CMS paso a paso: instala el CMS, define colecciones, campos y hooks, e intégralo con Next.js para construir un backend escalable.'
 primary_keywords:
   - payloadcms tutorial
   - cms para desarrolladores

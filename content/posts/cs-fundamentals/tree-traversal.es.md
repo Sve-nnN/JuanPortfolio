@@ -1,11 +1,8 @@
 ---
 
 title: 'Tree traversal: Guía práctica y aplicaciones en programación'
-metaTitle: 'Tree traversal: Guía práctica y aplicaciones en | Juan Tech'
-metaDescription: >-
-  El recorrido de árboles, o "tree traversal", es esencial para manipular y
-  acceder a los datos de estas estructuras jerárquicas. Permite visitar nodos
-  en...
+metaTitle: 'Tree Traversal: recorridos inorder, preorder y código'
+metaDescription: 'Qué es el tree traversal y sus tipos: recorridos inorder, preorder y postorder, recorrido por niveles (BFS) e implementación recursiva con ejemplos.'
 slug: tree-traversal
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

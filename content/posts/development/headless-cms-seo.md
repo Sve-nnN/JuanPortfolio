@@ -18,8 +18,8 @@ tldr: >-
   El SEO en entornos Headless requiere una gestión manual de los metadatos y la
   estructura técnica. Te enseñamos a conectar tu frontend con el CMS para
   garantizar una indexación perfecta y un control total sobre tus señales SEO.
-metaTitle: Headless CMS SEO 2026 | Guía de Implementación
-metaDescription: 'SEO para CMS headless: cómo gestionar metadatos, sitemaps y el renderizado del frontend para lograr una indexación correcta y control de las señales.'
+metaTitle: 'Headless CMS SEO 2026: guía técnica y buenas prácticas'
+metaDescription: 'Headless CMS y SEO: gestiona metadatos, sitemaps y el renderizado del frontend para conseguir una indexación correcta y el control total de tus señales.'
 primary_keywords:
   - headless cms seo
   - arquitectura headless

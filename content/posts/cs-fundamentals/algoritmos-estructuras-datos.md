@@ -22,8 +22,8 @@ tldr: >-
   estructura de datos organiza la información para optimizar recursos.
   Dominarlos es clave para construir software escalable, de alto rendimiento y
   robusto ante grandes volúmenes de datos.
-metaTitle: 'Algoritmos Estructuras Datos: Algoritmos y Estru | Juan Tech'
-metaDescription: 'Guía pilar sobre algoritmos y estructuras de datos: cómo funcionan tablas hash, árboles y grafos para escribir software eficiente, escalable y veloz.'
+metaTitle: "Algoritmos y estructuras de datos: guía para ingenieros"
+metaDescription: "Qué son los algoritmos y las estructuras de datos, cómo se relacionan y cuándo usar arreglos, pilas, colas, árboles y grafos para escribir código eficiente."
 primary_keywords:
   - algoritmos y estructuras de datos
   - fundamentos de programación

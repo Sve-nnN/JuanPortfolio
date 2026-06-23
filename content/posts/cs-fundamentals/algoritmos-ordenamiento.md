@@ -20,8 +20,8 @@ tldr: >-
   Selection Sort, junto a estrategias avanzadas de "divide y vencerás" como
   Quick y Merge Sort. Exploramos su complejidad temporal (Big O), estabilidad y
   criterios técnicos para elegir el algoritmo óptimo según el volumen de datos.
-metaTitle: 'Algoritmos de Ordenamiento: Guía Completa de Ing | Juan Tech'
-metaDescription: 'Comparamos algoritmos de ordenamiento como Bubble, Selection, Quick y Merge Sort: complejidad Big O, estabilidad y cómo elegir el mejor según tus datos.'
+metaTitle: "Algoritmos de ordenamiento: tipos, Big O y cuál elegir"
+metaDescription: "Cómo funcionan los algoritmos de ordenamiento (burbuja, inserción, selección, quicksort y merge sort), su complejidad Big O, estabilidad y cuándo usar cada uno."
 primary_keywords:
   - algoritmos de ordenamiento
   - eficiencia de algoritmos

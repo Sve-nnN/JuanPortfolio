@@ -5,11 +5,8 @@ tldr: >-
   productos.  Un buen diseño de UX mejora la satisfacción del cliente y la
   lealtad a la marca.  Este artículo explora sus elementos clave y su impacto en
   el mercado actual.
-metaTitle: 'Experiencia de Usuario (UX): Guía Completa para | Juan Tech'
-metaDescription: >-
-  Aprende qué es la experiencia de usuario, sus elementos clave y cómo
-  mejorarla. Guía completa con metodología, herramientas y casos prácticos de
-  UX.
+metaTitle: "Experiencia de usuario (UX): qué es y cómo mejorarla"
+metaDescription: "Qué es la experiencia de usuario (UX), en qué se diferencia de la UI y cuáles son sus elementos clave, con métodos y herramientas para mejorarla en cada fase."
 primary_keywords:
   - experiencia de usuario
   - satisfacción del cliente

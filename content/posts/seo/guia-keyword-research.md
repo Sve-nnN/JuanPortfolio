@@ -19,10 +19,8 @@ tldr: >-
   guía explica cómo usar DinoRank y otras herramientas para identificar huecos
   de contenido y construir una arquitectura de información basada en la
   relevancia semántica.
-metaTitle: Keyword Research 2026 | Guía Completa de Investigación
-metaDescription: >-
-  Domina la investigación de palabras clave en 2026. Pasa de simples términos de
-  búsqueda a mapas de entidades y clústeres temáticos.
+metaTitle: 'Guía Keyword Research 2026: Entidades y Clústeres SEO'
+metaDescription: 'Lleva tu keyword research más allá del volumen: aprende a mapear entidades, detectar huecos de contenido y agrupar términos en clústeres temáticos.'
 primary_keywords:
   - guia keyword research
   - investigación de palabras clave

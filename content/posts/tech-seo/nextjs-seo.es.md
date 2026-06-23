@@ -1,7 +1,7 @@
 ---
 title: 'Next.js SEO: Mejora la Visibilidad de tu Sitio Web'
-metaTitle: 'Next.js SEO: Mejora la Visibilidad d | Juan Tech'
-metaDescription: 'Next.js SEO en la práctica: estrategias de renderizado, metadatos, Core Web Vitals y enlazado interno para mejorar el ranking de tu sitio web.'
+metaTitle: 'Next.js SEO: Cómo Mejorar el Ranking de tu Sitio Web'
+metaDescription: 'Next.js SEO en la práctica: renderizado SSR y SSG, metadatos, Core Web Vitals y enlazado interno para que tu sitio rastree e indexe mejor en Google.'
 slug: nextjs-seo
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

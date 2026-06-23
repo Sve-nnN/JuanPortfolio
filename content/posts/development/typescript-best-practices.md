@@ -12,10 +12,8 @@ relatedPosts:
   - payloadcms-tutorial
   - nextjs-server-components
 sidebarBanners: []
-metaTitle: TypeScript Best Practices 2026 | Código Limpio y Seguro
-metaDescription: >-
-  Escribe código TypeScript robusto y mantenible en 2026. Aprende las mejores
-  prácticas de tipado, interfaces y arquitectura de software.
+metaTitle: 'TypeScript Best Practices 2026: guía de código limpio'
+metaDescription: 'TypeScript best practices para 2026: modo estricto, evitar any, tipos frente a interfaces y patrones de tipado para escribir código limpio y mantenible.'
 primary_keywords:
   - typescript best practices
   - desarrollo web profesional

@@ -1,8 +1,8 @@
 ---
 
 title: 'SEO Content Strategy: Claves para Atraer Tráfico Orgánico'
-metaTitle: 'SEO Content Strategy: Claves para Atraer Tráfico | Juan Tech'
-metaDescription: 'Arma una estrategia de contenido SEO: intención de búsqueda, auditoría de lo que ya tenés y planificación de piezas que atraen tráfico orgánico.'
+metaTitle: 'SEO Content Strategy: Guía para Crear y Posicionar'
+metaDescription: 'Qué es una SEO content strategy y cómo armarla: intención de búsqueda, auditoría de tu contenido y planificación de piezas que atraen tráfico orgánico.'
 slug: seo-content-strategy
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

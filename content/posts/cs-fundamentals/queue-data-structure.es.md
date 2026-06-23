@@ -1,8 +1,8 @@
 ---
 
 title: 'Queue Data Structure: Todo lo que Necesitas Saber'
-metaTitle: 'Queue Data Structure: Todo lo que Necesitas Sabe | Juan Tech'
-metaDescription: 'Qué es una queue (cola) y cómo funciona el principio FIFO: implementación con arreglos y listas enlazadas, ventajas, desventajas y aplicaciones reales.'
+metaTitle: 'Queue Data Structure: qué es, FIFO, tipos y código'
+metaDescription: 'Qué es una queue data structure y cómo funciona el principio FIFO: tipos de colas, operaciones básicas e implementación con arreglos y listas enlazadas.'
 slug: queue-data-structure
 publishedAt: '2026-04-02'
 updatedAt: '2026-04-02'

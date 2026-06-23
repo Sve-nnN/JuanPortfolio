@@ -20,7 +20,7 @@ tldr: >-
   la Static Site Generation maximizan el descubrimiento de contenido por
   Googlebot, mientras que el Client-Side Rendering puede comprometer tu crawl
   budget en aplicaciones SPA modernas.
-metaTitle: 'SSR vs CSR para SEO: Comparativa | Juan Tech'
+metaTitle: 'SSR vs CSR para SEO: Qué Modo de Renderizado Conviene'
 metaDescription: 'SSR, CSR y SSG comparados para SEO: cómo cada modo de renderizado afecta la indexación, el crawl budget y el rendimiento de tu sitio web o SPA.'
 primary_keywords:
   - SSR vs CSR SEO

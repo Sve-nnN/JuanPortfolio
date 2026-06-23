@@ -21,8 +21,8 @@ tldr: >-
   guía explica detalladamente las formas normales (1FN a BCNF), la gestión de
   dependencias funcionales y cómo equilibrar la integridad de los datos con el
   rendimiento de las consultas en sistemas modernos.
-metaTitle: 'Normalización de Bases de Datos: 1NF a BCNF y Op | Juan Tech'
-metaDescription: 'Normalización de bases de datos paso a paso: formas normales de 1FN a BCNF, dependencias funcionales y cómo equilibrar integridad y rendimiento de consultas.'
+metaTitle: 'Normalización de Bases de Datos: formas normales 1FN-3FN'
+metaDescription: 'Qué es la normalización de bases de datos y para qué sirve: formas normales de 1FN a 3FN, cómo reducir la redundancia y mantener la integridad de los datos.'
 primary_keywords:
   - normalización de bases de datos
   - formas normales SQL

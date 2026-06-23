@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
 import type { CalendlyEmbedBlock as CalendlyEmbedBlockProps } from '@/payload-types'
 
@@ -44,7 +44,38 @@ export const CalendlyEmbedBlock: React.FC<CalendlyEmbedBlockProps & { locale?: '
     textColor,
   } = props
 
+  // Defer the heavy Calendly bundle (widget.js pulls ~2.6MB of booking JS/CSS
+  // plus Stripe) until the section nears the viewport. Until then we render
+  // only a lightweight placeholder, keeping it out of the initial load and off
+  // the LCP/TBT critical path. SEO/CWV milestone v1.1.
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [inView, setInView] = useState(false)
   const [scriptLoaded, setScriptLoaded] = useState(false)
+
+  useEffect(() => {
+    if (inView) return
+    const node = containerRef.current
+    if (!node) return
+
+    // No IntersectionObserver (very old browsers / SSR safety): load eagerly.
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      // Start loading a bit before it scrolls into view for a seamless reveal.
+      { rootMargin: '300px 0px' },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [inView])
 
   if (!calendlyUrl) return null
 
@@ -79,8 +110,12 @@ export const CalendlyEmbedBlock: React.FC<CalendlyEmbedBlockProps & { locale?: '
         </div>
       )}
 
-      <div className="relative rounded-[2rem] overflow-hidden border border-border/50 shadow-xl">
-        {!scriptLoaded && (
+      <div
+        ref={containerRef}
+        className="relative rounded-[2rem] overflow-hidden border border-border/50 shadow-xl"
+        style={{ minHeight: widgetHeight }}
+      >
+        {(!inView || !scriptLoaded) && (
           <div
             className="absolute inset-0 flex items-center justify-center bg-card/90 backdrop-blur-sm z-10"
             style={{ height: widgetHeight }}
@@ -92,18 +127,21 @@ export const CalendlyEmbedBlock: React.FC<CalendlyEmbedBlockProps & { locale?: '
           </div>
         )}
 
-        <div
-          className="calendly-inline-widget"
-          data-url={finalUrl}
-          style={{ minWidth: '320px', height: widgetHeight }}
-        />
+        {inView && (
+          <>
+            <div
+              className="calendly-inline-widget"
+              data-url={finalUrl}
+              style={{ minWidth: '320px', height: widgetHeight }}
+            />
+            <Script
+              src="https://assets.calendly.com/assets/external/widget.js"
+              strategy="afterInteractive"
+              onLoad={() => setScriptLoaded(true)}
+            />
+          </>
+        )}
       </div>
-
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="lazyOnload"
-        onLoad={() => setScriptLoaded(true)}
-      />
     </section>
   )
 }

@@ -6,6 +6,12 @@ export const triggerCWVScan: CollectionAfterChangeHook = async ({
   operation, // create / update
   req: _req, // full express request
 }) => {
+  // Skip during bulk content sync / seeding (syncContent.ts sets this). Firing
+  // PSI per post in a bulk push rate-limits the PageSpeed API (500s) and causes
+  // Mongo write conflicts on the metrics collection. Metrics can be refreshed
+  // afterward via the Force Scan button or the scan-all API. SEO audit jun-2026.
+  if (process.env.DISABLE_CWV_HOOK === 'true') return doc
+
   // Only trigger on create or update
   if (operation !== 'create' && operation !== 'update') return doc
 

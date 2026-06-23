@@ -1,3 +1,8 @@
+// Bulk sync mutates many posts; suppress the per-post Core Web Vitals
+// afterChange hook so it doesn't storm the PageSpeed API (500s) and Mongo
+// (write conflicts). Must be set before Payload/hooks load. SEO audit jun-2026.
+process.env.DISABLE_CWV_HOOK = 'true'
+
 import fs from 'fs'
 import path from 'path'
 import { getPayload } from 'payload'

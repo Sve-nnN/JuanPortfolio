@@ -45,7 +45,9 @@ export const generateSchema = ({ doc: rawDoc, collection, url, breadcrumbs }: Ge
       // SEO audit jun-2026, issue #49.
       logo: {
         '@type': 'ImageObject',
-        url: `${process.env.NEXT_PUBLIC_SERVER_URL}/logo.png`
+        // /logo.png does not exist (404'd as HTML); use the real brand mark.
+        // SEO audit jun-2026, issue #65.
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL}/favicon.svg`
       }
     }
   }

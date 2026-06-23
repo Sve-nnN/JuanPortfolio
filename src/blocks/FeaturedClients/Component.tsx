@@ -9,7 +9,9 @@ import { getOptimizedCloudinaryUrl } from '@/utilities/cloudinaryUrl'
 
 function buildLogoSrc(url: string | null | undefined): string {
   if (!url) return ''
-  return getOptimizedCloudinaryUrl(url, { width: 256, height: 128, format: 'auto', quality: 'auto' })
+  // Logos render at ~104x70 CSS px; 192x96 covers retina (DPR ~2) without
+  // shipping the oversized 256x128 variant. CWV milestone v1.1.
+  return getOptimizedCloudinaryUrl(url, { width: 192, height: 96, format: 'auto', quality: 'auto' })
 }
 
 export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 'es' }> = (

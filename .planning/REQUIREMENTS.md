@@ -1,84 +1,62 @@
-# Requirements: JuanPortfolio — Milestone v1.0 (issue #20 ISR/CWV)
+# Requirements: JuanPortfolio — Milestone v1.1 (Core Web Vitals & Performance)
 
 **Defined:** 2026-06-23
-**Core Value:** Páginas públicas servidas como HTML cacheado desde el edge (rápido + cacheable).
+**Core Value:** Páginas públicas rápidas y cacheables. v1.1 ataca el render del cliente (LCP/TBT), no el server (resuelto en v1.0).
+
+**Baseline:** Perf 36 · LCP 8.6s · TBT 1740ms · FCP 3.6s · CLS 0 · Accessibility 73 · Agentic 1/3 (Lighthouse mobile, Slow 4G).
 
 ## v1 Requirements
 
-Requirements del milestone v1.0. Cada uno mapea a una fase del roadmap.
+### Third-party JS (TP) — el 80% del problema
 
-### Locale (LOCALE)
+- [ ] **TP-01**: El widget de Calendly NO se carga en el load inicial de la home; se monta solo cuando su sección entra al viewport (IntersectionObserver) o por interacción
+- [ ] **TP-02**: Stripe (231KB, inyectado por Calendly) deja de cargarse en el load inicial de la home (consecuencia de TP-01)
+- [ ] **TP-03**: GTM y Ahrefs analytics cargan con estrategia que no bloquea el hilo principal durante el LCP (post-load / idle)
 
-- [ ] **LOCALE-01**: El root layout deriva el locale sin llamar `headers()` (queda `<html lang="es">` fijo por defecto)
-- [ ] **LOCALE-02**: En `/en` el `<html lang>` se corrige a `en` en el cliente (componente con `useEffect`)
-- [ ] **LOCALE-03**: Header, Footer y links internos renderizan el idioma correcto en todas las plantillas, tomando el locale del param `[locale]`
+### Imágenes (IMG)
 
-### Routing (ROUTE)
+- [ ] **IMG-01**: La imagen LCP (retrato) se sirve con `sizes` correcto (deja de bajar 756×758 para mostrar 434×579)
+- [ ] **IMG-02**: Los logos de clientes y otras imágenes Cloudinary above/near-fold usan dimensiones/`sizes` ajustados (no 2–3× el tamaño mostrado)
 
-- [ ] **ROUTE-01**: Existe `src/app/(frontend)/[locale]/layout.tsx` que recibe `params.locale`, hace fetch de siteSettings, emite JSON-LD Organization/WebSite y envuelve children en LocaleProvider + Header + Footer
-- [ ] **ROUTE-02**: La home ES (`/`) se sirve vía `[locale]/page.tsx` con `locale=es` y hereda el chrome del nuevo layout
-- [ ] **ROUTE-03**: El middleware reescribe internamente `/` → `/es`, y `src/app/(frontend)/page.tsx` queda eliminado
+### JS build (JS)
 
-### Preview (PREVIEW)
+- [ ] **JS-01**: Eliminar los polyfills legacy innecesarios (browserslist apuntando a navegadores modernos) — Array.at, flat, flatMap, Object.fromEntries, etc.
 
-- [ ] **PREVIEW-01**: `draftMode()` removido del root layout; AdminBar se renderiza sin el prop `preview` (autodetección por login cliente)
-- [ ] **PREVIEW-02**: El render publicado (visitantes) de las 4 plantillas de contenido NO llama `draftMode()` ni `headers()`
-- [ ] **PREVIEW-03**: El live preview de Payload sigue mostrando borradores (draftMode aislado en un subárbol dinámico que solo se activa con la cookie de preview)
+### Accesibilidad / Agentic (A11Y)
 
-### Caching & ISR (CACHE)
+- [ ] **A11Y-01**: El link de "Últimos Posts" del footer siempre tiene nombre accesible (icono `ArrowUpRight` decorativo marcado `aria-hidden`; fallback de texto si el título localizado está vacío)
+- [ ] **A11Y-02**: Confirmar y documentar que `/llms.txt` se sirve 200 con H1 (el fallo del audit es Cloudflare challenge al bot, no código)
 
-- [ ] **CACHE-01**: Las 4 plantillas de contenido (`[locale]/[slug]`, `blog`, `blog/[category]/[slug]`, `case-studies/[slug]`) tienen `export const revalidate = 3600`
-- [ ] **CACHE-02**: `next build` muestra home y plantillas de contenido como estáticas/ISR (○/●), no dinámicas (ƒ)
-- [ ] **CACHE-03**: En producción, home y un post devuelven `x-vercel-cache: HIT` y `cache-control` sin `no-store` (tras warm-up)
+### Verificación (VERIFY)
 
-### Verification (QA)
-
-- [ ] **QA-01**: hreflang y canonical siguen correctos en home y posts para es y en
-- [ ] **QA-02**: El cambio de idioma funciona en todas las plantillas
-- [ ] **QA-03**: `/sitemap` y los sitemaps XML siguen intactos
-
-## v2 Requirements
-
-Diferidos a milestones futuros.
-
-### SEO técnico restante
-
-- **SEO-NEXT**: Resto de issues SEO abiertos del audit jun-2026 (#21+) — fuera del alcance del #20
+- [ ] **VERIFY-01**: Lighthouse mobile muestra mejora medible de LCP y TBT vs baseline (objetivo: LCP < 4s, TBT < 600ms, Perf > 70)
+- [ ] **VERIFY-02**: `next build` verde, CI verde, sin regresión funcional (Calendly sigue funcionando al hacer scroll)
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Migrar otros issues SEO (#21+) | Este milestone solo cubre ISR/CWV del #20 |
-| Cambiar el modelo de contenido de Payload | No relacionado con caching |
-| Rediseño visual de Header/Footer | Solo se reubican al nuevo layout, no se rediseñan |
-| Eliminar Speculation Rules | Se mantienen; el fix las vuelve efectivas (prefetch ya no choca con no-store) |
+| Cache lifetimes de scripts de terceros (Stripe/Calendly/CF) | No controlamos sus headers; se mitiga difiriéndolos |
+| `cf-cache-status: HIT` (Cloudflare cachee el HTML) | Config de infra Cloudflare, no código; issue aparte |
+| Render-blocking CSS de Calendly | Se elimina al diferir Calendly (TP-01) |
+| Migrar de Calendly a otra solución | Cambio de producto, no perf |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| LOCALE-01 | Phase 1 | Complete |
-| LOCALE-02 | Phase 1 | Complete |
-| LOCALE-03 | Phase 1 | Complete |
-| ROUTE-01 | Phase 1 | Complete |
-| ROUTE-02 | Phase 2 | Complete |
-| ROUTE-03 | Phase 2 | Complete |
-| PREVIEW-01 | Phase 1 | Complete |
-| PREVIEW-02 | Phase 3 | Complete |
-| PREVIEW-03 | Phase 3 | Complete |
-| CACHE-01 | Phase 4 | Complete |
-| CACHE-02 | Phase 4 | Complete |
-| CACHE-03 | Phase 4 | Complete |
-| QA-01 | Phase 5 | Complete |
-| QA-02 | Phase 5 | Complete |
-| QA-03 | Phase 5 | Complete |
+| TP-01 | Phase 6 | Complete |
+| TP-02 | Phase 6 | Complete |
+| TP-03 | Phase 8 | Complete |
+| IMG-01 | Phase 7 | Complete |
+| IMG-02 | Phase 7 | Complete |
+| JS-01 | Phase 8 | Complete |
+| A11Y-01 | Phase 9 | Complete |
+| A11Y-02 | Phase 9 | Complete |
+| VERIFY-01 | Phase 10 | Complete |
+| VERIFY-02 | Phase 10 | Complete |
 
-**Coverage:**
-- v1 requirements: 15 total
-- Mapped to phases: 15
-- Unmapped: 0 ✓
+**Coverage:** 10 reqs · mapeados 10 · sin mapear 0 ✓
 
 ---
 *Requirements defined: 2026-06-23*
-*Last updated: 2026-06-23 — Traceability completada tras creación de roadmap*

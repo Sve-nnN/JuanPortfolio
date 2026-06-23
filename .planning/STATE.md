@@ -4,37 +4,31 @@
 
 See: .planning/PROJECT.md (updated 2026-06-23)
 
-**Core value:** Páginas públicas servidas como HTML cacheado desde el edge (rápido + cacheable).
-**Current focus:** Milestone v1.0 code-complete — pendiente deploy + QA humano
+**Core value:** Páginas públicas rápidas y cacheables desde el edge.
+**Current focus:** Milestone v1.1 (CWV) code-complete — pendiente Lighthouse post-deploy
 
 ## Current Position
 
-Phase: 5 of 5 (QA & Verificación) — todas completas
-Plan: —
-Status: Milestone code-complete, verificado localmente
-Last activity: 2026-06-23 — Fases 1-5 ejecutadas y commiteadas (issue #20)
+Phase: 10 of 10 — todas completas (fases 6-10)
+Status: v1.1 code-complete, verificado estructuralmente
+Last activity: 2026-06-23 — Fases 6-10 ejecutadas (CWV/perf)
 
-Progress: [██████████] 100% (código); QA prod pendiente post-deploy
+Progress: [██████████] 100% (código); Lighthouse real pendiente post-deploy
 
 ## Accumulated Context
 
 ### Decisions
 
-Logged in PROJECT.md Key Decisions.
-
-- La premisa del issue ("headers() marca TODO dinámico") era incompleta: la causa real de `ƒ` en home/listings era falta de `generateStaticParams` en el segmento `[locale]`. Fix combinado: quitar dynamic APIs del root + generateStaticParams+revalidate en índices + mover home + revalidate en templates.
-- `draftMode()` es bypass-cookie-gated (Next 15) → no hubo que aislarlo en Suspense; los templates siguen `●`.
-
-### Pending Todos
-
-None.
+- **Calendly era el 80% del problema de perf** (2.6MB + Stripe). Se difiere con IntersectionObserver → fuera del load inicial.
+- browserslist ya moderno; polyfills residuales son de dependencia (no se toca).
+- llms.txt OK; el fallo agéntico es Cloudflare challenge, no código.
 
 ### Blockers/Concerns
 
-- **Verificación humana post-deploy:** (1) `x-vercel-cache: HIT` real en producción; (2) live preview de Payload sigue funcionando. Localmente equivalentes verificados (`x-nextjs-cache: HIT`), pero confirmar en Vercel.
+- **Post-deploy (humano):** Lighthouse mobile real (LCP/TBT vs baseline 8.6s/1740ms); DevTools Network (Calendly carga al scrollear).
 
 ## Session Continuity
 
 Last session: 2026-06-23
-Stopped at: Milestone v1.0 ejecutado (5 fases). Rama fix/seo-audit-issues. Listo para PR + deploy.
+Stopped at: v1.1 ejecutado (fases 6-10). Rama perf/cwv-optimization. Listo para PR develop→main.
 Resume file: None

@@ -67,9 +67,9 @@ describe('pages-sitemap completeness (issue #17)', () => {
   ])
   const locs = entries.map((e) => e.loc)
 
-  it('includes the homepage for both locales', () => {
-    expect(locs).toContain('https://juan-tech.com/')
-    expect(locs).toContain('https://juan-tech.com/en/')
+  it('includes the homepage for both locales (no trailing slash, matching canonical)', () => {
+    expect(locs).toContain('https://juan-tech.com')
+    expect(locs).toContain('https://juan-tech.com/en')
   })
 
   it('includes every static indexable page for both locales', () => {
@@ -85,7 +85,7 @@ describe('pages-sitemap completeness (issue #17)', () => {
   })
 
   it('does not duplicate the homepage from a `home` page document', () => {
-    const homeCount = locs.filter((l) => l === 'https://juan-tech.com/').length
+    const homeCount = locs.filter((l) => l === 'https://juan-tech.com').length
     expect(homeCount).toBe(1)
   })
 })

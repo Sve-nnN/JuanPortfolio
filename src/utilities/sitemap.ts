@@ -91,9 +91,11 @@ export function buildPagesSitemap(siteUrl: string, pageDocs: PageDoc[] = []): Si
   }
 
   for (const path of STATIC_PAGE_PATHS) {
-    // homepage must keep a trailing slash on the bare origin
-    const esLoc = path === '' ? `${base}/` : `${base}${path}`
-    const enLoc = path === '' ? `${base}/en/` : `${base}/en${path}`
+    // Homepage loc must match the canonical the page emits, which has NO
+    // trailing slash (es = origin, en = /en). A trailing slash here pointed
+    // the sitemap at a different URL form than the canonical. SEO audit #68.
+    const esLoc = path === '' ? base : `${base}${path}`
+    const enLoc = path === '' ? `${base}/en` : `${base}/en${path}`
     pushPair(esLoc, enLoc)
   }
 

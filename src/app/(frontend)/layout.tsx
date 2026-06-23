@@ -112,11 +112,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
           )}
         </React.Suspense>
-        {/* Ahrefs Analytics - Loaded after page is interactive to protect performance */}
+        {/* Ahrefs Analytics — lazyOnload so it loads during browser idle, after
+            the LCP/interaction window, keeping it off the TBT critical path.
+            CWV milestone v1.1. */}
         <Script
           src="https://analytics.ahrefs.com/analytics.js"
           data-key="MKWDNj5f8/fviyOxhzLSPA"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         {/* Speculation Rules API — raw <script> (not next/script) so Chrome processes it
             via the HTML parser from SSR output, not via dynamic JS injection. */}

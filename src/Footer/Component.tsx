@@ -169,9 +169,9 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
                         href={`${localePrefix}${getPostUrl(post)}`}
                         className="group flex items-start gap-3 text-base text-muted-foreground hover:text-primary transition-all leading-tight font-medium"
                       >
-                        <ArrowUpRight className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary/40 group-hover:text-primary transition-colors" />
+                        <ArrowUpRight aria-hidden="true" className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary/40 group-hover:text-primary transition-colors" />
                         <span className="line-clamp-2">
-                          {post.title}
+                          {post.title || (locale === 'es' ? 'Ver artículo' : 'Read article')}
                         </span>
                       </Link>
                     </li>
@@ -200,9 +200,9 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
                         href={`${localePrefix}/case-studies/${caseStudy.slug}`}
                         className="group flex items-start gap-3 text-base text-muted-foreground hover:text-primary transition-all leading-tight font-medium"
                       >
-                        <ArrowUpRight className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary/40 group-hover:text-primary transition-colors" />
+                        <ArrowUpRight aria-hidden="true" className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary/40 group-hover:text-primary transition-colors" />
                         <span className="line-clamp-2">
-                          {caseStudy.title}
+                          {caseStudy.title || (locale === 'es' ? 'Ver caso de estudio' : 'View case study')}
                         </span>
                       </Link>
                     </li>

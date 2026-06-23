@@ -17,14 +17,17 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 - ✓ i18n es/en con `es` sin prefijo y redirect 301 de `/es` → `/` — SEO audit jun-2026
 - ✓ JSON-LD Organization/WebSite, hreflang, sitemaps sin trailing slash — SEO audit jun-2026
 - ✓ Speculation Rules (prefetch moderate) emitidas desde SSR — SEO audit jun-2026
+- ✓ Home y posts estático/ISR con `x-vercel-cache: HIT` (sin no-store) — v1.0 (#20)
+- ✓ Locale por param `[locale]` fuera del render estático; `draftMode()` bypass-gated — v1.0 (#20)
 
 ### Active
 
-<!-- Scope actual. Milestone v1.0. -->
+<!-- Scope actual. Milestone v1.1 — Core Web Vitals. -->
 
-- [ ] Home y posts se sirven como estático/ISR (no dinámico) con `x-vercel-cache: HIT`
-- [ ] Detección de locale por param `[locale]`, fuera del render estático (sin `headers()`)
-- [ ] `draftMode()` aislado: preview de Payload sigue funcionando sin teñir el render publicado
+- [ ] Calendly diferido (no en el load inicial de la home) — saca ~2.9MB
+- [ ] Imágenes servidas al tamaño mostrado (LCP image, logos)
+- [ ] Polyfills legacy fuera (browserslist moderno); third-parties no bloquean LCP
+- [ ] A11y: link del footer con nombre accesible
 
 ### Out of Scope
 

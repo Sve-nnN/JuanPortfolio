@@ -16,7 +16,7 @@ semantic_keywords:
   - SEO tools
   - performance reports
   - coverage reports
-tldr: 'Discover how to optimize your website's presence in Google search with our detailed guide on Google Search Console, covering key features and strategies.'
+tldr: "Discover how to optimize your website's presence in Google search with our detailed guide on Google Search Console, covering key features and strategies."
 
 ---
 

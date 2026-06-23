@@ -18,7 +18,7 @@ semantic_keywords:
   - content visibility
   - dynamic content
   - SEO strategies
-tldr: 'Learn key JavaScript SEO best practices to enhance your website's crawlability, improve page speed, and ensure search engines index your content effectively.'
+tldr: "Learn key JavaScript SEO best practices to enhance your website's crawlability, improve page speed, and ensure search engines index your content effectively."
 
 ---
 

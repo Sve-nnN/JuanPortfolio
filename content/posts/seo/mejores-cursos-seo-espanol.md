@@ -8,7 +8,6 @@ keywords: mejores cursos seo en español
 authors:
   - juan-carlos-angulo
 publishedAt: '2026-04-03'
-updatedAt: '2026-04-03'
 idioma: es
 date: 2023-10-20T00:00:00.000Z
 category: SEO

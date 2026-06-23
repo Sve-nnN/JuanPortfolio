@@ -45,16 +45,16 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TP-01 | Phase 6 | Pending |
-| TP-02 | Phase 6 | Pending |
-| TP-03 | Phase 8 | Pending |
-| IMG-01 | Phase 7 | Pending |
-| IMG-02 | Phase 7 | Pending |
-| JS-01 | Phase 8 | Pending |
-| A11Y-01 | Phase 9 | Pending |
-| A11Y-02 | Phase 9 | Pending |
-| VERIFY-01 | Phase 10 | Pending |
-| VERIFY-02 | Phase 10 | Pending |
+| TP-01 | Phase 6 | Complete |
+| TP-02 | Phase 6 | Complete |
+| TP-03 | Phase 8 | Complete |
+| IMG-01 | Phase 7 | Complete |
+| IMG-02 | Phase 7 | Complete |
+| JS-01 | Phase 8 | Complete |
+| A11Y-01 | Phase 9 | Complete |
+| A11Y-02 | Phase 9 | Complete |
+| VERIFY-01 | Phase 10 | Complete |
+| VERIFY-02 | Phase 10 | Complete |
 
 **Coverage:** 10 reqs · mapeados 10 · sin mapear 0 ✓
 

@@ -58,8 +58,8 @@ Baja LCP/TBT en mobile en 5 fases. Empieza por el mayor ofensor (diferir Calendl
 
 | Phase | Status | Completed |
 |-------|--------|-----------|
-| 6. Diferir Calendly | Not started | - |
-| 7. Optimización de imágenes | Not started | - |
-| 8. Higiene de JS | Not started | - |
-| 9. A11y & agentic | Not started | - |
-| 10. Medición & verificación | Not started | - |
+| 6. Diferir Calendly | ✅ Complete | 2026-06-23 |
+| 7. Optimización de imágenes | ✅ Complete | 2026-06-23 |
+| 8. Higiene de JS | ✅ Complete | 2026-06-23 |
+| 9. A11y & agentic | ✅ Complete | 2026-06-23 |
+| 10. Medición & verificación | ✅ Complete (Lighthouse: post-deploy) | 2026-06-23 |

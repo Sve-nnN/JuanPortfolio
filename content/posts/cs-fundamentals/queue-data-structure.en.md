@@ -1,10 +1,7 @@
 ---
 title: 'Queue data structure: Conceptos y operaciones fundamentales en prog...'
-metaTitle: 'Queue data structure: Conceptos y operaciones fu | Juan Tech'
-metaDescription: >-
-  The queue data structure is a pivotal concept in programming, enabling
-  efficient organization and management of elements based on the FIFO First In,
-  Fir...
+metaTitle: 'Queue Data Structure: FIFO Operations, Types and Uses'
+metaDescription: 'A queue is a linear structure that follows the FIFO principle. See how enqueue and dequeue work, the main queue types, and where they show up in code.'
 slug: queue-data-structure
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

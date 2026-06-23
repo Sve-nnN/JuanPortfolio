@@ -14,10 +14,8 @@ relatedPosts:
   - robots-txt-best-practices
   - schema-markup-guide
 sidebarBanners: []
-metaTitle: Next.js SEO Optimization 2026 | App Router & Metadata
-metaDescription: >-
-  Learn advanced SEO techniques for Next.js 15. Master the App Router, automatic
-  metadata, and performance optimization for 2026.
+metaTitle: 'Next.js SEO Optimization: App Router and Metadata Guide'
+metaDescription: 'Optimize Next.js SEO with the App Router: dynamic metadata, sitemaps, robots, and rendering choices that help search engines crawl and rank your pages.'
 primary_keywords:
   - nextjs seo optimization
   - app router seo

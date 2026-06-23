@@ -14,10 +14,8 @@ relatedPosts:
   - headless-cms-seo
   - payloadcms-vs-strapi
 sidebarBanners: []
-metaTitle: Payload CMS Tutorial 2026 | Enterprise Development Guide
-metaDescription: >-
-  Learn to build powerful, scalable backends with Payload CMS in 2026. From
-  collection design to custom server-side logic.
+metaTitle: 'Payload CMS Tutorial 2026: Build Your First Backend'
+metaDescription: 'A hands-on Payload CMS tutorial for 2026: install Payload v3, model collections, and add custom TypeScript logic to ship a scalable headless backend.'
 primary_keywords:
   - payloadcms tutorial
   - node.js headless cms

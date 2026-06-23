@@ -13,10 +13,8 @@ relatedPosts:
   - tech-seo-guide
   - nextjs-seo-optimization
 sidebarBanners: []
-metaTitle: Schema Markup Guide | Technical SEO 2026
-metaDescription: >-
-  Master Schema Markup in 2026. Learn how to implement JSON-LD to achieve rich
-  snippets and communicate semantic meaning to search engines.
+metaTitle: 'Schema Markup Guide: JSON-LD for Rich Search Results'
+metaDescription: 'A schema markup guide for richer search results. Learn how JSON-LD structured data helps Google read your pages and earn rich snippets that get more clicks.'
 primary_keywords:
   - schema markup guide
   - json-ld

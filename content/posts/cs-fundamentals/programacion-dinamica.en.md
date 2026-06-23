@@ -12,8 +12,8 @@ relatedPosts:
   - complejidad-algoritmica
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: Dynamic Programming Guide 2026 | Algorithmic Mastery
-metaDescription: 'Dynamic programming explained: memoization, tabulation, and optimal substructure to solve overlapping recursive problems and cut algorithmic complexity.'
+metaTitle: 'Dynamic Programming Explained: Memoization & Tabulation'
+metaDescription: 'Dynamic programming breaks overlapping problems into subproblems you solve once. Learn memoization, tabulation, and optimal substructure to cut complexity.'
 primary_keywords:
   - dynamic programming
   - algorithmic optimization

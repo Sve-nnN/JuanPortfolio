@@ -1,9 +1,7 @@
 ---
 title: 'Structured data SEO: Todo lo que Debes Saber para Mejorar tu Sitio Web'
-metaTitle: 'Structured data SEO: Todo lo que Debes Saber par | Juan Tech'
-metaDescription: >-
-  Structured data SEO is essential for improving your website's visibility and
-  search performance. By using structured data, you enhance how search engine...
+metaTitle: 'Structured Data for SEO: A Guide to Winning Rich Results'
+metaDescription: 'Structured data for SEO explained: how schema markup helps search engines read your pages, the types that matter, and how to win rich results in search.'
 slug: structured-data-seo
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

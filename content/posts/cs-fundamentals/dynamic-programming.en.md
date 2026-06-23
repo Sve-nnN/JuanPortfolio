@@ -1,10 +1,7 @@
 ---
 title: 'Dynamic programming: Guía esencial para resolver problemas complejos'
-metaTitle: 'Dynamic programming: Guía esencial para resolver | Juan Tech'
-metaDescription: >-
-  Dynamic programming is a powerful algorithmic technique designed to tackle
-  complex problems by breaking them down into simpler subproblems. This
-  article...
+metaTitle: "Dynamic Programming Explained: Subproblems to Solutions"
+metaDescription: "How dynamic programming works: break a problem into overlapping subproblems, store results with memoization, and build efficient solutions step by step."
 slug: dynamic-programming
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

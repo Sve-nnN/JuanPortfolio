@@ -12,10 +12,8 @@ relatedPosts:
   - estrategia-topic-clusters
   - redaccion-seo
 sidebarBanners: []
-metaTitle: Keyword Research Guide 2026 | Technical SEO Masterclass
-metaDescription: >-
-  Transition from keyword strings to semantic entities. Our 2026 guide covers
-  advanced keyword research for technical niches.
+metaTitle: 'Keyword Research Guide 2026: From Volume to Entities'
+metaDescription: 'Modern keyword research goes beyond volume. This guide maps semantic entities, intent qualifiers, and topic clusters for competitive technical niches.'
 primary_keywords:
   - keyword research guide
   - semantic entities

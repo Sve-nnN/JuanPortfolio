@@ -1,9 +1,7 @@
 ---
 title: 'Heap Data Structure Explained: Types and Algorithms'
-metaTitle: 'Heap Data Structure Explained: Types and Algorit | Juan Tech'
-metaDescription: >-
-  The heap data structure is a versatile, tree-based format that plays a crucial
-  role in various algorithms, particularly in sorting and priority queue im...
+metaTitle: 'Heap Data Structure: Min Heap, Max Heap and Operations'
+metaDescription: 'A heap is a complete binary tree that follows the heap property. Learn how min heaps, max heaps, and core operations power priority queues and sorting.'
 slug: heap-data-structure
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

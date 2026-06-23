@@ -1,10 +1,7 @@
 ---
 title: 'Binary Search Tree: Guía sobre su Traversal en Orden'
-metaTitle: 'Binary Search Tree: Guía sobre su Traversal en O | Juan Tech'
-metaDescription: >-
-  El Binary Search Tree BST es una estructura fundamental en el mundo de la
-  informática, que permite organizar datos de manera eficiente. Su diseño
-  facili...
+metaTitle: "Binary Search Tree (BST): Operations and Traversal"
+metaDescription: "How a binary search tree works: the BST property, search, insertion, and deletion in O(log n), in-order traversal, and why balancing keeps it fast."
 slug: binary-search-tree
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

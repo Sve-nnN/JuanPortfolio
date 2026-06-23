@@ -8,10 +8,8 @@ categoryTitle: CS Fundamentals
 slug: experiencia-de-usuario
 idioma: en
 noindex: true
-metaTitle: 'User Experience Explained: A Complete Guide to U | Juan Tech'
-metaDescription: >-
-  Learn user experience with practical examples, clear steps, and actionable
-  recommendations to improve your results. Includes strategy, implementa...
+metaTitle: "User Experience (UX): A Complete Guide to the Basics"
+metaDescription: "A clear guide to user experience: what UX really means, how it differs from UI, the disciplines behind it, and how good design shapes how people feel."
 contentRole: satellite
 semantic_keywords:
   - fundamentals experiencia usuario

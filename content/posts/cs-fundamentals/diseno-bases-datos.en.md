@@ -12,10 +12,8 @@ relatedPosts:
   - normalizacion-bases-datos
   - algoritmos-estructuras-datos
 sidebarBanners: []
-metaTitle: Database Design Guide 2026 | Systems Architecture
-metaDescription: >-
-  Design scalable and reliable database systems in 2026. Learn best practices
-  for schema design, relationships, and optimization.
+metaTitle: "Database Design Basics: Schemas, Keys, Relationships"
+metaDescription: "Learn database design step by step: model entities and relationships, design clean schemas, choose keys, and plan indexing for reliable, scalable data."
 primary_keywords:
   - database design
   - schema architecture

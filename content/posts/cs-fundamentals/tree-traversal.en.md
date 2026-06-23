@@ -1,10 +1,7 @@
 ---
 title: 'Tree Traversal Techniques Explained: A Comprehensive Guide'
-metaTitle: 'Tree Traversal Techniques Explained: A Comprehen | Juan Tech'
-metaDescription: >-
-  Understanding tree traversal techniques is essential for anyone involved in
-  data structures and algorithms. This guide explores the fundamental
-  concepts...
+metaTitle: 'Tree Traversal Explained: Inorder, Preorder, Postorder'
+metaDescription: 'Tree traversal visits every node in a tree exactly once. Compare inorder, preorder, and postorder depth-first walks, plus when to use each approach.'
 slug: tree-traversal
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

@@ -1,10 +1,7 @@
 ---
 title: 'Payload CMS: A Modern Solution for Content Management'
-metaTitle: 'Payload CMS: A Modern Solution for Content Manag | Juan Tech'
-metaDescription: >-
-  Payload CMS is rapidly gaining traction as a modern content management
-  solution that emphasizes flexibility and performance. Designed with developers
-  in...
+metaTitle: 'Payload CMS: Features, API-First Design & Use Cases'
+metaDescription: 'What is Payload CMS? A look at the developer-first, API-first headless platform: core features, how it integrates with Next.js, and how it compares to Sanity.'
 slug: payload-cms-guide
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

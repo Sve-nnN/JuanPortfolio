@@ -16,10 +16,8 @@ relatedPosts:
   - schema-markup-guide
   - ssr-vs-csr-seo
 sidebarBanners: []
-metaTitle: Technical SEO Guide 2026 | Developer's Masterclass
-metaDescription: >-
-  Master the technical pillar of SEO in 2026. A 5,000+ word deep dive into
-  rendering, indexation, and site performance for engineers.
+metaTitle: "Technical SEO Guide: A Practical Developer's Handbook"
+metaDescription: 'A technical SEO guide for developers: rendering, crawling, indexing, site speed, and structured data, with a clear order to work through every fix.'
 primary_keywords:
   - tech seo guide
   - developer seo

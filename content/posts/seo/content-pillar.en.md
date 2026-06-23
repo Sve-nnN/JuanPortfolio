@@ -1,9 +1,7 @@
 ---
 title: 'Building a Content Pillar 2026: The Core of Your Semantic SEO'
-metaTitle: Content Pillar Guide 2026 | Authority Building
-metaDescription: >-
-  Learn how to build a content pillar that dominates search. Master the art of
-  hierarchical content and topical authority in 2026.
+metaTitle: 'What Are Content Pillars? A Social Media Strategy Guide'
+metaDescription: 'Content pillars give your brand a clear theme to post around. Learn how to define yours, with practical examples to plan social media content.'
 slug: content-pillar
 publishedAt: '2026-04-03'
 idioma: en

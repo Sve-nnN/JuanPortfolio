@@ -1,7 +1,7 @@
 ---
 title: 'Headless CMS Comparison: Pros and Cons vs WordPress'
-metaTitle: 'Headless CMS Comparison: Pros and Cons vs WordPr | Juan Tech'
-metaDescription: 'Headless CMS vs WordPress compared: how decoupled platforms like Strapi stack up on flexibility, performance, and security, plus the trade-offs to weigh.'
+metaTitle: 'Headless CMS Comparison: Strapi vs WordPress Trade-offs'
+metaDescription: 'Headless CMS comparison made simple: see how decoupled platforms like Strapi stack up against WordPress on flexibility, performance, and security.'
 slug: headless-cms-comparison
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

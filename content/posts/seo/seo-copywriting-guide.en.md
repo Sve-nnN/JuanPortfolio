@@ -1,9 +1,7 @@
 ---
 title: 'SEO Copywriting Guide 2026: Mastering Intent and Authority'
-metaTitle: SEO Copywriting Guide 2026 | Technical Writing Masterclass
-metaDescription: >-
-  Our definitive SEO copywriting guide for 2026. Learn how to write high-ranking
-  content that converts for both AI and human readers.
+metaTitle: 'SEO Copywriting Guide 2026: Intent, E-E-A-T, Conversion'
+metaDescription: 'This definitive SEO copywriting guide shows how to write content that ranks and sells. Master search intent, E-E-A-T signals, and a clear persuasive voice.'
 slug: seo-copywriting-guide
 publishedAt: '2026-04-03'
 idioma: en

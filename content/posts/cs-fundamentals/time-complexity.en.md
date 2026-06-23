@@ -1,9 +1,7 @@
 ---
 title: 'Time Complexity Explained: The Basics and Importance'
-metaTitle: 'Time Complexity Explained: The Basics and Import | Juan Tech'
-metaDescription: >-
-  Time complexity is a crucial concept in computer science that measures how the
-  execution time of an algorithm increases with the size of its input. Unde...
+metaTitle: 'Time Complexity Explained: Big O and Algorithm Speed'
+metaDescription: "Time complexity shows how an algorithm's runtime grows with input size. Learn Big O notation, common cases like O(1), O(n), and O(n log n), with examples."
 slug: time-complexity
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

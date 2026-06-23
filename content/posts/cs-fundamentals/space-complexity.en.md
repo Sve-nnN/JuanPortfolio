@@ -1,10 +1,7 @@
 ---
 title: 'Space Complexity Explained: An Informative Guide'
-metaTitle: 'Space Complexity Explained: An Informative Guide | Juan Tech'
-metaDescription: >-
-  Understanding space complexity is essential for developers aiming to write
-  efficient algorithms. This guide will provide you with a comprehensive
-  overvi...
+metaTitle: 'Space Complexity Explained: Memory Use and Big O Cost'
+metaDescription: 'Space complexity measures how much memory an algorithm needs as input grows. Learn auxiliary space, the O(1) and O(n) cases, and how it differs from time.'
 slug: space-complexity
 publishedAt: '2026-04-03'
 updatedAt: '2026-04-03'

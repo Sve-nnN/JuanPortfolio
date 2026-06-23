@@ -14,8 +14,8 @@ relatedPosts:
   - core-web-vitals-guide
   - technical-seo-guide
 sidebarBanners: []
-metaTitle: Web Performance Guide 2026 | Technical WPO Masterclass
-metaDescription: 'Web performance guide for SEO: optimize TTFB, caching, the critical rendering path, and resource hints to speed up loading and lift your rankings.'
+metaTitle: 'Web Performance Guide: Speed Up Your Website for SEO'
+metaDescription: 'A web performance guide for SEO: optimize TTFB, caching, the critical rendering path, and resource hints to load faster and lift your search rankings.'
 primary_keywords:
   - web performance guide
   - technical seo

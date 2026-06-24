@@ -19,15 +19,17 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 - ✓ Speculation Rules (prefetch moderate) emitidas desde SSR — SEO audit jun-2026
 - ✓ Home y posts estático/ISR con `x-vercel-cache: HIT` (sin no-store) — v1.0 (#20)
 - ✓ Locale por param `[locale]` fuera del render estático; `draftMode()` bypass-gated — v1.0 (#20)
+- ✓ CWV: Calendly diferido, imágenes right-sized, fix del gate de LCP → Perf 36→82, LCP 8.6→4.1s — v1.1
+- ✓ A11y footer + Ahrefs CSP → A11y 96, Best Practices 100 — v1.1
 
 ### Active
 
-<!-- Scope actual. Milestone v1.1 — Core Web Vitals. -->
+<!-- Scope actual. Milestone v1.2 — GA4 Analytics Tracking. -->
 
-- [ ] Calendly diferido (no en el load inicial de la home) — saca ~2.9MB
-- [ ] Imágenes servidas al tamaño mostrado (LCP image, logos)
-- [ ] Polyfills legacy fuera (browserslist moderno); third-parties no bloquean LCP
-- [ ] A11y: link del footer con nombre accesible
+- [ ] Cobertura GA4 completa vía dataLayer/GTM (CTAs, links, forms, Calendly, idioma)
+- [ ] Delegación global por `data-analytics` (instrumentar sitewide sin tocar cada componente)
+- [ ] Engagement: scroll depth, tiempo/lectura, navegación, búsqueda
+- [ ] Doc de setup GTM (tag GA4-Event forward) + Enhanced Measurement
 
 ### Out of Scope
 

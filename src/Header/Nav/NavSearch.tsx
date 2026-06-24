@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLocale } from '@/providers/Locale'
 import { useDebounce } from '@/utilities/useDebounce'
+import { trackEvent } from '@/utilities/analytics'
 import { Search as SearchIcon, X, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -80,6 +81,7 @@ export const NavSearch: React.FC<{ mobile?: boolean; onItemClick?: () => void }>
     if (value.trim()) {
       setIsOpen(false)
       onItemClick?.()
+      trackEvent('search', { search_term: value.trim() })
       router.push(`${localePrefix}/search?q=${encodeURIComponent(value.trim())}`)
     }
   }

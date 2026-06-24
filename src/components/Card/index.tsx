@@ -1,6 +1,7 @@
 'use client'
 import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
+import { gaAttrs } from '@/utilities/analytics'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
@@ -95,7 +96,14 @@ export const Card: React.FC<{
         
         {titleToUse && (
           <h3 className="text-2xl font-display font-bold leading-tight line-clamp-2 text-foreground group-hover:text-primary transition-colors">
-            <Link href={href} ref={link.ref}>
+            <Link
+              href={href}
+              ref={link.ref}
+              {...gaAttrs('select_content', {
+                content_type: relationTo || 'content',
+                item_id: slug || '',
+              })}
+            >
               {titleToUse}
             </Link>
           </h3>

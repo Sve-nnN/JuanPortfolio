@@ -153,7 +153,10 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
             {/* Media/Image */}
             <m.div
               style={{ scale, rotate: 3 }}
-              initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
+              // Keep the scale/rotate entrance but paint the portrait visible
+              // from the SSR HTML (opacity:1). As a child of the LCP-critical
+              // hero it must not start hidden, or it gates LCP on slow mobile.
+              initial={{ opacity: 1, scale: 0.85, rotate: 8 }}
               animate={{ opacity: 1, scale: 1, rotate: 3 }}
               transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
               className="relative flex justify-center items-center lg:order-2"

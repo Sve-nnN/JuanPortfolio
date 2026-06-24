@@ -94,13 +94,13 @@
 | INDEX-02 | Phase 18 | Done |
 | INDEX-03 | Phase 18 | Done |
 | INDEX-04 | Phase 18 | Done |
-| META-01 | Phase 19 | Pending |
-| META-02 | Phase 19 | Pending |
-| META-03 | Phase 19 | Pending |
-| META-04 | Phase 19 | Pending |
-| SCHEMA-01 | Phase 19 | Pending |
-| PERF-01 | Phase 19 | Pending |
-| PERF-02 | Phase 19 | Pending |
+| META-01 | Phase 19 | Done |
+| META-02 | Phase 19 | Done |
+| META-03 | Phase 19 | Partial (needs Ahrefs URL list) |
+| META-04 | Phase 19 | Partial (needs Ahrefs URL list) |
+| SCHEMA-01 | Phase 19 | Done |
+| PERF-01 | Phase 19 | Done |
+| PERF-02 | Phase 19 | Partial (needs Ahrefs URL list) |
 | MONITOR-01 | Phase 20 | Pending |
 | MONITOR-02 | Phase 20 | Pending |
 | MONITOR-03 | Phase 20 | Pending |

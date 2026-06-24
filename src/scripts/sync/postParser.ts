@@ -1,11 +1,19 @@
 import matter from 'gray-matter'
 import { convertMarkdownToLexical } from '../utils/markdownConverter'
 import { detectLocale, getBaseSlug } from './localeDetector'
+import { sanitizeWikilinks } from './sanitizeWikilinks'
 import type { ParsedPost, PostFrontmatter, ResolvedIds, PayloadPostData } from './types'
 
 export function parsePostFile(filePath: string, rawContent: string): ParsedPost {
-  const { data, content: body } = matter(rawContent)
+  const { data, content: rawBody } = matter(rawContent)
   const frontmatter = data as PostFrontmatter
+  // Safety net: never let raw Obsidian wikilinks reach the CMS (LINKS-01).
+  const { body, stripped } = sanitizeWikilinks(rawBody)
+  if (stripped > 0) {
+    console.warn(
+      `⚠️  ${filePath}: stripped ${stripped} residual wikilink(s) before publish`,
+    )
+  }
   const locale = detectLocale(filePath, frontmatter.idioma)
   const slug = frontmatter.slug ?? getBaseSlug(filePath)
   const title = frontmatter.title ?? ''

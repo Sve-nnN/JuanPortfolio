@@ -38,7 +38,7 @@ categories:
 status: draft
 keyword: nextjs server components
 ---
-En los últimos años, Next.js ha revolucionado el [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio) con la introducción de los Server Components. Esta innovación promete mejorar no solo la arquitectura de las aplicaciones, sino también su desempeño en términos de SEO.
+En los últimos años, Next.js ha revolucionado el desarrollo web con la introducción de los Server Components. Esta innovación promete mejorar no solo la arquitectura de las aplicaciones, sino también su desempeño en términos de SEO.
 
 En este artículo, exploraremos los fundamentos de los server components nextjs, sus ventajas, y cómo su adopción afecta las prácticas de desarrollo actuales. Acompáñanos en este análisis para comprender su impacto en el futuro del desarrollo web.
 
@@ -151,4 +151,4 @@ These techniques not only improve loading times but also enhance the perceived p
 
 ## Ver también
 
-- [Tutorial de Payload CMS 2026: Guía Complete de Desarrollo](https://juan-tech.com/blog/development/payloadcms-tutorial)
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

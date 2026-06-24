@@ -47,7 +47,7 @@ A diferencia de otros frameworks, Next.js ofrece beneficios únicos en el ámbit
 
 -   Soporte robusto para **Static Site Generation (SSG)**, creando páginas optimizadas que se cargan rápidamente.
 -   Funciones integradas para la gestión de metadatos, mejorando el control sobre cómo se presenta el contenido en los resultados de búsqueda.
--   Facilidad para implementar **JSON-LD** y [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide), lo que facilita que los motores de búsqueda comprendan mejor el contenido.
+-   Facilidad para implementar **JSON-LD** y [datos estructurados](/blog/general/schema-markup-guide), lo que facilita que los motores de búsqueda comprendan mejor el contenido.
 
 ## Estrategias de renderizado para mejorar el ranking
 
@@ -55,7 +55,7 @@ Las técnicas de renderizado son fundamentales para optimizar la SEO, ya que inf
 
 ### Generación estática de sitios (SSG) y su impacto en el SEO
 
-La generación estática de sitios permite que el contenido se pre-renderice durante la construcción del sitio. Esto resulta en un HTML completo que se entrega a los usuarios sin retrasos, lo que mejora la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la experiencia del usuario. Una página que carga rápidamente aumenta la probabilidad de ser bien posicionada en los resultados de búsqueda.
+La generación estática de sitios permite que el contenido se pre-renderice durante la construcción del sitio. Esto resulta en un HTML completo que se entrega a los usuarios sin retrasos, lo que mejora la [velocidad de carga](/blog/general/web-performance-guide) y la experiencia del usuario. Una página que carga rápidamente aumenta la probabilidad de ser bien posicionada en los resultados de búsqueda.
 
 ### Renderizado del lado servidor (SSR) para contenido dinámico
 
@@ -111,7 +111,7 @@ La optimización del [rendimiento web](/blog/general/web-performance-guide) es e
 
 ### Impacto de Largest Contentful Paint (LCP) en la experiencia
 
-[Largest Contentful Paint](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide) mide el tiempo que tarda en aparecer el contenido más grande visible en la pantalla. Un LCP rápido garantiza que los usuarios perciban que el sitio carga con eficiencia. Mejores tiempos de LCP contribuyen a una experiencia positiva, aumentando las posibilidades de retención y conversión.
+[Largest Contentful Paint](/blog/general/core-web-vitals-guide) mide el tiempo que tarda en aparecer el contenido más grande visible en la pantalla. Un LCP rápido garantiza que los usuarios perciban que el sitio carga con eficiencia. Mejores tiempos de LCP contribuyen a una experiencia positiva, aumentando las posibilidades de retención y conversión.
 
 ### First Input Delay (FID) y su relación con la interactividad
 
@@ -177,7 +177,7 @@ El monitoreo constante y el análisis son fundamentales para mantener y mejorar 
 
 Contar con herramientas adecuadas permite medir y analizar el rendimiento de manera efectiva. Algunas de las más reconocidas en la industria incluyen:
 
--   [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)
+-   [Google Search Console](/blog/general/xml-sitemap-automation)
 -   Google Analytics
 -   Semrush
 -   Ahrefs

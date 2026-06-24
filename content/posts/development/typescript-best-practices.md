@@ -225,4 +225,4 @@ Finalmente, establecer un proceso de pruebas automatizadas garantiza que las nue
 
 ## Ver también
 
-- [Tutorial de Payload CMS 2026: Guía Complete de Desarrollo](https://juan-tech.com/blog/development/payloadcms-tutorial)
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

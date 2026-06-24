@@ -206,6 +206,6 @@ Utilizing analytics effectively supports the goal of creating a seamless user ex
 
 ## See Also
 
-- [Core Web Vitals Guide 2026: Optimizing LCP, CLS, and INP](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide)
-- [Web Performance Guide 2026: Technical Optimization for SEO](https://juan-tech.com/en/blog/tech-seo/web-performance-guide)
+- [Core Web Vitals Guide 2026: Optimizing LCP, CLS, and INP](/en/blog/general/core-web-vitals-guide)
+- [Web Performance Guide 2026: Technical Optimization for SEO](/en/blog/general/web-performance-guide)
 - [Web Hydration SEO](https://juan-tech.com/en/blog/development/hidratacion-web)

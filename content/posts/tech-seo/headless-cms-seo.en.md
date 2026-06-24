@@ -43,7 +43,7 @@ This separation of concerns not only empowers content creators to produce and or
 
 A headless CMS is designed to function seamlessly across multiple digital channels. By leveraging a structured API, it facilitates the distribution of content to various platforms and devices. For instance, when a company uses a headless CMS, it can publish articles to its website, push notifications to a mobile app, and control digital signage content, all from a single backend system.
 
-This holistic approach not only simplifies content management but also ensures a consistent user experience across different touchpoints. As businesses look for solutions that support agile content strategies, they increasingly turn to **free headless CMS for [Next.js SEO](/en/blog/tech-seo/nextjs-seo)** and similar frameworks that offer robust features while being adaptable for developers. The integration with frameworks like Next.js can enhance site performance and SEO by enabling [server-side rendering](https://juan-tech.com/en/blog/tech-seo/ssr-vs-csr-seo), which is critical for [efficient crawling](https://juan-tech.com/en/blog/tech-seo/xml-sitemap-automation) and indexing by search engines.
+This holistic approach not only simplifies content management but also ensures a consistent user experience across different touchpoints. As businesses look for solutions that support agile content strategies, they increasingly turn to **free headless CMS for [Next.js SEO](/en/blog/tech-seo/nextjs-seo)** and similar frameworks that offer robust features while being adaptable for developers. The integration with frameworks like Next.js can enhance site performance and SEO by enabling [server-side rendering](/en/blog/general/ssr-vs-csr-seo), which is critical for [efficient crawling](/en/blog/general/xml-sitemap-automation) and indexing by search engines.
 
 Moreover, the capability to manage content dynamically allows for better implementation of SEO best practices as teams can optimize content presentation and structure according to the demands of different channels without affecting the backend content management processes. As the demand for personalized and effective user experiences rises, headless CMS solutions are becoming an integral part of modern content strategies.
 
@@ -79,7 +79,7 @@ The scalable nature of a headless CMS makes it ideal for businesses that anticip
 
 ### Performance and Core Web Vitals Optimization
 
-Performance is a critical factor influencing SEO rankings, making the optimization of [Core Web Vitals](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide) essential. Headless CMS architectures provide the ability to choose suitable frontend frameworks that prioritize speed and responsiveness. This capability can lead to improvements in user experience and site performance, significantly impacting search engine rankings. Key areas for optimization include:
+Performance is a critical factor influencing SEO rankings, making the optimization of [Core Web Vitals](/en/blog/general/core-web-vitals-guide) essential. Headless CMS architectures provide the ability to choose suitable frontend frameworks that prioritize speed and responsiveness. This capability can lead to improvements in user experience and site performance, significantly impacting search engine rankings. Key areas for optimization include:
 
 -   Reducing loading times through optimized asset delivery
 -   Improving interactivity with faster response times
@@ -107,11 +107,11 @@ A structured approach to metadata and canonical tags allows for better control o
 
 Creating and maintaining an up-to-date XML [XML sitemap](/en/blog/general/xml-sitemap-automation) is critical in a headless CMS configuration. This sitemap directs search engines to all accessible pages, facilitating indexing. Regularly updating the sitemap whenever new content is published or existing content is modified is necessary for optimal SEO performance.
 
-Additionally, properly configuring the [robots.txt](/en/blog/general/robots-txt-best-practices) file is essential to control which parts of the site search engines can crawl. A well-organized robots.txt file prevents unnecessary crawling of non-essential resources and ensures that search engines focus on indexing valuable content, efficiently utilizing their [crawl budget](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices).
+Additionally, properly configuring the [robots.txt](/en/blog/general/robots-txt-best-practices) file is essential to control which parts of the site search engines can crawl. A well-organized robots.txt file prevents unnecessary crawling of non-essential resources and ensures that search engines focus on indexing valuable content, efficiently utilizing their [crawl budget](/en/blog/general/robots-txt-best-practices).
 
 ### Structured Data Implementation
 
-Structured data enhances a site's search visibility by providing search engines with detailed information about the content. Implementing [schema markup](/en/blog/general/schema-markup-guide) is vital for a headless CMS, as it helps search engines understand the context of the content more effectively. Markup can be applied to articles, products, and other content types, enabling [rich snippets](https://juan-tech.com/en/blog/tech-seo/schema-markup-guide) in search results.
+Structured data enhances a site's search visibility by providing search engines with detailed information about the content. Implementing [schema markup](/en/blog/general/schema-markup-guide) is vital for a headless CMS, as it helps search engines understand the context of the content more effectively. Markup can be applied to articles, products, and other content types, enabling [rich snippets](/en/blog/general/schema-markup-guide) in search results.
 
 Using structured data ensures that essential information about the content is highlighted, increasing the chances of improved rankings and click-through rates. This can significantly affect the overall performance of a headless CMS in search results and should be part of the technical SEO strategy from the outset.
 

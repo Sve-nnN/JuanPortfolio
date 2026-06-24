@@ -200,7 +200,7 @@ Un error habitual es introducir directrices que bloqueen contenido importante de
 
 ### Validación y pruebas con herramientas reconocidas
 
-Para asegurar que el archivo robots.txt funciona correctamente, es crucial validar su contenido y funcionalidad. Google ofrece el "Robots.txt Tester" en la [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation), que permite identificar errores en el archivo y verificar su comportamiento. Otras herramientas de validación pueden incluir:
+Para asegurar que el archivo robots.txt funciona correctamente, es crucial validar su contenido y funcionalidad. Google ofrece el "Robots.txt Tester" en la [Google Search Console](/blog/general/xml-sitemap-automation), que permite identificar errores en el archivo y verificar su comportamiento. Otras herramientas de validación pueden incluir:
 
 -   Herramientas de análisis de SEO que ofrecen auditorías del archivo robots.txt.
 -   Plugins para WordPress que ayudan en la gestión automatizada del archivo, asegurando que las mejores prácticas, como las de 'wordpress robots txt best practices', se sigan adecuadamente.
@@ -256,7 +256,7 @@ Además, al implementar **wordpress robots txt best practices**, se debe conside
 
 Es importante establecer un proceso de seguimiento que permita detectar cambios en el comportamiento del rastreo tras modificar el archivo robots.txt. Esto puede lograrse a través de análisis de logs del servidor, donde se puede observar cómo interactúan los bots de búsqueda con las diferentes partes del sitio. Las herramientas SEO pueden ayudar a identificar las páginas que no están siendo rastreadas correctamente y ofrecer información sobre el comportamiento de los crawlers.
 
-Además, la utilización de [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide) SEO puede proporcionar una visión clara sobre el impacto de los cambios realizados en el archivo y facilitar la identificación de problemas que surjan a raíz de dichas modificaciones.
+Además, la utilización de [herramientas de auditoría](/blog/general/non-developers-guide) SEO puede proporcionar una visión clara sobre el impacto de los cambios realizados en el archivo y facilitar la identificación de problemas que surjan a raíz de dichas modificaciones.
 
 ### Resolución de problemas tras modificaciones
 
@@ -271,4 +271,4 @@ La monitorización continua y la resolución de problemas asociados al archivo r
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

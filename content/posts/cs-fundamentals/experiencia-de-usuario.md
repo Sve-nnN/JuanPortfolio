@@ -237,4 +237,4 @@ Por último, la transformación digital exitosa es la que considera la experienc
 
 ## Ver también
 
-- [Rendimiento Web Avanzado: Guía técnica de TTFB, Caching y Resource Hints](https://juan-tech.com/blog/tech-seo/web-performance-guide)
+- [Rendimiento Web Avanzado: Guía técnica de TTFB, Caching y Resource Hints](/blog/general/web-performance-guide)

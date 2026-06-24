@@ -45,7 +45,7 @@ El alcance de una auditoría SEO incluye diversos elementos, desde la estructura
 
 Los objetivos de una auditoría SEO son múltiples y varían según las necesidades específicas de cada sitio. En términos generales, se pueden resumir en los siguientes puntos clave:
 
-Primero, la identificación de problemas ocultos es fundamental. Esto incluye detectar errores que afectan la indexación y la rastreabilidad del sitio, así como otros factores como la optimización del contenido y la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide). La detección temprana de estos problemas puede ser crucial para evitar penalizaciones y mejorar el rendimiento general del sitio.
+Primero, la identificación de problemas ocultos es fundamental. Esto incluye detectar errores que afectan la indexación y la rastreabilidad del sitio, así como otros factores como la optimización del contenido y la [velocidad de carga](/blog/general/web-performance-guide). La detección temprana de estos problemas puede ser crucial para evitar penalizaciones y mejorar el rendimiento general del sitio.
 
 Otro objetivo importante es el establecimiento de un ciclo de optimización continua. A través de auditorías periódicas, se pueden evaluar las acciones implementadas previamente, identificar qué estrategias están funcionando y ajustar las que no lo están. Esto crea un entorno dinámico donde el sitio puede evolucionar según las demandas del mercado y de los motores de búsqueda.
 
@@ -113,7 +113,7 @@ Es esencial asegurarse de que los motores de búsqueda puedan acceder al conteni
 
 ### Gestión de errores y códigos de estado
 
-Los [errores de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices), como el código 404 (página no encontrada), deben ser corregidos para mejorar la experiencia del usuario y optimizar la indexación. Un sitio libre de errores técnicos mantiene su relevancia ante los motores de búsqueda.
+Los [errores de rastreo](/blog/general/robots-txt-best-practices), como el código 404 (página no encontrada), deben ser corregidos para mejorar la experiencia del usuario y optimizar la indexación. Un sitio libre de errores técnicos mantiene su relevancia ante los motores de búsqueda.
 
 ### Uso de robots.txt, sitemaps y etiquetas canónicas
 
@@ -121,7 +121,7 @@ La correcta implementación de estas herramientas es vital para dirigir el esfue
 
 ### Implementación de datos estructurados
 
-Los [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) ayudan a los motores de búsqueda a entender el contenido de un sitio de manera más precisa, lo que puede resultar en un mejor posicionamiento y en la obtención de rich snippets en los resultados de búsqueda.
+Los [datos estructurados](/blog/general/schema-markup-guide) ayudan a los motores de búsqueda a entender el contenido de un sitio de manera más precisa, lo que puede resultar en un mejor posicionamiento y en la obtención de rich snippets en los resultados de búsqueda.
 
 ### Rendimiento y experiencia de usuario
 
@@ -160,7 +160,7 @@ Gracias a estas funcionalidades, Semrush se convierte en una herramienta indispe
 Además de Semrush, existen otras herramientas reconocidas que también pueden ser muy útiles en el proceso de auditoría SEO. Algunas de ellas incluyen:
 
 -   **Ahrefs**: Excelente para el análisis de backlinks y la búsqueda de palabras clave, proporcionando un panorama completo del perfil de enlaces de un sitio.
--   **[Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)**: Esencial para monitorear el rendimiento del sitio directamente desde Google, permitiendo detectar problemas de indexación y análisis de tráfico.
+-   **[Google Search Console](/blog/general/xml-sitemap-automation)**: Esencial para monitorear el rendimiento del sitio directamente desde Google, permitiendo detectar problemas de indexación y análisis de tráfico.
 -   **Moz Pro**: Ofrece herramientas para el análisis de la competencia, SEO on-page y seguimiento de palabras clave.
 -   **Screaming Frog**: Ideal para un análisis técnico profundo, permite rastrear sitios web y detectar problemas de SEO on-page como redirecciones y errores 404.
 -   **GTmetrix**: Enfocada en el rendimiento, analiza la velocidad de carga del sitio web y brinda recomendaciones para optimizarla.
@@ -171,7 +171,7 @@ Utilizar una combinación de estas herramientas puede proporcionar una visión m
 
 ### Diagnóstico inicial del sitio web
 
-El primer paso en una auditoría SEO es el diagnóstico inicial del sitio web. Este incluye un análisis de los aspectos técnicos y de contenido, así como el rendimiento general del sitio. Al utilizar [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide), se pueden evaluar métricas clave como la velocidad de carga, la capacidad de rastreo y la estructura de enlaces. En este ejemplo de auditoría SEO, se identificó que el sitio web tenía un tiempo de carga promedio de 6 segundos, lo que es significativamente más lento que el estándar recomendado de 3 segundos.
+El primer paso en una auditoría SEO es el diagnóstico inicial del sitio web. Este incluye un análisis de los aspectos técnicos y de contenido, así como el rendimiento general del sitio. Al utilizar [herramientas de auditoría](/blog/general/non-developers-guide), se pueden evaluar métricas clave como la velocidad de carga, la capacidad de rastreo y la estructura de enlaces. En este ejemplo de auditoría SEO, se identificó que el sitio web tenía un tiempo de carga promedio de 6 segundos, lo que es significativamente más lento que el estándar recomendado de 3 segundos.
 
 ### Identificación de problemas relevantes
 

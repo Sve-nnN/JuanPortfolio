@@ -123,6 +123,6 @@ As hydration may lead to multiple renderings of the same content (between server
 
 ## See Also
 
-- [Next.js Server Components 2026: Architecture and Performance](https://juan-tech.com/en/blog/development/nextjs-server-components)
-- [SSR vs CSR for SEO 2026: The Definitive Ranking Guide](https://juan-tech.com/en/blog/tech-seo/ssr-vs-csr-seo)
+- Next.js Server Components 2026: Architecture and Performance
+- [SSR vs CSR for SEO 2026: The Definitive Ranking Guide](/en/blog/general/ssr-vs-csr-seo)
 - [JavaScript SEO Best Practices](https://juan-tech.com/en/blog/tech-seo/javascript-seo)

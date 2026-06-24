@@ -226,4 +226,4 @@ Schema.org is continually evolving, and staying informed about upcoming standard
 
 ## See Also
 
-- [Technical SEO](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Technical SEO](/en/blog/general/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)

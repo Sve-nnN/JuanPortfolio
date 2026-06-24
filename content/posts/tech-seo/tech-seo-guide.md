@@ -43,7 +43,7 @@ keyword: tech seo guide
 ---
 El **[SEO técnico](/blog/tech-seo/technical-seo-guide)** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
 
-En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: Rastreabilidad, Rendimiento [Core Web Vitals](https://juan-tech.com/blog/tech-seo/web-performance-guide) y Semántica Estructurada.
+En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: Rastreabilidad, Rendimiento [Core Web Vitals](/blog/general/web-performance-guide) y Semántica Estructurada.
 
 ## 1. Fase de Rastreabilidad e Indexación Limitada
 
@@ -76,7 +76,7 @@ Soportar una tienda inmensa esperando que el rastreo base del bot detecte flujos
 
 Las latencias de servidor y caídas crudas frontales de JavaScript deprimen la UX limitando la rentabilidad y ranking. Las evaluaciones empíricas de Chrome UX Report (CrUX) actúan como juez principal orgánico de carga.
 
-- **[Largest Contentful Paint](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide) (LCP):** Requerido por debajo de 2.5s. Asigna jerarquización absoluta pre-cargando banners utilizando código `fetchpriority="high"`.
+- **[Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP):** Requerido por debajo de 2.5s. Asigna jerarquización absoluta pre-cargando banners utilizando código `fetchpriority="high"`.
 - **Interaction to Next Paint (INP):** Obligatorio menor a 200ms. Impide que las mega-rutinas JavaScript asfixien el Main Thread navegador mediante patrones de Yielding a micro-tareas partiendo dependencias y reduciendo tiempo de parálisis.
 - **Cumulative Layout Shift (CLS):** Límite tope sobre el ratio 0.1 de impacto. Inyecta márgenes `aspect-ratio` rígidos a tu diseño de contenedores limitando fracturas de render en carga local y de cliente diferida lenta.
 - Observa y manipula el ejemplo detallado crudo en la [Guía técnica de Core Web Vitals](./core-web-vitals-guide).
@@ -112,22 +112,22 @@ No. Eliminar recursos interactivos aniquila componentes web; la depuración reca
 
 ## Ver también
 
-- [SEO en CMS Headless: Estrategias y Mejores Prácticas](https://juan-tech.com/blog/development/headless-cms-seo)
-- [Next.js SEO: Guía técnica de App Router y Metadata API 2026](https://juan-tech.com/blog/tech-seo/nextjs-seo-optimization)
-- [SEO Técnico para No Desarrolladores: Guía de Fundamentos y Estrategia 2026](https://juan-tech.com/blog/tech-seo/non-developers-guide)
+- [SEO en CMS Headless: Estrategias y Mejores Prácticas](/blog/tech-seo/headless-cms-seo)
+- [Next.js SEO: Guía técnica de App Router y Metadata API 2026](/blog/general/nextjs-seo-optimization)
+- [SEO Técnico para No Desarrolladores: Guía de Fundamentos y Estrategia 2026](/blog/general/non-developers-guide)
 
 ## See Also
 
-- [Guía de Robots.txt 2026: Ejemplos para WordPress, Shopify y Control de Bots IA](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices)
+- [Guía de Robots.txt 2026: Ejemplos para WordPress, Shopify y Control de Bots IA](/blog/general/robots-txt-best-practices)
 
 ## See Also
 
-- [Guía Práctica de Schema Markup 2026 (con Ejemplos JSON-LD)](https://juan-tech.com/blog/tech-seo/schema-markup-guide)
+- [Guía Práctica de Schema Markup 2026 (con Ejemplos JSON-LD)](/blog/general/schema-markup-guide)
 
 ## See Also
 
-- [SSR vs CSR para SEO: Estrategias de Renderizado 2026](https://juan-tech.com/blog/tech-seo/ssr-vs-csr-seo)
+- [SSR vs CSR para SEO: Estrategias de Renderizado 2026](/blog/general/ssr-vs-csr-seo)
 
 ## See Also
 
-- [Sitemaps XML: Automatización y Configuración en 2026](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)
+- [Sitemaps XML: Automatización y Configuración en 2026](/blog/general/xml-sitemap-automation)

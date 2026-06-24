@@ -171,5 +171,5 @@ Understanding these distinctions is crucial for organizations aiming to leverage
 
 ## See Also
 
-- [Web Performance Guide 2026: Technical Optimization for SEO](https://juan-tech.com/en/blog/tech-seo/web-performance-guide)
-- [Core Web Vitals Guide 2026: Optimizing LCP, CLS, and INP](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide)
+- [Web Performance Guide 2026: Technical Optimization for SEO](/en/blog/general/web-performance-guide)
+- [Core Web Vitals Guide 2026: Optimizing LCP, CLS, and INP](/en/blog/general/core-web-vitals-guide)

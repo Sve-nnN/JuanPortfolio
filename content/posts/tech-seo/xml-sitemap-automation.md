@@ -70,7 +70,7 @@ El uso de Octopus.do no solo agiliza la creación de sitemaps XML, sino que tamb
 
 -   **Actualizaciones Rápidas:** Al automatizar la creación de sitemaps, se garantiza que cualquier cambio en el contenido del sitio se refleja rápidamente, lo que facilita que los motores de búsqueda accedan a la información más reciente.
 -   **Minimización de Errores:** La automatización reduce la posibilidad de errores humanos que podrían ocurrir en un proceso manual, lo que a su vez evita problemas de indexación.
--   **Mejora del [Crawl Budget](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices):** Un sitemap XML bien estructurado optimiza el Crawl Budget, permitiendo que los motores de búsqueda enfoquen su rastreo en las páginas más relevantes del sitio.
+-   **Mejora del [Crawl Budget](/blog/general/robots-txt-best-practices):** Un sitemap XML bien estructurado optimiza el Crawl Budget, permitiendo que los motores de búsqueda enfoquen su rastreo en las páginas más relevantes del sitio.
 
 ### Proceso de Generación Automática de Sitemaps
 
@@ -116,4 +116,4 @@ Estas consideraciones no solo facilitan la vida del administrador web, sino que 
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

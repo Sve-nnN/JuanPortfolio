@@ -34,7 +34,7 @@ semantic_keywords:
   - seo signals
 keyword: core web vitals
 ---
-Las Core Web Vitals son métricas esenciales que impactan de manera directa en la experiencia del usuario en la web. Estas indican la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), la interactividad y la estabilidad visual de una página, aspectos fundamentales para mantener la atención del visitante. En este artículo, abordaremos qué son las Core Web Vitals, su importancia en el [SEO](/blog/seo/estrategia-seo) y cómo optimizar las métricas LCP, CLS e INP para mejorar el rendimiento de tu sitio.
+Las Core Web Vitals son métricas esenciales que impactan de manera directa en la experiencia del usuario en la web. Estas indican la [velocidad de carga](/blog/general/web-performance-guide), la interactividad y la estabilidad visual de una página, aspectos fundamentales para mantener la atención del visitante. En este artículo, abordaremos qué son las Core Web Vitals, su importancia en el [SEO](/blog/seo/estrategia-seo) y cómo optimizar las métricas LCP, CLS e INP para mejorar el rendimiento de tu sitio.
 
 Entender y aplicar correctamente estas métricas no solo mejorará la experiencia del usuario, sino que también podrá influir en tu posicionamiento en los motores de búsqueda. Acompáñame en este recorrido para conocer a fondo las Core Web Vitals y cómo implementarlas eficazmente.
 
@@ -188,7 +188,7 @@ La integración de Core Web Vitals en la arquitectura web y el [SEO técnico](/b
 
 ### Impacto en Renderizado y Crawl Budget
 
-Las métricas de Core Web Vitals tienen un impacto significativo en el renderizado de una página y en la eficiencia del [Crawl Budget](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) de un sitio. Un sitio web con un LCP alto puede provocar que los motores de búsqueda dediquen más tiempo a procesar las solicitudes, afectando así el Crawl Budget. Esto puede traducirse en una indexación menos eficiente y, en consecuencia, en una disminución del posicionamiento en los resultados de búsqueda.
+Las métricas de Core Web Vitals tienen un impacto significativo en el renderizado de una página y en la eficiencia del [Crawl Budget](/blog/general/robots-txt-best-practices) de un sitio. Un sitio web con un LCP alto puede provocar que los motores de búsqueda dediquen más tiempo a procesar las solicitudes, afectando así el Crawl Budget. Esto puede traducirse en una indexación menos eficiente y, en consecuencia, en una disminución del posicionamiento en los resultados de búsqueda.
 
 Por ejemplo, una página con un LCP de más de 2.5 segundos genera un retardo en la experiencia del usuario, lo que puede resultar en una alta tasa de rebote. Esto sugiere que la mejora del LCP no solo es una cuestión de velocidad percibida, sino que también afecta a la capacidad de los motores de búsqueda para almacenar en caché y redistribuir el contenido de manera efectiva. La optimización, por lo tanto, debe ser una prioridad para todos los sitios que buscan mejorar su SEO.
 

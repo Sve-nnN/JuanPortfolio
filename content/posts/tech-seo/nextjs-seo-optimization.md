@@ -58,7 +58,7 @@ El componente **Head** de Next.js permite la gestión dinámica de las etiquetas
 
 ### Implementación de datos estructurados JSON-LD para mejorar resultados
 
-La implementación de [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) utilizando **JSON-LD** es una técnica avanzada que permite a los motores de búsqueda entender mejor el contexto del contenido de una página. Al incluir información específica sobre el tipo de contenido, como productos, artículos o eventos, se pueden crear **rich snippets** en los resultados de búsqueda, mejorando la visibilidad y la tasa de clics. Next.js facilita la incorporación de [datos estructurados](/blog/general/schema-markup-guide) en las páginas mediante el uso de scripts dentro del componente Head, alineándose así con las mejores prácticas de SEO y optimizando el rendimiento en los motores de búsqueda.
+La implementación de [datos estructurados](/blog/general/schema-markup-guide) utilizando **JSON-LD** es una técnica avanzada que permite a los motores de búsqueda entender mejor el contexto del contenido de una página. Al incluir información específica sobre el tipo de contenido, como productos, artículos o eventos, se pueden crear **rich snippets** en los resultados de búsqueda, mejorando la visibilidad y la tasa de clics. Next.js facilita la incorporación de [datos estructurados](/blog/general/schema-markup-guide) en las páginas mediante el uso de scripts dentro del componente Head, alineándose así con las mejores prácticas de SEO y optimizando el rendimiento en los motores de búsqueda.
 
 ## Optimización técnica para next js seo optimization
 
@@ -74,7 +74,7 @@ Los problemas de contenido duplicado pueden afectar gravemente la clasificación
 
 ### Optimización avanzada de scripts con next/script
 
-La carga excesiva de scripts puede provocar tiempos de carga lentos, lo que impacta negativamente en el SEO. Utilizar el componente **next/script** permite a los desarrolladores optimizar la carga de JavaScript, controlando su prioridad y haciendo que los scripts se carguen de manera más eficiente. Esta optimización no solo mejora la experiencia del usuario, sino que también puede contribuir a una mejor puntuación de los [Core Web Vitals](https://juan-tech.com/blog/tech-seo/web-performance-guide).
+La carga excesiva de scripts puede provocar tiempos de carga lentos, lo que impacta negativamente en el SEO. Utilizar el componente **next/script** permite a los desarrolladores optimizar la carga de JavaScript, controlando su prioridad y haciendo que los scripts se carguen de manera más eficiente. Esta optimización no solo mejora la experiencia del usuario, sino que también puede contribuir a una mejor puntuación de los [Core Web Vitals](/blog/general/web-performance-guide).
 
 ### Estrategias para image optimization usando Next.js Image Component
 
@@ -102,7 +102,7 @@ La calidad del contenido se traduce en la capacidad de atraer y retener la atenc
 
 ### Integración armónica entre contenido y arquitectura SEO técnica
 
-La intersección entre una adecuada estrategia de contenido y una correcta arquitectura SEO técnica es crucial. Next.js permite implementar una arquitectura que potencie el rendimiento del SEO. Esto incluye el uso efectivo de meta tags, estructura de URLs amigables y una navegación intuitiva. Asegurar que el contenido esté correctamente estructurado y que los [enlaces internos](/blog/seo/enlaces-internos-guia) fluyan de forma lógica ayudará a mejorar el [Crawl Budget](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices), lo que significa que los motores de búsqueda podrán rastrear e indexar eficazmente más páginas de tu aplicación.
+La intersección entre una adecuada estrategia de contenido y una correcta arquitectura SEO técnica es crucial. Next.js permite implementar una arquitectura que potencie el rendimiento del SEO. Esto incluye el uso efectivo de meta tags, estructura de URLs amigables y una navegación intuitiva. Asegurar que el contenido esté correctamente estructurado y que los [enlaces internos](/blog/seo/enlaces-internos-guia) fluyan de forma lógica ayudará a mejorar el [Crawl Budget](/blog/general/robots-txt-best-practices), lo que significa que los motores de búsqueda podrán rastrear e indexar eficazmente más páginas de tu aplicación.
 
 ### Medición y monitoreo continuo de Core Web Vitals
 
@@ -114,7 +114,7 @@ Construir autoridad y confianza requiere tiempo y constancia. Publicar contenido
 
 | Métrica | Descripción | Importancia para SEO |
 | --- | --- | --- |
-| [Largest Contentful Paint](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide) (LCP) | Marca el tiempo que tarda en cargar el elemento más grande en la viewport. | Mejorar LCP aumenta la satisfacción del usuario y reduce la tasa de rebote. |
+| [Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP) | Marca el tiempo que tarda en cargar el elemento más grande en la viewport. | Mejorar LCP aumenta la satisfacción del usuario y reduce la tasa de rebote. |
 | First Input Delay (FID) | Tiempo que transcurre hasta que el navegador responde a la primera interacción del usuario. | Un menor FID mejora la percepción de interactividad del sitio. |
 | Cumulative Layout Shift (CLS) | Mide la estabilidad visual de una página durante su carga. | Un CLS bajo asegura una experiencia de usuario sin cambios inesperados. |
 
@@ -122,4 +122,4 @@ Una sólida estrategia de contenido combinada con las mejores prácticas de [SEO
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

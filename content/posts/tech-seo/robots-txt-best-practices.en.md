@@ -119,7 +119,7 @@ Improper configurations of robots.txt can severely hinder a website's indexing c
 
 ### Complementary Tools: Meta Robots Tags and X-Robots-Tag Headers
 
-In addition to robots.txt, incorporating meta robots tags and X-Robots-Tag headers offers enhanced precision in controlling how content is indexed and presented in search results. Meta robots tags can be placed within the HTML of individual pages, providing specific instructions to search engines, while X-Robots-Tag headers allow for similar directives to be applied to non-HTML resources, such as images and PDFs. Together, these tools allow site owners to implement granular control over their content visibility, ensuring that key resources retain visibility while restricting access where necessary. In situations where a site employs **robots txt disallow all**, these complementary methods can safeguard important pages without compromising the overall [indexing strategy](https://juan-tech.com/en/blog/tech-seo/xml-sitemap-automation).
+In addition to robots.txt, incorporating meta robots tags and X-Robots-Tag headers offers enhanced precision in controlling how content is indexed and presented in search results. Meta robots tags can be placed within the HTML of individual pages, providing specific instructions to search engines, while X-Robots-Tag headers allow for similar directives to be applied to non-HTML resources, such as images and PDFs. Together, these tools allow site owners to implement granular control over their content visibility, ensuring that key resources retain visibility while restricting access where necessary. In situations where a site employs **robots txt disallow all**, these complementary methods can safeguard important pages without compromising the overall [indexing strategy](/en/blog/general/xml-sitemap-automation).
 
 ### Regular Auditing and Iteration of robots.txt Configuration
 
@@ -133,4 +133,4 @@ Maintaining an effective robots.txt file requires ongoing monitoring and adjustm
 
 ## See Also
 
-- [Technical SEO Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Technical SEO Guide 2026: The Comprehensive Developer's Handbook](/en/blog/general/tech-seo-guide)

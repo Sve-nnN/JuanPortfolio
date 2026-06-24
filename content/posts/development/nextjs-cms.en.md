@@ -72,7 +72,7 @@ One of Strapi's standout features is its ability to generate customizable APIs e
 Strapi provides a streamlined content management workflow that enhances collaboration among teams. Its robust capabilities allow content creators to manage and localize content effectively, supporting a variety of languages. Key aspects of this workflow include:
 
 -   Easy content creation and editing within a user-friendly interface.
--   [Version](https://juan-tech.com/en/blog/development/payloadcms-seo) control features that help track changes.
+-   Version control features that help track changes.
 -   Multi-language support for localization, increasing accessibility across different markets.
 
 ### Plugin Ecosystem and Integrations

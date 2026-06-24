@@ -116,5 +116,5 @@ Incorporating these practices will help maintain and improve SEO performance wit
 
 ## See Also
 
-- [Payload CMS Tutorial 2026: Architecting Enterprise Backends](https://juan-tech.com/en/blog/development/payloadcms-tutorial)
-- [TypeScript Best Practices 2026: Mastering Robust Code](https://juan-tech.com/en/blog/development/typescript-best-practices)
+- Payload CMS Tutorial 2026: Architecting Enterprise Backends
+- TypeScript Best Practices 2026: Mastering Robust Code

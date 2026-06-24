@@ -199,7 +199,7 @@ Measuring the impact of schema markup on SEO is essential for determining its ef
 
 ### Tracking Rich Results Performance
 
-Rich results, which are enhanced search listings that display additional information, can significantly improve click-through rates (CTR) and user engagement. To track the performance of rich results, it's vital to use tools like [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation). This platform provides insights into how the rich results are performing, including visibility in search results, impressions, and click data associated with specific schema types. The following table summarizes important metrics to monitor for evaluating rich results performance:
+Rich results, which are enhanced search listings that display additional information, can significantly improve click-through rates (CTR) and user engagement. To track the performance of rich results, it's vital to use tools like [Google Search Console](/blog/general/xml-sitemap-automation). This platform provides insights into how the rich results are performing, including visibility in search results, impressions, and click data associated with specific schema types. The following table summarizes important metrics to monitor for evaluating rich results performance:
 
 | Metric | Description | Importance |
 | --- | --- | --- |
@@ -236,4 +236,4 @@ The maintenance of schema markup is not a one-time effort; instead, it requires 
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

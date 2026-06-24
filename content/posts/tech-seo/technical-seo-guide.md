@@ -44,7 +44,7 @@ La optimización técnica se centra en facilitar el rastreo e indexación de un 
 
 Rastreo eficiente: Permitir a los motores de búsqueda descubrir todas las páginas relevantes.
 Indexación adecuada: Asegurarse de que las páginas se almacenen correctamente en los índices de búsqueda.
-Mejora de la experiencia del usuario: Optimizar la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la usabilidad de la interfaz.
+Mejora de la experiencia del usuario: Optimizar la [velocidad de carga](/blog/general/web-performance-guide) y la usabilidad de la interfaz.
 Relación entre arquitectura web y SEO técnico
 
 La arquitectura de un sitio impacta directamente en su rendimiento SEO. Elementos como la jerarquía de las páginas, la organización de las URLs y la navegación son críticos.
@@ -83,7 +83,7 @@ Un [sitemap XML](/blog/general/xml-sitemap-automation) XML actúa como un mapa d
 
 Incluir las páginas más relevantes y eliminar las que ya no existan.
 Actualizar el sitemap periódicamente para reflejar cambios recientes.
-Enviar el sitemap actualizado a [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation).
+Enviar el sitemap actualizado a [Google Search Console](/blog/general/xml-sitemap-automation).
 Uso correcto del archivo [robots.txt](/blog/general/robots-txt-best-practices)
 
 El archivo robots.txt regula cómo los robots de los motores de búsqueda interactúan con el sitio. Permite bloquear el acceso a secciones no deseadas y garantizar que el rastreo se realice de manera eficiente. Es necesario:
@@ -119,7 +119,7 @@ Utilizar herramientas para analizar el rendimiento es fundamental para identific
 
 Evaluar el tiempo de respuesta del servidor y la eficiencia de los recursos multimedia.
 Realizar auditorías periódicas para asegurar el cumplimiento de los estándares de rendimiento.
-[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y [datos estructurados](/blog/general/schema-markup-guide)
+[Datos estructurados](/blog/general/schema-markup-guide) y [datos estructurados](/blog/general/schema-markup-guide)
 
 Los datos estructurados permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
@@ -198,7 +198,7 @@ Cambiar URLs es un proceso que puede provocar pérdida de tráfico. Implementar 
 
 Configurar redirecciones 301 en el archivo .htaccess o en la configuración del servidor.
 Revisar que todas las redirecciones apunten a la página adecuada.
-Utilizar [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide) para verificar que no haya cadenas de redirección innecesarias.
+Utilizar [herramientas de auditoría](/blog/general/non-developers-guide) para verificar que no haya cadenas de redirección innecesarias.
 Prevención y resolución de contenido duplicado
 
 El contenido duplicado puede confundir a los motores de búsqueda y diluir el valor de clasificación de un sitio. Para abordarlo, se deben seguir estas recomendaciones:
@@ -235,7 +235,7 @@ La salud del certificado SSL debe ser monitoreada regularmente. Un certificado c
 Comprobar la fecha de expiración de los certificados.
 Validar que la cadena de certificados sea correcta.
 Ejecutar auditorías de seguridad periódicas para identificar posibles vulnerabilidades.
-Monitoreo y análisis del [rendimiento SEO técnico](https://juan-tech.com/blog/tech-seo/ssr-vs-csr-seo)
+Monitoreo y análisis del [rendimiento SEO técnico](/blog/general/ssr-vs-csr-seo)
 
 El monitoreo y análisis del rendimiento técnico del SEO son fundamentales para asegurar que un sitio web se mantenga optimizado y competitivo en los motores de búsqueda. A través de herramientas especializadas es posible identificar áreas que requieren ajustes y mejoras continuas.
 
@@ -264,7 +264,7 @@ Interpretación de Web Vitals para mejorar experiencia de usuario
 
 Web Vitals mide aspectos clave del rendimiento de una página web, como la velocidad de carga, la interactividad y la estabilidad visual. Esta métrica incluye elementos como:
 
-[Largest Contentful Paint](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide) (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
+[Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
 First Input Delay (FID) – Tiempo que el usuario espera para interactuar con la página.
 Cumulative Layout Shift (CLS) – Mide la estabilidad visual de la página.
 Gestión avanzada del rastreo e indexación
@@ -276,7 +276,7 @@ Configuración estratégica del archivo robots.txt
 El archivo robots.txt es una herramienta crucial para gestionar el acceso de los motores de búsqueda a diferentes secciones de un sitio. Su configuración debe ser cuidadosa. Al manejar este archivo, es necesario:
 
 Permitir el acceso a las páginas importantes.
-Bloquear rutas no relevantes que pueden desperdiciar el [Crawl Budget](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices).
+Bloquear rutas no relevantes que pueden desperdiciar el [Crawl Budget](/blog/general/robots-txt-best-practices).
 Utilizar comentarios para aclarar la intención detrás de las reglas aplicadas.
 
 Una configuración errónea puede resultar en la exclusión de páginas que deberían ser indexadas.

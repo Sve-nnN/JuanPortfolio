@@ -144,7 +144,7 @@ On the other hand, a well-structured **sitemap.xml** enables search engines to d
 
 ## Performance Monitoring and SEO Auditing
 
-Monitoring performance and conducting SEO audits are crucial aspects of maintaining the effectiveness of a Next.js website. These processes ensure that the website not only meets the [technical SEO](https://juan-tech.com/en/blog/tech-seo/web-performance-guide) standards but also provides an optimal user experience. Regular performance monitoring helps identify areas for improvement, while comprehensive SEO audits facilitate the refinement of strategies for better search engine visibility.
+Monitoring performance and conducting SEO audits are crucial aspects of maintaining the effectiveness of a Next.js website. These processes ensure that the website not only meets the [technical SEO](/en/blog/general/web-performance-guide) standards but also provides an optimal user experience. Regular performance monitoring helps identify areas for improvement, while comprehensive SEO audits facilitate the refinement of strategies for better search engine visibility.
 
 ### Measuring Core Web Vitals with Next.js Projects
 
@@ -198,4 +198,4 @@ By identifying and addressing these common SEO pitfalls in Next.js, developers c
 
 ## See Also
 
-- [Technical SEO for Non-Developers 2026: No Fear Guide](https://juan-tech.com/en/blog/tech-seo/non-developers-guide)
+- [Technical SEO for Non-Developers 2026: No Fear Guide](/en/blog/general/non-developers-guide)

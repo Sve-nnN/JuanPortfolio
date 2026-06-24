@@ -42,7 +42,7 @@ This guide covers crucial web performance metrics, actionable optimization strat
 
 ## Key Web Performance Metrics
 
-Web performance metrics are critical for understanding and optimizing the speed and efficiency of a website. These metrics directly influence user experience, search rankings, and conversion rates. Three key metrics that every web developer, [technical SEO](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) professional, and business owner should monitor include **[Largest Contentful Paint](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide) (LCP)**, **Cumulative Layout Shift (CLS)**, and **Interaction to Next Paint (INP)**. Understanding these metrics provides insights necessary for enhancing website performance.
+Web performance metrics are critical for understanding and optimizing the speed and efficiency of a website. These metrics directly influence user experience, search rankings, and conversion rates. Three key metrics that every web developer, [technical SEO](/en/blog/general/robots-txt-best-practices) professional, and business owner should monitor include **[Largest Contentful Paint](/en/blog/general/core-web-vitals-guide) (LCP)**, **Cumulative Layout Shift (CLS)**, and **Interaction to Next Paint (INP)**. Understanding these metrics provides insights necessary for enhancing website performance.
 
 ### Largest Contentful Paint (LCP)
 
@@ -87,7 +87,7 @@ To improve the INP metric, focus on these strategies:
 -   **Asynchronous JavaScript:** Use async or defer attributes for JavaScript files to prevent them from blocking the main thread during loading.
 -   **Reduce JavaScript Execution Time:** Regularly audit and optimize JavaScript code, eliminating unnecessary functions and libraries that might slow down the execution.
 -   **Optimize CSS Resources:** Minimize the size of CSS files. Also, leverage tools to combine CSS files and eliminate unused styles to expedite rendering.
--   **Client-Side Rendering Techniques:** Explore alternatives to traditional rendering methods by considering [server-side rendering](https://juan-tech.com/en/blog/tech-seo/ssr-vs-csr-seo) ([SSR vs CSR](/en/blog/general/ssr-vs-csr-seo)) or static site generation (SSG) to enhance perceived performance.
+-   **Client-Side Rendering Techniques:** Explore alternatives to traditional rendering methods by considering [server-side rendering](/en/blog/general/ssr-vs-csr-seo) ([SSR vs CSR](/en/blog/general/ssr-vs-csr-seo)) or static site generation (SSG) to enhance perceived performance.
 
 By focusing on these optimization strategies, developers can significantly improve web performance metrics and provide users with a seamless experience. For comprehensive monitoring and guidance, refer to the solarwinds web performance monitor admin guide, which offers insights on maintaining optimal web performance.
 
@@ -131,6 +131,6 @@ By adhering to these practices, administrators can maximize the effectiveness of
 
 ## See Also
 
-- [Core Web Vitals Guide 2026: Optimizing LCP, CLS, and INP](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide)
-- [Next.js SEO 2026: Optimizing App Router and Metadata](https://juan-tech.com/en/blog/tech-seo/nextjs-seo-optimization)
-- [Technical SEO for Non-Developers 2026: No Fear Guide](https://juan-tech.com/en/blog/tech-seo/non-developers-guide)
+- [Core Web Vitals Guide 2026: Optimizing LCP, CLS, and INP](/en/blog/general/core-web-vitals-guide)
+- [Next.js SEO 2026: Optimizing App Router and Metadata](/en/blog/general/nextjs-seo-optimization)
+- [Technical SEO for Non-Developers 2026: No Fear Guide](/en/blog/general/non-developers-guide)

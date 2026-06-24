@@ -32,7 +32,7 @@ keyword: technical seo checklist
 
 In an ever-evolving digital landscape, ensuring your website adheres to technical [SEO](/en/blog/seo/estrategia-seo) best practices is essential for optimal performance and visibility. This comprehensive technical SEO checklist for 2026 serves as your go-to resource for improving your site’s search engine compatibility.
 
-From conducting thorough website audits to enhancing [Core Web Vitals](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide), this guide outlines critical steps and a technical SEO checklist template that can help developers, technical SEOs, and business owners achieve greater online success.
+From conducting thorough website audits to enhancing [Core Web Vitals](/en/blog/general/core-web-vitals-guide), this guide outlines critical steps and a technical SEO checklist template that can help developers, technical SEOs, and business owners achieve greater online success.
 
 ## Website Audit
 
@@ -90,11 +90,11 @@ Inactive pages, or those that are no longer receiving traffic, can hinder websit
 
 ### Implementing Content Delivery Networks (CDN)
 
-Utilizing a Content Delivery Network (CDN) can greatly enhance website speed by distributing content across multiple geographically dispersed servers. This minimizes the distance between users and the server, resulting in quicker load times for content. [CDNs](https://juan-tech.com/en/blog/tech-seo/web-performance-guide) cache static resources—such as images, stylesheets, and scripts—thereby reducing the server load and decreasing latency. Implementing a CDN is not only a viable solution for improving speed but also helps in handling traffic spikes more efficiently, making it an effective strategy within a comprehensive technical SEO checklist.
+Utilizing a Content Delivery Network (CDN) can greatly enhance website speed by distributing content across multiple geographically dispersed servers. This minimizes the distance between users and the server, resulting in quicker load times for content. [CDNs](/en/blog/general/web-performance-guide) cache static resources—such as images, stylesheets, and scripts—thereby reducing the server load and decreasing latency. Implementing a CDN is not only a viable solution for improving speed but also helps in handling traffic spikes more efficiently, making it an effective strategy within a comprehensive technical SEO checklist.
 
 ## Crawlability Improvement
 
-The crawlability of a website is crucial for ensuring that search engines can effectively index its content. By optimizing various elements that impact how a site is crawled, businesses can significantly enhance their search engine visibility. This section delves into key strategies for improving crawlability through XML sitemaps, [robots.txt](/en/blog/general/robots-txt-best-practices) configuration, and optimizing [crawl budget](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) and content freshness.
+The crawlability of a website is crucial for ensuring that search engines can effectively index its content. By optimizing various elements that impact how a site is crawled, businesses can significantly enhance their search engine visibility. This section delves into key strategies for improving crawlability through XML sitemaps, [robots.txt](/en/blog/general/robots-txt-best-practices) configuration, and optimizing [crawl budget](/en/blog/general/robots-txt-best-practices) and content freshness.
 
 ### XML Sitemap Creation and Management
 

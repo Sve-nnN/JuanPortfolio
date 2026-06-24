@@ -197,4 +197,4 @@ La elección correcta de un **headless CMS open-source** no solo influye en la g
 
 ## See Also
 
-- [Technical SEO](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Technical SEO](/en/blog/general/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)

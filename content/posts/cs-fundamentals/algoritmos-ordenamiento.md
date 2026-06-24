@@ -37,7 +37,7 @@ semantic_keywords:
   - estructuras de datos y algoritmos
 keyword: algoritmos de ordenamiento
 ---
-Los [algoritmos de ordenamiento](/posts/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
+Los [algoritmos de ordenamiento](/blog/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
 
 ## Fundamentos de los algoritmos de ordenamiento
 

@@ -48,7 +48,7 @@ From installation to optimization techniques, you'll gain a comprehensive unders
 
 ### Understanding Payload CMS Architecture
 
-The architecture of Payload CMS is built around a [Headless CMS](/en/blog/development/headless-cms-comparison) model, which separates the content management backend from the frontend presentation layer. This architecture enables developers to utilize the power of their preferred frontend frameworks while leveraging Payload’s robust content management features. At its core, the architecture is based on a [Node.js backend](https://juan-tech.com/en/blog/development/payloadcms-vs-strapi), using MongoDB for data storage, offering high performance and scalability. This structure supports creating customizable APIs, which provide the necessary endpoints for fetching and delivering content seamlessly to your applications.
+The architecture of Payload CMS is built around a [Headless CMS](/en/blog/development/headless-cms-comparison) model, which separates the content management backend from the frontend presentation layer. This architecture enables developers to utilize the power of their preferred frontend frameworks while leveraging Payload’s robust content management features. At its core, the architecture is based on a Node.js backend, using MongoDB for data storage, offering high performance and scalability. This structure supports creating customizable APIs, which provide the necessary endpoints for fetching and delivering content seamlessly to your applications.
 
 ### Prerequisites for Your First Payload Project
 
@@ -90,7 +90,7 @@ Payload CMS provides powerful customization capabilities through its support for
 
 ### Asset Management and Media Handling
 
-Effective management of multimedia content is crucial for any modern web application. Payload CMS offers sophisticated asset management features, enabling users to upload, organize, and utilize various media types seamlessly. The platform supports image and video uploads, along with [metadata management](https://juan-tech.com/en/blog/development/payloadcms-seo), which allows for better searchability and categorization of assets. With built-in options for resizing and optimizing media, Payload ensures that performance is not compromised while delivering rich content experiences across all devices.
+Effective management of multimedia content is crucial for any modern web application. Payload CMS offers sophisticated asset management features, enabling users to upload, organize, and utilize various media types seamlessly. The platform supports image and video uploads, along with metadata management, which allows for better searchability and categorization of assets. With built-in options for resizing and optimizing media, Payload ensures that performance is not compromised while delivering rich content experiences across all devices.
 
 ## Advanced Usage and Optimization
 
@@ -106,7 +106,7 @@ To ensure that Payload CMS projects perform optimally, adhere to several best pr
 
 1\. \*\*Caching:\*\* Implement caching strategies for frequently accessed data to reduce the load time and improve user experience. Consider using in-memory caching or a CDN for static assets.
 
-2\. \*\*[Image Optimization](https://juan-tech.com/en/blog/development/nextjs-portfolio):\*\* Use image handling features in Payload CMS to resize and compress images. This not only saves bandwidth but also speeds up the rendering time on the frontend.
+2\. \*\*Image Optimization:\*\* Use image handling features in Payload CMS to resize and compress images. This not only saves bandwidth but also speeds up the rendering time on the frontend.
 
 3\. \*\*Minification:\*\* Ensure that CSS and JavaScript files are minified to decrease the amount of data transferred between the server and client. This can significantly lower page load times.
 
@@ -132,7 +132,7 @@ For performance concerns, use profiling tools to identify slow queries and optim
 
 ## See Also
 
-- [Next.js Portfolio 2026: Building Responsive Technical Identity](https://juan-tech.com/en/blog/development/nextjs-portfolio)
-- [Next.js Server Components 2026: Architecture and Performance](https://juan-tech.com/en/blog/development/nextjs-server-components)
-- [Payload CMS vs Strapi 2026: The Technical Showdown](https://juan-tech.com/en/blog/development/payloadcms-vs-strapi)
-- [TypeScript Best Practices 2026: Mastering Robust Code](https://juan-tech.com/en/blog/development/typescript-best-practices)
+- Next.js Portfolio 2026: Building Responsive Technical Identity
+- Next.js Server Components 2026: Architecture and Performance
+- Payload CMS vs Strapi 2026: The Technical Showdown
+- TypeScript Best Practices 2026: Mastering Robust Code

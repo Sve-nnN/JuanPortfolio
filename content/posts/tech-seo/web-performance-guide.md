@@ -132,4 +132,4 @@ Estas estrategias se alinean con el objetivo de **mejorar el rendimiento de una 
 
 ## Ver también
 
-- [Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide)
+- [Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código](/blog/general/core-web-vitals-guide)

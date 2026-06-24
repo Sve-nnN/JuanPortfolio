@@ -70,7 +70,7 @@ This combination is especially valuable for projects requiring frequently update
 Payload CMS offers tools and features designed to streamline the development process. Its user-friendly dashboard allows developers to manage content efficiently, while its API-first approach facilitates easy content delivery across various endpoints. Important elements include:
 
 -   Custom content models that allow developers to structure their data precisely as needed.
--   [Version](https://juan-tech.com/en/blog/development/payloadcms-seo) control and rollback features, ensuring that content can be managed effectively throughout its lifecycle.
+-   Version control and rollback features, ensuring that content can be managed effectively throughout its lifecycle.
 -   Flexible access controls, empowering teams to manage permissions based on business requirements.
 
 These optimizations lead to improved collaboration between developers and content creators, reducing bottlenecks during the content approval process.

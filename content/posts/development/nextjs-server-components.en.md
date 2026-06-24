@@ -118,5 +118,5 @@ This bifurcation not only leads to enhanced maintainability but also allows team
 
 ## See Also
 
-- [Payload CMS Tutorial 2026: Architecting Enterprise Backends](https://juan-tech.com/en/blog/development/payloadcms-tutorial)
-- [Payload CMS vs Strapi 2026: The Technical Showdown](https://juan-tech.com/en/blog/development/payloadcms-vs-strapi)
+- Payload CMS Tutorial 2026: Architecting Enterprise Backends
+- Payload CMS vs Strapi 2026: The Technical Showdown

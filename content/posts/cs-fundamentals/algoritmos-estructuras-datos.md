@@ -661,7 +661,7 @@ No es estrictamente necesario, pero aprender C o C++ puede proporcionar una comp
 ## Ver también
 
 - [Diseño de bases de datos](https://juan-tech.com/blog/cs-fundamentals/normalizacion-bases-datos): Claves para una estructura efectiva y moderna](https://juan-tech.com/blog/cs-fundamentals/diseno-bases-datos)
-- [Post con See Also Erróneo](https://juan-tech.com/blog/test/see-also-test)
+- Post con See Also Erróneo
 
 ## See Also
 

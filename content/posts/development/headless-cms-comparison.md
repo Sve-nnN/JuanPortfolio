@@ -35,7 +35,7 @@ Entender los fundamentos del Headless CMS es fundamental para apreciar su capaci
 
 ### Diferencias entre CMS Tradicional y Headless
 
-Los sistemas de [gestión de contenidos](https://juan-tech.com/blog/development/payloadcms-vs-strapi) tradicionales combinan el frontend y el backend, creando una arquitectura monolítica. Esto es diferente en un Headless CMS, donde estas capas están completamente separadas. Dicha separación permite que el contenido sea accesible a través de APIs, ofreciendo una flexibilidad superior. Las diferencias clave incluyen:
+Los sistemas de gestión de contenidos tradicionales combinan el frontend y el backend, creando una arquitectura monolítica. Esto es diferente en un Headless CMS, donde estas capas están completamente separadas. Dicha separación permite que el contenido sea accesible a través de APIs, ofreciendo una flexibilidad superior. Las diferencias clave incluyen:
 
 -   **Arquitectura:** Los CMS tradicionales están diseñados para ofrecer un entorno cerrado, mientras que los Headless CMS trabajan en un ecosistema abierto.
 -   **Experiencia del usuario:** En un enfoque tradicional, la experiencia del usuario está vinculada al CMS, mientras que el Headless permite personalizar cualquier interfaz de usuario.

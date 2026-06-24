@@ -27,8 +27,13 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
   const opacity = useTransform(scrollY, [0, 300], [1, 0])
   const scale = useTransform(scrollY, [0, 500], [1, 0.9])
 
+  // The hero text is the LCP element. Framer Motion renders the `hidden` variant
+  // as the SSR inline style, so starting at opacity:0 left the H1 invisible until
+  // the client JS hydrated (~3s on slow mobile) → LCP ~8s. Keep the slide-up
+  // entrance (translateY, composited, no CLS) but paint the text visible from the
+  // first server render so LCP fires on first paint. CWV milestone v1.1.
   const containerVariants: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
@@ -38,7 +43,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
   }
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 1, y: 24 },
     visible: {
       opacity: 1,
       y: 0,

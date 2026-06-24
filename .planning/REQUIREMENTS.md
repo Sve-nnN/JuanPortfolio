@@ -86,10 +86,10 @@
 | LINKS-04 | Phase 16 | Done |
 | LINKS-05 | Phase 16 | Done |
 | LINKS-06 | Phase 16 | Done |
-| IMG-01 | Phase 17 | Pending |
-| IMG-03 | Phase 17 | Pending |
-| HREF-01 | Phase 17 | Pending |
-| HREF-02 | Phase 17 | Pending |
+| IMG-01 | Phase 17 | Done |
+| IMG-03 | Phase 17 | Done |
+| HREF-01 | Phase 17 | Done |
+| HREF-02 | Phase 17 | Done |
 | INDEX-01 | Phase 18 | Pending |
 | INDEX-02 | Phase 18 | Pending |
 | INDEX-03 | Phase 18 | Pending |

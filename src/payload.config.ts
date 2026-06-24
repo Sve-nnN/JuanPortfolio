@@ -44,7 +44,10 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/admin/GSCSummary#GSCSummary'],
+      beforeDashboard: [
+        '@/components/admin/DomainRatingCard#DomainRatingCard',
+        '@/components/admin/GSCSummary#GSCSummary',
+      ],
       afterNavLinks: ['@/components/admin/GSCDashboardLink#GSCDashboardLink'],
       views: {
         GSCDashboard: {

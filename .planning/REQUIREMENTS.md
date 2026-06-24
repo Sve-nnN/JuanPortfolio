@@ -79,9 +79,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| LINKS-01 | Phase 15 | Pending |
-| LINKS-02 | Phase 15 | Pending |
-| IMG-02 | Phase 15 | Pending |
+| LINKS-01 | Phase 15 | Done |
+| LINKS-02 | Phase 15 | Done |
+| IMG-02 | Phase 15 | Done |
 | LINKS-03 | Phase 16 | Pending |
 | LINKS-04 | Phase 16 | Pending |
 | LINKS-05 | Phase 16 | Pending |

@@ -113,7 +113,7 @@ Las etiquetas alt, o texto alternativo, son esenciales para el SEO de las imáge
 
 ### Técnicas de compresión y formatos recomendados
 
-La compresión de imágenes es un aspecto vital para optimizar la velocidad de carga de un sitio web. Imágenes con un tamaño de archivo excesivo pueden ralentizar la carga de la página, lo que a su vez afecta la experiencia del usuario y el posicionamiento en buscadores. Se recomienda utilizar formatos adecuados como JPEG, PNG y WebP, ya que cada uno tiene sus ventajas específicas en términos de calidad y tamaño de archivo. Para mantener un equilibrio entre calidad y rendimiento, herramientas de compresión de imágenes pueden ser muy útiles, permitiendo reducir el tamaño de las imágenes sin sacrificar su integridad visual. Además, siempre es recomendable probar diferentes niveles de compresión para encontrar el óptimo que se ajuste a las necesidades del sitio.
+La compresión de imágenes es un aspecto vital para optimizar la [velocidad de carga](/blog/general/web-performance-guide) de un sitio web. Imágenes con un tamaño de archivo excesivo pueden ralentizar la carga de la página, lo que a su vez afecta la experiencia del usuario y el posicionamiento en buscadores. Se recomienda utilizar formatos adecuados como JPEG, PNG y WebP, ya que cada uno tiene sus ventajas específicas en términos de calidad y tamaño de archivo. Para mantener un equilibrio entre calidad y rendimiento, herramientas de compresión de imágenes pueden ser muy útiles, permitiendo reducir el tamaño de las imágenes sin sacrificar su integridad visual. Además, siempre es recomendable probar diferentes niveles de compresión para encontrar el óptimo que se ajuste a las necesidades del sitio.
 
 La integración de imágenes optimizadas no solo mejora el SEO, sino que también puede resultar en una mayor retención de usuarios y, potencialmente, un incremento en las conversiones. Por estas razones, la atención a detalles en la optimización de imágenes debe ser una prioridad dentro de cualquier estrategia de SEO On Page.
 
@@ -147,7 +147,7 @@ Los enlaces externos también juegan un papel vital en el SEO On Page, ya que al
 
 Al establecer enlaces externos, es importante considerar el uso del atributo "rel='nofollow'" para aquellos enlaces que no se quiere que transmitan autoridad, como menciones publicitarias. Esto ayuda a preservar el "link juice" para los enlaces más estratégicos. Asimismo, al fomentar una relación de interconexión con otros sitios relevantes, se abre la puerta para potenciales colaboraciones y oportunidades de creación de enlaces, lo que puede resultar beneficioso para ambas partes y mejorar aún más el posicionamiento en los motores de búsqueda.
 
-La combinación de estrategias de enlaces internos y externos, alineada con un análisis continuo a través de herramientas de auditoría, contribuye significativamente a la mejora del SEO On Page, asegurando que cada página alcance su máximo potencial en visibilidad y autoridad.
+La combinación de estrategias de enlaces internos y externos, alineada con un análisis continuo a través de [herramientas de auditoría](/blog/general/non-developers-guide), contribuye significativamente a la mejora del SEO On Page, asegurando que cada página alcance su máximo potencial en visibilidad y autoridad.
 
 ## Responsive Design y Rendimiento Web
 

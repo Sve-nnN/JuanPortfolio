@@ -13,7 +13,9 @@ relatedPosts:
   - nextjs-server-components
 sidebarBanners: []
 metaTitle: 'TypeScript Best Practices 2026: guía de código limpio'
-metaDescription: 'TypeScript best practices para 2026: modo estricto, evitar any, tipos frente a interfaces y patrones de tipado para escribir código limpio y mantenible.'
+metaDescription: >-
+  TypeScript best practices para 2026: modo estricto, evitar any, tipos frente a
+  interfaces y patrones de tipado para escribir código limpio y mantenible.
 primary_keywords:
   - typescript best practices
   - desarrollo web profesional
@@ -225,4 +227,5 @@ Finalmente, establecer un proceso de pruebas automatizadas garantiza que las nue
 
 ## Ver también
 
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

@@ -37,7 +37,7 @@ tldr: >-
   code interacts with AI crawlers, how your rendering strategy impacts
   performance, and how your data structures facilitate information extraction.
 ---
-In the fast-evolving landscape of digital marketing, [technical SEO](/en/blog/general/xml-sitemap-automation)](https://juan-tech.com/en/blog/tech-[SEO](/en/blog/seo/estrategia-seo)/robots-txt-best-practices) serves as a fundamental pillar for success. This guide aims to equip developers, [technical SEOs](/en/blog/general/robots-txt-best-practices), and business owners with essential strategies to enhance their website's visibility and performance in search engines.
+In the fast-evolving landscape of digital marketing, technical SEO serves as a fundamental pillar for success. This guide aims to equip developers, [technical SEOs](/en/blog/general/robots-txt-best-practices), and business owners with essential strategies to enhance their website's visibility and performance in search engines.
 
 From understanding how crawlers function to optimizing URL structures and addressing common content issues, this article delves into critical aspects of technical SEO. Let’s navigate the complexities of technical SEO to unlock the potential of your web presence.
 

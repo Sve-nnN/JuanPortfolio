@@ -35,7 +35,7 @@ A medida que explores este tema, descubrirás cómo los [datos estructurados](/b
 
 ### ¿Qué son los datos estructurados y cómo funcionan?
 
-Los **datos estructurados SEO** son una forma de etiquetar información en un sitio web de manera que los motores de búsqueda, como Google, puedan entender y contextualizar el contenido de forma más eficiente. Esta estructuración permite que los motores de búsqueda detecten diferentes tipos de información, como reseñas, eventos o productos, facilitando su indexación y mejorando la presentación en los resultados de búsqueda. Funcionan mediante un vocabulario específico conocido como marcado, que proporciona detalles adicionales sobre cada elemento de contenido en una página web, ayudando a los motores a mostrar resultados enriquecidos.
+Los **[datos estructurados](/blog/general/schema-markup-guide) SEO** son una forma de etiquetar información en un sitio web de manera que los motores de búsqueda, como Google, puedan entender y contextualizar el contenido de forma más eficiente. Esta estructuración permite que los motores de búsqueda detecten diferentes tipos de información, como reseñas, eventos o productos, facilitando su indexación y mejorando la presentación en los resultados de búsqueda. Funcionan mediante un vocabulario específico conocido como marcado, que proporciona detalles adicionales sobre cada elemento de contenido en una página web, ayudando a los motores a mostrar resultados enriquecidos.
 
 ### El papel de Schema.org en el marcado semántico
 

@@ -19,7 +19,10 @@ tldr: >-
   Analizamos las diferencias arquitectónicas entre Payload y Strapi, destacando
   los casos de uso donde cada uno brilla por su flexibilidad y escalabilidad.
 metaTitle: 'Payload CMS vs Strapi 2026: qué headless CMS elegir'
-metaDescription: 'Payload CMS vs Strapi: comparamos arquitectura, experiencia de desarrollo, personalización y rendimiento para saber qué headless CMS encaja en tu proyecto.'
+metaDescription: >-
+  Payload CMS vs Strapi: comparamos arquitectura, experiencia de desarrollo,
+  personalización y rendimiento para saber qué headless CMS encaja en tu
+  proyecto.
 primary_keywords:
   - payloadcms vs strapi
   - comparativa headless cms
@@ -178,4 +181,5 @@ La elección entre Payload CMS y Strapi dependerá de las especificaciones parti
 
 ## Ver también
 
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

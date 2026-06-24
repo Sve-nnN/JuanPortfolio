@@ -20,7 +20,9 @@ tldr: >-
   resultados enriquecidos de la IA y mejorar el CTR mediante fragmentos visuales
   impactantes.
 metaTitle: 'Schema Markup 2026: Guía de Datos Estructurados JSON-LD'
-metaDescription: 'Guía de schema markup paso a paso: qué es, cómo implementar JSON-LD y qué tipos usar para conseguir resultados enriquecidos y contexto para la IA.'
+metaDescription: >-
+  Guía de schema markup paso a paso: qué es, cómo implementar JSON-LD y qué
+  tipos usar para conseguir resultados enriquecidos y contexto para la IA.
 primary_keywords:
   - schema markup guide
   - datos estructurados
@@ -236,4 +238,4 @@ The maintenance of schema markup is not a one-time effort; instead, it requires 
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

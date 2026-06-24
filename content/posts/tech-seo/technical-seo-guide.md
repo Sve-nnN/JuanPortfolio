@@ -54,7 +54,7 @@ URLs limpias: Facilitan tanto el rastreo como la comprensión del contenido.
 Navegación intuitiva: La accesibilidad del contenido mejora el tiempo de permanencia de los usuarios.
 Cómo afecta el SEO técnico a la visibilidad en Google
 
-Un buen SEO técnico no solo mejora la visibilidad, sino que también impacta en los rankings de búsqueda. Los factores técnicos, como la velocidad de carga y la compatibilidad móvil, son considerados por Google en su algoritmo de clasificación.
+Un buen SEO técnico no solo mejora la visibilidad, sino que también impacta en los rankings de búsqueda. Los factores técnicos, como la [velocidad de carga](/blog/general/web-performance-guide) y la compatibilidad móvil, son considerados por Google en su algoritmo de clasificación.
 
 Velocidad de carga: Un sitio que carga rápidamente puede obtener posiciones más altas.
 Compatibilidad móvil: La optimización para dispositivos móviles es esencial para el ranking.
@@ -121,7 +121,7 @@ Evaluar el tiempo de respuesta del servidor y la eficiencia de los recursos mult
 Realizar auditorías periódicas para asegurar el cumplimiento de los estándares de rendimiento.
 [Datos estructurados](/blog/general/schema-markup-guide) y [datos estructurados](/blog/general/schema-markup-guide)
 
-Los datos estructurados permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
+Los [datos estructurados](/blog/general/schema-markup-guide) permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
 Introducción a datos estructurados y su impacto en SEO
 
@@ -239,7 +239,7 @@ Monitoreo y análisis del [rendimiento SEO técnico](/blog/general/ssr-vs-csr-se
 
 El monitoreo y análisis del rendimiento técnico del SEO son fundamentales para asegurar que un sitio web se mantenga optimizado y competitivo en los motores de búsqueda. A través de herramientas especializadas es posible identificar áreas que requieren ajustes y mejoras continuas.
 
-Uso de Google Search Console para rastreo y diagnóstico
+Uso de [Google Search Console](/blog/general/xml-sitemap-automation) para rastreo y diagnóstico
 
 Google Search Console (GSC) proporciona información valiosa sobre el rendimiento y la visibilidad de un sitio. Permite diagnosticar problemas de rastreo, como errores 404 y problemas de indexación. Algunas de sus funcionalidades clave incluyen:
 
@@ -266,7 +266,7 @@ Web Vitals mide aspectos clave del rendimiento de una página web, como la veloc
 
 [Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
 First Input Delay (FID) – Tiempo que el usuario espera para interactuar con la página.
-Cumulative Layout Shift (CLS) – Mide la estabilidad visual de la página.
+[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS) – Mide la estabilidad visual de la página.
 Gestión avanzada del rastreo e indexación
 
 La gestión del rastreo e indexación es fundamental para asegurar que los motores de búsqueda accedan de manera eficiente al contenido de un sitio. Las estrategias avanzadas permiten optimizar el rastreo, maximizar la visibilidad y mantener un control óptimo sobre cómo los motores indexan la información.
@@ -291,7 +291,7 @@ noarchive, si se desea prevenir que los motores guarden una copia en caché de l
 
 Estas directivas contribuyen a mantener la calidad del contenido accesible para los usuarios finales.
 
-Optimización del Crawl Budget para sitios extensos
+Optimización del [Crawl Budget](/blog/general/robots-txt-best-practices) para sitios extensos
 
 El Crawl Budget se refiere a la cantidad de páginas que Google puede rastrear en un sitio. Para optimizar este presupuesto en sitios amplios, se deben considerar las siguientes acciones:
 

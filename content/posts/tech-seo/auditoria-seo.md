@@ -121,7 +121,7 @@ La correcta implementación de estas herramientas es vital para dirigir el esfue
 
 ### Implementación de datos estructurados
 
-Los [datos estructurados](/blog/general/schema-markup-guide) ayudan a los motores de búsqueda a entender el contenido de un sitio de manera más precisa, lo que puede resultar en un mejor posicionamiento y en la obtención de rich snippets en los resultados de búsqueda.
+Los [datos estructurados](/blog/general/schema-markup-guide) ayudan a los motores de búsqueda a entender el contenido de un sitio de manera más precisa, lo que puede resultar en un mejor posicionamiento y en la obtención de [rich snippets](/blog/general/schema-markup-guide) en los resultados de búsqueda.
 
 ### Rendimiento y experiencia de usuario
 
@@ -129,7 +129,7 @@ El rendimiento del sitio web es fundamental para la retención de usuarios y, po
 
 ### Velocidad de carga y Core Web Vitals
 
-Google considera la velocidad de carga como un factor de clasificación. Las [Core Web Vitals](/blog/general/core-web-vitals-guide) permiten evaluar directamente la experiencia del usuario en términos de carga, interactividad y estabilidad visual. Optimizar estos elementos es clave para mejorar tanto el SEO como la experiencia del usuario.
+Google considera la [velocidad de carga](/blog/general/web-performance-guide) como un factor de clasificación. Las [Core Web Vitals](/blog/general/core-web-vitals-guide) permiten evaluar directamente la experiencia del usuario en términos de carga, interactividad y estabilidad visual. Optimizar estos elementos es clave para mejorar tanto el SEO como la experiencia del usuario.
 
 ### Adaptación a dispositivos móviles
 

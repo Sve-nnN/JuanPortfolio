@@ -62,7 +62,7 @@ Detectar y corregir [errores de rastreo](/blog/general/robots-txt-best-practices
 
 ### Uso de Google Search Console para identificar errores
 
-[Google Search Console](/blog/seo/guia-google-search-console) es una herramienta imprescindible para cualquier webmaster o profesional de SEO. Permite monitorear y optimizar la presencia de un sitio web en los resultados de búsqueda. Para detectar errores de rastreo, es necesario acceder al panel de cobertura, donde se obtiene un resumen claro de los problemas que enfrenta el sitio. Los errores destacados pueden incluir problemas de rastreo que impiden que Google acceda a ciertas páginas, así como la exclusión de URLs que no se deben indexar.
+[Google Search Console](/blog/seo/guia-google-search-console) es una herramienta imprescindible para cualquier webmaster o profesional de SEO. Permite monitorear y optimizar la presencia de un sitio web en los resultados de búsqueda. Para detectar [errores de rastreo](/blog/general/robots-txt-best-practices), es necesario acceder al panel de cobertura, donde se obtiene un resumen claro de los problemas que enfrenta el sitio. Los errores destacados pueden incluir problemas de rastreo que impiden que Google acceda a ciertas páginas, así como la exclusión de URLs que no se deben indexar.
 
 ### Clasificación de errores: errores de sitio versus errores de URL
 
@@ -82,7 +82,7 @@ La gestión y reparación de enlaces rotos es un aspecto crítico en la lista de
 
 ### Identificación de enlaces internos rotos
 
-Los [enlaces internos](/blog/seo/enlaces-internos-guia) son vitales para la estructura y navegación de un sitio web. Estos enlaces permiten que los usuarios y los rastreadores de Google se muevan entre las distintas páginas, mejorando tanto la experiencia del usuario como el SEO. Para identificar enlaces internos rotos, se pueden realizar auditorías periódicas del sitio. Una auditoría completa ayudará a descubrir enlaces que apuntan a páginas inexistentes o que han cambiado de ubicación. Herramientas como Screaming Frog y Google Search Console son especialmente útiles para detectar estos problemas. Al corregir enlaces internos rotos, se mejora la fluidez del flujo de la navegación, lo que beneficia tanto a los usuarios como a los motores de búsqueda.
+Los [enlaces internos](/blog/seo/enlaces-internos-guia) son vitales para la estructura y navegación de un sitio web. Estos enlaces permiten que los usuarios y los rastreadores de Google se muevan entre las distintas páginas, mejorando tanto la experiencia del usuario como el SEO. Para identificar enlaces internos rotos, se pueden realizar auditorías periódicas del sitio. Una auditoría completa ayudará a descubrir enlaces que apuntan a páginas inexistentes o que han cambiado de ubicación. Herramientas como Screaming Frog y [Google Search Console](/blog/general/xml-sitemap-automation) son especialmente útiles para detectar estos problemas. Al corregir enlaces internos rotos, se mejora la fluidez del flujo de la navegación, lo que beneficia tanto a los usuarios como a los motores de búsqueda.
 
 ### Monitoreo y corrección de enlaces externos
 
@@ -117,7 +117,7 @@ Una estructura clara y coherente de tu sitio web no solo beneficia a los motores
 
 ## Mejora de la Velocidad de Carga y Rendimiento Web
 
-La velocidad de carga es un factor crítico que influye tanto en la experiencia del usuario como en la clasificación de tu sitio web en los motores de búsqueda. Cada segundo que tarda tu sitio en cargar puede tener un impacto significativo en las tasas de conversión y en la satisfacción del usuario. Por lo tanto, optimizar la velocidad de carga debe ser una prioridad en cualquier lista de verificación de SEO técnico.
+La [velocidad de carga](/blog/general/web-performance-guide) es un factor crítico que influye tanto en la experiencia del usuario como en la clasificación de tu sitio web en los motores de búsqueda. Cada segundo que tarda tu sitio en cargar puede tener un impacto significativo en las tasas de conversión y en la satisfacción del usuario. Por lo tanto, optimizar la velocidad de carga debe ser una prioridad en cualquier lista de verificación de SEO técnico.
 
 ### Factores que afectan la velocidad de carga
 
@@ -165,7 +165,7 @@ Tiempo desde que el usuario interactúa hasta que el navegador responde.
 
 Menos de 100 ms
 
-Cumulative Layout Shift (CLS)
+[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS)
 
 Mide la estabilidad visual durante la carga.
 

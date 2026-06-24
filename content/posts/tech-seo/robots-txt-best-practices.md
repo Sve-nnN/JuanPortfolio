@@ -1,5 +1,4 @@
 ---
-
 title: 'Mejores Prácticas de Robots.txt 2026: Control de Rastreo Estratégico'
 publishedAt: 2026-02-11T00:00:00.000Z
 updatedAt: '2026-04-06T15:20:04.022Z'
@@ -20,7 +19,9 @@ tldr: >-
   2026, su configuración es vital para optimizar el rastreo y asegurar que los
   bots consuman tu contenido más relevante primero.
 metaTitle: 'Robots.txt: Buenas Prácticas y Control del Rastreo 2026'
-metaDescription: 'Buenas prácticas de robots.txt: cómo escribir las reglas, controlar el crawl budget y evitar errores que bloquean páginas clave para el SEO de tu web.'
+metaDescription: >-
+  Buenas prácticas de robots.txt: cómo escribir las reglas, controlar el crawl
+  budget y evitar errores que bloquean páginas clave para el SEO de tu web.
 primary_keywords:
   - robots txt best practices
   - crawl budget
@@ -35,7 +36,6 @@ semantic_keywords:
   - errores de rastreo
   - optimización de servidor
 keyword: robots txt best practices
-
 ---
 
 El archivo robots.txt es una pieza clave en la [SEO](/blog/seo/estrategia-seo) de cualquier sitio web. Su correcta implementación garantiza que los motores de búsqueda interactúen de manera óptima con el contenido, priorizando las páginas que realmente importan.
@@ -271,4 +271,4 @@ La monitorización continua y la resolución de problemas asociados al archivo r
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

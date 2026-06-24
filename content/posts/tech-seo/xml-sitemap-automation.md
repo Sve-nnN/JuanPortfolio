@@ -20,7 +20,9 @@ tldr: >-
   sitemaps dinámicos para optimizar el presupuesto de rastreo (Crawl Budget) en
   sitios grandes.
 metaTitle: 'Sitemaps XML Automatizados: Guía Técnica Completa 2026'
-metaDescription: 'Cómo automatizar tus sitemaps XML: generación dinámica, envío a Google y buenas prácticas para gestionar el crawl budget y mejorar la indexación.'
+metaDescription: >-
+  Cómo automatizar tus sitemaps XML: generación dinámica, envío a Google y
+  buenas prácticas para gestionar el crawl budget y mejorar la indexación.
 primary_keywords:
   - xml sitemap automation
   - indexación seo
@@ -116,4 +118,4 @@ Estas consideraciones no solo facilitan la vida del administrador web, sino que 
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

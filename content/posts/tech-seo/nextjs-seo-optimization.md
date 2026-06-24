@@ -20,7 +20,9 @@ tldr: >-
   API de metadatos, optimizar imágenes y asegurar una indexación perfecta en la
   versión 15 de Next.js para 2026.
 metaTitle: 'Next.js SEO Optimization: Guía Técnica Avanzada 2026'
-metaDescription: 'Optimización SEO en Next.js con App Router: metadatos dinámicos, Server Components, sitemaps y rendimiento para que tu app indexe y posicione mejor.'
+metaDescription: >-
+  Optimización SEO en Next.js con App Router: metadatos dinámicos, Server
+  Components, sitemaps y rendimiento para que tu app indexe y posicione mejor.
 primary_keywords:
   - nextjs seo optimization
   - app router seo
@@ -58,7 +60,7 @@ El componente **Head** de Next.js permite la gestión dinámica de las etiquetas
 
 ### Implementación de datos estructurados JSON-LD para mejorar resultados
 
-La implementación de [datos estructurados](/blog/general/schema-markup-guide) utilizando **JSON-LD** es una técnica avanzada que permite a los motores de búsqueda entender mejor el contexto del contenido de una página. Al incluir información específica sobre el tipo de contenido, como productos, artículos o eventos, se pueden crear **rich snippets** en los resultados de búsqueda, mejorando la visibilidad y la tasa de clics. Next.js facilita la incorporación de [datos estructurados](/blog/general/schema-markup-guide) en las páginas mediante el uso de scripts dentro del componente Head, alineándose así con las mejores prácticas de SEO y optimizando el rendimiento en los motores de búsqueda.
+La implementación de [datos estructurados](/blog/general/schema-markup-guide) utilizando **[JSON-LD](/blog/general/schema-markup-guide)** es una técnica avanzada que permite a los motores de búsqueda entender mejor el contexto del contenido de una página. Al incluir información específica sobre el tipo de contenido, como productos, artículos o eventos, se pueden crear **rich snippets** en los resultados de búsqueda, mejorando la visibilidad y la tasa de clics. Next.js facilita la incorporación de [datos estructurados](/blog/general/schema-markup-guide) en las páginas mediante el uso de scripts dentro del componente Head, alineándose así con las mejores prácticas de SEO y optimizando el rendimiento en los motores de búsqueda.
 
 ## Optimización técnica para next js seo optimization
 
@@ -78,7 +80,7 @@ La carga excesiva de scripts puede provocar tiempos de carga lentos, lo que impa
 
 ### Estrategias para image optimization usando Next.js Image Component
 
-Las imágenes juegan un papel crucial en la velocidad de carga de un sitio. El componente **Image** de Next.js facilita la **optimización de imágenes** a través de técnicas automáticas, como la carga diferida y la entrega de imágenes en el formato adecuado. Esto no solo mejora el rendimiento del sitio, sino que también ayuda al SEO al garantizar imágenes de alta calidad que no obstaculizan la carga de la página.
+Las imágenes juegan un papel crucial en la [velocidad de carga](/blog/general/web-performance-guide) de un sitio. El componente **Image** de Next.js facilita la **optimización de imágenes** a través de técnicas automáticas, como la carga diferida y la entrega de imágenes en el formato adecuado. Esto no solo mejora el rendimiento del sitio, sino que también ayuda al SEO al garantizar imágenes de alta calidad que no obstaculizan la carga de la página.
 
 ### Mejora de la accesibilidad y su relación con SEO
 
@@ -116,10 +118,10 @@ Construir autoridad y confianza requiere tiempo y constancia. Publicar contenido
 | --- | --- | --- |
 | [Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP) | Marca el tiempo que tarda en cargar el elemento más grande en la viewport. | Mejorar LCP aumenta la satisfacción del usuario y reduce la tasa de rebote. |
 | First Input Delay (FID) | Tiempo que transcurre hasta que el navegador responde a la primera interacción del usuario. | Un menor FID mejora la percepción de interactividad del sitio. |
-| Cumulative Layout Shift (CLS) | Mide la estabilidad visual de una página durante su carga. | Un CLS bajo asegura una experiencia de usuario sin cambios inesperados. |
+| [Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS) | Mide la estabilidad visual de una página durante su carga. | Un CLS bajo asegura una experiencia de usuario sin cambios inesperados. |
 
 Una sólida estrategia de contenido combinada con las mejores prácticas de [SEO técnico](/blog/tech-seo/technical-seo-guide) en Next.js puede no solo mejorar el posicionamiento en los motores de búsqueda, sino también crear una experiencia satisfactoria para los usuarios, multiplicando así las oportunidades de conversión y éxito en el mercado digital.
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

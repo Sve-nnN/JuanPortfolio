@@ -18,7 +18,9 @@ tldr: >-
   a identificar y corregir cuellos de botella técnicos para ofrecer una
   experiencia de página rápida, estable y responsive.
 metaTitle: 'Guía de Core Web Vitals 2026: Qué Son y Cómo Mejorarlas'
-metaDescription: 'Qué son las Core Web Vitals y cómo optimizar LCP, INP y CLS para mejorar la velocidad, la experiencia de usuario y el ranking de tu web en Google.'
+metaDescription: >-
+  Qué son las Core Web Vitals y cómo optimizar LCP, INP y CLS para mejorar la
+  velocidad, la experiencia de usuario y el ranking de tu web en Google.
 primary_keywords:
   - core web vitals guide
   - lcp optimization

@@ -21,7 +21,9 @@ tldr: >-
   Googlebot, mientras que el Client-Side Rendering puede comprometer tu crawl
   budget en aplicaciones SPA modernas.
 metaTitle: 'SSR vs CSR para SEO: Qué Modo de Renderizado Conviene'
-metaDescription: 'SSR, CSR y SSG comparados para SEO: cómo cada modo de renderizado afecta la indexación, el crawl budget y el rendimiento de tu sitio web o SPA.'
+metaDescription: >-
+  SSR, CSR y SSG comparados para SEO: cómo cada modo de renderizado afecta la
+  indexación, el crawl budget y el rendimiento de tu sitio web o SPA.
 primary_keywords:
   - SSR vs CSR SEO
   - renderizado del lado del servidor
@@ -73,7 +75,7 @@ La **Static Site Generation (SSG)** es la estrategia que ejecuta el modelo lógi
 
 La **Incremental Static Regeneration (ISR)** permite el refresco paulatino de los repositorios inmutables al regenerar partes singulares de tu despliegue en un proceso pasivo desvinculado (background) que evita reveses al detener colas, presentando la iteración más moderna validada.
 
-- **Impacto SEO Práctico:** Habilitado formalmente por ecosistemas como [Next.js SEO](/blog/tech-seo/nextjs-seo), anula el problema lógico de compilar un comercio electrónico infinito (E-Commerce) bajo SSG. Otorga al usuario final la velocidad CDN estática y al bot del buscador un crawl indexable sin interrupciones transaccionales causadas por picos del tráfico central.
+- **Impacto SEO Práctico:** Habilitado formalmente por ecosistemas como [Next.js SEO](/blog/tech-seo/nextjs-seo), anula el problema lógico de compilar un comercio electrónico infinito (E-Commerce) bajo SSG. Otorga al usuario final la velocidad [CDN](/blog/general/web-performance-guide) estática y al bot del buscador un crawl indexable sin interrupciones transaccionales causadas por picos del tráfico central.
 
 ## 3. Matriz Técnica de Decisiones SEO
 

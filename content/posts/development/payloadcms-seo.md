@@ -20,7 +20,9 @@ tldr: >-
   descripciones y slugs dinámicos que mejoren la visibilidad de tu contenido
   generado por el CMS.
 metaTitle: 'SEO en Payload CMS 2026: plugin y configuración técnica'
-metaDescription: 'Optimiza el SEO en Payload CMS: instala y configura el plugin oficial para gestionar títulos, descripciones, slugs y sitemaps de tu contenido dinámico.'
+metaDescription: >-
+  Optimiza el SEO en Payload CMS: instala y configura el plugin oficial para
+  gestionar títulos, descripciones, slugs y sitemaps de tu contenido dinámico.
 primary_keywords:
   - payloadcms seo
   - optimización de cms
@@ -125,4 +127,5 @@ Implementar estas estrategias avanzadas al utilizar Payload CMS junto con Next.j
 
 ## Ver también
 
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

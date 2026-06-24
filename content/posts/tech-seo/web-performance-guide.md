@@ -20,7 +20,9 @@ tldr: >-
   cumplimiento estricto de las Core Web Vitals para garantizar la mejor
   experiencia posible.
 metaTitle: 'Rendimiento Web 2026: Cómo Medir y Mejorar la Velocidad'
-metaDescription: 'Guía de rendimiento web: cómo medir la velocidad con PageSpeed Insights, optimizar Core Web Vitals y acelerar la carga para mejorar el SEO de tu sitio.'
+metaDescription: >-
+  Guía de rendimiento web: cómo medir la velocidad con PageSpeed Insights,
+  optimizar Core Web Vitals y acelerar la carga para mejorar el SEO de tu sitio.
 primary_keywords:
   - rendimiento web
   - wpo
@@ -133,3 +135,4 @@ Estas estrategias se alinean con el objetivo de **mejorar el rendimiento de una 
 ## Ver también
 
 - [Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código](/blog/general/core-web-vitals-guide)
+- [Guía de Core Web Vitals 2026: La Métrica de Oro del SEO](/blog/general/core-web-vitals-guide)

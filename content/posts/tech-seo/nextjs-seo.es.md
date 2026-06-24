@@ -47,7 +47,7 @@ A diferencia de otros frameworks, Next.js ofrece beneficios únicos en el ámbit
 
 -   Soporte robusto para **Static Site Generation (SSG)**, creando páginas optimizadas que se cargan rápidamente.
 -   Funciones integradas para la gestión de metadatos, mejorando el control sobre cómo se presenta el contenido en los resultados de búsqueda.
--   Facilidad para implementar **JSON-LD** y [datos estructurados](/blog/general/schema-markup-guide), lo que facilita que los motores de búsqueda comprendan mejor el contenido.
+-   Facilidad para implementar **[JSON-LD](/blog/general/schema-markup-guide)** y [datos estructurados](/blog/general/schema-markup-guide), lo que facilita que los motores de búsqueda comprendan mejor el contenido.
 
 ## Estrategias de renderizado para mejorar el ranking
 
@@ -119,7 +119,7 @@ Esta métrica evalúa el tiempo que transcurre desde que un usuario interactúa 
 
 ### Minimización de Cumulative Layout Shift (CLS)
 
-Cumulative Layout Shift mide la estabilidad visual de una página al cargarse. Un CLS bajo significa que los elementos no se moverán mientras se carga el contenido. Minimizar estos cambios mejora la experiencia del usuario, evitando frustraciones y clics accidentales.
+[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) mide la estabilidad visual de una página al cargarse. Un CLS bajo significa que los elementos no se moverán mientras se carga el contenido. Minimizar estos cambios mejora la experiencia del usuario, evitando frustraciones y clics accidentales.
 
 ### Código dividido y agrupación de módulos para optimizar la carga
 
@@ -131,7 +131,7 @@ La optimización de recursos y la experiencia del usuario son cruciales para mej
 
 ### Optimización avanzada de imágenes en Next.js
 
-Las imágenes son elementos vitales, pero también pueden ser una carga significativa en el tiempo de carga. En Next.js, se pueden implementar varias técnicas para optimizar las imágenes, tales como:
+Las imágenes son elementos vitales, pero también pueden ser una carga significativa en el [tiempo de carga](/blog/general/web-performance-guide). En Next.js, se pueden implementar varias técnicas para optimizar las imágenes, tales como:
 
 -   Comprimir imágenes sin sacrificar calidad.
 -   Usar formatos modernos como WebP.

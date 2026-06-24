@@ -19,7 +19,10 @@ tldr: >-
   Next.js para crear un sitio estático, rápido y optimizado para SEO que
   destaque tus proyectos y habilidades ante reclutadores y clientes.
 metaTitle: 'Portfolio con Next.js 2026: guía paso a paso y plantillas'
-metaDescription: 'Cómo crear un portfolio con Next.js y Tailwind CSS: estructura, plantillas, optimización de imágenes y despliegue en Vercel para destacar ante reclutadores.'
+metaDescription: >-
+  Cómo crear un portfolio con Next.js y Tailwind CSS: estructura, plantillas,
+  optimización de imágenes y despliegue en Vercel para destacar ante
+  reclutadores.
 primary_keywords:
   - nextjs portfolio
   - desarrollo web
@@ -123,4 +126,5 @@ Al momento de elegir una plantilla para tu portafolio en Next.js, es importante 
 
 ## Ver también
 
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

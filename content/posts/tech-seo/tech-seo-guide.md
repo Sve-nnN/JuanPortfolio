@@ -23,7 +23,9 @@ tldr: >-
   implementar semántica estructurada JSON-LD, asegurando que tu contenido sea
   procesable tanto por humanos como por sistemas de IA.
 metaTitle: 'Guía de SEO Técnico 2026: Rastreo, Velocidad y Datos'
-metaDescription: 'Guía de SEO técnico: rastreabilidad e indexación, Core Web Vitals (LCP, INP, CLS) y datos estructurados JSON-LD para webs y para sistemas de IA.'
+metaDescription: >-
+  Guía de SEO técnico: rastreabilidad e indexación, Core Web Vitals (LCP, INP,
+  CLS) y datos estructurados JSON-LD para webs y para sistemas de IA.
 primary_keywords:
   - guía de SEO técnico
   - SEO para desarrolladores
@@ -51,7 +53,7 @@ Antes de que Google pondere tus [palabras clave](/blog/seo/guia-keyword-research
 
 ### Control y Restricción: robots.txt
 
-El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [robots.txt](/blog/general/robots-txt-best-practices) para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
+El **[Crawl Budget](/blog/general/xml-sitemap-automation)** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [robots.txt](/blog/general/robots-txt-best-practices) para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
 
 - Aísla carpetas internas de sistema administrativo.
 - Excluye rastreadores y scrapers destructivos de Inteligencia Artificial (LLMs) si violan y compilan tus datos sin reciprocidad de clics.
@@ -78,10 +80,10 @@ Las latencias de servidor y caídas crudas frontales de JavaScript deprimen la U
 
 - **[Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP):** Requerido por debajo de 2.5s. Asigna jerarquización absoluta pre-cargando banners utilizando código `fetchpriority="high"`.
 - **Interaction to Next Paint (INP):** Obligatorio menor a 200ms. Impide que las mega-rutinas JavaScript asfixien el Main Thread navegador mediante patrones de Yielding a micro-tareas partiendo dependencias y reduciendo tiempo de parálisis.
-- **Cumulative Layout Shift (CLS):** Límite tope sobre el ratio 0.1 de impacto. Inyecta márgenes `aspect-ratio` rígidos a tu diseño de contenedores limitando fracturas de render en carga local y de cliente diferida lenta.
+- **[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS):** Límite tope sobre el ratio 0.1 de impacto. Inyecta márgenes `aspect-ratio` rígidos a tu diseño de contenedores limitando fracturas de render en carga local y de cliente diferida lenta.
 - Observa y manipula el ejemplo detallado crudo en la [Guía técnica de Core Web Vitals](./core-web-vitals-guide).
 
-## 3. Entidades Lógicas JSON-LD y Semántica Estructurada
+## 3. Entidades Lógicas [JSON-LD](/blog/general/schema-markup-guide) y Semántica Estructurada
 
 Frente a la adopción obligatoria de herramientas de Generative Engine Optimization (GEO e Inteligencia Artificial Perimetral SGE), los modelos estocásticos grandes precisan un diccionario relacional y datos pre-empaquetados estructurados deterministas.
 
@@ -115,6 +117,9 @@ No. Eliminar recursos interactivos aniquila componentes web; la depuración reca
 - [SEO en CMS Headless: Estrategias y Mejores Prácticas](/blog/tech-seo/headless-cms-seo)
 - [Next.js SEO: Guía técnica de App Router y Metadata API 2026](/blog/general/nextjs-seo-optimization)
 - [SEO Técnico para No Desarrolladores: Guía de Fundamentos y Estrategia 2026](/blog/general/non-developers-guide)
+- [Next.js SEO 2026: Optimizando App Router y Metadatos](/blog/general/nextjs-seo-optimization)
+- [SEO Técnico para No Desarrolladores 2026: Guía Sin Miedo](/blog/general/non-developers-guide)
+- [SSR vs CSR para SEO: Guía técnica de estrategias de rend...](/blog/general/ssr-vs-csr-seo)
 
 ## See Also
 

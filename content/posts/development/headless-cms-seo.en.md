@@ -38,7 +38,7 @@ tldr: >-
   to manage dynamic metadata, automate sitemap generation, and choose the right
   rendering strategy (SSR/ISR) to ensure high rankings.
 ---
-En la era digital, la arquitectura de un [[headless-cms-comparison|Headless CMS]] open-source ofrece nuevas oportunidades para optimizar el SEO de tu sitio web. Al desacoplar el backend del frontend, se permite una mayor flexibilidad y adaptabilidad para satisfacer las demandas de los motores de búsqueda.
+En la era digital, la arquitectura de un [Headless CMS](/en/blog/development/headless-cms-comparison) open-source ofrece nuevas oportunidades para optimizar el SEO de tu sitio web. Al desacoplar el backend del frontend, se permite una mayor flexibilidad y adaptabilidad para satisfacer las demandas de los motores de búsqueda.
 
 Este artículo explorará las ventajas del headless CMS en la optimización del SEO, así como las mejores prácticas y estrategias para maximizar el rendimiento de tu sitio en los resultados de búsqueda orgánica.
 
@@ -197,4 +197,4 @@ La elección correcta de un **headless CMS open-source** no solo influye en la g
 
 ## See Also
 
-- [[Technical SEO](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Technical SEO](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)

@@ -22,9 +22,9 @@ tldr: 'React 19 transforma el desarrollo con mejoras en rendimiento y nuevas her
 ---
 
 
-[[react-19|React 19]] ha llegado con novedades interesantes que prometen ampliar las capacidades de esta popular biblioteca. En esta versión, se destacan nuevas características como el componente y mejoras en los hooks, que facilitan la gestión de la carga y optimizan el rendimiento de nuestras aplicaciones.
+[React 19](/blog/development/react-19) ha llegado con novedades interesantes que prometen ampliar las capacidades de esta popular biblioteca. En esta versión, se destacan nuevas características como el componente y mejoras en los hooks, que facilitan la gestión de la carga y optimizan el rendimiento de nuestras aplicaciones.
 
-Este artículo explorará las principales innovaciones de React 19, incluyendo sus avances en herramientas de análisis de rendimiento y cambios relevantes en React DOM, que sin duda impactarán en el desarrollo y la experiencia del usuario.
+Este artículo explorará las principales innovaciones de React 19, incluyendo sus avances en herramientas de análisis de rendimiento y cambios relevantes en React [DOM](https://juan-tech.com/blog/development/hidratacion-web), que sin duda impactarán en el desarrollo y la experiencia del usuario.
 
 ## React 19 Activity: Componentes y Modos de Uso
 
@@ -57,7 +57,7 @@ El uso de \`useEffectEvent\` no está exento de ciertas reglas y limitaciones qu
 
 ### Uso de \`cacheSignal\` en React Server Components
 
-Otro avance significativo introducido en React 19 es el \`cacheSignal\`, un mecanismo exclusivo para React Server Components. Este nuevo recurso permite a los desarrolladores identificar cuándo el ciclo de vida de un caché ha finalizado. Una de las principales ventajas de \`cacheSignal\` es que ayuda a React a manejar tareas que ya no son relevantes para el caché, facilitando el proceso de despido de componentes y la gestión de actualizaciones. Al entender cuándo los datos en caché pueden obsoletarse, se mejora la eficiencia tanto en el procesamiento del servidor como en la interacción del usuario final, destacándose la capacidad de React para ofrecer contenido optimizado y relevante sin comprometer el rendimiento de la aplicación. En esta línea, los desarrolladores pueden construir experiencias más fluidas e interactivas, promoviendo una mejor usabilidad dentro de sus proyectos.
+Otro avance significativo introducido en React 19 es el \`cacheSignal\`, un mecanismo exclusivo para [React Server Components](https://juan-tech.com/blog/development/nextjs-server-components). Este nuevo recurso permite a los desarrolladores identificar cuándo el ciclo de vida de un caché ha finalizado. Una de las principales ventajas de \`cacheSignal\` es que ayuda a React a manejar tareas que ya no son relevantes para el caché, facilitando el proceso de despido de componentes y la gestión de actualizaciones. Al entender cuándo los datos en caché pueden obsoletarse, se mejora la eficiencia tanto en el procesamiento del servidor como en la interacción del usuario final, destacándose la capacidad de React para ofrecer contenido optimizado y relevante sin comprometer el rendimiento de la aplicación. En esta línea, los desarrolladores pueden construir experiencias más fluidas e interactivas, promoviendo una mejor usabilidad dentro de sus proyectos.
 
 ## Herramientas para Análisis y Monitorización de Rendimiento
 
@@ -88,7 +88,7 @@ Al entender mejor cómo se comportan los componentes bajo distintas condiciones,
 
 ## Avances en React DOM y Cambios Relevantes
 
-Con el lanzamiento de React 19, se han implementado avances notables en **React DOM** que prometen mejorar la eficiencia y flexibilidad del desarrollo de aplicaciones. Estas mejoras repotencian tanto el rendimiento de las aplicaciones como la experiencia del desarrollador, permitiendo un manejo más efectivo de la renderización y el estado.
+Con el lanzamiento de React 19, se han implementado avances notables en **React DOM** que prometen mejorar la eficiencia y flexibilidad del desarrollo de aplicaciones. Estas mejoras repotencian tanto el rendimiento de las aplicaciones como la [experiencia del desarrollador](https://juan-tech.com/blog/development/headless-cms-seo), permitiendo un manejo más efectivo de la renderización y el estado.
 
 ### Partial pre-rendering y métodos asociados
 

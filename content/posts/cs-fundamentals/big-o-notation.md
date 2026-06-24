@@ -40,11 +40,11 @@ keyword: notacion big o
 ---
 # Notación Big O: Entendiendo la Complejidad Algorítmica
 
-La notación Big O es una herramienta clave para analizar la eficiencia de los [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]]. Permite clasificar y comparar algoritmos según cómo su tiempo de ejecución o uso de memoria se incrementa con el tamaño de los datos de entrada. Este artículo abordará sus fundamentos, tipos de complejidades y su aplicación práctica. Se explorarán diferentes escenarios y ejemplos para entender mejor el rendimiento algorítmico y la relevancia de la notación Big O en el desarrollo de software.
+La notación Big O es una herramienta clave para analizar la eficiencia de los [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos). Permite clasificar y comparar algoritmos según cómo su tiempo de ejecución o uso de memoria se incrementa con el tamaño de los datos de entrada. Este artículo abordará sus fundamentos, tipos de complejidades y su aplicación práctica. Se explorarán diferentes escenarios y ejemplos para entender mejor el rendimiento algorítmico y la relevancia de la notación Big O en el desarrollo de software.
 
 ## Fundamentos de la notación Big O
 
-La notación Big O se basa en varios conceptos clave que permiten clasificar algoritmos según su eficiencia. Esta sección describe cada uno de estos fundamentos esenciales para una comprensión adecuada de cómo se analizan los algoritmos en términos de su rendimiento.
+La notación Big O se basa en varios conceptos clave que permiten clasificar [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) según su eficiencia. Esta sección describe cada uno de estos fundamentos esenciales para una comprensión adecuada de cómo se analizan los algoritmos en términos de su rendimiento.
 
 ### Definición de función del tamaño de entrada
 
@@ -281,7 +281,7 @@ La complejidad factorial, O(n!), se encuentra en situaciones donde se buscan tod
 
 ## 3. Análisis práctico con ejemplos y ejercicios resueltos
 
-El análisis práctico de algoritmos permite comprender cómo se comportan en escenarios reales. Se mostrarán ejemplos ilustrativos y ejercicios que faciliten el entendimiento de la [[complejidad-algoritmica|complejidad algorítmica]] mediante casos concretos.
+El análisis práctico de algoritmos permite comprender cómo se comportan en escenarios reales. Se mostrarán ejemplos ilustrativos y ejercicios que faciliten el entendimiento de la [complejidad algorítmica](/blog/cs-fundamentals/complejidad-algoritmica) mediante casos concretos.
 
 ### Ejemplos ilustrativos de algoritmos con diferentes crecimientos
 
@@ -370,7 +370,7 @@ No todos los conjuntos de datos tienen la misma distribución ni característica
 
 La forma en que se implementa un algoritmo puede influir drásticamente en su rendimiento. Diferentes lenguajes de programación, bibliotecas y técnicas de codificación pueden llevar a variaciones significativas en la ejecución. Un mismo algoritmo puede tener distintas implementaciones con diferentes resultados de rendimiento, lo que sugiere que la optimización práctica es esencial.
 
-Es posible que una implementación más sencilla sea más fácil de comprender, pero no siempre es la más eficiente. Los desarrolladores a menudo deben equilibrar la legibilidad del código con la necesidad de mejorar el rendimiento. La optimización puede incluir técnicas como la reducción de operaciones innecesarias, la elección de [[data-structures|estructuras de datos]] más adecuadas o la paralelización de procesos.
+Es posible que una implementación más sencilla sea más fácil de comprender, pero no siempre es la más eficiente. Los desarrolladores a menudo deben equilibrar la legibilidad del código con la necesidad de mejorar el rendimiento. La optimización puede incluir técnicas como la reducción de operaciones innecesarias, la elección de [estructuras de datos](/blog/cs-fundamentals/data-structures) más adecuadas o la paralelización de procesos.
 
 - La reutilización de resultados previos mediante [memoización](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) o almacenamiento en caché puede ser crucial en ciertos contextos.
 - Implementar algoritmos de manera que se minimicen las llamadas a funciones costosas o que se agrupe el procesamiento puede mejorar el rendimiento.

@@ -29,11 +29,11 @@ semantic_keywords:
 ---
 # Space Complexity: complete practical guide for 2026
 
-La complejidad espacial es un aspecto fundamental al analizar [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]], ya que se refiere a la cantidad de memoria que estos requieren en relación con el tamaño de su entrada. Comprender la relación entre la [complejidad temporal y espacial](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) es esencial para el diseño de soluciones eficientes en programación. A lo largo de este artículo, exploraremos su definición, características y la importancia de optimizar el uso de memoria en el desarrollo de software.
+La complejidad espacial es un aspecto fundamental al analizar [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos), ya que se refiere a la cantidad de memoria que estos requieren en relación con el tamaño de su entrada. Comprender la relación entre la [complejidad temporal y espacial](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) es esencial para el diseño de soluciones eficientes en programación. A lo largo de este artículo, exploraremos su definición, características y la importancia de optimizar el uso de memoria en el desarrollo de software.
 
 ## Complejidad en algoritmos: tiempo y espacio
 
-La complejidad de un algoritmo no se mide únicamente en tiempo; la **complejidad espacial** juega un papel crucial en su eficiencia y rendimiento. Entender tanto la [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) como la espacial es esencial para el diseño de algoritmos efectivos y óptimos. La complejidad espacial se refiere a la cantidad de memoria que un algoritmo necesita para ejecutarse, lo cual incluye la memoria para las entradas y cualquier memoria adicional utilizada durante su procesamiento.
+La complejidad de un algoritmo no se mide únicamente en tiempo; la **complejidad espacial** juega un papel crucial en su eficiencia y rendimiento. Entender tanto la [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) como la espacial es esencial para el diseño de [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) efectivos y óptimos. La complejidad espacial se refiere a la cantidad de memoria que un algoritmo necesita para ejecutarse, lo cual incluye la memoria para las entradas y cualquier memoria adicional utilizada durante su procesamiento.
 
 ### Concepto y relación entre time complexity and space complexity
 
@@ -49,7 +49,7 @@ Al desarrollar un algoritmo, es común encontrarse ante la necesidad de evaluar 
 
 -   **Evaluar requerimientos:** Definir qué es más crítico para la aplicación: una operación rápida o un uso eficiente de la memoria.
 -   **Probar diferentes enfoques:** Implementar versiones de un mismo algoritmo con variaciones en el uso de memoria y medir su rendimiento.
--   **Optimización de datos:** Elegir [[data-structures|estructuras de datos]] que requieran menos espacio sin sacrificar la velocidad.
+-   **Optimización de datos:** Elegir [estructuras de datos](/blog/cs-fundamentals/data-structures) que requieran menos espacio sin sacrificar la velocidad.
 -   **Recursión vs. Iteración:** Considerar el uso de iteraciones en lugar de llamadas recursivas para evitar el crecimiento de la pila de llamadas en memoria.
 
 La comprensión de estos trade-offs es fundamental para optimizar cualquier algoritmo, mejorando no solo su rendimiento, sino también su escalabilidad. En resumen, tanto la complejidad temporal como la espacial son elementos cruciales en el diseño y evaluación de algoritmos.
@@ -64,7 +64,7 @@ La complejidad espacial se compone de dos componentes principales: el espacio ne
 
 ### Notaciones para medir la complejidad espacial
 
-Para expresar la complejidad espacial de manera estandarizada, se utilizan las notaciones [[big-o-notation|Big O]]. Estas notaciones permiten clasificar el uso de memoria en función de cómo crece con respecto al tamaño de la entrada. Por ejemplo, si un algoritmo requería un número constante de memoria, se podría denotar como O(1); si el uso de memoria se incrementa linealmente con el tamaño de la entrada, se representaría como O(N). Otras notaciones comunes como O(log N), O(N log N) o O(N²) también se aplican, dependiendo de la complejidad de los algoritmos y las estructuras de datos implicadas. Es fundamental comprender que al igual que con la complejidad temporal, eliminar constantes y centrarse en el comportamiento dominante del uso de memoria es el objetivo de estas notaciones.
+Para expresar la complejidad espacial de manera estandarizada, se utilizan las notaciones [Big O](/blog/cs-fundamentals/big-o-notation). Estas notaciones permiten clasificar el uso de memoria en función de cómo crece con respecto al tamaño de la entrada. Por ejemplo, si un algoritmo requería un número constante de memoria, se podría denotar como O(1); si el uso de memoria se incrementa linealmente con el tamaño de la entrada, se representaría como O(N). Otras notaciones comunes como O(log N), O(N log N) o O(N²) también se aplican, dependiendo de la complejidad de los algoritmos y las estructuras de datos implicadas. Es fundamental comprender que al igual que con la complejidad temporal, eliminar constantes y centrarse en el comportamiento dominante del uso de memoria es el objetivo de estas notaciones.
 
 ### Características de la memoria en diferentes tipos de datos
 
@@ -80,7 +80,7 @@ A pesar de que el costo de la memoria ha disminuido a lo largo de los años, las
 
 ### Escalabilidad y restricciones de espacio
 
-La escalabilidad de un algoritmo está íntimamente relacionada con su complejidad espacial. A medida que el tamaño de los datos de entrada aumenta, un algoritmo que consume un espacio desproporcionado puede volverse impráctico o incluso inejecutable. Esto es especialmente relevante en el desarrollo de sistemas que deben procesar grandes volúmenes de datos, como [[diseno-bases-datos|diseño de bases de datos]] o aplicaciones en la nube. Una buena práctica es prever el crecimiento de los datos y diseñar algoritmos que mantengan una complejidad espacial controlada, asegurando así que el sistema pueda escalar de manera efectiva sin comprometer su rendimiento.
+La escalabilidad de un algoritmo está íntimamente relacionada con su complejidad espacial. A medida que el tamaño de los datos de entrada aumenta, un algoritmo que consume un espacio desproporcionado puede volverse impráctico o incluso inejecutable. Esto es especialmente relevante en el desarrollo de sistemas que deben procesar grandes volúmenes de datos, como [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) o aplicaciones en la nube. Una buena práctica es prever el crecimiento de los datos y diseñar algoritmos que mantengan una complejidad espacial controlada, asegurando así que el sistema pueda escalar de manera efectiva sin comprometer su rendimiento.
 
 ### Estrategias para optimizar el uso de memoria
 
@@ -88,7 +88,7 @@ Optimizar el uso de la memoria es fundamental para mantener la eficiencia de los
 
 -   **Uso de estructuras de datos eficientes:** Elegir la estructura de datos adecuada puede marcar una gran diferencia en la complejidad espacial. Por ejemplo, las listas enlazadas pueden ser más eficientes que los arrays en ciertas situaciones debido a su capacidad de crecer dinámicamente.
 -   **Evitar la duplicación de datos:** Implementar técnicas que minimicen la repetición de información en la memoria, como referencias en lugar de copias, es crucial para reducir el uso de espacio.
--   **Optimización de algoritmos recursivos:** Las funciones recursivas pueden consumir grandes cantidades de memoria. Usar técnicas como la recursión de cola puede ayudar a mantener la complejidad espacial bajo control.
+-   **Optimización de algoritmos recursivos:** Las [funciones recursivas](https://juan-tech.com/blog/cs-fundamentals/recursividad) pueden consumir grandes cantidades de memoria. Usar técnicas como la recursión de cola puede ayudar a mantener la complejidad espacial bajo control.
 -   **Uso de algoritmos in-place:** Siempre que sea posible, diseñar algoritmos que modifiquen la entrada en lugar de crear estructuras adicionales puede resultar en un considerable ahorro de memoria.
 
 La comprensión y aplicación de la complejidad espacial se traducen en algoritmos más eficientes, escalables y aptos para las exigencias del mundo moderno del software. A medida que se implementan estas estrategias, se pueden lograr soluciones que no solo son rápidas sino también capaces de manejar las limitaciones impuestas por el hardware y los escenarios de escalabilidad.

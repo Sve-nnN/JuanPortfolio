@@ -39,7 +39,7 @@ tldr: >-
 
 ---
 
-In the realm of web development and [[estrategia-seo|SEO]], the choice between Server-Side Rendering (SSR) and Client-Side Rendering (CSR) significantly affects how content is delivered and indexed by search engines. This article explores the key differences between ssr vs csr seo, shedding light on their respective benefits and challenges.
+In the realm of web development and [SEO](/en/blog/seo/estrategia-seo), the choice between Server-Side Rendering (SSR) and Client-Side Rendering (CSR) significantly affects how content is delivered and indexed by search engines. This article explores the key differences between ssr vs csr seo, shedding light on their respective benefits and challenges.
 
 Understanding these rendering approaches is crucial for developers and business owners looking to optimize their websites for both performance and search visibility. We will delve into how each method operates and its implications for SEO success.
 
@@ -62,7 +62,7 @@ SSR offers several important advantages for SEO compared to CSR. These benefits 
 
 ### SSR Impact on Page Load Metrics and Core Web Vitals
 
-[[core-web-vitals-guide|Core Web Vitals]] are metrics specified by Google that measure real-world user experience. SSR significantly enhances these metrics by ensuring that pages load quickly and provide visible content sooner. Due to the pre-rendered HTML being sent from the server, users experience less latency when navigating to pages. This can lead to improved scores in metrics such as [Largest Contentful Paint](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide) (LCP) and First Input Delay (FID). A direct comparison of SSR vs CSR SEO shows that SSR tends to outperform CSR in these critical areas, making it a preferred choice for websites focused on performance and SEO effectiveness.
+[Core Web Vitals](/en/blog/general/core-web-vitals-guide) are metrics specified by Google that measure real-world user experience. SSR significantly enhances these metrics by ensuring that pages load quickly and provide visible content sooner. Due to the pre-rendered HTML being sent from the server, users experience less latency when navigating to pages. This can lead to improved scores in metrics such as [Largest Contentful Paint](https://juan-tech.com/en/blog/tech-seo/core-web-vitals-guide) (LCP) and First Input Delay (FID). A direct comparison of SSR vs CSR SEO shows that SSR tends to outperform CSR in these critical areas, making it a preferred choice for websites focused on performance and SEO effectiveness.
 
 ## Understanding Client-Side Rendering (CSR)
 
@@ -142,7 +142,7 @@ When opting for SSR, specific technical considerations and resources are necessa
 
 -   **Server Resources:** SSR requires more server-side processing, which means adequate infrastructure must be in place to handle multiple requests without delays.
 -   **Routing and Architecture:** The web application must support server-side routing, enabling users to navigate through different pages efficiently.
--   **Framework Choice:** Using frameworks such as [[nextjs-seo|Next.js SEO]] or Nuxt.js can facilitate SSR setup and enhance SEO effectiveness.
+-   **Framework Choice:** Using frameworks such as [Next.js SEO](/en/blog/tech-seo/nextjs-seo) or Nuxt.js can facilitate SSR setup and enhance SEO effectiveness.
 -   **Content Management Systems:** A robust CMS that can integrate SSR features is vital for dynamic content management.
 
 ### SSR in E-commerce, News, and Content-Heavy Sites
@@ -197,7 +197,7 @@ Effectively monitoring and measuring the SEO impact of Server-Side Rendering (SS
 
 ### Tools and Metrics for Performance and Indexing
 
-To evaluate the SEO performance of SSR versus CSR, several metrics and tools can be utilized. Metrics like Page Speed, First Contentful Paint (FCP), and Time to Interactive (TTI) provide insights into how rendering methods impact user experience and SEO. Tools such as Google Lighthouse and PageSpeed Insights offer comprehensive reports that analyze these metrics, highlighting areas for improvement. Furthermore, monitoring core web vitals using Google’s [[guia-google-search-console|search console]] helps assess how SSR enhances load times and improves crawling efficiency compared to CSR methods.
+To evaluate the SEO performance of SSR versus CSR, several metrics and tools can be utilized. Metrics like Page Speed, First Contentful Paint (FCP), and Time to Interactive (TTI) provide insights into how rendering methods impact user experience and SEO. Tools such as Google Lighthouse and PageSpeed Insights offer comprehensive reports that analyze these metrics, highlighting areas for improvement. Furthermore, monitoring core web vitals using Google’s [search console](/en/blog/seo/guia-google-search-console) helps assess how SSR enhances load times and improves crawling efficiency compared to CSR methods.
 
 Search engine crawlers, including Googlebot, prefer readily accessible content. Thus, SSR often boosts indexing capabilities due to the immediate availability of fully rendered HTML. In contrast, CSR might impose delays that can negatively affect indexing. Regular audits and performance evaluations through these tools ensure that web applications remain competitive in the landscape of **CSR vs SSR SEO**.
 

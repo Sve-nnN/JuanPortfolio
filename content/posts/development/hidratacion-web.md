@@ -23,7 +23,7 @@ tldr: 'La hidratación web transforma HTML estático en dinámico, mejorando la 
 ---
 
 
-La [[hidratacion-web|hidratación web]] es un proceso fundamental en el desarrollo de aplicaciones interactivas, ya que transforma el HTML estático en contenido dinámico. En este artículo, abordaremos qué es la hidratación y cómo se lleva a cabo, así como los desafíos que enfrenta durante su implementación.
+La [hidratación web](/blog/development/hidratacion-web) es un proceso fundamental en el desarrollo de aplicaciones interactivas, ya que transforma el HTML estático en contenido dinámico. En este artículo, abordaremos qué es la hidratación y cómo se lleva a cabo, así como los desafíos que enfrenta durante su implementación.
 
 A medida que exploramos este tema, entenderemos la importancia de la hidratación y sus implicaciones en el rendimiento de las aplicaciones, lo que resulta clave para ofrecer una experiencia de usuario fluida y eficiente.
 
@@ -31,7 +31,7 @@ A medida que exploramos este tema, entenderemos la importancia de la hidratació
 
 ### Definición y concepto fundamental
 
-La hidratación en desarrollo web es un proceso que transforma contenido HTML estático, generado en el servidor, en una aplicación dinámica e interactiva en el navegador del cliente. Este proceso se activa principalmente en el contexto de frameworks JavaScript como React, Vue o Angular, donde el servidor envía un HTML pre-renderizado y, posteriormente, el framework añade la lógica de interactividad necesaria. En términos simples, la hidratación es el paso donde se "reactiva" el HTML que ya se presentó al usuario mediante la adición de manejadores de eventos, lo que permite que la aplicación responda a las interacciones del usuario.
+La hidratación en [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio) es un proceso que transforma contenido HTML estático, generado en el servidor, en una aplicación dinámica e interactiva en el navegador del cliente. Este proceso se activa principalmente en el contexto de frameworks JavaScript como React, Vue o Angular, donde el servidor envía un HTML pre-renderizado y, posteriormente, el framework añade la lógica de interactividad necesaria. En términos simples, la hidratación es el paso donde se "reactiva" el HTML que ya se presentó al usuario mediante la adición de manejadores de eventos, lo que permite que la aplicación responda a las interacciones del usuario.
 
 ### Elementos clave: manejadores de eventos y DOM
 

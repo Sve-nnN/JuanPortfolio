@@ -35,7 +35,7 @@ tldr: >-
   performant code for modern technical systems.
 keyword: big o notation
 ---
-La notación Big-O es un concepto esencial en el análisis de [[algoritmos-estructuras-datos|Algorithms and Data Structures]], que permite evaluar su eficiencia en función del tiempo y espacio requeridos. A medida que el tamaño de la entrada aumenta, comprender cómo abordar Big-O se vuelve crucial para optimizar el rendimiento de aplicaciones y sistemas.
+La notación Big-O es un concepto esencial en el análisis de [Algorithms and Data Structures](/en/blog/cs-fundamentals/algoritmos-estructuras-datos), que permite evaluar su eficiencia en función del tiempo y espacio requeridos. A medida que el tamaño de la entrada aumenta, comprender cómo abordar Big-O se vuelve crucial para optimizar el rendimiento de aplicaciones y sistemas.
 
 Este artículo explora los fundamentos, las clasificaciones de complejidad y las aplicaciones prácticas de la notación Big-O, brindando una guía comprensible que beneficiará a desarrolladores y entusiastas de la programación por igual.
 

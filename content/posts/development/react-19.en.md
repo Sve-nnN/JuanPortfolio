@@ -26,7 +26,7 @@ tldr: 'React 19 introduces exciting features like improved concurrency, automati
 
 *By Juan Carlos Angulo, Senior Tech SEO & Software Engineer*
 
-React has continued to evolve since its initial release, and with the arrival of [[react-19|React 19]], developers have a lot to be excited about. This latest version introduces a range of new features, performance improvements, and changes that enhance the overall development experience. In this blog post, we will dive deep into what React 19 offers, discuss how these features can improve development workflows, and provide code examples to illustrate the enhancements.
+React has continued to evolve since its initial release, and with the arrival of [React 19](/en/blog/development/react-19), developers have a lot to be excited about. This latest version introduces a range of new features, performance improvements, and changes that enhance the overall development experience. In this blog post, we will dive deep into what React 19 offers, discuss how these features can improve development workflows, and provide code examples to illustrate the enhancements.
 
 ## What’s New in React 19?
 

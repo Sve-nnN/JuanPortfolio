@@ -41,17 +41,17 @@ semantic_keywords:
 uploaded: true
 keyword: tech seo guide
 ---
-El **[[technical-seo-guide|SEO técnico]]** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
+El **[SEO técnico](/blog/tech-seo/technical-seo-guide)** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
 
 En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: Rastreabilidad, Rendimiento [Core Web Vitals](https://juan-tech.com/blog/tech-seo/web-performance-guide) y Semántica Estructurada.
 
 ## 1. Fase de Rastreabilidad e Indexación Limitada
 
-Antes de que Google pondere tus [[guia-keyword-research|palabras clave]], su bot debe acceder a la topología web y decodificar eficientemente el HTML.
+Antes de que Google pondere tus [palabras clave](/blog/seo/guia-keyword-research), su bot debe acceder a la topología web y decodificar eficientemente el HTML.
 
 ### Control y Restricción: robots.txt
 
-El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [[robots-txt-best-practices|robots.txt]] para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
+El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [robots.txt](/blog/general/robots-txt-best-practices) para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
 
 - Aísla carpetas internas de sistema administrativo.
 - Excluye rastreadores y scrapers destructivos de Inteligencia Artificial (LLMs) si violan y compilan tus datos sin reciprocidad de clics.
@@ -61,7 +61,7 @@ El **Crawl Budget** (presupuesto de rastreo diario) asignado a tu dominio es sum
 
 El patrón que utilices para delegar la compilación JavaScript define tu índice de latencia de publicación y el desahogo de index.
 
-- **Server-Side Rendering ([[ssr-vs-csr-seo|SSR vs CSR]]) y SSG:** El servidor envía el documento final HTML completamente pre-masticado. Es el modelo imperativo e indiscutible de negocio para retener resultados dominantes [[estrategia-seo|SEO]] inmediatos.
+- **Server-Side Rendering ([SSR vs CSR](/blog/general/ssr-vs-csr-seo)) y SSG:** El servidor envía el documento final HTML completamente pre-masticado. Es el modelo imperativo e indiscutible de negocio para retener resultados dominantes [SEO](/blog/seo/estrategia-seo) inmediatos.
 - **Client-Side Rendering (CSR):** Obliga al cliente local web a iterar la carga bruta de JS para formar su vista. Manda tus URLs a una cola lenta perimetral del buscador con un inmenso riesgo a un abandono indexativo del motor.
 - Analiza mi despiece algorítmico exhaustivo técnico en la [Comparativa SSR vs CSR](./ssr-vs-csr-seo).
 
@@ -76,7 +76,7 @@ Soportar una tienda inmensa esperando que el rastreo base del bot detecte flujos
 
 Las latencias de servidor y caídas crudas frontales de JavaScript deprimen la UX limitando la rentabilidad y ranking. Las evaluaciones empíricas de Chrome UX Report (CrUX) actúan como juez principal orgánico de carga.
 
-- **Largest Contentful Paint (LCP):** Requerido por debajo de 2.5s. Asigna jerarquización absoluta pre-cargando banners utilizando código `fetchpriority="high"`.
+- **[Largest Contentful Paint](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide) (LCP):** Requerido por debajo de 2.5s. Asigna jerarquización absoluta pre-cargando banners utilizando código `fetchpriority="high"`.
 - **Interaction to Next Paint (INP):** Obligatorio menor a 200ms. Impide que las mega-rutinas JavaScript asfixien el Main Thread navegador mediante patrones de Yielding a micro-tareas partiendo dependencias y reduciendo tiempo de parálisis.
 - **Cumulative Layout Shift (CLS):** Límite tope sobre el ratio 0.1 de impacto. Inyecta márgenes `aspect-ratio` rígidos a tu diseño de contenedores limitando fracturas de render en carga local y de cliente diferida lenta.
 - Observa y manipula el ejemplo detallado crudo en la [Guía técnica de Core Web Vitals](./core-web-vitals-guide).

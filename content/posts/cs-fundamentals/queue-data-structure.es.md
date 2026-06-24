@@ -30,7 +30,7 @@ keyword: queue data structure
 
 ---
 
-La estructura de datos conocida como cola es fundamental en la programación y se basa en el principio FIFO (First In, First Out). Esto significa que el primer elemento agregado es el primero en ser eliminado. Las [[pilas-y-colas|colas]] son útiles en diversos contextos, desde la gestión de procesos hasta la implementación de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]]. Existen diferentes maneras de implementar colas, incluyendo arreglos y [listas enlazadas](https://juan-tech.com/blog/cs-fundamentals/data-structures). Cada método presenta ventajas y desventajas, especialmente en términos de eficiencia y manejo de memoria. Este artículo abordará sus fundamentos, implementaciones comunes y aplicaciones prácticas en diversos lenguajes de programación.
+La estructura de datos conocida como cola es fundamental en la programación y se basa en el principio [FIFO](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) (First In, First Out). Esto significa que el primer elemento agregado es el primero en ser eliminado. Las [colas](/blog/cs-fundamentals/pilas-y-colas) son útiles en diversos contextos, desde la gestión de procesos hasta la implementación de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos). Existen diferentes maneras de implementar colas, incluyendo arreglos y [listas enlazadas](https://juan-tech.com/blog/cs-fundamentals/data-structures). Cada método presenta ventajas y desventajas, especialmente en términos de eficiencia y manejo de memoria. Este artículo abordará sus fundamentos, implementaciones comunes y aplicaciones prácticas en diversos lenguajes de programación.
 
 ## Fundamentos de la estructura de datos queue
 
@@ -193,7 +193,7 @@ La cola puede facilitar la implementación de algoritmos codiciosos y de [progra
 
 ## Preguntas frecuentes sobre queue data structure
 
-Existen diversas inquietudes comunes sobre las colas en [[data-structures|estructuras de datos]]. A continuación, se aborda cada una de estas preguntas clave.
+Existen diversas inquietudes comunes sobre las colas en [estructuras de datos](/blog/cs-fundamentals/data-structures). A continuación, se aborda cada una de estas preguntas clave.
 
 ### ¿Cuándo usar queue en lugar de otras estructuras?
 

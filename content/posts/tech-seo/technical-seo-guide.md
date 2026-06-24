@@ -33,7 +33,7 @@ keyword: technical seo guide
 ---
 
 
-**Fundamentos del [[estrategia-seo|SEO]] técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
+**Fundamentos del [SEO](/blog/seo/estrategia-seo) técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
 Fundamentos del SEO técnico para desarrolladores
 
 Esta sección aborda los principios básicos que sustentan el SEO técnico y cómo su correcta implementación puede impactar la visibilidad de un sitio web. Aquí se exploran las conexiones entre la arquitectura web y las prácticas de SEO.
@@ -65,7 +65,7 @@ El diseño de la estructura del sitio es fundamental para facilitar el rastreo y
 
 Diseño de URLs limpias y amigables
 
-Las URLs deben ser claras y descriptivas. Se recomienda que incluyan [[guia-keyword-research|palabras clave]] relevantes y eviten parámetros innecesarios. Esto no solo facilita la indexación, sino que también reduce la confusión del usuario. Considerar los siguientes elementos al diseñar URLs:
+Las URLs deben ser claras y descriptivas. Se recomienda que incluyan [palabras clave](/blog/seo/guia-keyword-research) relevantes y eviten parámetros innecesarios. Esto no solo facilita la indexación, sino que también reduce la confusión del usuario. Considerar los siguientes elementos al diseñar URLs:
 
 Usar guiones (-) en lugar de guiones bajos (_).
 Evitar el uso de caracteres especiales y números innecesarios.
@@ -76,22 +76,22 @@ Una jerarquía bien definida permite a los motores de búsqueda comprender la re
 
 Categorías principales que agrupan similar contenido.
 Subcategorías que desglosan temas más específicos.
-[[enlaces-internos-guia|enlaces internos]] que conecten el contenido relacionado para mejorar el contexto.
+[enlaces internos](/blog/seo/enlaces-internos-guia) que conecten el contenido relacionado para mejorar el contexto.
 Implementación y actualización de sitemaps XML
 
-Un [[xml-sitemap-automation|sitemap XML]] XML actúa como un mapa del sitio para los motores de búsqueda. Incluir todas las páginas importantes facilita su descubrimiento. Es importante actualizar el sitemap cada vez que se realicen cambios en el contenido del sitio. Al considerarlo, tener en cuenta:
+Un [sitemap XML](/blog/general/xml-sitemap-automation) XML actúa como un mapa del sitio para los motores de búsqueda. Incluir todas las páginas importantes facilita su descubrimiento. Es importante actualizar el sitemap cada vez que se realicen cambios en el contenido del sitio. Al considerarlo, tener en cuenta:
 
 Incluir las páginas más relevantes y eliminar las que ya no existan.
 Actualizar el sitemap periódicamente para reflejar cambios recientes.
 Enviar el sitemap actualizado a [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation).
-Uso correcto del archivo [[robots-txt-best-practices|robots.txt]]
+Uso correcto del archivo [robots.txt](/blog/general/robots-txt-best-practices)
 
 El archivo robots.txt regula cómo los robots de los motores de búsqueda interactúan con el sitio. Permite bloquear el acceso a secciones no deseadas y garantizar que el rastreo se realice de manera eficiente. Es necesario:
 
 Incluir directivas que permitan o deshabiliten el acceso a carpetas específicas.
 Evitar bloqueos innecesarios que puedan afectar la indexación de contenido relevante.
 Revisar el archivo regularmente para asegurar que esté optimizado y acorde a cambios recientes en la estructura del sitio.
-Mejoras en la velocidad y [[web-performance-guide|rendimiento web]]
+Mejoras en la velocidad y [rendimiento web](/blog/general/web-performance-guide)
 
 La velocidad de carga es un factor crítico para mejorar la experiencia del usuario y optimizar el rendimiento de un sitio. Implementar estrategias efectivas puede minimizar el tiempo de carga y, a su vez, mejorar el posicionamiento en buscadores.
 
@@ -119,7 +119,7 @@ Utilizar herramientas para analizar el rendimiento es fundamental para identific
 
 Evaluar el tiempo de respuesta del servidor y la eficiencia de los recursos multimedia.
 Realizar auditorías periódicas para asegurar el cumplimiento de los estándares de rendimiento.
-[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y [[schema-markup-guide|datos estructurados]]
+[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y [datos estructurados](/blog/general/schema-markup-guide)
 
 Los datos estructurados permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
@@ -189,7 +189,7 @@ Identificación y solución de enlaces rotos
 
 Los enlaces rotos generan frustración en los usuarios y afectan el valor SEO. Para resolver este problema, es recomendable:
 
-Utilizar herramientas como Screaming Frog o [[guia-google-search-console|Google Search Console]] para escanear el sitio y detectar enlaces inactivos.
+Utilizar herramientas como Screaming Frog o [Google Search Console](/blog/seo/guia-google-search-console) para escanear el sitio y detectar enlaces inactivos.
 Verificar periódicamente todos los enlaces internos y externos.
 Actualizar o eliminar los enlaces que no estén funcionando.
 Redirecciones 301 para preservar valor SEO
@@ -264,7 +264,7 @@ Interpretación de Web Vitals para mejorar experiencia de usuario
 
 Web Vitals mide aspectos clave del rendimiento de una página web, como la velocidad de carga, la interactividad y la estabilidad visual. Esta métrica incluye elementos como:
 
-Largest Contentful Paint (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
+[Largest Contentful Paint](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide) (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
 First Input Delay (FID) – Tiempo que el usuario espera para interactuar con la página.
 Cumulative Layout Shift (CLS) – Mide la estabilidad visual de la página.
 Gestión avanzada del rastreo e indexación
@@ -276,7 +276,7 @@ Configuración estratégica del archivo robots.txt
 El archivo robots.txt es una herramienta crucial para gestionar el acceso de los motores de búsqueda a diferentes secciones de un sitio. Su configuración debe ser cuidadosa. Al manejar este archivo, es necesario:
 
 Permitir el acceso a las páginas importantes.
-Bloquear rutas no relevantes que pueden desperdiciar el Crawl Budget.
+Bloquear rutas no relevantes que pueden desperdiciar el [Crawl Budget](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices).
 Utilizar comentarios para aclarar la intención detrás de las reglas aplicadas.
 
 Una configuración errónea puede resultar en la exclusión de páginas que deberían ser indexadas.

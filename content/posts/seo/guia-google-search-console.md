@@ -21,7 +21,7 @@ tldr: 'Google Search Console es esencial para optimizar tu sitio web. Aprende a 
 ---
 
 
-[[guia-google-search-console|Google Search Console]] es una herramienta vital para cualquier propietario de sitio web o profesional del SEO que busque mejorar su rendimiento en los resultados de búsqueda de Google. Con su amplia gama de funcionalidades, desde la verificación de la indexación hasta la gestión de backlinks, ofrece insights invaluables que son fundamentales para optimizar tu presencia online.
+[Google Search Console](/blog/seo/guia-google-search-console) es una herramienta vital para cualquier propietario de sitio web o profesional del SEO que busque mejorar su rendimiento en los resultados de búsqueda de Google. Con su amplia gama de funcionalidades, desde la verificación de la indexación hasta la gestión de backlinks, ofrece insights invaluables que son fundamentales para optimizar tu presencia online.
 
 A lo largo de este artículo, exploraremos las funciones esenciales de Google Search Console y las herramientas que puedes utilizar para maximizar el potencial de tu sitio web. Desde el análisis del tráfico hasta la detección de problemas técnicos, aprenderás a aprovechar al máximo estas google search console tools para lograr un mejor posicionamiento.
 
@@ -39,7 +39,7 @@ La solución de problemas de indexación es otra función crucial. Google Search
 
 ### Datos de Tráfico y Rendimiento en Búsquedas
 
-Acceder a datos de tráfico y rendimiento en búsquedas es fundamental para evaluar la estrategia SEO. Google Search Console proporciona información sobre cómo los usuarios encuentran un sitio web a través de Google. Esta sección incluye métricas como:
+Acceder a datos de tráfico y rendimiento en búsquedas es fundamental para evaluar la [estrategia SEO](https://juan-tech.com/blog/seo/estrategia-seo). Google Search Console proporciona información sobre cómo los usuarios encuentran un sitio web a través de Google. Esta sección incluye métricas como:
 
 -   Frecuencia de apariciones en los resultados de búsqueda.
 -   Consultas de búsqueda específicas que conducen tráfico al sitio.
@@ -49,7 +49,7 @@ Analizar estos datos permite a los especialistas en SEO entender mejor el compor
 
 ### Alertas de Seguridad y Problemas Técnicos
 
-Las alertas de seguridad y problemas técnicos son esenciales para el mantenimiento de un sitio web. Google Search Console monitorea el sitio y avisa sobre posibles problemas de seguridad, como hackeos o detección de malware. Además, notifica sobre errores técnicos que puedan afectar la experiencia del usuario, facilitando la corrección rápida de fallos que podrían perjudicar la visibilidad del sitio en los motores de búsqueda.
+Las alertas de seguridad y problemas técnicos son esenciales para el mantenimiento de un sitio web. Google Search Console monitorea el sitio y avisa sobre posibles problemas de seguridad, como hackeos o detección de malware. Además, notifica sobre errores técnicos que puedan afectar la [experiencia del usuario](https://juan-tech.com/blog/seo/enlaces-internos-guia), facilitando la corrección rápida de fallos que podrían perjudicar la visibilidad del sitio en los motores de búsqueda.
 
 ### Análisis y Gestión de Backlinks
 
@@ -69,13 +69,13 @@ Los reportes de cobertura proporcionan información esencial sobre la capacidad 
 
 ### Informes de Usabilidad Móvil y Experiencia de Página
 
-Con la creciente importancia del rendimiento móvil, los informes de usabilidad móvil son cruciales para garantizar que el sitio esté optimizado para usuarios de dispositivos móviles. Estos informes evalúan aspectos como la legibilidad del texto, el uso de espacio en pantalla y la interactividad. Además, evalúa la experiencia general del usuario a través de los siguientes factores:
+Con la creciente importancia del rendimiento móvil, los informes de usabilidad móvil son cruciales para garantizar que el sitio esté optimizado para usuarios de dispositivos móviles. Estos informes evalúan aspectos como la [legibilidad](https://juan-tech.com/blog/seo/redaccion-seo) del texto, el uso de espacio en pantalla y la interactividad. Además, evalúa la experiencia general del usuario a través de los siguientes factores:
 
 -   Desempeño de la carga de la página.
 -   Interacción y rapidez de los elementos.
 -   Compatibilidad con dispositivos móviles y resolución de pantalla.
 
-Mejorar estos aspectos no solo impacta el SEO, sino que también transforma la experiencia del usuario, aumentando la probabilidad de retención y conversión.
+Mejorar estos aspectos no solo impacta el SEO, sino que también transforma la experiencia del usuario, aumentando la probabilidad de retención y [conversión](https://juan-tech.com/blog/seo/estrategia-de-contenidos).
 
 ### Monitorización de Errores y Problemas de Seguridad
 

@@ -35,7 +35,7 @@ Entender los fundamentos del Headless CMS es fundamental para apreciar su capaci
 
 ### Diferencias entre CMS Tradicional y Headless
 
-Los sistemas de gestión de contenidos tradicionales combinan el frontend y el backend, creando una arquitectura monolítica. Esto es diferente en un Headless CMS, donde estas capas están completamente separadas. Dicha separación permite que el contenido sea accesible a través de APIs, ofreciendo una flexibilidad superior. Las diferencias clave incluyen:
+Los sistemas de [gestión de contenidos](https://juan-tech.com/blog/development/payloadcms-vs-strapi) tradicionales combinan el frontend y el backend, creando una arquitectura monolítica. Esto es diferente en un Headless CMS, donde estas capas están completamente separadas. Dicha separación permite que el contenido sea accesible a través de APIs, ofreciendo una flexibilidad superior. Las diferencias clave incluyen:
 
 -   **Arquitectura:** Los CMS tradicionales están diseñados para ofrecer un entorno cerrado, mientras que los Headless CMS trabajan en un ecosistema abierto.
 -   **Experiencia del usuario:** En un enfoque tradicional, la experiencia del usuario está vinculada al CMS, mientras que el Headless permite personalizar cualquier interfaz de usuario.
@@ -154,7 +154,7 @@ Como plataforma de código abierto, Strapi permite a los desarrolladores tener c
 
 ### Prismic: Experiencia para Equipos de Marketing
 
-Prismic se enfoca en proporcionar una experiencia de usuario intuitiva para equipos de marketing. Sus integraciones con frameworks populares como [[nextjs-portfolio|Next.js]] y Nuxt facilitan la construcción de sitios web centrados en contenido. A pesar de su facilidad de uso, el modelo de contenido puede ser menos flexible comparado con otras plataformas. También existen costos adicionales al gestionar múltiples proyectos, lo que puede afectar el presupuesto en equipos grandes.
+Prismic se enfoca en proporcionar una experiencia de usuario intuitiva para equipos de marketing. Sus integraciones con frameworks populares como Next.js y Nuxt facilitan la construcción de sitios web centrados en contenido. A pesar de su facilidad de uso, el modelo de contenido puede ser menos flexible comparado con otras plataformas. También existen costos adicionales al gestionar múltiples proyectos, lo que puede afectar el presupuesto en equipos grandes.
 
 ## Estrategias de Implementación y Mantenimiento
 
@@ -174,7 +174,7 @@ El autoalojamiento permite un control total sobre la infraestructura, pero impli
 
 ### Optimización para SEO y Rendimiento Web
 
-Implementar buenas prácticas de SEO desde el principio es esencial. Esto incluye la correcta configuración de metadatos, rutas y el uso apropiado de herramientas de análisis. Un rendimiento web óptimo, medido por Core Web Vitals, es también fundamental para mejorar la posición en los motores de búsqueda.
+Implementar buenas prácticas de SEO desde el principio es esencial. Esto incluye la correcta configuración de metadatos, rutas y el uso apropiado de herramientas de análisis. Un [rendimiento web](https://juan-tech.com/blog/development/hidratacion-web) óptimo, medido por Core Web Vitals, es también fundamental para mejorar la posición en los motores de búsqueda.
 
 La estructura de precios y los planes disponibles para las plataformas de Headless CMS son fundamentales para facilitar una correcta elección, dependiendo de las necesidades específicas de cada proyecto. A continuación se detalla los aspectos más relevantes a considerar.
 

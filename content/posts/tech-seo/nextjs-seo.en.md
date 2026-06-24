@@ -30,13 +30,13 @@ keyword: next js seo
 
 ---
 
-Optimizing your website for search engines is crucial, and Next.js provides a powerful framework to enhance your [[estrategia-seo|SEO]] efforts. From fast page loads to advanced rendering techniques, Next.js is designed to help developers, technical SEOs, and business owners effectively improve their online visibility.
+Optimizing your website for search engines is crucial, and Next.js provides a powerful framework to enhance your [SEO](/en/blog/seo/estrategia-seo) efforts. From fast page loads to advanced rendering techniques, Next.js is designed to help developers, technical SEOs, and business owners effectively improve their online visibility.
 
 This article will explore how to do SEO in Next.js, detailing best practices and key strategies to maximize your site's performance. Discover how [server-side rendering](https://juan-tech.com/en/blog/tech-seo/ssr-vs-csr-seo), dynamic meta tags, and image optimization can elevate your search rankings.
 
 ## Understanding Next.js and Its SEO Benefits
 
-Next.js is a powerful framework for building React applications that includes essential features specifically designed to enhance search engine optimization (SEO). Understanding how to leverage Next.js in SEO strategies is crucial for maximizing the visibility of web applications. This framework uniquely combines server-side rendering ([[ssr-vs-csr-seo|SSR vs CSR]]) and static site generation (SSG), resulting in faster load times and improved user experience, both of which are critical factors for effective SEO.
+Next.js is a powerful framework for building React applications that includes essential features specifically designed to enhance search engine optimization (SEO). Understanding how to leverage Next.js in SEO strategies is crucial for maximizing the visibility of web applications. This framework uniquely combines server-side rendering ([SSR vs CSR](/en/blog/general/ssr-vs-csr-seo)) and static site generation (SSG), resulting in faster load times and improved user experience, both of which are critical factors for effective SEO.
 
 ### Server-Side Rendering (SSR) and Static Site Generation (SSG)
 
@@ -101,7 +101,7 @@ const structuredData = {
 
 ### Generating and Managing Sitemaps Automatically
 
-A [[xml-sitemap-automation|XML sitemap]] is vital for search engines to discover and index the pages on a website effectively. Next.js can automate the generation of sitemaps, ensuring that they are always updated as the site evolves. Utilizing packages like **next-sitemap** enables seamless sitemap integration. The configuration might include:
+A [XML sitemap](/en/blog/general/xml-sitemap-automation) is vital for search engines to discover and index the pages on a website effectively. Next.js can automate the generation of sitemaps, ensuring that they are always updated as the site evolves. Utilizing packages like **next-sitemap** enables seamless sitemap integration. The configuration might include:
 
 ```
 
@@ -157,7 +157,7 @@ When developing multilingual sites with Next.js, incorporating internationalizat
 
 ### Handling Robots.txt and Meta Robots Tags
 
-The **[[robots-txt-best-practices|robots.txt]]** file and meta robots tags are essential tools for guiding search engine crawlers. The robots.txt file can be configured in Next.js to allow or disallow access to specific areas of the website, preventing crawlers from indexing duplicate or low-value content. Additionally, applying meta robots tags within the `<Head>` component provides fine-grained control over indexing behavior, which can be critical for preserving site rankings.
+The **[robots.txt](/en/blog/general/robots-txt-best-practices)** file and meta robots tags are essential tools for guiding search engine crawlers. The robots.txt file can be configured in Next.js to allow or disallow access to specific areas of the website, preventing crawlers from indexing duplicate or low-value content. Additionally, applying meta robots tags within the `<Head>` component provides fine-grained control over indexing behavior, which can be critical for preserving site rankings.
 
 Here is an example of a robots.txt setup:
 
@@ -168,7 +168,7 @@ Here is an example of a robots.txt setup:
 
 ### Monitoring and Improving SEO Performance
 
-Monitoring SEO performance in Next.js applications involves regular audits using analytics tools and [[guia-google-search-console|search console]] data. By analyzing metrics such as organic traffic, bounce rates, and conversion rates, developers can identify areas for improvement. Implementing tracking mechanisms, such as Google Analytics and monitoring backlinks, ensures that changes made to the site are effective in enhancing visibility in search engine results.
+Monitoring SEO performance in Next.js applications involves regular audits using analytics tools and [search console](/en/blog/seo/guia-google-search-console) data. By analyzing metrics such as organic traffic, bounce rates, and conversion rates, developers can identify areas for improvement. Implementing tracking mechanisms, such as Google Analytics and monitoring backlinks, ensures that changes made to the site are effective in enhancing visibility in search engine results.
 
 Additionally, conducting A/B tests on various SEO elements like titles, meta descriptions, and header tags can provide insights into what resonates best with users, ultimately driving better engagement and higher rankings.
 

@@ -53,7 +53,7 @@ Una de las grandes ventajas de Next.js es su enfoque en la modularidad y la reut
 
 ### Renderizado del lado del servidor y generación estática
 
-Una de las pequeñas grandes diferencias de Next.js respecto a otros frameworks es su capacidad para realizar renderizado del lado del servidor (SSR) y generación de sitios estáticos (SSG). Esta funcionalidad permite que el contenido se genere en el servidor en lugar de depender del navegador del cliente, lo cual resulta en tiempos de carga más rápidos. Para un portafolio, esto significa que las imágenes y los proyectos se pueden cargar de manera eficiente, mejorando la experiencia del usuario. Además, la generación de sitios estáticos significa que el contenido está disponible prácticamente al instante, lo cual es fundamental para la retención de usuarios que acceden a un portafolio online.
+Una de las pequeñas grandes diferencias de Next.js respecto a otros frameworks es su capacidad para realizar [renderizado del lado del servidor](https://juan-tech.com/blog/development/hidratacion-web) (SSR) y generación de sitios estáticos (SSG). Esta funcionalidad permite que el contenido se genere en el servidor en lugar de depender del navegador del cliente, lo cual resulta en tiempos de carga más rápidos. Para un portafolio, esto significa que las imágenes y los proyectos se pueden cargar de manera eficiente, mejorando la experiencia del usuario. Además, la generación de sitios estáticos significa que el contenido está disponible prácticamente al instante, lo cual es fundamental para la retención de usuarios que acceden a un portafolio online.
 
 ### Impacto en el rendimiento y SEO de tu portafolio
 

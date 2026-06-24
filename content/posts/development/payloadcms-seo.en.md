@@ -45,7 +45,7 @@ From understanding its core features to implementing best practices and measurin
 
 ## Understanding Payload CMS for SEO
 
-[[payload-cms-guide|Payload CMS]] is a headless Content Management System that offers a robust framework tailored for developers, ensuring high performance and flexibility in content delivery. As businesses increasingly adopt digital-first strategies, having an effective SEO approach becomes paramount. Understanding how Payload CMS can be optimized for search engines involves examining its core features and how they can influence search visibility.
+[Payload CMS](/en/blog/development/payload-cms-guide) is a headless Content Management System that offers a robust framework tailored for developers, ensuring high performance and flexibility in content delivery. As businesses increasingly adopt digital-first strategies, having an effective SEO approach becomes paramount. Understanding how Payload CMS can be optimized for search engines involves examining its core features and how they can influence search visibility.
 
 ### Core Features Relevant to Search Optimization
 

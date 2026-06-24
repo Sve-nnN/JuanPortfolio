@@ -38,7 +38,7 @@ keyword: robots txt best practices
 
 ---
 
-El archivo robots.txt es una pieza clave en la [[estrategia-seo|SEO]] de cualquier sitio web. Su correcta implementación garantiza que los motores de búsqueda interactúen de manera óptima con el contenido, priorizando las páginas que realmente importan.
+El archivo robots.txt es una pieza clave en la [SEO](/blog/seo/estrategia-seo) de cualquier sitio web. Su correcta implementación garantiza que los motores de búsqueda interactúen de manera óptima con el contenido, priorizando las páginas que realmente importan.
 
 En este artículo, exploraremos las mejores prácticas para gestionar robots.txt, incluyendo consejos específicos para WordPress y cómo evitar errores comunes que pueden afectar tu posicionamiento en buscadores.
 
@@ -263,7 +263,7 @@ Además, la utilización de [herramientas de auditoría](https://juan-tech.com/b
 Cuando se realizan cambios en el archivo robots.txt, pueden surgir problemas inesperados que afecten la accesibilidad del contenido. La identificación temprana de estos problemas es clave para minimizarlos. A continuación se presentan algunos pasos para resolver problemas comunes:
 
 -   Verificar errores de sintaxis para asegurar que la estructura del archivo sea correcta.
--   Realizar pruebas utilizando el 'Robots.txt Tester' en [[guia-google-search-console|Google Search Console]] para verificar que las directrices estén funcionando según lo previsto.
+-   Realizar pruebas utilizando el 'Robots.txt Tester' en [Google Search Console](/blog/seo/guia-google-search-console) para verificar que las directrices estén funcionando según lo previsto.
 -   Revisar logs del servidor para detectar si hay páginas que no están siendo rastreadas como se esperaba.
 -   Actualizar regularmente en función de cambios en el contenido y buscar inconsistencias entre lo que se espera que sea rastreado y lo que efectivamente lo es.
 

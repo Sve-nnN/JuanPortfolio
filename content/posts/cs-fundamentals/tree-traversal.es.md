@@ -30,7 +30,7 @@ keyword: tree traversal
 
 ---
 
-El recorrido de árboles, o "tree traversal", es esencial para manipular y acceder a los datos de estas estructuras jerárquicas. Permite visitar nodos en un orden específico, facilitando operaciones como búsqueda, evaluación y serialización. Existen varios tipos de recorridos, cada uno con sus propias características y aplicaciones. Entre ellos se encuentran el recorrido en profundidad y el recorrido por niveles, que son fundamentales para optimizar [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] y procesos en programación.
+El recorrido de árboles, o "tree traversal", es esencial para manipular y acceder a los datos de estas estructuras jerárquicas. Permite visitar nodos en un orden específico, facilitando operaciones como búsqueda, evaluación y serialización. Existen varios tipos de recorridos, cada uno con sus propias características y aplicaciones. Entre ellos se encuentran el recorrido en profundidad y el recorrido por niveles, que son fundamentales para optimizar [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) y procesos en programación.
 
 ## Tipos fundamentales de recorrido en árboles
 
@@ -102,11 +102,11 @@ El recorrido por niveles tiene diversas aplicaciones en la informática. Es util
 
 -   La búsqueda de la profundidad máxima de un árbol.
 -   La visualización de [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) en forma de niveles.
--   La implementación de algoritmos que requieren procesamiento en paralelo.
+-   La implementación de [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) que requieren procesamiento en paralelo.
 
 ## Algoritmos y llamadas recursivas para traversal
 
-La aplicación de algoritmos en el recorrido de árboles permite un manejo efectivo y eficiente de sus nodos. Las funciones recursivas son herramientas clave en este proceso, facilitando la comprensión y la implementación de los diferentes tipos de traversal.
+La aplicación de algoritmos en el recorrido de árboles permite un manejo efectivo y eficiente de sus nodos. Las [funciones recursivas](https://juan-tech.com/blog/cs-fundamentals/recursividad) son herramientas clave en este proceso, facilitando la comprensión y la implementación de los diferentes tipos de traversal.
 
 ### Implementación en Java para recorrido en orden
 
@@ -197,7 +197,7 @@ El nodo raíz, siendo el punto de entrada del árbol, juega un papel crucial en 
 La eficiencia al recorrer subárboles depende de la estrategia adoptada. Separar el proceso de navegación entre el subárbol izquierdo y el derecho permite implementar técnicas específicas para cada parte. Esto optimiza la operación y reduce la complejidad. Por ejemplo:
 
 -   Las llamadas recursivas aseguran un recorrido completo de cada subárbol.
--   El uso de [[pilas-y-colas|pilas]] puede simplificar el manejo de los recorridos.
+-   El uso de [pilas](/blog/cs-fundamentals/pilas-y-colas) puede simplificar el manejo de los recorridos.
 
 ## Comparación entre traversal en profundidad y en anchura
 
@@ -209,7 +209,7 @@ El recorrido en profundidad ofrece varias ventajas que son especialmente útiles
 
 -   Memoria eficiente: Dado que utiliza una pila (recursiva o no) para realizar el seguimiento de los nodos, tiende a consumir menos memoria en comparación con el recorrido por niveles.
 -   Orden de nodos: Los métodos como inorder permiten obtener los nodos de un árbol de búsqueda binaria en orden ascendente.
--   Flexibilidad en la estructura: Facilita la manipulación de [[data-structures|estructuras de datos]] complejas como árboles de decisión y evaluaciones de expresiones.
+-   Flexibilidad en la estructura: Facilita la manipulación de [estructuras de datos](/blog/cs-fundamentals/data-structures) complejas como árboles de decisión y evaluaciones de expresiones.
 
 ### Beneficios y limitaciones del recorrido por niveles
 

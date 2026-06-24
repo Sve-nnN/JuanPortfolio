@@ -28,7 +28,7 @@ primary_keywords:
   - strategic content
 updatedAt: '2026-04-05T19:47:29.308Z'
 ---
-Pillar pages are a foundational component of [[estrategia-seo|SEO]] strategy, merging comprehensive content with clear site structure. By understanding the role of [[topic-clusters-seo|topic clusters]] and pillar pages, you can enhance your site's authority and usability.
+Pillar pages are a foundational component of [SEO](/en/blog/seo/estrategia-seo) strategy, merging comprehensive content with clear site structure. By understanding the role of [topic clusters](/en/blog/seo/topic-clusters-seo) and pillar pages, you can enhance your site's authority and usability.
 
 This guide will explore the definition, benefits, and best practices for creating effective pillar pages, helping you build a robust content framework that drives traffic and engagement.
 
@@ -132,7 +132,7 @@ Practical examples of pillar pages can vary significantly across industries. An 
 
 ## Technical SEO Considerations for Pillar Pages
 
-Optimizing pillar pages for search engines extends beyond content quality and relevance. Technical SEO considerations play a crucial role in ensuring these pages maximize their potential for authority and visibility. Key aspects include URL structure, page speed, [[schema-markup-guide|schema markup]], and performance tracking, all of which contribute to a coherent strategy for effective topic clusters and pillar pages.
+Optimizing pillar pages for search engines extends beyond content quality and relevance. Technical SEO considerations play a crucial role in ensuring these pages maximize their potential for authority and visibility. Key aspects include URL structure, page speed, [schema markup](/en/blog/general/schema-markup-guide), and performance tracking, all of which contribute to a coherent strategy for effective topic clusters and pillar pages.
 
 ### URL Structure and Site Architecture
 

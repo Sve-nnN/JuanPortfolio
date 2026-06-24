@@ -58,7 +58,7 @@ Google's integration of Core Web Vitals into its overall Page Experience algorit
 
 ## Importance of Core Web Vitals for SEO
 
-Core Web Vitals are becoming increasingly essential for [[estrategia-seo|SEO]], representing key metrics that influence both search rankings and user experience. As Google continuously refines its algorithms, focusing on these metrics can significantly enhance a website's visibility and usability.
+Core Web Vitals are becoming increasingly essential for [SEO](/en/blog/seo/estrategia-seo), representing key metrics that influence both search rankings and user experience. As Google continuously refines its algorithms, focusing on these metrics can significantly enhance a website's visibility and usability.
 
 ### Impact on Search Rankings
 

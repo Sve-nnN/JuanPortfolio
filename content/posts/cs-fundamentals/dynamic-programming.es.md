@@ -29,7 +29,7 @@ semantic_keywords:
 ---
 # Dynamic Programming: complete practical guide
 
-La [programación dinámica](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) es una técnica clave en el desarrollo de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] eficientes, permitiendo descomponer problemas complejos en subproblemas más manejables. A través de esta guía, exploraremos sus fundamentos, estrategias de implementación y [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures).
+La [programación dinámica](https://juan-tech.com/blog/cs-fundamentals/programacion-dinamica) es una técnica clave en el desarrollo de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) eficientes, permitiendo descomponer problemas complejos en subproblemas más manejables. A través de esta guía, exploraremos sus fundamentos, estrategias de implementación y [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures).
 
 Desde la resolución de la subsecuencia creciente máxima hasta el análisis de la 'edit distance dynamic programming', este artículo proporcionará un marco claro para entender cómo aplicar esta metodología de manera eficaz en diversos escenarios.
 
@@ -37,7 +37,7 @@ Desde la resolución de la subsecuencia creciente máxima hasta el análisis de 
 
 ### Concepto y Principios Básicos
 
-La [[programacion-dinamica|programación dinámica]] es una técnica algorítmica que permite la resolución de problemas complejos mediante la descomposición en subproblemas más simples. Este enfoque se basa en dos principios fundamentales: **optimalidad de subestructuras** y **solapamiento de subproblemas**. La optimalidad de subestructuras implica que la solución óptima de un problema se puede construir a partir de las soluciones óptimas de sus subproblemas. Por otro lado, el solapamiento de subproblemas indica que muchos subproblemas se repiten varias veces durante el proceso de resolución, haciendo posible almacenar sus soluciones para evitar cálculos redundantes y, de esta forma, optimizar el tiempo de ejecución.
+La [programación dinámica](/blog/cs-fundamentals/programacion-dinamica) es una técnica algorítmica que permite la resolución de problemas complejos mediante la descomposición en subproblemas más simples. Este enfoque se basa en dos principios fundamentales: **optimalidad de subestructuras** y **solapamiento de subproblemas**. La optimalidad de subestructuras implica que la solución óptima de un problema se puede construir a partir de las soluciones óptimas de sus subproblemas. Por otro lado, el solapamiento de subproblemas indica que muchos subproblemas se repiten varias veces durante el proceso de resolución, haciendo posible almacenar sus soluciones para evitar cálculos redundantes y, de esta forma, optimizar el tiempo de ejecución.
 
 ### Ventajas y Aplicaciones en Problemas Computacionales
 
@@ -45,7 +45,7 @@ El uso de la programación dinámica ofrece múltiples ventajas, especialmente e
 
 ### Comparativa con otras Técnicas Algorítmicas
 
-En comparación con otras técnicas algorítmicas, como la fuerza bruta o la programación por fuerza, la programación dinámica se destaca por su enfoque estructurado y eficiente. Mientras que la solución de fuerza bruta puede implicar una exploración exhaustiva de todas las combinaciones posibles, la programación dinámica aborda el problema de manera más estratégica. Otro enfoque común es el algoritmo greedy, que toma decisiones óptimas en cada paso, pero no garantiza una solución globalmente óptima, lo que a menudo es factible con programación dinámica al considerar todas las subestructuras de manera integral. En resumen, la programación dinámica se convierte en una herramienta indispensable para abordar problemas complejos que requieren soluciones óptimas de manera eficaz.
+En comparación con otras técnicas algorítmicas, como la fuerza bruta o la programación por fuerza, la programación dinámica se destaca por su enfoque estructurado y eficiente. Mientras que la solución de fuerza bruta puede implicar una exploración exhaustiva de todas las combinaciones posibles, la programación dinámica aborda el problema de manera más estratégica. Otro enfoque común es el [algoritmo](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) greedy, que toma decisiones óptimas en cada paso, pero no garantiza una solución globalmente óptima, lo que a menudo es factible con programación dinámica al considerar todas las subestructuras de manera integral. En resumen, la programación dinámica se convierte en una herramienta indispensable para abordar problemas complejos que requieren soluciones óptimas de manera eficaz.
 
 ## Estrategias para Implementar Programación Dinámica
 
@@ -57,7 +57,7 @@ Este enfoque implica abordar el problema general mediante la descomposición en 
 
 ### Enfoque de Abajo hacia Arriba (Bottom-Up)
 
-En contraste con el enfoque anterior, el método de abajo hacia arriba se centra en iniciar la resolución de subproblemas desde los más simples y luego ir combinándolos para formar soluciones más complejas hasta llegar al problema original. Esta técnica asegura que todas las soluciones de los subproblemas necesarios se calculen antes de abordar el problema general. La implementación de este enfoque suele involucrar la utilización de [[data-structures|estructuras de datos]] como tablas o matrices, donde se almacenan los resultados intermedios. Este método es conocido simplemente como programación dinámica y es especialmente eficiente para problemas que tienen una relación clara entre subproblemas, como el cálculo de valores en el **edit distance dynamic programming**.
+En contraste con el enfoque anterior, el método de abajo hacia arriba se centra en iniciar la resolución de subproblemas desde los más simples y luego ir combinándolos para formar soluciones más complejas hasta llegar al problema original. Esta técnica asegura que todas las soluciones de los subproblemas necesarios se calculen antes de abordar el problema general. La implementación de este enfoque suele involucrar la utilización de [estructuras de datos](/blog/cs-fundamentals/data-structures) como tablas o matrices, donde se almacenan los resultados intermedios. Este método es conocido simplemente como programación dinámica y es especialmente eficiente para problemas que tienen una relación clara entre subproblemas, como el cálculo de valores en el **edit distance dynamic programming**.
 
 ### Memoización vs Tabulación
 

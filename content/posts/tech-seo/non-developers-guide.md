@@ -105,7 +105,7 @@ Leer y utilizar documentación técnica puede ser un desafío, especialmente par
 
 ### Técnicas para encontrar información relevante rápidamente
 
-Una de las habilidades más importantes al interactuar con documentación técnica es la capacidad de encontrar rápidamente la información necesaria. Una técnica eficaz consiste en utilizar la función de búsqueda del documento o del sitio web. Al introducir [[guia-keyword-research|palabras clave]] relevantes, se puede acceder a secciones específicas sin necesidad de leer toda la documentación. Además, se recomienda:
+Una de las habilidades más importantes al interactuar con documentación técnica es la capacidad de encontrar rápidamente la información necesaria. Una técnica eficaz consiste en utilizar la función de búsqueda del documento o del sitio web. Al introducir [palabras clave](/blog/seo/guia-keyword-research) relevantes, se puede acceder a secciones específicas sin necesidad de leer toda la documentación. Además, se recomienda:
 
 -   Utilizar términos específicos relacionados con el problema que se está intentando resolver.
 -   Familiarizarse con la tabla de contenido, ya que proporciona una visión general de la estructura del documento.

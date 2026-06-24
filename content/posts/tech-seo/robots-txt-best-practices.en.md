@@ -35,7 +35,7 @@ tldr: >-
   is critical to use strategic allow/disallow rules and provide clear sitemap
   paths to optimize your crawl budget and keep non-public sections private.
 ---
-The robots.txt file serves as a critical protocol for guiding search engine crawlers in their interaction with your website. It defines what content is accessible for crawling and what should be excluded, playing a pivotal role in your [[estrategia-seo|SEO]] strategy.
+The robots.txt file serves as a critical protocol for guiding search engine crawlers in their interaction with your website. It defines what content is accessible for crawling and what should be excluded, playing a pivotal role in your [SEO](/en/blog/seo/estrategia-seo) strategy.
 
 Implementing best practices for configuring robots.txt is essential for optimizing site performance and ensuring effective visibility in search results. This article explores key directives, common pitfalls, and strategic recommendations, including when to use robots txt disallow all to maximize your site's SEO potential.
 
@@ -90,7 +90,7 @@ Regular reviews and updates will help prevent these issues, thereby supporting e
 Understanding and balancing crawl budget and server load is vital. The crawl budget refers to the number of pages a search engine will crawl during a given time frame. When a website experiences high traffic from crawlers, it can strain server resources. Use **robots.txt** to direct bots to only the most important pages and sections of the site. Effective strategies include:
 
 -   Blocking irrelevant or low-priority sections to ensure efficient use of crawl budget.
--   Creating a [[xml-sitemap-automation|XML sitemap]] to guide crawlers directly to the most essential pages.
+-   Creating a [XML sitemap](/en/blog/general/xml-sitemap-automation) to guide crawlers directly to the most essential pages.
 
 Maintaining this balance enhances overall site performance without sacrificing SEO.
 

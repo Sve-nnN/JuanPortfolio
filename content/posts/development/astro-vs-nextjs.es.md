@@ -27,7 +27,7 @@ semantic_keywords:
   - importantes desarrolladores caracter
 keyword: astro vs nextjs
 ---
-Astro y [[nextjs-portfolio|Next.js]] son frameworks populares para el [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), cada uno con características que los hacen únicos. Astro se enfoca en la creación de sitios estáticos, mientras que Next.js permite un manejo dinámico del contenido. Este artículo compara sus características fundamentales, rendimiento y casos de uso, facilitando la elección según las necesidades específicas del proyecto. Ambas soluciones se adaptan a diferentes requisitos y estilos de desarrollo, ofreciendo ventajas importantes para los desarrolladores.
+Astro y Next.js son frameworks populares para el [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio), cada uno con características que los hacen únicos. Astro se enfoca en la creación de sitios estáticos, mientras que Next.js permite un manejo dinámico del contenido. Este artículo compara sus características fundamentales, rendimiento y casos de uso, facilitando la elección según las necesidades específicas del proyecto. Ambas soluciones se adaptan a diferentes requisitos y estilos de desarrollo, ofreciendo ventajas importantes para los desarrolladores.
 
 ## Características fundamentales de Astro y Next.js
 
@@ -41,7 +41,7 @@ Astro se caracteriza por un enfoque basado en componentes que permite a los desa
 
 #### Renderizado del lado del servidor en Next.js
 
-Next.js, en contraste, ofrece capacidades de renderizado del lado del servidor (SSR), lo que lo hace ideal para aplicaciones que requieren interacción constante y datos dinámicos. Esta funcionalidad permite que las páginas se generen en el servidor antes de ser enviadas al cliente, mejorando la velocidad de carga en escenarios de contenido cambiante.
+Next.js, en contraste, ofrece capacidades de [renderizado del lado del servidor](https://juan-tech.com/blog/development/hidratacion-web) (SSR), lo que lo hace ideal para aplicaciones que requieren interacción constante y datos dinámicos. Esta funcionalidad permite que las páginas se generen en el servidor antes de ser enviadas al cliente, mejorando la velocidad de carga en escenarios de contenido cambiante.
 
 ### Flexibilidad en el uso de componentes y librerías
 

@@ -27,7 +27,7 @@ semantic_keywords:
   - diversas aplicaciones empresariales
 keyword: nextjs cms
 ---
-[[nextjs-portfolio|Next.js]] se ha convertido en una opción popular para desarrollar aplicaciones web modernas. Su integración con sistemas de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) (CMS) permite a los desarrolladores combinar performance y facilidad en la administración de contenido. Usar un CMS con Next.js no solo simplifica la gestión de datos, sino que también mejora la colaboración entre equipos. Existen diversas opciones de CMS que se adaptan bien a Next.js, cada una con características específicas que optimizan el rendimiento del sitio.
+Next.js se ha convertido en una opción popular para desarrollar aplicaciones web modernas. Su integración con sistemas de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) (CMS) permite a los desarrolladores combinar performance y facilidad en la administración de contenido. Usar un CMS con Next.js no solo simplifica la gestión de datos, sino que también mejora la colaboración entre equipos. Existen diversas opciones de CMS que se adaptan bien a Next.js, cada una con características específicas que optimizan el rendimiento del sitio.
 
 ## Ventajas de usar un CMS con Next.js
 
@@ -39,7 +39,7 @@ La capacidad de personalizar el modelado de contenido es esencial para cualquier
 
 ### Optimización para rendimiento y SEO
 
-Utilizar un CMS en combinación con Next.js impacta positivamente en el rendimiento y el SEO. Las funcionalidades de renderizado del lado del servidor (SSR) y la generación de sitios estáticos (SSG) son especialmente útiles. Con estas características, las páginas se cargan rápidamente, lo que mejora la experiencia del usuario y contribuye a un mejor posicionamiento en buscadores.
+Utilizar un CMS en combinación con Next.js impacta positivamente en el rendimiento y el SEO. Las funcionalidades de [renderizado del lado del servidor](https://juan-tech.com/blog/development/hidratacion-web) (SSR) y la generación de sitios estáticos (SSG) son especialmente útiles. Con estas características, las páginas se cargan rápidamente, lo que mejora la experiencia del usuario y contribuye a un mejor posicionamiento en buscadores.
 
 ### Mejora en la colaboración entre equipos de desarrollo y contenido
 
@@ -115,7 +115,7 @@ Ghost permite crear sitios estáticos de manera rápida, integrándose perfectam
 
 ## Netlify CMS y Payload CMS con Next.js
 
-Netlify CMS y [[payload-cms-guide|Payload CMS]] son dos opciones poderosas que se integran eficientemente con Next.js. Ambas ofrecen características únicas que facilitan la gestión de contenido y mejoran la [experiencia del desarrollador](https://juan-tech.com/blog/development/headless-cms-seo).
+Netlify CMS y [Payload CMS](/blog/development/payload-cms-guide) son dos opciones poderosas que se integran eficientemente con Next.js. Ambas ofrecen características únicas que facilitan la gestión de contenido y mejoran la [experiencia del desarrollador](https://juan-tech.com/blog/development/headless-cms-seo).
 
 ### Netlify CMS: características y flujo de trabajo con Next.js
 

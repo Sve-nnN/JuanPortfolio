@@ -23,7 +23,7 @@ tldr: 'La recursividad es un principio esencial en programación que permite res
 ---
 
 
-La [[recursividad|recursividad]] es un concepto clave en programación que permite resolver problemas complejos mediante la división de tareas en subproblemas más simples. En este artículo, exploraremos su definición y los fundamentos esenciales que la sustentan, además de ofrecer ejemplos prácticos en Python y C++ para ilustrar su aplicación.
+La [recursividad](/blog/cs-fundamentals/recursividad) es un concepto clave en programación que permite resolver problemas complejos mediante la división de tareas en subproblemas más simples. En este artículo, exploraremos su definición y los fundamentos esenciales que la sustentan, además de ofrecer ejemplos prácticos en Python y C++ para ilustrar su aplicación.
 
 A lo largo del contenido, abordaremos desde los principios básicos hasta las ventajas y limitaciones de la recursividad, proporcionando una comprensión integral de cómo utilizarla eficazmente en el desarrollo de software.
 
@@ -140,7 +140,7 @@ Uno de los desafíos de utilizar la recursividad en C++ es el manejo de los recu
 
 ### Recursividad y punteros en C++
 
-La recursividad en C++ se complementa eficazmente con el uso de punteros. Al pasar punteros como argumentos, se pueden modificar estructuras de datos más complejas sin necesidad de realizar copias completas. Esto puede ser especialmente útil en la implementación de algoritmos que operan sobre estructuras de datos como árboles o listas enlazadas. Un uso típico es al manejar programas que operan en estructuras recursivas, donde las funciones pueden manipular punteros para navegar y modificar el contenido sin incurrir en un alto coste de memoria.
+La recursividad en C++ se complementa eficazmente con el uso de punteros. Al pasar punteros como argumentos, se pueden modificar [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) más complejas sin necesidad de realizar copias completas. Esto puede ser especialmente útil en la implementación de [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) que operan sobre estructuras de datos como árboles o listas enlazadas. Un uso típico es al manejar programas que operan en estructuras recursivas, donde las funciones pueden manipular punteros para navegar y modificar el contenido sin incurrir en un alto coste de memoria.
 
 ## Ventajas y limitaciones de la recursividad
 
@@ -192,7 +192,7 @@ La elección entre recursión de cola y recursión de cabeza debe basarse en la 
 
 ## Aplicaciones prácticas de la recursividad
 
-La recursividad es una técnica poderosa en programación que no solo permite la simplificación de algoritmos, sino que también es fundamental en diversas aplicaciones prácticas en campos como estructuras de datos, algoritmos de ordenamiento y problemas matemáticos complejos.
+La recursividad es una técnica poderosa en programación que no solo permite la simplificación de algoritmos, sino que también es fundamental en diversas aplicaciones prácticas en campos como estructuras de datos, [algoritmos de ordenamiento](https://juan-tech.com/blog/cs-fundamentals/algoritmos-ordenamiento) y problemas matemáticos complejos.
 
 ### Estructuras de datos recursivas: árboles y grafos
 
@@ -226,7 +226,7 @@ Además, la complejidad en términos de tiempo también puede variar. En algunos
 
 ### Casos de uso recomendados para cada método
 
-La recursividad brilla en problemas donde la solución natural implica subdividir el problema en subproblemas más pequeños, como en el caso de algoritmos de búsqueda y ordenamiento en estructuras de datos recursivas, como árboles y grafos. Por ejemplo, el recorrido de un árbol binario es un caso clásico en el que la recursividad ofrece una implementación clara y concisa.
+La recursividad brilla en problemas donde la solución natural implica subdividir el problema en subproblemas más pequeños, como en el caso de [algoritmos de búsqueda y ordenamiento](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) en estructuras de datos recursivas, como árboles y grafos. Por ejemplo, el recorrido de un árbol binario es un caso clásico en el que la recursividad ofrece una implementación clara y concisa.
 
 En contraste, la iteración es preferible en situaciones donde la cantidad de repeticiones es conocida de antemano, o cuando se busca minimizar el uso de memoria. Algoritmos simples como la suma de una serie de números o el cálculo del factorial pueden implementarse de manera más eficiente usando bucles en lugar de recurrencias. La iteración es especialmente ventajosa cuando se trabaja en entornos de producción donde la eficiencia y la estabilidad son esenciales.
 

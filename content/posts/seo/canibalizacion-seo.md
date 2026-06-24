@@ -21,7 +21,7 @@ tldr: 'La canibalización SEO ocurre cuando varias páginas compiten por las mis
 ---
 
 
-La [[canibalizacion-seo|canibalización SEO]] es un fenómeno que afecta a muchos sitios web y puede obstaculizar seriamente su rendimiento en los motores de búsqueda. Ocurre cuando varias páginas compiten entre sí por las mismas palabras clave, lo que puede confundir a tus usuarios y a Google.
+La [canibalización SEO](/blog/seo/canibalizacion-seo) es un fenómeno que afecta a muchos sitios web y puede obstaculizar seriamente su rendimiento en los motores de búsqueda. Ocurre cuando varias páginas compiten entre sí por las mismas palabras clave, lo que puede confundir a tus usuarios y a Google.
 
 En este artículo, exploraremos qué es la canibalización SEO, sus causas y consecuencias, y te ofreceremos estrategias efectivas para detectar y prevenir este problema, asegurando así que tu sitio web opere de manera óptima y eficiente.
 
@@ -35,7 +35,7 @@ La canibalización SEO se refiere a la existencia de varias URLs de un mismo sit
 
 ### Causas comunes de la canibalización SEO
 
-Existen diversas razones por las cuales puede surgir la canibalización SEO en un sitio web. Una de las causas más comunes es la falta de planificación en la estrategia de contenidos, donde se crean múltiples artículos, entradas de blog o páginas de productos que abordan el mismo tema. Este fenómeno se intensifica cuando no se realiza una investigación de palabras clave adecuada, lo que lleva a la creación de contenido equivalente que compite por el mismo término sin establecer una jerarquía clara entre las páginas.
+Existen diversas razones por las cuales puede surgir la canibalización SEO en un sitio web. Una de las causas más comunes es la falta de planificación en la estrategia de contenidos, donde se crean múltiples artículos, entradas de blog o páginas de productos que abordan el mismo tema. Este fenómeno se intensifica cuando no se realiza una [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) adecuada, lo que lleva a la creación de contenido equivalente que compite por el mismo término sin establecer una jerarquía clara entre las páginas.
 
 Otra causa habitual es la actualización frecuente de contenido sin eliminar o redirigir páginas antiguas, lo cual puede resultar en que varias versiones de la misma temática permanezcan activas. Además, la creación de múltiples landing pages o secciones específicas dirigidas a términos similares, pero sin una separación significativa en su enfoque, puede provocar que estas páginas se enfrenten directamente entre sí en las SERPs (páginas de resultados de los motores de búsqueda).
 
@@ -67,7 +67,7 @@ Identificar la canibalización SEO es un paso crucial para optimizar el rendimie
 
 ### Uso de herramientas SEO especializadas
 
-Una de las maneras más eficaz de detectar canibalización es utilizar herramientas SEO que permiten analizar el rendimiento de tus URLs. Plataformas como SEMrush, Ahrefs y [[guia-google-search-console|Google Search Console]] proporcionan informes detallados sobre cómo están clasificando tus páginas para diferentes palabras clave. Estas herramientas ayudan a identificar duplicados o páginas que están compitiendo por la misma keyword. Entre las funcionalidades más útiles se encuentran:
+Una de las maneras más eficaz de detectar canibalización es utilizar herramientas SEO que permiten analizar el rendimiento de tus URLs. Plataformas como SEMrush, Ahrefs y [Google Search Console](/blog/seo/guia-google-search-console) proporcionan informes detallados sobre cómo están clasificando tus páginas para diferentes palabras clave. Estas herramientas ayudan a identificar duplicados o páginas que están compitiendo por la misma keyword. Entre las funcionalidades más útiles se encuentran:
 
 -   Auditorías de contenido que muestran la performance de cada URL.
 -   Reportes de palabras clave que destacan múltiples URLs clasificadas para la misma búsqueda.
@@ -103,7 +103,7 @@ El primer paso para resolver la canibalización SEO consiste en identificar y se
 
 ### Implementación de redirecciones 301 y etiquetas canónicas
 
-Después de haber consolidado el contenido, es crucial implementar redirecciones 301 desde las páginas eliminadas hacia la URL principal. Esto asegura que los usuarios sean dirigidos a la página seleccionada, mejorando la experiencia del usuario. Además, el uso de etiquetas canónicas es recomendable en casos donde varias páginas puedan contener contenido similar, ya que estas etiquetas indican a los motores de búsqueda cuál es la versión preferida. Al hacerlo, se reduce la confusión y se mejora la autoridad de la página elegida.
+Después de haber consolidado el contenido, es crucial implementar redirecciones 301 desde las páginas eliminadas hacia la URL principal. Esto asegura que los usuarios sean dirigidos a la página seleccionada, mejorando la [experiencia del usuario](https://juan-tech.com/blog/seo/enlaces-internos-guia). Además, el uso de etiquetas canónicas es recomendable en casos donde varias páginas puedan contener contenido similar, ya que estas etiquetas indican a los motores de búsqueda cuál es la versión preferida. Al hacerlo, se reduce la confusión y se mejora la autoridad de la página elegida.
 
 ### Planificación y organización efectiva de contenidos
 

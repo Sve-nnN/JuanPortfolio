@@ -27,7 +27,7 @@ semantic_keywords:
   - development architectural differences
 keyword: astro vs nextjs
 ---
-Choosing the right framework can significantly impact your web development projects. In this article, we will explore the key differences between [[astro-vs-nextjs|Astro vs Next.js]] and [[nextjs-portfolio|Next.js]], two popular frameworks that cater to different needs in building modern web applications.
+Choosing the right framework can significantly impact your web development projects. In this article, we will explore the key differences between [Astro vs Next.js](/en/blog/development/astro-vs-nextjs) and Next.js, two popular frameworks that cater to different needs in building modern web applications.
 
 This astro vs nextjs guide is designed for teams that need a clear decision framework before committing to a stack.
 

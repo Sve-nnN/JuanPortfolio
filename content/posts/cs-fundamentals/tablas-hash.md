@@ -37,7 +37,7 @@ Las tablas hash son [estructuras de datos](https://juan-tech.com/blog/cs-fundame
 
 ## Fundamentos de las tablas hash como estructura de datos
 
-Las tablas hash son una técnica fundamental para la gestión de datos que ofrece una asociación eficiente entre claves y valores. Este tipo de estructura permite acceder a datos en tiempo constante promedio, lo que es particularmente ventajoso en aplicaciones que requieren un almacenamiento dinámico y rápido.
+Las tablas hash son una técnica fundamental para la [gestión de datos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) que ofrece una asociación eficiente entre claves y valores. Este tipo de estructura permite acceder a datos en tiempo constante promedio, lo que es particularmente ventajoso en aplicaciones que requieren un almacenamiento dinámico y rápido.
 
 El funcionamiento de las tablas hash se basa en la transformación de una clave única mediante una función hash, que genera un índice que determina la ubicación del valor correspondiente en la estructura. Este enfoque permite que las tablas hash sean ideales para implementar diccionarios o conjuntos, donde se requiere una asociación directa de elementos.
 
@@ -45,7 +45,7 @@ El funcionamiento de las tablas hash se basa en la transformación de una clave 
 
 - **Asociatividad:** Permiten almacenar un valor asociado a cada clave, facilitando la recuperación rápida de información.
 - **Eficiencia:** Ofrecen un tiempo promedio de acceso de O(1) para operaciones de búsqueda, inserción y eliminación.
-- **Flexibilidad:** Pueden adaptarse a diversas aplicaciones, desde [[diseno-bases-datos|diseño de bases de datos]] hasta [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] complejos en ingeniería de software.
+- **Flexibilidad:** Pueden adaptarse a diversas aplicaciones, desde [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) hasta [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) complejos en ingeniería de software.
 
 Sin embargo, la implementación de tablas hash no está exenta de desafíos. Uno de los aspectos más relevantes es la gestión eficiente de colisiones, que ocurren cuando dos claves distintas generan el mismo índice. Para abordar este problema, se han desarrollado diferentes estrategias que permiten mantener la integridad y eficiencia de la tabla.
 
@@ -156,7 +156,7 @@ Para poner a prueba el funcionamiento de la tabla hash, se puede realizar un peq
 - **Realización de búsquedas:** Se intentan encontrar las edades asociadas a diferentes nombres utilizando la clave adecuada.
 - **Pruebas de colisiones:** Se pueden agregar elementos que generen colisiones para observar cómo se manejan en la lista enlazada.
 
-Estos ejemplos y ejercicios no solo ayudan a comprender la implementación de tablas hash, sino que también destacan el impacto de estas [[data-structures|estructuras de datos]] en la eficiencia del procesamiento de información. A través de estas prácticas, es posible desarrollar una mejor comprensión de cómo optimizar la funcionalidad de las tablas hash en diversos contextos.
+Estos ejemplos y ejercicios no solo ayudan a comprender la implementación de tablas hash, sino que también destacan el impacto de estas [estructuras de datos](/blog/cs-fundamentals/data-structures) en la eficiencia del procesamiento de información. A través de estas prácticas, es posible desarrollar una mejor comprensión de cómo optimizar la funcionalidad de las tablas hash en diversos contextos.
 
 ## Aplicaciones reales de las tablas hash en sistemas informáticos
 

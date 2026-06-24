@@ -36,7 +36,7 @@ semantic_keywords:
   - oportunidad seo
 keyword: guia keyword research
 ---
-El Keyword Research es un elemento fundamental para cualquier estrategia de [[estrategia-seo|SEO]] exitosa. Esta guía te proporcionará las herramientas y conocimientos necesarios para optimizar tu enfoque en la investigación de palabras clave, garantizando que tu contenido se alinee con la [intención de búsqueda](https://juan-tech.com/blog/seo/estrategia-de-contenidos) de tus usuarios.
+El Keyword Research es un elemento fundamental para cualquier estrategia de [SEO](/blog/seo/estrategia-seo) exitosa. Esta guía te proporcionará las herramientas y conocimientos necesarios para optimizar tu enfoque en la investigación de palabras clave, garantizando que tu contenido se alinee con la [intención de búsqueda](https://juan-tech.com/blog/seo/estrategia-de-contenidos) de tus usuarios.
 
 A través de esta guía keyword research, exploraremos su definición, elementos clave y las herramientas indispensables que facilitarán tu proceso de optimización. Prepárate para llevar tu estrategia digital al siguiente nivel.
 

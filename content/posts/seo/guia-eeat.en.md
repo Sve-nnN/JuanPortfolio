@@ -36,7 +36,7 @@ tldr: >-
   real-world experience and verifiable authorship is critical to surviving AI
   filtering and ranking in competitive technical niches.
 ---
-E-E-A-T stands for Experience, Expertise, Authoritativeness, and Trustworthiness, and it represents a crucial framework in evaluating the quality of [[estrategia-seo|SEO]] content. This guide will explore each component in depth, providing insights into how they influence search engine rankings and user perception.
+E-E-A-T stands for Experience, Expertise, Authoritativeness, and Trustworthiness, and it represents a crucial framework in evaluating the quality of [SEO](/en/blog/seo/estrategia-seo) content. This guide will explore each component in depth, providing insights into how they influence search engine rankings and user perception.
 
 From understanding the importance of first-hand experience to implementing best practices in content creation, this article is designed for technical SEOs, developers, and business owners looking to enhance their online presence.
 

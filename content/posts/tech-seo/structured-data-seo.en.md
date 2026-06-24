@@ -27,7 +27,7 @@ semantic_keywords:
   - structured straightforward integrate
 keyword: structured data seo
 ---
-Structured data [[estrategia-seo|SEO]] is essential for improving your website's visibility and search performance. By using structured data, you enhance how search engines interpret your content, which can lead to better rankings and richer search results.
+Structured data [SEO](/en/blog/seo/estrategia-seo) is essential for improving your website's visibility and search performance. By using structured data, you enhance how search engines interpret your content, which can lead to better rankings and richer search results.
 
 This article will guide you through the intricacies of structured data, including its definition, formats, and implementation using tools like Yoast SEO structured data. Understanding these concepts will empower you to optimize your site effectively.
 
@@ -120,7 +120,7 @@ By structuring the data this way, search engines can easily parse and understand
 
 ### Schema Markup Validation and Testing
 
-Once the structured data is embedded, validation and testing are crucial to ensure that it is correctly implemented. Google provides the Rich Results Test tool, enabling developers to input URLs or code snippets to check for errors and see how the structured data will render in search results. Additionally, the [[schema-markup-guide|schema markup]] Validator can help verify compliance with schema standards, identifying potential issues before they affect search performance. Regularly testing markup, especially after site updates or changes in schema guidelines, is essential for maintaining optimal SEO performance.
+Once the structured data is embedded, validation and testing are crucial to ensure that it is correctly implemented. Google provides the Rich Results Test tool, enabling developers to input URLs or code snippets to check for errors and see how the structured data will render in search results. Additionally, the [schema markup](/en/blog/general/schema-markup-guide) Validator can help verify compliance with schema standards, identifying potential issues before they affect search performance. Regularly testing markup, especially after site updates or changes in schema guidelines, is essential for maintaining optimal SEO performance.
 
 ### Common Errors and How to Avoid Them
 

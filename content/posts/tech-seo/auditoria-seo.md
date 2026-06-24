@@ -29,7 +29,7 @@ semantic_keywords:
 ---
 # Auditoria Seo: guia completa y estrategia practica
 
-La auditoría [[estrategia-seo|SEO]] es un proceso crucial para cualquier sitio web que busque mejorar su posicionamiento en los motores de búsqueda. A través de este análisis detallado, podrás identificar problemas ocultos y oportunidades que fortalezcan tu estrategia digital.
+La auditoría [SEO](/blog/seo/estrategia-seo) es un proceso crucial para cualquier sitio web que busque mejorar su posicionamiento en los motores de búsqueda. A través de este análisis detallado, podrás identificar problemas ocultos y oportunidades que fortalezcan tu estrategia digital.
 
 En este artículo, exploraremos a fondo en qué consiste una auditoría SEO, sus elementos clave y cómo implementarla para maximizar el rendimiento de tu sitio web, ilustrando con un ejemplo auditoría SEO que muestre su efectividad.
 
@@ -81,7 +81,7 @@ El SEO On-Page se centra en los aspectos internos de cada página de un sitio we
 
 ### Títulos y meta descripciones
 
-Los títulos y las meta descripciones son componentes cruciales que impactan en la tasa de clics (CTR). Los títulos deben ser atractivos y contener [[guia-keyword-research|palabras clave]] relevantes, lo que indica a los motores de búsqueda y a los usuarios el tema principal de la página. Por su parte, las meta descripciones, aunque no influyen directamente en el ranking, proporcionan un resumen atractivo que resulta en un mayor interés por parte del usuario.
+Los títulos y las meta descripciones son componentes cruciales que impactan en la tasa de clics (CTR). Los títulos deben ser atractivos y contener [palabras clave](/blog/seo/guia-keyword-research) relevantes, lo que indica a los motores de búsqueda y a los usuarios el tema principal de la página. Por su parte, las meta descripciones, aunque no influyen directamente en el ranking, proporcionan un resumen atractivo que resulta en un mayor interés por parte del usuario.
 
 ### Estructura de encabezados y URLs
 
@@ -109,7 +109,7 @@ La salud técnica del sitio se refiere a aspectos que hacen posible que los moto
 
 ### Capacidad de rastreo e indexación
 
-Es esencial asegurarse de que los motores de búsqueda puedan acceder al contenido del sitio. Esto incluye revisar el archivo [[robots-txt-best-practices|robots.txt]] y el [[xml-sitemap-automation|sitemap XML]] para garantizar que no haya barreras que impidan el rastreo correcto.
+Es esencial asegurarse de que los motores de búsqueda puedan acceder al contenido del sitio. Esto incluye revisar el archivo [robots.txt](/blog/general/robots-txt-best-practices) y el [sitemap XML](/blog/general/xml-sitemap-automation) para garantizar que no haya barreras que impidan el rastreo correcto.
 
 ### Gestión de errores y códigos de estado
 
@@ -129,7 +129,7 @@ El rendimiento del sitio web es fundamental para la retención de usuarios y, po
 
 ### Velocidad de carga y Core Web Vitals
 
-Google considera la velocidad de carga como un factor de clasificación. Las [[core-web-vitals-guide|Core Web Vitals]] permiten evaluar directamente la experiencia del usuario en términos de carga, interactividad y estabilidad visual. Optimizar estos elementos es clave para mejorar tanto el SEO como la experiencia del usuario.
+Google considera la velocidad de carga como un factor de clasificación. Las [Core Web Vitals](/blog/general/core-web-vitals-guide) permiten evaluar directamente la experiencia del usuario en términos de carga, interactividad y estabilidad visual. Optimizar estos elementos es clave para mejorar tanto el SEO como la experiencia del usuario.
 
 ### Adaptación a dispositivos móviles
 
@@ -179,7 +179,7 @@ El siguiente paso involucra la identificación de problemas que pueden estar afe
 
 ### Propuestas de mejora basadas en hallazgos
 
-Las recomendaciones se derivan directamente de los problemas identificados. Para mejorar el rendimiento del sitio, se sugirió optimizar el tiempo de carga mediante la compresión de imágenes y la implementación de técnicas de carga diferida (lazy loading). También se propuso la renovación de las meta descripciones y títulos para que fueran más relevantes y atractivos, así como la corrección de enlaces rotos y errores 404. Implementar [[schema-markup-guide|datos estructurados]] permitiría a los motores de búsqueda entender mejor el contenido, lo que puede resultar en un enriquecimiento de los snippets en SERPs.
+Las recomendaciones se derivan directamente de los problemas identificados. Para mejorar el rendimiento del sitio, se sugirió optimizar el tiempo de carga mediante la compresión de imágenes y la implementación de técnicas de carga diferida (lazy loading). También se propuso la renovación de las meta descripciones y títulos para que fueran más relevantes y atractivos, así como la corrección de enlaces rotos y errores 404. Implementar [datos estructurados](/blog/general/schema-markup-guide) permitiría a los motores de búsqueda entender mejor el contenido, lo que puede resultar en un enriquecimiento de los snippets en SERPs.
 
 ### Resultados esperados tras la implementación
 

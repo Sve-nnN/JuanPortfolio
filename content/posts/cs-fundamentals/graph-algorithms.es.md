@@ -27,13 +27,13 @@ semantic_keywords:
   - optimiza infraestructura garantizar
 keyword: graph algorithms
 ---
-Los [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] de grafos son fundamentales en el análisis de datos y la optimización de procesos. Estas herramientas permiten modelar relaciones y resolver problemas complejos en diversas aplicaciones, desde redes sociales hasta logística. Este artículo explora la estructura y tipos de grafos, así como sus algoritmos de recorrido, caminos más cortos, árboles de expansión mínima y flujo máximo. Se abordará también su implementación en Python, ofreciendo una visión integral sobre su utilidad y relevancia.
+Los [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) de grafos son fundamentales en el análisis de datos y la optimización de procesos. Estas herramientas permiten modelar relaciones y resolver problemas complejos en diversas aplicaciones, desde redes sociales hasta logística. Este artículo explora la estructura y tipos de grafos, así como sus algoritmos de recorrido, caminos más cortos, árboles de expansión mínima y flujo máximo. Se abordará también su implementación en Python, ofreciendo una visión integral sobre su utilidad y relevancia.
 
 ## Estructura y tipos de grafos
 
 Los grafos son estructuras fundamentales en la informática y la matemática, compuestos por nodos y aristas. Los nodos representan entidades, mientras que las aristas simbolizan las relaciones entre ellos. Esta representación permite analizar conexiones complejas en distintas aplicaciones, desde redes sociales hasta sistemas de logística.
 
-Existen diversas clasificaciones que definen cómo se estructura un grafo, lo que impacta en la elección de algoritmos para resolver problemas específicos.
+Existen diversas clasificaciones que definen cómo se estructura un grafo, lo que impacta en la elección de [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) para resolver problemas específicos.
 
 -   **Grafos Dirigidos y No Dirigidos:** En los grafos dirigidos, las aristas tienen una dirección específica, indicando el flujo de información o conexión entre dos nodos. Por otro lado, los grafos no dirigidos no especifican una dirección, permitiendo una interacción bidireccional.
 -   **Grafos Ponderados y No Ponderados:** Los grafos ponderados incluyen un valor numérico asociado a cada arista, que puede representar costos, distancias o tiempos. En contraste, en los grafos no ponderados, todas las conexiones son consideradas iguales, sin un peso específico.
@@ -121,7 +121,7 @@ Estos métodos han demostrado ser valiosos no solo en redes sociales, sino tambi
 
 ## Implementación y uso de algoritmos de grafos en Python
 
-Python se ha convertido en el lenguaje preferido para la implementación de algoritmos de grafos, gracias a su sintaxis intuitiva y la disponibilidad de bibliotecas poderosas. Las bibliotecas más populares incluyen NetworkX y graph-tool, las cuales proporcionan [[data-structures|estructuras de datos]] y funciones ya implementadas que facilitan el trabajo con grafos.
+Python se ha convertido en el lenguaje preferido para la implementación de algoritmos de grafos, gracias a su sintaxis intuitiva y la disponibilidad de bibliotecas poderosas. Las bibliotecas más populares incluyen NetworkX y graph-tool, las cuales proporcionan [estructuras de datos](/blog/cs-fundamentals/data-structures) y funciones ya implementadas que facilitan el trabajo con grafos.
 
 Usar NetworkX es un excelente punto de partida para quienes desean experimentar con algoritmos de grafos. Esta biblioteca permite crear, manipular y estudiar la estructura, dinámica y funciones de las redes. Tiene una completa documentación y es fácil de instalar a través de pip. Los pasos básicos para implementar un grafo con NetworkX son:
 

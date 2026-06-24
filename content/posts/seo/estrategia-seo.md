@@ -43,7 +43,7 @@ La **estrategia SEO** se refiere a un conjunto de técnicas y métodos aplicados
 
 ### Evolución histórica del SEO
 
-Desde su aparición en la década de 1990, el SEO ha evolucionado constantemente. En sus inicios, el enfoque estaba principalmente en la manipulación de [[guia-keyword-research|palabras clave]] y en la obtención de enlaces, pero con la llegada de Google en 1998 y sus innovadores algoritmos, el SEO empezó a buscar relevancia y calidad en los contenidos. A medida que los motores de búsqueda comenzaron a actualizar sus algoritmos para penalizar prácticas deshonestas, como el “black hat SEO”, también se introdujeron mejores prácticas centradas en el usuario. Así, surgieron nuevas técnicas que reflejan las necesidades de los usuarios y las expectativas del mercado digital, convirtiendo el SEO en una disciplina más compleja y estratégica.
+Desde su aparición en la década de 1990, el SEO ha evolucionado constantemente. En sus inicios, el enfoque estaba principalmente en la manipulación de [palabras clave](/blog/seo/guia-keyword-research) y en la obtención de enlaces, pero con la llegada de Google en 1998 y sus innovadores algoritmos, el SEO empezó a buscar relevancia y calidad en los contenidos. A medida que los motores de búsqueda comenzaron a actualizar sus algoritmos para penalizar prácticas deshonestas, como el “black hat SEO”, también se introdujeron mejores prácticas centradas en el usuario. Así, surgieron nuevas técnicas que reflejan las necesidades de los usuarios y las expectativas del mercado digital, convirtiendo el SEO en una disciplina más compleja y estratégica.
 
 ### Funcionamiento básico de los motores de búsqueda
 
@@ -61,11 +61,11 @@ El contenido de calidad es un pilar fundamental en cualquier estrategia SEO on p
 
 ### Estructura y arquitectura web
 
-Una estructura y arquitectura web bien definidas facilitan que los motores de búsqueda rastreen e indexen el contenido del sitio de manera eficiente. La navegación intuitiva y estructurada permite a los usuarios encontrar la información que buscan sin dificultad. La creación de un [[xml-sitemap-automation|sitemap XML]] ayuda a los motores de búsqueda a entender cómo se relacionan las diferentes páginas entre sí. Enumerar las páginas más importantes y establecer jerarquías claras es clave para una buena optimización.
+Una estructura y arquitectura web bien definidas facilitan que los motores de búsqueda rastreen e indexen el contenido del sitio de manera eficiente. La navegación intuitiva y estructurada permite a los usuarios encontrar la información que buscan sin dificultad. La creación de un [sitemap XML](/blog/general/xml-sitemap-automation) ayuda a los motores de búsqueda a entender cómo se relacionan las diferentes páginas entre sí. Enumerar las páginas más importantes y establecer jerarquías claras es clave para una buena optimización.
 
 ### Etiquetas HTML esenciales para SEO
 
-Las etiquetas HTML juegan un papel crucial en la optimización SEO on page. Se deben utilizar etiquetas como **title** y **meta description** de manera efectiva. La etiqueta **title** debe contener palabras clave relevantes y resumir el contenido de la página, mientras que la **meta description** actúa como un pequeño resumen que ayuda a aumentar la tasa de clics (CTR). Además, las etiquetas **H1** y **H2** deben organizar el contenido jerárquicamente y ser informativas.
+Las etiquetas HTML juegan un papel crucial en la [optimización SEO](https://juan-tech.com/blog/seo/canibalizacion-seo) on page. Se deben utilizar etiquetas como **title** y **meta description** de manera efectiva. La etiqueta **title** debe contener palabras clave relevantes y resumir el contenido de la página, mientras que la **meta description** actúa como un pequeño resumen que ayuda a aumentar la tasa de clics (CTR). Además, las etiquetas **H1** y **H2** deben organizar el contenido jerárquicamente y ser informativas.
 
 ### Uso adecuado de palabras clave en la estrategia SEO on page
 
@@ -78,7 +78,7 @@ Integrar adecuadamente las palabras clave es vital para el SEO on page. A contin
 
 ### Importancia de la velocidad de carga y Core Web Vitals
 
-La velocidad de carga del sitio web es un factor fundamental en el SEO on page. Un sitio que carga lentamente puede frustrar a los usuarios y aumentar las tasas de rebote. Google considera la velocidad de carga como un elemento crucial para la experiencia del usuario, y por lo tanto, para el ranking. **[[core-web-vitals-guide|Core Web Vitals]]** son métricas específicas que miden el rendimiento de un sitio, como el tiempo de carga, la interactividad y la estabilidad visual. Un sitio que optimiza estas métricas tiende a clasificar mejor en los resultados de búsqueda.
+La velocidad de carga del sitio web es un factor fundamental en el SEO on page. Un sitio que carga lentamente puede frustrar a los usuarios y aumentar las tasas de rebote. Google considera la velocidad de carga como un elemento crucial para la experiencia del usuario, y por lo tanto, para el ranking. **[Core Web Vitals](/blog/general/core-web-vitals-guide)** son métricas específicas que miden el rendimiento de un sitio, como el tiempo de carga, la interactividad y la estabilidad visual. Un sitio que optimiza estas métricas tiende a clasificar mejor en los resultados de búsqueda.
 
 ## Estrategia SEO off page
 
@@ -102,7 +102,7 @@ La estrategia SEO abarca una serie de componentes técnicos cruciales que asegur
 
 ### Crawl Budget y su optimización
 
-El Crawl Budget se refiere al número de páginas que un motor de búsqueda rastrea en un sitio determinado durante un periodo de tiempo específico. Optimizar el Crawl Budget implica asegurar que las páginas más importantes y relevantes sean accesibles para los bots de búsqueda. Para lograrlo, es fundamental eliminar enlaces rotos, mejorar la velocidad de carga y evitar la creación de contenido duplicado. Además, la implementación de un archivo [[robots-txt-best-practices|robots.txt]] bien configurado puede ayudar a dirigir el rastreo hacia las áreas más significativas del sitio, permitiendo que los motores de búsqueda se concentren en el contenido que aporta valor a los usuarios y que contribuye a la estrategia SEO on page.
+El Crawl Budget se refiere al número de páginas que un motor de búsqueda rastrea en un sitio determinado durante un periodo de tiempo específico. Optimizar el Crawl Budget implica asegurar que las páginas más importantes y relevantes sean accesibles para los bots de búsqueda. Para lograrlo, es fundamental eliminar enlaces rotos, mejorar la velocidad de carga y evitar la creación de contenido duplicado. Además, la implementación de un archivo [robots.txt](/blog/general/robots-txt-best-practices) bien configurado puede ayudar a dirigir el rastreo hacia las áreas más significativas del sitio, permitiendo que los motores de búsqueda se concentren en el contenido que aporta valor a los usuarios y que contribuye a la estrategia SEO on page.
 
 ### Indexación efectiva y contenido duplicado
 
@@ -110,7 +110,7 @@ La indexación es el proceso mediante el cual las páginas de un sitio se regist
 
 ### Rendimiento y renderizado en frameworks modernos (Next.js, PayloadCMS)
 
-Los frameworks modernos como [[nextjs-seo|Next.js SEO]] y PayloadCMS ofrecen capacidades avanzadas para optimizar el rendimiento del sitio web y el renderizado. Un rendimiento óptimo no solo mejora la experiencia del usuario, sino que también influye en el ranking de búsqueda, ya que los motores de búsqueda priorizan la velocidad de carga y la fluidez de la navegación. Next.js, por ejemplo, permite la generación estática de páginas y el renderizado del lado del servidor, lo cual reduce el tiempo de carga y mejora la entrega del contenido. Es crucial asegurar que estas tecnologías estén configuradas correctamente para maximizar su potencial y alinearlas con la estrategia SEO on page.
+Los frameworks modernos como [Next.js SEO](/blog/tech-seo/nextjs-seo) y PayloadCMS ofrecen capacidades avanzadas para optimizar el rendimiento del sitio web y el renderizado. Un rendimiento óptimo no solo mejora la experiencia del usuario, sino que también influye en el ranking de búsqueda, ya que los motores de búsqueda priorizan la velocidad de carga y la fluidez de la navegación. Next.js, por ejemplo, permite la generación estática de páginas y el renderizado del lado del servidor, lo cual reduce el tiempo de carga y mejora la entrega del contenido. Es crucial asegurar que estas tecnologías estén configuradas correctamente para maximizar su potencial y alinearlas con la estrategia SEO on page.
 
 ### Seguridad y uso de HTTPS
 
@@ -160,7 +160,7 @@ La optimización de títulos, meta descripciones y URLs es crítica para la estr
 
 ### Uso de datos estructurados y schema markup
 
-La implementación de [[schema-markup-guide|datos estructurados]] y schema markup permite a los motores de búsqueda interpretar mejor el contenido de un sitio web, facilitando una representación más rica en los resultados de búsqueda. Utilizar estas técnicas ayuda a:
+La implementación de [datos estructurados](/blog/general/schema-markup-guide) y schema markup permite a los motores de búsqueda interpretar mejor el contenido de un sitio web, facilitando una representación más rica en los resultados de búsqueda. Utilizar estas técnicas ayuda a:
 
 -   Mejorar la visibilidad en SERP al generar rich snippets.
 -   Proporcionar contextos adicionales a los motores de búsqueda sobre los productos, servicios o artículos ofrecidos.
@@ -179,7 +179,7 @@ Una experiencia móvil adecuada no solo mejora la satisfacción del usuario, sin
 
 ### Implementación de enlaces internos estratégicos
 
-La construcción de una red de [[enlaces-internos-guia|enlaces internos]] efectivos es integral para mantener a los usuarios navegando por el sitio y distribuir la autoridad de página de manera eficiente. Para una correcta implementación:
+La construcción de una red de [enlaces internos](/blog/seo/enlaces-internos-guia) efectivos es integral para mantener a los usuarios navegando por el sitio y distribuir la autoridad de página de manera eficiente. Para una correcta implementación:
 
 -   Crear enlaces que conecten contenido relacionado, facilitando la navegación lógica.
 -   Usar texto ancla descriptivo que informe al usuario sobre el contenido vinculado.
@@ -193,7 +193,7 @@ Establecer una estrategia SEO efectiva requiere no solo la implementación de bu
 
 ### Herramientas y KPIs indispensables
 
-Para medir el éxito de una estrategia SEO, es esencial utilizar herramientas analíticas que proporcionen datos precisos y relevantes. Google Analytics, [[guia-google-search-console|Google Search Console]] y herramientas de terceros como SEMrush y Ahrefs, son fundamentales para captar información sobre el tráfico, la posición de palabras clave y la interacción del usuario. Los KPI (Indicadores Clave de Desempeño) importantes incluyen el tráfico orgánico, la tasa de clics (CTR), la duración de la visita y la tasa de conversión. Estos indicadores permiten tener una visión clara del rendimiento de la estrategia SEO on page y off page.
+Para medir el éxito de una estrategia SEO, es esencial utilizar herramientas analíticas que proporcionen datos precisos y relevantes. Google Analytics, [Google Search Console](/blog/seo/guia-google-search-console) y herramientas de terceros como SEMrush y Ahrefs, son fundamentales para captar información sobre el tráfico, la posición de palabras clave y la interacción del usuario. Los KPI (Indicadores Clave de Desempeño) importantes incluyen el tráfico orgánico, la tasa de clics (CTR), la duración de la visita y la tasa de conversión. Estos indicadores permiten tener una visión clara del rendimiento de la estrategia SEO on page y off page.
 
 ### Análisis de tráfico y comportamiento del usuario
 
@@ -209,7 +209,7 @@ El análisis de métricas y el comportamiento del usuario generan información c
 
 ## Retos comunes y cómo evitarlos en la estrategia SEO
 
-La implementación de una **estrategia SEO** es un proceso que conlleva desafíos complejos. Estos retos pueden variar desde problemas técnicos hasta cambios en el comportamiento de los usuarios. A continuación se presentan los problemas más comunes en la práctica del SEO y cómo evitarlos.
+La implementación de una **estrategia SEO** es un proceso que conlleva desafíos complejos. Estos retos pueden variar desde [problemas técnicos](https://juan-tech.com/blog/seo/guia-google-search-console) hasta cambios en el comportamiento de los usuarios. A continuación se presentan los problemas más comunes en la práctica del SEO y cómo evitarlos.
 
 ### Prácticas penalizadas y efectos del black hat SEO
 
@@ -225,4 +225,4 @@ Los algoritmos de los motores de búsqueda son constantemente actualizados para 
 
 ### Manejo de contenido duplicado y canibalización de palabras clave
 
-El contenido duplicado y la [canibalización de palabras clave](https://juan-tech.com/blog/seo/estrategia-topic-clusters) son problemas críticos que afectan la efectividad de una **estrategia SEO**. El contenido duplicado puede confundir a los motores de búsqueda, debilitando la autoridad de las páginas. Para mitigar este problema, es esencial realizar auditorías de contenido y utilizar etiquetas canónicas adecuadas para indicar cuál es la versión preferida del contenido. La [[canibalizacion-seo|canibalización]] de palabras clave, donde múltiples páginas compiten por las mismas palabras clave, se puede abordar mediante una mejor planificación de temas y palabras clave, asegurando que cada pieza de contenido tenga un enfoque único y específico.
+El contenido duplicado y la [canibalización de palabras clave](https://juan-tech.com/blog/seo/estrategia-topic-clusters) son problemas críticos que afectan la efectividad de una **estrategia SEO**. El contenido duplicado puede confundir a los motores de búsqueda, debilitando la autoridad de las páginas. Para mitigar este problema, es esencial realizar auditorías de contenido y utilizar etiquetas canónicas adecuadas para indicar cuál es la versión preferida del contenido. La [canibalización](/blog/seo/canibalizacion-seo) de palabras clave, donde múltiples páginas compiten por las mismas palabras clave, se puede abordar mediante una mejor planificación de temas y palabras clave, asegurando que cada pieza de contenido tenga un enfoque único y específico.

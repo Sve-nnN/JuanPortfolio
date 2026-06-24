@@ -137,4 +137,4 @@ Evaluating these scenarios helps in aligning the database choice with specific p
 
 ## See Also
 
-- [Algorithms and [Data Structures](https://juan-tech.com/en/blog/cs-fundamentals/arboles-binarios) 2026: The Engineer's Foundation](https://juan-tech.com/en/blog/cs-fundamentals/[[algoritmos-estructuras-datos|Algorithms and Data Structures]]-estructuras-datos)
+- [Algorithms and [Data Structures](https://juan-tech.com/en/blog/cs-fundamentals/arboles-binarios) 2026: The Engineer's Foundation](https://juan-tech.com/en/blog/cs-fundamentals/[Algorithms and Data Structures](/en/blog/cs-fundamentals/algoritmos-estructuras-datos)-estructuras-datos)

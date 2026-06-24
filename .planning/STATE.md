@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Remediación SEO técnica (Ahrefs Site Audit)
-status: planning
+status: code-complete
 last_updated: "2026-06-24"
 last_activity: 2026-06-24
 progress:
-  total_phases: 5
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_phases: 6
+  completed_phases: 6
+  total_plans: 6
+  completed_plans: 6
+  percent: 100
 ---
 
 # Project State
@@ -20,16 +20,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-24)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.3 — roadmap listo, pendiente plan-phase 15
+**Current focus:** Milestone v1.3 — código completo (fases 15-20), pendiente PR develop→main + deploy + re-crawl Ahrefs
 
 ## Current Position
 
-Phase: 15 of 19 (Causa raíz — emitter fijo y contenido saneado)
-Plan: — / —
-Status: Ready to plan
-Last activity: 2026-06-24 — Roadmap v1.3 creado (fases 15-19)
+Phase: 20 of 20 — todas completas (fases 15-20)
+Plan: autónomo (discuss→fix→verify por fase)
+Status: code-complete; pendiente validación en producción (deploy + re-crawl)
+Last activity: 2026-06-24 — Ejecución autónoma v1.3 completa en rama seo/wikilink-remediation
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100% (código); validación Ahrefs pendiente post-deploy
 
 ## Performance Metrics
 
@@ -50,10 +50,13 @@ Progress: [░░░░░░░░░░] 0%
 
 ### Blockers/Concerns
 
-- Re-crawl en Ahrefs para validar fixes es manual (lo hace Juan); el MCP de Site Audit está en plan insuficiente.
+- **Validación pendiente (humano):** nada está verificado en producción hasta PR develop→main + deploy Vercel + re-crawl Ahrefs. El sitio live aún muestra el comportamiento viejo.
+- **Partials (necesitan lista de URLs de Ahrefs, MCP Site Audit en plan insuficiente):** META-03 (titles cortos), META-04 (los 6 OG marcados), parte de META-01 (3er H1 missing, otras meta desc cortas), PERF-02 (6 slow pages), y los 14 schema errors exactos. Todo el schema que emite el sitio valida sin errores en mcp-hub.
+- **6 posts sin publicar** desenlazados (nextjs-portfolio, payloadcms-vs-strapi, payloadcms-tutorial, nextjs-server-components, payloadcms-seo, typescript-best-practices): los .md existen pero no están en Payload/sitemap. Publicarlos y re-enlazar es trabajo aparte.
+- **HREF-01** es corrección cliente/JS-render (trade-off documentado); raw HTML /en sigue lang=es.
 
 ## Session Continuity
 
 Last session: 2026-06-24
-Stopped at: Roadmap v1.3 creado. Siguiente: `/gsd:plan-phase 15`
+Stopped at: v1.3 code-complete (fases 15-20) en rama seo/wikilink-remediation. Siguiente: PR develop→main, deploy, re-crawl Ahrefs para validar.
 Resume file: None

@@ -35,54 +35,50 @@ export default async function SitemapPage({ params: paramsPromise }: Args) {
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const payload = await getPayload({ config })
 
-  // Fetch all published pages
-  const pages = await payload.find({
-    collection: 'pages',
-    where: {
-      _status: { equals: 'published' },
-    },
-    limit: 1000,
-    sort: 'title',
-    locale,
-  })
-
-  // Fetch all published posts with categories
-  const posts = await payload.find({
-    collection: 'posts',
-    where: {
-      _status: { equals: 'published' },
-    },
-    limit: 1000,
-    depth: 1, // Include categories
-    sort: '-publishedAt',
-    locale,
-  })
-
-  // Fetch all published case studies
-  const caseStudies = await payload.find({
-    collection: 'case-studies',
-    where: {
-      _status: { equals: 'published' },
-    },
-    limit: 1000,
-    sort: '-publishedAt',
-    locale,
-  })
-
-  // Fetch Categories
-  const categories = await payload.find({
-    collection: 'categories',
-    limit: 1000,
-    sort: 'title',
-    locale,
-  })
-
-  // Fetch Authors (Users)
-  const authors = await payload.find({
-    collection: 'users',
-    limit: 1000,
-    sort: 'name',
-  })
+  // Fetch everything in parallel. These ran sequentially before, which pushed
+  // the page's prerender past Vercel's 60s static-generation timeout and broke
+  // the production build. Promise.all collapses the wall-clock to the slowest
+  // single query. SEO/CWV milestone v1.1.
+  const [pages, posts, caseStudies, categories, authors] = await Promise.all([
+    // Published pages
+    payload.find({
+      collection: 'pages',
+      where: { _status: { equals: 'published' } },
+      limit: 1000,
+      sort: 'title',
+      locale,
+    }),
+    // Published posts (depth 1 to include categories)
+    payload.find({
+      collection: 'posts',
+      where: { _status: { equals: 'published' } },
+      limit: 1000,
+      depth: 1,
+      sort: '-publishedAt',
+      locale,
+    }),
+    // Published case studies
+    payload.find({
+      collection: 'case-studies',
+      where: { _status: { equals: 'published' } },
+      limit: 1000,
+      sort: '-publishedAt',
+      locale,
+    }),
+    // Categories
+    payload.find({
+      collection: 'categories',
+      limit: 1000,
+      sort: 'title',
+      locale,
+    }),
+    // Authors (Users)
+    payload.find({
+      collection: 'users',
+      limit: 1000,
+      sort: 'name',
+    }),
+  ])
 
   const localePrefix = locale === 'es' ? '' : '/en'
 

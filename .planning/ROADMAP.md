@@ -72,7 +72,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 **Milestone Goal:** Cerrar las 35 categorías de issues del Site Audit de Ahrefs atacando primero la causa raíz (wikilinks `[[...]]` crudos) y luego 4XX, imágenes, hreflang, indexabilidad, on-page y schema. Baseline: 35 categorías de errores al 2026-06-24.
 
 - [x] **Phase 15: Causa raíz — emitter fijo y contenido saneado** - Arreglar el pipeline de internal-linking para que nunca emita `[[...]]` crudo y sanear todo el contenido ya publicado
-- [ ] **Phase 16: Integridad de enlaces** - Eliminar los 404/4XX por posts inexistentes, rutas de categoría incorrectas, redirects legacy y contenido de test
+- [x] **Phase 16: Integridad de enlaces** - Eliminar los 404/4XX por posts inexistentes, rutas de categoría incorrectas, redirects legacy y contenido de test
 - [ ] **Phase 17: Imágenes y hreflang** - Cerrar las 159 imágenes rotas restantes, el retrato 400 y los ~90 mismatches hreflang ↔ html lang
 - [ ] **Phase 18: Indexabilidad y sitemap** - noindex fuera del sitemap, indexables dentro, robots.txt 200, canonical con inlinks
 - [ ] **Phase 19: On-page, schema y rendimiento** - Meta descriptions, H1 único, OG completo, JSON-LD sin errores de validación, páginas bajo 2 MB
@@ -158,7 +158,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 | 13. Eventos de engagement | v1.2 | — | ✅ Complete | 2026-06-24 |
 | 14. Config GTM/GA4 & verificación | v1.2 | — | ✅ Complete | 2026-06-24 |
 | 15. Causa raíz — emitter fijo y contenido saneado | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
-| 16. Integridad de enlaces | v1.3 | 0/TBD | Not started | - |
+| 16. Integridad de enlaces | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 17. Imágenes y hreflang | v1.3 | 0/TBD | Not started | - |
 | 18. Indexabilidad y sitemap | v1.3 | 0/TBD | Not started | - |
 | 19. On-page, schema y rendimiento | v1.3 | 0/TBD | Not started | - |

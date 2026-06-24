@@ -50,22 +50,22 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | Phase 11 | Pending |
-| CORE-02 | Phase 11 | Pending |
-| CORE-03 | Phase 11 | Pending |
-| CORE-04 | Phase 11 | Pending |
-| CONV-01 | Phase 12 | Pending |
-| CONV-02 | Phase 12 | Pending |
-| CONV-03 | Phase 12 | Pending |
-| CONV-04 | Phase 12 | Pending |
-| ENG-01 | Phase 13 | Pending |
-| ENG-02 | Phase 13 | Pending |
-| ENG-03 | Phase 13 | Pending |
-| ENG-04 | Phase 13 | Pending |
-| ENG-05 | Phase 13 | Pending |
-| CFG-01 | Phase 14 | Pending |
-| CFG-02 | Phase 14 | Pending |
-| CFG-03 | Phase 14 | Pending |
+| CORE-01 | Phase 11 | Complete |
+| CORE-02 | Phase 11 | Complete |
+| CORE-03 | Phase 11 | Complete |
+| CORE-04 | Phase 11 | Complete |
+| CONV-01 | Phase 12 | Complete |
+| CONV-02 | Phase 12 | Complete |
+| CONV-03 | Phase 12 | Complete |
+| CONV-04 | Phase 12 | Complete |
+| ENG-01 | Phase 13 | Complete |
+| ENG-02 | Phase 13 | Complete |
+| ENG-03 | Phase 13 | Complete |
+| ENG-04 | Phase 13 | Complete |
+| ENG-05 | Phase 13 | Complete |
+| CFG-01 | Phase 14 | Complete |
+| CFG-02 | Phase 14 | Complete |
+| CFG-03 | Phase 14 | Complete |
 
 **Coverage:** 16 reqs · mapeados 16 · sin mapear 0 ✓
 

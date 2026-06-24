@@ -49,6 +49,7 @@ export default function ClientsCarousel({ clients }: { clients: Cliente[] }) {
                       h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity 
                       ${c.invertInDark ? 'dark:invert' : ''}
                     `}
+                    unoptimized={/\.(avif|webp)$/i.test(c.logo.url)}
                   />
                 ) : (
                   <span className="opacity-80">{c.name}</span>

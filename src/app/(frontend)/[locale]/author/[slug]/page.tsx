@@ -151,6 +151,10 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
                   width={144}
                   height={144}
                   className="object-cover rounded-full"
+                  // Payload media is already delivered as optimized AVIF/WebP;
+                  // re-running it through the Next optimizer returns 400
+                  // (INVALID_IMAGE_OPTIMIZE_REQUEST). Serve it directly. IMG-03.
+                  unoptimized={/\.(avif|webp)$/i.test(user.avatar.url as string)}
                 />
               </div>
             ) : null}
@@ -239,6 +243,7 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
                               width={56}
                               height={56}
                               className="rounded-lg grayscale group-hover:grayscale-0 transition-all"
+                              unoptimized={/\.(avif|webp)$/i.test(e.logo.url as string)}
                             />
                           </div>
                         )}

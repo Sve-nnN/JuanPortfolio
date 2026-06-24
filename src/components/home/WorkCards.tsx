@@ -48,6 +48,7 @@ const WorkCards = async () => {
                   }
                   fill
                   className="object-cover"
+                  unoptimized={/\.(avif|webp)$/i.test(w.cover.url)}
                 />
               </div>
             ) : null}

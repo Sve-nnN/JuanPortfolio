@@ -124,6 +124,7 @@ const AuthorsPage = async ({ params: paramsPromise }: Args) => {
                       width={128}
                       height={128}
                       className="object-cover"
+                      unoptimized={/\.(avif|webp)$/i.test(a.avatar.url)}
                     />
                   </div>
                 ) : null}

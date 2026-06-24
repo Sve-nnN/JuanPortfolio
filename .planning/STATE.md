@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Remediación SEO técnica (Ahrefs Site Audit)
 status: planning
-last_updated: "2026-06-24T15:41:40.574Z"
+last_updated: "2026-06-24"
 last_activity: 2026-06-24
 progress:
-  total_phases: 0
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,32 +17,43 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-23)
+See: .planning/PROJECT.md (updated 2026-06-24)
 
-**Core value:** Páginas públicas rápidas y cacheables desde el edge.
-**Current focus:** Milestone v1.1 (CWV) code-complete — pendiente Lighthouse post-deploy
+**Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
+**Current focus:** Milestone v1.3 — roadmap listo, pendiente plan-phase 15
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-06-24 — Milestone v1.3 started
+Phase: 15 of 19 (Causa raíz — emitter fijo y contenido saneado)
+Plan: — / —
+Status: Ready to plan
+Last activity: 2026-06-24 — Roadmap v1.3 creado (fases 15-19)
+
+Progress: [░░░░░░░░░░] 0%
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 0 (v1.3)
+- Average duration: —
+- Total execution time: —
+
+*Updated after each plan completion*
 
 ## Accumulated Context
 
 ### Decisions
 
-- **Calendly era el 80% del problema de perf** (2.6MB + Stripe). Se difiere con IntersectionObserver → fuera del load inicial.
-- browserslist ya moderno; polyfills residuales son de dependencia (no se toca).
-- llms.txt OK; el fallo agéntico es Cloudflare challenge, no código.
+- **Causa raíz #1 primero:** `build-internal-links.ts` / `LinkInjector.ts` emiten `[[wikilink]]` crudo → explica 94 broken links + 159 broken images. Fix en Phase 15 antes de todo.
+- **`<html lang>` fijo en root + corrección cliente para `/en`:** El root layout no recibe locale por param; corrección cosmética aceptada.
+- **Ahrefs MCP insuficiente:** URLs afectadas se derivan del snapshot de crawl + grep del repo. Validación schema.org via MCP `schema-org` de mcp-hub.
 
 ### Blockers/Concerns
 
-- **Post-deploy (humano):** Lighthouse mobile real (LCP/TBT vs baseline 8.6s/1740ms); DevTools Network (Calendly carga al scrollear).
+- Re-crawl en Ahrefs para validar fixes es manual (lo hace Juan); el MCP de Site Audit está en plan insuficiente.
 
 ## Session Continuity
 
-Last session: 2026-06-23
-Stopped at: v1.1 ejecutado (fases 6-10). Rama perf/cwv-optimization. Listo para PR develop→main.
+Last session: 2026-06-24
+Stopped at: Roadmap v1.3 creado. Siguiente: `/gsd:plan-phase 15`
 Resume file: None

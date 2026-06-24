@@ -71,4 +71,27 @@
 
 ## Traceability
 
-<!-- Lo completa el roadmapper: REQ-ID → Phase. -->
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| LINKS-01 | Phase 15 | Pending |
+| LINKS-02 | Phase 15 | Pending |
+| IMG-02 | Phase 15 | Pending |
+| LINKS-03 | Phase 16 | Pending |
+| LINKS-04 | Phase 16 | Pending |
+| LINKS-05 | Phase 16 | Pending |
+| LINKS-06 | Phase 16 | Pending |
+| IMG-01 | Phase 17 | Pending |
+| IMG-03 | Phase 17 | Pending |
+| HREF-01 | Phase 17 | Pending |
+| HREF-02 | Phase 17 | Pending |
+| INDEX-01 | Phase 18 | Pending |
+| INDEX-02 | Phase 18 | Pending |
+| INDEX-03 | Phase 18 | Pending |
+| INDEX-04 | Phase 18 | Pending |
+| META-01 | Phase 19 | Pending |
+| META-02 | Phase 19 | Pending |
+| META-03 | Phase 19 | Pending |
+| META-04 | Phase 19 | Pending |
+| SCHEMA-01 | Phase 19 | Pending |
+| PERF-01 | Phase 19 | Pending |
+| PERF-02 | Phase 19 | Pending |

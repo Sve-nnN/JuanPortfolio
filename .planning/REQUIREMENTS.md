@@ -101,6 +101,6 @@
 | SCHEMA-01 | Phase 19 | Done |
 | PERF-01 | Phase 19 | Done |
 | PERF-02 | Phase 19 | Partial (needs Ahrefs URL list) |
-| MONITOR-01 | Phase 20 | Pending |
-| MONITOR-02 | Phase 20 | Pending |
-| MONITOR-03 | Phase 20 | Pending |
+| MONITOR-01 | Phase 20 | Done |
+| MONITOR-02 | Phase 20 | Done |
+| MONITOR-03 | Phase 20 | Done |

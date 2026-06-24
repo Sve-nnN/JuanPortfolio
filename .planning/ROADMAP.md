@@ -76,7 +76,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 - [x] **Phase 17: Imágenes y hreflang** - Cerrar las 159 imágenes rotas restantes, el retrato 400 y los ~90 mismatches hreflang ↔ html lang
 - [x] **Phase 18: Indexabilidad y sitemap** - noindex fuera del sitemap, indexables dentro, robots.txt 200, canonical con inlinks
 - [x] **Phase 19: On-page, schema y rendimiento** - Meta descriptions, H1 único, OG completo, JSON-LD sin errores de validación, páginas bajo 2 MB
-- [ ] **Phase 20: Widget de Domain Rating en admin** - Mostrar el DR del dominio en el dashboard del admin vía endpoint público free de Ahrefs, refrescado a lo sumo 1/día y cacheado server-side
+- [x] **Phase 20: Widget de Domain Rating en admin** - Mostrar el DR del dominio en el dashboard del admin vía endpoint público free de Ahrefs, refrescado a lo sumo 1/día y cacheado server-side
 
 ## Phase Details
 
@@ -162,4 +162,4 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 | 17. Imágenes y hreflang | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 18. Indexabilidad y sitemap | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 19. On-page, schema y rendimiento | v1.3 | ◐ | ✅ Complete (META-03/04, PERF-02 parciales: faltan URLs Ahrefs) | 2026-06-24 |
-| 20. Widget de Domain Rating en admin | v1.3 | 0/TBD | Not started | - |
+| 20. Widget de Domain Rating en admin | v1.3 | ✓ | ✅ Complete | 2026-06-24 |

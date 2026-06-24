@@ -90,10 +90,10 @@
 | IMG-03 | Phase 17 | Done |
 | HREF-01 | Phase 17 | Done |
 | HREF-02 | Phase 17 | Done |
-| INDEX-01 | Phase 18 | Pending |
-| INDEX-02 | Phase 18 | Pending |
-| INDEX-03 | Phase 18 | Pending |
-| INDEX-04 | Phase 18 | Pending |
+| INDEX-01 | Phase 18 | Done |
+| INDEX-02 | Phase 18 | Done |
+| INDEX-03 | Phase 18 | Done |
+| INDEX-04 | Phase 18 | Done |
 | META-01 | Phase 19 | Pending |
 | META-02 | Phase 19 | Pending |
 | META-03 | Phase 19 | Pending |

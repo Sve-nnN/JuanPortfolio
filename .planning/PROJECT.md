@@ -43,6 +43,7 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 - [ ] hreflang ↔ `<html lang>` consistente por locale; imágenes rotas resueltas (incl. portrait `_next/image` 400)
 - [ ] Indexabilidad: noindex fuera del sitemap, indexables dentro, robots.txt accesible, canonical con inlinks
 - [ ] On-page (meta desc, H1 único, titles, OG) + schema.org sin errores de validación + peso de página bajo límites
+- [ ] Widget de Domain Rating en el admin (endpoint público free de Ahrefs, 1/día cacheado, atribución de licencia)
 
 ### Out of Scope
 

@@ -5,7 +5,7 @@
 - ✅ **v1.0 Render estático/ISR & Edge Caching** — Phases 1-5 (shipped 2026-05)
 - ✅ **v1.1 Core Web Vitals & Performance** — Phases 6-10 (shipped 2026-06)
 - ✅ **v1.2 GA4 Analytics Tracking** — Phases 11-14 (shipped 2026-06-24)
-- 🚧 **v1.3 Remediación SEO técnica (Ahrefs Site Audit)** — Phases 15-19 (in progress)
+- 🚧 **v1.3 Remediación SEO técnica (Ahrefs Site Audit)** — Phases 15-20 (in progress)
 
 ## Phases
 
@@ -76,6 +76,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 - [ ] **Phase 17: Imágenes y hreflang** - Cerrar las 159 imágenes rotas restantes, el retrato 400 y los ~90 mismatches hreflang ↔ html lang
 - [ ] **Phase 18: Indexabilidad y sitemap** - noindex fuera del sitemap, indexables dentro, robots.txt 200, canonical con inlinks
 - [ ] **Phase 19: On-page, schema y rendimiento** - Meta descriptions, H1 único, OG completo, JSON-LD sin errores de validación, páginas bajo 2 MB
+- [ ] **Phase 20: Widget de Domain Rating en admin** - Mostrar el DR del dominio en el dashboard del admin vía endpoint público free de Ahrefs, refrescado a lo sumo 1/día y cacheado server-side
 
 ## Phase Details
 
@@ -136,6 +137,18 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
   5. Ninguna página pública supera 2 MB de HTML; las 6 páginas marcadas como lentas están revisadas o documentadas
 **Plans**: TBD
 
+### Phase 20: Widget de Domain Rating en admin
+**Goal**: Cada vez que Juan entra al admin ve el Domain Rating actual de juan-tech.com, refrescado a lo sumo 1 vez al día y cacheado server-side, con la atribución de licencia obligatoria
+**Depends on**: Phase 19
+**Requirements**: MONITOR-01, MONITOR-02, MONITOR-03
+**Success Criteria** (what must be TRUE):
+  1. Al entrar al admin de Payload, el dashboard muestra el Domain Rating numérico de `juan-tech.com` (endpoint público free, sin API key)
+  2. El endpoint se llama a lo sumo 1 vez cada 24h; dentro de la ventana se sirve el valor cacheado desde el global `site-metrics` (`domainRating` + `fetchedAt`) sin volver a pegarle
+  3. La UI incluye la atribución "Domain Rating by Ahrefs" enlazada a ahrefs.com (cumple la Domain Rating License)
+  4. Si el fetch falla, se muestra el último DR cacheado marcado como desactualizado sin romper el dashboard; build/CI verdes
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -149,3 +162,4 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 | 17. Imágenes y hreflang | v1.3 | 0/TBD | Not started | - |
 | 18. Indexabilidad y sitemap | v1.3 | 0/TBD | Not started | - |
 | 19. On-page, schema y rendimiento | v1.3 | 0/TBD | Not started | - |
+| 20. Widget de Domain Rating en admin | v1.3 | 0/TBD | Not started | - |

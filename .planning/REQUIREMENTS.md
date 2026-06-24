@@ -52,6 +52,12 @@
 - [ ] **PERF-01**: Ninguna página excede el límite de crawl de 2 MB de Googlebot; se reduce el HTML de las 2 páginas marcadas como demasiado grandes
 - [ ] **PERF-02**: Las 6 páginas "slow" se revisan; las que sigan lentas se documentan o se optimizan (continuidad del CWV de v1.1)
 
+### MONITOR — Monitoreo de Domain Rating en admin
+
+- [ ] **MONITOR-01**: El dashboard del admin (Payload) muestra el Domain Rating de `juan-tech.com` obtenido del endpoint público free de Ahrefs (`GET https://api.ahrefs.com/v3/public/domain-rating-free?target=juan-tech.com`, sin API key), con la atribución obligatoria "Domain Rating by Ahrefs" enlazada a ahrefs.com (requisito de la Domain Rating License)
+- [ ] **MONITOR-02**: El DR se obtiene a lo sumo 1 vez cada 24h; el valor se cachea server-side (p. ej. global de Payload `site-metrics` con `domainRating` + `fetchedAt`); las cargas del admin dentro de la ventana de 24h leen del cache sin volver a pegarle al endpoint
+- [ ] **MONITOR-03**: Si el fetch falla (timeout/red/error/respuesta inválida) degrada con gracia: muestra el último DR cacheado marcado como desactualizado y nunca rompe el render del dashboard
+
 ## Future Requirements
 
 <!-- Diferido a milestones posteriores. -->
@@ -95,3 +101,6 @@
 | SCHEMA-01 | Phase 19 | Pending |
 | PERF-01 | Phase 19 | Pending |
 | PERF-02 | Phase 19 | Pending |
+| MONITOR-01 | Phase 20 | Pending |
+| MONITOR-02 | Phase 20 | Pending |
+| MONITOR-03 | Phase 20 | Pending |

@@ -11,6 +11,7 @@ import { GeistMono } from 'geist/font/mono'
 import React from 'react'
 
 import { Providers } from '@/providers'
+import { AnalyticsProvider } from '@/providers/Analytics'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ThemeProvider } from '@/providers/Theme/ThemeProvider.client'
 import { ScrollProvider } from '@/providers/ScrollProvider'
@@ -97,6 +98,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               {/* AdminBar self-detects the logged-in editor on the client, so it
                   needs no server-side draftMode() preview prop. */}
               <AdminBar adminBarProps={{}} />
+
+              {/* Site-wide GA4 click delegation: tracks any element carrying
+                  data-analytics attributes (see providers/Analytics). v1.2. */}
+              <AnalyticsProvider />
 
               {children}
             </ScrollProvider>

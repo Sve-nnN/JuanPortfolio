@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
 import type { CalendlyEmbedBlock as CalendlyEmbedBlockProps } from '@/payload-types'
+import { trackEvent } from '@/utilities/analytics'
 
 const HEIGHT_MAP = {
   compact: 500,
@@ -75,6 +76,24 @@ export const CalendlyEmbedBlock: React.FC<CalendlyEmbedBlockProps & { locale?: '
     )
     observer.observe(node)
     return () => observer.disconnect()
+  }, [inView])
+
+  // Track Calendly conversions: the widget posts a message when a meeting is
+  // scheduled. GA4 recommended-ish conversion event. CONV-02 (v1.2).
+  useEffect(() => {
+    if (!inView) return
+    const onMessage = (e: MessageEvent) => {
+      if (
+        typeof e.data === 'object' &&
+        e.data?.event === 'calendly.event_scheduled' &&
+        typeof e.origin === 'string' &&
+        e.origin.includes('calendly.com')
+      ) {
+        trackEvent('schedule_meeting', { source: 'calendly' })
+      }
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
   }, [inView])
 
   if (!calendlyUrl) return null

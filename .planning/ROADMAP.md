@@ -1,65 +1,58 @@
-# Roadmap: JuanPortfolio — Milestone v1.1 (Core Web Vitals & Performance)
+# Roadmap: JuanPortfolio — Milestone v1.2 (GA4 Analytics Tracking)
 
 ## Overview
 
-Baja LCP/TBT en mobile en 5 fases. Empieza por el mayor ofensor (diferir Calendly, ~2.9MB fuera del load inicial), luego imágenes, higiene de JS/terceros, a11y agéntica, y verificación con Lighthouse.
+Cobertura GA4 completa en 4 fases. Primero la fundación escalable (helper dataLayer-only + delegación global por `data-analytics` → instrumenta sitewide sin tocar cada componente), luego las conversiones de alto valor, el engagement de contenido, y el doc de GTM/GA4 + verificación.
 
 ## Phases
 
-- [ ] **Phase 6: Diferir Calendly** - Montar el widget solo al entrar al viewport; saca Calendly+Stripe del load inicial
-- [ ] **Phase 7: Optimización de imágenes** - `sizes`/dimensiones correctos en LCP image y logos
-- [ ] **Phase 8: Higiene de JS** - browserslist (polyfills) + estrategia de carga de GTM/Ahrefs
-- [ ] **Phase 9: A11y & agentic** - link del footer con nombre accesible; confirmar llms.txt
-- [ ] **Phase 10: Medición & verificación** - Lighthouse mobile vs baseline; build/CI verde
+- [ ] **Phase 11: Fundación de analítica** - helper dataLayer-only + delegación global de clicks (data-attributes) + taxonomía
+- [ ] **Phase 12: Eventos de conversión** - contacto (generate_lead), Calendly, CTAs, switcher de idioma
+- [ ] **Phase 13: Eventos de engagement** - scroll depth, tiempo/lectura, blog, navegación, búsqueda
+- [ ] **Phase 14: Config GTM/GA4 & verificación** - doc del tag forward + Enhanced Measurement + verificar dataLayer/DebugView
 
 ## Phase Details
 
-### Phase 6: Diferir Calendly
-**Goal**: El widget de Calendly no carga en el load inicial de la home; se monta al hacer scroll a su sección
-**Requirements**: TP-01, TP-02
+### Phase 11: Fundación de analítica
+**Goal**: Base escalable para trackear cualquier interacción sin cablear componente por componente
+**Requirements**: CORE-01, CORE-02, CORE-03, CORE-04
 **Success Criteria**:
-  1. En el HTML/network inicial de `/` no aparece `assets.calendly.com/.../booking-*.js|css` ni `js.stripe.com/v3` hasta hacer scroll a la sección
-  2. El widget sigue cargando y funcionando cuando entra al viewport (IntersectionObserver) o por click
-  3. `next build` verde; sin regresión visual de la sección (placeholder/loader mientras no carga)
+  1. `trackEvent` pushea solo al dataLayer (sin gtag directo); tipos/nombres consistentes
+  2. Un provider cliente con delegación global captura clicks en `[data-analytics]` con sus `data-*` params
+  3. Outbound links/descargas se trackean sin duplicar lo ya instrumentado
+  4. `docs/analytics-events.md` lista la taxonomía (nombre, params, mapeo GA4)
 
-### Phase 7: Optimización de imágenes
-**Goal**: La imagen LCP y los logos se sirven al tamaño mostrado
-**Requirements**: IMG-01, IMG-02
+### Phase 12: Eventos de conversión
+**Goal**: Las acciones que importan (lead, reunión, CTA, idioma) emiten eventos GA4
+**Requirements**: CONV-01, CONV-02, CONV-03, CONV-04
 **Success Criteria**:
-  1. El retrato LCP tiene `sizes` que evita bajar 756px para 434px de display
-  2. Los logos de clientes usan dimensiones ajustadas (no 2–3× el display)
-  3. Lighthouse "Improve image delivery" baja respecto al baseline
+  1. Submit del form de contacto emite `generate_lead` (éxito y error) sin PII
+  2. Reserva en Calendly (postMessage `event_scheduled`) emite `schedule_meeting`
+  3. CTAs primario/secundario (incluidos botones nativos) emiten `cta_click` con label+ubicación
+  4. El switcher de idioma emite `language_switch` con from/to
 
-### Phase 8: Higiene de JS
-**Goal**: Menos polyfills legacy y third-parties que no bloqueen el LCP
-**Requirements**: JS-01, TP-03
+### Phase 13: Eventos de engagement
+**Goal**: Medir consumo de contenido y navegación
+**Requirements**: ENG-01, ENG-02, ENG-03, ENG-04, ENG-05
 **Success Criteria**:
-  1. browserslist configurado a navegadores modernos → desaparecen los polyfills Array.at/flat/flatMap/Object.fromEntries del bundle
-  2. GTM/Ahrefs cargan con estrategia que no bloquea el hilo durante el LCP
-  3. Lighthouse "Legacy JavaScript" y "unused JS" first-party bajan
+  1. Scroll depth 25/50/75/100% emite `scroll_depth` una vez por hito por página
+  2. Páginas de contenido emiten `content_engagement` por hitos de tiempo/lectura
+  3. Posts relacionados emiten `select_content`; TOC/code-copy siguen funcionando
+  4. Nav de header/footer emite `navigation_click`; la búsqueda emite `search`
 
-### Phase 9: A11y & agentic
-**Goal**: El árbol de accesibilidad queda bien formado; agentes pueden leer la página
-**Requirements**: A11Y-01, A11Y-02
+### Phase 14: Config GTM/GA4 & verificación
+**Goal**: Que los eventos lleguen a GA4 y quede documentado el setup
+**Requirements**: CFG-01, CFG-02, CFG-03
 **Success Criteria**:
-  1. El link de "Últimos Posts" del footer tiene nombre accesible siempre (icono `aria-hidden`, fallback de texto)
-  2. `/llms.txt` confirmado 200 + H1 (documentado; fallo del audit = Cloudflare challenge)
-  3. Lighthouse a11y no reporta "Links must have discernible text" en el footer
-
-### Phase 10: Medición & verificación
-**Goal**: LCP/TBT mejoran de forma medible y nada se rompe
-**Requirements**: VERIFY-01, VERIFY-02
-**Success Criteria**:
-  1. Lighthouse mobile: LCP y TBT bajan vs baseline (objetivo LCP<4s, TBT<600ms, Perf>70)
-  2. `next build` + CI verdes
-  3. QA funcional: Calendly carga al scrollear, home/posts sin regresión
+  1. `docs/analytics-gtm-setup.md` explica el tag GA4-Event forward + trigger custom-event y el Enhanced Measurement
+  2. Verificación: los eventos aparecen en el dataLayer (y en GA4 DebugView cuando Juan cree el tag); sin doble conteo
+  3. Sin PII en params; build/CI verdes
 
 ## Progress
 
 | Phase | Status | Completed |
 |-------|--------|-----------|
-| 6. Diferir Calendly | ✅ Complete | 2026-06-23 |
-| 7. Optimización de imágenes | ✅ Complete | 2026-06-23 |
-| 8. Higiene de JS | ✅ Complete | 2026-06-23 |
-| 9. A11y & agentic | ✅ Complete | 2026-06-23 |
-| 10. Medición & verificación | ✅ Complete (Lighthouse: post-deploy) | 2026-06-23 |
+| 11. Fundación de analítica | ✅ Complete | 2026-06-24 |
+| 12. Eventos de conversión | ✅ Complete | 2026-06-24 |
+| 13. Eventos de engagement | ✅ Complete | 2026-06-24 |
+| 14. Config GTM/GA4 & verificación | ✅ Complete | 2026-06-24 |

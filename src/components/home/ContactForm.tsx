@@ -1,5 +1,6 @@
 import React from 'react'
 import { Send, Mail, Phone, MapPin } from 'lucide-react'
+import { gaAttrs } from '@/utilities/analytics'
 
 const ContactForm = () => {
   return (
@@ -69,6 +70,7 @@ const ContactForm = () => {
               <button
                 className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
                 type="submit"
+                {...gaAttrs('cta_click', { label: 'Enviar mensaje', location: 'home_contact' })}
               >
                 <span>Enviar mensaje</span>
                 <Send className="ml-2" size={18} />
@@ -88,6 +90,7 @@ const ContactForm = () => {
                 <a
                   className="text-muted hover:text-primary transition-colors"
                   href="mailto:hola@jcangulo.com"
+                  {...gaAttrs('cta_click', { label: 'email', location: 'home_contact' })}
                 >
                   hola@jcangulo.com
                 </a>
@@ -102,6 +105,7 @@ const ContactForm = () => {
                 <a
                   className="text-muted hover:text-primary transition-colors"
                   href="tel:+123456789"
+                  {...gaAttrs('cta_click', { label: 'phone', location: 'home_contact' })}
                 >
                   +1 (234) 567-89
                 </a>

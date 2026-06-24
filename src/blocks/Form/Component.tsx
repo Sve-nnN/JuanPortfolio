@@ -10,6 +10,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { trackEvent } from '@/utilities/analytics'
 
 export type FormBlockType = {
   blockName?: string
@@ -88,11 +89,13 @@ export const FormBlock: React.FC<
               status: res.status,
             })
 
+            trackEvent('generate_lead', { status: 'error', form: formID })
             return
           }
 
           setIsLoading(false)
           setHasSubmitted(true)
+          trackEvent('generate_lead', { status: 'success', form: formID })
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
@@ -107,6 +110,7 @@ export const FormBlock: React.FC<
           setError({
             message: 'Something went wrong.',
           })
+          trackEvent('generate_lead', { status: 'error', form: formID })
         }
       }
 

@@ -12,6 +12,7 @@ import type { Header as HeaderType } from '@/payload-types'
 import { HeaderNav } from './Nav'
 import { CMSLink } from '@/components/Link'
 import { NavSearch } from './Nav/NavSearch'
+import { trackEvent } from '@/utilities/analytics'
 
 interface HeaderClientProps {
   data: HeaderType
@@ -52,6 +53,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
     const isCurrentlyEn = currentLocale === 'en'
     const newLocale = isCurrentlyEn ? 'es' : 'en'
 
+    trackEvent('language_switch', { from: currentLocale, to: newLocale })
     setLocaleContext(newLocale)
 
     let newPath = pathname

@@ -6,6 +6,7 @@ import config from '@payload-config'
 import type { Footer as FooterType, Post, CaseStudy } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
+import { gaAttrs } from '@/utilities/analytics'
 import { Github, Linkedin, Twitter, Instagram, Facebook, Youtube, ArrowUpRight } from 'lucide-react'
 
 import { getPostUrl } from '@/utilities/getPostUrl'
@@ -168,6 +169,7 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
                       <Link
                         href={`${localePrefix}${getPostUrl(post)}`}
                         className="group flex items-start gap-3 text-base text-muted-foreground hover:text-primary transition-all leading-tight font-medium"
+                        {...gaAttrs('navigation_click', { location: 'footer', label: 'latest_post' })}
                       >
                         <ArrowUpRight aria-hidden="true" className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary/40 group-hover:text-primary transition-colors" />
                         <span className="line-clamp-2">
@@ -199,6 +201,7 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
                       <Link
                         href={`${localePrefix}/case-studies/${caseStudy.slug}`}
                         className="group flex items-start gap-3 text-base text-muted-foreground hover:text-primary transition-all leading-tight font-medium"
+                        {...gaAttrs('navigation_click', { location: 'footer', label: 'case_study' })}
                       >
                         <ArrowUpRight aria-hidden="true" className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary/40 group-hover:text-primary transition-colors" />
                         <span className="line-clamp-2">

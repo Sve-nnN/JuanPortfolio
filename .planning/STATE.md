@@ -1,3 +1,18 @@
+---
+gsd_state_version: 1.0
+milestone: v1.3
+milestone_name: Remediación SEO técnica (Ahrefs Site Audit)
+status: planning
+last_updated: "2026-06-24T15:41:40.574Z"
+last_activity: 2026-06-24
+progress:
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
+---
+
 # Project State
 
 ## Project Reference
@@ -9,11 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-23)
 
 ## Current Position
 
-Phase: 10 of 10 — todas completas (fases 6-10)
-Status: v1.1 code-complete, verificado estructuralmente
-Last activity: 2026-06-23 — Fases 6-10 ejecutadas (CWV/perf)
-
-Progress: [██████████] 100% (código); Lighthouse real pendiente post-deploy
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-24 — Milestone v1.3 started
 
 ## Accumulated Context
 

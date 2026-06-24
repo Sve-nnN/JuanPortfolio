@@ -8,6 +8,17 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
+## Current Milestone: v1.3 Remediación SEO técnica (Ahrefs Site Audit)
+
+**Goal:** Cerrar las 35 categorías de issues del Site Audit de Ahrefs (project 7702617), atacando primero la causa raíz que genera ~80% del daño: wikilinks `[[slug|label]]` filtrándose crudos a hrefs e imágenes renderizadas.
+
+**Target features:**
+- Arreglar el sistema de internal-linking para que NUNCA emita `[[...]]` crudo (causa de broken links + broken images) y sanear el contenido ya publicado
+- Eliminar 404/4XX por links a posts inexistentes, categorías equivocadas y contenido de test; encadenar redirects legacy `/posts/*`
+- Corregir hreflang ↔ `<html lang>` por locale e imágenes rotas (incl. portrait vía `_next/image` 400)
+- Sanear indexabilidad: noindex fuera del sitemap, indexables dentro, robots.txt accesible, canonicals con inlinks
+- On-page: meta descriptions, H1 único, titles, Open Graph; datos estructurados sin errores schema.org; reducir peso de página
+
 ## Requirements
 
 ### Validated
@@ -21,23 +32,26 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 - ✓ Locale por param `[locale]` fuera del render estático; `draftMode()` bypass-gated — v1.0 (#20)
 - ✓ CWV: Calendly diferido, imágenes right-sized, fix del gate de LCP → Perf 36→82, LCP 8.6→4.1s — v1.1
 - ✓ A11y footer + Ahrefs CSP → A11y 96, Best Practices 100 — v1.1
+- ✓ Cobertura GA4 completa vía dataLayer/GTM (conversiones + engagement), delegación global por `data-analytics`, doc GTM — v1.2
 
 ### Active
 
-<!-- Scope actual. Milestone v1.2 — GA4 Analytics Tracking. -->
+<!-- Scope actual. Milestone v1.3 — Remediación SEO técnica (Ahrefs Site Audit). -->
 
-- [ ] Cobertura GA4 completa vía dataLayer/GTM (CTAs, links, forms, Calendly, idioma)
-- [ ] Delegación global por `data-analytics` (instrumentar sitewide sin tocar cada componente)
-- [ ] Engagement: scroll depth, tiempo/lectura, navegación, búsqueda
-- [ ] Doc de setup GTM (tag GA4-Event forward) + Enhanced Measurement
+- [ ] Internal-linking nunca emite `[[...]]` crudo; contenido publicado saneado (broken links/images resueltos)
+- [ ] 404/4XX a cero: links a posts inexistentes, categorías equivocadas, contenido de test, redirects legacy `/posts/*`
+- [ ] hreflang ↔ `<html lang>` consistente por locale; imágenes rotas resueltas (incl. portrait `_next/image` 400)
+- [ ] Indexabilidad: noindex fuera del sitemap, indexables dentro, robots.txt accesible, canonical con inlinks
+- [ ] On-page (meta desc, H1 único, titles, OG) + schema.org sin errores de validación + peso de página bajo límites
 
 ### Out of Scope
 
 <!-- Límites explícitos. -->
 
-- Migrar el resto de los issues SEO abiertos (#21+) — milestone aparte, este solo cubre ISR/CWV del #20
-- Cambiar el modelo de contenido de Payload — no relacionado con caching
-- Rediseño visual del Header/Footer — solo se reubican, no se rediseñan
+- Rehacer la estrategia de internal-linking (keywords/anchors) — solo se arregla la emisión rota y se sanea, no se rediseña la lógica de selección
+- Reescribir o expandir contenido por calidad/E-E-A-T — este milestone es técnico, no editorial
+- Cambiar el modelo de contenido de Payload — no relacionado con los issues del audit
+- Rediseño visual del Header/Footer
 
 ## Context
 
@@ -80,4 +94,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-23 after bootstrap for milestone v1.0 (issue #20 ISR/CWV)*
+*Last updated: 2026-06-24 — milestone v1.3 (remediación SEO técnica, Ahrefs Site Audit); v1.2 GA4 cerrado*

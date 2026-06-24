@@ -25,8 +25,8 @@ export async function generateMetadata({
     title: locale === 'en' ? 'Contact — Juan Carlos Angulo' : 'Contacto — Juan Carlos Angulo',
     description:
       locale === 'en'
-        ? 'Start a project or just say hello. I respond within 24 hours.'
-        : 'Inicia un proyecto o simplemente saluda. Respondo en menos de 24 horas.',
+        ? 'Get in touch with Juan Carlos Angulo for technical SEO, web performance, and full-stack Next.js projects. Start a project or just say hello — I reply within 24 hours.'
+        : 'Ponte en contacto con Juan Carlos Angulo para proyectos de SEO técnico, rendimiento web y desarrollo full-stack con Next.js. Inicia un proyecto o salúdame; respondo en menos de 24 horas.',
     alternates: {
       canonical,
       languages: {

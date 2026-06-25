@@ -201,6 +201,31 @@ export const Pages: CollectionConfig<'pages'> = {
             },
           ],
         },
+        {
+          label: {
+            en: 'Meta',
+            es: 'Meta',
+          },
+          fields: [
+            {
+              name: 'primaryKeyword',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'semanticKeywords',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
+            },
+          ],
+        },
       ],
     },
     {

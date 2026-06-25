@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
-status: planning
-last_updated: "2026-06-25T16:11:03.938Z"
+status: roadmapped
+last_updated: "2026-06-25T00:00:00.000Z"
 last_activity: 2026-06-25
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,23 +17,23 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-24)
+See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.3 — código completo (fases 15-20), pendiente PR develop→main + deploy + re-crawl Ahrefs
+**Current focus:** Milestone v1.4 — roadmap definido (fases 21-24), listo para planear fase 21
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 21 (not started)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-06-25 — Milestone v1.4 started
+Status: Roadmapped — próximo paso `/gsd:plan-phase 21`
+Last activity: 2026-06-25 — Roadmap v1.4 creado (fases 21-24)
 
 ## Performance Metrics
 
-**Velocity:**
+**Velocity (v1.3 reference):**
 
-- Total plans completed: 0 (v1.3)
+- Total plans completed: 6 phases (v1.3, fases 15-20)
 - Average duration: —
 - Total execution time: —
 
@@ -43,19 +43,21 @@ Last activity: 2026-06-25 — Milestone v1.4 started
 
 ### Decisions
 
-- **Causa raíz #1 primero:** `build-internal-links.ts` / `LinkInjector.ts` emiten `[[wikilink]]` crudo → explica 94 broken links + 159 broken images. Fix en Phase 15 antes de todo.
-- **`<html lang>` fijo en root + corrección cliente para `/en`:** El root layout no recibe locale por param; corrección cosmética aceptada.
-- **Ahrefs MCP insuficiente:** URLs afectadas se derivan del snapshot de crawl + grep del repo. Validación schema.org via MCP `schema-org` de mcp-hub.
+- **Causa raíz #1 primero (v1.3):** `build-internal-links.ts` / `LinkInjector.ts` emitían `[[wikilink]]` crudo → resuelto en Phase 15.
+- **`<html lang>` fijo en root + corrección cliente para `/en`:** El root layout no recibe locale por param; corrección cosmética aceptada (v1.3).
+- **Traffic light en sidebar del editor (v1.4):** El semáforo Yoast vive en el sidebar del editor de Payload (no en un panel flotante ni en página separada). Confirmado con el usuario.
+- **Reusa `seoAnalyzer.ts` (v1.4):** El scorer del semáforo extiende `src/plugins/seo/utils/seoAnalyzer.ts`, no crea una nueva implementación paralela.
+- **Listados vía doc de categoría/autor (v1.4):** La keyword de páginas de listado (categoría, autor) se asigna en el documento de categoría/autor mismo o en un mapeo configurable; no se crea una colección nueva.
+- **Phase 24 puede correr tras Phase 21:** La población de keywords desde DinoRank solo necesita que el modelo exista (KW-01..03); no necesita esperar a que el semáforo esté completo.
 
 ### Blockers/Concerns
 
-- **Validación pendiente (humano):** nada está verificado en producción hasta PR develop→main + deploy Vercel + re-crawl Ahrefs. El sitio live aún muestra el comportamiento viejo.
-- **Partials (necesitan lista de URLs de Ahrefs, MCP Site Audit en plan insuficiente):** META-03 (titles cortos), META-04 (los 6 OG marcados), parte de META-01 (3er H1 missing, otras meta desc cortas), PERF-02 (6 slow pages), y los 14 schema errors exactos. Todo el schema que emite el sitio valida sin errores en mcp-hub.
-- **6 posts sin publicar** desenlazados (nextjs-portfolio, payloadcms-vs-strapi, payloadcms-tutorial, nextjs-server-components, payloadcms-seo, typescript-best-practices): los .md existen pero no están en Payload/sitemap. Publicarlos y re-enlazar es trabajo aparte.
-- **HREF-01** es corrección cliente/JS-render (trade-off documentado); raw HTML /en sigue lang=es.
+- **Validación pendiente (v1.3 → re-crawl Ahrefs):** El site live tiene el código de v1.3 mergeado. Validación real requiere re-crawl Ahrefs (humano, no automatizable).
+- **Pages sin campo `primaryKeyword` (baseline v1.4):** Confirmado en recon: Pages collection no tiene `primaryKeyword` ni meta SEO. Phase 21 lo resuelve.
+- **`keyword-metrics` ya tiene relaciones `post` y `page`:** Solo hay que agregar el campo en la colección Pages del lado Payload, no modificar keyword-metrics más allá del scope.
 
 ## Session Continuity
 
-Last session: 2026-06-24
-Stopped at: v1.3 code-complete (fases 15-20) en rama seo/wikilink-remediation. Siguiente: PR develop→main, deploy, re-crawl Ahrefs para validar.
+Last session: 2026-06-25
+Stopped at: Roadmap v1.4 creado. Fases 21-24 definidas. Próximo: `/gsd:plan-phase 21` (keyword data model).
 Resume file: None

@@ -5,7 +5,8 @@
 - ✅ **v1.0 Render estático/ISR & Edge Caching** — Phases 1-5 (shipped 2026-05)
 - ✅ **v1.1 Core Web Vitals & Performance** — Phases 6-10 (shipped 2026-06)
 - ✅ **v1.2 GA4 Analytics Tracking** — Phases 11-14 (shipped 2026-06-24)
-- 🚧 **v1.3 Remediación SEO técnica (Ahrefs Site Audit)** — Phases 15-20 (in progress)
+- ✅ **v1.3 Remediación SEO técnica (Ahrefs Site Audit)** — Phases 15-20 (shipped 2026-06-25)
+- 🚧 **v1.4 Keyword targeting & Yoast-style SEO scoring** — Phases 21-24 (in progress)
 
 ## Phases
 
@@ -67,16 +68,88 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 
 </details>
 
-### 🚧 v1.3 Remediación SEO técnica (Ahrefs Site Audit) — In Progress
+<details>
+<summary>✅ v1.3 Remediación SEO técnica (Ahrefs Site Audit) — Phases 15-20 — SHIPPED 2026-06-25</summary>
 
-**Milestone Goal:** Cerrar las 35 categorías de issues del Site Audit de Ahrefs atacando primero la causa raíz (wikilinks `[[...]]` crudos) y luego 4XX, imágenes, hreflang, indexabilidad, on-page y schema. Baseline: 35 categorías de errores al 2026-06-24.
+### Phase 15: Causa raíz — emitter fijo y contenido saneado
+**Goal**: El pipeline de internal-linking nunca vuelve a escribir `[[slug|label]]` crudo y todo el contenido publicado queda libre de wikilinks sin resolver
+**Depends on**: Phase 14
+**Requirements**: LINKS-01, LINKS-02, IMG-02
+**Success Criteria** (what must be TRUE):
+  1. Grep de `[[` sobre todos los archivos markdown del repo y el HTML renderizado de páginas spot-chequeadas devuelve cero ocurrencias en valores de `href` o `src`
+  2. El `LinkInjector.ts` tiene tests que confirman que su output es siempre HTML válido o texto plano, nunca un wikilink crudo sin resolver
+  3. Las imágenes embebidas como `![[...]]` en markdown del contenido se convierten a URLs válidas o se eliminan, sin `[[` en los `src` renderizados
+  4. CI verde tras el fix; `build-internal-links.ts` no introduce regresiones en otros links válidos
+**Plans**: Complete
 
-- [x] **Phase 15: Causa raíz — emitter fijo y contenido saneado** - Arreglar el pipeline de internal-linking para que nunca emita `[[...]]` crudo y sanear todo el contenido ya publicado
-- [x] **Phase 16: Integridad de enlaces** - Eliminar los 404/4XX por posts inexistentes, rutas de categoría incorrectas, redirects legacy y contenido de test
-- [x] **Phase 17: Imágenes y hreflang** - Cerrar las 159 imágenes rotas restantes, el retrato 400 y los ~90 mismatches hreflang ↔ html lang
-- [x] **Phase 18: Indexabilidad y sitemap** - noindex fuera del sitemap, indexables dentro, robots.txt 200, canonical con inlinks
-- [x] **Phase 19: On-page, schema y rendimiento** - Meta descriptions, H1 único, OG completo, JSON-LD sin errores de validación, páginas bajo 2 MB
-- [x] **Phase 20: Widget de Domain Rating en admin** - Mostrar el DR del dominio en el dashboard del admin vía endpoint público free de Ahrefs, refrescado a lo sumo 1/día y cacheado server-side
+### Phase 16: Integridad de enlaces
+**Goal**: Cero links internos que apunten a 404/4XX, usen rutas de categoría incorrectas, redirijan en lugar de apuntar al destino final, o enlacen a contenido de test
+**Depends on**: Phase 15
+**Requirements**: LINKS-03, LINKS-04, LINKS-05, LINKS-06
+**Success Criteria** (what must be TRUE):
+  1. Los slugs reportados como inexistentes son eliminados de los links internos o redirigidos a su URL real con 200
+  2. Ningún link interno usa ruta plana `/blog/[slug]` para posts que viven bajo `/blog/[category]/[slug]`
+  3. Ningún link interno apunta a `/posts/*`; todos apuntan al destino `/blog/*` final sin cadena de redirects
+  4. Rutas de test no aparecen en el sitemap ni en ningún anchor interno del site
+**Plans**: Complete
+
+### Phase 17: Imágenes y hreflang
+**Goal**: Cero imágenes rotas en páginas públicas y consistencia total entre `<html lang>` y las anotaciones hreflang en todas las páginas
+**Depends on**: Phase 16
+**Requirements**: IMG-01, IMG-03, HREF-01, HREF-02
+**Success Criteria** (what must be TRUE):
+  1. `<html lang="es">` en páginas sin prefijo de locale; `<html lang="en">` en páginas bajo `/en/`
+  2. Todas las anotaciones hreflang apuntan a URLs que devuelven 200 y son recíprocas (es ↔ en)
+  3. La ruta `/_next/image?url=/api/media/file/juan-angulo-portrait-1.avif` devuelve HTTP 200 (el retrato deja de dar 400)
+  4. Spot-check en Ahrefs o curl de `og:image` y `<img>` en páginas principales confirma 0 imágenes con respuesta non-200
+**Plans**: Complete
+**UI hint**: yes
+
+### Phase 18: Indexabilidad y sitemap
+**Goal**: El sitemap es coherente con las directivas de indexación: solo páginas indexables, robots.txt accesible y páginas clave enlazadas internamente
+**Depends on**: Phase 17
+**Requirements**: INDEX-01, INDEX-02, INDEX-03, INDEX-04
+**Success Criteria** (what must be TRUE):
+  1. Ninguna de las 8 URLs con `noindex` aparece en el sitemap (o han perdido el noindex y son indexables)
+  2. Las 22 páginas indexables ausentes están en el sitemap, o su exclusión está documentada con justificación
+  3. `GET /robots.txt` responde HTTP 200 con `Content-Type: text/plain`
+  4. La URL canónica que carecía de inlinks recibe al menos un enlace interno dofollow desde una página con tráfico
+**Plans**: Complete
+
+### Phase 19: On-page, schema y rendimiento
+**Goal**: Cada página indexable tiene on-page completo (meta desc, H1, títulos, OG), el JSON-LD no tiene errores de validación y ninguna página excede los límites de Googlebot
+**Depends on**: Phase 18
+**Requirements**: META-01, META-02, META-03, META-04, SCHEMA-01, PERF-01, PERF-02
+**Success Criteria** (what must be TRUE):
+  1. Cero páginas indexables sin meta description o con meta description demasiado corta
+  2. Cada página tiene exactamente un `<h1>` no vacío
+  3. Open Graph completo (og:title, og:description, og:image, og:url, og:type) en las páginas marcadas
+  4. El MCP `schema-org` valida el JSON-LD del site sin errores
+  5. Ninguna página pública supera 2 MB de HTML
+**Plans**: Complete
+
+### Phase 20: Widget de Domain Rating en admin
+**Goal**: Cada vez que Juan entra al admin ve el Domain Rating actual de juan-tech.com, refrescado a lo sumo 1 vez al día y cacheado server-side, con la atribución de licencia obligatoria
+**Depends on**: Phase 19
+**Requirements**: MONITOR-01, MONITOR-02, MONITOR-03
+**Success Criteria** (what must be TRUE):
+  1. Al entrar al admin de Payload, el dashboard muestra el Domain Rating numérico de `juan-tech.com` (endpoint público free, sin API key)
+  2. El endpoint se llama a lo sumo 1 vez cada 24h; dentro de la ventana se sirve el valor cacheado desde el global `site-metrics` sin volver a pegarle
+  3. La UI incluye la atribución "Domain Rating by Ahrefs" enlazada a ahrefs.com (cumple la Domain Rating License)
+  4. Si el fetch falla, se muestra el último DR cacheado marcado como desactualizado sin romper el dashboard; build/CI verdes
+**Plans**: Complete
+**UI hint**: yes
+
+</details>
+
+### 🚧 v1.4 Keyword targeting & Yoast-style SEO scoring (In Progress)
+
+**Milestone Goal:** Cada página (Post, Page, listado) tiene una keyword objetivo con sus métricas a la vista, un semáforo estilo Yoast en el editor que compara la keyword contra title/meta/H1/slug/contenido, y una auditoría de cobertura que permite saber de un vistazo qué páginas faltan de optimizar.
+
+- [ ] **Phase 21: Keyword data model** - Agregar `primaryKeyword` a Pages y mapeo de keyword para listados de categoría/autor, igual que Posts
+- [ ] **Phase 22: Metrics panel + Yoast traffic light** - Panel de métricas de la keyword y semáforo verde/ámbar/rojo por check en el sidebar del editor, con recálculo en vivo
+- [ ] **Phase 23: Coverage audit** - Reporte repetible de páginas sin keyword y páginas con keyword que fallan algún check del semáforo
+- [ ] **Phase 24: Keyword research population** - Poblar keywords desde `content/keywords.md` / DinoRank y verificar que los docs de `keyword-metrics` tengan métricas cargadas
 
 ## Phase Details
 
@@ -149,6 +222,51 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 21: Keyword data model
+**Goal**: Cada documento de Pages puede tener asignada una keyword objetivo idéntica a como ya funciona en Posts, y los listados de categoría/autor tienen un mecanismo para asignar la suya
+**Depends on**: Phase 20
+**Requirements**: KW-01, KW-02, KW-03
+**Success Criteria** (what must be TRUE):
+  1. En el admin de Payload, la vista de edición de cualquier Page tiene un campo "Primary Keyword" que guarda una relación a `keyword-metrics`, igual que Posts
+  2. El documento de categoría (o la configuración de autor) expone un campo para asignar una keyword objetivo, de modo que esas páginas de listado entran en el scoring
+  3. No existe ningún campo de texto suelto paralelo para la keyword en Posts ni en Pages: el único mecanismo es la relación `primaryKeyword`→`keyword-metrics`
+  4. Guardar una keyword en Pages no rompe el comportamiento existente del campo `primaryKeyword` en Posts; tests/build CI verdes
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 22: Metrics panel + Yoast traffic light
+**Goal**: El editor de cada Post y Page ve las métricas de la keyword asignada y un semáforo por check (title/meta/H1/slug/densidad/primer párrafo/subtítulos) que se actualiza con el contenido actual sin necesidad de publicar
+**Depends on**: Phase 21
+**Requirements**: METRICS-01, METRICS-02, SCORE-01, SCORE-02, SCORE-03, SCORE-04
+**Success Criteria** (what must be TRUE):
+  1. El sidebar del editor muestra volumen, dificultad, intent y opportunityScore de la keyword asignada, leídos de `keyword-metrics`
+  2. Si la keyword no tiene métricas cargadas (o no hay keyword asignada), el panel muestra un estado claro ("sin datos") sin errores ni pantallas rotas
+  3. El sidebar muestra un indicador verde/ámbar/rojo para cada uno de los checks: keyword en title, en meta description, en H1, en slug, densidad en el cuerpo, presencia en el primer párrafo y en subtítulos
+  4. Cada check fallido muestra un texto de feedback accionable (qué falta y cómo corregirlo), construido sobre `seoAnalyzer.ts`
+  5. Un score global 0-100 con badge de color es visible de un vistazo; el valor cambia en tiempo real al editar el contenido sin necesidad de guardar
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 23: Coverage audit
+**Goal**: Un reporte repetible lista de forma completa qué páginas no tienen keyword asignada y cuáles tienen keyword pero fallan algún check del semáforo
+**Depends on**: Phase 22
+**Requirements**: AUDIT-01, AUDIT-02, AUDIT-03
+**Success Criteria** (what must be TRUE):
+  1. Ejecutar la auditoría (script o vista en el admin) produce una lista de todos los Posts, Pages y listados que no tienen `primaryKeyword` asignada
+  2. La auditoría produce una segunda lista con las páginas que tienen keyword pero fallan uno o más checks del semáforo, con el detalle de qué checks fallan en cada una
+  3. La auditoría se puede volver a ejecutar tras hacer cambios y refleja el estado actualizado (sin datos stale hardcoded)
+**Plans**: TBD
+
+### Phase 24: Keyword research population
+**Goal**: Todas las páginas mapeadas en el research de DinoRank tienen su `primaryKeyword` asignada y los docs de `keyword-metrics` correspondientes tienen métricas cargadas; las que no tienen datos quedan marcadas explícitamente
+**Depends on**: Phase 21
+**Requirements**: RESEARCH-01, RESEARCH-02
+**Success Criteria** (what must be TRUE):
+  1. Cada Post y Page que aparece en `content/keywords_map.json` tiene un `primaryKeyword` asignado en Payload (sin nulos donde el mapeo existe)
+  2. Cada keyword asignada tiene su doc de `keyword-metrics` con al menos volume, difficulty e intent cargados desde el research de DinoRank
+  3. Las keywords sin datos de métricas disponibles están marcadas en su doc de `keyword-metrics` (campo o nota) para investigar, y la auditoría de Phase 23 las lista correctamente
+**Plans**: TBD
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -163,3 +281,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 | 18. Indexabilidad y sitemap | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 19. On-page, schema y rendimiento | v1.3 | ◐ | ✅ Complete (META-03/04, PERF-02 parciales: faltan URLs Ahrefs) | 2026-06-24 |
 | 20. Widget de Domain Rating en admin | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
+| 21. Keyword data model | v1.4 | 0/TBD | Not started | - |
+| 22. Metrics panel + Yoast traffic light | v1.4 | 0/TBD | Not started | - |
+| 23. Coverage audit | v1.4 | 0/TBD | Not started | - |
+| 24. Keyword research population | v1.4 | 0/TBD | Not started | - |

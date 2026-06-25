@@ -60,4 +60,19 @@
 
 ## Traceability
 
-<!-- Lo completa el roadmapper: REQ-ID → Phase. -->
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| KW-01 | Phase 21 | Pending |
+| KW-02 | Phase 21 | Pending |
+| KW-03 | Phase 21 | Pending |
+| METRICS-01 | Phase 22 | Pending |
+| METRICS-02 | Phase 22 | Pending |
+| SCORE-01 | Phase 22 | Pending |
+| SCORE-02 | Phase 22 | Pending |
+| SCORE-03 | Phase 22 | Pending |
+| SCORE-04 | Phase 22 | Pending |
+| AUDIT-01 | Phase 23 | Pending |
+| AUDIT-02 | Phase 23 | Pending |
+| AUDIT-03 | Phase 23 | Pending |
+| RESEARCH-01 | Phase 24 | Pending |
+| RESEARCH-02 | Phase 24 | Pending |

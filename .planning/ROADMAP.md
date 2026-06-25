@@ -231,7 +231,8 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
   2. El documento de categoría (o la configuración de autor) expone un campo para asignar una keyword objetivo, de modo que esas páginas de listado entran en el scoring
   3. No existe ningún campo de texto suelto paralelo para la keyword en Posts ni en Pages: el único mecanismo es la relación `primaryKeyword`→`keyword-metrics`
   4. Guardar una keyword en Pages no rompe el comportamiento existente del campo `primaryKeyword` en Posts; tests/build CI verdes
-**Plans**: TBD
+**Plans**: 1 plan
+  - [ ] 21-1-PLAN.md — Agregar primaryKeyword (+semanticKeywords) a Pages y primaryKeyword a Categories/Users vía relación a keyword-metrics; regenerar tipos y verificar build
 **UI hint**: yes
 
 ### Phase 22: Metrics panel + Yoast traffic light

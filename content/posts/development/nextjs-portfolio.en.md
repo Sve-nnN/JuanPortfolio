@@ -79,7 +79,7 @@ Creating a personal portfolio using Next.js can be an efficient way to showcase 
 Several developers have shared their Next.js personal portfolio projects on platforms like GitHub, providing inspiration and practical examples for others looking to build their own sites. Notable projects include:
 
 -   **ByteGrad / portfolio-website**: A modern portfolio built from scratch using React and Next.js, emphasizing a clean and responsive design.
--   **muhammad-fiaz / portfolio**: An open-source repository that incorporates Next.js and [[typescript-best-practices|TypeScript]], demonstrating dynamic responsiveness and design principles.
+-   **muhammad-fiaz / portfolio**: An open-source repository that incorporates Next.js and TypeScript, demonstrating dynamic responsiveness and design principles.
 -   **osamajavaid / portfolio**: Created using Next.js and Tailwind CSS, this portfolio leverages modern design elements for an enhanced user experience.
 -   **said7388 / developer-portfolio-nextjs**: A developer portfolio template featuring dark and light modes, serving as a solid foundation for customization.
 -   **iamshiv007 / NextJS-Portfolio**: A personal portfolio designed to inspire and provide templates for other developers.
@@ -133,6 +133,6 @@ By focusing on these deployment strategies and optimizations, developers can ens
 
 ## See Also
 
-- [Payload CMS Tutorial 2026: Architecting Enterprise Backends](https://juan-tech.com/en/blog/development/payloadcms-tutorial)
-- [SEO in Payload CMS 2026: Complete Configuration](https://juan-tech.com/en/blog/development/payloadcms-seo)
-- [Next.js Server Components 2026: Architecture and Performance](https://juan-tech.com/en/blog/development/nextjs-server-components)
+- Payload CMS Tutorial 2026: Architecting Enterprise Backends
+- SEO in Payload CMS 2026: Complete Configuration
+- Next.js Server Components 2026: Architecture and Performance

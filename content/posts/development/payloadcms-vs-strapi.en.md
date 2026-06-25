@@ -100,5 +100,5 @@ In conclusion, both PayloadCMS and Strapi present unique advantages in performan
 
 ## See Also
 
-- [Payload CMS Tutorial 2026: Architecting Enterprise Backends](https://juan-tech.com/en/blog/development/payloadcms-tutorial)
-- [SEO in Payload CMS 2026: Complete Configuration](https://juan-tech.com/en/blog/development/payloadcms-seo)
+- Payload CMS Tutorial 2026: Architecting Enterprise Backends
+- SEO in Payload CMS 2026: Complete Configuration

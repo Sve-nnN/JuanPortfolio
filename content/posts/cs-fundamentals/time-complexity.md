@@ -28,7 +28,7 @@ semantic_keywords:
   - representativos complejidad notaci
 ---
 
-La [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) es un aspecto crucial en el diseño de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]], ya que determina el rendimiento y la eficiencia en la resolución de problemas. Comprender este concepto nos ayuda a elegir las mejores soluciones en función del tamaño y la naturaleza de las entradas.
+La [complejidad temporal](https://juan-tech.com/blog/cs-fundamentals/data-structures) es un aspecto crucial en el diseño de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos), ya que determina el rendimiento y la eficiencia en la resolución de problemas. Comprender este concepto nos ayuda a elegir las mejores soluciones en función del tamaño y la naturaleza de las entradas.
 
 En este artículo, exploraremos los fundamentos de la complejidad temporal y su notación, así como el [análisis de algoritmos](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) como el de Prim. Un entendimiento profundo de la complejidad temporal permite optimizar el código y mejorar la experiencia del usuario en aplicaciones prácticas.
 
@@ -36,11 +36,11 @@ En este artículo, exploraremos los fundamentos de la complejidad temporal y su 
 
 ### Definición y propósito de la complejidad temporal
 
-La **complejidad temporal** es un concepto clave en el análisis de algoritmos, ya que permite evaluar el rendimiento y eficiencia de una solución a medida que aumenta el tamaño de la entrada. Este análisis se traduce en una forma de cuantificar el tiempo que un algoritmo demorará en completarse, representado generalmente como \\( n \\), donde \\( n \\) es el número de elementos o el tamaño de la entrada. Comprender la complejidad temporal es esencial para diseñar algoritmos eficientes, especialmente en contextos donde los recursos computacionales son limitados.
+La **complejidad temporal** es un concepto clave en el análisis de [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas), ya que permite evaluar el rendimiento y eficiencia de una solución a medida que aumenta el tamaño de la entrada. Este análisis se traduce en una forma de cuantificar el tiempo que un algoritmo demorará en completarse, representado generalmente como \\( n \\), donde \\( n \\) es el número de elementos o el tamaño de la entrada. Comprender la complejidad temporal es esencial para diseñar algoritmos eficientes, especialmente en contextos donde los recursos computacionales son limitados.
 
 ### Notación Big O y su interpretación matemática
 
-La notación **[[big-o-notation|Big O]]** (\\( O(f(n)) \\)) se utiliza para describir el comportamiento asintótico de una función, estableciendo un límite superior sobre la cantidad de tiempo que un algoritmo puede requerir con respecto al tamaño de la entrada. Formalmente, se dice que una función \\( f(n) \\) es \\( O(g(n)) \\) si, para ciertos valores positivos de \\( c \\) y \\( n\_0 \\), se cumple la relación \\( f(n) \leq c \cdot g(n) \\) para todo \\( n \geq n\_0 \\). Esta notación permite simplificar la representación de la complejidad, ayudando a identificar rápidamente cómo escalará un algoritmo con el aumento de la entrada. Por ejemplo, la complejidad de un algoritmo que tiene un tiempo de ejecución proporcional a \\( n \\) se puede clasificar de manera más sencilla como \\( O(n) \\).
+La notación **[Big O](/blog/cs-fundamentals/big-o-notation)** (\\( O(f(n)) \\)) se utiliza para describir el comportamiento asintótico de una función, estableciendo un límite superior sobre la cantidad de tiempo que un algoritmo puede requerir con respecto al tamaño de la entrada. Formalmente, se dice que una función \\( f(n) \\) es \\( O(g(n)) \\) si, para ciertos valores positivos de \\( c \\) y \\( n\_0 \\), se cumple la relación \\( f(n) \leq c \cdot g(n) \\) para todo \\( n \geq n\_0 \\). Esta notación permite simplificar la representación de la complejidad, ayudando a identificar rápidamente cómo escalará un algoritmo con el aumento de la entrada. Por ejemplo, la complejidad de un algoritmo que tiene un tiempo de ejecución proporcional a \\( n \\) se puede clasificar de manera más sencilla como \\( O(n) \\).
 
 ### Casos de análisis: mejor, promedio y peor caso
 
@@ -128,4 +128,4 @@ En competencias de programación, como es el caso de la Olympiad de Informática
 
 ### Principios básicos del algoritmo de Prim
 
-El algoritmo de Prim es fundamental para la construcción de árboles de expansión mínima en grafos ponderados, y su eficiencia en términos de complejidad temporal es crucial para su aplicación en problemas de optimización. Este algoritmo comienza desde un nodo arbitrario y añade repetidamente la arista de menor peso que conecta un nodo del árbol en construcción a un nodo fuera del árbol, garantizando que se mantenga la propiedad de acíclico. Este enfoque voraz permite que Prim encuentre la solución óptima de manera eficiente, especialmente cuando se utilizan [[data-structures|estructuras de datos]] adecuadas.
+El algoritmo de Prim es fundamental para la construcción de árboles de expansión mínima en grafos ponderados, y su eficiencia en términos de complejidad temporal es crucial para su aplicación en problemas de optimización. Este algoritmo comienza desde un nodo arbitrario y añade repetidamente la arista de menor peso que conecta un nodo del árbol en construcción a un nodo fuera del árbol, garantizando que se mantenga la propiedad de acíclico. Este enfoque voraz permite que Prim encuentre la solución óptima de manera eficiente, especialmente cuando se utilizan [estructuras de datos](/blog/cs-fundamentals/data-structures) adecuadas.

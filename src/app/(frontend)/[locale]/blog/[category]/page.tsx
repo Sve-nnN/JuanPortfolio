@@ -174,6 +174,17 @@ export async function generateMetadata({
     locale,
   })
   const cat = categoryRes.docs[0]
+  // Some categories (e.g. "Development") have no SEO meta title, so the page
+  // title falls back to the bare category name — too short for Ahrefs. Provide
+  // a descriptive, brand-suffixed default when no explicit meta title exists. META-03.
+  if (cat && !(cat as { meta?: { title?: string } }).meta?.title) {
+    const suffix = locale === 'en' ? 'Technical blog | Juan Tech' : 'Blog técnico | Juan Tech'
+    const base = (cat as { title?: string }).title || 'Blog'
+    ;(cat as { meta?: { title?: string } }).meta = {
+      ...((cat as { meta?: Record<string, unknown> }).meta || {}),
+      title: `${base} | ${suffix}`,
+    }
+  }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return generateMeta({ doc: cat as any, locale, path: `/blog/${category}` })
 }

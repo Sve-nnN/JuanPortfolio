@@ -39,7 +39,7 @@ keyword: redaccion seo
 
 ---
 
-La redacción [[estrategia-seo|SEO]] se ha convertido en una habilidad esencial para quienes buscan destacar en el entorno digital. Comprender cómo optimizar tu contenido no solo mejora la visibilidad en los motores de búsqueda, sino que también proporciona valor real a tu audiencia.
+La redacción [SEO](/blog/seo/estrategia-seo) se ha convertido en una habilidad esencial para quienes buscan destacar en el entorno digital. Comprender cómo optimizar tu contenido no solo mejora la visibilidad en los motores de búsqueda, sino que también proporciona valor real a tu audiencia.
 
 A lo largo de este artículo, exploraremos las claves fundamentales para la redacción de textos SEO, desde la [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) hasta la estructura óptima del contenido. Sigamos adelante para descubrir cómo llevar tu [estrategia de contenido](https://juan-tech.com/blog/seo/estrategia-de-contenidos) al siguiente nivel.
 
@@ -47,7 +47,7 @@ A lo largo de este artículo, exploraremos las claves fundamentales para la reda
 
 ### Conceptos básicos y objetivos de la redacción SEO
 
-La redacción SEO, o Search Engine Optimization, se basa en un conjunto de prácticas que buscan mejorar la visibilidad de un sitio web en los motores de búsqueda. El objetivo principal es generar contenido que atraiga tráfico orgánico mediante la optimización para ciertas [[guia-keyword-research|palabras clave]]. A través de la redacción de textos SEO, se busca que el contenido no solo sea relevante y útil para los usuarios, sino que también cumpla con los criterios técnicos que los motores de búsqueda consideran para clasificar las páginas. Esto implica un enfoque en la calidad del contenido, la estructura adecuada y la optimización técnica, asegurando así que los artículos, entradas o páginas web ofrezcan valor y sean accesibles para ambos: usuarios y buscadores.
+La redacción SEO, o Search Engine Optimization, se basa en un conjunto de prácticas que buscan mejorar la visibilidad de un sitio web en los motores de búsqueda. El objetivo principal es generar contenido que atraiga tráfico orgánico mediante la optimización para ciertas [palabras clave](/blog/seo/guia-keyword-research). A través de la redacción de textos SEO, se busca que el contenido no solo sea relevante y útil para los usuarios, sino que también cumpla con los criterios técnicos que los motores de búsqueda consideran para clasificar las páginas. Esto implica un enfoque en la calidad del contenido, la estructura adecuada y la optimización técnica, asegurando así que los artículos, entradas o páginas web ofrezcan valor y sean accesibles para ambos: usuarios y buscadores.
 
 ### La importancia del contenido útil y centrado en el usuario
 
@@ -82,7 +82,7 @@ Una vez que se han recolectado las palabras clave, el siguiente paso es integrar
 
 ### Ubicación estratégica de palabras clave: títulos, subtítulos y metaetiquetas
 
-La ubicación de las palabras clave también juega un papel crucial en la optimización SEO. Algunos de los lugares estratégicos donde se deben incluir son:
+La ubicación de las palabras clave también juega un papel crucial en la [optimización SEO](https://juan-tech.com/blog/seo/canibalizacion-seo). Algunos de los lugares estratégicos donde se deben incluir son:
 
 -   **Títulos**: La palabra clave principal debe estar presente en el título del artículo, preferiblemente hacia el inicio.
 -   **Subtítulos**: Incluir palabras clave en los subtítulos ayuda tanto a la lectura como a la comprensión del tema que se aborda.
@@ -108,7 +108,7 @@ Las listas y viñetas son herramientas eficaces para presentar información de f
 
 ### Enlaces internos y externos: criterios y beneficios
 
-La incorporación de [[enlaces-internos-guia|enlaces internos]] y externos en los textos SEO es fundamental para mejorar la autoridad del contenido. Los enlaces internos facilitan la navegación dentro del sitio web y ayudan a los motores de búsqueda a entender la estructura del mismo. Por otro lado, los enlaces externos a fuentes confiables pueden aumentar la credibilidad de la información proporcionada. Es recomendable seleccionar enlaces que sean relevantes y útiles para el lector, evitando enlaces rotos o irrelevantes, lo que podría afectar negativamente la experiencia del usuario. La redacción de textos SEO debe, por tanto, integrar tanto enlaces internos como externos de manera estratégica para un impacto positivo en el rendimiento SEO.
+La incorporación de [enlaces internos](/blog/seo/enlaces-internos-guia) y externos en los textos SEO es fundamental para mejorar la autoridad del contenido. Los enlaces internos facilitan la navegación dentro del sitio web y ayudan a los motores de búsqueda a entender la estructura del mismo. Por otro lado, los enlaces externos a fuentes confiables pueden aumentar la credibilidad de la información proporcionada. Es recomendable seleccionar enlaces que sean relevantes y útiles para el lector, evitando enlaces rotos o irrelevantes, lo que podría afectar negativamente la experiencia del usuario. La redacción de textos SEO debe, por tanto, integrar tanto enlaces internos como externos de manera estratégica para un impacto positivo en el rendimiento SEO.
 
 ## Optimización técnica aplicada a la redacción SEO
 
@@ -120,11 +120,11 @@ Las metaetiquetas son elementos indispensables en cualquier estrategia de SEO. E
 
 ### Configuración y función del archivo Robots.txt
 
-El archivo [[robots-txt-best-practices|robots.txt]] es esencial para guiar a los motores de búsqueda sobre qué secciones de un sitio web deben o no deben ser rastreadas. Permite controlar el acceso a áreas que pueden ser irrelevantes para la redacción de textos SEO, como páginas duplicadas o contenido en desarrollo. Es importante estructurarlo de manera clara y precisa, además de mantenerlo actualizado cada vez que se cambien las secciones del sitio. Un manejo adecuado de este archivo puede mejorar significativamente la eficiencia del crawl budget, asegurando que los motores de búsqueda se enfoquen en el contenido más valioso.
+El archivo [robots.txt](/blog/general/robots-txt-best-practices) es esencial para guiar a los motores de búsqueda sobre qué secciones de un sitio web deben o no deben ser rastreadas. Permite controlar el acceso a áreas que pueden ser irrelevantes para la redacción de textos SEO, como páginas duplicadas o contenido en desarrollo. Es importante estructurarlo de manera clara y precisa, además de mantenerlo actualizado cada vez que se cambien las secciones del sitio. Un manejo adecuado de este archivo puede mejorar significativamente la eficiencia del crawl budget, asegurando que los motores de búsqueda se enfoquen en el contenido más valioso.
 
 ### Envío y mantenimiento de sitemaps para una mejor indexación
 
-Los sitemaps son mapas visuales del contenido de un sitio web, que facilitan la indexación por parte de los motores de búsqueda. Enviar un [[xml-sitemap-automation|sitemap XML]] XML actualizado ayuda a asegurar que todas las páginas importantes estén accesibles para ser rastreadas. Se recomienda verificar y mantener el sitemap regularmente, especialmente después de cualquier cambio significativo en la estructura del sitio o en la redacción de textos SEO. La inclusión de URLs con contenido de calidad es fundamental, ya que esto fortalece la autoridad del dominio y mejora las posibilidades de un mejor posicionamiento.
+Los sitemaps son mapas visuales del contenido de un sitio web, que facilitan la indexación por parte de los motores de búsqueda. Enviar un [sitemap XML](/blog/general/xml-sitemap-automation) XML actualizado ayuda a asegurar que todas las páginas importantes estén accesibles para ser rastreadas. Se recomienda verificar y mantener el sitemap regularmente, especialmente después de cualquier cambio significativo en la estructura del sitio o en la redacción de textos SEO. La inclusión de URLs con contenido de calidad es fundamental, ya que esto fortalece la autoridad del dominio y mejora las posibilidades de un mejor posicionamiento.
 
 ### Importancia y prácticas para la adaptabilidad móvil
 
@@ -132,7 +132,7 @@ Dada la creciente tendencia hacia la navegación móvil, asegurar que un sitio s
 
 ## Implementación de datos estructurados para mejorar la visibilidad
 
-La implementación de [[schema-markup-guide|datos estructurados]] es una estrategia crucial en la **redacción de textos SEO**, que permite a los motores de búsqueda interpretar el contenido de manera más efectiva. Estos datos proporcionan contexto adicional, ayudando a que el contenido sea más comprensible tanto para los algoritmos como para los usuarios. Utilizar datos estructurados no solo mejora la visibilidad en las SERPs, sino que también puede resultar en fragmentos enriquecidos, que aumentan la tasa de clics (CTR).
+La implementación de [datos estructurados](/blog/general/schema-markup-guide) es una estrategia crucial en la **redacción de textos SEO**, que permite a los motores de búsqueda interpretar el contenido de manera más efectiva. Estos datos proporcionan contexto adicional, ayudando a que el contenido sea más comprensible tanto para los algoritmos como para los usuarios. Utilizar datos estructurados no solo mejora la visibilidad en las SERPs, sino que también puede resultar en fragmentos enriquecidos, que aumentan la tasa de clics (CTR).
 
 ### Tipos de datos estructurados relevantes para contenido SEO
 
@@ -156,7 +156,7 @@ La implementación de marcado utilizando schema.org es un proceso relativamente 
 -   **Utilizar el vocabulario Schema.org:** Accede a la documentación de schema.org y elige el tipo de esquema acorde a tu contenido.
 -   **Agregar el marcado al HTML:** Inserta el código de marcado dentro del HTML de tu página. Se puede usar JSON-LD, Microdata o RDFa, siendo este último el más común.
 -   **Validar el marcado:** Emplea herramientas de prueba de datos estructurados para asegurarte de que el marcado se ha implementado correctamente.
--   **Monitorear resultados:** Usa [[guia-google-search-console|Google Search Console]] para observar cómo se están indexando y mostrando los datos estructurados en los resultados de búsqueda.
+-   **Monitorear resultados:** Usa [Google Search Console](/blog/seo/guia-google-search-console) para observar cómo se están indexando y mostrando los datos estructurados en los resultados de búsqueda.
 
 La implementación correcta de datos estructurados en la **redacción de textos SEO** se traduce en una experiencia más enriquecedora tanto para el usuario como para los motores de búsqueda. Al facilitar una mejor comprensión del contenido, estos datos son una parte esencial de cualquier [estrategia SEO](https://juan-tech.com/blog/seo/estrategia-seo) efectiva.
 
@@ -164,7 +164,7 @@ La implementación correcta de datos estructurados en la **redacción de textos 
 
 ### Cómo optimizar el contenido para Core Web Vitals
 
-La optimización para **[[core-web-vitals-guide|Core Web Vitals]]** es crucial en la redacción de textos SEO contemporánea, ya que estos indicadores de rendimiento afectan tanto la experiencia del usuario como el posicionamiento en motores de búsqueda. Para cumplir con los estándares de **Core Web Vitals**, es necesario asegurar que el contenido se cargue rápidamente, sea interactivo y esté visualmente estable. La optimización de imágenes, el uso de formatos modernos como WebP, y la implementación de técnicas como la compresión y el lazy loading son fundamentales. También es importante evitar el contenido que se carga de forma tardía o que causa cambios repentinos en el diseño, lo cual puede frustrar al usuario y aumentar la tasa de rebote.
+La optimización para **[Core Web Vitals](/blog/general/core-web-vitals-guide)** es crucial en la redacción de textos SEO contemporánea, ya que estos indicadores de rendimiento afectan tanto la experiencia del usuario como el posicionamiento en motores de búsqueda. Para cumplir con los estándares de **Core Web Vitals**, es necesario asegurar que el contenido se cargue rápidamente, sea interactivo y esté visualmente estable. La optimización de imágenes, el uso de formatos modernos como WebP, y la implementación de técnicas como la compresión y el lazy loading son fundamentales. También es importante evitar el contenido que se carga de forma tardía o que causa cambios repentinos en el diseño, lo cual puede frustrar al usuario y aumentar la tasa de rebote.
 
 ### Gestión del crawl budget mediante contenido bien estructurado
 
@@ -172,7 +172,7 @@ La gestión del **crawl budget** es otro aspecto fundamental en la **redacción 
 
 ### Integración de redacción SEO con arquitectura técnica de sitios (Next.js, PayloadCMS)
 
-La integración entre la redacción SEO y la arquitectura técnica de los sitios es un componente esencial para el éxito en SEO. En tecnologías como **[[nextjs-seo|Next.js SEO]]** y **PayloadCMS**, la generación de contenido se puede optimizar desde su creación para garantizar tiempos de carga eficientes y un renderizado adecuado. Al utilizar el **renderizado del lado del servidor** en **Next.js**, es posible entregar contenido dinámico de manera rápida, lo que mejora los tiempos de respuesta y puede impactar positivamente en las métricas de **Core Web Vitals**. Por otro lado, la flexibilidad de **PayloadCMS** permite una gestión eficaz de contenidos estructurados, facilitando la creación de páginas SEO-optimizadas que aprovechen al máximo las tácticas avanzadas de redacción de textos SEO.
+La integración entre la redacción SEO y la arquitectura técnica de los sitios es un componente esencial para el éxito en SEO. En tecnologías como **[Next.js SEO](/blog/tech-seo/nextjs-seo)** y **PayloadCMS**, la generación de contenido se puede optimizar desde su creación para garantizar tiempos de carga eficientes y un renderizado adecuado. Al utilizar el **renderizado del lado del servidor** en **Next.js**, es posible entregar contenido dinámico de manera rápida, lo que mejora los tiempos de respuesta y puede impactar positivamente en las métricas de **Core Web Vitals**. Por otro lado, la flexibilidad de **PayloadCMS** permite una gestión eficaz de contenidos estructurados, facilitando la creación de páginas SEO-optimizadas que aprovechen al máximo las tácticas avanzadas de redacción de textos SEO.
 
 ## Análisis y monitoreo del rendimiento del contenido SEO
 
@@ -191,7 +191,7 @@ Las métricas son fundamentales para entender el rendimiento del contenido. Algu
 
 Google Analytics y Google Search Console son herramientas potentes para el monitoreo del rendimiento del contenido SEO. Google Analytics permite acceder a información detallada sobre el tráfico del sitio web, incluyendo las fuentes de tráfico, comportamientos de los usuarios y conversiones. Por otro lado, Google Search Console proporciona datos sobre la visibilidad del sitio en los resultados de búsqueda, mostrando qué consultas generan impresiones y clics, así como información sobre la salud del sitio.
 
-Utilizar estas plataformas permite hacer un seguimiento en tiempo real del comportamiento del usuario, así como identificar problemas técnicos que podrían afectar el rendimiento del sitio. Analizar estos datos ofrece la posibilidad de tomar decisiones informadas para ajustar estrategias de **redacción de textos SEO**.
+Utilizar estas plataformas permite hacer un seguimiento en tiempo real del comportamiento del usuario, así como identificar [problemas técnicos](https://juan-tech.com/blog/seo/guia-google-search-console) que podrían afectar el rendimiento del sitio. Analizar estos datos ofrece la posibilidad de tomar decisiones informadas para ajustar estrategias de **redacción de textos SEO**.
 
 ### Ajustes basados en datos para mejorar el posicionamiento
 

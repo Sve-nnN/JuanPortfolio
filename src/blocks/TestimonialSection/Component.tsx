@@ -34,11 +34,12 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
             <div className="flex flex-col items-center gap-6">
               {authorImage && typeof authorImage === 'object' && authorImage.url && (
                 <div className="relative w-24 h-24 rounded-full overflow-hidden ring-8 ring-primary/10 mb-2 shadow-inner">
-                  <Image 
-                    src={authorImage.url} 
-                    alt={authorName || 'Author'} 
-                    fill 
-                    className="object-cover" 
+                  <Image
+                    src={authorImage.url}
+                    alt={authorName || 'Author'}
+                    fill
+                    className="object-cover"
+                    unoptimized={/\.(avif|webp)$/i.test(authorImage.url as string)}
                   />
                 </div>
               )}

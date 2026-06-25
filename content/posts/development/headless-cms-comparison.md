@@ -154,7 +154,7 @@ Como plataforma de código abierto, Strapi permite a los desarrolladores tener c
 
 ### Prismic: Experiencia para Equipos de Marketing
 
-Prismic se enfoca en proporcionar una experiencia de usuario intuitiva para equipos de marketing. Sus integraciones con frameworks populares como [[nextjs-portfolio|Next.js]] y Nuxt facilitan la construcción de sitios web centrados en contenido. A pesar de su facilidad de uso, el modelo de contenido puede ser menos flexible comparado con otras plataformas. También existen costos adicionales al gestionar múltiples proyectos, lo que puede afectar el presupuesto en equipos grandes.
+Prismic se enfoca en proporcionar una experiencia de usuario intuitiva para equipos de marketing. Sus integraciones con frameworks populares como Next.js y Nuxt facilitan la construcción de sitios web centrados en contenido. A pesar de su facilidad de uso, el modelo de contenido puede ser menos flexible comparado con otras plataformas. También existen costos adicionales al gestionar múltiples proyectos, lo que puede afectar el presupuesto en equipos grandes.
 
 ## Estrategias de Implementación y Mantenimiento
 
@@ -174,7 +174,7 @@ El autoalojamiento permite un control total sobre la infraestructura, pero impli
 
 ### Optimización para SEO y Rendimiento Web
 
-Implementar buenas prácticas de SEO desde el principio es esencial. Esto incluye la correcta configuración de metadatos, rutas y el uso apropiado de herramientas de análisis. Un rendimiento web óptimo, medido por Core Web Vitals, es también fundamental para mejorar la posición en los motores de búsqueda.
+Implementar buenas prácticas de SEO desde el principio es esencial. Esto incluye la correcta configuración de metadatos, rutas y el uso apropiado de herramientas de análisis. Un [rendimiento web](https://juan-tech.com/blog/development/hidratacion-web) óptimo, medido por Core Web Vitals, es también fundamental para mejorar la posición en los motores de búsqueda.
 
 La estructura de precios y los planes disponibles para las plataformas de Headless CMS son fundamentales para facilitar una correcta elección, dependiendo de las necesidades específicas de cada proyecto. A continuación se detalla los aspectos más relevantes a considerar.
 

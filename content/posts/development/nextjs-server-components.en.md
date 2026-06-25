@@ -39,7 +39,7 @@ tldr: >-
   zero-bundle JavaScript to the client by default.
 uploaded: false
 ---
-[[nextjs-portfolio|Next.js]] Server Components are revolutionizing the way we build web applications by enabling server-side rendering that enhances performance and search engine optimization. This article explores how server components nextjs work and their benefits in modern web development.
+Next.js Server Components are revolutionizing the way we build web applications by enabling server-side rendering that enhances performance and search engine optimization. This article explores how server components nextjs work and their benefits in modern web development.
 
 By integrating server components into your Next.js applications, you can significantly improve load times and streamline data handling while maintaining a clean codebase. Join us as we delve into the core concepts and practical advantages of adopting this powerful feature.
 
@@ -118,5 +118,5 @@ This bifurcation not only leads to enhanced maintainability but also allows team
 
 ## See Also
 
-- [Payload CMS Tutorial 2026: Architecting Enterprise Backends](https://juan-tech.com/en/blog/development/payloadcms-tutorial)
-- [Payload CMS vs Strapi 2026: The Technical Showdown](https://juan-tech.com/en/blog/development/payloadcms-vs-strapi)
+- Payload CMS Tutorial 2026: Architecting Enterprise Backends
+- Payload CMS vs Strapi 2026: The Technical Showdown

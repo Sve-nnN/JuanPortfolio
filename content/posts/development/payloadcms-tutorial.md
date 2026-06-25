@@ -19,7 +19,9 @@ tldr: >-
   En este tutorial aprenderás a definir colecciones, campos personalizados y
   hooks de servidor para construir backends robustos y escalables.
 metaTitle: 'Tutorial de Payload CMS 2026: guía paso a paso desde cero'
-metaDescription: 'Tutorial de Payload CMS paso a paso: instala el CMS, define colecciones, campos y hooks, e intégralo con Next.js para construir un backend escalable.'
+metaDescription: >-
+  Tutorial de Payload CMS paso a paso: instala el CMS, define colecciones,
+  campos y hooks, e intégralo con Next.js para construir un backend escalable.
 primary_keywords:
   - payloadcms tutorial
   - cms para desarrolladores
@@ -44,7 +46,7 @@ Whether you're a developer, a technical SEO, or a business owner, this guide aim
 
 ## Getting Started with Payload CMS
 
-[[payload-cms-guide|Payload CMS]] is a headless content management system that allows developers to build flexible and powerful web applications. Its modern architecture and user-friendly interface make it an excellent choice for projects requiring a customizable content management solution. This section covers the foundational aspects necessary for getting started with Payload CMS, including an understanding of its architecture and the steps to set up your first project.
+[Payload CMS](/blog/development/payload-cms-guide) is a headless content management system that allows developers to build flexible and powerful web applications. Its modern architecture and user-friendly interface make it an excellent choice for projects requiring a customizable content management solution. This section covers the foundational aspects necessary for getting started with Payload CMS, including an understanding of its architecture and the steps to set up your first project.
 
 ### Understanding Payload CMS Architecture
 
@@ -54,7 +56,7 @@ Payload leverages a simple yet robust REST API, which facilitates smooth communi
 
 ### Setting Up Your First Payload Project
 
-Initial setup of a Payload CMS project is straightforward, making it accessible even for those new to [[headless-cms-comparison|Headless CMS]] solutions. To get started, follow these key steps:
+Initial setup of a Payload CMS project is straightforward, making it accessible even for those new to [Headless CMS](/blog/development/headless-cms-comparison) solutions. To get started, follow these key steps:
 
 -   **Install Node.js:** Ensure you have Node.js installed in your environment, as it is the underlying technology for Payload.
 -   **Create a New Project:** Utilize the command line to create a new directory for your project and navigate into it.
@@ -97,7 +99,7 @@ Payload CMS provides a robust platform for managing content seamlessly. The core
 
 ### Integrating Payload with Frontend Frameworks
 
-Payload CMS excels in its ability to integrate smoothly with modern frontend frameworks such as React, Vue, and [[nextjs-portfolio|Next.js]]. This flexibility allows developers to utilize Payload as a headless CMS, delivering content seamlessly to any frontend application. The API-first approach means that developers can fetch data from Payload using a GraphQL or RESTful API, enabling dynamic content delivery that enhances the user experience. By leveraging these integrations, teams can build highly responsive applications while maintaining a streamlined content management process on the backend.
+Payload CMS excels in its ability to integrate smoothly with modern frontend frameworks such as React, Vue, and Next.js. This flexibility allows developers to utilize Payload as a headless CMS, delivering content seamlessly to any frontend application. The API-first approach means that developers can fetch data from Payload using a GraphQL or RESTful API, enabling dynamic content delivery that enhances the user experience. By leveraging these integrations, teams can build highly responsive applications while maintaining a streamlined content management process on the backend.
 
 ### Deployment and Best Practices
 
@@ -114,8 +116,13 @@ Adhering to these best practices can significantly enhance the reliability and p
 
 ## Ver también
 
-- [Cómo Crear un Portfolio con Next.js 2026: Guía Completa](https://juan-tech.com/blog/development/nextjs-portfolio)
-- [Next.js Server Components 2026: Guía Maestra de Arquitectura](https://juan-tech.com/blog/development/nextjs-server-components)
-- [SEO en Payload CMS 2026: Guía de Configuración Técnica](https://juan-tech.com/blog/development/payloadcms-seo)
-- [Payload CMS vs Strapi 2026: ¿Cuál es el mejor Headless?](https://juan-tech.com/blog/development/payloadcms-vs-strapi)
-- [Mejores Prácticas de TypeScript 2026: Guía para Profesionales](https://juan-tech.com/blog/development/typescript-best-practices)
+- Cómo Crear un Portfolio con Next.js 2026: Guía Completa
+- Next.js Server Components 2026: Guía Maestra de Arquitectura
+- SEO en Payload CMS 2026: Guía de Configuración Técnica
+- Payload CMS vs Strapi 2026: ¿Cuál es el mejor Headless?
+- Mejores Prácticas de TypeScript 2026: Guía para Profesionales
+- Cómo Crear un Portfolio con Next.js 2026: Guía Completa
+- Next.js Server Components 2026: Guía Maestra de Arquitectura
+- SEO en Payload CMS 2026: Guía de Configuración Técnica
+- Payload CMS vs Strapi 2026: ¿Cuál es el mejor Headless?
+- Mejores Prácticas de TypeScript 2026: Guía para Profesionales

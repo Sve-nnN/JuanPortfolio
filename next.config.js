@@ -53,6 +53,15 @@ const nextConfig = {
       { source: '/en/posts/:path*', destination: '/en/blog/:path*', permanent: true },
     ]
 
+    // Singular /author/:slug is a duplicate of the canonical plural
+    // /authors/:slug (the form used by JSON-LD, bylines and the sitemap). The
+    // singular route emitted canonical=homepage and was indexable but absent
+    // from the sitemap. Consolidate it to the plural with a 301. INDEX-02.
+    const authorRedirects = [
+      { source: '/author/:slug', destination: '/authors/:slug', permanent: true },
+      { source: '/en/author/:slug', destination: '/en/authors/:slug', permanent: true },
+    ]
+
     // www → non-www redirect (Vercel handles http→https natively)
     const wwwRedirects = [
       {
@@ -70,6 +79,7 @@ const nextConfig = {
       sitemapRedirect,
       ...singularSitemapRedirects,
       ...postsRedirects,
+      ...authorRedirects,
     ]
   },
   images: {

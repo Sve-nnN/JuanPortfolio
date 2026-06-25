@@ -38,6 +38,19 @@ const queryPostsByAuthor = async (authorId: string, locale?: 'en' | 'es') => {
     },
     sort: '-publishedAt',
     locale,
+    // The author page only renders post Cards (title, slug, categories). Without
+    // an explicit select, Payload returns the full Lexical `content` of all 50
+    // posts, inflating the RSC payload to ~2.3 MB and tripping Googlebot's 2 MB
+    // crawl limit. Fetch only what the Card needs. PERF-01.
+    depth: 1,
+    select: {
+      slug: true,
+      title: true,
+      categories: true,
+      meta: true,
+      heroImage: true,
+      publishedAt: true,
+    },
   })
   return res.docs || []
 }

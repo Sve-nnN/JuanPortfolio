@@ -92,7 +92,11 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   heading: ({ node, nodesToJSX }) => {
     const text = (node.children as TextLikeNode[]).map(extractText).join('')
     const id = slugify(text)
-    const Tag = node.tag
+    // The page template (PostHero) owns the single <h1>. Any h1 inside the
+    // body — e.g. a leading "# Title" carried over from the markdown — is
+    // demoted to h2 so each page has exactly one h1. Fixes "Multiple H1
+    // tags" across ~22 posts. META-02.
+    const Tag = node.tag === 'h1' ? 'h2' : node.tag
     return (
       <Tag id={id} className={`scroll-mt-32`}>
         {nodesToJSX({

@@ -23,13 +23,13 @@ tldr: 'Explora las pilas y colas en Python, comprendiendo sus principios LIFO y 
 ---
 
 
-Las [[pilas-y-colas|pilas y colas]] son estructuras de datos esenciales en Python, fundamentales para la organización y manejo eficiente de la información. A través de este artículo, exploraremos sus conceptos, características y las implementaciones prácticas en el lenguaje de programación.
+Las [pilas y colas](/blog/cs-fundamentals/pilas-y-colas) son [estructuras de datos esenciales](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) en Python, fundamentales para la organización y manejo eficiente de la información. A través de este artículo, exploraremos sus conceptos, características y las implementaciones prácticas en el lenguaje de programación.
 
 Entender los principios LIFO y FIFO que rigen estas estructuras nos permitirá aprovechar su funcionalidad en diversos contextos, optimizando así el rendimiento de nuestras aplicaciones. Profundicemos en su relevancia en el desarrollo de software.
 
 ## Pilas y colas: estructuras de datos fundamentales en Python
 
-Las pilas y colas son estructuras de datos esenciales en la programación, destacándose por su simplicidad y eficiencia en el manejo y organización de colecciones de elementos. Dentro del contexto de Python, estas estructuras permiten realizar operaciones específicas que optimizan la gestión de datos en diversos algoritmos y aplicaciones.
+Las pilas y colas son [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) esenciales en la programación, destacándose por su simplicidad y eficiencia en el manejo y organización de colecciones de elementos. Dentro del contexto de Python, estas estructuras permiten realizar operaciones específicas que optimizan la gestión de datos en diversos algoritmos y aplicaciones.
 
 ### Concepto y características de las pilas
 

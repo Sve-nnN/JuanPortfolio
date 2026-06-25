@@ -19,7 +19,9 @@ tldr: >-
   sencilla conceptos como la indexación, la velocidad de carga y el marcado de
   datos para que tomes el control de tu web.
 metaTitle: 'SEO Técnico para No Programadores: Guía Sin Código'
-metaDescription: 'SEO técnico explicado para perfiles no técnicos: entiende rastreo, indexación y velocidad, y qué pedirle a tu programador para optimizar tu web en 2026.'
+metaDescription: >-
+  SEO técnico explicado para perfiles no técnicos: entiende rastreo, indexación
+  y velocidad, y qué pedirle a tu programador para optimizar tu web en 2026.
 primary_keywords:
   - non developers guide
   - seo técnico básico
@@ -105,7 +107,7 @@ Leer y utilizar documentación técnica puede ser un desafío, especialmente par
 
 ### Técnicas para encontrar información relevante rápidamente
 
-Una de las habilidades más importantes al interactuar con documentación técnica es la capacidad de encontrar rápidamente la información necesaria. Una técnica eficaz consiste en utilizar la función de búsqueda del documento o del sitio web. Al introducir [[guia-keyword-research|palabras clave]] relevantes, se puede acceder a secciones específicas sin necesidad de leer toda la documentación. Además, se recomienda:
+Una de las habilidades más importantes al interactuar con documentación técnica es la capacidad de encontrar rápidamente la información necesaria. Una técnica eficaz consiste en utilizar la función de búsqueda del documento o del sitio web. Al introducir [palabras clave](/blog/seo/guia-keyword-research) relevantes, se puede acceder a secciones específicas sin necesidad de leer toda la documentación. Además, se recomienda:
 
 -   Utilizar términos específicos relacionados con el problema que se está intentando resolver.
 -   Familiarizarse con la tabla de contenido, ya que proporciona una visión general de la estructura del documento.
@@ -196,4 +198,4 @@ En resumen, el futuro de la documentación técnica se orienta hacia un enfoque 
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

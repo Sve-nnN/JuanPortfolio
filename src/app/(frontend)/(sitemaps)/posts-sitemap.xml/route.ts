@@ -25,6 +25,11 @@ const getPostsSitemap = unstable_cache(
           _status: {
             equals: 'published',
           },
+          // Never list noindex posts in the sitemap — a noindex URL in the
+          // sitemap is contradictory and Ahrefs flags it. INDEX-01.
+          noindex: {
+            not_equals: true,
+          },
         },
         select: {
           slug: true,

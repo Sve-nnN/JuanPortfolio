@@ -27,7 +27,7 @@ semantic_keywords:
   - elementos balanceadamente repartidos
 keyword: quicksort python
 ---
-Quicksort es un algoritmo eficiente para ordenar listas en Python. Utiliza el método de dividir y conquistar, organizando los elementos mediante un pivote y particiones. Este artículo explorará su implementación, análisis de complejidad y comparaciones con otros [algoritmos de ordenamiento](https://juan-tech.com/blog/cs-fundamentals/algoritmos-ordenamiento). Se presentarán ejemplos y mejores prácticas para optimizar su rendimiento en diversas situaciones.
+Quicksort es un [algoritmo](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) eficiente para ordenar listas en Python. Utiliza el método de dividir y conquistar, organizando los elementos mediante un pivote y particiones. Este artículo explorará su implementación, análisis de complejidad y comparaciones con otros [algoritmos de ordenamiento](https://juan-tech.com/blog/cs-fundamentals/algoritmos-ordenamiento). Se presentarán ejemplos y mejores prácticas para optimizar su rendimiento en diversas situaciones.
 
 ## Comprendiendo el algoritmo quicksort en python
 
@@ -47,7 +47,7 @@ Durante la partición, se reorganizan los elementos de la lista. Los que son men
 
 ### Recursión y caso base en quicksort python
 
-La recursión es un aspecto vital del algoritmo. Permite que quicksort aplique su lógica a sublistas hasta alcanzar el caso base.
+La recursión es un aspecto vital del algoritmo. Permite que quicksort aplique su lógica a sublistas hasta alcanzar el [caso base](https://juan-tech.com/blog/cs-fundamentals/recursividad).
 
 #### División del array en sub listas
 
@@ -129,7 +129,7 @@ A pesar de sus ventajas, quicksort también tiene limitaciones. En listas extrem
 
 ## Comparativa entre quicksort y otros algoritmos de ordenamiento en python
 
-Analizar cómo quicksort se compara con otros [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] de ordenamiento es esencial para entender sus ventajas y desventajas en diferentes contextos.
+Analizar cómo quicksort se compara con otros [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) de ordenamiento es esencial para entender sus ventajas y desventajas en diferentes contextos.
 
 ### Diferencias clave con mergesort
 
@@ -207,7 +207,7 @@ El algoritmo de ordenamiento tiene diversas aplicaciones en situaciones que requ
 
 Quicksort muestra su fortaleza al trabajar con grandes conjuntos de datos, principalmente en aplicaciones donde la velocidad es crucial. Por ejemplo:
 
--   Análisis de registros clientes en [[diseno-bases-datos|diseño de bases de datos]] de comercio electrónico.
+-   Análisis de registros clientes en [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) de comercio electrónico.
 -   Clasificación de información en análisis de datos financieros.
 -   Procesamiento de grandes volúmenes de datos científicos, como imágenes o secuencias genómicas.
 

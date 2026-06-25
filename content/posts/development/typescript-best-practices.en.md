@@ -124,6 +124,6 @@ By following these security best practices, developers can build TypeScript appl
 
 ## See Also
 
-- [Payload CMS Tutorial 2026: Architecting Enterprise Backends](https://juan-tech.com/en/blog/development/payloadcms-tutorial)
-- [SEO in Payload CMS 2026: Complete Configuration](https://juan-tech.com/en/blog/development/payloadcms-seo)
-- [Next.js Server Components 2026: Architecture and Performance](https://juan-tech.com/en/blog/development/nextjs-server-components)
+- Payload CMS Tutorial 2026: Architecting Enterprise Backends
+- SEO in Payload CMS 2026: Complete Configuration
+- Next.js Server Components 2026: Architecture and Performance

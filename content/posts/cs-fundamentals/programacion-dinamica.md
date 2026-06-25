@@ -39,7 +39,7 @@ semantic_keywords:
   - recursión optimizada
 keyword: programacion dinamica
 ---
-¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un algoritmo específico, sino de una **metodología de diseño de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]]** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
+¿Alguna vez te has enfrentado a un problema tan grande que no sabías por dónde empezar? O peor aún, ¿resolviste un subproblema solo para darte cuenta de que tenías que resolverlo una y otra vez? La programación dinámica (PD) es una poderosa técnica que nos enseña a abordar estos desafíos de manera inteligente y eficiente. No se trata de un [algoritmo](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) específico, sino de una **metodología de diseño de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos)** que permite transformar soluciones recursivas ineficientes en soluciones óptimas, tanto en tiempo como en espacio.
 
 Esta técnica es fundamental en campos que van desde la informática, con aplicaciones en optimización de rutas, inteligencia artificial y procesamiento de datos, hasta la economía, la biología y la ingeniería. Su esencia radica en una observación simple pero profunda: muchos problemas complejos tienen estructuras que se repiten y soluciones óptimas que pueden construirse a partir de componentes más pequeños.
 
@@ -71,7 +71,7 @@ Por ejemplo, para calcular la N-ésima secuencia de Fibonacci, la relación recu
 
 Aquí es donde los fundamentos teóricos se convierten en técnicas prácticas:
 
-*   **Memoización (Top-Down):** Es una estrategia que combina la recursión con el almacenamiento de resultados. Cuando un subproblema se resuelve por primera vez, su resultado se guarda (se "memoiza"). Si el mismo subproblema se encuentra de nuevo, el valor almacenado se devuelve directamente, evitando el recálculo. Piensa en esto como una caché para tus funciones recursivas.
+*   **Memoización (Top-Down):** Es una estrategia que combina la recursión con el almacenamiento de resultados. Cuando un subproblema se resuelve por primera vez, su resultado se guarda (se "memoiza"). Si el mismo subproblema se encuentra de nuevo, el valor almacenado se devuelve directamente, evitando el recálculo. Piensa en esto como una caché para tus [funciones recursivas](https://juan-tech.com/blog/cs-fundamentals/recursividad).
 *   **Tabulación (Bottom-Up):** Implica resolver los subproblemas en un orden específico (usualmente de menor a mayor tamaño/complejidad) y almacenar sus resultados en una tabla (generalmente un array o matriz). Los problemas más grandes se resuelven utilizando los resultados ya computados de los subproblemas más pequeños. Es un enfoque iterativo que construye la solución final "desde abajo hacia arriba".
 
 ## Algoritmos Clásicos y Aplicaciones Comunes

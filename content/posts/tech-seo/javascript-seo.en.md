@@ -41,7 +41,7 @@ Search engines, like Google, rely on bots (often called crawlers or spiders) to 
 2. **Crawlability**: Search engines must effectively crawl and index content rendered by JavaScript.
 3. **Content Visibility**: If JavaScript content isn't properly optimized, it might not appear in search results.
 
-Understanding these challenges is the first step in implementing [[javascript-seo-guia|JavaScript SEO]] best practices.
+Understanding these challenges is the first step in implementing JavaScript SEO best practices.
 
 ## Best Practices for JavaScript SEO
 

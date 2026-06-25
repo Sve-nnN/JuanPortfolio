@@ -23,7 +23,7 @@ tldr: 'La hidratación web transforma HTML estático en dinámico, mejorando la 
 ---
 
 
-La [[hidratacion-web|hidratación web]] es un proceso fundamental en el desarrollo de aplicaciones interactivas, ya que transforma el HTML estático en contenido dinámico. En este artículo, abordaremos qué es la hidratación y cómo se lleva a cabo, así como los desafíos que enfrenta durante su implementación.
+La [hidratación web](/blog/development/hidratacion-web) es un proceso fundamental en el desarrollo de aplicaciones interactivas, ya que transforma el HTML estático en contenido dinámico. En este artículo, abordaremos qué es la hidratación y cómo se lleva a cabo, así como los desafíos que enfrenta durante su implementación.
 
 A medida que exploramos este tema, entenderemos la importancia de la hidratación y sus implicaciones en el rendimiento de las aplicaciones, lo que resulta clave para ofrecer una experiencia de usuario fluida y eficiente.
 

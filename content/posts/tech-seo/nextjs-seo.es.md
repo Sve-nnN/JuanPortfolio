@@ -27,7 +27,7 @@ semantic_keywords:
   - comportamiento usuarios implementar
 keyword: nextjs seo
 ---
-Next.js se ha convertido en una herramienta clave para mejorar el [[estrategia-seo|SEO]] de los sitios web. Su capacidad para renderizar contenido de manera eficiente permite optimizar el rendimiento y facilitar la indexación por parte de los motores de búsqueda. Este artículo explora los fundamentos del SEO en Next.js, las ventajas que ofrece y las estrategias técnicas que se pueden implementar. Se abordarán desde técnicas de renderizado hasta la optimización de recursos, asegurando una mejor visibilidad en línea.
+Next.js se ha convertido en una herramienta clave para mejorar el [SEO](/blog/seo/estrategia-seo) de los sitios web. Su capacidad para renderizar contenido de manera eficiente permite optimizar el rendimiento y facilitar la indexación por parte de los motores de búsqueda. Este artículo explora los fundamentos del SEO en Next.js, las ventajas que ofrece y las estrategias técnicas que se pueden implementar. Se abordarán desde técnicas de renderizado hasta la optimización de recursos, asegurando una mejor visibilidad en línea.
 
 ## SEO en Next.js: Fundamentos y ventajas para tu sitio web
 
@@ -39,7 +39,7 @@ Un buen posicionamiento en buscadores es fundamental para atraer tráfico orgán
 
 ### Cómo Next.js potencia la optimización SEO
 
-Next.js facilita la optimización SEO debido a sus capacidades de renderizado. Los frameworks que permiten el **Server-Side Rendering ([[ssr-vs-csr-seo|SSR vs CSR]])** garantizan que las páginas se entreguen como HTML completo, lo que ayuda a que los motores de búsqueda indexen el contenido de manera más eficiente. Esto se traduce en tiempos de carga reducidos y un mejor desempeño en métricas clave.
+Next.js facilita la optimización SEO debido a sus capacidades de renderizado. Los frameworks que permiten el **Server-Side Rendering ([SSR vs CSR](/blog/general/ssr-vs-csr-seo))** garantizan que las páginas se entreguen como HTML completo, lo que ayuda a que los motores de búsqueda indexen el contenido de manera más eficiente. Esto se traduce en tiempos de carga reducidos y un mejor desempeño en métricas clave.
 
 ### Diferencias clave entre Next.js y otras tecnologías para SEO
 
@@ -47,7 +47,7 @@ A diferencia de otros frameworks, Next.js ofrece beneficios únicos en el ámbit
 
 -   Soporte robusto para **Static Site Generation (SSG)**, creando páginas optimizadas que se cargan rápidamente.
 -   Funciones integradas para la gestión de metadatos, mejorando el control sobre cómo se presenta el contenido en los resultados de búsqueda.
--   Facilidad para implementar **JSON-LD** y [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide), lo que facilita que los motores de búsqueda comprendan mejor el contenido.
+-   Facilidad para implementar **[JSON-LD](/blog/general/schema-markup-guide)** y [datos estructurados](/blog/general/schema-markup-guide), lo que facilita que los motores de búsqueda comprendan mejor el contenido.
 
 ## Estrategias de renderizado para mejorar el ranking
 
@@ -55,7 +55,7 @@ Las técnicas de renderizado son fundamentales para optimizar la SEO, ya que inf
 
 ### Generación estática de sitios (SSG) y su impacto en el SEO
 
-La generación estática de sitios permite que el contenido se pre-renderice durante la construcción del sitio. Esto resulta en un HTML completo que se entrega a los usuarios sin retrasos, lo que mejora la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la experiencia del usuario. Una página que carga rápidamente aumenta la probabilidad de ser bien posicionada en los resultados de búsqueda.
+La generación estática de sitios permite que el contenido se pre-renderice durante la construcción del sitio. Esto resulta en un HTML completo que se entrega a los usuarios sin retrasos, lo que mejora la [velocidad de carga](/blog/general/web-performance-guide) y la experiencia del usuario. Una página que carga rápidamente aumenta la probabilidad de ser bien posicionada en los resultados de búsqueda.
 
 ### Renderizado del lado servidor (SSR) para contenido dinámico
 
@@ -83,11 +83,11 @@ Es crucial que cada título y descripción se ajusten al contenido específico, 
 
 #### Uso adecuado de palabras clave y keywords
 
-La selección de [[guia-keyword-research|palabras clave]] debe ser estratégica, asegurando que reflejen las intenciones de búsqueda del público objetivo. Incorporar estas keywords de forma natural en el contenido incrementa la relevancia de la página.
+La selección de [palabras clave](/blog/seo/guia-keyword-research) debe ser estratégica, asegurando que reflejen las intenciones de búsqueda del público objetivo. Incorporar estas keywords de forma natural en el contenido incrementa la relevancia de la página.
 
 ### Implementación de datos estructurados con JSON-LD
 
-Los [[schema-markup-guide|datos estructurados]] facilitan a los motores de búsqueda la comprensión del contenido, optimizando su presentación.
+Los [datos estructurados](/blog/general/schema-markup-guide) facilitan a los motores de búsqueda la comprensión del contenido, optimizando su presentación.
 
 #### Schema para productos y artículos
 
@@ -99,7 +99,7 @@ La implementación de datos estructurados para eventos ayuda a resaltar informac
 
 ### Configuración y optimización de sitemap XML
 
-Un [[xml-sitemap-automation|sitemap XML]] XML es un mapa que guía a los motores de búsqueda por las páginas más importantes del sitio, facilitando su indexación.
+Un [sitemap XML](/blog/general/xml-sitemap-automation) XML es un mapa que guía a los motores de búsqueda por las páginas más importantes del sitio, facilitando su indexación.
 
 ### Uso correcto y configuración de robots.txt
 
@@ -107,11 +107,11 @@ Este archivo permite controlar qué partes del sitio se deben rastrear o ignorar
 
 ## Mejora del rendimiento web y Core Web Vitals
 
-La optimización del [[web-performance-guide|rendimiento web]] es esencial para cualquier aplicación. Los [[core-web-vitals-guide|Core Web Vitals]] son indicadores clave que reflejan cómo los usuarios experimentan un sitio web. Mejorar estas métricas es vital para el SEO y la satisfacción del usuario.
+La optimización del [rendimiento web](/blog/general/web-performance-guide) es esencial para cualquier aplicación. Los [Core Web Vitals](/blog/general/core-web-vitals-guide) son indicadores clave que reflejan cómo los usuarios experimentan un sitio web. Mejorar estas métricas es vital para el SEO y la satisfacción del usuario.
 
 ### Impacto de Largest Contentful Paint (LCP) en la experiencia
 
-Largest Contentful Paint mide el tiempo que tarda en aparecer el contenido más grande visible en la pantalla. Un LCP rápido garantiza que los usuarios perciban que el sitio carga con eficiencia. Mejores tiempos de LCP contribuyen a una experiencia positiva, aumentando las posibilidades de retención y conversión.
+[Largest Contentful Paint](/blog/general/core-web-vitals-guide) mide el tiempo que tarda en aparecer el contenido más grande visible en la pantalla. Un LCP rápido garantiza que los usuarios perciban que el sitio carga con eficiencia. Mejores tiempos de LCP contribuyen a una experiencia positiva, aumentando las posibilidades de retención y conversión.
 
 ### First Input Delay (FID) y su relación con la interactividad
 
@@ -119,7 +119,7 @@ Esta métrica evalúa el tiempo que transcurre desde que un usuario interactúa 
 
 ### Minimización de Cumulative Layout Shift (CLS)
 
-Cumulative Layout Shift mide la estabilidad visual de una página al cargarse. Un CLS bajo significa que los elementos no se moverán mientras se carga el contenido. Minimizar estos cambios mejora la experiencia del usuario, evitando frustraciones y clics accidentales.
+[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) mide la estabilidad visual de una página al cargarse. Un CLS bajo significa que los elementos no se moverán mientras se carga el contenido. Minimizar estos cambios mejora la experiencia del usuario, evitando frustraciones y clics accidentales.
 
 ### Código dividido y agrupación de módulos para optimizar la carga
 
@@ -131,7 +131,7 @@ La optimización de recursos y la experiencia del usuario son cruciales para mej
 
 ### Optimización avanzada de imágenes en Next.js
 
-Las imágenes son elementos vitales, pero también pueden ser una carga significativa en el tiempo de carga. En Next.js, se pueden implementar varias técnicas para optimizar las imágenes, tales como:
+Las imágenes son elementos vitales, pero también pueden ser una carga significativa en el [tiempo de carga](/blog/general/web-performance-guide). En Next.js, se pueden implementar varias técnicas para optimizar las imágenes, tales como:
 
 -   Comprimir imágenes sin sacrificar calidad.
 -   Usar formatos modernos como WebP.
@@ -155,7 +155,7 @@ El diseño accesible no solo mejora la experiencia de los usuarios, sino que tam
 
 ## Estrategias de enlaces y estructura interna para SEO
 
-La implementación de estrategias de enlaces y una estructura interna adecuada es fundamental para una optimización efectiva del SEO. Esta sección aborda aspectos clave relacionados con los [[enlaces-internos-guia|enlaces internos]], la arquitectura lógica y las URLs canónicas.
+La implementación de estrategias de enlaces y una estructura interna adecuada es fundamental para una optimización efectiva del SEO. Esta sección aborda aspectos clave relacionados con los [enlaces internos](/blog/seo/enlaces-internos-guia), la arquitectura lógica y las URLs canónicas.
 
 ### Importancia de los enlaces internos para la indexación
 
@@ -177,7 +177,7 @@ El monitoreo constante y el análisis son fundamentales para mantener y mejorar 
 
 Contar con herramientas adecuadas permite medir y analizar el rendimiento de manera efectiva. Algunas de las más reconocidas en la industria incluyen:
 
--   [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)
+-   [Google Search Console](/blog/general/xml-sitemap-automation)
 -   Google Analytics
 -   Semrush
 -   Ahrefs

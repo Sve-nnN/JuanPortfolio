@@ -17,12 +17,15 @@ export async function generateMetadata({
   const base = getServerSideURL()
   const canonical = locale === 'en' ? `${base}/en/privacy` : `${base}/privacy`
 
+  const title = locale === 'en' ? 'Privacy Policy — Juan Carlos Angulo' : 'Política de Privacidad — Juan Carlos Angulo'
+  const description =
+    locale === 'en'
+      ? 'How this website collects, uses, and protects your personal data.'
+      : 'Cómo este sitio web recopila, usa y protege tus datos personales.'
+
   return {
-    title: locale === 'en' ? 'Privacy Policy — Juan Carlos Angulo' : 'Política de Privacidad — Juan Carlos Angulo',
-    description:
-      locale === 'en'
-        ? 'How this website collects, uses, and protects your personal data.'
-        : 'Cómo este sitio web recopila, usa y protege tus datos personales.',
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
@@ -30,6 +33,14 @@ export async function generateMetadata({
         en: `${base}/en/privacy`,
         'x-default': `${base}/privacy`,
       },
+    },
+    // The root layout supplies a default openGraph object without a title, so
+    // child pages that don't set one emit no og:title (Ahrefs flags the OG as
+    // incomplete). Provide og:title + og:url per page. META-04.
+    openGraph: {
+      title,
+      description,
+      url: canonical,
     },
   }
 }

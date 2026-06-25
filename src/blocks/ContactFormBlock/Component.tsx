@@ -78,9 +78,11 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale
                     </span>
                   )}
                   {title && (
-                    <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
+                    // This is the primary heading of the /contact page, so it
+                    // must be the page's single <h1> (the page had none). META-02.
+                    <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
                       {title}
-                    </h2>
+                    </h1>
                   )}
                   {description && (
                     <p className="text-xl text-muted-foreground mb-12 leading-relaxed font-medium">

@@ -27,7 +27,7 @@ semantic_keywords:
   - operations functionality particularly
 keyword: nextjs cms
 ---
-[[nextjs-portfolio|Next.js]] CMS represents a powerful intersection of advanced web frameworks and content management systems. By leveraging Next.js with a [[headless-cms-comparison|Headless CMS]] like Strapi, developers can create dynamic, efficient, and SEO-friendly applications.
+Next.js CMS represents a powerful intersection of advanced web frameworks and content management systems. By leveraging Next.js with a [Headless CMS](/en/blog/development/headless-cms-comparison) like Strapi, developers can create dynamic, efficient, and SEO-friendly applications.
 
 This article explores the capabilities of Next.js, the fundamentals of Strapi, and their seamless integration, while also addressing insights found in Next.js CMS Reddit discussions for a comprehensive understanding.
 
@@ -72,7 +72,7 @@ One of Strapi's standout features is its ability to generate customizable APIs e
 Strapi provides a streamlined content management workflow that enhances collaboration among teams. Its robust capabilities allow content creators to manage and localize content effectively, supporting a variety of languages. Key aspects of this workflow include:
 
 -   Easy content creation and editing within a user-friendly interface.
--   [Version](https://juan-tech.com/en/blog/development/payloadcms-seo) control features that help track changes.
+-   Version control features that help track changes.
 -   Multi-language support for localization, increasing accessibility across different markets.
 
 ### Plugin Ecosystem and Integrations

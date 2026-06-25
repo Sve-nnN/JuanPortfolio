@@ -32,9 +32,9 @@ semantic_keywords:
 
 # Technical Seo Checklist: complete practical guide
 
-La optimización técnica para motores de búsqueda es esencial para garantizar que tu sitio web esté bien posicionado y sea fácilmente accesible para los usuarios. En este artículo, te presentaré una lista de verificación del [[technical-seo-guide|SEO técnico]] que te guiará en diez pasos clave para mejorar tu sitio web.
+La optimización técnica para motores de búsqueda es esencial para garantizar que tu sitio web esté bien posicionado y sea fácilmente accesible para los usuarios. En este artículo, te presentaré una lista de verificación del [SEO técnico](/blog/tech-seo/technical-seo-guide) que te guiará en diez pasos clave para mejorar tu sitio web.
 
-Desde la implementación de HTTPS hasta la optimización de la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), cada uno de estos elementos es crítico para el éxito de tu estrategia de [[estrategia-seo|SEO]]. ¡Comencemos a revisar esta 'technical SEO checklist template' y a transformar tu sitio en un recurso eficaz!
+Desde la implementación de HTTPS hasta la optimización de la [velocidad de carga](/blog/general/web-performance-guide), cada uno de estos elementos es crítico para el éxito de tu estrategia de [SEO](/blog/seo/estrategia-seo). ¡Comencemos a revisar esta 'technical SEO checklist template' y a transformar tu sitio en un recurso eficaz!
 
 ## Seguridad y Protocolo HTTPS
 
@@ -54,15 +54,15 @@ Una vez adquirido el certificado SSL, debes configurarlo en tu servidor web. Si 
 
 Para simplificar la migración a HTTPS, existen diversas herramientas y plugins útiles. Para sitios de WordPress, el plugin **Really Simple SSL** es una opción popular que maneja automáticamente la mayoría de los ajustes necesarios para implementar HTTPS. Este plugin configura de manera sencilla las redirecciones y actualiza las URLs a la versión segura.
 
-Además, es recomendable realizar auditorías con [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation) después de la migración. Esta herramienta permite identificar y corregir cualquier problema relacionado con la indexación de la nueva versión de tu sitio. Por último, un **technical SEO checklist template** puede ser muy útil para asegurarte de que no se omita ningún paso crítico en este proceso de migración a HTTPS.
+Además, es recomendable realizar auditorías con [Google Search Console](/blog/general/xml-sitemap-automation) después de la migración. Esta herramienta permite identificar y corregir cualquier problema relacionado con la indexación de la nueva versión de tu sitio. Por último, un **technical SEO checklist template** puede ser muy útil para asegurarte de que no se omita ningún paso crítico en este proceso de migración a HTTPS.
 
 ## Detección y Corrección de Errores de Rastreo
 
-Detectar y corregir [errores de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) es fundamental para asegurar que tu sitio web sea accesible para los motores de búsqueda. Los errores pueden impedir que Google y otros buscadores indexen correctamente tu contenido, lo cual afecta tu visibilidad en los resultados de búsqueda. Una versión bien elaborada de una **technical seo checklist template** debe incluir un enfoque sistemático para identificar y solucionar estos errores.
+Detectar y corregir [errores de rastreo](/blog/general/robots-txt-best-practices) es fundamental para asegurar que tu sitio web sea accesible para los motores de búsqueda. Los errores pueden impedir que Google y otros buscadores indexen correctamente tu contenido, lo cual afecta tu visibilidad en los resultados de búsqueda. Una versión bien elaborada de una **technical seo checklist template** debe incluir un enfoque sistemático para identificar y solucionar estos errores.
 
 ### Uso de Google Search Console para identificar errores
 
-[[guia-google-search-console|Google Search Console]] es una herramienta imprescindible para cualquier webmaster o profesional de SEO. Permite monitorear y optimizar la presencia de un sitio web en los resultados de búsqueda. Para detectar errores de rastreo, es necesario acceder al panel de cobertura, donde se obtiene un resumen claro de los problemas que enfrenta el sitio. Los errores destacados pueden incluir problemas de rastreo que impiden que Google acceda a ciertas páginas, así como la exclusión de URLs que no se deben indexar.
+[Google Search Console](/blog/seo/guia-google-search-console) es una herramienta imprescindible para cualquier webmaster o profesional de SEO. Permite monitorear y optimizar la presencia de un sitio web en los resultados de búsqueda. Para detectar [errores de rastreo](/blog/general/robots-txt-best-practices), es necesario acceder al panel de cobertura, donde se obtiene un resumen claro de los problemas que enfrenta el sitio. Los errores destacados pueden incluir problemas de rastreo que impiden que Google acceda a ciertas páginas, así como la exclusión de URLs que no se deben indexar.
 
 ### Clasificación de errores: errores de sitio versus errores de URL
 
@@ -70,7 +70,7 @@ Los errores de rastreo se pueden clasificar en dos categorías principales: erro
 
 ### Estrategias para solucionar problemas comunes de rastreo
 
-La corrección de errores de rastreo puede variar según el tipo de problema. Es recomendable verificar primero la configuración de archivos [[robots-txt-best-practices|robots.txt]] y asegurarse de que no bloqueen páginas importantes. También se debe revisar la conectividad del servidor; problemas de tiempo de respuesta pueden hacer que Google no pueda acceder a las páginas. Además, es útil implementar redirecciones 301 para redirigir tráfico de URLs eliminadas o cambiadas a nuevas ubicaciones. Para errores por falta de contenido o problemas con los enlaces, asegúrate de realizar auditorías periódicas y utilizar herramientas de análisis para mantener una buena salud del sitio.
+La corrección de errores de rastreo puede variar según el tipo de problema. Es recomendable verificar primero la configuración de archivos [robots.txt](/blog/general/robots-txt-best-practices) y asegurarse de que no bloqueen páginas importantes. También se debe revisar la conectividad del servidor; problemas de tiempo de respuesta pueden hacer que Google no pueda acceder a las páginas. Además, es útil implementar redirecciones 301 para redirigir tráfico de URLs eliminadas o cambiadas a nuevas ubicaciones. Para errores por falta de contenido o problemas con los enlaces, asegúrate de realizar auditorías periódicas y utilizar herramientas de análisis para mantener una buena salud del sitio.
 
 ### Cómo cambiar de hosting para mejorar el rastreo
 
@@ -82,7 +82,7 @@ La gestión y reparación de enlaces rotos es un aspecto crítico en la lista de
 
 ### Identificación de enlaces internos rotos
 
-Los [[enlaces-internos-guia|enlaces internos]] son vitales para la estructura y navegación de un sitio web. Estos enlaces permiten que los usuarios y los rastreadores de Google se muevan entre las distintas páginas, mejorando tanto la experiencia del usuario como el SEO. Para identificar enlaces internos rotos, se pueden realizar auditorías periódicas del sitio. Una auditoría completa ayudará a descubrir enlaces que apuntan a páginas inexistentes o que han cambiado de ubicación. Herramientas como Screaming Frog y Google Search Console son especialmente útiles para detectar estos problemas. Al corregir enlaces internos rotos, se mejora la fluidez del flujo de la navegación, lo que beneficia tanto a los usuarios como a los motores de búsqueda.
+Los [enlaces internos](/blog/seo/enlaces-internos-guia) son vitales para la estructura y navegación de un sitio web. Estos enlaces permiten que los usuarios y los rastreadores de Google se muevan entre las distintas páginas, mejorando tanto la experiencia del usuario como el SEO. Para identificar enlaces internos rotos, se pueden realizar auditorías periódicas del sitio. Una auditoría completa ayudará a descubrir enlaces que apuntan a páginas inexistentes o que han cambiado de ubicación. Herramientas como Screaming Frog y [Google Search Console](/blog/general/xml-sitemap-automation) son especialmente útiles para detectar estos problemas. Al corregir enlaces internos rotos, se mejora la fluidez del flujo de la navegación, lo que beneficia tanto a los usuarios como a los motores de búsqueda.
 
 ### Monitoreo y corrección de enlaces externos
 
@@ -105,7 +105,7 @@ La optimización de la estructura de tu sitio web y de sus URLs es fundamental p
 
 ### Mejores prácticas para URLs amigables
 
-Una URL optimizada es un aspecto crucial del SEO técnico. Debe ser breve, descriptiva y fácilmente comprensible tanto para los usuarios como para los crawlers. Es recomendable utilizar [[guia-keyword-research|palabras clave]] relevantes dentro de la URL, y estructurarlas con guiones en lugar de guiones bajos para facilitar su lectura. Por ejemplo, en lugar de **tusitio.com/articulo?id=123**, es preferible usar **tusitio.com/articulo-optimizar-urls**. Además, evitar el uso de caracteres especiales y números innecesarios contribuye a que las URLs sean más amigables y compartibles. Implementar estas prácticas no solo optimiza el posicionamiento en SERPs, sino que también ayuda a los usuarios a entender rápidamente el contenido al que están accediendo.
+Una URL optimizada es un aspecto crucial del SEO técnico. Debe ser breve, descriptiva y fácilmente comprensible tanto para los usuarios como para los crawlers. Es recomendable utilizar [palabras clave](/blog/seo/guia-keyword-research) relevantes dentro de la URL, y estructurarlas con guiones en lugar de guiones bajos para facilitar su lectura. Por ejemplo, en lugar de **tusitio.com/articulo?id=123**, es preferible usar **tusitio.com/articulo-optimizar-urls**. Además, evitar el uso de caracteres especiales y números innecesarios contribuye a que las URLs sean más amigables y compartibles. Implementar estas prácticas no solo optimiza el posicionamiento en SERPs, sino que también ayuda a los usuarios a entender rápidamente el contenido al que están accediendo.
 
 ### Arquitectura web basada en hubs de contenido
 
@@ -117,7 +117,7 @@ Una estructura clara y coherente de tu sitio web no solo beneficia a los motores
 
 ## Mejora de la Velocidad de Carga y Rendimiento Web
 
-La velocidad de carga es un factor crítico que influye tanto en la experiencia del usuario como en la clasificación de tu sitio web en los motores de búsqueda. Cada segundo que tarda tu sitio en cargar puede tener un impacto significativo en las tasas de conversión y en la satisfacción del usuario. Por lo tanto, optimizar la velocidad de carga debe ser una prioridad en cualquier lista de verificación de SEO técnico.
+La [velocidad de carga](/blog/general/web-performance-guide) es un factor crítico que influye tanto en la experiencia del usuario como en la clasificación de tu sitio web en los motores de búsqueda. Cada segundo que tarda tu sitio en cargar puede tener un impacto significativo en las tasas de conversión y en la satisfacción del usuario. Por lo tanto, optimizar la velocidad de carga debe ser una prioridad en cualquier lista de verificación de SEO técnico.
 
 ### Factores que afectan la velocidad de carga
 
@@ -145,7 +145,7 @@ Las Redes de Distribución de Contenidos (CDN) son esenciales para mejorar la ve
 
 ### Medición y seguimiento de Core Web Vitals
 
-Los [[core-web-vitals-guide|Core Web Vitals]] son métricas específicas que Google utiliza para medir la experiencia del usuario en términos de velocidad, interactividad y estabilidad visual. Las métricas clave son:
+Los [Core Web Vitals](/blog/general/core-web-vitals-guide) son métricas específicas que Google utiliza para medir la experiencia del usuario en términos de velocidad, interactividad y estabilidad visual. Las métricas clave son:
 
 Métrica
 
@@ -153,7 +153,7 @@ Descripción
 
 Objetivo Ideal
 
-Largest Contentful Paint (LCP)
+[Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP)
 
 Tiempo que tarda en cargarse el contenido más grande de la página.
 
@@ -165,7 +165,7 @@ Tiempo desde que el usuario interactúa hasta que el navegador responde.
 
 Menos de 100 ms
 
-Cumulative Layout Shift (CLS)
+[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS)
 
 Mide la estabilidad visual durante la carga.
 

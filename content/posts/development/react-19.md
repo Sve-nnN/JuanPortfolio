@@ -22,9 +22,9 @@ tldr: 'React 19 transforma el desarrollo con mejoras en rendimiento y nuevas her
 ---
 
 
-[[react-19|React 19]] ha llegado con novedades interesantes que prometen ampliar las capacidades de esta popular biblioteca. En esta versión, se destacan nuevas características como el componente y mejoras en los hooks, que facilitan la gestión de la carga y optimizan el rendimiento de nuestras aplicaciones.
+[React 19](/blog/development/react-19) ha llegado con novedades interesantes que prometen ampliar las capacidades de esta popular biblioteca. En esta versión, se destacan nuevas características como el componente y mejoras en los hooks, que facilitan la gestión de la carga y optimizan el rendimiento de nuestras aplicaciones.
 
-Este artículo explorará las principales innovaciones de React 19, incluyendo sus avances en herramientas de análisis de rendimiento y cambios relevantes en React DOM, que sin duda impactarán en el desarrollo y la experiencia del usuario.
+Este artículo explorará las principales innovaciones de React 19, incluyendo sus avances en herramientas de análisis de rendimiento y cambios relevantes en React [DOM](https://juan-tech.com/blog/development/hidratacion-web), que sin duda impactarán en el desarrollo y la experiencia del usuario.
 
 ## React 19 Activity: Componentes y Modos de Uso
 
@@ -88,7 +88,7 @@ Al entender mejor cómo se comportan los componentes bajo distintas condiciones,
 
 ## Avances en React DOM y Cambios Relevantes
 
-Con el lanzamiento de React 19, se han implementado avances notables en **React DOM** que prometen mejorar la eficiencia y flexibilidad del desarrollo de aplicaciones. Estas mejoras repotencian tanto el rendimiento de las aplicaciones como la experiencia del desarrollador, permitiendo un manejo más efectivo de la renderización y el estado.
+Con el lanzamiento de React 19, se han implementado avances notables en **React DOM** que prometen mejorar la eficiencia y flexibilidad del desarrollo de aplicaciones. Estas mejoras repotencian tanto el rendimiento de las aplicaciones como la [experiencia del desarrollador](/blog/tech-seo/headless-cms-seo), permitiendo un manejo más efectivo de la renderización y el estado.
 
 ### Partial pre-rendering y métodos asociados
 

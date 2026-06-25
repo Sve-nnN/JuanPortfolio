@@ -112,11 +112,11 @@ export const JsonLd = ({
       description: locale === 'es'
         ? 'Servicios de SEO técnico, desarrollo web con Next.js y automatización de contenido para negocios digitales.'
         : 'Technical SEO services, Next.js web development, and content automation for digital businesses.',
-      provider: {
-        '@id': `${siteUrl}/#person`,
-      },
       areaServed: 'Worldwide',
-      serviceType: ['Technical SEO', 'Web Development', 'Content Strategy'],
+      // `provider` and `serviceType` are not valid on ProfessionalService
+      // (Ahrefs flags them as schema.org errors). The person is already linked
+      // as the Organization's founder; service areas map to knowsAbout. SCHEMA-01.
+      knowsAbout: ['Technical SEO', 'Web Development', 'Content Strategy'],
     }
 
     return [personSchema, professionalServiceSchema]

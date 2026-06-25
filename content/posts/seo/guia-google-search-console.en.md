@@ -25,7 +25,7 @@ tldr: "Discover how to optimize your website's presence in Google search with ou
 
 **By Juan Carlos Angulo, Senior Tech SEO & Software Engineer**
 
-In the ever-evolving digital landscape, effective search engine optimization (SEO) is indispensable for ensuring that your website is visible to your target audience. Among various tools available to optimize your site’s SEO, [[guia-google-search-console|Google Search Console]] (GSC) stands out as a critical resource for webmasters, developers, and digital marketers. In this guide, we'll delve deep into what Google Search Console is, its key features, and how you can effectively leverage it to enhance the visibility and performance of your website in Google search results.
+In the ever-evolving digital landscape, effective search engine optimization (SEO) is indispensable for ensuring that your website is visible to your target audience. Among various tools available to optimize your site’s SEO, [Google Search Console](/en/blog/seo/guia-google-search-console) (GSC) stands out as a critical resource for webmasters, developers, and digital marketers. In this guide, we'll delve deep into what Google Search Console is, its key features, and how you can effectively leverage it to enhance the visibility and performance of your website in Google search results.
 
 ## What is Google Search Console?
 

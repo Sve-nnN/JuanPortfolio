@@ -27,15 +27,15 @@ semantic_keywords:
   - mantenimiento legible desarrolladores
 keyword: datos estructurados seo
 ---
-En el mundo digital actual, la competencia por la atención de los usuarios es feroz. Implementar [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) [[estrategia-seo|SEO]] es una estrategia clave para mejorar la visibilidad de tu sitio web en los motores de búsqueda. Este artículo te ofrecerá una guía completa sobre cómo utilizar estos datos para optimizar tu contenido y atraer más tráfico.
+En el mundo digital actual, la competencia por la atención de los usuarios es feroz. Implementar [datos estructurados](/blog/general/schema-markup-guide) [SEO](/blog/seo/estrategia-seo) es una estrategia clave para mejorar la visibilidad de tu sitio web en los motores de búsqueda. Este artículo te ofrecerá una guía completa sobre cómo utilizar estos datos para optimizar tu contenido y atraer más tráfico.
 
-A medida que explores este tema, descubrirás cómo los [[schema-markup-guide|datos estructurados]] pueden transformar la presentación de tu sitio en los resultados de búsqueda, facilitando una experiencia más rica para los usuarios y mejorando tu posicionamiento en línea.
+A medida que explores este tema, descubrirás cómo los [datos estructurados](/blog/general/schema-markup-guide) pueden transformar la presentación de tu sitio en los resultados de búsqueda, facilitando una experiencia más rica para los usuarios y mejorando tu posicionamiento en línea.
 
 ## Fundamentos de los Datos Estructurados en SEO
 
 ### ¿Qué son los datos estructurados y cómo funcionan?
 
-Los **datos estructurados SEO** son una forma de etiquetar información en un sitio web de manera que los motores de búsqueda, como Google, puedan entender y contextualizar el contenido de forma más eficiente. Esta estructuración permite que los motores de búsqueda detecten diferentes tipos de información, como reseñas, eventos o productos, facilitando su indexación y mejorando la presentación en los resultados de búsqueda. Funcionan mediante un vocabulario específico conocido como marcado, que proporciona detalles adicionales sobre cada elemento de contenido en una página web, ayudando a los motores a mostrar resultados enriquecidos.
+Los **[datos estructurados](/blog/general/schema-markup-guide) SEO** son una forma de etiquetar información en un sitio web de manera que los motores de búsqueda, como Google, puedan entender y contextualizar el contenido de forma más eficiente. Esta estructuración permite que los motores de búsqueda detecten diferentes tipos de información, como reseñas, eventos o productos, facilitando su indexación y mejorando la presentación en los resultados de búsqueda. Funcionan mediante un vocabulario específico conocido como marcado, que proporciona detalles adicionales sobre cada elemento de contenido en una página web, ayudando a los motores a mostrar resultados enriquecidos.
 
 ### El papel de Schema.org en el marcado semántico
 
@@ -139,23 +139,23 @@ La validación es un paso crítico en la implementación de datos estructurados.
 
 -   **Rich Results Test**: Esta herramienta permite verificar si un marcado específico puede generar resultados enriquecidos en Google.
 -   **Structured Data Testing Tool**: Aunque en desuso, sigue siendo útil para validar la correcta implementación de datos estructurados y detectar errores en el marcado.
--   **[Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)**: Ofrece reportes sobre problemas de datos estructurados y proporciona información sobre cómo se muestran los fragmentos enriquecidos en los resultados de búsqueda.
+-   **[Google Search Console](/blog/general/xml-sitemap-automation)**: Ofrece reportes sobre problemas de datos estructurados y proporciona información sobre cómo se muestran los fragmentos enriquecidos en los resultados de búsqueda.
 
 Es recomendable utilizar estas herramientas tras cualquier modificación en el marcado para asegurar su correcta implementación y funcionamiento.
 
 ### Uso de plugins y CMS compatibles con datos estructurados
 
-Para facilitar la implementación de datos estructurados SEO, muchos sistemas de gestión de contenido (CMS) ofrecen plugins o módulos específicos. Esto es particularmente ventajoso para aquellos que tienen menos experiencia técnica. Por ejemplo, WordPress tiene varios plugins como Yoast SEO y Schema Pro, que simplifican el proceso de marcado. Estas herramientas automatizan la generación de datos estructurados y ayudan a mantener la consistencia a lo largo del tiempo. Además, algunos CMS modernos, como [[nextjs-seo|Next.js SEO]], tienen soporte nativo para JSON-LD, lo que permite a los desarrolladores crear aplicaciones que integren datos estructurados de manera eficiente. La elección de la herramienta adecuada puede optimizar la implementación y mejorar la visibilidad del sitio en los motores de búsqueda.
+Para facilitar la implementación de datos estructurados SEO, muchos sistemas de gestión de contenido (CMS) ofrecen plugins o módulos específicos. Esto es particularmente ventajoso para aquellos que tienen menos experiencia técnica. Por ejemplo, WordPress tiene varios plugins como Yoast SEO y Schema Pro, que simplifican el proceso de marcado. Estas herramientas automatizan la generación de datos estructurados y ayudan a mantener la consistencia a lo largo del tiempo. Además, algunos CMS modernos, como [Next.js SEO](/blog/tech-seo/nextjs-seo), tienen soporte nativo para JSON-LD, lo que permite a los desarrolladores crear aplicaciones que integren datos estructurados de manera eficiente. La elección de la herramienta adecuada puede optimizar la implementación y mejorar la visibilidad del sitio en los motores de búsqueda.
 
 ## Estrategias Avanzadas para Maximizar el Potencial de Datos Estructurados
 
 ### Relación entre datos estructurados y Core Web Vitals
 
-Los **[Core Web Vitals](https://juan-tech.com/blog/tech-seo/web-performance-guide)** son métricas clave que Google utiliza para evaluar la calidad de la experiencia del usuario en una página web. Aunque los datos estructurados no impactan directamente en estas métricas, sí pueden complementar la optimización de la página al mejorar la relevancia y visibilidad en los resultados de búsqueda. Por ejemplo, al utilizar datos estructurados, es posible aumentar la tasa de clics, lo que puede llevar a un mayor tráfico y, potencialmente, a una mejora en las métricas de carga y estabilidad de la página. De esta manera, una experiencia de usuario mejorada puede influir indirectamente en estas métricas esenciales, además de ayudar a los motores de búsqueda a comprender mejor el contenido, lo cual también se traduce en una optimización general del SEO.
+Los **[Core Web Vitals](/blog/general/web-performance-guide)** son métricas clave que Google utiliza para evaluar la calidad de la experiencia del usuario en una página web. Aunque los datos estructurados no impactan directamente en estas métricas, sí pueden complementar la optimización de la página al mejorar la relevancia y visibilidad en los resultados de búsqueda. Por ejemplo, al utilizar datos estructurados, es posible aumentar la tasa de clics, lo que puede llevar a un mayor tráfico y, potencialmente, a una mejora en las métricas de carga y estabilidad de la página. De esta manera, una experiencia de usuario mejorada puede influir indirectamente en estas métricas esenciales, además de ayudar a los motores de búsqueda a comprender mejor el contenido, lo cual también se traduce en una optimización general del SEO.
 
 ### Reducción de Crawl Budget mediante marcado eficiente
 
-El **Crawl Budget** se refiere al número de páginas que un motor de búsqueda rastrea en un sitio web durante un período determinado. Implementar **datos estructurados SEO** de manera eficiente puede ayudar a maximizar el valor de este crawl, permitiendo que los motores de búsqueda accedan más fácilmente a contenidos relevantes. Al proporcionar un contexto claro sobre la jerarquía y relación entre los elementos del sitio, los bots de búsqueda pueden priorizar el contenido más importante. Así, se evitan rastreos innecesarios de páginas menos relevantes, optimizando el presupuesto de rastreo disponible. Una estrategia de marcado bien estructurada no solo mejora la visibilidad, sino que también asegura que las páginas críticas sean indexadas primero.
+El **[Crawl Budget](/blog/general/robots-txt-best-practices)** se refiere al número de páginas que un motor de búsqueda rastrea en un sitio web durante un período determinado. Implementar **datos estructurados SEO** de manera eficiente puede ayudar a maximizar el valor de este crawl, permitiendo que los motores de búsqueda accedan más fácilmente a contenidos relevantes. Al proporcionar un contexto claro sobre la jerarquía y relación entre los elementos del sitio, los bots de búsqueda pueden priorizar el contenido más importante. Así, se evitan rastreos innecesarios de páginas menos relevantes, optimizando el presupuesto de rastreo disponible. Una estrategia de marcado bien estructurada no solo mejora la visibilidad, sino que también asegura que las páginas críticas sean indexadas primero.
 
 ### Implementación en frameworks modernos: Next.js y PayloadCMS
 

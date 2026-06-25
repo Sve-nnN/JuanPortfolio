@@ -27,7 +27,7 @@ semantic_keywords:
   - optimization involves strategically
 keyword: keyword research guide
 ---
-Effective [keyword research](https://juan-tech.com/en/blog/seo/guia-keyword-research) is foundational to any successful [[estrategia-seo|SEO]] strategy. Understanding the terms and phrases users search for allows developers, technical SEOs, and business owners to create targeted content that resonates with their audience.
+Effective [keyword research](https://juan-tech.com/en/blog/seo/guia-keyword-research) is foundational to any successful [SEO](/en/blog/seo/estrategia-seo) strategy. Understanding the terms and phrases users search for allows developers, technical SEOs, and business owners to create targeted content that resonates with their audience.
 
 This comprehensive Keyword Research Guide will explore the importance of keywords, the research process, various classification methods, and actionable techniques, including insights from our free keyword research guide. Equip yourself with the knowledge necessary to enhance your site's visibility and performance.
 

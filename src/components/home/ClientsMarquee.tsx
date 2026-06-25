@@ -49,6 +49,7 @@ const ClientsMarquee: React.FC<ClientsMarqueeProps> = ({ clients = [] }) => {
                     loading="lazy"
                     sizes="(max-width: 768px) 150px, 280px"
                     className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
+                    unoptimized={/\.(avif|webp)$/i.test(c.logo.url)}
                   />
                 </div>
               ) : (

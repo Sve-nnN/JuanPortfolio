@@ -36,7 +36,7 @@ semantic_keywords:
   - rendimiento de aplicaciones escalables
 keyword: complejidad algoritmica
 ---
-La [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) es un pilar fundamental en la ciencia de la computación y el desarrollo de software moderno. Se refiere a la cuantificación de los **recursos computacionales** (principalmente tiempo y memoria) que un algoritmo requiere para procesar una entrada de datos y completar su tarea. Comprender a fondo la complejidad algorítmica no solo permite a los programadores optimizar su código, sino también prever el comportamiento de sus aplicaciones ante volúmenes crecientes de datos. En el entorno actual, donde la escala y la velocidad son críticas, una elección algorítmica deficiente puede traducirse en una mala [experiencia de usuario](https://juan-tech.com/blog/cs-fundamentals/experiencia-de-usuario) (UX), mayores costos operativos y una drástica pérdida de competitividad.
+La [complejidad algorítmica](https://juan-tech.com/blog/cs-fundamentals/big-o-notation) es un pilar fundamental en la ciencia de la computación y el desarrollo de software moderno. Se refiere a la cuantificación de los **recursos computacionales** (principalmente tiempo y memoria) que un [algoritmo](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) requiere para procesar una entrada de datos y completar su tarea. Comprender a fondo la complejidad algorítmica no solo permite a los programadores optimizar su código, sino también prever el comportamiento de sus aplicaciones ante volúmenes crecientes de datos. En el entorno actual, donde la escala y la velocidad son críticas, una elección algorítmica deficiente puede traducirse en una mala [experiencia de usuario](https://juan-tech.com/blog/cs-fundamentals/experiencia-de-usuario) (UX), mayores costos operativos y una drástica pérdida de competitividad.
 
 ## Fundamentos de la complejidad algorítmica
 
@@ -53,7 +53,7 @@ Ambos aspectos son vitales para entender el rendimiento de un algoritmo en escen
 La cantidad de operaciones básicas que realiza un algoritmo típicamente varía con el tamaño de la entrada, `n`. Este análisis es crucial para categorizar su desempeño y escalabilidad. Los desarrolladores se enfocan en cuantificar operaciones que dominan el tiempo de ejecución a medida que `n` crece:
 - **Comparaciones:** Clave en [algoritmos de búsqueda](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) y ordenación.
 - **Asignaciones de memoria:** Importante para la complejidad espacial y la inicialización de [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios).
-- **Operaciones aritméticas:** Fundamentales en [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] matemáticos.
+- **Operaciones aritméticas:** Fundamentales en [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) matemáticos.
 - **Iteraciones en bucles:** Especialmente si dependen directamente de `n` o de `n` anidados.
 - **Llamadas a funciones:** Contabilizando las operaciones internas de la función.
 
@@ -284,8 +284,8 @@ Las decisiones sobre este equilibrio son cruciales en el desarrollo de software.
 
 ### Casos de compensación entre espacio y tiempo (Practical Applications)
 
-- **[[tablas-hash|tablas hash]] vs. Arrays Ordenados:** Una tabla hash ofrece búsquedas promedio O(1) a expensas de un mayor consumo de memoria y, en el peor caso, puede degradarse a O(n). Un array ordenado con búsqueda binaria usa menos memoria contigua, pero su búsqueda es O(log n).
-- **[[programacion-dinamica|programación dinámica]] (Dynamic Programming):** Esta técnica a menudo utiliza memorización o tabulación (almacenar resultados de subproblemas ya calculados) para convertir problemas con complejidad temporal exponencial o factorial en polinomial, a cambio de un espacio lineal o cuadrático.
+- **[tablas hash](/blog/general/tablas-hash) vs. Arrays Ordenados:** Una tabla hash ofrece búsquedas promedio O(1) a expensas de un mayor consumo de memoria y, en el peor caso, puede degradarse a O(n). Un array ordenado con búsqueda binaria usa menos memoria contigua, pero su búsqueda es O(log n).
+- **[programación dinámica](/blog/cs-fundamentals/programacion-dinamica) (Dynamic Programming):** Esta técnica a menudo utiliza memorización o tabulación (almacenar resultados de subproblemas ya calculados) para convertir problemas con complejidad temporal exponencial o factorial en polinomial, a cambio de un espacio lineal o cuadrático.
 - **Cachés:** Los sistemas de caché (tanto a nivel de hardware como de software) son el epítome de la compensación espacio-tiempo: utilizan memoria adicional rápida para almacenar resultados frecuentemente accedidos, reduciendo el tiempo necesario para recuperarlos.
 
 Los programadores deben evaluar cuidadosamente el contexto de la aplicación, los recursos disponibles y los requisitos de rendimiento para decidir qué compensación es la más adecuada.
@@ -333,7 +333,7 @@ Un algoritmo ineficiente se traduce directamente en una aplicación lenta.
 ### Costos Operacionales en Infraestructura (Cloud Computing)
 
 La complejidad algorítmica tiene un impacto directo en la factura de la nube.
-- **Consumo de CPU:** Algoritmos con alta complejidad temporal consumen más ciclos de CPU, lo que se traduce en mayores costos de máquinas virtuales, funciones serverless o [[diseno-bases-datos|diseño de bases de datos]] con capacidad de cómputo.
+- **Consumo de CPU:** Algoritmos con alta complejidad temporal consumen más ciclos de CPU, lo que se traduce en mayores costos de máquinas virtuales, funciones serverless o [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) con capacidad de cómputo.
 - **Uso de Memoria:** Algoritmos con alta complejidad espacial requieren más RAM. En entornos cloud, esto significa instancias más grandes y, por ende, más caras.
 - **Escalabilidad:** Para mantener el rendimiento con algoritmos ineficientes, es necesario escalar horizontalmente (añadir más servidores) de forma prematura y costosa.
 Una buena optimización algorítmica puede reducir drásticamente los gastos de infraestructura.
@@ -445,7 +445,7 @@ Para una optimización efectiva, es indispensable **medir** el rendimiento real.
 
 Para construir software eficiente y sostenible:
 1.  **Prioriza la Claridad y Legibilidad:** Escribe código que funcione y sea fácil de entender. Solo optimiza cuando las métricas de rendimiento indiquen un problema.
-2.  **Entiende el Problema y los Datos:** Antes de codificar, analiza los requisitos, el volumen de datos esperado y los patrones de acceso. Esto guiará la elección de algoritmos y [[data-structures|estructuras de datos]].
+2.  **Entiende el Problema y los Datos:** Antes de codificar, analiza los requisitos, el volumen de datos esperado y los patrones de acceso. Esto guiará la elección de algoritmos y [estructuras de datos](/blog/cs-fundamentals/data-structures).
 3.  **No Reinventes la Rueda:** Utiliza bibliotecas y frameworks probados y optimizados. A menudo contienen implementaciones de algoritmos altamente eficientes.
 4.  **Pruebas Rigurosas y Benchmarking Continuo:** Integra pruebas de rendimiento en tu ciclo de CI/CD para detectar regresiones.
 5.  **Mantente Actualizado:** El campo de los algoritmos y las estructuras de datos evoluciona. Conoce las últimas técnicas y herramientas.

@@ -96,11 +96,11 @@
 | INDEX-04 | Phase 18 | Done |
 | META-01 | Phase 19 | Done |
 | META-02 | Phase 19 | Done |
-| META-03 | Phase 19 | Partial (needs Ahrefs URL list) |
-| META-04 | Phase 19 | Partial (needs Ahrefs URL list) |
+| META-03 | Phase 19 | Done |
+| META-04 | Phase 19 | Done |
 | SCHEMA-01 | Phase 19 | Done |
 | PERF-01 | Phase 19 | Done |
-| PERF-02 | Phase 19 | Partial (needs Ahrefs URL list) |
+| PERF-02 | Phase 19 | Done (author select+redirect) |
 | MONITOR-01 | Phase 20 | Done |
 | MONITOR-02 | Phase 20 | Done |
 | MONITOR-03 | Phase 20 | Done |

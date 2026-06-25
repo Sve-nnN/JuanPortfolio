@@ -304,8 +304,10 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 **Plans**: 2 plans
 
 Plans:
-- [ ] 22-1-PLAN.md — Scoring engine: analyzeKeywordChecks (es/en stemming, weighted score, blocks-aware extractor) + authenticated /api/seo/keyword-score endpoint + tests
+
+- [x] 22-1-PLAN.md — Scoring engine: analyzeKeywordChecks (es/en stemming, weighted score, blocks-aware extractor) + authenticated /api/seo/keyword-score endpoint + tests
 - [ ] 22-2-PLAN.md — KeywordScorePanel sidebar component (metrics + 7-check traffic light + score badge, 4 states, 300ms live recompute) + register ui field in Posts & Pages
+
 **UI hint**: yes
 
 ### Phase 23: Coverage audit
@@ -349,6 +351,6 @@ Plans:
 | 19. On-page, schema y rendimiento | v1.3 | ◐ | ✅ Complete (META-03/04, PERF-02 parciales: faltan URLs Ahrefs) | 2026-06-24 |
 | 20. Widget de Domain Rating en admin | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 21. Keyword data model | v1.4 | 1/1 | Complete   | 2026-06-25 |
-| 22. Metrics panel + Yoast traffic light | v1.4 | 0/TBD | Not started | - |
+| 22. Metrics panel + Yoast traffic light | v1.4 | 1/2 | In Progress|  |
 | 23. Coverage audit | v1.4 | 0/TBD | Not started | - |
 | 24. Keyword research population | v1.4 | 0/TBD | Not started | - |

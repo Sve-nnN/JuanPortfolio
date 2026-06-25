@@ -13,13 +13,15 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 ### v1.2 — GA4 Analytics Tracking ✅
 Cobertura completa de eventos GA4 vía dataLayer/GTM: conversiones (generate_lead, Calendly schedule_meeting, cta_click, language_switch) y engagement (scroll depth, tiempo/lectura, navegación, búsqueda, select_content). Helper `trackEvent` dataLayer-only + delegación global por `data-analytics`. Doc de setup GTM (tag GA4-Event forward) + Enhanced Measurement. Fases 11-14. CI verde.
 
+### v1.3 — Remediación SEO técnica (Ahrefs Site Audit) ✅
+Saneados 312 wikilinks `[[]]` + guard en el sync; 748 links auditados → 0 dead/nested/corruptos; imágenes AVIF (`unoptimized`, fix del 400); `<html lang>` por locale; sitemap sin noindex + `/author`→`/authors` 301 + robots.txt 200; H1 único + og:title + schema sin errores (ProfessionalService/CollectionPage) + title de categorías; author page 2.3MB→fracción; widget de Domain Rating en admin. Fases 15-20. 741 tests verdes. Mergeado a main (PR #82→develop, #83→main). Pendiente: re-crawl Ahrefs.
+
 ## In Progress
 
-### v1.3 — Remediación SEO técnica (Ahrefs Site Audit)
+### v1.4 — Keyword targeting & Yoast-style SEO scoring
 
-**Goal:** Cerrar las 35 categorías de issues del Site Audit de Ahrefs (project 7702617), empezando por la causa raíz que genera ~80% del daño: wikilinks `[[slug|label]]` filtrándose crudos a hrefs e imágenes renderizadas.
+**Goal:** Cada página (Post, Page, listado) con una keyword objetivo y sus métricas a la vista, más un semáforo estilo Yoast en el editor que compara la keyword contra title/meta/H1/slug/contenido, y una auditoría de cobertura.
 
-**Started:** 2026-06-24
-**Causa raíz #1:** El sistema de internal-linking (`src/scripts/build-internal-links.ts`, `internal-linking/LinkInjector.ts`) inyecta `[[wikilink]]` y la conversión a links reales está rota → `[[...]]` literal llega al HTML. Explica los 94 "links to broken page", 159 "broken image" y la mayoría de los 404.
-**Scope:** completo — Errores + Warnings + Notices, agrupados en 7 buckets (LINKS, IMG, HREF, INDEX, META, SCHEMA, PERF).
-**Baseline (audit 2026-06-24T15:26:07Z):** 35 categorías. Errores top: broken image ×159, links to broken page ×94, hreflang/lang mismatch ×90, 4XX ×20, 404 ×19, noindex in sitemap ×8.
+**Started:** 2026-06-25
+**Baseline:** `keyword-metrics` collection ya existe (rica, con relaciones post/page); Posts ya tienen `primaryKeyword`; Pages no. `seoAnalyzer.ts` (Yoast-like) existe. Keyword research en `content/keywords.md` (DinoRank).
+**Scope:** Posts + Pages + listados; reusar `primaryKeyword`→keyword-metrics + agregarlo a Pages; semáforo en el sidebar del editor; auditoría de cobertura (sin keyword / con keyword pero falta algo).

@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: Remediación SEO técnica (Ahrefs Site Audit)
-status: code-complete
-last_updated: "2026-06-24"
-last_activity: 2026-06-24
+milestone: v1.4
+milestone_name: Keyword targeting & Yoast-style SEO scoring
+status: planning
+last_updated: "2026-06-25T16:11:03.938Z"
+last_activity: 2026-06-25
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 6
-  completed_plans: 6
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -24,16 +24,15 @@ See: .planning/PROJECT.md (updated 2026-06-24)
 
 ## Current Position
 
-Phase: 20 of 20 — todas completas (fases 15-20)
-Plan: autónomo (discuss→fix→verify por fase)
-Status: code-complete; pendiente validación en producción (deploy + re-crawl)
-Last activity: 2026-06-24 — Ejecución autónoma v1.3 completa en rama seo/wikilink-remediation
-
-Progress: [██████████] 100% (código); validación Ahrefs pendiente post-deploy
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-25 — Milestone v1.4 started
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0 (v1.3)
 - Average duration: —
 - Total execution time: —

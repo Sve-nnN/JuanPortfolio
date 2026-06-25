@@ -1,106 +1,63 @@
-# Requirements: JuanPortfolio — Milestone v1.3 (Remediación SEO técnica · Ahrefs Site Audit)
+# Requirements: JuanPortfolio — Milestone v1.4 (Keyword targeting & Yoast-style SEO scoring)
 
-**Defined:** 2026-06-24
-**Core Value:** Las páginas públicas se sirven rápido y cacheables desde el edge; el SEO técnico no puede emitir basura (links/imágenes rotos, hreflang inconsistente) que degrade indexación y ranking.
+**Defined:** 2026-06-25
+**Core Value:** Cada página tiene una keyword objetivo con sus métricas a la vista, y un semáforo estilo Yoast dice si el contenido/título/meta están optimizados para esa keyword — para decidir con datos qué falta y dónde.
 
-**Entrega:** El sitio crawleado por Ahrefs/Googlebot deja de exponer wikilinks `[[...]]` crudos, 404/4XX por links internos malos, imágenes rotas, hreflang/lang inconsistente y errores de schema. Las 35 categorías del audit bajan a cero (o a un residual justificado y documentado).
+**Entrega:** En el admin de Payload, cada Post y Page tiene una keyword objetivo (relación a `keyword-metrics`), muestra sus métricas (volumen, dificultad, intent, opportunityScore…) y un semáforo en el sidebar del editor que compara la keyword contra title, meta, H1, slug y contenido. Más una auditoría que lista qué páginas no tienen keyword y cuáles la tienen pero les falta optimización.
 
-**Baseline (audit 2026-06-24T15:26:07Z, project 7702617):** 35 categorías. Causa raíz #1 = internal-linking emite `[[slug|label]]` crudo. La API de Site Audit de Ahrefs vía MCP devuelve `Insufficient plan`, así que las URLs afectadas se derivan del snapshot de crawl pegado + grep del repo. Validación de schema.org se hará con el MCP `schema-org` de mcp-hub.
+**Baseline (recon 2026-06-25):**
+- `keyword-metrics` collection ya existe y es rica (keyword, targetURL, volume, difficulty, intent, paaQuestions, topDomain, hasAiOverview, opportunityScore, avgWordCount) y ya tiene relaciones `post` y `page`.
+- Posts ya tienen `primaryKeyword` + `semanticKeywords` (relación a keyword-metrics). **Pages NO tienen keyword ni meta.**
+- Existe `src/plugins/seo/utils/seoAnalyzer.ts` (Yoast-like: title length, keyword density, meta) → base del semáforo.
+- Keyword research reciente en `content/keywords.md` (tabla Keyword|Target URL|métricas) y `content/keywords_map.json` (slug→keyword), poblado vía DinoRank.
 
 ## v1 Requirements
 
-### LINKS — Integridad de enlaces internos
+### KW — Modelo de keyword objetivo
 
-- [ ] **LINKS-01**: El pipeline de internal-linking (`build-internal-links.ts` / `LinkInjector.ts`) nunca escribe `[[slug|label]]` crudo en el contenido publicado; toda referencia se resuelve a un link válido con su URL canónica (categoría y locale correctos) o se omite
-- [ ] **LINKS-02**: El contenido ya publicado (markdown + Payload) se sanea: cero ocurrencias de `[[` / `]]` en el HTML renderizado de cualquier página
-- [ ] **LINKS-03**: Cero links internos a posts inexistentes; cada anchor interno apunta a una URL que responde 200 (resolver casos como `typescript-best-practices`, `payloadcms-tutorial`, `nextjs-server-components`, `payloadcms-vs-strapi` por locale)
-- [ ] **LINKS-04**: Los links internos usan la ruta con categoría correcta (ej. `/blog/cs-fundamentals/tablas-hash`, no `/blog/tablas-hash`) y el prefijo de locale correcto (`/en/...` solo si existe la traducción)
-- [ ] **LINKS-05**: Links internos no apuntan a URLs que redirigen; se actualizan al destino final (incl. legacy `/posts/*` → `/blog/*` que hoy dan 308)
-- [ ] **LINKS-06**: Contenido y rutas de test fuera de producción (ej. `/blog/test/see-also-test`) — no crawleable ni linkeado
+- [ ] **KW-01**: Pages tienen un campo `primaryKeyword` (relación a `keyword-metrics`), igual que Posts, para asignar una keyword objetivo a cada página estática
+- [ ] **KW-02**: Las páginas de listado generadas por código (categoría, autor) pueden asignarse una keyword objetivo (vía el doc de categoría/autor o un mapeo configurable) para entrar en el scoring
+- [ ] **KW-03**: La keyword objetivo de Posts y Pages es consistente: reusa `primaryKeyword`→`keyword-metrics` (no se duplica con un campo de texto suelto)
 
-### IMG — Imágenes
+### METRICS — Métricas de la keyword en la página
 
-- [ ] **IMG-01**: Cero imágenes rotas en páginas públicas; toda `<img>`/`og:image` resuelve a un asset que responde 200 (Ahrefs marca 159+2)
-- [ ] **IMG-02**: Las imágenes embebidas en contenido vía wikilink (`![[...]]` u `[[...]]`) se convierten a markdown de imagen con URL válida o se eliminan
-- [ ] **IMG-03**: El retrato del autor vía `_next/image?url=/api/media/file/juan-angulo-portrait-1.avif` deja de devolver 400 (loader / `remotePatterns` o servir el asset correcto)
+- [ ] **METRICS-01**: La vista de edición de cada Post/Page muestra las métricas de su keyword objetivo (volumen, dificultad, intent, opportunityScore y demás) leídas de `keyword-metrics`
+- [ ] **METRICS-02**: Si la keyword asignada no tiene métricas cargadas, la UI lo indica con un estado claro (sin romper el editor)
 
-### HREF — Hreflang y atributo lang
+### SCORE — Semáforo estilo Yoast (sidebar del editor)
 
-- [ ] **HREF-01**: `<html lang>` coincide con el locale de cada página (es en raíz, en bajo `/en`) — resuelve el mismatch hreflang↔lang en ~90 páginas
-- [ ] **HREF-02**: Las anotaciones hreflang siguen correctas y recíprocas (es ↔ en) y apuntan a URLs 200 tras los fixes de LINKS
+- [ ] **SCORE-01**: El sidebar del editor muestra un semáforo (verde/ámbar/rojo) por check: keyword en el title, en la meta description, en el H1, en el slug/URL, densidad en el contenido, presencia en el primer párrafo y en subtítulos
+- [ ] **SCORE-02**: Cada check da feedback accionable (qué falta y cómo arreglarlo), reusando/extendiendo `seoAnalyzer.ts`
+- [ ] **SCORE-03**: Score global por página (0-100) con color, visible de un vistazo en el editor
+- [ ] **SCORE-04**: El semáforo se recalcula con el contenido actual del editor (no requiere re-publicar para ver el estado)
 
-### INDEX — Indexabilidad y sitemap
+### AUDIT — Cobertura de keywords
 
-- [ ] **INDEX-01**: El sitemap no incluye URLs noindex (los 8 casos salen del sitemap o pierden el noindex según corresponda)
-- [ ] **INDEX-02**: Las páginas indexables relevantes están en el sitemap (resolver los 22 "indexable page not in sitemap")
-- [ ] **INDEX-03**: `robots.txt` accesible y servido con 200 + content-type correcto
-- [ ] **INDEX-04**: La URL canónica reportada sin inlinks recibe al menos un enlace interno dofollow (o se ajusta su canonical)
+- [ ] **AUDIT-01**: Reporte/vista que lista todas las páginas (Posts + Pages + listados) SIN keyword objetivo asignada
+- [ ] **AUDIT-02**: Reporte/vista que lista las páginas CON keyword pero que fallan algún check del semáforo, con el detalle de qué les falta
+- [ ] **AUDIT-03**: La auditoría es repetible (script o vista) para volver a correrla tras cambios
 
-### META — On-page
+### RESEARCH — Poblar keywords desde el research
 
-- [ ] **META-01**: Cada página indexable tiene meta description presente y de longitud adecuada (resolver missing ×5 y short ×8)
-- [ ] **META-02**: Cada página tiene exactamente un `<h1>` no vacío (resolver missing ×3 y multiple H1 ×22)
-- [ ] **META-03**: Titles sin quedar demasiado cortos y coincidiendo con el title de SERP donde aplique
-- [ ] **META-04**: Open Graph completo en las 6 páginas marcadas (og:title/description/image/url/type)
-
-### SCHEMA — Datos estructurados
-
-- [ ] **SCHEMA-01**: Los 14 errores de validación schema.org se corrigen; el JSON-LD valida con el MCP `schema-org` de mcp-hub sin errores
-
-### PERF — Peso de página
-
-- [ ] **PERF-01**: Ninguna página excede el límite de crawl de 2 MB de Googlebot; se reduce el HTML de las 2 páginas marcadas como demasiado grandes
-- [ ] **PERF-02**: Las 6 páginas "slow" se revisan; las que sigan lentas se documentan o se optimizan (continuidad del CWV de v1.1)
-
-### MONITOR — Monitoreo de Domain Rating en admin
-
-- [ ] **MONITOR-01**: El dashboard del admin (Payload) muestra el Domain Rating de `juan-tech.com` obtenido del endpoint público free de Ahrefs (`GET https://api.ahrefs.com/v3/public/domain-rating-free?target=juan-tech.com`, sin API key), con la atribución obligatoria "Domain Rating by Ahrefs" enlazada a ahrefs.com (requisito de la Domain Rating License)
-- [ ] **MONITOR-02**: El DR se obtiene a lo sumo 1 vez cada 24h; el valor se cachea server-side (p. ej. global de Payload `site-metrics` con `domainRating` + `fetchedAt`); las cargas del admin dentro de la ventana de 24h leen del cache sin volver a pegarle al endpoint
-- [ ] **MONITOR-03**: Si el fetch falla (timeout/red/error/respuesta inválida) degrada con gracia: muestra el último DR cacheado marcado como desactualizado y nunca rompe el render del dashboard
+- [ ] **RESEARCH-01**: Revisar el keyword research más reciente (`content/keywords.md` / DinoRank) y asignar la keyword objetivo a cada página existente que aún no la tenga, según el mapeo keyword↔URL
+- [ ] **RESEARCH-02**: Las keywords asignadas tienen su doc de `keyword-metrics` con métricas (volumen/dificultad/intent) cargadas; las que falten se marcan para investigar
 
 ## Future Requirements
 
-<!-- Diferido a milestones posteriores. -->
+<!-- Diferido. -->
 
-- Rediseñar la lógica de selección de anchors/keywords del internal-linking (este milestone solo arregla la emisión y sanea)
-- Auditoría de calidad editorial / E-E-A-T del contenido
-- Monitoreo continuo automatizado del Site Audit (alertas ante regresiones)
+- Sugerencias automáticas de keyword por página (NLP / DinoRank en vivo)
+- Reescritura asistida del contenido para subir el score
+- Tracking histórico del score por página
 
 ## Out of Scope
 
-<!-- Excluido explícitamente con razón. -->
+<!-- Excluido. -->
 
-- Reescritura de contenido por calidad (este milestone es técnico)
-- Cambios al modelo de contenido de Payload (no relacionado con los issues)
-- Rediseño visual del Header/Footer
-- Re-crawl manual en Ahrefs para validar (lo hace Juan; el MCP de Site Audit está en plan insuficiente)
+- Rehacer el keyword research desde cero (se usa el existente de DinoRank)
+- Cambiar el modelo de `keyword-metrics` más allá de relacionarlo con Pages
+- Optimización on-page automática del contenido (el semáforo informa, no reescribe)
 
 ## Traceability
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| LINKS-01 | Phase 15 | Done |
-| LINKS-02 | Phase 15 | Done |
-| IMG-02 | Phase 15 | Done |
-| LINKS-03 | Phase 16 | Done |
-| LINKS-04 | Phase 16 | Done |
-| LINKS-05 | Phase 16 | Done |
-| LINKS-06 | Phase 16 | Done |
-| IMG-01 | Phase 17 | Done |
-| IMG-03 | Phase 17 | Done |
-| HREF-01 | Phase 17 | Done |
-| HREF-02 | Phase 17 | Done |
-| INDEX-01 | Phase 18 | Done |
-| INDEX-02 | Phase 18 | Done |
-| INDEX-03 | Phase 18 | Done |
-| INDEX-04 | Phase 18 | Done |
-| META-01 | Phase 19 | Done |
-| META-02 | Phase 19 | Done |
-| META-03 | Phase 19 | Done |
-| META-04 | Phase 19 | Done |
-| SCHEMA-01 | Phase 19 | Done |
-| PERF-01 | Phase 19 | Done |
-| PERF-02 | Phase 19 | Done (author select+redirect) |
-| MONITOR-01 | Phase 20 | Done |
-| MONITOR-02 | Phase 20 | Done |
-| MONITOR-03 | Phase 20 | Done |
+<!-- Lo completa el roadmapper: REQ-ID → Phase. -->

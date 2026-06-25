@@ -6,6 +6,7 @@
 **Entrega:** En el admin de Payload, cada Post y Page tiene una keyword objetivo (relación a `keyword-metrics`), muestra sus métricas (volumen, dificultad, intent, opportunityScore…) y un semáforo en el sidebar del editor que compara la keyword contra title, meta, H1, slug y contenido. Más una auditoría que lista qué páginas no tienen keyword y cuáles la tienen pero les falta optimización.
 
 **Baseline (recon 2026-06-25):**
+
 - `keyword-metrics` collection ya existe y es rica (keyword, targetURL, volume, difficulty, intent, paaQuestions, topDomain, hasAiOverview, opportunityScore, avgWordCount) y ya tiene relaciones `post` y `page`.
 - Posts ya tienen `primaryKeyword` + `semanticKeywords` (relación a keyword-metrics). **Pages NO tienen keyword ni meta.**
 - Existe `src/plugins/seo/utils/seoAnalyzer.ts` (Yoast-like: title length, keyword density, meta) → base del semáforo.
@@ -15,9 +16,9 @@
 
 ### KW — Modelo de keyword objetivo
 
-- [ ] **KW-01**: Pages tienen un campo `primaryKeyword` (relación a `keyword-metrics`), igual que Posts, para asignar una keyword objetivo a cada página estática
-- [ ] **KW-02**: Las páginas de listado generadas por código (categoría, autor) pueden asignarse una keyword objetivo (vía el doc de categoría/autor o un mapeo configurable) para entrar en el scoring
-- [ ] **KW-03**: La keyword objetivo de Posts y Pages es consistente: reusa `primaryKeyword`→`keyword-metrics` (no se duplica con un campo de texto suelto)
+- [x] **KW-01**: Pages tienen un campo `primaryKeyword` (relación a `keyword-metrics`), igual que Posts, para asignar una keyword objetivo a cada página estática
+- [x] **KW-02**: Las páginas de listado generadas por código (categoría, autor) pueden asignarse una keyword objetivo (vía el doc de categoría/autor o un mapeo configurable) para entrar en el scoring
+- [x] **KW-03**: La keyword objetivo de Posts y Pages es consistente: reusa `primaryKeyword`→`keyword-metrics` (no se duplica con un campo de texto suelto)
 
 ### METRICS — Métricas de la keyword en la página
 
@@ -62,9 +63,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| KW-01 | Phase 21 | Pending |
-| KW-02 | Phase 21 | Pending |
-| KW-03 | Phase 21 | Pending |
+| KW-01 | Phase 21 | Complete |
+| KW-02 | Phase 21 | Complete |
+| KW-03 | Phase 21 | Complete |
 | METRICS-01 | Phase 22 | Pending |
 | METRICS-02 | Phase 22 | Pending |
 | SCORE-01 | Phase 22 | Pending |

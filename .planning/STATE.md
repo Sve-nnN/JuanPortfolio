@@ -2,15 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
-status: roadmapped
-last_updated: "2026-06-25T00:00:00.000Z"
-last_activity: 2026-06-25
+status: "Phase 21 — plan 21-1 ejecutado (keyword data model)"
+stopped_at: "Plan 21-1 completado: primaryKeyword/semanticKeywords en Pages/Categories/Users vía relación a keyword-metrics. tsc limpio (sin errores nuevos)."
+last_updated: "2026-06-25T17:00:00.000Z"
+last_activity: 2026-06-25 — Plan 21-1 ejecutado (keyword data model en Pages/Categories/Users)
 progress:
-  total_phases: 4
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_phases: 10
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
+  percent: 10
 ---
 
 # Project State
@@ -24,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 ## Current Position
 
-Phase: 21 (not started)
-Plan: —
-Status: Roadmapped — próximo paso `/gsd:plan-phase 21`
-Last activity: 2026-06-25 — Roadmap v1.4 creado (fases 21-24)
+Phase: 21 (in progress)
+Plan: 21-1 completado
+Status: Plan 21-1 ejecutado (keyword data model)
+Last activity: 2026-06-25 — Plan 21-1 ejecutado (keyword data model en Pages/Categories/Users)
 
 ## Performance Metrics
 
@@ -49,6 +50,7 @@ Last activity: 2026-06-25 — Roadmap v1.4 creado (fases 21-24)
 - **Reusa `seoAnalyzer.ts` (v1.4):** El scorer del semáforo extiende `src/plugins/seo/utils/seoAnalyzer.ts`, no crea una nueva implementación paralela.
 - **Listados vía doc de categoría/autor (v1.4):** La keyword de páginas de listado (categoría, autor) se asigna en el documento de categoría/autor mismo o en un mapeo configurable; no se crea una colección nueva.
 - **Phase 24 puede correr tras Phase 21:** La población de keywords desde DinoRank solo necesita que el modelo exista (KW-01..03); no necesita esperar a que el semáforo esté completo.
+- **Modelo de keyword espeja Posts (21-1):** Pages usa tab Meta con `primaryKeyword` + `semanticKeywords`; Categories y Users usan `primaryKeyword` en sidebar. Todos relación a `keyword-metrics`; sin campo de texto suelto, sin relaciones reversas, sin colección nueva (KW-01..03).
 
 ### Blockers/Concerns
 
@@ -58,6 +60,6 @@ Last activity: 2026-06-25 — Roadmap v1.4 creado (fases 21-24)
 
 ## Session Continuity
 
-Last session: 2026-06-25
-Stopped at: Roadmap v1.4 creado. Fases 21-24 definidas. Próximo: `/gsd:plan-phase 21` (keyword data model).
+Last session: 2026-06-25T17:00:00.000Z
+Stopped at: Plan 21-1 completado (keyword data model en Pages/Categories/Users). Próximo: siguiente plan de Fase 21.
 Resume file: None

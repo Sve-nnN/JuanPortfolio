@@ -301,7 +301,11 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
   4. Cada check fallido muestra un texto de feedback accionable (qué falta y cómo corregirlo), construido sobre `seoAnalyzer.ts`
   5. Un score global 0-100 con badge de color es visible de un vistazo; el valor cambia en tiempo real al editar el contenido sin necesidad de guardar
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 22-1-PLAN.md — Scoring engine: analyzeKeywordChecks (es/en stemming, weighted score, blocks-aware extractor) + authenticated /api/seo/keyword-score endpoint + tests
+- [ ] 22-2-PLAN.md — KeywordScorePanel sidebar component (metrics + 7-check traffic light + score badge, 4 states, 300ms live recompute) + register ui field in Posts & Pages
 **UI hint**: yes
 
 ### Phase 23: Coverage audit

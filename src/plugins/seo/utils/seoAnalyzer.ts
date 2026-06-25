@@ -2,6 +2,20 @@
  * SEO Analyzer - Analyzes content and provides SEO recommendations
  * Similar to Rank Math's content analysis
  */
+import { PorterStemmer, PorterStemmerEs, type Stemmer } from 'natural'
+import {
+  CHECK_LABELS,
+  CHECK_ORDER,
+  CHECK_WEIGHTS,
+  DENSITY_MAX,
+  DENSITY_MIN,
+  scoreToColor,
+  type Bilingual,
+  type CheckState,
+  type KeywordCheck,
+  type KeywordCheckId,
+  type KeywordScoreResult,
+} from '../types/keywordScore'
 
 export interface SEOAnalysisInput {
   title?: string
@@ -363,35 +377,39 @@ export async function analyzeSEO(input: SEOAnalysisInput): Promise<SEOAnalysisRe
 }
 
 /**
- * Extract plain text from Lexical content
+ * Extract plain text from Lexical content.
+ *
+ * Robust to arbitrary nesting: it follows `root`/`children`/`text` (Posts
+ * single richText) AND recurses into every array element and object value, so
+ * Pages `layout` blocks — where richText lives inside arbitrary block-field
+ * properties — are also fully traversed. Structural string fields like
+ * `blockType`/`type`/`tag` are never collected (only `text` nodes are).
  */
-function extractText(content: unknown): string {
+export function extractText(content: unknown): string {
   if (!content) return ''
 
   let text = ''
+  const seen = new WeakSet<object>()
 
   function traverse(node: unknown): void {
-    if (!node) return
+    if (!node || typeof node !== 'object') return
+    if (seen.has(node)) return
+    seen.add(node)
 
-    if (typeof node === 'string') {
-      text += node + ' '
+    if (Array.isArray(node)) {
+      node.forEach(traverse)
       return
     }
 
-    if (typeof node === 'object' && node !== null) {
-      const obj = node as Record<string, unknown>
+    const obj = node as Record<string, unknown>
 
-      if (obj.text && typeof obj.text === 'string') {
-        text += obj.text + ' '
-      }
+    if (typeof obj.text === 'string') {
+      text += obj.text + ' '
+    }
 
-      if (obj.children && Array.isArray(obj.children)) {
-        obj.children.forEach(traverse)
-      }
-
-      if (obj.root) {
-        traverse(obj.root)
-      }
+    for (const [key, value] of Object.entries(obj)) {
+      if (key === 'text') continue
+      if (value && typeof value === 'object') traverse(value)
     }
   }
 
@@ -401,36 +419,90 @@ function extractText(content: unknown): string {
 }
 
 /**
- * Extract headings from Lexical content
+ * Extract heading nodes (level + text) from Lexical content or Pages blocks.
  */
-function extractHeadings(content: unknown): Record<string, number> {
-  const headings: Record<string, number> = {}
+export function extractHeadingNodes(content: unknown): Array<{ level: number; text: string }> {
+  const out: Array<{ level: number; text: string }> = []
+  const seen = new WeakSet<object>()
 
   function traverse(node: unknown): void {
     if (!node || typeof node !== 'object') return
+    if (seen.has(node)) return
+    seen.add(node)
+
+    if (Array.isArray(node)) {
+      node.forEach(traverse)
+      return
+    }
 
     const obj = node as Record<string, unknown>
+    const tag = typeof obj.tag === 'string' ? obj.tag : ''
+    const isHeading = obj.type === 'heading' || /^h[1-6]$/i.test(tag)
 
-    // Check for heading type
-    if (
-      obj.type === 'heading' ||
-      (obj.tag && typeof obj.tag === 'string' && /^h[1-6]$/i.test(obj.tag))
-    ) {
-      const tag = (obj.tag as string)?.toLowerCase() || 'h2'
-      headings[tag] = (headings[tag] || 0) + 1
+    if (isHeading) {
+      let level = 2
+      const m = tag.match(/^h([1-6])$/i)
+      if (m) level = parseInt(m[1], 10)
+      out.push({ level, text: extractText(obj.children ?? obj) })
     }
 
-    if (Array.isArray(obj.children)) {
-      obj.children.forEach(traverse)
-    }
-
-    if (obj.root) {
-      traverse(obj.root)
+    for (const [key, value] of Object.entries(obj)) {
+      if (key === 'text') continue
+      if (value && typeof value === 'object') traverse(value)
     }
   }
 
   traverse(content)
 
+  return out
+}
+
+/**
+ * Extract paragraph (and standalone text block) strings, in document order.
+ * Handles both Posts richText and Pages `layout` blocks.
+ */
+export function extractParagraphs(content: unknown): string[] {
+  const out: string[] = []
+  const seen = new WeakSet<object>()
+
+  function traverse(node: unknown): void {
+    if (!node || typeof node !== 'object') return
+    if (seen.has(node)) return
+    seen.add(node)
+
+    if (Array.isArray(node)) {
+      node.forEach(traverse)
+      return
+    }
+
+    const obj = node as Record<string, unknown>
+
+    if (obj.type === 'paragraph') {
+      const t = extractText(obj.children ?? obj).trim()
+      if (t) out.push(t)
+      return
+    }
+
+    for (const [key, value] of Object.entries(obj)) {
+      if (key === 'text') continue
+      if (value && typeof value === 'object') traverse(value)
+    }
+  }
+
+  traverse(content)
+
+  return out
+}
+
+/**
+ * Extract headings from Lexical content / Pages blocks, counted by tag.
+ */
+export function extractHeadings(content: unknown): Record<string, number> {
+  const headings: Record<string, number> = {}
+  for (const h of extractHeadingNodes(content)) {
+    const tag = `h${h.level}`
+    headings[tag] = (headings[tag] || 0) + 1
+  }
   return headings
 }
 
@@ -479,4 +551,220 @@ function countSyllables(text: string): number {
  */
 function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+// ===========================================================================
+// Yoast-style keyword scoring (SCORE-01/02/03)
+// ===========================================================================
+
+export interface KeywordAnalysisInput {
+  keyword: string
+  title?: string
+  meta?: { title?: string; description?: string }
+  slug?: string
+  content?: unknown
+  locale?: 'es' | 'en'
+}
+
+function getStemmer(locale?: string): Stemmer {
+  return locale === 'es' ? PorterStemmerEs : PorterStemmer
+}
+
+/** Lowercase + split on any non-letter/non-number (handles hyphens & punctuation). */
+function tokenize(text: string): string[] {
+  if (!text) return []
+  return text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+}
+
+function stemTokens(tokens: string[], locale?: string): string[] {
+  const stemmer = getStemmer(locale)
+  return tokens.map((t) => stemmer.stem(t))
+}
+
+/** True when every stemmed keyword token appears somewhere in the stemmed haystack. */
+function keywordTokensIn(haystack: string, keyword: string, locale?: string): boolean {
+  const kwTokens = stemTokens(tokenize(keyword), locale)
+  if (kwTokens.length === 0) return false
+  const hay = new Set(stemTokens(tokenize(haystack), locale))
+  return kwTokens.every((t) => hay.has(t))
+}
+
+/** Count contiguous occurrences of the keyword token sequence within a token list. */
+function countSequence(tokens: string[], seq: string[]): number {
+  if (seq.length === 0 || tokens.length < seq.length) return 0
+  let count = 0
+  for (let i = 0; i <= tokens.length - seq.length; i++) {
+    let ok = true
+    for (let j = 0; j < seq.length; j++) {
+      if (tokens[i + j] !== seq[j]) {
+        ok = false
+        break
+      }
+    }
+    if (ok) count++
+  }
+  return count
+}
+
+function makeCheck(id: KeywordCheckId, state: CheckState, feedback?: Bilingual): KeywordCheck {
+  return feedback && state !== 'green'
+    ? { id, state, label: CHECK_LABELS[id], feedback }
+    : { id, state, label: CHECK_LABELS[id] }
+}
+
+/** Format a percentage with es (comma) / en (dot) decimals. */
+function fmtPct(value: number): Bilingual {
+  const en = value.toFixed(1)
+  return { es: en.replace('.', ','), en }
+}
+
+const RED_FEEDBACK: Record<KeywordCheckId, Bilingual> = {
+  title: {
+    es: 'La keyword no está en el título. Agregala, idealmente al inicio.',
+    en: 'The keyword is missing from the title. Add it, ideally near the start.',
+  },
+  metaDescription: {
+    es: 'La keyword no está en la meta descripción. Inclúyela una vez.',
+    en: 'The keyword is missing from the meta description. Include it once.',
+  },
+  h1: {
+    es: 'La keyword no aparece en el H1. Usala en el encabezado principal.',
+    en: 'The keyword is missing from the H1. Use it in the main heading.',
+  },
+  slug: {
+    es: 'La keyword no está en el slug. Ajustá la URL para incluirla.',
+    en: 'The keyword is missing from the slug. Adjust the URL to include it.',
+  },
+  density: {
+    es: 'La keyword no aparece en el cuerpo. Mencionala en el contenido.',
+    en: "The keyword doesn't appear in the body. Mention it in the content.",
+  },
+  firstParagraph: {
+    es: 'La keyword no está en el primer párrafo. Mencionala al inicio.',
+    en: 'The keyword is missing from the first paragraph. Mention it at the start.',
+  },
+  subheadings: {
+    es: 'La keyword no aparece en ningún subtítulo (H2-H4). Agregala a uno.',
+    en: "The keyword doesn't appear in any subheading (H2-H4). Add it to one.",
+  },
+}
+
+/**
+ * Pure analyzer: runs the 7 Yoast-style checks against the live editor fields
+ * and returns structured results, a weighted 0-100 score and a badge color.
+ *
+ * Sources (per CONTEXT): title = meta.title || title; metaDescription =
+ * meta.description; H1 = first H1 of content (fallback to doc title); slug;
+ * density/first-paragraph/subheadings from the extracted body. Keyword
+ * matching uses real es/en stemming so morphological variants match.
+ */
+export async function analyzeKeywordChecks(
+  input: KeywordAnalysisInput,
+): Promise<KeywordScoreResult> {
+  const locale = input.locale
+  const keyword = (input.keyword || '').trim()
+  const kwTokens = stemTokens(tokenize(keyword), locale)
+
+  const titleSource = input.meta?.title || input.title || ''
+  const metaDescription = input.meta?.description || ''
+  const slug = input.slug || ''
+
+  const bodyText = extractText(input.content)
+  const bodyTokens = stemTokens(tokenize(bodyText), locale)
+  const headingNodes = extractHeadingNodes(input.content)
+  const paragraphs = extractParagraphs(input.content)
+
+  const firstH1 = headingNodes.find((h) => h.level === 1)?.text || ''
+  const h1Source = firstH1 || input.title || titleSource
+
+  const byId: Record<KeywordCheckId, KeywordCheck> = {} as Record<
+    KeywordCheckId,
+    KeywordCheck
+  >
+
+  // 1. Title (pass/fail)
+  byId.title = keywordTokensIn(titleSource, keyword, locale)
+    ? makeCheck('title', 'green')
+    : makeCheck('title', 'red', RED_FEEDBACK.title)
+
+  // 2. Meta description (pass/fail)
+  byId.metaDescription = keywordTokensIn(metaDescription, keyword, locale)
+    ? makeCheck('metaDescription', 'green')
+    : makeCheck('metaDescription', 'red', RED_FEEDBACK.metaDescription)
+
+  // 3. H1 (pass/fail)
+  byId.h1 = keywordTokensIn(h1Source, keyword, locale)
+    ? makeCheck('h1', 'green')
+    : makeCheck('h1', 'red', RED_FEEDBACK.h1)
+
+  // 4. Slug (pass/fail)
+  byId.slug = keywordTokensIn(slug, keyword, locale)
+    ? makeCheck('slug', 'green')
+    : makeCheck('slug', 'red', RED_FEEDBACK.slug)
+
+  // 5. Density
+  const occurrences = countSequence(bodyTokens, kwTokens)
+  const density = bodyTokens.length > 0 ? (occurrences / bodyTokens.length) * 100 : 0
+  if (occurrences === 0) {
+    byId.density = makeCheck('density', 'red', RED_FEEDBACK.density)
+  } else if (density >= DENSITY_MIN && density <= DENSITY_MAX) {
+    byId.density = makeCheck('density', 'green')
+  } else {
+    const pct = fmtPct(density)
+    byId.density = makeCheck('density', 'amber', {
+      es: `Densidad ${pct.es}% - apuntá a 0,5-2,5%.`,
+      en: `Density ${pct.en}% - aim for 0.5-2.5%.`,
+    })
+  }
+
+  // 6. First paragraph
+  const firstPara = paragraphs[0] || ''
+  if (!keywordTokensIn(firstPara, keyword, locale)) {
+    byId.firstParagraph = makeCheck('firstParagraph', 'red', RED_FEEDBACK.firstParagraph)
+  } else {
+    const fpTokens = stemTokens(tokenize(firstPara), locale)
+    const kwSet = new Set(kwTokens)
+    const firstIdx = fpTokens.findIndex((t) => kwSet.has(t))
+    const early = firstIdx >= 0 && firstIdx < fpTokens.length / 2
+    byId.firstParagraph = early
+      ? makeCheck('firstParagraph', 'green')
+      : makeCheck('firstParagraph', 'amber', {
+          es: 'Aparece tarde en el primer párrafo. Subila más arriba.',
+          en: 'It appears late in the first paragraph. Move it earlier.',
+        })
+  }
+
+  // 7. Subheadings (h2-h4)
+  const subs = headingNodes.filter((h) => h.level >= 2 && h.level <= 4)
+  const subsWithKw = subs.filter((h) => keywordTokensIn(h.text, keyword, locale))
+  if (subs.length === 0 || subsWithKw.length === 0) {
+    byId.subheadings = makeCheck('subheadings', 'red', RED_FEEDBACK.subheadings)
+  } else if (subs.length > 1 && subsWithKw.length < subs.length / 2) {
+    byId.subheadings = makeCheck('subheadings', 'amber', {
+      es: 'Aparece en pocos subtítulos. Reforzá en otro H2-H4.',
+      en: 'It appears in few subheadings. Reinforce it in another H2-H4.',
+    })
+  } else {
+    byId.subheadings = makeCheck('subheadings', 'green')
+  }
+
+  // Assemble in fixed order + weighted score.
+  const checks = CHECK_ORDER.map((id) => byId[id])
+  let rawScore = 0
+  for (const c of checks) {
+    const w = CHECK_WEIGHTS[c.id]
+    if (c.state === 'green') rawScore += w
+    else if (c.state === 'amber') rawScore += w * 0.5
+  }
+  const score = Math.round(rawScore)
+
+  return {
+    checks,
+    score,
+    scoreColor: scoreToColor(score),
+    passCount: checks.filter((c) => c.state === 'green').length,
+  }
 }

@@ -42,13 +42,13 @@ keyword: árboles binarios
 
 ---
 
-Los árboles binarios son, sin duda, una de las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) más potentes y versátiles en la informática. Se caracterizan por su naturaleza jerárquica, donde cada nodo puede tener como máximo dos nodos "hijo", lo que permite organizar la información de manera sorprendentemente eficiente. Desde la optimización de búsquedas y ordenaciones hasta la construcción de índices en [[diseno-bases-datos|diseño de bases de datos]] o la representación de expresiones en compiladores, su comprensión es fundamental para cualquier desarrollador que aspire a crear [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] robustos y sistemas de alto rendimiento. Explorar sus distintos tipos y operaciones revela un abanico de soluciones elegantes a problemas complejos.
+Los árboles binarios son, sin duda, una de las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/data-structures) más potentes y versátiles en la informática. Se caracterizan por su naturaleza jerárquica, donde cada nodo puede tener como máximo dos nodos "hijo", lo que permite organizar la información de manera sorprendentemente eficiente. Desde la optimización de búsquedas y ordenaciones hasta la construcción de índices en [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) o la representación de expresiones en compiladores, su comprensión es fundamental para cualquier desarrollador que aspire a crear [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) robustos y sistemas de alto rendimiento. Explorar sus distintos tipos y operaciones revela un abanico de soluciones elegantes a problemas complejos.
 
 Los árboles binarios organizan datos jerárquicamente, con cada nodo teniendo hasta dos hijos. Son esenciales para búsquedas, inserciones y eliminaciones eficientes (O(log N)) en estructuras como los Árboles Binarios de Búsqueda (BST). Los árboles balanceados (AVL, Rojinegros) mantienen la eficiencia evitando la degeneración a O(N). Sus recorridos (preorden, inorden, postorden, por niveles) permiten procesar datos de diversas formas, siendo la base de muchas aplicaciones modernas desde bases de datos hasta compiladores.
 
 ## Fundamentos de Árboles Binarios
 
-Los árboles binarios son los cimientos de muchas [[data-structures|estructuras de datos]] más avanzadas. Comprender su anatomía y principios operativos es el primer paso para dominar su uso en la programación eficiente.
+Los árboles binarios son los cimientos de muchas [estructuras de datos](/blog/cs-fundamentals/data-structures) más avanzadas. Comprender su anatomía y principios operativos es el primer paso para dominar su uso en la programación eficiente.
 
 ### Estructura y Nodos de un Árbol Binario
 
@@ -230,7 +230,7 @@ La implementación de árboles binarios de búsqueda es un ejercicio clásico pa
 
 ## Métodos de Recorrido en Árboles Binarios (DFS y BFS)
 
-Los recorridos de árboles son algoritmos que visitan cada nodo de un árbol exactamente una vez, siguiendo un orden específico. Son esenciales para procesar, copiar o serializar los datos del árbol. Se dividen principalmente en dos categorías: búsqueda en profundidad (DFS) y búsqueda en amplitud (BFS).
+Los recorridos de árboles son [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) que visitan cada nodo de un árbol exactamente una vez, siguiendo un orden específico. Son esenciales para procesar, copiar o serializar los datos del árbol. Se dividen principalmente en dos categorías: búsqueda en profundidad (DFS) y búsqueda en amplitud (BFS).
 
 ### Búsqueda en Profundidad (DFS - Depth-First Search)
 
@@ -312,7 +312,7 @@ Los árboles binarios, y sus generalizaciones como los B-trees, no son meras cur
 
 ### Bases de Datos e Indexación
 
-Los árboles son el corazón de la mayoría de los **índices de bases de datos** ([[sql-vs-nosql|SQL vs NoSQL]] y NoSQL).
+Los árboles son el corazón de la mayoría de los **índices de bases de datos** ([SQL vs NoSQL](/blog/cs-fundamentals/sql-vs-nosql) y NoSQL).
 -   **B-trees y B+ trees:** Aunque no son estrictamente binarios, son generalizaciones que permiten más de dos hijos por nodo y están optimizados para sistemas de almacenamiento en disco. Permiten búsquedas, inserciones y eliminaciones en `O(log N)` operaciones de disco, lo cual es vital para el rendimiento de las consultas en bases de datos masivas.
 -   **Recuperación Rápida:** Sin estas estructuras, una base de datos tendría que realizar búsquedas lineales (escaneos completos de tabla), lo que sería inviable para millones o miles de millones de registros.
 
@@ -347,7 +347,7 @@ La teoría se afianza con la práctica. Los árboles binarios son un campo fért
 
 Los árboles binarios son los bloques de construcción para:
 -   **Mapas y Conjuntos:** En muchos lenguajes, las implementaciones de `Map` (diccionarios, tablas de símbolos) o `Set` se basan en árboles binarios de búsqueda auto-balanceados (como Rojo-Negros) para garantizar operaciones de `O(log N)`.
--   **[[pilas-y-colas|Colas]] de Prioridad (Heaps):** Un heap binario es un árbol binario completo (implementado típicamente en un array) que cumple la propiedad de heap, esencial para algoritmos como Dijkstra o la ordenación Heap Sort.
+-   **[Colas](/blog/cs-fundamentals/pilas-y-colas) de Prioridad (Heaps):** Un heap binario es un árbol binario completo (implementado típicamente en un array) que cumple la propiedad de heap, esencial para algoritmos como Dijkstra o la ordenación Heap Sort.
 -   **Algoritmos de Inteligencia Artificial:** Desde [algoritmos de búsqueda](https://juan-tech.com/blog/cs-fundamentals/algoritmos-estructuras-datos) (A*, minimax) en juegos hasta la representación de ontologías y sistemas expertos.
 
 ### Manejo de Datos Ordenados y Optimización de Memoria
@@ -412,4 +412,4 @@ Existen muchos otros tipos de árboles, a menudo generalizaciones o especializac
 -   **Árboles de sintaxis abstracta (AST):** Usados en compiladores.
 
 ### ¿Son los árboles binarios útiles para todos los problemas de búsqueda?
-Los árboles binarios, particularmente los BSTs balanceados, son excelentes para problemas de búsqueda donde los datos son dinámicos (se insertan y eliminan). Sin embargo, para datos estáticos y muy grandes, las [[tablas-hash|tablas hash]] pueden ofrecer búsquedas promedio de O(1), y para datos que no requieren ordenación, los arrays pueden ser más simples. La elección depende siempre de las características del problema y los requisitos de rendimiento.
+Los árboles binarios, particularmente los BSTs balanceados, son excelentes para problemas de búsqueda donde los datos son dinámicos (se insertan y eliminan). Sin embargo, para datos estáticos y muy grandes, las [tablas hash](/blog/general/tablas-hash) pueden ofrecer búsquedas promedio de O(1), y para datos que no requieren ordenación, los arrays pueden ser más simples. La elección depende siempre de las características del problema y los requisitos de rendimiento.

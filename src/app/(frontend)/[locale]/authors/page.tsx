@@ -124,6 +124,7 @@ const AuthorsPage = async ({ params: paramsPromise }: Args) => {
                       width={128}
                       height={128}
                       className="object-cover"
+                      unoptimized={/\.(avif|webp)$/i.test(a.avatar.url)}
                     />
                   </div>
                 ) : null}
@@ -131,7 +132,7 @@ const AuthorsPage = async ({ params: paramsPromise }: Args) => {
                 {a.role ? <p className="text-sm text-muted mb-3">{a.role}</p> : null}
                 <Link
                   className="text-primary font-semibold mt-auto"
-                  href={`${localePrefix}/author/${a.slug || a.id}`}
+                  href={`${localePrefix}/authors/${a.slug || a.id}`}
                 >
                   {locale === 'es' ? 'Ver perfil' : 'View profile'}
                 </Link>

@@ -12,8 +12,14 @@ export function generateCollectionPageSchema(input: CollectionPageSchemaInput): 
     url,
   }
 
+  // `numberOfItems` is not valid directly on CollectionPage (Ahrefs flags it as
+  // a schema.org error). Carry the count on a nested ItemList, where it IS
+  // valid, via mainEntity. SCHEMA-01.
   if (typeof input.numberOfItems === 'number') {
-    schema.numberOfItems = input.numberOfItems
+    schema.mainEntity = {
+      '@type': 'ItemList',
+      numberOfItems: input.numberOfItems,
+    }
   }
 
   if (input.description) {

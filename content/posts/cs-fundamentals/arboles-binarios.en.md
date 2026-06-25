@@ -206,7 +206,7 @@ Binary trees play a crucial role in search engines and database management syste
 -   Indexing data for rapid retrieval based on keyword searches.
 -   Implementing data structures that support dynamic datasets, allowing quick updates.
 -   Facilitating efficient query processing and optimization in relational databases.
--   Supporting the management of relational graphs and hierarchical data in [[sql-vs-nosql|SQL vs NoSQL]] databases.
+-   Supporting the management of relational graphs and hierarchical data in [SQL vs NoSQL](/en/blog/cs-fundamentals/sql-vs-nosql) databases.
 
 The use of binary trees enhances the performance of these systems, especially concerning data access speed and organizational efficiency.
 

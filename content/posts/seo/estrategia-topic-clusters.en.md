@@ -39,9 +39,9 @@ tldr: >-
 
 ---
 
-The topic cluster strategy is a powerful approach that structures content around central themes and subtopics, enhancing both user experience and [[estrategia-seo|SEO]]. This method allows businesses to showcase their expertise and improve their search engine rankings.
+The topic cluster strategy is a powerful approach that structures content around central themes and subtopics, enhancing both user experience and [SEO](/en/blog/seo/estrategia-seo). This method allows businesses to showcase their expertise and improve their search engine rankings.
 
-In this article, we will explore relevant topic cluster examples, dissect key elements, and outline the benefits of implementing this strategy. Understanding how to leverage [[topic-clusters-seo|topic clusters]] can significantly impact your digital marketing success.
+In this article, we will explore relevant topic cluster examples, dissect key elements, and outline the benefits of implementing this strategy. Understanding how to leverage [topic clusters](/en/blog/seo/topic-clusters-seo) can significantly impact your digital marketing success.
 
 ## Understanding Topic Cluster Strategy
 
@@ -135,7 +135,7 @@ Conversion rates are another critical metric, as they measure how well content d
 
 ### Analytical Tools for Monitoring Performance
 
-Employing robust analytical tools can simplify the process of tracking these KPIs. Solutions like Google Analytics and SEMrush offer comprehensive features for monitoring website performance, user engagement, and content effectiveness. [[guia-google-search-console|Google Search Console]] is also invaluable for assessing how well the website ranks for specific keywords. Utilizing these tools allows for deeper insights into traffic sources, user behavior, and the relationship between pillar and cluster content. By gleaning data from these analyses, marketers can evaluate whether their topic cluster examples are performing as expected.
+Employing robust analytical tools can simplify the process of tracking these KPIs. Solutions like Google Analytics and SEMrush offer comprehensive features for monitoring website performance, user engagement, and content effectiveness. [Google Search Console](/en/blog/seo/guia-google-search-console) is also invaluable for assessing how well the website ranks for specific keywords. Utilizing these tools allows for deeper insights into traffic sources, user behavior, and the relationship between pillar and cluster content. By gleaning data from these analyses, marketers can evaluate whether their topic cluster examples are performing as expected.
 
 ### Adjustments Based on Data Insights
 

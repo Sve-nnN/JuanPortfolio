@@ -33,7 +33,7 @@ keyword: technical seo guide
 ---
 
 
-**Fundamentos del [[estrategia-seo|SEO]] técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
+**Fundamentos del [SEO](/blog/seo/estrategia-seo) técnico para desarrolladores** El SEO técnico es esencial para garantizar que un sitio web sea accesible y comprensible para los motores de búsqueda. Optimizar la arquitectura, la velocidad y la seguridad del sitio contribuye a mejorar la posición en los resultados de búsqueda. En este artículo, se abordarán diversos aspectos del SEO técnico. Se explorarán principios básicos, optimización de estructura y contenido, así como estrategias para evaluar el rendimiento técnico del sitio web.
 Fundamentos del SEO técnico para desarrolladores
 
 Esta sección aborda los principios básicos que sustentan el SEO técnico y cómo su correcta implementación puede impactar la visibilidad de un sitio web. Aquí se exploran las conexiones entre la arquitectura web y las prácticas de SEO.
@@ -44,7 +44,7 @@ La optimización técnica se centra en facilitar el rastreo e indexación de un 
 
 Rastreo eficiente: Permitir a los motores de búsqueda descubrir todas las páginas relevantes.
 Indexación adecuada: Asegurarse de que las páginas se almacenen correctamente en los índices de búsqueda.
-Mejora de la experiencia del usuario: Optimizar la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la usabilidad de la interfaz.
+Mejora de la experiencia del usuario: Optimizar la [velocidad de carga](/blog/general/web-performance-guide) y la usabilidad de la interfaz.
 Relación entre arquitectura web y SEO técnico
 
 La arquitectura de un sitio impacta directamente en su rendimiento SEO. Elementos como la jerarquía de las páginas, la organización de las URLs y la navegación son críticos.
@@ -54,7 +54,7 @@ URLs limpias: Facilitan tanto el rastreo como la comprensión del contenido.
 Navegación intuitiva: La accesibilidad del contenido mejora el tiempo de permanencia de los usuarios.
 Cómo afecta el SEO técnico a la visibilidad en Google
 
-Un buen SEO técnico no solo mejora la visibilidad, sino que también impacta en los rankings de búsqueda. Los factores técnicos, como la velocidad de carga y la compatibilidad móvil, son considerados por Google en su algoritmo de clasificación.
+Un buen SEO técnico no solo mejora la visibilidad, sino que también impacta en los rankings de búsqueda. Los factores técnicos, como la [velocidad de carga](/blog/general/web-performance-guide) y la compatibilidad móvil, son considerados por Google en su algoritmo de clasificación.
 
 Velocidad de carga: Un sitio que carga rápidamente puede obtener posiciones más altas.
 Compatibilidad móvil: La optimización para dispositivos móviles es esencial para el ranking.
@@ -65,7 +65,7 @@ El diseño de la estructura del sitio es fundamental para facilitar el rastreo y
 
 Diseño de URLs limpias y amigables
 
-Las URLs deben ser claras y descriptivas. Se recomienda que incluyan [[guia-keyword-research|palabras clave]] relevantes y eviten parámetros innecesarios. Esto no solo facilita la indexación, sino que también reduce la confusión del usuario. Considerar los siguientes elementos al diseñar URLs:
+Las URLs deben ser claras y descriptivas. Se recomienda que incluyan [palabras clave](/blog/seo/guia-keyword-research) relevantes y eviten parámetros innecesarios. Esto no solo facilita la indexación, sino que también reduce la confusión del usuario. Considerar los siguientes elementos al diseñar URLs:
 
 Usar guiones (-) en lugar de guiones bajos (_).
 Evitar el uso de caracteres especiales y números innecesarios.
@@ -76,22 +76,22 @@ Una jerarquía bien definida permite a los motores de búsqueda comprender la re
 
 Categorías principales que agrupan similar contenido.
 Subcategorías que desglosan temas más específicos.
-[[enlaces-internos-guia|enlaces internos]] que conecten el contenido relacionado para mejorar el contexto.
+[enlaces internos](/blog/seo/enlaces-internos-guia) que conecten el contenido relacionado para mejorar el contexto.
 Implementación y actualización de sitemaps XML
 
-Un [[xml-sitemap-automation|sitemap XML]] XML actúa como un mapa del sitio para los motores de búsqueda. Incluir todas las páginas importantes facilita su descubrimiento. Es importante actualizar el sitemap cada vez que se realicen cambios en el contenido del sitio. Al considerarlo, tener en cuenta:
+Un [sitemap XML](/blog/general/xml-sitemap-automation) XML actúa como un mapa del sitio para los motores de búsqueda. Incluir todas las páginas importantes facilita su descubrimiento. Es importante actualizar el sitemap cada vez que se realicen cambios en el contenido del sitio. Al considerarlo, tener en cuenta:
 
 Incluir las páginas más relevantes y eliminar las que ya no existan.
 Actualizar el sitemap periódicamente para reflejar cambios recientes.
-Enviar el sitemap actualizado a [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation).
-Uso correcto del archivo [[robots-txt-best-practices|robots.txt]]
+Enviar el sitemap actualizado a [Google Search Console](/blog/general/xml-sitemap-automation).
+Uso correcto del archivo [robots.txt](/blog/general/robots-txt-best-practices)
 
 El archivo robots.txt regula cómo los robots de los motores de búsqueda interactúan con el sitio. Permite bloquear el acceso a secciones no deseadas y garantizar que el rastreo se realice de manera eficiente. Es necesario:
 
 Incluir directivas que permitan o deshabiliten el acceso a carpetas específicas.
 Evitar bloqueos innecesarios que puedan afectar la indexación de contenido relevante.
 Revisar el archivo regularmente para asegurar que esté optimizado y acorde a cambios recientes en la estructura del sitio.
-Mejoras en la velocidad y [[web-performance-guide|rendimiento web]]
+Mejoras en la velocidad y [rendimiento web](/blog/general/web-performance-guide)
 
 La velocidad de carga es un factor crítico para mejorar la experiencia del usuario y optimizar el rendimiento de un sitio. Implementar estrategias efectivas puede minimizar el tiempo de carga y, a su vez, mejorar el posicionamiento en buscadores.
 
@@ -119,9 +119,9 @@ Utilizar herramientas para analizar el rendimiento es fundamental para identific
 
 Evaluar el tiempo de respuesta del servidor y la eficiencia de los recursos multimedia.
 Realizar auditorías periódicas para asegurar el cumplimiento de los estándares de rendimiento.
-[Datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y [[schema-markup-guide|datos estructurados]]
+[Datos estructurados](/blog/general/schema-markup-guide) y [datos estructurados](/blog/general/schema-markup-guide)
 
-Los datos estructurados permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
+Los [datos estructurados](/blog/general/schema-markup-guide) permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
 Introducción a datos estructurados y su impacto en SEO
 
@@ -189,7 +189,7 @@ Identificación y solución de enlaces rotos
 
 Los enlaces rotos generan frustración en los usuarios y afectan el valor SEO. Para resolver este problema, es recomendable:
 
-Utilizar herramientas como Screaming Frog o [[guia-google-search-console|Google Search Console]] para escanear el sitio y detectar enlaces inactivos.
+Utilizar herramientas como Screaming Frog o [Google Search Console](/blog/seo/guia-google-search-console) para escanear el sitio y detectar enlaces inactivos.
 Verificar periódicamente todos los enlaces internos y externos.
 Actualizar o eliminar los enlaces que no estén funcionando.
 Redirecciones 301 para preservar valor SEO
@@ -198,7 +198,7 @@ Cambiar URLs es un proceso que puede provocar pérdida de tráfico. Implementar 
 
 Configurar redirecciones 301 en el archivo .htaccess o en la configuración del servidor.
 Revisar que todas las redirecciones apunten a la página adecuada.
-Utilizar [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide) para verificar que no haya cadenas de redirección innecesarias.
+Utilizar [herramientas de auditoría](/blog/general/non-developers-guide) para verificar que no haya cadenas de redirección innecesarias.
 Prevención y resolución de contenido duplicado
 
 El contenido duplicado puede confundir a los motores de búsqueda y diluir el valor de clasificación de un sitio. Para abordarlo, se deben seguir estas recomendaciones:
@@ -235,11 +235,11 @@ La salud del certificado SSL debe ser monitoreada regularmente. Un certificado c
 Comprobar la fecha de expiración de los certificados.
 Validar que la cadena de certificados sea correcta.
 Ejecutar auditorías de seguridad periódicas para identificar posibles vulnerabilidades.
-Monitoreo y análisis del [rendimiento SEO técnico](https://juan-tech.com/blog/tech-seo/ssr-vs-csr-seo)
+Monitoreo y análisis del [rendimiento SEO técnico](/blog/general/ssr-vs-csr-seo)
 
 El monitoreo y análisis del rendimiento técnico del SEO son fundamentales para asegurar que un sitio web se mantenga optimizado y competitivo en los motores de búsqueda. A través de herramientas especializadas es posible identificar áreas que requieren ajustes y mejoras continuas.
 
-Uso de Google Search Console para rastreo y diagnóstico
+Uso de [Google Search Console](/blog/general/xml-sitemap-automation) para rastreo y diagnóstico
 
 Google Search Console (GSC) proporciona información valiosa sobre el rendimiento y la visibilidad de un sitio. Permite diagnosticar problemas de rastreo, como errores 404 y problemas de indexación. Algunas de sus funcionalidades clave incluyen:
 
@@ -264,9 +264,9 @@ Interpretación de Web Vitals para mejorar experiencia de usuario
 
 Web Vitals mide aspectos clave del rendimiento de una página web, como la velocidad de carga, la interactividad y la estabilidad visual. Esta métrica incluye elementos como:
 
-Largest Contentful Paint (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
+[Largest Contentful Paint](/blog/general/core-web-vitals-guide) (LCP) – Tiempo que tarda en cargar el elemento más grande en la pantalla.
 First Input Delay (FID) – Tiempo que el usuario espera para interactuar con la página.
-Cumulative Layout Shift (CLS) – Mide la estabilidad visual de la página.
+[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS) – Mide la estabilidad visual de la página.
 Gestión avanzada del rastreo e indexación
 
 La gestión del rastreo e indexación es fundamental para asegurar que los motores de búsqueda accedan de manera eficiente al contenido de un sitio. Las estrategias avanzadas permiten optimizar el rastreo, maximizar la visibilidad y mantener un control óptimo sobre cómo los motores indexan la información.
@@ -276,7 +276,7 @@ Configuración estratégica del archivo robots.txt
 El archivo robots.txt es una herramienta crucial para gestionar el acceso de los motores de búsqueda a diferentes secciones de un sitio. Su configuración debe ser cuidadosa. Al manejar este archivo, es necesario:
 
 Permitir el acceso a las páginas importantes.
-Bloquear rutas no relevantes que pueden desperdiciar el Crawl Budget.
+Bloquear rutas no relevantes que pueden desperdiciar el [Crawl Budget](/blog/general/robots-txt-best-practices).
 Utilizar comentarios para aclarar la intención detrás de las reglas aplicadas.
 
 Una configuración errónea puede resultar en la exclusión de páginas que deberían ser indexadas.
@@ -291,7 +291,7 @@ noarchive, si se desea prevenir que los motores guarden una copia en caché de l
 
 Estas directivas contribuyen a mantener la calidad del contenido accesible para los usuarios finales.
 
-Optimización del Crawl Budget para sitios extensos
+Optimización del [Crawl Budget](/blog/general/robots-txt-best-practices) para sitios extensos
 
 El Crawl Budget se refiere a la cantidad de páginas que Google puede rastrear en un sitio. Para optimizar este presupuesto en sitios amplios, se deben considerar las siguientes acciones:
 

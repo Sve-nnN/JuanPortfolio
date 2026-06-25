@@ -52,7 +52,7 @@ El **E-E-A-T Google** (Experiencia, Expertise, Autoridad y Confianza) actúa com
 Para realizar una correcta **optimización para raters**, debemos entender que estos pilares no son independientes, sino que se refuerzan mutuamente:
 
 1.  **Experiencia (Experience):** ¿Ha usado el autor el producto? ¿Ha vivido el problema? Google premia el "I was there" (yo estuve ahí). La **autenticidad de marca** nace de la vivencia real.
-2.  **Expertise (Conocimiento):** Se refiere al nivel de **expertise en contenido**. Un artículo sobre leyes debe estar escrito o revisado por un abogado; uno sobre [[estrategia-seo|SEO]], por un consultor con track-record.
+2.  **Expertise (Conocimiento):** Se refiere al nivel de **expertise en contenido**. Un artículo sobre leyes debe estar escrito o revisado por un abogado; uno sobre [SEO](/blog/seo/estrategia-seo), por un consultor con track-record.
 3.  **Autoridad (Authoritativeness):** La **reputación del autor** fuera de su propio sitio. ¿Quién más cita a este experto? La **autoridad de dominio técnica** se construye con menciones en medios de prestigio.
 4.  **Confianza (Trust):** El pilar central. Sin confianza, los otros tres colapsan. Incluye la seguridad técnica (HTTPS), la transparencia en la política de privacidad y la honestidad en la información.
 
@@ -96,7 +96,7 @@ from bs4 import BeautifulSoup
 def audit_eeat_signals(url):
     """
     Analiza una URL en busca de señales de confianza y autoridad.
-    Busca [[schema-markup-guide|datos estructurados]], enlaces de confianza y transparencia.
+    Busca [datos estructurados](/blog/general/schema-markup-guide), enlaces de confianza y transparencia.
     """
     print(f"🔍 Auditando E-E-A-T para: {url}")
     try:

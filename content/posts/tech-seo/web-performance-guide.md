@@ -20,7 +20,9 @@ tldr: >-
   cumplimiento estricto de las Core Web Vitals para garantizar la mejor
   experiencia posible.
 metaTitle: 'Rendimiento Web 2026: Cómo Medir y Mejorar la Velocidad'
-metaDescription: 'Guía de rendimiento web: cómo medir la velocidad con PageSpeed Insights, optimizar Core Web Vitals y acelerar la carga para mejorar el SEO de tu sitio.'
+metaDescription: >-
+  Guía de rendimiento web: cómo medir la velocidad con PageSpeed Insights,
+  optimizar Core Web Vitals y acelerar la carga para mejorar el SEO de tu sitio.
 primary_keywords:
   - rendimiento web
   - wpo
@@ -62,7 +64,7 @@ Al combinar los datos de laboratorio con los de campo, PageSpeed Insights propor
 
 ## Métricas Críticas para Evaluar el Rendimiento Web
 
-Evaluar el rendimiento web es esencial para ofrecer una experiencia de usuario óptima, lo que a su vez afecta el posicionamiento [[estrategia-seo|SEO]]. Existen métricas críticas que, al ser monitoreadas, permiten a los desarrolladores y administradores identificar áreas de mejora. A continuación, se describen cuatro métricas fundamentales que deben ser consideradas al momento de medir el rendimiento de una página web.
+Evaluar el rendimiento web es esencial para ofrecer una experiencia de usuario óptima, lo que a su vez afecta el posicionamiento [SEO](/blog/seo/estrategia-seo). Existen métricas críticas que, al ser monitoreadas, permiten a los desarrolladores y administradores identificar áreas de mejora. A continuación, se describen cuatro métricas fundamentales que deben ser consideradas al momento de medir el rendimiento de una página web.
 
 ### First Contentful Paint (FCP)
 
@@ -132,4 +134,5 @@ Estas estrategias se alinean con el objetivo de **mejorar el rendimiento de una 
 
 ## Ver también
 
-- [Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide)
+- [Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código](/blog/general/core-web-vitals-guide)
+- [Guía de Core Web Vitals 2026: La Métrica de Oro del SEO](/blog/general/core-web-vitals-guide)

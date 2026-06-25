@@ -20,7 +20,9 @@ tldr: >-
   resultados enriquecidos de la IA y mejorar el CTR mediante fragmentos visuales
   impactantes.
 metaTitle: 'Schema Markup 2026: Guía de Datos Estructurados JSON-LD'
-metaDescription: 'Guía de schema markup paso a paso: qué es, cómo implementar JSON-LD y qué tipos usar para conseguir resultados enriquecidos y contexto para la IA.'
+metaDescription: >-
+  Guía de schema markup paso a paso: qué es, cómo implementar JSON-LD y qué
+  tipos usar para conseguir resultados enriquecidos y contexto para la IA.
 primary_keywords:
   - schema markup guide
   - datos estructurados
@@ -36,7 +38,7 @@ semantic_keywords:
   - optimización click through rate
 keyword: schema markup guide
 ---
-Schema markup is a critical component of modern [[estrategia-seo|SEO]], enabling search engines to better understand and present your content. In this guide, you will explore the essentials of schema markup, including its various types, implementation methods, and the significant benefits it brings to your SEO strategy in 2026.
+Schema markup is a critical component of modern [SEO](/blog/seo/estrategia-seo), enabling search engines to better understand and present your content. In this guide, you will explore the essentials of schema markup, including its various types, implementation methods, and the significant benefits it brings to your SEO strategy in 2026.
 
 By leveraging data structured through schema, you can enhance your website's visibility and improve user engagement. Whether you're a developer, technical SEO, or business owner, this comprehensive resource will provide the insights needed to optimize your online presence.
 
@@ -199,7 +201,7 @@ Measuring the impact of schema markup on SEO is essential for determining its ef
 
 ### Tracking Rich Results Performance
 
-Rich results, which are enhanced search listings that display additional information, can significantly improve click-through rates (CTR) and user engagement. To track the performance of rich results, it's vital to use tools like [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation). This platform provides insights into how the rich results are performing, including visibility in search results, impressions, and click data associated with specific schema types. The following table summarizes important metrics to monitor for evaluating rich results performance:
+Rich results, which are enhanced search listings that display additional information, can significantly improve click-through rates (CTR) and user engagement. To track the performance of rich results, it's vital to use tools like [Google Search Console](/blog/general/xml-sitemap-automation). This platform provides insights into how the rich results are performing, including visibility in search results, impressions, and click data associated with specific schema types. The following table summarizes important metrics to monitor for evaluating rich results performance:
 
 | Metric | Description | Importance |
 | --- | --- | --- |
@@ -236,4 +238,4 @@ The maintenance of schema markup is not a one-time effort; instead, it requires 
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

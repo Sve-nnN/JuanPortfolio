@@ -35,7 +35,7 @@ En este artículo, exploraremos sus características, ventajas y cómo implement
 
 ## ¿Qué es Payload CMS?
 
-Payload CMS es un sistema de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) moderno y flexible que combina la facilidad de uso de un CMS tradicional con la potencia de una API headless. Permite a los desarrolladores y a los equipos de contenido gestionar y entregar contenido de manera eficiente en múltiples plataformas al mismo tiempo. Su enfoque headless permite desacoplar el frontend del backend, brindando a los desarrolladores la libertad de utilizar cualquier tecnología de frontend para construir aplicaciones web y móviles. Esta característica es especialmente valiosa en un entorno donde las necesidades de los usuarios son cada vez más dinámicas y donde la velocidad de desarrollo es crucial.
+Payload CMS es un sistema de gestión de contenido moderno y flexible que combina la facilidad de uso de un CMS tradicional con la potencia de una API headless. Permite a los desarrolladores y a los equipos de contenido gestionar y entregar contenido de manera eficiente en múltiples plataformas al mismo tiempo. Su enfoque headless permite desacoplar el frontend del backend, brindando a los desarrolladores la libertad de utilizar cualquier tecnología de frontend para construir aplicaciones web y móviles. Esta característica es especialmente valiosa en un entorno donde las necesidades de los usuarios son cada vez más dinámicas y donde la velocidad de desarrollo es crucial.
 
 ### Arquitectura y características principales
 
@@ -65,7 +65,7 @@ Payload CMS se ha convertido en una herramienta altamente valiosa para desarroll
 
 ### Integración con frameworks modernos como Next.js
 
-Una de las grandes ventajas de Payload CMS es su capacidad para integrarse con frameworks modernos como [[nextjs-portfolio|Next.js]], lo que permite construir aplicaciones web dinámicas y escalables. La integración es sencilla y aprovecha las potentes características de Next.js, como su soporte para el renderizado del lado del servidor (SSR) y la generación de sitios estáticos (SSG).
+Una de las grandes ventajas de Payload CMS es su capacidad para integrarse con frameworks modernos como Next.js, lo que permite construir aplicaciones web dinámicas y escalables. La integración es sencilla y aprovecha las potentes características de Next.js, como su soporte para el [renderizado del lado del servidor](https://juan-tech.com/blog/development/hidratacion-web) (SSR) y la generación de sitios estáticos (SSG).
 
 Al utilizar Payload CMS con Next.js, los datos se pueden gestionar a través de APIs REST o GraphQL, lo que facilita el acceso y la manipulación de contenido a través de la interfaz de usuario de Next.js. Esto significa que los desarrolladores pueden obtener datos estructurados de manera efectiva y dinámicamente, permitiendo una experiencia de usuario más fluida.
 

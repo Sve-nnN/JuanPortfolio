@@ -84,6 +84,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
     >
       <head>
+        {/* `<html lang>` is rendered as the default `es` so the tree stays
+            static (no headers() to derive locale on the server). This inline
+            script corrects it from the URL before first paint — earlier than
+            the React HtmlLangSync effect — so JS-rendering crawlers see the
+            right lang on `/en` routes and it matches the per-page hreflang.
+            HREF-01. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var l=location.pathname.split('/')[1]==='en'?'en':'es';if(document.documentElement.lang!==l)document.documentElement.lang=l;}catch(e){}})();",
+          }}
+        />
         {/* LCP hero images are served from Cloudinary; open the connection
             early so the high-priority image preload doesn't pay the TLS/DNS
             cost on the critical path. SEO audit jun-2026, issue #36. */}

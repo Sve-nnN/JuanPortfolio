@@ -38,7 +38,7 @@ semantic_keywords:
   - SQL vs NoSQL performance
 keyword: sql vs nosql
 ---
-Las [[diseno-bases-datos|diseño de bases de datos]] son esenciales en la gestión de información y su elección impacta en el desarrollo de aplicaciones. Existen dos tipos principales: relacionales y no relacionales. Cada una tiene características particulares que las hacen adecuadas para diferentes necesidades. Las bases de datos relacionales organizan información en tablas y son ideales para datos estructurados. En cambio, las bases no relacionales ofrecen flexibilidad para manejar datos no estructurados, siendo favorables en entornos que requieren agilidad y escalabilidad.
+Las [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) son esenciales en la gestión de información y su elección impacta en el desarrollo de aplicaciones. Existen dos tipos principales: relacionales y no relacionales. Cada una tiene características particulares que las hacen adecuadas para diferentes necesidades. Las bases de datos relacionales organizan información en tablas y son ideales para datos estructurados. En cambio, las bases no relacionales ofrecen flexibilidad para manejar datos no estructurados, siendo favorables en entornos que requieren agilidad y escalabilidad.
 
 ## Diferencias fundamentales entre bases relacionales y no relacionales
 
@@ -271,7 +271,7 @@ El mantenimiento y la optimización de bases de datos relacionales implican prá
 
 ### Plataformas y tecnologías en bases no relacionales
 
-Las bases de datos no relacionales han ganado terreno en el manejo de grandes volúmenes de información y datos no estructurados. Estas tecnologías ofrecen enfoques innovadores para la gestión de datos.
+Las bases de datos no relacionales han ganado terreno en el manejo de grandes volúmenes de información y datos no estructurados. Estas tecnologías ofrecen enfoques innovadores para la [gestión de datos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas).
 
 #### MongoDB, Cassandra y otros sistemas representativos
 

@@ -36,7 +36,7 @@ tldr: >-
   for semantic relevance, and use internal links to signal hierarchy to search
   engines in 2026.
 ---
-Internal linking is a crucial aspect of web design that not only enhances user experience but also boosts [[estrategia-seo|SEO]] performance. By connecting different pages within your website, internal links create a clear structure that guides users and search engines alike.
+Internal linking is a crucial aspect of web design that not only enhances user experience but also boosts [SEO](/en/blog/seo/estrategia-seo) performance. By connecting different pages within your website, internal links create a clear structure that guides users and search engines alike.
 
 This guide delves into the fundamental concepts of internal linking, its benefits, and how to implement effective strategies to optimize your site. Understanding these components is essential for developers, technical SEOs, and business owners aiming to improve their online presence.
 

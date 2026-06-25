@@ -37,7 +37,7 @@ tldr: >-
   code interacts with AI crawlers, how your rendering strategy impacts
   performance, and how your data structures facilitate information extraction.
 ---
-In the fast-evolving landscape of digital marketing, [[technical SEO](https://juan-tech.com/en/blog/tech-seo/xml-sitemap-automation)](https://juan-tech.com/en/blog/tech-[[estrategia-seo|SEO]]/robots-txt-best-practices) serves as a fundamental pillar for success. This guide aims to equip developers, [technical SEOs](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices), and business owners with essential strategies to enhance their website's visibility and performance in search engines.
+In the fast-evolving landscape of digital marketing, technical SEO serves as a fundamental pillar for success. This guide aims to equip developers, [technical SEOs](/en/blog/general/robots-txt-best-practices), and business owners with essential strategies to enhance their website's visibility and performance in search engines.
 
 From understanding how crawlers function to optimizing URL structures and addressing common content issues, this article delves into critical aspects of technical SEO. Let’s navigate the complexities of technical SEO to unlock the potential of your web presence.
 
@@ -49,7 +49,7 @@ The role of search engine crawlers, often referred to as bots, is fundamental in
 
 SEO bots are automated programs used by search engines to navigate and index the vast expanse of the Internet. These bots, sometimes known as crawlers or spiders, systematically visit web pages, analyze their content, and follow hyperlinks to discover new content. Their primary goal is to index a website’s information accurately, enabling search engines to retrieve relevant results for user queries.
 
-When a bot accesses a website, it begins at a designated point, usually the homepage, and subsequently follows links to other pages. This process is known as crawling. The effectiveness of crawling is influenced by several factors, including the site’s structure, the speed of serving pages, and the presence of [[robots-txt-best-practices|robots.txt]] directives that guide bot behavior.
+When a bot accesses a website, it begins at a designated point, usually the homepage, and subsequently follows links to other pages. This process is known as crawling. The effectiveness of crawling is influenced by several factors, including the site’s structure, the speed of serving pages, and the presence of [robots.txt](/en/blog/general/robots-txt-best-practices) directives that guide bot behavior.
 
 ### Crawl Budget Optimization Techniques
 
@@ -76,7 +76,7 @@ In summary, understanding how crawlers work and optimizing factors such as crawl
 
 ## URL and Domain Architecture
 
-Effective URL and domain architecture plays a pivotal role in SEO, influencing both [search engine crawling](https://juan-tech.com/en/blog/tech-seo/ssr-vs-csr-seo) and user experience. A well-structured URL not only aids in indexing by search engines but also provides users with a clear understanding of the content they can expect. This section delves into the best practices for URL hierarchy, the importance of keyword usage, and selecting a suitable domain strategy.
+Effective URL and domain architecture plays a pivotal role in SEO, influencing both [search engine crawling](/en/blog/general/ssr-vs-csr-seo) and user experience. A well-structured URL not only aids in indexing by search engines but also provides users with a clear understanding of the content they can expect. This section delves into the best practices for URL hierarchy, the importance of keyword usage, and selecting a suitable domain strategy.
 
 ### URL Hierarchy Best Practices
 
@@ -153,5 +153,5 @@ In summary, addressing content issues through diligent audits and proper managem
 
 ## See Also
 
-- [SEO for Headless CMS 2026: Technical Strategies](https://juan-tech.com/en/blog/development/headless-cms-seo)
-- [Schema Markup Guide 2026: Mastering JSON-LD](https://juan-tech.com/en/blog/tech-seo/schema-markup-guide)
+- [SEO for Headless CMS 2026: Technical Strategies](/en/blog/tech-seo/headless-cms-seo)
+- [Schema Markup Guide 2026: Mastering JSON-LD](/en/blog/general/schema-markup-guide)

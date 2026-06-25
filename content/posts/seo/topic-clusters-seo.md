@@ -27,7 +27,7 @@ semantic_keywords:
   - significativo posicionar contenido
 keyword: topic clusters seo
 ---
-Los topic clusters son una estrategia de [[estrategia-seo|SEO]] que organiza el contenido en torno a un tema central. Esta metodología mejora el posicionamiento en buscadores al agrupar páginas relacionadas en un mismo contexto. Cada topic cluster se compone de una página pilar, que proporciona información general, y varias páginas de cluster que abordan subtemas específicos. La correcta implementación de esta estrategia puede aumentar la autoridad y visibilidad de un sitio web.
+Los topic clusters son una estrategia de [SEO](/blog/seo/estrategia-seo) que organiza el contenido en torno a un tema central. Esta metodología mejora el posicionamiento en buscadores al agrupar páginas relacionadas en un mismo contexto. Cada topic cluster se compone de una página pilar, que proporciona información general, y varias páginas de cluster que abordan subtemas específicos. La correcta implementación de esta estrategia puede aumentar la autoridad y visibilidad de un sitio web.
 
 ## Fundamentos para crear una estrategia efectiva de topic clusters
 
@@ -58,7 +58,7 @@ Seleccionar un tema implica entender las preocupaciones e intereses del público
 
 ### Investigación y evaluación de subtemas basados en palabras clave
 
-Identificar subtemas es un paso crítico. Esto se logra a través de herramientas de análisis que proporcionan datos sobre [[guia-keyword-research|palabras clave]] relevantes. La [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) debe considerar tanto el volumen de búsqueda como la competencia. En este proceso, se pueden agrupar temas que se relacionen con el tema principal, asegurando que se desarrollen contenidos que aborden aspectos variados y específicos del mismo.
+Identificar subtemas es un paso crítico. Esto se logra a través de herramientas de análisis que proporcionan datos sobre [palabras clave](/blog/seo/guia-keyword-research) relevantes. La [investigación de palabras clave](https://juan-tech.com/blog/seo/guia-keyword-research) debe considerar tanto el volumen de búsqueda como la competencia. En este proceso, se pueden agrupar temas que se relacionen con el tema principal, asegurando que se desarrollen contenidos que aborden aspectos variados y específicos del mismo.
 
 ### Consideración de la intención de búsqueda y volumen en la estrategia
 
@@ -78,7 +78,7 @@ Una página pilar debe cumplir con varias características para ser eficaz. Prim
 
 ### Integración de contenido pilar con subtemas específicos
 
-El contenido de la página pilar debe enlazar estratégicamente las páginas de clúster relacionadas. Estos [[enlaces-internos-guia|enlaces internos]] son cruciales para distribuir la autoridad y proporcionar una experiencia integral al usuario. Asociar subtemas de manera coherente ayuda a facilitar la comprensión del contenido y aumenta el interés del lector.
+El contenido de la página pilar debe enlazar estratégicamente las páginas de clúster relacionadas. Estos [enlaces internos](/blog/seo/enlaces-internos-guia) son cruciales para distribuir la autoridad y proporcionar una experiencia integral al usuario. Asociar subtemas de manera coherente ayuda a facilitar la comprensión del contenido y aumenta el interés del lector.
 
 ### Diseño y experiencia de usuario para mejorar la retención
 

@@ -35,7 +35,7 @@ tldr: >-
   identifying semantic entities, understanding intent qualifiers, and building
   topic maps that cover the entire customer journey.
 ---
-Effective keyword research is the cornerstone of any successful [[estrategia-seo|SEO]] strategy. By understanding the terms and phrases that users enter into search engines, businesses can better tailor their content to meet audience needs.
+Effective keyword research is the cornerstone of any successful [SEO](/en/blog/seo/estrategia-seo) strategy. By understanding the terms and phrases that users enter into search engines, businesses can better tailor their content to meet audience needs.
 
 This keyword research guide aims to provide a comprehensive overview of the techniques and tools essential for optimizing your SEO efforts. Drawing insights from previous trends, including the keyword research guide 2018, we will explore how to strategically target and optimize keywords for maximum impact.
 

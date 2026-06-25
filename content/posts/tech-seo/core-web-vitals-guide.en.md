@@ -58,7 +58,7 @@ Google's integration of Core Web Vitals into its overall Page Experience algorit
 
 ## Importance of Core Web Vitals for SEO
 
-Core Web Vitals are becoming increasingly essential for [[estrategia-seo|SEO]], representing key metrics that influence both search rankings and user experience. As Google continuously refines its algorithms, focusing on these metrics can significantly enhance a website's visibility and usability.
+Core Web Vitals are becoming increasingly essential for [SEO](/en/blog/seo/estrategia-seo), representing key metrics that influence both search rankings and user experience. As Google continuously refines its algorithms, focusing on these metrics can significantly enhance a website's visibility and usability.
 
 ### Impact on Search Rankings
 
@@ -66,7 +66,7 @@ The integration of Core Web Vitals into Google’s ranking criteria underscores 
 
 ### User Experience and Engagement
 
-User experience is inextricably linked to SEO performance, making it imperative to focus on Core Web Vitals. A positive user experience facilitates prolonged engagement, leading to metrics such as lower bounce rates and higher session durations. For instance, a fast-loading page with good LCP will encourage users to remain on the site longer, as they can access the vital content without delay. Additionally, lower CLS reduces the likelihood of frustrating layout shifts that can detract from a seamless browsing experience, thereby fostering user trust and encouraging return visits. These factors collectively contribute to improved rankings, proving that a well-optimized site not only meets [technical SEO](https://juan-tech.com/en/blog/tech-seo/web-performance-guide) standards but also prioritizes user satisfaction.
+User experience is inextricably linked to SEO performance, making it imperative to focus on Core Web Vitals. A positive user experience facilitates prolonged engagement, leading to metrics such as lower bounce rates and higher session durations. For instance, a fast-loading page with good LCP will encourage users to remain on the site longer, as they can access the vital content without delay. Additionally, lower CLS reduces the likelihood of frustrating layout shifts that can detract from a seamless browsing experience, thereby fostering user trust and encouraging return visits. These factors collectively contribute to improved rankings, proving that a well-optimized site not only meets [technical SEO](/en/blog/general/web-performance-guide) standards but also prioritizes user satisfaction.
 
 ### Long-Term Benefits of Optimizing Core Web Vitals
 

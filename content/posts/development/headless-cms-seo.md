@@ -19,7 +19,9 @@ tldr: >-
   estructura técnica. Te enseñamos a conectar tu frontend con el CMS para
   garantizar una indexación perfecta y un control total sobre tus señales SEO.
 metaTitle: 'Headless CMS SEO 2026: guía técnica y buenas prácticas'
-metaDescription: 'Headless CMS y SEO: gestiona metadatos, sitemaps y el renderizado del frontend para conseguir una indexación correcta y el control total de tus señales.'
+metaDescription: >-
+  Headless CMS y SEO: gestiona metadatos, sitemaps y el renderizado del frontend
+  para conseguir una indexación correcta y el control total de tus señales.
 primary_keywords:
   - headless cms seo
   - arquitectura headless
@@ -38,7 +40,7 @@ categories:
 status: draft
 keyword: headless cms seo
 ---
-In today's competitive digital landscape, the integration of [[headless-cms-comparison|Headless CMS]] with SEO strategies is crucial for success. This approach not only addresses the limitations of traditional content management systems but also enhances overall performance and user experience.
+In today's competitive digital landscape, the integration of [Headless CMS](/blog/development/headless-cms-comparison) with SEO strategies is crucial for success. This approach not only addresses the limitations of traditional content management systems but also enhances overall performance and user experience.
 
 By leveraging technologies such as headless CMS React, developers and business owners can create dynamic and responsive content that meets modern user demands while optimizing for search engines. Explore how a headless CMS can transform your digital strategy.
 
@@ -126,4 +128,4 @@ Continuous analysis of SEO performance is vital in any digital strategy. Headles
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](https://juan-tech.com/blog/tech-seo/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

@@ -38,7 +38,7 @@ semantic_keywords:
   - ACID bases de datos
 keyword: normalización de bases de datos
 ---
-La normalización de [[diseno-bases-datos|diseño de bases de datos]] es un pilar fundamental en el diseño y la gestión de sistemas de información robustos y eficientes. Más allá de ser un concepto teórico, es una metodología práctica que permite estructurar los datos de manera lógica y coherente, con el objetivo principal de **reducir la redundancia de datos** y **mejorar la integridad de la información**. Este proceso implica la aplicación de un conjunto de reglas, conocidas como formas normales, para dividir grandes tablas en estructuras más pequeñas, manejables y optimizadas, estableciendo relaciones claras entre ellas. Una base de datos bien normalizada no solo previene anomalías y garantiza la precisión de los datos, sino que también facilita su mantenimiento, escalabilidad y el rendimiento de las consultas, aspectos cruciales en cualquier aplicación moderna.
+La normalización de [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) es un pilar fundamental en el diseño y la gestión de sistemas de información robustos y eficientes. Más allá de ser un concepto teórico, es una metodología práctica que permite estructurar los datos de manera lógica y coherente, con el objetivo principal de **reducir la redundancia de datos** y **mejorar la integridad de la información**. Este proceso implica la aplicación de un conjunto de reglas, conocidas como formas normales, para dividir grandes tablas en estructuras más pequeñas, manejables y optimizadas, estableciendo relaciones claras entre ellas. Una base de datos bien normalizada no solo previene anomalías y garantiza la precisión de los datos, sino que también facilita su mantenimiento, escalabilidad y el rendimiento de las consultas, aspectos cruciales en cualquier aplicación moderna.
 
 La normalización de bases de datos es un proceso clave para diseñar esquemas eficientes, reduciendo la redundancia y mejorando la integridad. Mediante formas normales (1FN, 2FN, 3FN, BCNF), se estructuran las tablas para evitar anomalías (inserción, actualización, eliminación). Es fundamental para la consistencia, mantenimiento, escalabilidad y rendimiento de las consultas, aunque a veces se desnormaliza para optimizar la velocidad.
 
@@ -321,7 +321,7 @@ La normalización es un campo profundo. Aquí tienes recursos para un aprendizaj
 ### Documentos, Guías y Estándares
 
 -   **Libros Clásicos de Bases de Datos:** "Database System Concepts" (Silberschatz, Korth, Sudarshan), "Fundamentals of Database Systems" (Elmasri, Navathe).
--   **Documentación de Motores de BD:** PostgreSQL, MySQL, [[sql-vs-nosql|SQL vs NoSQL]] Server ofrecen excelentes guías sobre diseño de esquemas y optimización que tocan la normalización.
+-   **Documentación de Motores de BD:** PostgreSQL, MySQL, [SQL vs NoSQL](/blog/cs-fundamentals/sql-vs-nosql) Server ofrecen excelentes guías sobre diseño de esquemas y optimización que tocan la normalización.
 -   **Artículos Académicos:** Investigaciones sobre teoría relacional y nuevas formas normales (aunque menos comunes en la práctica).
 
 ### Herramientas de Diseño y Modelado de Bases de Datos

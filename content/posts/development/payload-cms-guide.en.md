@@ -27,7 +27,7 @@ semantic_keywords:
   - significantly optimizes performance
 keyword: payload cms
 ---
-[[payload-cms-guide|Payload CMS]] is rapidly gaining traction as a modern content management solution that emphasizes flexibility and performance. Designed with developers in mind, it offers a unique API-first approach, making integration seamless with tools like [[nextjs-portfolio|Next.js]] and Figma.
+[Payload CMS](/en/blog/development/payload-cms-guide) is rapidly gaining traction as a modern content management solution that emphasizes flexibility and performance. Designed with developers in mind, it offers a unique API-first approach, making integration seamless with tools like Next.js and Figma.
 
 This article explores the core features of Payload CMS, its integration capabilities, and how it compares to other popular CMS options, particularly Sanity. Let's delve into what makes Payload a compelling choice for content management.
 
@@ -70,7 +70,7 @@ This combination is especially valuable for projects requiring frequently update
 Payload CMS offers tools and features designed to streamline the development process. Its user-friendly dashboard allows developers to manage content efficiently, while its API-first approach facilitates easy content delivery across various endpoints. Important elements include:
 
 -   Custom content models that allow developers to structure their data precisely as needed.
--   [Version](https://juan-tech.com/en/blog/development/payloadcms-seo) control and rollback features, ensuring that content can be managed effectively throughout its lifecycle.
+-   Version control and rollback features, ensuring that content can be managed effectively throughout its lifecycle.
 -   Flexible access controls, empowering teams to manage permissions based on business requirements.
 
 These optimizations lead to improved collaboration between developers and content creators, reducing bottlenecks during the content approval process.

@@ -38,7 +38,7 @@ tldr: >-
 
 ---
 
-In 2026, understanding schema markup is essential for enhancing your website's [[estrategia-seo|SEO]]. This guide delves into the intricacies of schema markup, highlighting its role in improving search engine comprehension and boosting visibility.
+In 2026, understanding schema markup is essential for enhancing your website's [SEO](/en/blog/seo/estrategia-seo). This guide delves into the intricacies of schema markup, highlighting its role in improving search engine comprehension and boosting visibility.
 
 We'll explore various types of schema, the benefits they offer, and how to effectively implement them. By the end of this guide, you'll be equipped with the knowledge to leverage schema markup for greater search success.
 
@@ -142,7 +142,7 @@ Ensuring that schema markup is implemented correctly is vital for its effectiven
 
 -   **Google Rich Results Test:** This tool allows users to test specific URLs or code snippets and see if their markup is eligible for rich results.
 -   **Schema Markup Validator:** An open-source tool that verifies your schema markup against Schema.org standards.
--   **[[guia-google-search-console|Google Search Console]]:** Provides insights into how Google sees your schema markup and alerts about any errors identified during indexing.
+-   **[Google Search Console](/en/blog/seo/guia-google-search-console):** Provides insights into how Google sees your schema markup and alerts about any errors identified during indexing.
 -   **Bing Webmaster Tools:** Similar to Google Search Console, it enables testing and provides feedback on schema markup for Bing search results.
 
 Implementing schema markup efficiently contributes to improving SEO performance, enabling better indexing and visibility in search results.
@@ -226,4 +226,4 @@ Schema.org is continually evolving, and staying informed about upcoming standard
 
 ## See Also
 
-- [[Technical SEO](https://juan-tech.com/en/blog/tech-seo/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)
+- [Technical SEO](/en/blog/general/robots-txt-best-practices) Guide 2026: The Comprehensive Developer's Handbook](https://juan-tech.com/en/blog/tech-seo/tech-seo-guide)

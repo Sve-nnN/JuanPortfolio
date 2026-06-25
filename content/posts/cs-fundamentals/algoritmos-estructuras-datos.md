@@ -42,13 +42,13 @@ keyword: algoritmos estructuras datos
 
 ---
 
-En el corazón de cada aplicación innovadora, desde la inteligencia artificial hasta los sistemas de [[diseno-bases-datos|diseño de bases de datos]] masivas, residen los algoritmos y las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios). No son meros conceptos académicos, sino las herramientas fundamentales que permiten a los programadores construir software que no solo *funcione*, sino que lo haga de manera *óptima*, *eficiente* y *escalable*. Un algoritmo es la receta paso a paso para resolver un problema, mientras que una estructura de datos es la forma en que organizamos la información para que esa receta sea lo más efectiva posible.
+En el corazón de cada aplicación innovadora, desde la inteligencia artificial hasta los sistemas de [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) masivas, residen los [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) y las [estructuras de datos](https://juan-tech.com/blog/cs-fundamentals/arboles-binarios). No son meros conceptos académicos, sino las herramientas fundamentales que permiten a los programadores construir software que no solo *funcione*, sino que lo haga de manera *óptima*, *eficiente* y *escalable*. Un algoritmo es la receta paso a paso para resolver un problema, mientras que una estructura de datos es la forma en que organizamos la información para que esa receta sea lo más efectiva posible.
 
 Entender su intrínseca relación y dominarlos es crucial para transformar soluciones básicas en sistemas de alto rendimiento capaces de manejar grandes volúmenes de datos y operaciones complejas. En esta guía, exploraremos a fondo estos pilares de la computación, desde sus fundamentos teóricos hasta sus [aplicaciones prácticas](https://juan-tech.com/blog/cs-fundamentals/data-structures) en el desarrollo de software moderno, garantizando que tu código no solo sea funcional, sino también una obra de ingeniería eficiente.
 
 ## Fundamentos de algoritmos y estructuras: La dupla esencial de la computación
 
-Los algoritmos y las [[data-structures|estructuras de datos]] son los componentes básicos que interactúan de forma sinérgica para resolver cualquier problema computacional. Su correcta comprensión y aplicación son clave para el éxito en el desarrollo de software.
+Los algoritmos y las [estructuras de datos](/blog/cs-fundamentals/data-structures) son los componentes básicos que interactúan de forma sinérgica para resolver cualquier problema computacional. Su correcta comprensión y aplicación son clave para el éxito en el desarrollo de software.
 
 ### Definición y características de algoritmos: Las recetas de la computación
 
@@ -123,7 +123,7 @@ mi_lista.imprimir() # Salida: 1 -> 2 -> 3 -> None
 
 #### Pilas (Stacks): El principio LIFO
 
-Las [[pilas-y-colas|pilas]] operan bajo el principio "Last In, First Out" (LIFO) o "Último en entrar, primero en salir". Esto significa que el último elemento añadido es el primero en ser retirado. Sus aplicaciones incluyen la gestión de llamadas a funciones (pila de llamadas), la implementación de la función "deshacer/reHacer" y la evaluación de expresiones.
+Las [pilas](/blog/cs-fundamentals/pilas-y-colas) operan bajo el principio "Last In, First Out" (LIFO) o "Último en entrar, primero en salir". Esto significa que el último elemento añadido es el primero en ser retirado. Sus aplicaciones incluyen la gestión de llamadas a funciones (pila de llamadas), la implementación de la función "deshacer/reHacer" y la evaluación de expresiones.
 
 **Ejemplo en Python (usando lista):**
 
@@ -219,7 +219,7 @@ print(f'Elemento en fila 1, columna 0: {matriz[1][0]}") # Salida: 4
 
 #### Tablas Hash (Hash Tables): Búsqueda ultra-rápida
 
-Las [[tablas-hash|tablas hash]] son estructuras de datos que permiten almacenar pares clave-valor y recuperar valores de manera extremadamente rápida, idealmente en tiempo O(1) promedio. Utilizan una función hash para mapear las claves a índices en un arreglo. Son la base de muchas bases de datos, cachés y diccionarios en lenguajes de programación, cruciales para búsquedas, inserciones y eliminaciones rápidas.
+Las [tablas hash](/blog/general/tablas-hash) son estructuras de datos que permiten almacenar pares clave-valor y recuperar valores de manera extremadamente rápida, idealmente en tiempo O(1) promedio. Utilizan una función hash para mapear las claves a índices en un arreglo. Son la base de muchas bases de datos, cachés y diccionarios en lenguajes de programación, cruciales para búsquedas, inserciones y eliminaciones rápidas.
 
 **Ejemplo en Python (usando diccionario):**
 
@@ -325,7 +325,7 @@ La [complejidad espacial](https://juan-tech.com/blog/cs-fundamentals/complejidad
 
 ### Medición con notación Big O: El estándar de la industria
 
-La [[big-o-notation|Big O]] (O-grande) es el lenguaje universal para describir el límite superior del crecimiento de una función en el análisis de algoritmos. Permite a los programadores clasificar los algoritmos por su peor caso de rendimiento y compararlos de manera estandarizada, independientemente del hardware o del lenguaje de programación.
+La [Big O](/blog/cs-fundamentals/big-o-notation) (O-grande) es el lenguaje universal para describir el límite superior del crecimiento de una función en el análisis de algoritmos. Permite a los programadores clasificar los algoritmos por su peor caso de rendimiento y compararlos de manera estandarizada, independientemente del hardware o del lenguaje de programación.
 
 **Tabla de Complejidades Comunes:**
 
@@ -660,8 +660,8 @@ No es estrictamente necesario, pero aprender C o C++ puede proporcionar una comp
 
 ## Ver también
 
-- [[Diseño de bases de datos](https://juan-tech.com/blog/cs-fundamentals/normalizacion-bases-datos): Claves para una estructura efectiva y moderna](https://juan-tech.com/blog/cs-fundamentals/diseno-bases-datos)
-- [Post con See Also Erróneo](https://juan-tech.com/blog/test/see-also-test)
+- [Diseño de bases de datos](https://juan-tech.com/blog/cs-fundamentals/normalizacion-bases-datos): Claves para una estructura efectiva y moderna](https://juan-tech.com/blog/cs-fundamentals/diseno-bases-datos)
+- Post con See Also Erróneo
 
 ## See Also
 

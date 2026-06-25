@@ -47,7 +47,7 @@ Identifying SEO cannibalization is the first and foremost step in resolving the 
 
 ### 1. Google Search Console Analysis
 
-One of the most effective ways to identify cannibalization is through [[guia-google-search-console|Google Search Console]]. 
+One of the most effective ways to identify cannibalization is through [Google Search Console](/en/blog/seo/guia-google-search-console). 
 
 To identify pages that are competing for the same keywords:
 

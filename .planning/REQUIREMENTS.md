@@ -1,73 +1,106 @@
-# Requirements: JuanPortfolio — Milestone v1.2 (GA4 Analytics Tracking)
+# Requirements: JuanPortfolio — Milestone v1.3 (Remediación SEO técnica · Ahrefs Site Audit)
 
 **Defined:** 2026-06-24
-**Core Value:** Medir cómo los usuarios interactúan con el sitio (conversiones + engagement) para decidir con datos.
+**Core Value:** Las páginas públicas se sirven rápido y cacheables desde el edge; el SEO técnico no puede emitir basura (links/imágenes rotos, hreflang inconsistente) que degrade indexación y ranking.
 
-**Entrega:** El código pushea eventos estructurados al `dataLayer`. En GTM, un único tag GA4-Event (event name = `{{Event}}`) con trigger de "custom event" reenvía TODOS los eventos a GA4. Sin doble conteo (se quita el gtag directo del helper). Sin consent gate.
+**Entrega:** El sitio crawleado por Ahrefs/Googlebot deja de exponer wikilinks `[[...]]` crudos, 404/4XX por links internos malos, imágenes rotas, hreflang/lang inconsistente y errores de schema. Las 35 categorías del audit bajan a cero (o a un residual justificado y documentado).
 
-**Baseline:** `src/utilities/analytics.ts` (`trackEvent`) ya existe; instrumentación parcial en CMSLink (cta_click/social/nav), CopyButton (code_copied), TableOfContents (toc_navigation). GA4 dispara vía GTM (`NEXT_PUBLIC_GTM_ID`).
+**Baseline (audit 2026-06-24T15:26:07Z, project 7702617):** 35 categorías. Causa raíz #1 = internal-linking emite `[[slug|label]]` crudo. La API de Site Audit de Ahrefs vía MCP devuelve `Insufficient plan`, así que las URLs afectadas se derivan del snapshot de crawl pegado + grep del repo. Validación de schema.org se hará con el MCP `schema-org` de mcp-hub.
 
 ## v1 Requirements
 
-### Fundación (CORE)
+### LINKS — Integridad de enlaces internos
 
-- [ ] **CORE-01**: `trackEvent` pushea solo al dataLayer (sin gtag directo → sin doble conteo), con nombres de evento y params tipados/consistentes
-- [ ] **CORE-02**: Delegación global de clicks: un listener captura clicks en elementos con `data-analytics` (y `data-*` de params) → instrumenta botones/links sitewide sin cablear cada componente
-- [ ] **CORE-03**: Auto-tracking de clicks en links salientes (outbound) y descargas no cubiertos por Enhanced Measurement, con dedupe vs lo ya instrumentado
-- [ ] **CORE-04**: Taxonomía de eventos documentada (nombres, params, mapeo a eventos recomendados GA4)
+- [ ] **LINKS-01**: El pipeline de internal-linking (`build-internal-links.ts` / `LinkInjector.ts`) nunca escribe `[[slug|label]]` crudo en el contenido publicado; toda referencia se resuelve a un link válido con su URL canónica (categoría y locale correctos) o se omite
+- [ ] **LINKS-02**: El contenido ya publicado (markdown + Payload) se sanea: cero ocurrencias de `[[` / `]]` en el HTML renderizado de cualquier página
+- [ ] **LINKS-03**: Cero links internos a posts inexistentes; cada anchor interno apunta a una URL que responde 200 (resolver casos como `typescript-best-practices`, `payloadcms-tutorial`, `nextjs-server-components`, `payloadcms-vs-strapi` por locale)
+- [ ] **LINKS-04**: Los links internos usan la ruta con categoría correcta (ej. `/blog/cs-fundamentals/tablas-hash`, no `/blog/tablas-hash`) y el prefijo de locale correcto (`/en/...` solo si existe la traducción)
+- [ ] **LINKS-05**: Links internos no apuntan a URLs que redirigen; se actualizan al destino final (incl. legacy `/posts/*` → `/blog/*` que hoy dan 308)
+- [ ] **LINKS-06**: Contenido y rutas de test fuera de producción (ej. `/blog/test/see-also-test`) — no crawleable ni linkeado
 
-### Conversiones (CONV)
+### IMG — Imágenes
 
-- [ ] **CONV-01**: Submit del formulario de contacto → `generate_lead` (con éxito/error y metadata no-PII)
-- [ ] **CONV-02**: Reserva en Calendly → escuchar `postMessage` (`calendly.event_scheduled`) → evento de conversión `schedule_meeting`
-- [ ] **CONV-03**: CTAs primario/secundario → `cta_click` con label + ubicación (extiende lo existente, cubre botones nativos)
-- [ ] **CONV-04**: Switcher de idioma → `language_switch` (from/to locale)
+- [ ] **IMG-01**: Cero imágenes rotas en páginas públicas; toda `<img>`/`og:image` resuelve a un asset que responde 200 (Ahrefs marca 159+2)
+- [ ] **IMG-02**: Las imágenes embebidas en contenido vía wikilink (`![[...]]` u `[[...]]`) se convierten a markdown de imagen con URL válida o se eliminan
+- [ ] **IMG-03**: El retrato del autor vía `_next/image?url=/api/media/file/juan-angulo-portrait-1.avif` deja de devolver 400 (loader / `remotePatterns` o servir el asset correcto)
 
-### Engagement (ENG)
+### HREF — Hreflang y atributo lang
 
-- [ ] **ENG-01**: Hitos de scroll depth (25/50/75/100%) → `scroll_depth` (Enhanced Measurement solo hace 90%)
-- [ ] **ENG-02**: Tiempo/lectura en páginas de contenido (post/case-study) → `content_engagement` por hitos (ej. 30s, lectura completa)
-- [ ] **ENG-03**: Interacciones de blog: TOC (existe), code copy (existe), clicks en posts relacionados → `select_content`
-- [ ] **ENG-04**: Navegación interna (header/footer) → `navigation_click`
-- [ ] **ENG-05**: Uso de búsqueda → `search` (evento recomendado GA4)
+- [ ] **HREF-01**: `<html lang>` coincide con el locale de cada página (es en raíz, en bajo `/en`) — resuelve el mismatch hreflang↔lang en ~90 páginas
+- [ ] **HREF-02**: Las anotaciones hreflang siguen correctas y recíprocas (es ↔ en) y apuntan a URLs 200 tras los fixes de LINKS
 
-### Config & verificación (CFG)
+### INDEX — Indexabilidad y sitemap
 
-- [ ] **CFG-01**: Doc del setup en GTM (tag GA4-Event forward + trigger custom-event) para que Juan lo cree una vez
-- [ ] **CFG-02**: Doc de Enhanced Measurement (qué es automático vs custom) para no duplicar
-- [ ] **CFG-03**: Verificar que los eventos llegan al dataLayer / GA4 DebugView; sin doble conteo; sin PII
+- [ ] **INDEX-01**: El sitemap no incluye URLs noindex (los 8 casos salen del sitemap o pierden el noindex según corresponda)
+- [ ] **INDEX-02**: Las páginas indexables relevantes están en el sitemap (resolver los 22 "indexable page not in sitemap")
+- [ ] **INDEX-03**: `robots.txt` accesible y servido con 200 + content-type correcto
+- [ ] **INDEX-04**: La URL canónica reportada sin inlinks recibe al menos un enlace interno dofollow (o se ajusta su canonical)
+
+### META — On-page
+
+- [ ] **META-01**: Cada página indexable tiene meta description presente y de longitud adecuada (resolver missing ×5 y short ×8)
+- [ ] **META-02**: Cada página tiene exactamente un `<h1>` no vacío (resolver missing ×3 y multiple H1 ×22)
+- [ ] **META-03**: Titles sin quedar demasiado cortos y coincidiendo con el title de SERP donde aplique
+- [ ] **META-04**: Open Graph completo en las 6 páginas marcadas (og:title/description/image/url/type)
+
+### SCHEMA — Datos estructurados
+
+- [ ] **SCHEMA-01**: Los 14 errores de validación schema.org se corrigen; el JSON-LD valida con el MCP `schema-org` de mcp-hub sin errores
+
+### PERF — Peso de página
+
+- [ ] **PERF-01**: Ninguna página excede el límite de crawl de 2 MB de Googlebot; se reduce el HTML de las 2 páginas marcadas como demasiado grandes
+- [ ] **PERF-02**: Las 6 páginas "slow" se revisan; las que sigan lentas se documentan o se optimizan (continuidad del CWV de v1.1)
+
+### MONITOR — Monitoreo de Domain Rating en admin
+
+- [ ] **MONITOR-01**: El dashboard del admin (Payload) muestra el Domain Rating de `juan-tech.com` obtenido del endpoint público free de Ahrefs (`GET https://api.ahrefs.com/v3/public/domain-rating-free?target=juan-tech.com`, sin API key), con la atribución obligatoria "Domain Rating by Ahrefs" enlazada a ahrefs.com (requisito de la Domain Rating License)
+- [ ] **MONITOR-02**: El DR se obtiene a lo sumo 1 vez cada 24h; el valor se cachea server-side (p. ej. global de Payload `site-metrics` con `domainRating` + `fetchedAt`); las cargas del admin dentro de la ventana de 24h leen del cache sin volver a pegarle al endpoint
+- [ ] **MONITOR-03**: Si el fetch falla (timeout/red/error/respuesta inválida) degrada con gracia: muestra el último DR cacheado marcado como desactualizado y nunca rompe el render del dashboard
+
+## Future Requirements
+
+<!-- Diferido a milestones posteriores. -->
+
+- Rediseñar la lógica de selección de anchors/keywords del internal-linking (este milestone solo arregla la emisión y sanea)
+- Auditoría de calidad editorial / E-E-A-T del contenido
+- Monitoreo continuo automatizado del Site Audit (alertas ante regresiones)
 
 ## Out of Scope
 
-| Feature | Reason |
-|---------|--------|
-| Consent Mode v2 / banner de cookies | Juan eligió sin consent gate (portfolio personal) |
-| Server-side tagging / Measurement Protocol | Client-side dataLayer cubre el objetivo |
-| Dashboards / reportes en GA4 | Config de GA4 UI, no código |
-| A/B testing / experimentos | Otro milestone |
+<!-- Excluido explícitamente con razón. -->
+
+- Reescritura de contenido por calidad (este milestone es técnico)
+- Cambios al modelo de contenido de Payload (no relacionado con los issues)
+- Rediseño visual del Header/Footer
+- Re-crawl manual en Ahrefs para validar (lo hace Juan; el MCP de Site Audit está en plan insuficiente)
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | Phase 11 | Complete |
-| CORE-02 | Phase 11 | Complete |
-| CORE-03 | Phase 11 | Complete |
-| CORE-04 | Phase 11 | Complete |
-| CONV-01 | Phase 12 | Complete |
-| CONV-02 | Phase 12 | Complete |
-| CONV-03 | Phase 12 | Complete |
-| CONV-04 | Phase 12 | Complete |
-| ENG-01 | Phase 13 | Complete |
-| ENG-02 | Phase 13 | Complete |
-| ENG-03 | Phase 13 | Complete |
-| ENG-04 | Phase 13 | Complete |
-| ENG-05 | Phase 13 | Complete |
-| CFG-01 | Phase 14 | Complete |
-| CFG-02 | Phase 14 | Complete |
-| CFG-03 | Phase 14 | Complete |
-
-**Coverage:** 16 reqs · mapeados 16 · sin mapear 0 ✓
-
----
-*Requirements defined: 2026-06-24*
+| LINKS-01 | Phase 15 | Done |
+| LINKS-02 | Phase 15 | Done |
+| IMG-02 | Phase 15 | Done |
+| LINKS-03 | Phase 16 | Done |
+| LINKS-04 | Phase 16 | Done |
+| LINKS-05 | Phase 16 | Done |
+| LINKS-06 | Phase 16 | Done |
+| IMG-01 | Phase 17 | Done |
+| IMG-03 | Phase 17 | Done |
+| HREF-01 | Phase 17 | Done |
+| HREF-02 | Phase 17 | Done |
+| INDEX-01 | Phase 18 | Done |
+| INDEX-02 | Phase 18 | Done |
+| INDEX-03 | Phase 18 | Done |
+| INDEX-04 | Phase 18 | Done |
+| META-01 | Phase 19 | Done |
+| META-02 | Phase 19 | Done |
+| META-03 | Phase 19 | Done |
+| META-04 | Phase 19 | Done |
+| SCHEMA-01 | Phase 19 | Done |
+| PERF-01 | Phase 19 | Done |
+| PERF-02 | Phase 19 | Done (author select+redirect) |
+| MONITOR-01 | Phase 20 | Done |
+| MONITOR-02 | Phase 20 | Done |
+| MONITOR-03 | Phase 20 | Done |

@@ -17,12 +17,15 @@ export async function generateMetadata({
   const base = getServerSideURL()
   const canonical = locale === 'en' ? `${base}/en/terms` : `${base}/terms`
 
+  const title = locale === 'en' ? 'Terms of Service — Juan Carlos Angulo' : 'Términos de Servicio — Juan Carlos Angulo'
+  const description =
+    locale === 'en'
+      ? 'Terms and conditions for using this website and engaging my services.'
+      : 'Términos y condiciones de uso de este sitio web y de contratación de mis servicios.'
+
   return {
-    title: locale === 'en' ? 'Terms of Service — Juan Carlos Angulo' : 'Términos de Servicio — Juan Carlos Angulo',
-    description:
-      locale === 'en'
-        ? 'Terms and conditions for using this website and engaging my services.'
-        : 'Términos y condiciones de uso de este sitio web y de contratación de mis servicios.',
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
@@ -30,6 +33,12 @@ export async function generateMetadata({
         en: `${base}/en/terms`,
         'x-default': `${base}/terms`,
       },
+    },
+    // og:title/og:url missing on standalone pages → Ahrefs flags incomplete OG. META-04.
+    openGraph: {
+      title,
+      description,
+      url: canonical,
     },
   }
 }

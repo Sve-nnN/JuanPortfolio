@@ -37,11 +37,11 @@ semantic_keywords:
   - estructuras de datos y algoritmos
 keyword: algoritmos de ordenamiento
 ---
-Los [algoritmos de ordenamiento](/posts/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
+Los [algoritmos de ordenamiento](/blog/cs-fundamentals/algoritmos-estructuras-datos) son fundamentales para organizar datos en una lista o arreglo. Su propósito es reordenar elementos en un orden específico, ya sea numérico o alfabético, optimizando así la búsqueda y el análisis de la información. Existen diferentes tipos de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) de ordenamiento, cada uno con características y eficiencias propias. La comprensión de estos algoritmos permite elegir el más adecuado según las necesidades y el tipo de datos a manejar.
 
 ## Fundamentos de los algoritmos de ordenamiento
 
-La comprensión de los fundamentos que subyacen a los algoritmos de ordenamiento es clave para el manejo eficiente de datos. A continuación se exploran aspectos esenciales que definen su funcionamiento.
+La comprensión de los fundamentos que subyacen a los [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas) de ordenamiento es clave para el manejo eficiente de datos. A continuación se exploran aspectos esenciales que definen su funcionamiento.
 
 ### Definición y propósito del ordenamiento de elementos
 
@@ -49,7 +49,7 @@ El ordenamiento de elementos implica organizar una colección de datos en un con
 
 ### Importancia del orden relativo y claves iguales
 
-El orden relativo de los datos, especialmente cuando se encuentran claves iguales, juega un papel crucial en varias aplicaciones. Mantener el orden de elementos con claves idénticas asegura que la información relacionada conserve su secuencia original, lo cual es significativo en contextos como [[diseno-bases-datos|diseño de bases de datos]] o listas de documentos. La estabilidad de un algoritmo se refiere a esta capacidad de preservar dicho orden.
+El orden relativo de los datos, especialmente cuando se encuentran claves iguales, juega un papel crucial en varias aplicaciones. Mantener el orden de elementos con claves idénticas asegura que la información relacionada conserve su secuencia original, lo cual es significativo en contextos como [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos) o listas de documentos. La estabilidad de un algoritmo se refiere a esta capacidad de preservar dicho orden.
 
 ### Tipos de orden: ascendente, descendente y orden alfabético
 
@@ -764,7 +764,7 @@ La ordenación natural permite optimizar la eficiencia del algoritmo cuando los 
 
 ### ¿Por qué algunos algoritmos requieren memoria adicional?
 
-Los algoritmos que requieren [[data-structures|estructuras de datos]] auxiliares o almacenamiento adicional, como Merge Sort, pueden consumir más memoria. Esto es una consideración importante en sistemas con recursos limitados, donde optimizar el uso de memoria es crítico para su eficacia y rendimiento general.
+Los algoritmos que requieren [estructuras de datos](/blog/cs-fundamentals/data-structures) auxiliares o almacenamiento adicional, como Merge Sort, pueden consumir más memoria. Esto es una consideración importante en sistemas con recursos limitados, donde optimizar el uso de memoria es crítico para su eficacia y rendimiento general.
 
 ## See Also
 

@@ -20,7 +20,9 @@ tldr: >-
   descripciones y slugs dinámicos que mejoren la visibilidad de tu contenido
   generado por el CMS.
 metaTitle: 'SEO en Payload CMS 2026: plugin y configuración técnica'
-metaDescription: 'Optimiza el SEO en Payload CMS: instala y configura el plugin oficial para gestionar títulos, descripciones, slugs y sitemaps de tu contenido dinámico.'
+metaDescription: >-
+  Optimiza el SEO en Payload CMS: instala y configura el plugin oficial para
+  gestionar títulos, descripciones, slugs y sitemaps de tu contenido dinámico.
 primary_keywords:
   - payloadcms seo
   - optimización de cms
@@ -45,7 +47,7 @@ Exploraremos cómo su potente API y funcionalidades específicas facilitan la ge
 
 ## Payload CMS y su arquitectura para SEO
 
-[[payload-cms-guide|Payload CMS]], siendo un sistema de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) headless, se ha diseñado no solo para facilitar la creación y gestión de contenido, sino también para optimizar ese contenido para motores de búsqueda de manera efectiva. Su arquitectura moderna y flexible permite a los desarrolladores construir aplicaciones que cumplen con los estándares SEO más exigentes, adaptándose a las necesidades y estrategias de marketing digital actuales.
+[Payload CMS](/blog/development/payload-cms-guide), siendo un sistema de gestión de contenido headless, se ha diseñado no solo para facilitar la creación y gestión de contenido, sino también para optimizar ese contenido para motores de búsqueda de manera efectiva. Su arquitectura moderna y flexible permite a los desarrolladores construir aplicaciones que cumplen con los estándares SEO más exigentes, adaptándose a las necesidades y estrategias de marketing digital actuales.
 
 ### Características clave de Payload CMS para optimización
 
@@ -59,7 +61,7 @@ Asimismo, la generación automática de sitemaps y la gestión de archivos robot
 
 Payload CMS se basa en una potente API que permite a los desarrolladores integrar y personalizar sus aplicaciones y funcionalidades a un nivel profundo. Esta flexibilidad no solo facilita la personalización del contenido, sino que también permite implementar técnicas avanzadas de SEO, como el marcado estructurado mediante Schema.org. Incorporar datos estructurados mejora la interpretación que los motores de búsqueda hacen del contenido, aumentando la probabilidad de alcanzar posiciones destacadas en los resultados de búsqueda y logrando que el contenido destaque a través de rich snippets.
 
-La posibilidad de integrar la API de Payload con frameworks como [[nextjs-portfolio|Next.js]] optimiza aún más el rendimiento SEO. Al utilizar renderizado del lado del servidor (SSR), se reduce el tiempo de carga de las páginas, un factor crítico en la estrategia SEO actual. Esto respalda la premisa de que un sitio rápido no solo ofrece una mejor experiencia al usuario, sino que también es favorecido por los algoritmos de búsqueda, lo que resulta en una mejora en el ranking y la visibilidad del sitio.
+La posibilidad de integrar la API de Payload con frameworks como Next.js optimiza aún más el rendimiento SEO. Al utilizar [renderizado del lado del servidor](https://juan-tech.com/blog/development/hidratacion-web) (SSR), se reduce el tiempo de carga de las páginas, un factor crítico en la estrategia SEO actual. Esto respalda la premisa de que un sitio rápido no solo ofrece una mejor experiencia al usuario, sino que también es favorecido por los algoritmos de búsqueda, lo que resulta en una mejora en el ranking y la visibilidad del sitio.
 
 En resumen, la arquitectura de Payload CMS está diseñada para soportar y potenciar las prácticas SEO más efectivas, brindando a los desarrolladores las herramientas necesarias para crear sitios web optimizados y de alto rendimiento. La integración de estas características hace que PayloadCMS sea una opción privilegiada para aquellos que buscan destacarse en el competitivo entorno digital.
 
@@ -109,7 +111,7 @@ El **renderizado del lado del servidor (SSR)** es una técnica que permite carga
 
 Los Core Web Vitals son métricas vitales que Google utiliza para evaluar la experiencia del usuario en un sitio web. Estas métricas incluyen la velocidad de carga, la interactividad y la estabilidad visual. Con Payload CMS y Next.js, se pueden implementar optimizaciones específicas que impacten directamente en estas métricas:
 
--   **[Optimización de imágenes](https://juan-tech.com/blog/development/nextjs-portfolio):** Utilizar formatos de imagen modernos como WebP y técnicas de carga diferida asegurará que solo se carguen las imágenes cuando sean visibles para el usuario, lo que reduce el tiempo de carga total.
+-   **Optimización de imágenes:** Utilizar formatos de imagen modernos como WebP y técnicas de carga diferida asegurará que solo se carguen las imágenes cuando sean visibles para el usuario, lo que reduce el tiempo de carga total.
 -   **Minificación y compresión de recursos:** Aplicar técnicas de minificación en CSS y JavaScript mediante Next.js podrá reducir el tamaño de los archivos, contribuyendo a un tiempo de respuesta más rápido.
 -   **Aprovechar el almacenamiento en caché:** Emplear estrategias de caching para optimizar la entrega de contenido y reducir la carga en el servidor, mejorando así la experiencia general del usuario.
 
@@ -125,4 +127,5 @@ Implementar estas estrategias avanzadas al utilizar Payload CMS junto con Next.j
 
 ## Ver también
 
-- [Tutorial de Payload CMS 2026: Guía Complete de Desarrollo](https://juan-tech.com/blog/development/payloadcms-tutorial)
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
+- Tutorial de Payload CMS 2026: Guía Complete de Desarrollo

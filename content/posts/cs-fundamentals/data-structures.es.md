@@ -31,7 +31,7 @@ updatedAt: '2026-04-06T17:07:46.794Z'
 
 ---
 
-Las estructuras de datos son esenciales en la programación, ya que determinan cómo se organizan y gestionan los datos dentro de un software. En este artículo, exploraremos a fondo los fundamentos, tipos y aplicaciones prácticas de estas estructuras, destacando su relevancia para el desarrollo de [[algoritmos-estructuras-datos|Algoritmos y Estructuras de Datos]] eficientes, especialmente en el contexto de Python. Dominar estos conceptos permitirá optimizar el rendimiento de cualquier aplicación.
+Las estructuras de datos son esenciales en la programación, ya que determinan cómo se organizan y gestionan los datos dentro de un software. En este artículo, exploraremos a fondo los fundamentos, tipos y aplicaciones prácticas de estas estructuras, destacando su relevancia para el desarrollo de [Algoritmos y Estructuras de Datos](/blog/cs-fundamentals/algoritmos-estructuras-datos) eficientes, especialmente en el contexto de Python. Dominar estos conceptos permitirá optimizar el rendimiento de cualquier aplicación.
 
 Entender las estructuras de datos no solo es crucial para la eficiencia del código, sino que también es un aspecto fundamental para cualquier desarrollador que busque crear soluciones robustas y efectivas en un entorno tecnológico en constante evolución.
 
@@ -43,7 +43,7 @@ Las **estructuras de datos** son una forma sistemática de organizar, almacenar 
 
 ### Características Principales y Ventajas
 
-Las estructuras de datos presentan varias características destacadas que determinan su utilidad en diversas aplicaciones. Entre ellas, la estructura, la eficiencia y la adaptabilidad son fundamentales. Por estructura se refiere a la forma en que los datos están organizados, lo cual afecta directamente a la eficiencia en la ejecución de algoritmos. Por ejemplo, al usar **data structures and algorithms in python**, se pueden aprovechar las implementaciones eficientes para resolver problemas complejos.
+Las estructuras de datos presentan varias características destacadas que determinan su utilidad en diversas aplicaciones. Entre ellas, la estructura, la eficiencia y la adaptabilidad son fundamentales. Por estructura se refiere a la forma en que los datos están organizados, lo cual afecta directamente a la eficiencia en la ejecución de [algoritmos](https://juan-tech.com/blog/cs-fundamentals/pilas-y-colas). Por ejemplo, al usar **data structures and algorithms in python**, se pueden aprovechar las implementaciones eficientes para resolver problemas complejos.
 
 La eficiencia es otro aspecto clave; una estructura bien diseñada puede reducir tanto el tiempo de ejecución como la utilización de memoria de una aplicación. La adaptabilidad también es notable, ya que es posible modificar estructuras existentes para satisfacer necesidades cambiantes, lo que resulta esencial en entornos en evolución constante.
 
@@ -76,7 +76,7 @@ Las listas enlazadas consisten en una serie de nodos, donde cada nodo contiene u
 
 ### Pilas (Stacks)
 
-Las [[pilas-y-colas|pilas]] son estructuras de datos que siguen el principio Last In First Out (LIFO). Los elementos se añaden y eliminan desde el mismo extremo. Este comportamiento es útil en aplicaciones como gestión de llamadas en programación e implementación de funciones recursivas. Las pilas se utilizan frecuentemente cuando se requiere un seguimiento de la ejecución de procesos.
+Las [pilas](/blog/cs-fundamentals/pilas-y-colas) son estructuras de datos que siguen el principio Last In First Out (LIFO). Los elementos se añaden y eliminan desde el mismo extremo. Este comportamiento es útil en aplicaciones como gestión de llamadas en programación e implementación de [funciones recursivas](https://juan-tech.com/blog/cs-fundamentals/recursividad). Las pilas se utilizan frecuentemente cuando se requiere un seguimiento de la ejecución de procesos.
 
 ### Colas (Queues)
 
@@ -84,7 +84,7 @@ Las colas siguen un orden de proceso First In First Out (FIFO). Los elementos se
 
 ### Árboles (Trees)
 
-Los árboles son estructuras jerárquicas compuestas por nodos, donde cada nodo tiene un único nodo padre y puede tener múltiples nodos hijos. El tipo más común es el árbol binario, donde cada nodo tiene hasta dos hijos. Los árboles son útiles para organizar datos y permitir búsquedas rápidas, optimizando la recuperación de información en aplicaciones, como [[diseno-bases-datos|diseño de bases de datos]].
+Los árboles son estructuras jerárquicas compuestas por nodos, donde cada nodo tiene un único nodo padre y puede tener múltiples nodos hijos. El tipo más común es el árbol binario, donde cada nodo tiene hasta dos hijos. Los árboles son útiles para organizar datos y permitir búsquedas rápidas, optimizando la recuperación de información en aplicaciones, como [diseño de bases de datos](/blog/cs-fundamentals/diseno-bases-datos).
 
 ### Grafos (Graphs)
 
@@ -114,11 +114,11 @@ La ordenación es otro aspecto crítico del análisis algorítmico. Existen vari
 
 ### Recursión y Programación Dinámica
 
-La recursión es un enfoque poderoso para resolver problemas a través de la división de tareas en subproblemas más simples. Esta técnica, combinada con la **[[programacion-dinamica|programación dinámica]]**, permite optimizar el rendimiento al almacenar resultados intermedios y evitar cálculos redundantes. La implementación eficaz de algoritmos recursivos en estructuras como árboles y gráficos muestra cómo estos métodos pueden simplificar la lógica de programación y mejorar la eficiencia general del software.
+La recursión es un enfoque poderoso para resolver problemas a través de la división de tareas en subproblemas más simples. Esta técnica, combinada con la **[programación dinámica](/blog/cs-fundamentals/programacion-dinamica)**, permite optimizar el rendimiento al almacenar resultados intermedios y evitar cálculos redundantes. La implementación eficaz de algoritmos recursivos en estructuras como árboles y gráficos muestra cómo estos métodos pueden simplificar la lógica de programación y mejorar la eficiencia general del software.
 
 ### Evaluación de la Complejidad Temporal y Espacial
 
-La evaluación de la complejidad de un algoritmo se mide comúnmente en términos de su tiempo de ejecución y uso de memoria. La complejidad temporal se expresa en [[big-o-notation|Big O]], indicando cómo el tiempo de ejecución se incrementa a medida que crece la entrada. La complejidad espacial, por su parte, se refiere a la cantidad de memoria que requiere un algoritmo. Entender estos dos aspectos es crucial para diseñar software que no solo funcione, sino que también opere de manera óptima en ambientes reales, donde recursos como el tiempo y la memoria son limitados.
+La evaluación de la complejidad de un algoritmo se mide comúnmente en términos de su tiempo de ejecución y uso de memoria. La complejidad temporal se expresa en [Big O](/blog/cs-fundamentals/big-o-notation), indicando cómo el tiempo de ejecución se incrementa a medida que crece la entrada. La complejidad espacial, por su parte, se refiere a la cantidad de memoria que requiere un algoritmo. Entender estos dos aspectos es crucial para diseñar software que no solo funcione, sino que también opere de manera óptima en ambientes reales, donde recursos como el tiempo y la memoria son limitados.
 
 ## Implementación Práctica: Data Structures and Algorithms in Python
 
@@ -128,7 +128,7 @@ Python ha ganado gran popularidad en el ámbito del desarrollo de software y la 
 
 ### Manipulación de Estructuras Básicas en Python
 
-Las estructuras de datos fundamentales en Python incluyen arreglos (listas), listas enlazadas, pilas, colas, árboles y [[tablas-hash|tablas hash]]. Por ejemplo, una **lista** en Python puede actuar como un arreglo dinámico, donde se pueden agregar y quitar elementos fácilmente. Por otro lado, las **pilas** se pueden implementar utilizando listas, aprovechando los métodos `append()` y `pop()` para agregar y eliminar elementos respectivamente. Las **colas** se pueden simular usando la lista, aunque para obtener un rendimiento óptimo es recomendable utilizar el módulo `collections` con su clase `deque`, la cual ofrece operaciones de inserción y eliminación de elementos de forma eficiente.
+Las estructuras de datos fundamentales en Python incluyen arreglos (listas), listas enlazadas, pilas, colas, árboles y [tablas hash](/blog/general/tablas-hash). Por ejemplo, una **lista** en Python puede actuar como un arreglo dinámico, donde se pueden agregar y quitar elementos fácilmente. Por otro lado, las **pilas** se pueden implementar utilizando listas, aprovechando los métodos `append()` y `pop()` para agregar y eliminar elementos respectivamente. Las **colas** se pueden simular usando la lista, aunque para obtener un rendimiento óptimo es recomendable utilizar el módulo `collections` con su clase `deque`, la cual ofrece operaciones de inserción y eliminación de elementos de forma eficiente.
 
 ### Algoritmos Comunes implementados en Python
 
@@ -171,7 +171,7 @@ Al momento de elegir una estructura de datos, es fundamental considerar varios c
 -   **Tipo de datos:** Identificar el tipo de datos que se van a manejar es crucial. Algunos tipos de estructuras son más adecuados para datos numéricos, mientras que otros son ideales para texto o elementos complejos.
 -   **Operaciones requeridas:** Determinar las operaciones que se realizarán con mayor frecuencia, como inserciones, eliminaciones o búsquedas, ayudará a seleccionar la estructura que ofrezca el mejor rendimiento para esas operaciones específicas.
 -   **Espacio disponible:** Considerar el uso de memoria de cada estructura es vital. Mientras más eficiente sea el uso de memoria, mejor será el rendimiento general del sistema.
--   **[[complejidad-algoritmica|complejidad algorítmica]]:** Entender la complejidad temporal y espacial de las operaciones principales permitirá tomar decisiones más informadas sobre cuál estructura emplear.
+-   **[complejidad algorítmica](/blog/cs-fundamentals/complejidad-algoritmica):** Entender la complejidad temporal y espacial de las operaciones principales permitirá tomar decisiones más informadas sobre cuál estructura emplear.
 
 ### Impacto en el Rendimiento del Software
 

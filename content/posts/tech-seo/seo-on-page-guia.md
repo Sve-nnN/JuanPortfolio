@@ -29,7 +29,7 @@ semantic_keywords:
 ---
 # Seo ON Page: guia completa y estrategia practica
 
-El [[estrategia-seo|SEO]] On Page es fundamental para mejorar el posicionamiento de tu sitio web en los motores de búsqueda. En este artículo, exploraremos estrategias esenciales que abarcan desde la creación de contenido de calidad hasta la optimización técnica de cada página.
+El [SEO](/blog/seo/estrategia-seo) On Page es fundamental para mejorar el posicionamiento de tu sitio web en los motores de búsqueda. En este artículo, exploraremos estrategias esenciales que abarcan desde la creación de contenido de calidad hasta la optimización técnica de cada página.
 
 A través de mejores prácticas, como el uso de un on page seo checker tool, aprenderás a maximizar la efectividad de tus esfuerzos de optimización y a atraer a la audiencia adecuada.
 
@@ -43,7 +43,7 @@ Crear contenido original y que aporte valor es esencial para cumplir con las exp
 
 ### Estrategias para la selección y uso de palabras clave
 
-Las [[guia-keyword-research|palabras clave]] son fundamentales para que el contenido sea encontrado por los usuarios. Seleccionar palabras clave adecuadas implica realizar una investigación exhaustiva sobre lo que los usuarios buscan en relación con el tema que se está tratando. Usar un **on page seo checker tool** puede facilitar la identificación de estas palabras clave y mostrar cómo se posicionan frente a la competencia. Aquí hay algunas estrategias efectivas:
+Las [palabras clave](/blog/seo/guia-keyword-research) son fundamentales para que el contenido sea encontrado por los usuarios. Seleccionar palabras clave adecuadas implica realizar una investigación exhaustiva sobre lo que los usuarios buscan en relación con el tema que se está tratando. Usar un **on page seo checker tool** puede facilitar la identificación de estas palabras clave y mostrar cómo se posicionan frente a la competencia. Aquí hay algunas estrategias efectivas:
 
 -   Identificar palabras clave específicas de cola larga que reflejen la intención del usuario.
 -   Incluir variaciones de palabras clave en el contenido para atraer a distintos segmentos de audiencia.
@@ -105,7 +105,7 @@ La correcta implementación de etiquetas de encabezado debe ser parte de cualqui
 
 ## Optimización de Imágenes para SEO On Page
 
-La optimización de imágenes juega un papel crucial en la estrategia de SEO On Page. Las imágenes no solo enriquecen el contenido visualmente, sino que también pueden influir en la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y la experiencia del usuario, aspectos que los motores de búsqueda consideran para determinar el posicionamiento de una página. Por esta razón, es fundamental aplicar técnicas específicas para asegurar que cada imagen contribuya positivamente al SEO del sitio web.
+La optimización de imágenes juega un papel crucial en la estrategia de SEO On Page. Las imágenes no solo enriquecen el contenido visualmente, sino que también pueden influir en la [velocidad de carga](/blog/general/web-performance-guide) y la experiencia del usuario, aspectos que los motores de búsqueda consideran para determinar el posicionamiento de una página. Por esta razón, es fundamental aplicar técnicas específicas para asegurar que cada imagen contribuya positivamente al SEO del sitio web.
 
 ### Implementación correcta de etiquetas alt
 
@@ -113,7 +113,7 @@ Las etiquetas alt, o texto alternativo, son esenciales para el SEO de las imáge
 
 ### Técnicas de compresión y formatos recomendados
 
-La compresión de imágenes es un aspecto vital para optimizar la velocidad de carga de un sitio web. Imágenes con un tamaño de archivo excesivo pueden ralentizar la carga de la página, lo que a su vez afecta la experiencia del usuario y el posicionamiento en buscadores. Se recomienda utilizar formatos adecuados como JPEG, PNG y WebP, ya que cada uno tiene sus ventajas específicas en términos de calidad y tamaño de archivo. Para mantener un equilibrio entre calidad y rendimiento, herramientas de compresión de imágenes pueden ser muy útiles, permitiendo reducir el tamaño de las imágenes sin sacrificar su integridad visual. Además, siempre es recomendable probar diferentes niveles de compresión para encontrar el óptimo que se ajuste a las necesidades del sitio.
+La compresión de imágenes es un aspecto vital para optimizar la [velocidad de carga](/blog/general/web-performance-guide) de un sitio web. Imágenes con un tamaño de archivo excesivo pueden ralentizar la carga de la página, lo que a su vez afecta la experiencia del usuario y el posicionamiento en buscadores. Se recomienda utilizar formatos adecuados como JPEG, PNG y WebP, ya que cada uno tiene sus ventajas específicas en términos de calidad y tamaño de archivo. Para mantener un equilibrio entre calidad y rendimiento, herramientas de compresión de imágenes pueden ser muy útiles, permitiendo reducir el tamaño de las imágenes sin sacrificar su integridad visual. Además, siempre es recomendable probar diferentes niveles de compresión para encontrar el óptimo que se ajuste a las necesidades del sitio.
 
 La integración de imágenes optimizadas no solo mejora el SEO, sino que también puede resultar en una mayor retención de usuarios y, potencialmente, un incremento en las conversiones. Por estas razones, la atención a detalles en la optimización de imágenes debe ser una prioridad dentro de cualquier estrategia de SEO On Page.
 
@@ -135,11 +135,11 @@ Por lo tanto, dedicar tiempo a la planificación y diseño de URLs no solo es un
 
 ### Cómo construir enlaces internos efectivos para SEO
 
-Los [[enlaces-internos-guia|enlaces internos]] son fundamentales para una estrategia de SEO On Page robusta, ya que no solo ayudan a los motores de búsqueda a rastrear y comprender la estructura de un sitio, sino que también mejoran la experiencia del usuario al permitir una navegación fluida. La construcción efectiva de enlaces internos debe comenzar con la identificación de las páginas más relevantes y populares de tu dominio. Estas páginas, al ser vinculadas desde otras secciones del sitio, pueden ayudar a distribuir la autoridad de la página de manera más equitativa.
+Los [enlaces internos](/blog/seo/enlaces-internos-guia) son fundamentales para una estrategia de SEO On Page robusta, ya que no solo ayudan a los motores de búsqueda a rastrear y comprender la estructura de un sitio, sino que también mejoran la experiencia del usuario al permitir una navegación fluida. La construcción efectiva de enlaces internos debe comenzar con la identificación de las páginas más relevantes y populares de tu dominio. Estas páginas, al ser vinculadas desde otras secciones del sitio, pueden ayudar a distribuir la autoridad de la página de manera más equitativa.
 
 Es recomendable utilizar texto ancla descriptivo que contenga palabras clave, ya que esto no solo proporciona contexto a los usuarios, sino que también ayuda a los motores de búsqueda a comprender mejor el contenido al que se vincula. Un enfoque estratégico consiste en enlazar de forma contextual, donde los enlaces aparecen de manera natural dentro del contenido, en vez de ser añadidos de forma arbitraria.
 
-Además, una práctica común es utilizar [herramientas de auditoría](https://juan-tech.com/blog/tech-seo/non-developers-guide) como un **on page seo checker tool** para identificar páginas que carecen de enlaces internos. Estas herramientas pueden proporcionar recomendaciones precisas sobre cómo mejorar la interconexión entre las páginas, fortaleciendo así la autoridad de toda la web y optimizando su rendimiento en los motores de búsqueda.
+Además, una práctica común es utilizar [herramientas de auditoría](/blog/general/non-developers-guide) como un **on page seo checker tool** para identificar páginas que carecen de enlaces internos. Estas herramientas pueden proporcionar recomendaciones precisas sobre cómo mejorar la interconexión entre las páginas, fortaleciendo así la autoridad de toda la web y optimizando su rendimiento en los motores de búsqueda.
 
 ### Selección y vinculación a fuentes externas autorizadas
 
@@ -147,7 +147,7 @@ Los enlaces externos también juegan un papel vital en el SEO On Page, ya que al
 
 Al establecer enlaces externos, es importante considerar el uso del atributo "rel='nofollow'" para aquellos enlaces que no se quiere que transmitan autoridad, como menciones publicitarias. Esto ayuda a preservar el "link juice" para los enlaces más estratégicos. Asimismo, al fomentar una relación de interconexión con otros sitios relevantes, se abre la puerta para potenciales colaboraciones y oportunidades de creación de enlaces, lo que puede resultar beneficioso para ambas partes y mejorar aún más el posicionamiento en los motores de búsqueda.
 
-La combinación de estrategias de enlaces internos y externos, alineada con un análisis continuo a través de herramientas de auditoría, contribuye significativamente a la mejora del SEO On Page, asegurando que cada página alcance su máximo potencial en visibilidad y autoridad.
+La combinación de estrategias de enlaces internos y externos, alineada con un análisis continuo a través de [herramientas de auditoría](/blog/general/non-developers-guide), contribuye significativamente a la mejora del SEO On Page, asegurando que cada página alcance su máximo potencial en visibilidad y autoridad.
 
 ## Responsive Design y Rendimiento Web
 
@@ -183,7 +183,7 @@ Estas prácticas no solo mejoran la experiencia del usuario, sino que también s
 
 ### Herramientas para medir y optimizar el rendimiento web
 
-Para mantener un [[web-performance-guide|rendimiento web]] óptimo, es fundamental contar con herramientas que permitan medir tanto la velocidad de carga como la experiencia del usuario. Algunas de las herramientas más efectivas incluyen:
+Para mantener un [rendimiento web](/blog/general/web-performance-guide) óptimo, es fundamental contar con herramientas que permitan medir tanto la velocidad de carga como la experiencia del usuario. Algunas de las herramientas más efectivas incluyen:
 
 \- Google PageSpeed Insights: Analiza el rendimiento de una página y proporciona sugerencias específicas para mejorar la velocidad.
 

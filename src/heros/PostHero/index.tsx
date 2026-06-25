@@ -23,6 +23,13 @@ export const PostHero: React.FC<{
   locale?: 'en' | 'es'
 }> = ({ post, excerpt = null, readingTime = null, mainCategory = null, locale = 'es' }) => {
   const { categories: postCategories, content, populatedAuthors, publishedAt, title } = post
+  // Guarantee a non-empty <h1>: some posts (e.g. a locale variant synced without
+  // a title) would otherwise render an empty heading, which Ahrefs flags as
+  // "H1 missing". Fall back to the SEO meta title, then a humanized slug. META-02.
+  const headingTitle =
+    title ||
+    (post as { meta?: { title?: string } }).meta?.title ||
+    (post.slug ? post.slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : '')
   const localePrefix = locale === 'es' ? '' : '/en'
   const categories = postCategories
   const heroImage = content?.heroImage
@@ -130,7 +137,7 @@ export const PostHero: React.FC<{
               textShadow: '0 2px 4px rgba(0,0,0,0.3)' // Lighter alternative to drop-shadow-xl
             }}
           >
-            {title}
+            {headingTitle}
           </h1>
 
           {(post.content?.tldr || excerpt) && (

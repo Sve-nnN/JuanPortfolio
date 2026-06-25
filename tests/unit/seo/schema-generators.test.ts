@@ -113,9 +113,12 @@ describe('generateCollectionPageSchema — optional count (issue #29)', () => {
     expect('numberOfItems' in s).toBe(false)
   })
 
-  it('includes numberOfItems when provided', () => {
+  it('carries numberOfItems on a nested ItemList (valid for CollectionPage)', () => {
     const s = generateCollectionPageSchema({ name: 'Authors', url: '/authors', numberOfItems: 3 }) as Record<string, unknown>
-    expect(s.numberOfItems).toBe(3)
+    // numberOfItems is not a valid CollectionPage property (Ahrefs flagged it);
+    // it now lives on mainEntity → ItemList. SCHEMA-01.
+    expect('numberOfItems' in s).toBe(false)
+    expect(s.mainEntity).toEqual({ '@type': 'ItemList', numberOfItems: 3 })
   })
 })
 

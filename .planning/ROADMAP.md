@@ -177,7 +177,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 **Milestone Goal:** Cada página (Post, Page, listado) tiene una keyword objetivo con sus métricas a la vista, un semáforo estilo Yoast en el editor que compara la keyword contra title/meta/H1/slug/contenido, y una auditoría de cobertura que permite saber de un vistazo qué páginas faltan de optimizar.
 
 - [x] **Phase 21: Keyword data model** - Agregar `primaryKeyword` a Pages y mapeo de keyword para listados de categoría/autor, igual que Posts (completed 2026-06-25)
-- [ ] **Phase 22: Metrics panel + Yoast traffic light** - Panel de métricas de la keyword y semáforo verde/ámbar/rojo por check en el sidebar del editor, con recálculo en vivo
+- [x] **Phase 22: Metrics panel + Yoast traffic light** - Panel de métricas de la keyword y semáforo verde/ámbar/rojo por check en el sidebar del editor, con recálculo en vivo (completed 2026-06-25)
 - [ ] **Phase 23: Coverage audit** - Reporte repetible de páginas sin keyword y páginas con keyword que fallan algún check del semáforo
 - [ ] **Phase 24: Keyword research population** - Poblar keywords desde `content/keywords.md` / DinoRank y verificar que los docs de `keyword-metrics` tengan métricas cargadas
 
@@ -306,7 +306,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 Plans:
 
 - [x] 22-1-PLAN.md — Scoring engine: analyzeKeywordChecks (es/en stemming, weighted score, blocks-aware extractor) + authenticated /api/seo/keyword-score endpoint + tests
-- [ ] 22-2-PLAN.md — KeywordScorePanel sidebar component (metrics + 7-check traffic light + score badge, 4 states, 300ms live recompute) + register ui field in Posts & Pages
+- [x] 22-2-PLAN.md — KeywordScorePanel sidebar component (metrics + 7-check traffic light + score badge, 4 states, 300ms live recompute) + register ui field in Posts & Pages
 
 **UI hint**: yes
 
@@ -351,6 +351,6 @@ Plans:
 | 19. On-page, schema y rendimiento | v1.3 | ◐ | ✅ Complete (META-03/04, PERF-02 parciales: faltan URLs Ahrefs) | 2026-06-24 |
 | 20. Widget de Domain Rating en admin | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 21. Keyword data model | v1.4 | 1/1 | Complete   | 2026-06-25 |
-| 22. Metrics panel + Yoast traffic light | v1.4 | 1/2 | In Progress|  |
+| 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | Complete   | 2026-06-25 |
 | 23. Coverage audit | v1.4 | 0/TBD | Not started | - |
 | 24. Keyword research population | v1.4 | 0/TBD | Not started | - |

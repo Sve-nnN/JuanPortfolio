@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
-status: verifying
-stopped_at: "Plan 21-1 completado (keyword data model en Pages/Categories/Users). Próximo: siguiente plan de Fase 21."
-last_updated: "2026-06-25T17:15:11.340Z"
-last_activity: 2026-06-25 — Fase 21 completa (keyword data model en Pages/Categories/Users); VERIFICATION passed
+status: executing
+stopped_at: "Plan 22-2 completado (KeywordScorePanel sidebar field en Posts/Pages). Pendiente: checkpoint human-verify visual."
+last_updated: "2026-06-25T17:22:26.834Z"
+last_activity: 2026-06-25 — Fase 22 plan 22-2 ejecutado (panel de métricas + semáforo Yoast en sidebar); pendiente verificación visual humana
 progress:
   total_phases: 10
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 3
-  completed_plans: 2
-  percent: 10
+  completed_plans: 3
+  percent: 20
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 ## Current Position
 
-Phase: 22 (next) — fase 21 ✅ PASSED (4/4 success criteria)
-Plan: —
-Status: Fase 21 verificada y cerrada. Próximo: smart discuss + plan fase 22 (metrics panel + traffic light)
-Last activity: 2026-06-25 — Fase 21 completa (keyword data model en Pages/Categories/Users); VERIFICATION passed
+Phase: 22 (executing) — metrics panel + Yoast traffic light
+Plan: 22-2 ✅ completado (Wave 2). 22-1 ✅ (engine + endpoint).
+Status: KeywordScorePanel implementado y registrado en Posts/Pages. Pendiente: checkpoint human-verify visual (4 estados, recompute en vivo, layout sidebar, accesibilidad).
+Last activity: 2026-06-25 — 22-2 ejecutado; tsc 114 (baseline, 0 nuevos), 764 tests verdes
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Last activity: 2026-06-25 — Fase 21 completa (keyword data model en Pages/Cate
 - **Listados vía doc de categoría/autor (v1.4):** La keyword de páginas de listado (categoría, autor) se asigna en el documento de categoría/autor mismo o en un mapeo configurable; no se crea una colección nueva.
 - **Phase 24 puede correr tras Phase 21:** La población de keywords desde DinoRank solo necesita que el modelo exista (KW-01..03); no necesita esperar a que el semáforo esté completo.
 - **Modelo de keyword espeja Posts (21-1):** Pages usa tab Meta con `primaryKeyword` + `semanticKeywords`; Categories y Users usan `primaryKeyword` en sidebar. Todos relación a `keyword-metrics`; sin campo de texto suelto, sin relaciones reversas, sin colección nueva (KW-01..03).
+- **Análisis en server, UI dependency-light (22-2):** El componente cliente importa solo tipos de `keywordScore.ts` y llama al endpoint `/api/seo/keyword-score` debounced ~300ms; `natural` nunca se bundlea en el admin. Content path se ramifica por `collectionSlug` (content.content en Posts, content.layout en Pages).
 
 ### Blockers/Concerns
 
@@ -60,6 +61,6 @@ Last activity: 2026-06-25 — Fase 21 completa (keyword data model en Pages/Cate
 
 ## Session Continuity
 
-Last session: 2026-06-25T17:14:54.227Z
+Last session: 2026-06-25T17:22:26.831Z
 Stopped at: Plan 21-1 completado (keyword data model en Pages/Categories/Users). Próximo: siguiente plan de Fase 21.
 Resume file: None

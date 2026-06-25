@@ -22,15 +22,15 @@
 
 ### METRICS — Métricas de la keyword en la página
 
-- [ ] **METRICS-01**: La vista de edición de cada Post/Page muestra las métricas de su keyword objetivo (volumen, dificultad, intent, opportunityScore y demás) leídas de `keyword-metrics`
-- [ ] **METRICS-02**: Si la keyword asignada no tiene métricas cargadas, la UI lo indica con un estado claro (sin romper el editor)
+- [x] **METRICS-01**: La vista de edición de cada Post/Page muestra las métricas de su keyword objetivo (volumen, dificultad, intent, opportunityScore y demás) leídas de `keyword-metrics`
+- [x] **METRICS-02**: Si la keyword asignada no tiene métricas cargadas, la UI lo indica con un estado claro (sin romper el editor)
 
 ### SCORE — Semáforo estilo Yoast (sidebar del editor)
 
 - [x] **SCORE-01**: El sidebar del editor muestra un semáforo (verde/ámbar/rojo) por check: keyword en el title, en la meta description, en el H1, en el slug/URL, densidad en el contenido, presencia en el primer párrafo y en subtítulos
 - [x] **SCORE-02**: Cada check da feedback accionable (qué falta y cómo arreglarlo), reusando/extendiendo `seoAnalyzer.ts`
 - [x] **SCORE-03**: Score global por página (0-100) con color, visible de un vistazo en el editor
-- [ ] **SCORE-04**: El semáforo se recalcula con el contenido actual del editor (no requiere re-publicar para ver el estado)
+- [x] **SCORE-04**: El semáforo se recalcula con el contenido actual del editor (no requiere re-publicar para ver el estado)
 
 ### AUDIT — Cobertura de keywords
 
@@ -66,12 +66,12 @@
 | KW-01 | Phase 21 | Complete |
 | KW-02 | Phase 21 | Complete |
 | KW-03 | Phase 21 | Complete |
-| METRICS-01 | Phase 22 | Pending |
-| METRICS-02 | Phase 22 | Pending |
+| METRICS-01 | Phase 22 | Complete |
+| METRICS-02 | Phase 22 | Complete |
 | SCORE-01 | Phase 22 | Complete |
 | SCORE-02 | Phase 22 | Complete |
 | SCORE-03 | Phase 22 | Complete |
-| SCORE-04 | Phase 22 | Pending |
+| SCORE-04 | Phase 22 | Complete |
 | AUDIT-01 | Phase 23 | Pending |
 | AUDIT-02 | Phase 23 | Pending |
 | AUDIT-03 | Phase 23 | Pending |

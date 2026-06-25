@@ -295,6 +295,8 @@ export interface Page {
     )[];
   };
   searchConsole?: {};
+  primaryKeyword?: (string | null) | KeywordMetric;
+  semanticKeywords?: (string | KeywordMetric)[] | null;
   publishedAt?: string | null;
   /**
    * Estado de indexación en Google. Se actualiza con Check Status.
@@ -541,6 +543,7 @@ export interface Category {
   title: string;
   description?: string | null;
   slug?: string | null;
+  primaryKeyword?: (string | null) | KeywordMetric;
   /**
    * Estado de indexación en Google. Se actualiza con Check Status.
    */
@@ -707,6 +710,7 @@ export interface User {
     | null;
   avatar?: (string | null) | Media;
   slug?: string | null;
+  primaryKeyword?: (string | null) | KeywordMetric;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -2735,6 +2739,8 @@ export interface PagesSelect<T extends boolean = true> {
             };
       };
   searchConsole?: T | {};
+  primaryKeyword?: T;
+  semanticKeywords?: T;
   publishedAt?: T;
   indexStatus?: T;
   slug?: T;
@@ -3429,6 +3435,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   slug?: T;
+  primaryKeyword?: T;
   indexStatus?: T;
   faqs?:
     | T
@@ -3530,6 +3537,7 @@ export interface UsersSelect<T extends boolean = true> {
       };
   avatar?: T;
   slug?: T;
+  primaryKeyword?: T;
   meta?:
     | T
     | {

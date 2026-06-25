@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react'
-import { useDocumentInfo, useAllFormFields, useLocale, toast } from '@payloadcms/ui'
+import { useDocumentInfo, useAllFormFields, useForm, useLocale, toast } from '@payloadcms/ui'
 import { Button } from '@payloadcms/ui/elements/Button'
 
 import type {
@@ -79,18 +79,31 @@ const stringOf = (v: unknown): string => (typeof v === 'string' ? v : '')
 export const KeywordScorePanel: React.FC = () => {
   const { collectionSlug, initialData } = useDocumentInfo()
   const [fields] = useAllFormFields()
+  const { getData } = useForm()
   const { code } = useLocale()
   const locale: Locale = code === 'en' ? 'en' : 'es'
   const tr = (b: Bilingual): string => b[locale]
 
-  // --- Read live editor values from the flattened form state ---
-  const titleVal = stringOf(fields?.['title']?.value)
-  const metaTitle = stringOf(fields?.['meta.title']?.value)
-  const metaDesc = stringOf(fields?.['meta.description']?.value)
-  const slugVal = stringOf(fields?.['slug']?.value)
+  // --- Reconstruct the real (unflattened) document data from form state ---
+  // `getData()` runs `reduceFieldsToValues(fields, true)` internally, so blocks
+  // arrays (Pages `content.layout`) are rebuilt into their nested node tree
+  // instead of the flattened row-count metadata stored at `content.layout`.
+  // Keyed on `fields` so editing text inside any block re-derives the data and
+  // re-triggers the recompute (H1-01).
+  const data = useMemo(
+    () => getData() as Record<string, unknown>,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fields, getData],
+  )
+
+  const dataContent = data?.content as Record<string, unknown> | undefined
+  const dataMeta = data?.meta as Record<string, unknown> | undefined
+  const titleVal = stringOf(data?.title)
+  const metaTitle = stringOf(dataMeta?.title)
+  const metaDesc = stringOf(dataMeta?.description)
+  const slugVal = stringOf(data?.slug)
   // Posts: richText at content.content. Pages: blocks array at content.layout.
-  const contentKey = collectionSlug === 'pages' ? 'content.layout' : 'content.content'
-  const contentVal = fields?.[contentKey]?.value
+  const contentVal = collectionSlug === 'pages' ? dataContent?.layout : dataContent?.content
 
   // primaryKeyword may be an id string or a populated object; fall back to initialData.
   const pkRaw = (fields?.['primaryKeyword']?.value ??
@@ -104,26 +117,38 @@ export const KeywordScorePanel: React.FC = () => {
 
   // --- Fetch the keyword-metrics doc when the assigned keyword changes ---
   const [metrics, setMetrics] = useState<KeywordMetrics | null>(null)
+  const [metricsLoading, setMetricsLoading] = useState(false)
   useEffect(() => {
     if (!keywordId) {
       setMetrics(null)
+      setMetricsLoading(false)
       return
     }
     let cancelled = false
+    setMetricsLoading(true)
     fetch(`/api/keyword-metrics/${keywordId}?depth=0`)
       .then((r) => (r.ok ? r.json() : null))
       .then((doc) => {
-        if (cancelled || !doc || !doc.keyword) return
-        setMetrics({
-          keyword: doc.keyword,
-          volume: doc.volume,
-          difficulty: doc.difficulty,
-          intent: doc.intent,
-          opportunityScore: doc.opportunityScore,
-        })
+        if (cancelled) return
+        if (doc && doc.keyword) {
+          setMetrics({
+            keyword: doc.keyword,
+            volume: doc.volume,
+            difficulty: doc.difficulty,
+            intent: doc.intent,
+            opportunityScore: doc.opportunityScore,
+          })
+        } else {
+          // Doc missing or has no keyword string → can't run the checks.
+          setMetrics(null)
+        }
       })
       .catch(() => {
-        /* metrics are optional; checks still run with the keyword string */
+        if (cancelled) return
+        setMetrics(null)
+      })
+      .finally(() => {
+        if (!cancelled) setMetricsLoading(false)
       })
     return () => {
       cancelled = true
@@ -155,6 +180,7 @@ export const KeywordScorePanel: React.FC = () => {
     if (!keywordString) {
       setResult(null)
       setRecomputing(false)
+      setErrored(false)
       return
     }
     const controller = new AbortController()
@@ -169,6 +195,7 @@ export const KeywordScorePanel: React.FC = () => {
         })
         if (!res.ok) throw new Error('keyword-score request failed')
         const data = (await res.json()) as KeywordScoreResult
+        if (controller.signal.aborted) return
         setResult(data)
         setErrored(false)
         setUpdatedAt(Date.now())
@@ -211,8 +238,8 @@ export const KeywordScorePanel: React.FC = () => {
   const microText = (): string => {
     if (errored)
       return tr({
-        es: 'No se pudo recalcular. Reintentando…',
-        en: 'Couldn’t recalculate. Retrying…',
+        es: 'No se pudo recalcular. Editá un campo para reintentar.',
+        en: 'Couldn’t recalculate. Edit a field to retry.',
       })
     if (recomputing && result) return tr({ es: 'Recalculando…', en: 'Recalculating…' })
     if (recomputing && !result) return tr({ es: 'Calculando…', en: 'Calculating…' })
@@ -244,6 +271,26 @@ export const KeywordScorePanel: React.FC = () => {
           <Button buttonStyle="secondary" size="small" onClick={focusKeywordField}>
             {tr({ es: 'Asignar keyword', en: 'Assign keyword' })}
           </Button>
+        </div>
+      </div>
+    )
+  }
+
+  // --- State 2: keyword assigned (id exists) but no usable keyword string ---
+  // The metrics doc is missing/errored or has an empty keyword, so the checks
+  // can't run. Show an explicit loading/error state instead of a permanent
+  // "Calculando…" (M2-03).
+  if (keywordId && !keywordString) {
+    return (
+      <div className="field-type custom-field" style={{ marginBottom: '2rem' }}>
+        <label className="field-label">{wrapperLabel}</label>
+        <div style={{ fontSize: '13px', color: mutedColor, lineHeight: 1.4 }}>
+          {metricsLoading
+            ? tr({ es: 'Cargando métricas…', en: 'Loading metrics…' })
+            : tr({
+                es: 'No se pudieron cargar las métricas de esta keyword. Verificá que la keyword asignada exista y volvé a intentarlo.',
+                en: "Couldn't load this keyword's metrics. Check that the assigned keyword exists and try again.",
+              })}
         </div>
       </div>
     )

@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.4 — roadmap definido (fases 21-24), listo para planear fase 21
+**Current focus:** Milestone v1.4 — fase 21 ✅ completa; ejecutando fase 22 (semáforo Yoast)
 
 ## Current Position
 
-Phase: 21 (in progress)
-Plan: 21-1 completado
-Status: Plan 21-1 ejecutado (keyword data model)
-Last activity: 2026-06-25 — Plan 21-1 ejecutado (keyword data model en Pages/Categories/Users)
+Phase: 22 (next) — fase 21 ✅ PASSED (4/4 success criteria)
+Plan: —
+Status: Fase 21 verificada y cerrada. Próximo: smart discuss + plan fase 22 (metrics panel + traffic light)
+Last activity: 2026-06-25 — Fase 21 completa (keyword data model en Pages/Categories/Users); VERIFICATION passed
 
 ## Performance Metrics
 

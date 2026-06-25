@@ -42,6 +42,18 @@ function getCategoryFields(): Field[] {
       },
     },
     {
+      name: 'primaryKeyword',
+      type: 'relationship',
+      relationTo: 'keyword-metrics',
+      label: {
+        en: 'Target Keyword',
+        es: 'Keyword Objetivo',
+      },
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'indexingControl',
       type: 'ui',
       admin: {

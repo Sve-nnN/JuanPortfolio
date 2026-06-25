@@ -247,6 +247,18 @@ export const Users: CollectionConfig = {
                 },
               },
             },
+            {
+              name: 'primaryKeyword',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              label: {
+                en: 'Target Keyword',
+                es: 'Keyword Objetivo',
+              },
+              admin: {
+                position: 'sidebar',
+              },
+            },
           ],
         },
         {

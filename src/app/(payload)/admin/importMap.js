@@ -12,6 +12,7 @@ import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { TableFeatureClient as TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { GSCField as GSCField_60d1527e85f11a2e06a73da50fac39ae } from '@/components/admin/GSCField'
 import { GSCCell as GSCCell_45d4dbad09c7662e5d84c7f89fc58baf } from '@/components/admin/GSCCell'
+import { KeywordScorePanel as KeywordScorePanel_9e3aa280254a35031d9fd1e2a31dc9f5 } from '@/components/admin/KeywordScorePanel'
 import { IndexingControl as IndexingControl_104607a46c4d91ccac02d7771e81a8c7 } from '@/components/admin/IndexingControl'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -24,6 +25,8 @@ import { UnorderedListFeatureClient as UnorderedListFeatureClient_e70f5e05f09f93
 import { OrderedListFeatureClient as OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { InternalLinksTab as InternalLinksTab_bd5389b83dbeda491aaccf662deb7d19 } from '@/components/admin/InternalLinksTab'
+import { DinoRankWriteButton as DinoRankWriteButton_321ad538c51d30461e86e5e799907c6e } from '@/components/admin/DinoRankWriteButton'
 import { CloudinaryUploadButton as CloudinaryUploadButton_1ae4acaeee7345df8eb61983d348f4e7 } from '@/components/admin/CloudinaryUploadButton'
 import { CloudinaryUploadAllButton as CloudinaryUploadAllButton_a6328e09ea1f3e79469fbc0c49980b7d } from '@/components/admin/CloudinaryUploadAllButton'
 import { default as default_14a617787e59f2697076a8f925c952d0 } from '@/components/admin/LiveUrlLink'
@@ -36,6 +39,7 @@ import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from 
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { GSCDashboardLink as GSCDashboardLink_da73e0b544bcaf1fd7fa7841c0553714 } from '@/components/admin/GSCDashboardLink'
+import { DomainRatingCard as DomainRatingCard_1ffcd024c0eaccbd4992dd350842ac9a } from '@/components/admin/DomainRatingCard'
 import { GSCSummary as GSCSummary_4f13c66c2224ac2a9b925f74c3207410 } from '@/components/admin/GSCSummary'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
@@ -56,6 +60,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#TableFeatureClient": TableFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/admin/GSCField#GSCField": GSCField_60d1527e85f11a2e06a73da50fac39ae,
   "@/components/admin/GSCCell#GSCCell": GSCCell_45d4dbad09c7662e5d84c7f89fc58baf,
+  "@/components/admin/KeywordScorePanel#KeywordScorePanel": KeywordScorePanel_9e3aa280254a35031d9fd1e2a31dc9f5,
   "@/components/admin/IndexingControl#IndexingControl": IndexingControl_104607a46c4d91ccac02d7771e81a8c7,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
@@ -68,6 +73,8 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#OrderedListFeatureClient": OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/admin/InternalLinksTab#InternalLinksTab": InternalLinksTab_bd5389b83dbeda491aaccf662deb7d19,
+  "@/components/admin/DinoRankWriteButton#DinoRankWriteButton": DinoRankWriteButton_321ad538c51d30461e86e5e799907c6e,
   "@/components/admin/CloudinaryUploadButton#CloudinaryUploadButton": CloudinaryUploadButton_1ae4acaeee7345df8eb61983d348f4e7,
   "@/components/admin/CloudinaryUploadAllButton#CloudinaryUploadAllButton": CloudinaryUploadAllButton_a6328e09ea1f3e79469fbc0c49980b7d,
   "@/components/admin/LiveUrlLink#default": default_14a617787e59f2697076a8f925c952d0,
@@ -80,6 +87,7 @@ export const importMap = {
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/admin/GSCDashboardLink#GSCDashboardLink": GSCDashboardLink_da73e0b544bcaf1fd7fa7841c0553714,
+  "@/components/admin/DomainRatingCard#DomainRatingCard": DomainRatingCard_1ffcd024c0eaccbd4992dd350842ac9a,
   "@/components/admin/GSCSummary#GSCSummary": GSCSummary_4f13c66c2224ac2a9b925f74c3207410,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,

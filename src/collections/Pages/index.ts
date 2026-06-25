@@ -248,6 +248,16 @@ export const Pages: CollectionConfig<'pages'> = {
       },
     },
     {
+      name: 'keywordScorePanel',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/KeywordScorePanel#KeywordScorePanel',
+        },
+      },
+    },
+    {
       name: 'indexingControl',
       type: 'ui',
       admin: {

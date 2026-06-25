@@ -307,6 +307,16 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'keywordScorePanel',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/KeywordScorePanel#KeywordScorePanel',
+        },
+      },
+    },
+    {
       name: 'dinoRankAction',
       type: 'ui',
       admin: {

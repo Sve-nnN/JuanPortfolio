@@ -584,12 +584,26 @@ function stemTokens(tokens: string[], locale?: string): string[] {
   return tokens.map((t) => stemmer.stem(t))
 }
 
-/** True when every stemmed keyword token appears somewhere in the stemmed haystack. */
-function keywordTokensIn(haystack: string, keyword: string, locale?: string): boolean {
-  const kwTokens = stemTokens(tokenize(keyword), locale)
-  if (kwTokens.length === 0) return false
-  const hay = new Set(stemTokens(tokenize(haystack), locale))
-  return kwTokens.every((t) => hay.has(t))
+/**
+ * Index of the first contiguous occurrence of `seq` within `tokens`, or -1.
+ * This is the single matching primitive shared by ALL checks (M1-02): every
+ * check requires the keyword's stemmed tokens to appear as a contiguous phrase,
+ * so multi-word keywords ("core web vitals") cannot produce contradictory
+ * results between the presence checks and the density check.
+ */
+function sequenceIndex(tokens: string[], seq: string[]): number {
+  if (seq.length === 0 || tokens.length < seq.length) return -1
+  for (let i = 0; i <= tokens.length - seq.length; i++) {
+    let ok = true
+    for (let j = 0; j < seq.length; j++) {
+      if (tokens[i + j] !== seq[j]) {
+        ok = false
+        break
+      }
+    }
+    if (ok) return i
+  }
+  return -1
 }
 
 /** Count contiguous occurrences of the keyword token sequence within a token list. */
@@ -607,6 +621,16 @@ function countSequence(tokens: string[], seq: string[]): number {
     if (ok) count++
   }
   return count
+}
+
+/**
+ * True when the keyword's stemmed token sequence appears as a contiguous
+ * phrase anywhere in the haystack. Consistent phrase semantics across every
+ * check (title/meta/H1/slug/first-paragraph/subheadings + density).
+ */
+function keywordPhraseIn(haystack: string, kwTokens: string[], locale?: string): boolean {
+  if (kwTokens.length === 0) return false
+  return sequenceIndex(stemTokens(tokenize(haystack), locale), kwTokens) >= 0
 }
 
 function makeCheck(id: KeywordCheckId, state: CheckState, feedback?: Bilingual): KeywordCheck {
@@ -652,6 +676,12 @@ const RED_FEEDBACK: Record<KeywordCheckId, Bilingual> = {
   },
 }
 
+/** Distinct feedback for a genuinely missing H1 (no fallback to the title). */
+const H1_MISSING_FEEDBACK: Bilingual = {
+  es: 'No se encontró un H1 en el contenido. Agregá un encabezado H1 con la keyword.',
+  en: 'No H1 found in the content. Add an H1 heading containing the keyword.',
+}
+
 /**
  * Pure analyzer: runs the 7 Yoast-style checks against the live editor fields
  * and returns structured results, a weighted 0-100 score and a badge color.
@@ -661,9 +691,9 @@ const RED_FEEDBACK: Record<KeywordCheckId, Bilingual> = {
  * density/first-paragraph/subheadings from the extracted body. Keyword
  * matching uses real es/en stemming so morphological variants match.
  */
-export async function analyzeKeywordChecks(
+export function analyzeKeywordChecks(
   input: KeywordAnalysisInput,
-): Promise<KeywordScoreResult> {
+): KeywordScoreResult {
   const locale = input.locale
   const keyword = (input.keyword || '').trim()
   const kwTokens = stemTokens(tokenize(keyword), locale)
@@ -672,13 +702,16 @@ export async function analyzeKeywordChecks(
   const metaDescription = input.meta?.description || ''
   const slug = input.slug || ''
 
-  const bodyText = extractText(input.content)
-  const bodyTokens = stemTokens(tokenize(bodyText), locale)
   const headingNodes = extractHeadingNodes(input.content)
   const paragraphs = extractParagraphs(input.content)
 
-  const firstH1 = headingNodes.find((h) => h.level === 1)?.text || ''
-  const h1Source = firstH1 || input.title || titleSource
+  // Density denominator is the paragraph body only (L3-08): heading text must
+  // not inflate the word count nor count as a body occurrence.
+  const bodyTokens = stemTokens(tokenize(paragraphs.join(' ')), locale)
+
+  // No fallback to the document title (M3-04): if the content has no H1 node,
+  // the H1 check reflects the missing H1 instead of masking it.
+  const firstH1 = headingNodes.find((h) => h.level === 1)?.text ?? null
 
   const byId: Record<KeywordCheckId, KeywordCheck> = {} as Record<
     KeywordCheckId,
@@ -686,22 +719,26 @@ export async function analyzeKeywordChecks(
   >
 
   // 1. Title (pass/fail)
-  byId.title = keywordTokensIn(titleSource, keyword, locale)
+  byId.title = keywordPhraseIn(titleSource, kwTokens, locale)
     ? makeCheck('title', 'green')
     : makeCheck('title', 'red', RED_FEEDBACK.title)
 
   // 2. Meta description (pass/fail)
-  byId.metaDescription = keywordTokensIn(metaDescription, keyword, locale)
+  byId.metaDescription = keywordPhraseIn(metaDescription, kwTokens, locale)
     ? makeCheck('metaDescription', 'green')
     : makeCheck('metaDescription', 'red', RED_FEEDBACK.metaDescription)
 
-  // 3. H1 (pass/fail)
-  byId.h1 = keywordTokensIn(h1Source, keyword, locale)
-    ? makeCheck('h1', 'green')
-    : makeCheck('h1', 'red', RED_FEEDBACK.h1)
+  // 3. H1 (pass/fail) — a missing H1 can never be green.
+  if (firstH1 === null) {
+    byId.h1 = makeCheck('h1', 'red', H1_MISSING_FEEDBACK)
+  } else {
+    byId.h1 = keywordPhraseIn(firstH1, kwTokens, locale)
+      ? makeCheck('h1', 'green')
+      : makeCheck('h1', 'red', RED_FEEDBACK.h1)
+  }
 
   // 4. Slug (pass/fail)
-  byId.slug = keywordTokensIn(slug, keyword, locale)
+  byId.slug = keywordPhraseIn(slug, kwTokens, locale)
     ? makeCheck('slug', 'green')
     : makeCheck('slug', 'red', RED_FEEDBACK.slug)
 
@@ -722,13 +759,12 @@ export async function analyzeKeywordChecks(
 
   // 6. First paragraph
   const firstPara = paragraphs[0] || ''
-  if (!keywordTokensIn(firstPara, keyword, locale)) {
+  const fpTokens = stemTokens(tokenize(firstPara), locale)
+  const fpIdx = sequenceIndex(fpTokens, kwTokens)
+  if (fpIdx < 0) {
     byId.firstParagraph = makeCheck('firstParagraph', 'red', RED_FEEDBACK.firstParagraph)
   } else {
-    const fpTokens = stemTokens(tokenize(firstPara), locale)
-    const kwSet = new Set(kwTokens)
-    const firstIdx = fpTokens.findIndex((t) => kwSet.has(t))
-    const early = firstIdx >= 0 && firstIdx < fpTokens.length / 2
+    const early = fpIdx < fpTokens.length / 2
     byId.firstParagraph = early
       ? makeCheck('firstParagraph', 'green')
       : makeCheck('firstParagraph', 'amber', {
@@ -739,7 +775,7 @@ export async function analyzeKeywordChecks(
 
   // 7. Subheadings (h2-h4)
   const subs = headingNodes.filter((h) => h.level >= 2 && h.level <= 4)
-  const subsWithKw = subs.filter((h) => keywordTokensIn(h.text, keyword, locale))
+  const subsWithKw = subs.filter((h) => keywordPhraseIn(h.text, kwTokens, locale))
   if (subs.length === 0 || subsWithKw.length === 0) {
     byId.subheadings = makeCheck('subheadings', 'red', RED_FEEDBACK.subheadings)
   } else if (subs.length > 1 && subsWithKw.length < subs.length / 2) {

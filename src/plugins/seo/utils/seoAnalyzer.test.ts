@@ -331,6 +331,66 @@ describe('weighted score', () => {
   })
 })
 
+describe('consistent phrase matching (M1-02)', () => {
+  it('title red when keyword tokens are present but not contiguous', async () => {
+    const input = greenAllInput()
+    // Contains "test" and "keyword" but never the contiguous phrase "keyword test".
+    input.meta.title = 'Test guide about a keyword'
+    input.title = 'Test guide about a keyword'
+    const r = await analyzeKeywordChecks(input)
+    expect(check(r, 'title').state).toBe('red')
+  })
+
+  it('multi-word keyword matches only as a contiguous phrase in the body', async () => {
+    const input = {
+      keyword: 'core web vitals',
+      locale: 'en' as const,
+      meta: { title: 'core web vitals guide', description: 'core web vitals tips' },
+      slug: 'core-web-vitals',
+      content: richText([
+        heading('h1', 'core web vitals explained'),
+        // tokens present but scattered, never contiguous
+        paragraph('the core of the web is about vitals ' + filler(60)),
+        heading('h2', 'core web vitals tips'),
+      ]),
+    }
+    const r = await analyzeKeywordChecks(input)
+    expect(check(r, 'firstParagraph').state).toBe('red')
+    expect(check(r, 'density').state).toBe('red')
+  })
+})
+
+describe('H1 fallback removed (M3-04)', () => {
+  it('h1 red when the content has no H1 node even if title has the keyword', async () => {
+    const input = greenAllInput()
+    input.content = richText([
+      paragraph('Keyword test ' + filler(60)),
+      heading('h2', 'Keyword Test Section'),
+    ])
+    const r = await analyzeKeywordChecks(input)
+    expect(check(r, 'h1').state).toBe('red')
+    expect(check(r, 'h1').feedback?.es).toBeTruthy()
+    expect(check(r, 'h1').feedback?.en).toBeTruthy()
+  })
+})
+
+describe('density denominator excludes headings (L3-08)', () => {
+  it('keyword only in a heading does not register as a body occurrence', async () => {
+    const input = {
+      keyword: 'keyword test',
+      locale: 'en' as const,
+      meta: { title: 'x', description: 'x' },
+      slug: 'x',
+      content: richText([
+        heading('h1', 'keyword test heading'),
+        paragraph(filler(100)),
+      ]),
+    }
+    const r = await analyzeKeywordChecks(input)
+    expect(check(r, 'density').state).toBe('red')
+  })
+})
+
 describe('analyzeSEO regression (extractors still work internally)', () => {
   it('extractText handles a simple Posts richText', () => {
     const c = richText([paragraph('hello world from posts')])

@@ -33,9 +33,9 @@
 
 ### CONSIST — Consistencia del admin
 
-- [ ] **CONSIST-01**: Las 4 colecciones de métricas (`keyword-metrics`, `page-metrics`, `gsc-metrics`, `broken-links`) usan `group: 'SEO'` consistente en el menú lateral
-- [ ] **CONSIST-02**: Los labels del admin (colecciones, tabs como "Search Console"/"Internal Links"/"Meta", campos) usan objetos bilingües `{ en, es }` de forma consistente con la localización del proyecto
-- [ ] **CONSIST-03**: Los nav links custom (`GSCDashboardLink`, `KeywordCoverageLink`) usan iconos/tokens del design system de Payload en vez de emoji inline y estilos hardcodeados
+- [x] **CONSIST-01**: Las 4 colecciones de métricas (`keyword-metrics`, `page-metrics`, `gsc-metrics`, `broken-links`) usan `group: 'SEO'` consistente en el menú lateral
+- [x] **CONSIST-02**: Los labels del admin (colecciones, tabs como "Search Console"/"Internal Links"/"Meta", campos) usan objetos bilingües `{ en, es }` de forma consistente con la localización del proyecto
+- [x] **CONSIST-03**: Los nav links custom (`GSCDashboardLink`, `KeywordCoverageLink`) usan iconos/tokens del design system de Payload en vez de emoji inline y estilos hardcodeados
 
 ## Future Requirements
 
@@ -64,7 +64,7 @@
 | SCRIPT-01 | Phase 28 | Complete |
 | SEC-01 | Phase 29 | Complete |
 | ASSET-01 | Deferred | Future (milestone propio) |
-| CONSIST-01 | Phase 30 | Pending |
-| CONSIST-02 | Phase 30 | Pending |
-| CONSIST-03 | Phase 30 | Pending |
+| CONSIST-01 | Phase 30 | Complete |
+| CONSIST-02 | Phase 30 | Complete |
+| CONSIST-03 | Phase 30 | Complete |
 </content>

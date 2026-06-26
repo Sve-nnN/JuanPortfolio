@@ -464,11 +464,11 @@ Plans:
 | 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | ✅ Complete | 2026-06-25 |
 | 23. Coverage audit | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
 | 24. Keyword research population | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
-| 25. Verificación runtime de integraciones (gate) | v1.5 | 0/0 | Not started | - |
+| 25. Verificación runtime de integraciones (gate) | v1.5 | — | ⏳ Gate (Juan) | - |
 | 26. Retirada del plugin SEO fantasma | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 | 27. Colapso de domains/ y leftovers huérfanos | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 | 28. Limpieza de scripts one-off | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
-| 29. Accesos endurecidos y assets unificados | v1.5 | 0/0 | Not started | - |
-| 30. Consistencia del admin | v1.5 | 0/0 | Not started | - |
+| 29. Accesos endurecidos y assets unificados | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
+| 30. Consistencia del admin | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 </content>
 </invoke>

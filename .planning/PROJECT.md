@@ -8,16 +8,19 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: v1.4 Keyword targeting & Yoast-style SEO scoring
+## Current Milestone: v1.5 Limpieza y alineación del admin de Payload
 
-**Goal:** Cada página (Post, Page, listado) con una keyword objetivo y sus métricas a la vista, más un semáforo estilo Yoast en el editor que compara la keyword contra title/meta/H1/slug/contenido, y una auditoría de cobertura.
+**Goal:** Eliminar el código muerto del admin (plugin SEO fantasma, andamiaje DDD `domains/`, backups, scripts one-off), endurecer accesos de las colecciones de métricas, unificar consistencia (group/labels/nav) y estrategia de assets — con verificación runtime de integraciones antes de borrar nada dependiente.
 
 **Target features:**
-- Campo de keyword objetivo (`primaryKeyword`→`keyword-metrics`) en Pages (Posts ya lo tienen) y en listados de categoría/autor
-- Métricas de la keyword (volumen, dificultad, intent, opportunityScore) visibles en la vista de edición de cada página
-- Semáforo estilo Yoast en el sidebar del editor: keyword en title/meta/H1/slug, densidad, primer párrafo, subtítulos, con score 0-100 y feedback accionable (reusa `seoAnalyzer.ts`)
-- Auditoría de cobertura: páginas sin keyword y páginas con keyword pero a las que les falta optimización
-- Poblar las keywords desde el research reciente de DinoRank (`content/keywords.md`)
+- Verificación runtime de integraciones (Ahrefs/DinoRank/Indexing/GSC) como gate previo a la limpieza
+- Borrado del plugin SEO casero nunca registrado (conservando seoAnalyzer/keywordCoverageAudit/seoFields/keywordScore reubicados)
+- Colapso del árbol `src/domains/**` (mover AdBanner a collections/, borrar el resto) + backups/re-exports huérfanos
+- Limpieza de scripts one-off/debug ya aplicados
+- Endurecer `access` de keyword-metrics/page-metrics/gsc-metrics; estrategia única de assets (Blob vs Cloudinary)
+- Consistencia admin: `group:'SEO'` uniforme, labels bilingües `{en,es}`, nav links con iconos del design system
+
+Inventario base: `.planning/admin-audit-v1.5.md`
 
 ## Requirements
 
@@ -41,9 +44,14 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 
 ### Active
 
-<!-- Scope actual. Próximo milestone por definir (/gsd:new-milestone). -->
+<!-- Scope actual. Milestone v1.5 — Limpieza y alineación del admin de Payload. -->
 
-- (Sin milestone activo — próximo por definir)
+- [ ] Eliminar código muerto del admin: plugin SEO fantasma, `domains/` DDD, backups/re-exports huérfanos
+- [ ] Limpiar scripts one-off/debug ya aplicados
+- [ ] Endurecer `access` de las colecciones de métricas (keyword-metrics/page-metrics/gsc-metrics)
+- [ ] Unificar estrategia de assets (Vercel Blob vs Cloudinary)
+- [ ] Consistencia admin: `group:'SEO'`, labels bilingües `{en,es}`, nav links del design system
+- [ ] Verificación runtime de integraciones (Ahrefs/DinoRank/Indexing/GSC)
 
 ### Out of Scope
 
@@ -99,4 +107,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-26 — v1.4 (keyword targeting & Yoast-style scoring) shipped & archivado; próximo milestone por definir*
+*Last updated: 2026-06-26 — v1.5 (limpieza y alineación del admin de Payload) iniciado*

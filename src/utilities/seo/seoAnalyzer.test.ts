@@ -4,8 +4,8 @@ import {
   extractText,
   extractHeadings,
 } from './seoAnalyzer'
-import { scoreToColor, CHECK_ORDER } from '../types/keywordScore'
-import type { KeywordCheckId, KeywordScoreResult } from '../types/keywordScore'
+import { scoreToColor, CHECK_ORDER } from './keywordScore'
+import type { KeywordCheckId, KeywordScoreResult } from './keywordScore'
 
 // ---------------------------------------------------------------------------
 // Lexical fixture helpers

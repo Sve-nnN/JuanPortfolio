@@ -26,7 +26,7 @@ import {
   runKeywordCoverageAudit,
   type CoverageRow,
   type KeywordCoverageReport,
-} from '../plugins/seo/utils/keywordCoverageAudit'
+} from '../utilities/seo/keywordCoverageAudit'
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 

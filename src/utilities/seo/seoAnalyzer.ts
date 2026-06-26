@@ -22,7 +22,7 @@ import {
   type KeywordCheck,
   type KeywordCheckId,
   type KeywordScoreResult,
-} from '../types/keywordScore'
+} from './keywordScore'
 
 export interface SEOAnalysisInput {
   title?: string

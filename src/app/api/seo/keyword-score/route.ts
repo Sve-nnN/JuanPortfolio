@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { headers } from 'next/headers'
-import { analyzeKeywordChecks } from '@/plugins/seo/utils/seoAnalyzer'
+import { analyzeKeywordChecks } from '@/utilities/seo/seoAnalyzer'
 
 // Input bounds (L2-07): cap the request so a compromised/over-eager client
 // cannot force expensive recursive extraction or stemming.

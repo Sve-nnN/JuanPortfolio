@@ -7,10 +7,10 @@ import { useConfig } from '@payloadcms/ui'
 import type {
   CoverageRow,
   KeywordCoverageReport,
-} from '@/plugins/seo/utils/keywordCoverageAudit'
+} from '@/utilities/seo/keywordCoverageAudit'
 // Dependency-light label map (no `natural`) — safe to import at runtime.
-import { CHECK_LABELS } from '@/plugins/seo/types/keywordScore'
-import type { KeywordCheckId } from '@/plugins/seo/types/keywordScore'
+import { CHECK_LABELS } from '@/utilities/seo/keywordScore'
+import type { KeywordCheckId } from '@/utilities/seo/keywordScore'
 
 type Lang = 'es' | 'en'
 

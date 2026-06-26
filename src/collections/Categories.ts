@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from '../fields/slug'
-import { seoFields } from '../plugins/seo/fields/seoFields'
+import { seoFields } from '../utilities/seo/seoFields'
 
 import type { Field } from 'payload'
 

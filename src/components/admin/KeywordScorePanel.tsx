@@ -8,7 +8,7 @@ import type {
   KeywordScoreResult,
   CheckState,
   Bilingual,
-} from '@/plugins/seo/types/keywordScore'
+} from '@/utilities/seo/keywordScore'
 
 /**
  * Sidebar UI field for Posts and Pages. Renders the assigned keyword's metrics,

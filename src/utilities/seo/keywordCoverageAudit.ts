@@ -13,7 +13,7 @@
  *     (AUDIT-03: every call reflects current state, no caching/hardcoding).
  */
 import { analyzeKeywordChecks } from './seoAnalyzer'
-import type { KeywordCheckId } from '../types/keywordScore'
+import type { KeywordCheckId } from './keywordScore'
 
 export type AuditCollection = 'posts' | 'pages' | 'categories' | 'users'
 export type CoverageBucket = 'noKeyword' | 'unresolvedKeyword' | 'failing' | 'passing'

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { headers } from 'next/headers'
-import { runKeywordCoverageAudit } from '@/plugins/seo/utils/keywordCoverageAudit'
+import { runKeywordCoverageAudit } from '@/utilities/seo/keywordCoverageAudit'
 
 /**
  * GET /api/seo/keyword-coverage

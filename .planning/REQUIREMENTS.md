@@ -15,9 +15,9 @@
 
 ### CLEAN — Eliminación de código muerto
 
-- [ ] **CLEAN-01**: El plugin SEO casero muerto (`src/plugins/seo/index.ts`, `endpoints/*`, `components/*`, `hooks/*`, `utils/schemaGenerator.ts`) se elimina, conservando y reubicando los 4 módulos vivos (`seoAnalyzer`, `keywordCoverageAudit`, `seoFields`, `keywordScore`) sin romper sus consumidores (API routes, KeywordScorePanel, audit)
-- [ ] **CLEAN-02**: El árbol `src/domains/**` se colapsa: `ad-banners/domain/AdBanner.ts` se mueve a `src/collections/` y el resto (Category/User/Post duplicados, repos, use-cases, hooks) se elimina, con la config de Payload apuntando al nuevo path
-- [ ] **CLEAN-03**: Se eliminan los leftovers huérfanos `src/collections/Users/index.ts.backup` y `src/collections/AdBanners/index.ts` (re-export sin consumidores)
+- [x] **CLEAN-01**: El plugin SEO casero muerto (`src/plugins/seo/index.ts`, `endpoints/*`, `components/*`, `hooks/*`, `utils/schemaGenerator.ts`) se elimina, conservando y reubicando los 4 módulos vivos (`seoAnalyzer`, `keywordCoverageAudit`, `seoFields`, `keywordScore`) sin romper sus consumidores (API routes, KeywordScorePanel, audit)
+- [x] **CLEAN-02**: El árbol `src/domains/**` se colapsa: `ad-banners/domain/AdBanner.ts` se mueve a `src/collections/` y el resto (Category/User/Post duplicados, repos, use-cases, hooks) se elimina, con la config de Payload apuntando al nuevo path
+- [x] **CLEAN-03**: Se eliminan los leftovers huérfanos `src/collections/Users/index.ts.backup` y `src/collections/AdBanners/index.ts` (re-export sin consumidores)
 
 ### SCRIPT — Limpieza de scripts
 
@@ -58,9 +58,9 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | VERIFY-01 | Phase 25 | Pending |
-| CLEAN-01 | Phase 26 | Pending |
-| CLEAN-02 | Phase 27 | Pending |
-| CLEAN-03 | Phase 27 | Pending |
+| CLEAN-01 | Phase 26 | Complete |
+| CLEAN-02 | Phase 27 | Complete |
+| CLEAN-03 | Phase 27 | Complete |
 | SCRIPT-01 | Phase 28 | Pending |
 | SEC-01 | Phase 29 | Pending |
 | ASSET-01 | Phase 29 | Pending |

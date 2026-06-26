@@ -34,9 +34,9 @@
 
 ### AUDIT — Cobertura de keywords
 
-- [ ] **AUDIT-01**: Reporte/vista que lista todas las páginas (Posts + Pages + listados) SIN keyword objetivo asignada
-- [ ] **AUDIT-02**: Reporte/vista que lista las páginas CON keyword pero que fallan algún check del semáforo, con el detalle de qué les falta
-- [ ] **AUDIT-03**: La auditoría es repetible (script o vista) para volver a correrla tras cambios
+- [x] **AUDIT-01**: Reporte/vista que lista todas las páginas (Posts + Pages + listados) SIN keyword objetivo asignada
+- [x] **AUDIT-02**: Reporte/vista que lista las páginas CON keyword pero que fallan algún check del semáforo, con el detalle de qué les falta
+- [x] **AUDIT-03**: La auditoría es repetible (script o vista) para volver a correrla tras cambios
 
 ### RESEARCH — Poblar keywords desde el research
 
@@ -72,8 +72,8 @@
 | SCORE-02 | Phase 22 | Complete |
 | SCORE-03 | Phase 22 | Complete |
 | SCORE-04 | Phase 22 | Complete |
-| AUDIT-01 | Phase 23 | Pending |
-| AUDIT-02 | Phase 23 | Pending |
-| AUDIT-03 | Phase 23 | Pending |
+| AUDIT-01 | Phase 23 | Complete |
+| AUDIT-02 | Phase 23 | Complete |
+| AUDIT-03 | Phase 23 | Complete |
 | RESEARCH-01 | Phase 24 | Pending |
 | RESEARCH-02 | Phase 24 | Pending |

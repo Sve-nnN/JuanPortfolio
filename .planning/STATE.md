@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
 status: executing
-stopped_at: "Fase 22 completa (código + 768 tests + review clean, todos los hallazgos corregidos). Validación visual del semáforo DIFERIDA (checklist en 22-VERIFICATION.md). Ejecutando Fase 23 (coverage audit)."
-last_updated: "2026-06-25T17:22:26.834Z"
-last_activity: 2026-06-25 — Fase 22 plan 22-2 ejecutado (panel de métricas + semáforo Yoast en sidebar); pendiente verificación visual humana
+stopped_at: "Fase 23 completa (core + script corrido en vivo + vista admin; 775 tests, review clean). Validación visual de la vista admin DIFERIDA. Ejecutando Fase 24 (keyword research population)."
+last_updated: "2026-06-26T12:00:00.000Z"
+last_activity: 2026-06-26 — Fase 23 completa (auditoría de cobertura: script audit:keywords + vista admin); audit en vivo 79 docs / 53 sin keyword / 26 fallando
 progress:
   total_phases: 10
-  completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
-  percent: 20
+  completed_phases: 3
+  total_plans: 5
+  completed_plans: 5
+  percent: 30
 ---
 
 # Project State
@@ -21,14 +21,18 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.4 — fases 21 ✅ y 22 ✅ (visual diferido); ejecutando fase 23 (coverage audit)
+**Current focus:** Milestone v1.4 — fases 21 ✅ 22 ✅ 23 ✅ (visuales admin diferidos); ejecutando fase 24 (keyword research population)
 
 ## Current Position
 
-Phase: 23 (next) — coverage audit. Fases 21 ✅, 22 ✅ (human_needed visual diferido por decisión de Juan)
+Phase: 24 (next) — keyword research population. Fases 21 ✅, 22 ✅, 23 ✅ (22/23 human_needed visual diferido)
 Plan: —
-Status: Fase 22 cerrada a nivel código (review clean, 768 tests). Próximo: smart discuss + plan fase 23.
-Last activity: 2026-06-25 — Fase 22 review findings corregidos; VERIFICATION human_needed (visual diferido)
+Status: Fase 23 cerrada (script + vista admin, 775 tests, review clean). Próximo: smart discuss + plan fase 24.
+Last activity: 2026-06-26 — Fase 23 completa; audit en vivo 79 docs/53 sin keyword/26 fallando
+
+## Validaciones visuales pendientes (diferidas por Juan)
+- Fase 22: semáforo Yoast en sidebar (checklist en 22-VERIFICATION.md)
+- Fase 23: vista admin de cobertura (checklist en 23-VERIFICATION.md)
 
 ## Performance Metrics
 

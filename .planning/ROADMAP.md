@@ -178,7 +178,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 
 - [x] **Phase 21: Keyword data model** - Agregar `primaryKeyword` a Pages y mapeo de keyword para listados de categoría/autor, igual que Posts (completed 2026-06-25)
 - [x] **Phase 22: Metrics panel + Yoast traffic light** - Panel de métricas de la keyword y semáforo verde/ámbar/rojo por check en el sidebar del editor, con recálculo en vivo (completed 2026-06-25)
-- [ ] **Phase 23: Coverage audit** - Reporte repetible de páginas sin keyword y páginas con keyword que fallan algún check del semáforo
+- [x] **Phase 23: Coverage audit** - Reporte repetible de páginas sin keyword y páginas con keyword que fallan algún check del semáforo (completed 2026-06-26)
 - [ ] **Phase 24: Keyword research population** - Poblar keywords desde `content/keywords.md` / DinoRank y verificar que los docs de `keyword-metrics` tengan métricas cargadas
 
 ## Phase Details
@@ -356,5 +356,5 @@ Plans:
 | 20. Widget de Domain Rating en admin | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 21. Keyword data model | v1.4 | 1/1 | Complete   | 2026-06-25 |
 | 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | Complete   | 2026-06-25 |
-| 23. Coverage audit | v1.4 | 0/TBD | Not started | - |
+| 23. Coverage audit | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
 | 24. Keyword research population | v1.4 | 0/TBD | Not started | - |

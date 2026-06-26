@@ -8,7 +8,7 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: v1.5 Limpieza y alineación del admin de Payload
+## Current Milestone: (ninguno — v1.5 shipped 2026-06-26)
 
 **Goal:** Eliminar el código muerto del admin (plugin SEO fantasma, andamiaje DDD `domains/`, backups, scripts one-off), endurecer accesos de las colecciones de métricas, unificar consistencia (group/labels/nav) y estrategia de assets — con verificación runtime de integraciones antes de borrar nada dependiente.
 
@@ -42,16 +42,16 @@ Inventario base: `.planning/admin-audit-v1.5.md`
 - ✓ Auditoría de cobertura repetible (script `audit:keywords` + vista admin, locale-aware) — v1.4
 - ✓ Keywords pobladas desde DinoRank: 136/136 mapeadas por locale + stubs needs-research — v1.4 (validación visual admin de 22/23 diferida)
 
+- ✓ Limpieza del admin: plugin SEO fantasma + 2 árboles DDD (`domains/`+`domain/`) + 12 scripts one-off + backups eliminados (~50 archivos) — v1.5
+- ✓ Accesos de colecciones de métricas endurecidos a `authenticated`; consistencia admin (group SEO, labels bilingües, nav sin emoji) — v1.5
+
 ### Active
 
-<!-- Scope actual. Milestone v1.5 — Limpieza y alineación del admin de Payload. -->
+<!-- Scope actual. Próximo milestone por definir (/gsd:new-milestone). -->
 
-- [ ] Eliminar código muerto del admin: plugin SEO fantasma, `domains/` DDD, backups/re-exports huérfanos
-- [ ] Limpiar scripts one-off/debug ya aplicados
-- [ ] Endurecer `access` de las colecciones de métricas (keyword-metrics/page-metrics/gsc-metrics)
-- [ ] Unificar estrategia de assets (Vercel Blob vs Cloudinary)
-- [ ] Consistencia admin: `group:'SEO'`, labels bilingües `{en,es}`, nav links del design system
-- [ ] Verificación runtime de integraciones (Ahrefs/DinoRank/Indexing/GSC)
+- (Sin milestone activo — próximo por definir)
+
+**Diferidos de v1.5:** VERIFY-01 (gate runtime, checklist listo) · ASSET-01 (migración storage Blob→Cloudinary, milestone propio)
 
 ### Out of Scope
 
@@ -107,4 +107,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-26 — v1.5 (limpieza y alineación del admin de Payload) iniciado*
+*Last updated: 2026-06-26 — v1.5 (limpieza del admin) shipped & archivado; próximo milestone por definir*

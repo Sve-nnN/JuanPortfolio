@@ -1,5 +1,23 @@
 # Milestones: JuanPortfolio
 
+## v1.5 Limpieza y alineación del admin de Payload (Shipped: 2026-06-26)
+
+**Phases completed:** 6 phases (25-30)
+
+**Key accomplishments:**
+
+- Auditoría completa del admin de Payload (`.planning/admin-audit-v1.5.md`): los 21 componentes vivos; código muerto identificado fuera de `components/admin/`.
+- Eliminado el plugin SEO casero nunca registrado, reubicando 4 módulos vivos a `src/utilities/seo/` (CLEAN-01).
+- Colapsados dos árboles DDD abandonados (`src/domains/**` + `src/domain/**`); AdBanner movido a `collections/` (CLEAN-02/03).
+- Borrados 12 scripts one-off/debug ya aplicados + podado el registry del TUI (SCRIPT-01).
+- Endurecido el `access` de keyword-metrics/page-metrics/gsc-metrics a `authenticated` (SEC-01).
+- Consistencia admin: `group:'SEO'` uniforme, labels bilingües `{en,es}`, nav links sin emoji con SVG (CONSIST-01/02/03).
+- ~50 archivos muertos eliminados; tsc baseline 114 intacto, 776 tests verdes en cada fase.
+
+**Known deferred items at close:** VERIFY-01 (gate runtime de integraciones — checklist producido, ejecución con credenciales pendiente de Juan) y ASSET-01 (migración storage Blob→Cloudinary diferida a milestone propio por riesgo en prod). Ver STATE.md Deferred Items.
+
+---
+
 ## v1.4 Keyword targeting & Yoast-style SEO scoring (Shipped: 2026-06-26)
 
 **Phases completed:** 4 phases, 7 plans, 9 tasks

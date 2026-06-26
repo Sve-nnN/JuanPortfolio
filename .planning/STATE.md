@@ -2,14 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Limpieza y alineación del admin de Payload
-status: roadmapped
-last_updated: "2026-06-26T19:10:00.000Z"
-last_activity: "2026-06-26 — v1.5 fases 26-28 completas (CLEAN-01/02/03, SCRIPT-01); pausa antes de 29"
+status: Awaiting next milestone
+stopped_at: Roadmap v1.5 creado (fases 25-30, cobertura 10/10).
+last_updated: "2026-06-26T19:56:01.073Z"
+last_activity: 2026-06-26 — Milestone v1.5 completed and archived
 progress:
-  total_phases: 6
+  total_phases: 16
   completed_phases: 0
   total_plans: 0
-  completed_plans: 0
+  completed_plans: 4
   percent: 0
 ---
 
@@ -24,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 25 — Verificación runtime de integraciones (gate)
+Phase: Milestone v1.5 complete
 Plan: —
-Status: Roadmap creado, pendiente planificar Phase 25
-Last activity: 2026-06-26 — Roadmap v1.5 creado (6 fases, 25-30, cobertura 10/10 reqs)
+Status: Awaiting next milestone
+Last activity: 2026-06-26 — Milestone v1.5 completed and archived
 
 ## Milestone v1.5 — Estructura de fases
 
@@ -57,7 +58,6 @@ Items acknowledged y diferidos al cierre del milestone v1.5 (2026-06-26):
 | requirement | ASSET-01 — migración storage Blob→Cloudinary | deferred a milestone propio (riesgo prod) |
 | verification | Fases 03/04/10 (milestones viejos) — visual | human_needed (ya shipped) |
 | verification | Fases 22/23 (v1.4) — visual admin | human_needed (diferido) |
-
 
 ## Performance Metrics
 
@@ -98,5 +98,4 @@ Resume file: None
 
 ## Operator Next Steps
 
-- Planificar la primera fase con `/gsd:plan-phase 25`
-</content>
+- Start the next milestone with /gsd:new-milestone

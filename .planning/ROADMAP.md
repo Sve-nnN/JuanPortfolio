@@ -321,7 +321,11 @@ Plans:
   2. La auditoría produce una segunda lista con las páginas que tienen keyword pero fallan uno o más checks del semáforo, con el detalle de qué checks fallan en cada una
   3. La auditoría se puede volver a ejecutar tras hacer cambios y refleja el estado actualizado (sin datos stale hardcoded)
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 23-01-PLAN.md — Shared coverage core (runKeywordCoverageAudit reusing analyzeKeywordChecks, N/A for listings) + tsx script (console + markdown report) + audit:keywords alias + unit test
+- [ ] 23-02-PLAN.md — Authenticated /api/seo/keyword-coverage endpoint + Payload admin view (two lists, bilingual, refresh) + config registration
 
 ### Phase 24: Keyword research population
 

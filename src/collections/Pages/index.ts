@@ -188,7 +188,7 @@ export const Pages: CollectionConfig<'pages'> = {
         },
         {
           name: 'searchConsole',
-          label: 'Search Console',
+          label: { en: 'Search Console', es: 'Search Console' },
           fields: [
             {
               name: 'gscData',

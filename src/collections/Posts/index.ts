@@ -146,7 +146,7 @@ export const Posts: CollectionConfig<'posts'> = {
           ],
         },
         {
-          label: 'Meta',
+          label: { en: 'Meta', es: 'Meta' },
           fields: [
             {
               name: 'primaryKeyword',
@@ -205,7 +205,7 @@ export const Posts: CollectionConfig<'posts'> = {
         },
         {
           name: 'searchConsole',
-          label: 'Search Console',
+          label: { en: 'Search Console', es: 'Search Console' },
           fields: [
             {
               name: 'gscData',
@@ -220,7 +220,7 @@ export const Posts: CollectionConfig<'posts'> = {
         },
         {
           name: 'internalLinks',
-          label: 'Internal Links',
+          label: { en: 'Internal Links', es: 'Enlaces Internos' },
           fields: [
             {
               name: 'internalLinksTab',

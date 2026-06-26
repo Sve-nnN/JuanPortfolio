@@ -381,7 +381,7 @@ export async function createDinoRankAccount(language: string = 'es', country: st
   await api['get']('https://dinorank.com/onboarding/', 'https://dinorank.com/homed/')
   
   // 4. Complete multi-step onboarding
-  await api.completeOnboarding(language, country)
+  await api.completeOnboarding()
 
   p.log.success(`Cuenta creada y onboarding completado: ${email}`)
   return { email, password }

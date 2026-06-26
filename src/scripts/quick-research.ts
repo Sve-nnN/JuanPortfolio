@@ -37,7 +37,7 @@ async function main() {
         results.push({ ...item, volume: metrics.volume, difficulty: metrics.difficulty })
         console.log(`  Volume: ${metrics.volume}, Diff: ${metrics.difficulty}`)
     } catch (e) {
-        console.error(`  Failed: ${e.message}`)
+        console.error(`  Failed: ${e instanceof Error ? e.message : String(e)}`)
         results.push({ ...item, volume: "N/A", difficulty: "N/A" })
     }
   }

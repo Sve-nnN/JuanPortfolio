@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
-status: executing
-stopped_at: "Fase 23 completa (core + script corrido en vivo + vista admin; 775 tests, review clean). Validación visual de la vista admin DIFERIDA. Ejecutando Fase 24 (keyword research population)."
-last_updated: "2026-06-26T12:00:00.000Z"
-last_activity: 2026-06-26 — Fase 23 completa (auditoría de cobertura: script audit:keywords + vista admin); audit en vivo 79 docs / 53 sin keyword / 26 fallando
+status: "Plan 24-01 completado (primaryKeyword localizado es/en en 4 colecciones; fases 21/22/23 sin regresión, 776 tests). Próximo: plan 24-02 (población desde keywords_map.json)."
+stopped_at: "Plan 24-01 completado (primaryKeyword localized + ripple fases 22/23 verificado). Próximo: plan 24-02 (poblar keywords)."
+last_updated: "2026-06-26T06:34:33.090Z"
+last_activity: 2026-06-26 — Plan 24-01: primaryKeyword localizado, 776 tests verdes, tsc baseline 114 intacto
 progress:
   total_phases: 10
   completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
+  total_plans: 8
+  completed_plans: 7
   percent: 30
 ---
 
@@ -25,12 +25,13 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 ## Current Position
 
-Phase: 24 (next) — keyword research population. Fases 21 ✅, 22 ✅, 23 ✅ (22/23 human_needed visual diferido)
-Plan: —
-Status: Fase 23 cerrada (script + vista admin, 775 tests, review clean). Próximo: smart discuss + plan fase 24.
-Last activity: 2026-06-26 — Fase 23 completa; audit en vivo 79 docs/53 sin keyword/26 fallando
+Phase: 24 (en curso) — keyword research population. Fases 21 ✅, 22 ✅, 23 ✅ (22/23 human_needed visual diferido)
+Plan: 24-01 ✅ — primaryKeyword localizado (es/en) en Posts/Pages/Categories/Users; fase 22 panel/endpoint verificado locale-aware; fase 23 audit con test de divergencia por locale
+Status: Plan 24-01 completado (776 tests, tsc baseline 114 intacto, sin regresión 21/22/23). Próximo: plan 24-02 (población desde keywords_map.json).
+Last activity: 2026-06-26 — Plan 24-01: primaryKeyword localizado, 776 tests verdes
 
 ## Validaciones visuales pendientes (diferidas por Juan)
+
 - Fase 22: semáforo Yoast en sidebar (checklist en 22-VERIFICATION.md)
 - Fase 23: vista admin de cobertura (checklist en 23-VERIFICATION.md)
 
@@ -56,6 +57,7 @@ Last activity: 2026-06-26 — Fase 23 completa; audit en vivo 79 docs/53 sin key
 - **Phase 24 puede correr tras Phase 21:** La población de keywords desde DinoRank solo necesita que el modelo exista (KW-01..03); no necesita esperar a que el semáforo esté completo.
 - **Modelo de keyword espeja Posts (21-1):** Pages usa tab Meta con `primaryKeyword` + `semanticKeywords`; Categories y Users usan `primaryKeyword` en sidebar. Todos relación a `keyword-metrics`; sin campo de texto suelto, sin relaciones reversas, sin colección nueva (KW-01..03).
 - **Análisis en server, UI dependency-light (22-2):** El componente cliente importa solo tipos de `keywordScore.ts` y llama al endpoint `/api/seo/keyword-score` debounced ~300ms; `natural` nunca se bundlea en el admin. Content path se ramifica por `collectionSlug` (content.content en Posts, content.layout en Pages).
+- **primaryKeyword localizado en las 4 colecciones (24-01):** `localized: true` en Posts/Pages/Categories/Users (keyword es/en distinta por doc). Mongo schemaless → sin migración; valores planos previos quedan fuera del slot de locale y se re-pueblan en 24-02 desde keywords_map.json. El tipo TS de la relación no cambia. Panel (fase 22) y audit (fase 23) ya eran locale-aware: con el campo localizado, consultar por locale resuelve la keyword del locale.
 
 ### Blockers/Concerns
 
@@ -65,6 +67,6 @@ Last activity: 2026-06-26 — Fase 23 completa; audit en vivo 79 docs/53 sin key
 
 ## Session Continuity
 
-Last session: 2026-06-25T17:22:26.831Z
-Stopped at: Plan 21-1 completado (keyword data model en Pages/Categories/Users). Próximo: siguiente plan de Fase 21.
+Last session: 2026-06-26T06:34:33.087Z
+Stopped at: Plan 24-01 completado (primaryKeyword localized + ripple fases 22/23 verificado). Próximo: plan 24-02 (poblar keywords desde keywords_map.json).
 Resume file: None

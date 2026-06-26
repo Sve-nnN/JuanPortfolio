@@ -339,7 +339,7 @@ Plans:
   3. Las keywords sin datos de métricas disponibles están marcadas en su doc de `keyword-metrics` (campo o nota) para investigar, y la auditoría de Phase 23 las lista correctamente
 
 **Plans**: 2 plans
-- [ ] 24-01-PLAN.md — Localizar primaryKeyword (Posts/Pages/Categories/Users) + regenerar tipos + ripple Fases 22/23 (panel locale-aware, auditoría per-locale) + tests
+- [x] 24-01-PLAN.md — Localizar primaryKeyword (Posts/Pages/Categories/Users) + regenerar tipos + ripple Fases 22/23 (panel locale-aware, auditoría per-locale) + tests ✅ (776 tests, tsc baseline intacto, sin regresión 21/22/23)
 - [ ] 24-02-PLAN.md — Script populate:keywords (resolver slug→doc por locale, match keyword-metrics insensible a may/acentos, no clobber/--force/--dry-run, stubs needs-research, marcado de métricas faltantes) + alias package.json
 
 ## Progress
@@ -359,4 +359,4 @@ Plans:
 | 21. Keyword data model | v1.4 | 1/1 | Complete   | 2026-06-25 |
 | 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | Complete   | 2026-06-25 |
 | 23. Coverage audit | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
-| 24. Keyword research population | v1.4 | 0/2 | Planned | - |
+| 24. Keyword research population | v1.4 | 1/2 | In Progress | - |

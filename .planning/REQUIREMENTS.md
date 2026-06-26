@@ -25,7 +25,7 @@
 
 ### SEC — Endurecimiento de accesos
 
-- [ ] **SEC-01**: Las colecciones `keyword-metrics`, `page-metrics` y `gsc-metrics` dejan de tener `access` abierto (`() => true` con TODO "restrict in production"); create/update (y read donde corresponda) se restringen a `authenticated` o al secret del cron
+- [x] **SEC-01**: Las colecciones `keyword-metrics`, `page-metrics` y `gsc-metrics` dejan de tener `access` abierto (`() => true` con TODO "restrict in production"); create/update (y read donde corresponda) se restringen a `authenticated` o al secret del cron
 
 ### ASSET — Estrategia de assets
 
@@ -62,8 +62,8 @@
 | CLEAN-02 | Phase 27 | Complete |
 | CLEAN-03 | Phase 27 | Complete |
 | SCRIPT-01 | Phase 28 | Complete |
-| SEC-01 | Phase 29 | Pending |
-| ASSET-01 | Phase 29 | Pending |
+| SEC-01 | Phase 29 | Complete |
+| ASSET-01 | Deferred | Future (milestone propio) |
 | CONSIST-01 | Phase 30 | Pending |
 | CONSIST-02 | Phase 30 | Pending |
 | CONSIST-03 | Phase 30 | Pending |

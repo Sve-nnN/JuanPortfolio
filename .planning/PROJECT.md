@@ -34,16 +34,16 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 - ✓ A11y footer + Ahrefs CSP → A11y 96, Best Practices 100 — v1.1
 - ✓ Cobertura GA4 completa vía dataLayer/GTM (conversiones + engagement), delegación global por `data-analytics`, doc GTM — v1.2
 - ✓ Remediación SEO técnica Ahrefs: wikilinks saneados + guard, links/imágenes/hreflang/sitemap/H1/OG/schema, author page peso, widget DR — v1.3 (pendiente re-crawl)
+- ✓ Keyword objetivo (`primaryKeyword`→keyword-metrics, localizado es/en) en Pages, Categorías y Autores (Posts ya lo tenían) — v1.4
+- ✓ Semáforo estilo Yoast en el sidebar del editor: 7 checks + score 0-100 ponderado, recálculo en vivo, stemming es/en (reusa `seoAnalyzer.ts`) — v1.4
+- ✓ Auditoría de cobertura repetible (script `audit:keywords` + vista admin, locale-aware) — v1.4
+- ✓ Keywords pobladas desde DinoRank: 136/136 mapeadas por locale + stubs needs-research — v1.4 (validación visual admin de 22/23 diferida)
 
 ### Active
 
-<!-- Scope actual. Milestone v1.4 — Keyword targeting & Yoast-style SEO scoring. -->
+<!-- Scope actual. Próximo milestone por definir (/gsd:new-milestone). -->
 
-- [ ] Keyword objetivo (`primaryKeyword`→keyword-metrics) en Pages y listados (Posts ya lo tienen)
-- [ ] Métricas de la keyword (volumen/dificultad/intent/opportunityScore) visibles en el editor de cada página
-- [ ] Semáforo estilo Yoast en el sidebar: keyword vs title/meta/H1/slug/densidad/primer párrafo/subtítulos + score 0-100
-- [ ] Auditoría de cobertura: páginas sin keyword y con keyword pero les falta optimización
-- [ ] Keywords pobladas desde el research de DinoRank (`content/keywords.md`)
+- (Sin milestone activo — próximo por definir)
 
 ### Out of Scope
 
@@ -76,6 +76,10 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 | `<html lang="es">` fijo en root + corrección cliente para `/en` | El root layout no recibe locale por param; evita `headers()` | — Pending |
 | Mover chrome y locale a nuevo `[locale]/layout.tsx` | Layout dentro de `[locale]` recibe param → apto ISR | — Pending |
 | Reescribir `/` → `/es` en middleware y borrar `(frontend)/page.tsx` | Home ES hereda el chrome del `[locale]/layout.tsx` | — Pending |
+| Semáforo Yoast: análisis server-side, UI dependency-light (v1.4) | `natural` (stemmer es/en) no debe bundlearse en el admin; endpoint debounced | ✓ Good |
+| `primaryKeyword` localizado es/en en las 4 colecciones (v1.4) | Sitio bilingüe → keyword distinta por locale; Mongo schemaless sin migración | ✓ Good |
+| Lógica de checks/auditoría sobre `seoAnalyzer.ts` (fuente única) (v1.4) | Panel y auditoría comparten el motor → sin drift | ✓ Good |
+| `fallbackLocale: false` en lecturas por-locale (v1.4) | Evita que el fallback es contamine la cobertura/no-clobber en en | ✓ Good |
 
 ## Evolution
 
@@ -95,4 +99,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-25 — milestone v1.4 (keyword targeting & Yoast-style scoring); v1.3 mergeado a main*
+*Last updated: 2026-06-26 — v1.4 (keyword targeting & Yoast-style scoring) shipped & archivado; próximo milestone por definir*

@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
-status: "Plan 24-02 completado (población live: 136/136 keywords seteadas por locale; no-keyword 79→9 es / 8 en; 776 tests, tsc baseline 114 intacto). Fase 24 completa → milestone v1.4 completo."
-stopped_at: "Plan 24-02 completado (populate-keywords.ts live + stubs needs-research). Fase 24 y milestone v1.4 completos."
-last_updated: "2026-06-26T08:40:00.000Z"
-last_activity: "2026-06-26 — Plan 24-02: primaryKeyword poblado por locale desde keywords_map.json (live), 776 tests verdes"
+status: Awaiting next milestone
+stopped_at: Plan 24-02 completado (populate-keywords.ts live + stubs needs-research). Fase 24 y milestone v1.4 completos.
+last_updated: "2026-06-26T14:37:13.659Z"
+last_activity: 2026-06-26 — Milestone v1.4 completed and archived
 progress:
   total_phases: 10
   completed_phases: 4
@@ -25,15 +25,29 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 ## Current Position
 
-Phase: 24 ✅ — TODAS las fases v1.4 (21-24) completas. Fase 24 VERIFICATION passed (RESEARCH-01/02). CR-01 (fallbackLocale) corregido en populate+audit; REVIEW clean.
-Plan: 24-01 ✅ (primaryKeyword localizado + ripple) + 24-02 ✅ (populate live, idempotente). Audit final: sin keyword 9 (solo unmapped/listados), failing-checks 68 (on-page, fuera de scope).
-Status: Milestone v1.4 listo para lifecycle (audit milestone → complete → cleanup).
-Last activity: 2026-06-26 — Fase 24 cerrada; CR-01 fix verificado; audit final corrido
+Phase: Milestone v1.4 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-06-26 — Milestone v1.4 completed and archived
 
 ## Validaciones visuales pendientes (diferidas por Juan)
 
 - Fase 22: semáforo Yoast en sidebar (checklist en 22-VERIFICATION.md)
 - Fase 23: vista admin de cobertura (checklist en 23-VERIFICATION.md)
+
+## Deferred Items
+
+Items acknowledged y diferidos al cierre del milestone v1.4 (2026-06-26):
+
+| Category | Item | Status |
+|----------|------|--------|
+| verification | Phase 22 — visual admin del semáforo Yoast | human_needed (diferido) |
+| verification | Phase 23 — visual admin de la vista de cobertura | human_needed (diferido) |
+| verification | Phase 03 (v1.0) — visual | human_needed (milestone viejo, ya shipped) |
+| verification | Phase 04 (v1.1) — visual | human_needed (milestone viejo, ya shipped) |
+| verification | Phase 10 (v1.1) — visual | human_needed (milestone viejo, ya shipped) |
+| cleanup | 9 keyword-metrics duplicados por acento | backlog |
+| backlog | keywords sin métricas → pnpm sync:keywords | needs-research |
 
 ## Performance Metrics
 
@@ -71,3 +85,7 @@ Last activity: 2026-06-26 — Fase 24 cerrada; CR-01 fix verificado; audit final
 Last session: 2026-06-26T08:40:00.000Z
 Stopped at: Plan 24-02 completado (populate-keywords.ts live + stubs needs-research). Fase 24 y milestone v1.4 completos.
 Resume file: None
+
+## Operator Next Steps
+
+- Start the next milestone with /gsd:new-milestone

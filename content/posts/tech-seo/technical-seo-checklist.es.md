@@ -66,7 +66,7 @@ Detectar y corregir [errores de rastreo](/blog/general/robots-txt-best-practices
 
 ### Clasificación de errores: errores de sitio versus errores de URL
 
-Los errores de rastreo se pueden clasificar en dos categorías principales: errores de sitio y errores de URL. Los errores de sitio son aquellos que afectan a todo el dominio, como un problema con el servidor o problemas de configuración. Por otro lado, los errores de URL son más específicos y pueden relacionarse con páginas individuales que no pueden ser accedidas por el rastreador. Comprender esta clasificación es crucial para priorizar la solución de errores y optimizar el rastreo general de tu sitio.
+Los [errores de rastreo](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) se pueden clasificar en dos categorías principales: errores de sitio y errores de URL. Los errores de sitio son aquellos que afectan a todo el dominio, como un problema con el servidor o problemas de configuración. Por otro lado, los errores de URL son más específicos y pueden relacionarse con páginas individuales que no pueden ser accedidas por el rastreador. Comprender esta clasificación es crucial para priorizar la solución de errores y optimizar el rastreo general de tu sitio.
 
 ### Estrategias para solucionar problemas comunes de rastreo
 
@@ -92,7 +92,7 @@ Los enlaces externos, aquellos que apuntan a otros sitios web, también requiere
 
 Existen diversas herramientas accesibles que facilitan la identificación y reparación de enlaces rotos. Algunas de las más recomendadas incluyen:
 
--   **Google Search Console:** Permite identificar errores 404 y monitorizar el estado general de los enlaces del sitio.
+-   **[Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation):** Permite identificar errores 404 y monitorizar el estado general de los enlaces del sitio.
 -   **Screaming Frog SEO Spider:** Facilita la auditoría de SEO y permite identificar enlaces rotos de forma rápida y sencilla.
 -   **Ahrefs:** Ofrece un análisis exhaustivo de enlaces y un monitoreo de backlinks, muy útil para encontrar enlaces rotos externos.
 -   **Broken Link Checker:** Una herramienta en línea fácil de usar que revisa tu sitio en busca de enlaces rotos.
@@ -121,7 +121,7 @@ La [velocidad de carga](/blog/general/web-performance-guide) es un factor críti
 
 ### Factores que afectan la velocidad de carga
 
-Existen múltiples elementos que pueden impactar la velocidad de carga de un sitio web. Algunos de los más destacados son:
+Existen múltiples elementos que pueden impactar la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) de un sitio web. Algunos de los más destacados son:
 
 -   Tamaño de los archivos: imágines, scripts y hojas de estilo grandes pueden ralentizar el tiempo de carga.
 -   Recursos externos: scripts de terceros, como anuncios o redes sociales, pueden añadir carga adicional.

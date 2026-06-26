@@ -238,4 +238,4 @@ The maintenance of schema markup is not a one-time effort; instead, it requires 
 
 ## Ver también
 
-- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: [[Guía de SEO Técnico](https://juan-tech.com/blog/tech-seo/tech-seo-guide)](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

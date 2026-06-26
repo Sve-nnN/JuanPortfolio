@@ -82,7 +82,7 @@ Next.js es un framework que permite el [renderizado del lado del servidor](/blog
 
 ### Flujo de datos y sincronización entre WordPress y Next.js
 
-El flujo de datos en esta arquitectura se gestiona a través de consultas API, donde Next.js obtiene el contenido de WordPress y lo presenta en el front-end. Esta sincronización es crucial para mantener la coherencia en el contenido, especialmente en entornos donde se manejan múltiples versiones de una página o se utilizan componentes de contenido reutilizables. Al estructurar bien el API, se pueden implementar estrategias de caching para optimizar la velocidad de carga y el rendimiento del SEO.
+El flujo de datos en esta arquitectura se gestiona a través de consultas API, donde Next.js obtiene el contenido de WordPress y lo presenta en el front-end. Esta sincronización es crucial para mantener la coherencia en el contenido, especialmente en entornos donde se manejan múltiples versiones de una página o se utilizan componentes de contenido reutilizables. Al estructurar bien el API, se pueden implementar estrategias de caching para optimizar la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) y el rendimiento del SEO.
 
 ### Prácticas recomendadas para URLs y metadatos SEO
 
@@ -134,7 +134,7 @@ La velocidad de carga es un factor crucial para el SEO, especialmente en un ento
 
 ### Validación de datos estructurados y rich snippets
 
-La implementación de [datos estructurados](/blog/general/schema-markup-guide) se ha convertido en una práctica esencial para mejorar la visibilidad en los motores de búsqueda. Usar vocabularios como Schema.org permite a un **headless CMS** ofrecer información clara y organizada sobre el contenido, potenciando así la posibilidad de aparecer con [rich snippets](/blog/general/schema-markup-guide) en los resultados de búsqueda. La validación de los [datos estructurados](/blog/general/schema-markup-guide) es crucial y se puede realizar fácilmente con herramientas como el Rich Results Test de Google, que verifica que los datos sean correctos y cumplen con las pautas requeridas. Esta práctica no solo ayuda a mejorar el SEO, sino que también mejora la tasa de clics al enriquecer la apariencia de los resultados en las SERPs.
+La implementación de [datos estructurados](/blog/general/schema-markup-guide) se ha convertido en una práctica esencial para mejorar la visibilidad en los motores de búsqueda. Usar vocabularios como [Schema.org](https://juan-tech.com/blog/tech-seo/schema-markup-guide) permite a un **headless CMS** ofrecer información clara y organizada sobre el contenido, potenciando así la posibilidad de aparecer con [rich snippets](/blog/general/schema-markup-guide) en los resultados de búsqueda. La validación de los [datos estructurados](/blog/general/schema-markup-guide) es crucial y se puede realizar fácilmente con herramientas como el Rich Results Test de Google, que verifica que los datos sean correctos y cumplen con las pautas requeridas. Esta práctica no solo ayuda a mejorar el SEO, sino que también mejora la tasa de clics al enriquecer la apariencia de los resultados en las SERPs.
 
 ## Retos Comunes y Soluciones en SEO para Headless CMS
 

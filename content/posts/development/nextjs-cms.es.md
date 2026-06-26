@@ -27,7 +27,7 @@ semantic_keywords:
   - diversas aplicaciones empresariales
 keyword: nextjs cms
 ---
-Next.js se ha convertido en una opción popular para desarrollar aplicaciones web modernas. Su integración con sistemas de gestión de contenido (CMS) permite a los desarrolladores combinar performance y facilidad en la administración de contenido. Usar un CMS con Next.js no solo simplifica la gestión de datos, sino que también mejora la colaboración entre equipos. Existen diversas opciones de CMS que se adaptan bien a Next.js, cada una con características específicas que optimizan el rendimiento del sitio.
+Next.js se ha convertido en una opción popular para desarrollar aplicaciones web modernas. Su integración con sistemas de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) (CMS) permite a los desarrolladores combinar performance y facilidad en la administración de contenido. Usar un CMS con Next.js no solo simplifica la gestión de datos, sino que también mejora la colaboración entre equipos. Existen diversas opciones de CMS que se adaptan bien a Next.js, cada una con características específicas que optimizan el rendimiento del sitio.
 
 ## Ventajas de usar un CMS con Next.js
 

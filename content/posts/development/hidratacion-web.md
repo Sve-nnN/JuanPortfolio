@@ -31,7 +31,7 @@ A medida que exploramos este tema, entenderemos la importancia de la hidratació
 
 ### Definición y concepto fundamental
 
-La hidratación en desarrollo web es un proceso que transforma contenido HTML estático, generado en el servidor, en una aplicación dinámica e interactiva en el navegador del cliente. Este proceso se activa principalmente en el contexto de frameworks JavaScript como React, Vue o Angular, donde el servidor envía un HTML pre-renderizado y, posteriormente, el framework añade la lógica de interactividad necesaria. En términos simples, la hidratación es el paso donde se "reactiva" el HTML que ya se presentó al usuario mediante la adición de manejadores de eventos, lo que permite que la aplicación responda a las interacciones del usuario.
+La hidratación en [desarrollo web](https://juan-tech.com/blog/development/nextjs-portfolio) es un proceso que transforma contenido HTML estático, generado en el servidor, en una aplicación dinámica e interactiva en el navegador del cliente. Este proceso se activa principalmente en el contexto de frameworks JavaScript como React, Vue o Angular, donde el servidor envía un HTML pre-renderizado y, posteriormente, el framework añade la lógica de interactividad necesaria. En términos simples, la hidratación es el paso donde se "reactiva" el HTML que ya se presentó al usuario mediante la adición de manejadores de eventos, lo que permite que la aplicación responda a las interacciones del usuario.
 
 ### Elementos clave: manejadores de eventos y DOM
 

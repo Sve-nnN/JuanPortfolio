@@ -95,7 +95,7 @@ Utilizar schema markup puede mejorar significativamente la visibilidad de produc
 
 #### Schema para eventos y contenido especializado
 
-La implementación de datos estructurados para eventos ayuda a resaltar información clave como fechas, horarios y ubicaciones, mejorando la relevancia en búsquedas específicas.
+La implementación de [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) para eventos ayuda a resaltar información clave como fechas, horarios y ubicaciones, mejorando la relevancia en búsquedas específicas.
 
 ### Configuración y optimización de sitemap XML
 

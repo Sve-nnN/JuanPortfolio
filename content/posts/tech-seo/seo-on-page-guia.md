@@ -157,7 +157,7 @@ El diseño responsive es un enfoque que permite que las páginas web se adapten 
 
 ### Factores clave para mejorar la velocidad de carga
 
-La velocidad de carga es un factor determinante en el SEO On Page, ya que afecta tanto la experiencia del usuario como el rendimiento en los motores de búsqueda. Para optimizar este aspecto, es esencial considerar los siguientes elementos:
+La [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) es un factor determinante en el SEO On Page, ya que afecta tanto la experiencia del usuario como el rendimiento en los motores de búsqueda. Para optimizar este aspecto, es esencial considerar los siguientes elementos:
 
 Factor
 

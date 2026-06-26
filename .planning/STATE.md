@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.4 — fases 21 ✅ 22 ✅ 23 ✅ (visuales admin diferidos); ejecutando fase 24 (keyword research population)
+**Current focus:** Milestone v1.4 COMPLETO (fases 21-24 ✅). Lifecycle: audit → complete → cleanup.
 
 ## Current Position
 
-Phase: 24 ✅ completa — keyword research population. Fases 21 ✅, 22 ✅, 23 ✅ (22/23 human_needed visual diferido). Milestone v1.4 completo.
-Plan: 24-02 ✅ — populate-keywords.ts (live): 136/136 keywords seteadas por locale; stubs needs-research para keywords sin doc; docs sin métricas marcados. RESEARCH-01/02 cerrados.
-Status: Plan 24-02 completado. Auditoría no-keyword 79→9 (es) / 8 (en). 776 tests verdes, tsc baseline 114 intacto.
-Last activity: 2026-06-26 — Plan 24-02: primaryKeyword poblado por locale desde keywords_map.json (live), 776 tests verdes
+Phase: 24 ✅ — TODAS las fases v1.4 (21-24) completas. Fase 24 VERIFICATION passed (RESEARCH-01/02). CR-01 (fallbackLocale) corregido en populate+audit; REVIEW clean.
+Plan: 24-01 ✅ (primaryKeyword localizado + ripple) + 24-02 ✅ (populate live, idempotente). Audit final: sin keyword 9 (solo unmapped/listados), failing-checks 68 (on-page, fuera de scope).
+Status: Milestone v1.4 listo para lifecycle (audit milestone → complete → cleanup).
+Last activity: 2026-06-26 — Fase 24 cerrada; CR-01 fix verificado; audit final corrido
 
 ## Validaciones visuales pendientes (diferidas por Juan)
 

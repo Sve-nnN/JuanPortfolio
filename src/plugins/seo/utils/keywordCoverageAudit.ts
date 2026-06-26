@@ -235,11 +235,25 @@ export async function runKeywordCoverageAudit(
 
   // Bounded query: COLLECTION_LIMIT per collection, depth 1 so primaryKeyword
   // resolves to its keyword-metrics doc (T-23-03: DoS bound).
+  //
+  // CR-01 (ripple): payload.config sets localization.fallback:true +
+  // defaultLocale:'es'. Without fallbackLocale:false an empty `en`
+  // primaryKeyword reads back the `es` fallback, so the en audit measures
+  // coverage against the es value and falsely reports en as covered. Disable
+  // fallback so coverage reflects the ACTUAL per-locale keyword (a genuinely
+  // empty en surfaces as a real gap).
+  const findArgs = (collection: AuditCollection) => ({
+    collection,
+    depth: 1,
+    limit: COLLECTION_LIMIT,
+    locale,
+    fallbackLocale: false as const,
+  })
   const [posts, pages, categories, users] = await Promise.all([
-    payload.find({ collection: 'posts', depth: 1, limit: COLLECTION_LIMIT, locale }),
-    payload.find({ collection: 'pages', depth: 1, limit: COLLECTION_LIMIT, locale }),
-    payload.find({ collection: 'categories', depth: 1, limit: COLLECTION_LIMIT, locale }),
-    payload.find({ collection: 'users', depth: 1, limit: COLLECTION_LIMIT, locale }),
+    payload.find(findArgs('posts')),
+    payload.find(findArgs('pages')),
+    payload.find(findArgs('categories')),
+    payload.find(findArgs('users')),
   ])
 
   // WR-02: detect when a collection has more docs than the cap so truncation is

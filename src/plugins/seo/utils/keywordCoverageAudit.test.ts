@@ -125,4 +125,56 @@ describe('auditDoc — bucketing + N/A handling', () => {
     expect(row.bucket).toBe('failing')
     expect(row.failingChecks).toEqual(['title'])
   })
+
+  // Plan 24-01: primaryKeyword is now `localized: true`, so querying the audit
+  // per locale resolves a different keyword per locale. A document that targets
+  // a keyword in `es` but has none assigned in `en` must surface as a coverage
+  // gap in the `en` audit while passing in the `es` audit. We model the two
+  // per-locale passes the orchestrator performs (payload.find({locale}) →
+  // auditDoc({locale})) as two pure auditDoc calls for the same document id.
+  it('8. locale divergence: keyword in es but not en → gap in en, passing in es', () => {
+    // EN pass: the localized relation resolves to null (no en keyword set).
+    const enRow = auditDoc({
+      ...base,
+      id: '42',
+      locale: 'en',
+      keyword: null,
+    })
+    expect(enRow.bucket).toBe('noKeyword')
+    expect(enRow.keyword).toBeNull()
+    expect(enRow.failingChecks).toEqual([])
+    expect(enRow.score).toBeUndefined()
+
+    // ES pass: same document, the localized relation resolves to the es keyword
+    // with fully optimized es fields → passing, not a gap.
+    const esRow = auditDoc({
+      ...base,
+      id: '42',
+      locale: 'es',
+      keyword: 'núcleos vitales web',
+      title: 'Guía de núcleos vitales web para optimizar',
+      meta: {
+        description:
+          'Una guía práctica sobre núcleos vitales web para acelerar tus páginas y mejorar la experiencia.',
+      },
+      slug: 'nucleos-vitales-web-guia',
+      content: root(
+        heading('h1', 'Guía de núcleos vitales web'),
+        paragraph(
+          'Los núcleos vitales web son las métricas que Google usa para medir la experiencia real del usuario, y afectan directamente cómo posicionan tus páginas en los resultados de búsqueda hoy.',
+        ),
+        heading('h2', 'Cómo mejorar los núcleos vitales web'),
+        paragraph(
+          'Los equipos que monitorean el rendimiento de cerca pueden reducir el desplazamiento de diseño, acelerar la carga y mejorar la interactividad con el tiempo, lo que mantiene a los visitantes interesados y baja la tasa con la que las personas abandonan una página lenta antes de que termine de renderizar correctamente para ellos.',
+        ),
+      ),
+    })
+    expect(esRow.bucket).toBe('passing')
+    expect(esRow.keyword).toBe('núcleos vitales web')
+    expect(esRow.failingChecks).toEqual([])
+    expect(esRow.score).toBeGreaterThan(0)
+
+    // The same document id diverges by locale: gap in en, covered in es.
+    expect(enRow.bucket).not.toBe(esRow.bucket)
+  })
 })

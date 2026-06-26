@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { authenticated } from '../access/authenticated'
 
 export const KeywordMetrics: CollectionConfig = {
     slug: 'keyword-metrics',
@@ -8,8 +9,9 @@ export const KeywordMetrics: CollectionConfig = {
     },
     access: {
         read: () => true,
-        create: () => true,
-        update: () => true,
+        create: authenticated,
+        update: authenticated,
+        delete: authenticated,
     },
     fields: [
         {

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access/authenticated'
 
 export const PageMetrics: CollectionConfig = {
   slug: 'page-metrics',
@@ -11,8 +12,9 @@ export const PageMetrics: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: () => true, // Restrict this in production to admin/cron
-    update: () => true, // Restrict this in production to admin/cron
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

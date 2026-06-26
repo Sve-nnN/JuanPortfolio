@@ -21,7 +21,7 @@
 
 ### SCRIPT — Limpieza de scripts
 
-- [ ] **SCRIPT-01**: Se eliminan los scripts one-off/debug ya aplicados (p.ej. `fix-test-post-author`, `inspect-test-post`, `fix-user-slugs`, `delete-loop-redirects`, `debug-*`), tras verificar caso a caso los ambiguos; los scripts cableados en `package.json` y su soporte (`scripts/services|seo|sync|...`) se conservan
+- [x] **SCRIPT-01**: Se eliminan los scripts one-off/debug ya aplicados (p.ej. `fix-test-post-author`, `inspect-test-post`, `fix-user-slugs`, `delete-loop-redirects`, `debug-*`), tras verificar caso a caso los ambiguos; los scripts cableados en `package.json` y su soporte (`scripts/services|seo|sync|...`) se conservan
 
 ### SEC — Endurecimiento de accesos
 
@@ -61,7 +61,7 @@
 | CLEAN-01 | Phase 26 | Complete |
 | CLEAN-02 | Phase 27 | Complete |
 | CLEAN-03 | Phase 27 | Complete |
-| SCRIPT-01 | Phase 28 | Pending |
+| SCRIPT-01 | Phase 28 | Complete |
 | SEC-01 | Phase 29 | Pending |
 | ASSET-01 | Phase 29 | Pending |
 | CONSIST-01 | Phase 30 | Pending |

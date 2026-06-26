@@ -3,9 +3,14 @@ import { authenticated } from '../access/authenticated'
 
 export const PageMetrics: CollectionConfig = {
   slug: 'page-metrics',
+  labels: {
+    singular: { en: 'Page Metric', es: 'Métrica de Página' },
+    plural: { en: 'Page Metrics', es: 'Métricas de Página' },
+  },
   admin: {
     useAsTitle: 'url',
     defaultColumns: ['url', 'mobile.score', 'lastScan'],
+    group: 'SEO',
     components: {
       beforeListTable: ['@/components/admin/ScanAllButton#ScanAllButton'],
     },

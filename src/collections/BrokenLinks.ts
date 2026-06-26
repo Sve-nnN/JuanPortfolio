@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const BrokenLinks: CollectionConfig = {
   slug: 'broken-links',
+  labels: {
+    singular: { en: 'Broken Link', es: 'Enlace Roto' },
+    plural: { en: 'Broken Links', es: 'Enlaces Rotos' },
+  },
   admin: {
     useAsTitle: 'url',
     defaultColumns: ['url', 'statusCode', 'sourcePage', 'lastChecked'],

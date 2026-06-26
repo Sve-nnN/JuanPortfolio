@@ -3,9 +3,14 @@ import { authenticated } from '../access/authenticated'
 
 export const KeywordMetrics: CollectionConfig = {
     slug: 'keyword-metrics',
+    labels: {
+        singular: { en: 'Keyword Metric', es: 'Métrica de Keyword' },
+        plural: { en: 'Keyword Metrics', es: 'Métricas de Keyword' },
+    },
     admin: {
         useAsTitle: 'keyword',
         defaultColumns: ['keyword', 'volume', 'difficulty', 'clicks', 'avgPosition'],
+        group: 'SEO',
     },
     access: {
         read: () => true,

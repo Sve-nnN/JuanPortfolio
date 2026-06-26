@@ -7,6 +7,7 @@
 - ✅ **v1.2 GA4 Analytics Tracking** — Phases 11-14 (shipped 2026-06-24)
 - ✅ **v1.3 Remediación SEO técnica (Ahrefs Site Audit)** — Phases 15-20 (shipped 2026-06-25)
 - ✅ **v1.4 Keyword targeting & Yoast-style SEO scoring** — Phases 21-24 (shipped 2026-06-26)
+- 🚧 **v1.5 Limpieza y alineación del admin de Payload** — Phases 25-30 (in progress)
 
 ## Phases
 
@@ -172,7 +173,8 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 
 </details>
 
-### 🚧 v1.4 Keyword targeting & Yoast-style SEO scoring (In Progress)
+<details>
+<summary>✅ v1.4 Keyword targeting & Yoast-style SEO scoring (Phases 21-24) — SHIPPED 2026-06-26</summary>
 
 **Milestone Goal:** Cada página (Post, Page, listado) tiene una keyword objetivo con sus métricas a la vista, un semáforo estilo Yoast en el editor que compara la keyword contra title/meta/H1/slug/contenido, y una auditoría de cobertura que permite saber de un vistazo qué páginas faltan de optimizar.
 
@@ -180,6 +182,19 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 - [x] **Phase 22: Metrics panel + Yoast traffic light** - Panel de métricas de la keyword y semáforo verde/ámbar/rojo por check en el sidebar del editor, con recálculo en vivo (completed 2026-06-25)
 - [x] **Phase 23: Coverage audit** - Reporte repetible de páginas sin keyword y páginas con keyword que fallan algún check del semáforo (completed 2026-06-26)
 - [x] **Phase 24: Keyword research population** - Poblar keywords desde `content/keywords.md` / DinoRank y verificar que los docs de `keyword-metrics` tengan métricas cargadas (completed 2026-06-26)
+
+</details>
+
+### 🚧 v1.5 Limpieza y alineación del admin de Payload (In Progress)
+
+**Milestone Goal:** Eliminar el código muerto del admin (plugin SEO fantasma, andamiaje DDD `domains/`, backups/re-exports, scripts one-off), endurecer accesos de las colecciones de métricas, unificar consistencia (group/labels/nav) y estrategia de assets — con verificación runtime de integraciones como gate previo a borrar cualquier código dependiente. Es un refactor brownfield: cada fase mantiene tsc sin errores nuevos (baseline 114), tests verdes (775+) y el admin arrancando tras regenerar el importMap.
+
+- [ ] **Phase 25: Verificación runtime de integraciones (gate)** - Confirmar en `pnpm dev` qué integraciones funcionan/rotas/a-conservar ANTES de borrar código dependiente
+- [ ] **Phase 26: Retirada del plugin SEO fantasma** - Borrar `src/plugins/seo/` reubicando los 4 módulos vivos sin romper consumidores
+- [ ] **Phase 27: Colapso de `domains/` y leftovers huérfanos** - Mover AdBanner a `collections/`, borrar el resto de `domains/` + backups/re-exports
+- [ ] **Phase 28: Limpieza de scripts one-off** - Borrar scripts fix/debug ya aplicados conservando lo cableado en package.json
+- [ ] **Phase 29: Accesos endurecidos y assets unificados** - Restringir `access` de métricas y dejar una sola fuente de assets (Blob vs Cloudinary)
+- [ ] **Phase 30: Consistencia del admin** - `group:'SEO'` uniforme, labels bilingües `{en,es}`, nav links con iconos del design system
 
 ## Phase Details
 
@@ -344,6 +359,93 @@ Plans:
 - [x] 24-01-PLAN.md — Localizar primaryKeyword (Posts/Pages/Categories/Users) + regenerar tipos + ripple Fases 22/23 (panel locale-aware, auditoría per-locale) + tests ✅ (776 tests, tsc baseline intacto, sin regresión 21/22/23)
 - [x] 24-02-PLAN.md — Script populate:keywords (resolver slug→doc por locale, match keyword-metrics insensible a may/acentos, no clobber/--force/--dry-run, stubs needs-research, marcado de métricas faltantes) + alias package.json
 
+### Phase 25: Verificación runtime de integraciones (gate)
+
+**Goal**: Confirmar en runtime (`pnpm dev`, con credenciales reales) el estado de cada integración del admin — Ahrefs, DinoRank, Indexing API y GSC — y marcarla funcional / rota / a-conservar ANTES de borrar cualquier código dependiente. Fase de checklist humano; Juan ejecuta y firma el resultado.
+**Depends on**: Phase 24
+**Requirements**: VERIFY-01
+**Success Criteria** (what must be TRUE):
+
+  1. Existe un doc/checklist reproducible (en `.planning/` o `docs/`) con los pasos exactos en `pnpm dev` para probar end-to-end: Ahrefs (`/api/domain-rating` + `DomainRatingCard`), DinoRank (`DinoRankWriteButton`→`/api/dinorank/redactar`), Indexing (`IndexingControl`→`/api/seo/indexing`) y GSC (dashboard/OAuth + `sync:gsc`)
+  2. Cada una de las 4 integraciones queda marcada explícitamente como **funcional / rota / a-conservar**, con evidencia registrada (status code, captura o nota)
+  3. Por cada integración se listan sus archivos/rutas de código dependientes, de modo que ninguna limpieza posterior (fases 26-30) toque código de una integración marcada como viva
+  4. Juan ejecuta el checklist con credenciales reales y el veredicto queda registrado en STATE.md como gate aprobado antes de iniciar cualquier borrado
+
+**Plans**: TBD
+
+### Phase 26: Retirada del plugin SEO fantasma (preservando módulos vivos)
+
+**Goal**: Eliminar el árbol muerto de `src/plugins/seo/` (plugin casero nunca registrado) reubicando los 4 módulos vivos a una ubicación honesta, sin romper a ninguno de sus consumidores. Refactor brownfield: tsc/vitest/admin deben seguir verdes.
+**Depends on**: Phase 25
+**Requirements**: CLEAN-01
+**Success Criteria** (what must be TRUE):
+
+  1. Los 4 módulos vivos (`utils/seoAnalyzer.ts`, `utils/keywordCoverageAudit.ts` +test, `fields/seoFields.ts`, `types/keywordScore.ts`) se mueven a `src/lib/seo/` (o `src/utilities/seo/`) y todos sus imports se repointan: API routes `/api/seo/keyword-score` y `/api/seo/keyword-coverage`, `KeywordScorePanel`, `KeywordCoverageView`, script `audit-keywords`, y `seoFields` en Users/Categories
+  2. `grep -r "plugins/seo" src/` devuelve cero ocurrencias y la carpeta `src/plugins/seo/` ya no existe (index, endpoints/*, components/*, hooks/*, `utils/schemaGenerator.ts` borrados)
+  3. `tsc` no introduce errores nuevos sobre el baseline (114) y `vitest` sigue verde (775+ tests, incluido el de `keywordCoverageAudit`)
+  4. Tras regenerar el importMap, el admin arranca y `KeywordScorePanel` + la vista de cobertura siguen renderizando datos correctamente
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 27: Colapso de `src/domains/**` y leftovers huérfanos
+
+**Goal**: Eliminar el andamiaje DDD abandonado de `src/domains/**` moviendo el único módulo vivo (`AdBanner.ts`) a `src/collections/` y repuntando la config, y borrar los backups/re-exports huérfanos. Refactor brownfield: tsc/vitest/admin verdes.
+**Depends on**: Phase 26
+**Requirements**: CLEAN-02, CLEAN-03
+**Success Criteria** (what must be TRUE):
+
+  1. `ad-banners/domain/AdBanner.ts` se mueve a `src/collections/` (p.ej. `src/collections/AdBanners/`) y `payload.config.ts:21` apunta al nuevo path; la colección `ad-banners` sigue registrada y editable en el admin
+  2. `src/domains/` ya no existe y `grep -r "domains/" src/` devuelve cero imports (Category/User/Post duplicados, repos, use-cases y hooks borrados)
+  3. `src/collections/Users/index.ts.backup` y `src/collections/AdBanners/index.ts` (re-export huérfano) están borrados, verificado que nadie los importa
+  4. `tsc` sin errores nuevos (baseline 114), `vitest` verde y el admin arranca tras regenerar el importMap
+
+**Plans**: TBD
+
+### Phase 28: Limpieza de scripts one-off
+
+**Goal**: Eliminar los scripts one-off/debug ya aplicados, conservando todos los scripts cableados en `package.json` y su soporte (`scripts/services|seo|sync|internal-linking|engine|dinorank`).
+**Depends on**: Phase 27
+**Requirements**: SCRIPT-01
+**Success Criteria** (what must be TRUE):
+
+  1. Los one-off confirmados (`fix-test-post-author`, `inspect-test-post`, `fix-user-slugs`, `delete-loop-redirects`, `debug-content`, `debug-dino`) están borrados
+  2. Los ambiguos (`fix-registry`, `cleanup-registry`, `fix-categories`, `assign-categories`, setup/validate/verify) se revisan caso a caso y se borran o se conservan con una nota que justifica la decisión
+  3. Todos los scripts referenciados en `package.json` y su soporte siguen existiendo; ningún `pnpm <script>` cableado rompe
+  4. `tsc` sin errores nuevos y build/CI verdes (el build type-checkea los scripts)
+
+**Plans**: TBD
+
+### Phase 29: Accesos endurecidos y estrategia única de assets
+
+**Goal**: Cerrar el `access` abierto de las colecciones de métricas y dejar una sola fuente de assets para Media, sin romper el cron ni las imágenes existentes. Cambios de comportamiento (no solo borrado): requieren verificación funcional.
+**Depends on**: Phase 28
+**Requirements**: SEC-01, ASSET-01
+**Success Criteria** (what must be TRUE):
+
+  1. `keyword-metrics`, `page-metrics` y `gsc-metrics` ya no tienen `access` con `() => true`; create/update (y read donde corresponda) requieren usuario `authenticated` o el secret del cron
+  2. Los flujos de cron/scripts que escriben esas colecciones siguen funcionando con el secret (verificado), y un request no autenticado a create/update recibe 403
+  3. Se decide y documenta una sola fuente de assets (Vercel Blob o Cloudinary) y se elimina la redundante de la colección Media (botones/endpoint Cloudinary o la config de Blob)
+  4. Las imágenes existentes siguen sirviéndose con 200; `tsc` sin errores nuevos, el admin arranca y los tests siguen verdes
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 30: Consistencia del admin (group/labels/nav)
+
+**Goal**: Unificar la presentación del admin: agrupar las colecciones de métricas bajo SEO, labels bilingües consistentes y nav links con iconos del design system. Cambios cosméticos al final, una vez el código está limpio.
+**Depends on**: Phase 29
+**Requirements**: CONSIST-01, CONSIST-02, CONSIST-03
+**Success Criteria** (what must be TRUE):
+
+  1. Las 4 colecciones (`keyword-metrics`, `page-metrics`, `gsc-metrics`, `broken-links`) tienen `group: 'SEO'` y aparecen agrupadas bajo SEO en el menú lateral
+  2. Los labels de colecciones, tabs ("Search Console", "Internal Links", "Meta") y campos usan objetos `{ en, es }` de forma consistente con la localización del proyecto
+  3. `GSCDashboardLink` y `KeywordCoverageLink` usan iconos/tokens del design system de Payload en vez de emoji inline (📈) y estilos hardcodeados
+  4. `tsc` sin errores nuevos, el admin arranca tras regenerar el importMap y los tests siguen verdes
+
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -358,7 +460,15 @@ Plans:
 | 18. Indexabilidad y sitemap | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
 | 19. On-page, schema y rendimiento | v1.3 | ◐ | ✅ Complete (META-03/04, PERF-02 parciales: faltan URLs Ahrefs) | 2026-06-24 |
 | 20. Widget de Domain Rating en admin | v1.3 | ✓ | ✅ Complete | 2026-06-24 |
-| 21. Keyword data model | v1.4 | 1/1 | Complete   | 2026-06-25 |
-| 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | Complete   | 2026-06-25 |
+| 21. Keyword data model | v1.4 | 1/1 | ✅ Complete | 2026-06-25 |
+| 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | ✅ Complete | 2026-06-25 |
 | 23. Coverage audit | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
 | 24. Keyword research population | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
+| 25. Verificación runtime de integraciones (gate) | v1.5 | 0/0 | Not started | - |
+| 26. Retirada del plugin SEO fantasma | v1.5 | 0/0 | Not started | - |
+| 27. Colapso de domains/ y leftovers huérfanos | v1.5 | 0/0 | Not started | - |
+| 28. Limpieza de scripts one-off | v1.5 | 0/0 | Not started | - |
+| 29. Accesos endurecidos y assets unificados | v1.5 | 0/0 | Not started | - |
+| 30. Consistencia del admin | v1.5 | 0/0 | Not started | - |
+</content>
+</invoke>

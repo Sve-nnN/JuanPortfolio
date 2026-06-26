@@ -57,13 +57,14 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VERIFY-01 | TBD | Pending |
-| CLEAN-01 | TBD | Pending |
-| CLEAN-02 | TBD | Pending |
-| CLEAN-03 | TBD | Pending |
-| SCRIPT-01 | TBD | Pending |
-| SEC-01 | TBD | Pending |
-| ASSET-01 | TBD | Pending |
-| CONSIST-01 | TBD | Pending |
-| CONSIST-02 | TBD | Pending |
-| CONSIST-03 | TBD | Pending |
+| VERIFY-01 | Phase 25 | Pending |
+| CLEAN-01 | Phase 26 | Pending |
+| CLEAN-02 | Phase 27 | Pending |
+| CLEAN-03 | Phase 27 | Pending |
+| SCRIPT-01 | Phase 28 | Pending |
+| SEC-01 | Phase 29 | Pending |
+| ASSET-01 | Phase 29 | Pending |
+| CONSIST-01 | Phase 30 | Pending |
+| CONSIST-02 | Phase 30 | Pending |
+| CONSIST-03 | Phase 30 | Pending |
+</content>

@@ -49,17 +49,15 @@ Last activity: 2026-06-26 — Roadmap v1.5 creado (6 fases, 25-30, cobertura 10/
 
 ## Deferred Items
 
-Items acknowledged y diferidos al cierre del milestone v1.4 (2026-06-26):
+Items acknowledged y diferidos al cierre del milestone v1.5 (2026-06-26):
 
 | Category | Item | Status |
 |----------|------|--------|
-| verification | Phase 22 — visual admin del semáforo Yoast | human_needed (diferido) |
-| verification | Phase 23 — visual admin de la vista de cobertura | human_needed (diferido) |
-| verification | Phase 03 (v1.0) — visual | human_needed (milestone viejo, ya shipped) |
-| verification | Phase 04 (v1.1) — visual | human_needed (milestone viejo, ya shipped) |
-| verification | Phase 10 (v1.1) — visual | human_needed (milestone viejo, ya shipped) |
-| cleanup | 9 keyword-metrics duplicados por acento | backlog |
-| backlog | keywords sin métricas → pnpm sync:keywords | needs-research |
+| verification | VERIFY-01 — gate runtime integraciones (Ahrefs/DinoRank/Indexing/GSC) | human_needed (checklist en 25-RUNTIME-CHECKLIST.md) |
+| requirement | ASSET-01 — migración storage Blob→Cloudinary | deferred a milestone propio (riesgo prod) |
+| verification | Fases 03/04/10 (milestones viejos) — visual | human_needed (ya shipped) |
+| verification | Fases 22/23 (v1.4) — visual admin | human_needed (diferido) |
+
 
 ## Performance Metrics
 

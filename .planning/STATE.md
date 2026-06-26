@@ -4,7 +4,7 @@ milestone: v1.5
 milestone_name: Limpieza y alineación del admin de Payload
 status: roadmapped
 last_updated: "2026-06-26T19:10:00.000Z"
-last_activity: 2026-06-26
+last_activity: "2026-06-26 — v1.5 fases 26-28 completas (CLEAN-01/02/03, SCRIPT-01); pausa antes de 29"
 progress:
   total_phases: 6
   completed_phases: 0

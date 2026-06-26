@@ -1,5 +1,9 @@
-import { describe, it, expect } from 'vitest'
-import { auditDoc, type AuditDocArgs } from './keywordCoverageAudit'
+import { describe, it, expect, vi } from 'vitest'
+import {
+  auditDoc,
+  runKeywordCoverageAudit,
+  type AuditDocArgs,
+} from './keywordCoverageAudit'
 
 /** Minimal Lexical-ish node builders so the analyzer sees real headings/paras. */
 const heading = (tag: string, text: string) => ({
@@ -176,5 +180,73 @@ describe('auditDoc — bucketing + N/A handling', () => {
 
     // The same document id diverges by locale: gap in en, covered in es.
     expect(enRow.bucket).not.toBe(esRow.bucket)
+  })
+})
+
+// CR-01 regression: the orchestrator must read raw per-locale values
+// (fallbackLocale:false). With localization.fallback:true + defaultLocale:'es',
+// an empty `en` primaryKeyword would otherwise read back the `es` value as a
+// fallback and the en audit would falsely report the doc as covered. The mock
+// payload below faithfully models that fallback behavior so the test FAILS if
+// the production code ever drops fallbackLocale:false (which is exactly the bug).
+describe('runKeywordCoverageAudit — per-locale fallback semantics (CR-01)', () => {
+  /**
+   * Model a single post whose `es` primaryKeyword is set and `en` is empty.
+   * The mock honors `fallbackLocale`: when it is NOT false, an empty en field
+   * resolves to the es fallback value (Payload's real default behavior).
+   */
+  const makePayload = () => {
+    const esKeywordDoc = { id: 'm1', keyword: 'núcleos vitales web' }
+    return {
+      find: vi.fn(async (args: { collection: string; locale?: string; fallbackLocale?: unknown }) => {
+        if (args.collection !== 'posts') {
+          return { docs: [], totalDocs: 0, hasNextPage: false }
+        }
+        const fallbackOn = args.fallbackLocale !== false
+        // es always has the keyword; en only "inherits" it when fallback is on.
+        const primaryKeyword =
+          args.locale === 'es' || fallbackOn ? esKeywordDoc : null
+        return {
+          docs: [
+            {
+              id: 'p1',
+              title: 'Core web vitals',
+              slug: 'core-web-vitals',
+              primaryKeyword,
+            },
+          ],
+          totalDocs: 1,
+          hasNextPage: false,
+        }
+      }),
+    }
+  }
+
+  it('9. reads every collection with fallbackLocale:false', async () => {
+    const payload = makePayload()
+    await runKeywordCoverageAudit(payload, { locale: 'en' })
+    expect(payload.find).toHaveBeenCalled()
+    for (const call of payload.find.mock.calls) {
+      expect(call[0].fallbackLocale).toBe(false)
+    }
+  })
+
+  it('10. en with empty keyword surfaces as a gap, not an es-fallback false positive', async () => {
+    const payload = makePayload()
+    const report = await runKeywordCoverageAudit(payload, { locale: 'en' })
+    // The post has NO en keyword → it must be a noKeyword gap. If the code
+    // dropped fallbackLocale:false the mock would return the es value and this
+    // post would land in `passing`/`failing` instead — catching CR-01.
+    expect(report.counts.noKeyword).toBe(1)
+    expect(report.noKeyword.map((r) => r.id)).toContain('p1')
+    expect(report.counts.passing + report.counts.failing).toBe(0)
+  })
+
+  it('11. es resolves its real keyword (control: fallback semantics do not hide es)', async () => {
+    const payload = makePayload()
+    const report = await runKeywordCoverageAudit(payload, { locale: 'es' })
+    expect(report.counts.noKeyword).toBe(0)
+    const esRow = [...report.passing, ...report.failing].find((r) => r.id === 'p1')
+    expect(esRow?.keyword).toBe('núcleos vitales web')
   })
 })

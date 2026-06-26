@@ -2,7 +2,14 @@
  * SEO Analyzer - Analyzes content and provides SEO recommendations
  * Similar to Rank Math's content analysis
  */
-import { PorterStemmer, PorterStemmerEs, type Stemmer } from 'natural'
+// `natural` is a CommonJS module with no ESM named-export interop. Importing it
+// as a default (CJS namespace) keeps it loadable under every consumer: Next's
+// webpack bundle, Vitest/Vite, AND the tsx ESM script runner (audit:keywords).
+// A named import (`import { PorterStemmer } from 'natural'`) throws
+// "does not provide an export named 'PorterStemmer'" under tsx.
+import natural, { type Stemmer } from 'natural'
+
+const { PorterStemmer, PorterStemmerEs } = natural
 import {
   CHECK_LABELS,
   CHECK_ORDER,

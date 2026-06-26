@@ -15,6 +15,7 @@
     "import:posts": "tsx -r dotenv/config src/scripts/syncContent.ts push",
     "sync": "tsx -r dotenv/config src/scripts/syncContent.ts",
     "sync:keywords": "tsx -r dotenv/config src/scripts/syncKeywords.ts",
+    "populate:keywords": "tsx -r dotenv/config src/scripts/populate-keywords.ts",
     "audit:keywords": "tsx -r dotenv/config src/scripts/audit-keywords.ts",
     "audit:urls": "tsx -r dotenv/config src/scripts/audit-urls.ts",
     "sync:gsc": "tsx -r dotenv/config src/scripts/seo/sync-gsc.ts",

@@ -112,6 +112,7 @@ async function resolveDoc(
 ): Promise<ResolvedDoc | null> {
   const locales: Locale[] = locale === 'es' ? ['es', 'en'] : ['en', 'es']
   for (const loc of locales) {
+    const matches: ResolvedDoc[] = []
     for (const collection of ['posts', 'pages'] as const) {
       const res = await payload.find({
         collection,
@@ -120,8 +121,23 @@ async function resolveDoc(
         locale: loc,
         depth: 0,
       })
-      if (res.docs.length > 0) return { collection, id: res.docs[0].id }
+      if (res.docs.length > 0) matches.push({ collection, id: res.docs[0].id })
     }
+    if (matches.length === 0) continue
+    // WR-02: `slug` is not localized, so the only thing the collection order
+    // decides is which doc wins when a slug exists in BOTH posts and pages.
+    // Don't pick silently — warn naming the slug so the ambiguity is visible;
+    // we keep the historical posts-first preference for the actual write.
+    if (matches.length > 1) {
+      console.log(
+        yellow(
+          `  ⚠ slug "${slug}" resolves in multiple collections (${matches
+            .map((m) => m.collection)
+            .join(', ')}); using ${matches[0].collection}`,
+        ),
+      )
+    }
+    return matches[0]
   }
   return null
 }
@@ -141,7 +157,10 @@ async function main() {
   const entries = Object.entries(map)
 
   // Preload all keyword-metrics for normalized matching.
-  const metricsByNorm = new Map<string, { id: string | number; keyword: string }>()
+  const metricsByNorm = new Map<
+    string,
+    { id: string | number; keyword: string; status?: unknown; volume?: unknown }
+  >()
   {
     let page = 1
     for (;;) {
@@ -152,7 +171,26 @@ async function main() {
         depth: 0,
       })
       for (const doc of res.docs) {
-        metricsByNorm.set(norm(doc.keyword), { id: doc.id, keyword: doc.keyword })
+        const key = norm(doc.keyword)
+        const incoming = { id: doc.id, keyword: doc.keyword, status: doc.status, volume: doc.volume }
+        const prev = metricsByNorm.get(key)
+        if (!prev) {
+          metricsByNorm.set(key, incoming)
+          continue
+        }
+        // WR-03: two keyword-metrics docs normalize to the same string (accent /
+        // case variants). Don't silently last-write-wins on DB page order —
+        // prefer the higher-quality doc (researched + non-zero volume over a
+        // needs-research stub) and warn so the duplicates can be merged.
+        const quality = (d: { status?: unknown; volume?: unknown }) =>
+          (d.status !== 'needs-research' ? 2 : 0) + (Number(d.volume) > 0 ? 1 : 0)
+        const winner = quality(incoming) > quality(prev) ? incoming : prev
+        metricsByNorm.set(key, winner)
+        console.log(
+          yellow(
+            `  ⚠ duplicate keyword-metrics normalize to "${key}": "${prev.keyword}" vs "${doc.keyword}"; linking to "${winner.keyword}"`,
+          ),
+        )
       }
       if (!res.hasNextPage) break
       page += 1
@@ -176,6 +214,11 @@ async function main() {
       collection: doc.collection,
       id: doc.id,
       locale,
+      // CR-01: payload.config sets localization.fallback:true + defaultLocale:'es',
+      // so an empty `en` primaryKeyword would otherwise read back the `es` fallback
+      // value and be wrongly treated as "already populated". Read the RAW per-locale
+      // value so a genuinely-empty locale is detected as empty and gets backfilled.
+      fallbackLocale: false,
       depth: 0,
     })
     const existing = (current as { primaryKeyword?: unknown }).primaryKeyword
@@ -283,6 +326,7 @@ async function main() {
   // never re-touches a doc already flagged needs-research.
   const isEmpty = (v: unknown) => v === null || v === undefined || v === ''
   let marked = 0
+  let markFailed = 0
   {
     let page = 1
     for (;;) {
@@ -308,6 +352,10 @@ async function main() {
             } catch (err) {
               const msg = String((err as { message?: string })?.message ?? err)
               console.log(red(`  ✖ failed to mark ${d.keyword}: ${msg.split('\n')[0]}`))
+              // IN-02: count swallowed marking failures so they surface in the
+              // summary and feed the non-zero exit code (WR-01) instead of being
+              // silently dropped.
+              markFailed += 1
             }
           } else {
             marked += 1
@@ -319,13 +367,20 @@ async function main() {
     }
   }
 
-  printConsole(results, marked)
+  printConsole(results, marked, markFailed)
   if (REPORT) {
-    await writeFile(REPORT_PATH, buildMarkdown(results, marked), 'utf8')
+    await writeFile(REPORT_PATH, buildMarkdown(results, marked, markFailed), 'utf8')
     console.log(dim(`Report written to ${REPORT_PATH}\n`))
   }
 
-  process.exit(0)
+  // WR-01 / IN-02: a non-zero exit is the only programmatic signal (in the
+  // sync → populate → audit sequence) that population was incomplete. Mirror
+  // audit-keywords.ts:195. Dry-run never writes, so it always exits 0.
+  const failed = results.filter((r) => r.outcome === 'failed').length
+  if (DRY_RUN) {
+    process.exit(0)
+  }
+  process.exit(failed > 0 || markFailed > 0 ? 1 : 0)
 }
 
 // ─── reporting ─────────────────────────────────────────────────────────────────
@@ -342,7 +397,7 @@ function tally(rows: RowResult[], locale: Locale) {
   }
 }
 
-function printConsole(results: RowResult[], marked: number): void {
+function printConsole(results: RowResult[], marked: number, markFailed: number): void {
   console.log(bold('─── Summary by locale ─────────────────────────────────'))
   for (const locale of ['es', 'en'] as Locale[]) {
     const t = tally(results, locale)
@@ -358,6 +413,17 @@ function printConsole(results: RowResult[], marked: number): void {
   console.log(
     bold(`\n  ${yellow('marked needs-research (missing volume/difficulty/intent): ')}${marked}`),
   )
+  if (markFailed) {
+    console.log(bold(`  ${red('mark failures (not flagged for audit): ')}${markFailed}`))
+  }
+
+  const failed = results.filter((r) => r.outcome === 'failed')
+  if (failed.length) {
+    console.log(bold('\n─── Entries that FAILED to populate ───────────────────'))
+    for (const r of failed) {
+      console.log(`  ${red('✖')} ${r.key} ${dim(`(${r.error ?? 'unknown error'})`)}`)
+    }
+  }
 
   const noDoc = results.filter((r) => r.outcome === 'no-doc')
   if (noDoc.length) {
@@ -372,13 +438,14 @@ function mdEscape(s: string): string {
   return s.replace(/\|/g, '\\|').replace(/\n/g, ' ')
 }
 
-function buildMarkdown(results: RowResult[], marked: number): string {
+function buildMarkdown(results: RowResult[], marked: number, markFailed: number): string {
   const lines = [
     '# Keyword population report',
     '',
     `**Generated:** ${new Date().toISOString()}`,
     `**Mode:** ${DRY_RUN ? 'dry-run' : 'write'}${FORCE ? ' + force' : ''}`,
     `**Marked needs-research (missing volume/difficulty/intent):** ${marked}`,
+    `**Mark failures (not flagged for audit):** ${markFailed}`,
     '',
     '## Counts by locale',
     '',

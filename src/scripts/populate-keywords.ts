@@ -58,6 +58,31 @@ const norm = (s: string) =>
     .toLowerCase()
     .trim()
 
+/**
+ * Retry an async DB op on transient MongoDB transaction errors (write
+ * conflicts / aborted transactions are safe to retry — Payload wraps each
+ * operation in its own transaction). Up to `tries` attempts with backoff.
+ */
+async function withRetry<T>(label: string, fn: () => Promise<T>, tries = 4): Promise<T> {
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= tries; attempt += 1) {
+    try {
+      return await fn()
+    } catch (err) {
+      lastErr = err
+      const msg = String((err as { message?: string })?.message ?? err)
+      const labels = (err as { errorLabels?: string[] })?.errorLabels ?? []
+      const transient =
+        labels.includes('TransientTransactionError') ||
+        /TransientTransactionError|NoSuchTransaction|WriteConflict|aborted/i.test(msg)
+      if (!transient || attempt === tries) throw err
+      console.log(dim(`  ↻ retry ${attempt}/${tries - 1} (${label}): transient tx error`))
+      await new Promise((r) => setTimeout(r, 250 * attempt))
+    }
+  }
+  throw lastErr
+}
+
 /** Resolve `slug(.locale)?` map key -> { slug, locale }. */
 function parseKey(key: string): { slug: string; locale: Locale } {
   if (key.endsWith('.en')) return { slug: key.slice(0, -3), locale: 'en' }
@@ -72,13 +97,8 @@ interface RowResult {
   slug: string
   locale: Locale
   keyword: string
-  outcome:
-    | 'set'
-    | 'skipped-existing'
-    | 'no-doc'
-    | 'no-metrics'
-    | 'stub-created'
-    | 'forced'
+  outcome: 'set' | 'skipped-existing' | 'no-doc' | 'stub-created' | 'forced' | 'failed'
+  error?: string
   collection?: 'posts' | 'pages'
   metricsId?: string | number
 }
@@ -143,28 +163,15 @@ async function main() {
 
   for (const [key, keyword] of entries) {
     const { slug, locale } = parseKey(key)
-
+    try {
     const doc = await resolveDoc(payload, slug, locale)
     if (!doc) {
       results.push({ key, slug, locale, keyword, outcome: 'no-doc' })
       continue
     }
 
-    const metrics = metricsByNorm.get(norm(keyword))
-    if (!metrics) {
-      // Task 2 will create a stub here; Task 1 only reports.
-      results.push({
-        key,
-        slug,
-        locale,
-        keyword,
-        outcome: 'no-metrics',
-        collection: doc.collection,
-      })
-      continue
-    }
-
-    // No-clobber: read current primaryKeyword in THIS locale.
+    // No-clobber: read current primaryKeyword in THIS locale BEFORE creating any
+    // stub, so a skipped page never leaves an orphan keyword-metrics doc behind.
     const current = await payload.findByID({
       collection: doc.collection,
       id: doc.id,
@@ -187,28 +194,72 @@ async function main() {
         keyword,
         outcome: 'skipped-existing',
         collection: doc.collection,
-        metricsId: metrics.id,
       })
       continue
+    }
+
+    // Match keyword-metrics by normalized keyword; create a needs-research stub
+    // (RESEARCH-02) when no doc exists, then link it.
+    let metrics = metricsByNorm.get(norm(keyword))
+    let stubbed = false
+    if (!metrics) {
+      stubbed = true
+      if (DRY_RUN) {
+        results.push({
+          key,
+          slug,
+          locale,
+          keyword,
+          outcome: 'stub-created',
+          collection: doc.collection,
+        })
+        continue
+      }
+      // keyword/volume/difficulty/source are required on keyword-metrics; seed
+      // placeholders and flag the doc for research. Reuse the existing `status`
+      // field — no new fields added.
+      const created = await withRetry(`create stub "${keyword}"`, () =>
+        payload.create({
+          collection: 'keyword-metrics',
+          data: {
+            keyword,
+            status: 'needs-research',
+            volume: 0,
+            difficulty: 0,
+            source: 'keywords_map (needs-research stub)',
+          },
+        }),
+      )
+      metrics = { id: created.id, keyword }
+      metricsByNorm.set(norm(keyword), metrics)
     }
 
     if (!DRY_RUN) {
       // Narrow the union to a literal so Payload's per-collection update
       // overload resolves cleanly.
+      const metricsId = String(metrics.id)
       if (doc.collection === 'posts') {
-        await payload.update({
-          collection: 'posts',
-          id: doc.id,
-          data: { primaryKeyword: String(metrics.id) },
-          locale,
-        })
+        await withRetry(`set posts/${slug} [${locale}]`, () =>
+          payload.update({
+            collection: 'posts',
+            id: doc.id,
+            data: { primaryKeyword: metricsId },
+            locale,
+            // Running outside Next: skip the revalidatePath afterChange hook
+            // (no static-generation store in a plain script).
+            context: { disableRevalidate: true },
+          }),
+        )
       } else {
-        await payload.update({
-          collection: 'pages',
-          id: doc.id,
-          data: { primaryKeyword: String(metrics.id) },
-          locale,
-        })
+        await withRetry(`set pages/${slug} [${locale}]`, () =>
+          payload.update({
+            collection: 'pages',
+            id: doc.id,
+            data: { primaryKeyword: metricsId },
+            locale,
+            context: { disableRevalidate: true },
+          }),
+        )
       }
     }
     results.push({
@@ -216,15 +267,61 @@ async function main() {
       slug,
       locale,
       keyword,
-      outcome: existingId != null ? 'forced' : 'set',
+      outcome: stubbed ? 'stub-created' : existingId != null ? 'forced' : 'set',
       collection: doc.collection,
       metricsId: metrics.id,
     })
+    } catch (err) {
+      const msg = String((err as { message?: string })?.message ?? err)
+      console.log(red(`  ✖ failed ${key}: ${msg.split('\n')[0]}`))
+      results.push({ key, slug, locale, keyword, outcome: 'failed', error: msg.split('\n')[0] })
+    }
   }
 
-  printConsole(results)
+  // Mark existing metrics docs lacking volume / difficulty / intent as
+  // needs-research so the Phase 23 audit (AUDIT-01/02) lists them. Idempotent:
+  // never re-touches a doc already flagged needs-research.
+  const isEmpty = (v: unknown) => v === null || v === undefined || v === ''
+  let marked = 0
+  {
+    let page = 1
+    for (;;) {
+      const res = await payload.find({
+        collection: 'keyword-metrics',
+        limit: 200,
+        page,
+        depth: 0,
+      })
+      for (const d of res.docs) {
+        const needs = isEmpty(d.volume) || isEmpty(d.difficulty) || isEmpty(d.intent)
+        if (needs && d.status !== 'needs-research') {
+          if (!DRY_RUN) {
+            try {
+              await withRetry(`mark metrics ${d.id}`, () =>
+                payload.update({
+                  collection: 'keyword-metrics',
+                  id: d.id,
+                  data: { status: 'needs-research' },
+                }),
+              )
+              marked += 1
+            } catch (err) {
+              const msg = String((err as { message?: string })?.message ?? err)
+              console.log(red(`  ✖ failed to mark ${d.keyword}: ${msg.split('\n')[0]}`))
+            }
+          } else {
+            marked += 1
+          }
+        }
+      }
+      if (!res.hasNextPage) break
+      page += 1
+    }
+  }
+
+  printConsole(results, marked)
   if (REPORT) {
-    await writeFile(REPORT_PATH, buildMarkdown(results), 'utf8')
+    await writeFile(REPORT_PATH, buildMarkdown(results, marked), 'utf8')
     console.log(dim(`Report written to ${REPORT_PATH}\n`))
   }
 
@@ -240,12 +337,12 @@ function tally(rows: RowResult[], locale: Locale) {
     forced: f.filter((r) => r.outcome === 'forced').length,
     skipped: f.filter((r) => r.outcome === 'skipped-existing').length,
     noDoc: f.filter((r) => r.outcome === 'no-doc').length,
-    noMetrics: f.filter((r) => r.outcome === 'no-metrics').length,
     stub: f.filter((r) => r.outcome === 'stub-created').length,
+    failed: f.filter((r) => r.outcome === 'failed').length,
   }
 }
 
-function printConsole(results: RowResult[]): void {
+function printConsole(results: RowResult[], marked: number): void {
   console.log(bold('─── Summary by locale ─────────────────────────────────'))
   for (const locale of ['es', 'en'] as Locale[]) {
     const t = tally(results, locale)
@@ -255,8 +352,12 @@ function printConsole(results: RowResult[]): void {
     if (t.stub) console.log(`    ${green('stub created   ')} ${t.stub}`)
     console.log(`    ${dim('skipped (have) ')} ${t.skipped}`)
     console.log(`    ${red('no page doc    ')} ${t.noDoc}`)
-    console.log(`    ${yellow('no metrics doc ')} ${t.noMetrics}`)
+    if (t.failed) console.log(`    ${red('failed         ')} ${t.failed}`)
   }
+
+  console.log(
+    bold(`\n  ${yellow('marked needs-research (missing volume/difficulty/intent): ')}${marked}`),
+  )
 
   const noDoc = results.filter((r) => r.outcome === 'no-doc')
   if (noDoc.length) {
@@ -271,22 +372,23 @@ function mdEscape(s: string): string {
   return s.replace(/\|/g, '\\|').replace(/\n/g, ' ')
 }
 
-function buildMarkdown(results: RowResult[]): string {
+function buildMarkdown(results: RowResult[], marked: number): string {
   const lines = [
     '# Keyword population report',
     '',
     `**Generated:** ${new Date().toISOString()}`,
     `**Mode:** ${DRY_RUN ? 'dry-run' : 'write'}${FORCE ? ' + force' : ''}`,
+    `**Marked needs-research (missing volume/difficulty/intent):** ${marked}`,
     '',
     '## Counts by locale',
     '',
-    '| Locale | Set | Overwritten | Stubs | Skipped | No doc | No metrics |',
+    '| Locale | Set | Overwritten | Stubs | Skipped | No doc | Failed |',
     '| --- | --- | --- | --- | --- | --- | --- |',
   ]
   for (const locale of ['es', 'en'] as Locale[]) {
     const t = tally(results, locale)
     lines.push(
-      `| ${locale} | ${t.set} | ${t.forced} | ${t.stub} | ${t.skipped} | ${t.noDoc} | ${t.noMetrics} |`,
+      `| ${locale} | ${t.set} | ${t.forced} | ${t.stub} | ${t.skipped} | ${t.noDoc} | ${t.failed} |`,
     )
   }
   lines.push('', '## All entries', '', '| Key | Locale | Keyword | Outcome | Collection |', '| --- | --- | --- | --- | --- |')

@@ -85,7 +85,7 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-8xl lg:text-9xl font-display font-bold text-white drop-shadow-2xl leading-[0.9] tracking-tighter text-right"
+            className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white drop-shadow-2xl leading-[0.9] tracking-tighter text-right"
           >
             {title}
           </motion.h1>

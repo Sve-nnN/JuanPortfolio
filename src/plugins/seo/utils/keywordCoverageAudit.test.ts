@@ -104,6 +104,14 @@ describe('auditDoc — bucketing + N/A handling', () => {
     expect(row.naChecks).toContain('metaDescription')
   })
 
+  it('7. WR-04: dangling relation (unresolved) → bucket unresolvedKeyword, not noKeyword', () => {
+    const row = auditDoc({ ...base, keyword: null, unresolved: true })
+    expect(row.bucket).toBe('unresolvedKeyword')
+    expect(row.keyword).toBeNull()
+    expect(row.failingChecks).toEqual([])
+    expect(row.score).toBeUndefined()
+  })
+
   it('6. listing failing only on title → N/A content checks never flip the bucket', () => {
     const row = auditDoc({
       ...base,

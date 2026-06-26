@@ -16,7 +16,7 @@ import { analyzeKeywordChecks } from './seoAnalyzer'
 import type { KeywordCheckId } from '../types/keywordScore'
 
 export type AuditCollection = 'posts' | 'pages' | 'categories' | 'users'
-export type CoverageBucket = 'noKeyword' | 'failing' | 'passing'
+export type CoverageBucket = 'noKeyword' | 'unresolvedKeyword' | 'failing' | 'passing'
 
 export interface CoverageRow {
   collection: AuditCollection
@@ -42,12 +42,23 @@ export interface KeywordCoverageReport {
   counts: {
     total: number
     noKeyword: number
+    /** Docs whose primaryKeyword relation exists but couldn't be resolved. */
+    unresolvedKeyword: number
     failing: number
     passing: number
   }
   noKeyword: CoverageRow[]
+  /** WR-04: relation present but dangling/unpopulated — not a true "no keyword". */
+  unresolvedKeyword: CoverageRow[]
   failing: CoverageRow[]
   passing: CoverageRow[]
+  /**
+   * WR-02: true when at least one collection had more documents than the
+   * per-collection query cap, so the report does not cover every doc.
+   */
+  truncated: boolean
+  /** Per-collection truncation detail (collections that exceeded the cap). */
+  truncatedCollections: AuditCollection[]
 }
 
 /** The content checks that require a document body. Listings have no body. */
@@ -59,6 +70,12 @@ export interface AuditDocArgs {
   label: string
   url?: string
   keyword: string | null
+  /**
+   * WR-04: true when a primaryKeyword relation IS set but its keyword string
+   * could not be resolved (dangling id / unpopulated). Distinct from "no
+   * keyword at all" — surfaced as its own bucket, never as noKeyword.
+   */
+  unresolved?: boolean
   title?: string
   meta?: { title?: string; description?: string }
   slug?: string
@@ -74,7 +91,7 @@ export interface AuditDocArgs {
  * traffic-light checks (AUDIT-02). N/A checks never flip the bucket.
  */
 export function auditDoc(args: AuditDocArgs): CoverageRow {
-  const { collection, id, label, url, keyword, title, meta, slug, content, isListing, locale } =
+  const { collection, id, label, url, keyword, unresolved, title, meta, slug, content, isListing, locale } =
     args
 
   const base: CoverageRow = {
@@ -89,9 +106,11 @@ export function auditDoc(args: AuditDocArgs): CoverageRow {
     naChecks: [],
   }
 
-  // AUDIT-01: no keyword assigned → nothing to score.
+  // AUDIT-01 / WR-04: no resolvable keyword → nothing to score. A dangling
+  // relation (set but unresolved) is bucketed separately so it is not counted
+  // as a content author forgetting to assign a keyword.
   if (!base.keyword) {
-    return base
+    return unresolved ? { ...base, bucket: 'unresolvedKeyword' } : base
   }
 
   // Determine which checks are N/A for this document.
@@ -141,14 +160,39 @@ export function auditDoc(args: AuditDocArgs): CoverageRow {
   }
 }
 
-/** Narrow the populated `primaryKeyword` relationship to its keyword string. */
-function extractKeyword(primaryKeyword: unknown): string | null {
-  if (primaryKeyword && typeof primaryKeyword === 'object') {
-    const kw = (primaryKeyword as { keyword?: unknown }).keyword
-    if (typeof kw === 'string' && kw.trim()) return kw.trim()
+/**
+ * Narrow the populated `primaryKeyword` relationship to its keyword string.
+ *
+ * WR-04: distinguishes three states:
+ *   - resolved   → { keyword: '<term>', unresolved: false }
+ *   - none set   → { keyword: null, unresolved: false }
+ *   - dangling   → relation set (non-empty id / object without a keyword)
+ *                  but unresolvable → { keyword: null, unresolved: true }
+ */
+function extractKeyword(primaryKeyword: unknown): { keyword: string | null; unresolved: boolean } {
+  // Nothing assigned at all.
+  if (primaryKeyword === null || primaryKeyword === undefined) {
+    return { keyword: null, unresolved: false }
   }
-  // Unpopulated relationship (still a string id) → treat as no keyword.
-  return null
+
+  if (typeof primaryKeyword === 'object') {
+    const kw = (primaryKeyword as { keyword?: unknown }).keyword
+    if (typeof kw === 'string' && kw.trim()) return { keyword: kw.trim(), unresolved: false }
+    // Object present but no usable keyword field → dangling/unresolved.
+    return { keyword: null, unresolved: true }
+  }
+
+  // Still a bare id (string/number) → relation set but unpopulated/dangling.
+  if (typeof primaryKeyword === 'string') {
+    return primaryKeyword.trim()
+      ? { keyword: null, unresolved: true }
+      : { keyword: null, unresolved: false }
+  }
+  if (typeof primaryKeyword === 'number') {
+    return { keyword: null, unresolved: true }
+  }
+
+  return { keyword: null, unresolved: false }
 }
 
 /** Best-effort admin edit link — always correct regardless of public routing. */
@@ -171,32 +215,59 @@ interface RawDoc {
  * Orchestrator: queries every audited collection live (AUDIT-03) and returns a
  * structured report split into the two coverage lists plus the passing set.
  */
+/** Per-collection query cap (T-23-03: DoS bound). */
+const COLLECTION_LIMIT = 1000
+
+/** Shape we read from a payload `find` result (defensive: extra fields ignored). */
+interface FindResult {
+  docs: unknown[]
+  totalDocs?: number
+  hasNextPage?: boolean
+}
+
 export async function runKeywordCoverageAudit(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: { find: (args: any) => Promise<{ docs: any[] }> },
+  payload: { find: (args: any) => Promise<FindResult> },
   opts?: { locale?: 'es' | 'en' },
 ): Promise<KeywordCoverageReport> {
   const locale = opts?.locale ?? 'es'
   const rows: CoverageRow[] = []
 
-  // Bounded query: limit 1000 per collection, depth 1 so primaryKeyword
+  // Bounded query: COLLECTION_LIMIT per collection, depth 1 so primaryKeyword
   // resolves to its keyword-metrics doc (T-23-03: DoS bound).
   const [posts, pages, categories, users] = await Promise.all([
-    payload.find({ collection: 'posts', depth: 1, limit: 1000, locale }),
-    payload.find({ collection: 'pages', depth: 1, limit: 1000, locale }),
-    payload.find({ collection: 'categories', depth: 1, limit: 1000, locale }),
-    payload.find({ collection: 'users', depth: 1, limit: 1000, locale }),
+    payload.find({ collection: 'posts', depth: 1, limit: COLLECTION_LIMIT, locale }),
+    payload.find({ collection: 'pages', depth: 1, limit: COLLECTION_LIMIT, locale }),
+    payload.find({ collection: 'categories', depth: 1, limit: COLLECTION_LIMIT, locale }),
+    payload.find({ collection: 'users', depth: 1, limit: COLLECTION_LIMIT, locale }),
   ])
+
+  // WR-02: detect when a collection has more docs than the cap so truncation is
+  // never silent. `totalDocs` is the full match count; `hasNextPage` is a
+  // fallback signal if the adapter doesn't return a total.
+  const truncatedCollections: AuditCollection[] = []
+  const checkTruncation = (collection: AuditCollection, res: FindResult) => {
+    const total = typeof res.totalDocs === 'number' ? res.totalDocs : res.docs.length
+    if (total > COLLECTION_LIMIT || res.hasNextPage === true) {
+      truncatedCollections.push(collection)
+    }
+  }
+  checkTruncation('posts', posts)
+  checkTruncation('pages', pages)
+  checkTruncation('categories', categories)
+  checkTruncation('users', users)
 
   for (const raw of posts.docs as RawDoc[]) {
     const id = String(raw.id)
+    const { keyword, unresolved } = extractKeyword(raw.primaryKeyword)
     rows.push(
       auditDoc({
         collection: 'posts',
         id,
         label: raw.title ?? id,
         url: editUrl('posts', id),
-        keyword: extractKeyword(raw.primaryKeyword),
+        keyword,
+        unresolved,
         title: raw.title,
         meta: raw.meta,
         slug: raw.slug,
@@ -209,13 +280,15 @@ export async function runKeywordCoverageAudit(
 
   for (const raw of pages.docs as RawDoc[]) {
     const id = String(raw.id)
+    const { keyword, unresolved } = extractKeyword(raw.primaryKeyword)
     rows.push(
       auditDoc({
         collection: 'pages',
         id,
         label: raw.title ?? id,
         url: editUrl('pages', id),
-        keyword: extractKeyword(raw.primaryKeyword),
+        keyword,
+        unresolved,
         title: raw.title,
         meta: raw.meta,
         slug: raw.slug,
@@ -228,13 +301,15 @@ export async function runKeywordCoverageAudit(
 
   for (const raw of categories.docs as RawDoc[]) {
     const id = String(raw.id)
+    const { keyword, unresolved } = extractKeyword(raw.primaryKeyword)
     rows.push(
       auditDoc({
         collection: 'categories',
         id,
         label: raw.title ?? id,
         url: editUrl('categories', id),
-        keyword: extractKeyword(raw.primaryKeyword),
+        keyword,
+        unresolved,
         title: raw.title,
         slug: raw.slug,
         // No body, no meta field → those checks resolve to N/A.
@@ -246,13 +321,15 @@ export async function runKeywordCoverageAudit(
 
   for (const raw of users.docs as RawDoc[]) {
     const id = String(raw.id)
+    const { keyword, unresolved } = extractKeyword(raw.primaryKeyword)
     rows.push(
       auditDoc({
         collection: 'users',
         id,
         label: raw.name ?? id,
         url: editUrl('users', id),
-        keyword: extractKeyword(raw.primaryKeyword),
+        keyword,
+        unresolved,
         // Users use their name as the "title"; no public slug, no meta field.
         title: raw.name,
         isListing: true,
@@ -262,6 +339,7 @@ export async function runKeywordCoverageAudit(
   }
 
   const noKeyword = rows.filter((r) => r.bucket === 'noKeyword')
+  const unresolvedKeyword = rows.filter((r) => r.bucket === 'unresolvedKeyword')
   const failing = rows.filter((r) => r.bucket === 'failing')
   const passing = rows.filter((r) => r.bucket === 'passing')
 
@@ -270,11 +348,15 @@ export async function runKeywordCoverageAudit(
     counts: {
       total: rows.length,
       noKeyword: noKeyword.length,
+      unresolvedKeyword: unresolvedKeyword.length,
       failing: failing.length,
       passing: passing.length,
     },
     noKeyword,
+    unresolvedKeyword,
     failing,
     passing,
+    truncated: truncatedCollections.length > 0,
+    truncatedCollections,
   }
 }

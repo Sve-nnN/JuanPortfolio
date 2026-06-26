@@ -53,11 +53,24 @@ function printConsole(report: KeywordCoverageReport): void {
   console.log(bold('\n🔑  Keyword coverage audit — juan-tech.com'))
   console.log(dim(`Locale: ${LOCALE}  |  Generated: ${report.generatedAt}\n`))
 
+  // WR-02: truncation must never be silent — surface it loudly before the data.
+  if (report.truncated) {
+    console.log(
+      yellow(
+        `⚠  TRUNCATED: one or more collections exceeded the per-collection cap ` +
+          `(${report.truncatedCollections.join(', ')}). The numbers below UNDER-report ` +
+          `coverage. Raise the cap or paginate to audit every document.`,
+      ),
+    )
+    console.log('')
+  }
+
   console.log(bold('─── Summary ───────────────────────────────────────────'))
-  console.log(`  ${dim('Total pages   ')} ${counts.total}`)
-  console.log(`  ${red('No keyword    ')} ${counts.noKeyword}`)
-  console.log(`  ${yellow('Failing checks')} ${counts.failing}`)
-  console.log(`  ${green('Passing       ')} ${counts.passing}`)
+  console.log(`  ${dim('Total pages       ')} ${counts.total}`)
+  console.log(`  ${red('No keyword        ')} ${counts.noKeyword}`)
+  console.log(`  ${yellow('Unresolved keyword')} ${counts.unresolvedKeyword}`)
+  console.log(`  ${yellow('Failing checks    ')} ${counts.failing}`)
+  console.log(`  ${green('Passing           ')} ${counts.passing}`)
 
   // List 1 — pages without a keyword.
   console.log(bold('\n─── Pages WITHOUT keyword ─────────────────────────────'))
@@ -124,24 +137,36 @@ function failingTable(rows: CoverageRow[]): string {
 
 function buildMarkdown(report: KeywordCoverageReport): string {
   const { counts } = report
+  const truncationNote = report.truncated
+    ? [
+        '> ⚠ **Truncated report.** These collections exceeded the per-collection ' +
+          `query cap and are under-reported: ${report.truncatedCollections.join(', ')}.`,
+        '',
+      ]
+    : []
   return [
     '# Keyword coverage audit',
     '',
     `**Generated:** ${report.generatedAt}`,
     `**Locale:** ${LOCALE}`,
     '',
+    ...truncationNote,
     '## Counts',
     '',
     '| Metric | Count |',
     '| --- | --- |',
     `| Total pages | ${counts.total} |`,
     `| No keyword | ${counts.noKeyword} |`,
+    `| Unresolved keyword | ${counts.unresolvedKeyword} |`,
     `| Failing checks | ${counts.failing} |`,
     `| Passing | ${counts.passing} |`,
     '',
     '## Pages without keyword',
     '',
     noKeywordTable(report.noKeyword),
+    '## Pages with unresolved keyword relation',
+    '',
+    noKeywordTable(report.unresolvedKeyword),
     '## Pages failing checks',
     '',
     failingTable(report.failing),
@@ -160,8 +185,14 @@ async function main() {
   await writeFile(REPORT_PATH, buildMarkdown(report), 'utf8')
   console.log(dim(`Report written to ${REPORT_PATH}\n`))
 
-  const gaps = report.counts.noKeyword + report.counts.failing
-  process.exit(gaps > 0 ? 1 : 0)
+  // WR-03: the CI exit code must reflect only actionable content gaps. Listings
+  // (users / categories) rarely carry a keyword, so counting them would keep CI
+  // permanently red. Count noKeyword + failing among posts and pages only.
+  // Listings still appear in the report above and in the markdown.
+  const isContent = (row: CoverageRow) => row.collection === 'posts' || row.collection === 'pages'
+  const contentGaps =
+    report.noKeyword.filter(isContent).length + report.failing.filter(isContent).length
+  process.exit(contentGaps > 0 ? 1 : 0)
 }
 
 main().catch((err) => {

@@ -40,8 +40,8 @@
 
 ### RESEARCH — Poblar keywords desde el research
 
-- [ ] **RESEARCH-01**: Revisar el keyword research más reciente (`content/keywords.md` / DinoRank) y asignar la keyword objetivo a cada página existente que aún no la tenga, según el mapeo keyword↔URL
-- [ ] **RESEARCH-02**: Las keywords asignadas tienen su doc de `keyword-metrics` con métricas (volumen/dificultad/intent) cargadas; las que falten se marcan para investigar
+- [x] **RESEARCH-01**: Revisar el keyword research más reciente (`content/keywords.md` / DinoRank) y asignar la keyword objetivo a cada página existente que aún no la tenga, según el mapeo keyword↔URL
+- [x] **RESEARCH-02**: Las keywords asignadas tienen su doc de `keyword-metrics` con métricas (volumen/dificultad/intent) cargadas; las que falten se marcan para investigar
 
 ## Future Requirements
 
@@ -75,5 +75,5 @@
 | AUDIT-01 | Phase 23 | Complete |
 | AUDIT-02 | Phase 23 | Complete |
 | AUDIT-03 | Phase 23 | Complete |
-| RESEARCH-01 | Phase 24 | Pending |
-| RESEARCH-02 | Phase 24 | Pending |
+| RESEARCH-01 | Phase 24 | Complete |
+| RESEARCH-02 | Phase 24 | Complete |

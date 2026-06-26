@@ -179,7 +179,7 @@ Diferir Calendly (IntersectionObserver), imágenes right-sized, Ahrefs lazyOnloa
 - [x] **Phase 21: Keyword data model** - Agregar `primaryKeyword` a Pages y mapeo de keyword para listados de categoría/autor, igual que Posts (completed 2026-06-25)
 - [x] **Phase 22: Metrics panel + Yoast traffic light** - Panel de métricas de la keyword y semáforo verde/ámbar/rojo por check en el sidebar del editor, con recálculo en vivo (completed 2026-06-25)
 - [x] **Phase 23: Coverage audit** - Reporte repetible de páginas sin keyword y páginas con keyword que fallan algún check del semáforo (completed 2026-06-26)
-- [ ] **Phase 24: Keyword research population** - Poblar keywords desde `content/keywords.md` / DinoRank y verificar que los docs de `keyword-metrics` tengan métricas cargadas
+- [x] **Phase 24: Keyword research population** - Poblar keywords desde `content/keywords.md` / DinoRank y verificar que los docs de `keyword-metrics` tengan métricas cargadas (completed 2026-06-26)
 
 ## Phase Details
 
@@ -324,6 +324,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
+
 - [ ] 23-01-PLAN.md — Shared coverage core (runKeywordCoverageAudit reusing analyzeKeywordChecks, N/A for listings) + tsx script (console + markdown report) + audit:keywords alias + unit test
 - [ ] 23-02-PLAN.md — Authenticated /api/seo/keyword-coverage endpoint + Payload admin view (two lists, bilingual, refresh) + config registration
 
@@ -339,8 +340,9 @@ Plans:
   3. Las keywords sin datos de métricas disponibles están marcadas en su doc de `keyword-metrics` (campo o nota) para investigar, y la auditoría de Phase 23 las lista correctamente
 
 **Plans**: 2 plans
+
 - [x] 24-01-PLAN.md — Localizar primaryKeyword (Posts/Pages/Categories/Users) + regenerar tipos + ripple Fases 22/23 (panel locale-aware, auditoría per-locale) + tests ✅ (776 tests, tsc baseline intacto, sin regresión 21/22/23)
-- [ ] 24-02-PLAN.md — Script populate:keywords (resolver slug→doc por locale, match keyword-metrics insensible a may/acentos, no clobber/--force/--dry-run, stubs needs-research, marcado de métricas faltantes) + alias package.json
+- [x] 24-02-PLAN.md — Script populate:keywords (resolver slug→doc por locale, match keyword-metrics insensible a may/acentos, no clobber/--force/--dry-run, stubs needs-research, marcado de métricas faltantes) + alias package.json
 
 ## Progress
 
@@ -359,4 +361,4 @@ Plans:
 | 21. Keyword data model | v1.4 | 1/1 | Complete   | 2026-06-25 |
 | 22. Metrics panel + Yoast traffic light | v1.4 | 2/2 | Complete   | 2026-06-25 |
 | 23. Coverage audit | v1.4 | 2/2 | ✅ Complete | 2026-06-26 |
-| 24. Keyword research population | v1.4 | 1/2 | In Progress | - |
+| 24. Keyword research population | v1.4 | 2/2 | Complete   | 2026-06-26 |

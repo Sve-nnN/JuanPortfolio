@@ -28,10 +28,23 @@ const T = {
   },
   total: { es: 'Total', en: 'Total' },
   noKeyword: { es: 'Sin keyword', en: 'No keyword' },
+  unresolved: { es: 'Sin resolver', en: 'Unresolved' },
   failing: { es: 'Fallando', en: 'Failing' },
   passing: { es: 'OK', en: 'Passing' },
   section1: { es: 'Páginas sin keyword', en: 'Pages without keyword' },
+  section3: {
+    es: 'Páginas con relación de keyword sin resolver',
+    en: 'Pages with unresolved keyword relation',
+  },
+  emptyUnresolved: {
+    es: 'Ninguna relación de keyword colgante.',
+    en: 'No dangling keyword relations.',
+  },
   section2: { es: 'Páginas con checks fallando', en: 'Pages failing checks' },
+  truncated: {
+    es: 'Reporte truncado: algunas colecciones superan el límite de consulta y la cobertura está subreportada',
+    en: 'Truncated report: some collections exceed the query cap and coverage is under-reported',
+  },
   colCollection: { es: 'Colección', en: 'Collection' },
   colPage: { es: 'Página', en: 'Page' },
   colFailing: { es: 'Checks que fallan', en: 'Failing checks' },
@@ -53,36 +66,52 @@ const checkLabel = (id: KeywordCheckId, lang: Lang): string =>
 
 export const KeywordCoverageView: React.FC = () => {
   const { config } = useConfig()
-  const serverURL = config.serverURL
+  // IN-04: serverURL may be undefined depending on config — fall back to a
+  // relative path so the fetch still resolves against the current origin.
+  const base = config.serverURL ?? ''
 
   const [lang, setLang] = useState<Lang>('es')
   const [report, setReport] = useState<KeywordCoverageReport | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const fetchReport = useCallback(async () => {
-    setLoading(true)
-    setError(false)
-    try {
-      const res = await fetch(
-        `${serverURL}/api/seo/keyword-coverage?locale=${lang}`,
-        { credentials: 'include', cache: 'no-store' },
-      )
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      const json = (await res.json()) as KeywordCoverageReport
-      setReport(json)
-    } catch (err) {
-      console.error('[KeywordCoverageView] fetch error:', err)
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
-  }, [serverURL, lang])
+  // WR-01: AbortController so a fast es/en toggle or repeated Refresh cancels the
+  // in-flight request and never lets a superseded/late response win the state,
+  // and never setState after unmount.
+  const fetchReport = useCallback(
+    async (signal?: AbortSignal) => {
+      setLoading(true)
+      setError(false)
+      try {
+        const res = await fetch(`${base}/api/seo/keyword-coverage?locale=${lang}`, {
+          credentials: 'include',
+          cache: 'no-store',
+          signal,
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const json = (await res.json()) as KeywordCoverageReport
+        if (signal?.aborted) return
+        setReport(json)
+      } catch (err) {
+        // A superseded/aborted request is expected — ignore it entirely.
+        if (err instanceof Error && err.name === 'AbortError') return
+        if (signal?.aborted) return
+        console.error('[KeywordCoverageView] fetch error:', err)
+        setError(true)
+      } finally {
+        if (!signal?.aborted) setLoading(false)
+      }
+    },
+    [base, lang],
+  )
 
   // AUDIT-03: fetch on mount and whenever the language changes; the Refresh
   // button calls the same fetch so data is always live (no stale snapshot).
+  // The cleanup aborts the previous request before a new one starts.
   useEffect(() => {
-    void fetchReport()
+    const controller = new AbortController()
+    void fetchReport(controller.signal)
+    return () => controller.abort()
   }, [fetchReport])
 
   return (
@@ -174,10 +203,31 @@ export const KeywordCoverageView: React.FC = () => {
 
       {report && !loading && !error && (
         <>
+          {/* WR-02: truncation must be visible, never silent. */}
+          {report.truncated && (
+            <div
+              style={{
+                padding: '14px 18px',
+                marginBottom: '24px',
+                borderRadius: '8px',
+                backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                border: '1px solid #D97706',
+                color: '#92400E',
+                fontSize: '13px',
+                fontWeight: 600,
+              }}
+            >
+              ⚠ {T.truncated[lang]}
+              {report.truncatedCollections.length > 0
+                ? ` (${report.truncatedCollections.join(', ')})`
+                : ''}
+            </div>
+          )}
+
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: 'repeat(5, 1fr)',
               gap: '24px',
               marginBottom: '12px',
             }}
@@ -187,6 +237,11 @@ export const KeywordCoverageView: React.FC = () => {
               label={T.noKeyword[lang]}
               value={report.counts.noKeyword}
               color="#D97706"
+            />
+            <MetricCard
+              label={T.unresolved[lang]}
+              value={report.counts.unresolvedKeyword}
+              color="#B45309"
             />
             <MetricCard label={T.failing[lang]} value={report.counts.failing} color="#DC2626" />
             <MetricCard label={T.passing[lang]} value={report.counts.passing} color="#059669" />
@@ -245,6 +300,54 @@ export const KeywordCoverageView: React.FC = () => {
               </table>
             )}
           </section>
+
+          {/* Section 3 — WR-04: keyword relation set but unresolved/dangling */}
+          {report.unresolvedKeyword.length > 0 && (
+            <section style={{ marginBottom: '40px' }}>
+              <h2
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: '#B45309',
+                  marginBottom: '16px',
+                }}
+              >
+                {T.section3[lang]} ({report.unresolvedKeyword.length})
+              </h2>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr
+                    style={{
+                      textAlign: 'left',
+                      fontSize: '11px',
+                      textTransform: 'uppercase',
+                      color: '#6B7280',
+                    }}
+                  >
+                    <th style={{ paddingBottom: '12px', width: '140px' }}>
+                      {T.colCollection[lang]}
+                    </th>
+                    <th style={{ paddingBottom: '12px' }}>{T.colPage[lang]}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {report.unresolvedKeyword.map((row) => (
+                    <tr
+                      key={`${row.collection}-${row.id}`}
+                      style={{ borderTop: '1px solid var(--theme-border-color)' }}
+                    >
+                      <td style={{ padding: '14px 0', fontSize: '12px', color: '#6B7280' }}>
+                        {row.collection}
+                      </td>
+                      <td style={{ padding: '14px 0', fontSize: '13px' }}>
+                        <PageLink row={row} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
 
           {/* Section 2 — AUDIT-02: keyworded pages failing >=1 check */}
           <section>

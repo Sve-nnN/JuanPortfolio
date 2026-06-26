@@ -45,6 +45,7 @@ function getCategoryFields(): Field[] {
       name: 'primaryKeyword',
       type: 'relationship',
       relationTo: 'keyword-metrics',
+      localized: true,
       label: {
         en: 'Target Keyword',
         es: 'Keyword Objetivo',

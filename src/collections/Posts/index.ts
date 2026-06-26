@@ -152,6 +152,7 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'primaryKeyword',
               type: 'relationship',
               relationTo: 'keyword-metrics',
+              localized: true,
               admin: {
                 position: 'sidebar',
               },

@@ -211,6 +211,7 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'primaryKeyword',
               type: 'relationship',
               relationTo: 'keyword-metrics',
+              localized: true,
               admin: {
                 position: 'sidebar',
               },

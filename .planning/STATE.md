@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Keyword targeting & Yoast-style SEO scoring
 status: executing
-stopped_at: "Plan 22-2 completado (KeywordScorePanel sidebar field en Posts/Pages). Pendiente: checkpoint human-verify visual."
+stopped_at: "Fase 22 completa (código + 768 tests + review clean, todos los hallazgos corregidos). Validación visual del semáforo DIFERIDA (checklist en 22-VERIFICATION.md). Ejecutando Fase 23 (coverage audit)."
 last_updated: "2026-06-25T17:22:26.834Z"
 last_activity: 2026-06-25 — Fase 22 plan 22-2 ejecutado (panel de métricas + semáforo Yoast en sidebar); pendiente verificación visual humana
 progress:
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.4 — fase 21 ✅ completa; ejecutando fase 22 (semáforo Yoast)
+**Current focus:** Milestone v1.4 — fases 21 ✅ y 22 ✅ (visual diferido); ejecutando fase 23 (coverage audit)
 
 ## Current Position
 
-Phase: 22 (executing) — metrics panel + Yoast traffic light
-Plan: 22-2 ✅ completado (Wave 2). 22-1 ✅ (engine + endpoint).
-Status: KeywordScorePanel implementado y registrado en Posts/Pages. Pendiente: checkpoint human-verify visual (4 estados, recompute en vivo, layout sidebar, accesibilidad).
-Last activity: 2026-06-25 — 22-2 ejecutado; tsc 114 (baseline, 0 nuevos), 764 tests verdes
+Phase: 23 (next) — coverage audit. Fases 21 ✅, 22 ✅ (human_needed visual diferido por decisión de Juan)
+Plan: —
+Status: Fase 22 cerrada a nivel código (review clean, 768 tests). Próximo: smart discuss + plan fase 23.
+Last activity: 2026-06-25 — Fase 22 review findings corregidos; VERIFICATION human_needed (visual diferido)
 
 ## Performance Metrics
 

@@ -558,48 +558,6 @@ export const SCRIPTS: Script[] = [
   },
 
   {
-    id: 'delete-loop-redirects',
-    name: 'Delete Loop Redirects',
-    category: 'maintenance',
-    description: 'Detecta y elimina redirects con cadenas circulares del CMS',
-    longDescription:
-      'Analiza todos los redirects buscando cadenas circulares (hasta profundidad 50) y ' +
-      'elimina los registros problemáticos directamente de Payload CMS. ' +
-      'Muestra los loops detectados antes de borrar. Sin loops: no hace nada.',
-    baseCommand: 'tsx -r dotenv/config src/scripts/delete-loop-redirects.ts',
-    params: [],
-    examples: ['tsx src/scripts/delete-loop-redirects.ts'],
-  },
-
-  {
-    id: 'fix-user-slugs',
-    name: 'Fix User Slugs',
-    category: 'maintenance',
-    description: 'Genera slugs faltantes para documentos de User en Payload',
-    longDescription:
-      'Busca usuarios de Payload sin slug (o con slug vacío) y genera uno automáticamente ' +
-      'a partir del campo name (minúsculas, sin caracteres especiales, guiones en espacios). ' +
-      'Procesa hasta 1000 usuarios por ejecución.',
-    baseCommand: 'tsx -r dotenv/config src/scripts/fix-user-slugs.ts',
-    params: [],
-    examples: ['tsx src/scripts/fix-user-slugs.ts'],
-  },
-
-  {
-    id: 'debug-content',
-    name: 'Debug Content',
-    category: 'maintenance',
-    description: 'Lista primeros 10 docs por colección para verificar conexión con el CMS',
-    longDescription:
-      'Herramienta de diagnóstico: lista los primeros 10 Pages, Posts y Case Studies ' +
-      '(con estado draft/published) y muestra el conteo total por colección. ' +
-      'Útil para verificar que la conexión con MongoDB y Payload funciona correctamente.',
-    baseCommand: 'tsx -r dotenv/config src/scripts/debug-content.ts',
-    params: [],
-    examples: ['tsx src/scripts/debug-content.ts'],
-  },
-
-  {
     id: 'test-email',
     name: 'Test Email',
     category: 'maintenance',

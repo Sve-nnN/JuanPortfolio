@@ -80,7 +80,12 @@ export const Users: CollectionConfig = {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
   },
-  auth: true,
+  auth: {
+    // useAPIKey habilita el campo API Key por usuario, para acceso programático
+    // (Hermes opera el sitio vía REST con header `Authorization: users API-Key <key>`).
+    // No cambia la auth por email/password existente.
+    useAPIKey: true,
+  },
   fields: [
     {
       type: 'tabs',

@@ -21,6 +21,10 @@
 const WIKILINK = /\[\[([a-z0-9][a-z0-9._/-]*)(?:\|([^\]\n]*))?\]\]/gi
 // Half-converted link: `[[Label](url)` -> `[Label](url)` (extra leading bracket).
 const MALFORMED_LINK = /\[\[([^\]\n]+?)\]\(/g
+// Double-wrapped link from a repeated internal-linking pass:
+// `[[Text](url1)](url2)` -> `[Text](url1)`. Keeps the inner (original) link and
+// drops the erroneous outer wrapper, instead of leaving a dangling `](url2)`. #86/#99 fallout.
+const DOUBLE_WRAPPED = /\[(\[[^\]\n]+\]\([^)\n]+\))\]\([^)\n]+\)/g
 
 export interface SanitizeResult {
   body: string
@@ -30,7 +34,14 @@ export interface SanitizeResult {
 export function sanitizeWikilinks(body: string): SanitizeResult {
   let stripped = 0
 
-  let out = body.replace(MALFORMED_LINK, (_m, inner: string) => {
+  // Collapse double-wrapped links first so the leftover isn't misread as a
+  // half-converted `[[Label](` by the rule below.
+  let out = body.replace(DOUBLE_WRAPPED, (_m, inner: string) => {
+    stripped++
+    return inner
+  })
+
+  out = out.replace(MALFORMED_LINK, (_m, inner: string) => {
     stripped++
     return `[${inner}](`
   })

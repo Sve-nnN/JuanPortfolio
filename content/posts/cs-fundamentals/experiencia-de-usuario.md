@@ -213,7 +213,7 @@ Una de las primeras acciones recomendadas es realizar **investigaciones de usuar
 
 La implementación de **pruebas de usabilidad** es crucial para identificar puntos de dolor en la experiencia del usuario. Realizar pruebas regulares permite recoger feedback valioso, que debe ser utilizado para realizar mejoras continuas. Es recomendable involucrar una muestra representativa de usuarios reales en estas pruebas.
 
-*   **[[Velocidad de Carga](https://juan-tech.com/blog/tech-seo/web-performance-guide)](/blog/general/web-performance-guide):** Optimizar el tiempo de carga de la página. Un sitio lento puede causar una alta tasa de abandono. Implementar técnicas de optimización, como la compresión de imágenes y el uso de almacenamiento en caché, puede ser beneficioso.
+*   **[Velocidad de Carga](https://juan-tech.com/blog/tech-seo/web-performance-guide):** Optimizar el tiempo de carga de la página. Un sitio lento puede causar una alta tasa de abandono. Implementar técnicas de optimización, como la compresión de imágenes y el uso de almacenamiento en caché, puede ser beneficioso.
 *   **Contenido Relevante:** Ofrecer contenido de calidad que responda a las preguntas y necesidades del usuario. Esto no solo mejora la experiencia, sino que también puede influir positivamente en el posicionamiento SEO.
 
 Fomentar la **interacción del usuario** mediante elementos de diseño atractivos también es fundamental. Utilizar iconografía clara, botones bien definidos y elementos interactivos puede guiar al usuario a lo largo de la experiencia de manera efectiva.

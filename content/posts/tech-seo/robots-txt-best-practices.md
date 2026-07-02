@@ -271,4 +271,4 @@ La monitorización continua y la resolución de problemas asociados al archivo r
 
 ## Ver también
 
-- [Tech Seo Guide: [[Guía de SEO Técnico](https://juan-tech.com/blog/tech-seo/tech-seo-guide)](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

@@ -43,7 +43,7 @@ semantic_keywords:
 uploaded: true
 keyword: tech seo guide
 ---
-El **[[[SEO técnico](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices)](https://juan-tech.com/blog/development/headless-cms-seo)](/blog/tech-seo/technical-seo-guide)** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
+El **SEO técnico** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
 
 En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: Rastreabilidad, Rendimiento [Core Web Vitals](/blog/general/web-performance-guide) y Semántica Estructurada.
 
@@ -53,7 +53,7 @@ Antes de que Google pondere tus [palabras clave](/blog/seo/guia-keyword-research
 
 ### Control y Restricción: robots.txt
 
-El **[[Crawl Budget](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)](/blog/general/xml-sitemap-automation)** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [robots.txt](/blog/general/robots-txt-best-practices) para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
+El **[Crawl Budget](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation)** (presupuesto de rastreo diario) asignado a tu dominio es sumamente finito. Te recomiendo emplear directivas restrictivas en tu archivo [robots.txt](/blog/general/robots-txt-best-practices) para neutralizar el acceso del crawler a variables generadas programáticamente que no devuelvan valor real transaccional de negocio.
 
 - Aísla carpetas internas de sistema administrativo.
 - Excluye rastreadores y scrapers destructivos de Inteligencia Artificial (LLMs) si violan y compilan tus datos sin reciprocidad de clics.
@@ -83,7 +83,7 @@ Las latencias de servidor y caídas crudas frontales de JavaScript deprimen la U
 - **[Cumulative Layout Shift](/blog/general/core-web-vitals-guide) (CLS):** Límite tope sobre el ratio 0.1 de impacto. Inyecta márgenes `aspect-ratio` rígidos a tu diseño de contenedores limitando fracturas de render en carga local y de cliente diferida lenta.
 - Observa y manipula el ejemplo detallado crudo en la [Guía técnica de Core Web Vitals](./core-web-vitals-guide).
 
-## 3. Entidades Lógicas [[JSON-LD](https://juan-tech.com/blog/tech-seo/schema-markup-guide)](/blog/general/schema-markup-guide) y Semántica Estructurada
+## 3. Entidades Lógicas [JSON-LD](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y Semántica Estructurada
 
 Frente a la adopción obligatoria de herramientas de Generative Engine Optimization (GEO e Inteligencia Artificial Perimetral SGE), los modelos estocásticos grandes precisan un diccionario relacional y datos pre-empaquetados estructurados deterministas.
 

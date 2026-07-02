@@ -36,7 +36,7 @@ semantic_keywords:
   - seo signals
 keyword: core web vitals
 ---
-Las Core Web Vitals son métricas esenciales que impactan de manera directa en la experiencia del usuario en la web. Estas indican la [[velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide)](/blog/general/web-performance-guide), la interactividad y la estabilidad visual de una página, aspectos fundamentales para mantener la atención del visitante. En este artículo, abordaremos qué son las Core Web Vitals, su importancia en el [SEO](/blog/seo/estrategia-seo) y cómo optimizar las métricas LCP, CLS e INP para mejorar el rendimiento de tu sitio.
+Las Core Web Vitals son métricas esenciales que impactan de manera directa en la experiencia del usuario en la web. Estas indican la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide), la interactividad y la estabilidad visual de una página, aspectos fundamentales para mantener la atención del visitante. En este artículo, abordaremos qué son las Core Web Vitals, su importancia en el [SEO](/blog/seo/estrategia-seo) y cómo optimizar las métricas LCP, CLS e INP para mejorar el rendimiento de tu sitio.
 
 Entender y aplicar correctamente estas métricas no solo mejorará la experiencia del usuario, sino que también podrá influir en tu posicionamiento en los motores de búsqueda. Acompáñame en este recorrido para conocer a fondo las Core Web Vitals y cómo implementarlas eficazmente.
 

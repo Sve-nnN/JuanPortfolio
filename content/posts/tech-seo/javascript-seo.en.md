@@ -142,3 +142,35 @@ function App() {
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/about" component={AboutPage} />
+      </Switch>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+Pair every client route with a real server route (or a static file) that returns the same content. If a URL only exists once JavaScript runs, a crawler that skips execution sees nothing.
+
+### 5. Hydrate, Don't Hide
+
+A common failure is shipping an empty `<div id="root"></div>` and painting everything after hydration. If the meaningful content, the H1, the copy, the internal links, only appears after the client bundle runs, you are betting your indexing on the crawler executing your JavaScript flawlessly. Server-render the critical content so it is present in the raw HTML, then let the client take over for interactivity.
+
+### 6. Test What Google Actually Sees
+
+Never assume. Verify with the tools that render the page the way the crawler does:
+
+- **URL Inspection** in Google Search Console shows the rendered HTML and any resources Google could not load.
+- **Rich Results Test** confirms your structured data survives rendering.
+- `curl` the raw response and search for your H1 and body copy. If it is missing from the raw HTML, it depends on JavaScript execution.
+
+## Common Mistakes to Avoid
+
+- Blocking your JS or CSS bundles in `robots.txt`, which stops Google from rendering the page.
+- Relying on `onclick` handlers instead of real `<a href>` links, which crawlers cannot follow.
+- Loading primary content from an API call that fires only after user interaction.
+- Generating canonical tags or metadata on the client, where the crawler may never see the final values.
+
+## Conclusion
+
+JavaScript and SEO are no longer at odds, but the burden of proof is on you. Server-render or prerender your critical content, keep real links and real URLs, watch your page speed, and verify what the crawler sees instead of trusting that it works. Do that, and a dynamic application can rank just as well as a static one.

@@ -100,5 +100,5 @@ Aunque Googlebot formalizó a través de su departamento en Webmaster Trends la 
 
 ## Ver también
 
-- [[Guía de SEO Técnico](https://juan-tech.com/blog/tech-seo/tech-seo-guide) para Desarrolladores (2026)](/blog/general/tech-seo-guide)
+- [Guía de SEO Técnico para Desarrolladores (2026)](/blog/general/tech-seo-guide)
 - [Non Developers Guide: SEO Técnico para No Desarrolladores: Guía de Funda...](/blog/general/non-developers-guide)

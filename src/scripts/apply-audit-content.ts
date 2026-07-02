@@ -120,15 +120,14 @@ async function main() {
 
   // --- #106 llm URLs (es + en) ---
   for (const locale of ['es', 'en'] as const) {
-    const llm = locale === 'es' ? backup.llmEs : (backup.llmEn as Record<string, unknown>)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const l: any = llm
+    const l: any = locale === 'es' ? backup.llmEs : backup.llmEn
     await payload.updateGlobal({
       slug: 'llm',
       locale,
       data: {
-        summary: fixLlmUrls(l.summary),
-        fullContent: fixLlmUrls(l.fullContent),
+        summary: fixLlmUrls(l.summary) ?? undefined,
+        fullContent: fixLlmUrls(l.fullContent) ?? undefined,
       },
       context: { disableRevalidate: true },
     })

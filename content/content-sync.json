@@ -144,8 +144,8 @@
       "id": "69cb4b0601da80e3a443c17c",
       "slug": "headless-cms-seo",
       "locale": "es",
-      "lastLocalHash": "7f8608bdeae84c91b40686cbce248b19dcbe038c2c7911af7fccfdb198fc16ff",
-      "lastRemoteUpdatedAt": "2026-06-23T19:31:35.688Z"
+      "lastLocalHash": "0a4b886b7bae6b977b0dd1946dfb1364775a2039a4028fd4d9198679f6f04733",
+      "lastRemoteUpdatedAt": "2026-07-02T17:54:04.680Z"
     },
     "development/nextjs-portfolio.en.md": {
       "id": "69cb4b1101da80e3a443c1ef",
@@ -305,8 +305,8 @@
       "id": "69c715683736a0dfd0e949c6",
       "slug": "nextjs-seo-optimization",
       "locale": "es",
-      "lastLocalHash": "3c7fd0a68c97bd99181af45aa12d95fc39e31d9d7d942b286e12c9c5ea97ec21",
-      "lastRemoteUpdatedAt": "2026-06-23T19:36:45.869Z"
+      "lastLocalHash": "dbc289498be0a801def008e3026fcf596b4923a42d398bba7f454f5f3e65e7e5",
+      "lastRemoteUpdatedAt": "2026-07-02T17:58:25.400Z"
     },
     "tech-seo/non-developers-guide.en.md": {
       "id": "69c715683736a0dfd0e949f4",
@@ -319,8 +319,8 @@
       "id": "69c715683736a0dfd0e949f4",
       "slug": "non-developers-guide",
       "locale": "es",
-      "lastLocalHash": "d2182dc60a7acc87bd4ae785223dc3ebade850bf048e6637562faa96b3bc30e6",
-      "lastRemoteUpdatedAt": "2026-06-23T19:37:08.968Z"
+      "lastLocalHash": "5cc692b27463085330496d90ed8ab18f75876a4de4ddc556b4a5d4a470f01a06",
+      "lastRemoteUpdatedAt": "2026-07-02T17:58:38.499Z"
     },
     "tech-seo/tech-seo-guide.en.md": {
       "id": "69c715693736a0dfd0e94a22",
@@ -333,8 +333,8 @@
       "id": "69c715693736a0dfd0e94a22",
       "slug": "tech-seo-guide",
       "locale": "es",
-      "lastLocalHash": "5575c982442f7ea3e61c788939fdbe034cb401e9bdead2036659dbddc08f1364",
-      "lastRemoteUpdatedAt": "2026-06-23T19:38:07.904Z"
+      "lastLocalHash": "5501c8c704bf81ae52f2c9d9a4469e4d443f29ebdfacac641831deaa691fe199",
+      "lastRemoteUpdatedAt": "2026-07-02T17:59:32.734Z"
     },
     "tech-seo/web-performance-guide.en.md": {
       "id": "69c715829d0b75ffa6779c8d",
@@ -354,8 +354,8 @@
       "id": "69a5bd0b455ba5651633e895",
       "slug": "experiencia-de-usuario",
       "locale": "es",
-      "lastLocalHash": "fabf72217d62bab799425ea043489e22c811ca2e7e7421c0bac11fe5acc0931e",
-      "lastRemoteUpdatedAt": "2026-06-23T19:28:05.271Z"
+      "lastLocalHash": "93e2469202dae8e0d1369d7d26e0b80309fe9649a3213c97925c413d024ce327",
+      "lastRemoteUpdatedAt": "2026-07-02T17:53:49.390Z"
     },
     "seo/mejores-cursos-seo-en-español.md": {
       "id": "69b4b82863f0ee46a5b5fd93",
@@ -382,8 +382,8 @@
       "id": "69c716d85b5ecd41db75baef",
       "slug": "core-web-vitals-guide",
       "locale": "es",
-      "lastLocalHash": "717ccd27b271fdf9b525f331adefa6495ae7a7ca6715dde2eae1d3d8426bd6dd",
-      "lastRemoteUpdatedAt": "2026-06-23T19:36:18.247Z"
+      "lastLocalHash": "843246b7bba28f4c00ae142adceb2d02e948d03c13cd970dcf6a005c181d1fe0",
+      "lastRemoteUpdatedAt": "2026-07-02T17:58:13.302Z"
     },
     "tech-seo/robots-txt-best-practices.en.md": {
       "id": "69c716dc5b5ecd41db75bc24",
@@ -396,8 +396,8 @@
       "id": "69c716dc5b5ecd41db75bc24",
       "slug": "robots-txt-best-practices",
       "locale": "es",
-      "lastLocalHash": "06299b3d12df483fa9957167d99987b93fc80106dc8c04cf0ddb8a2526c581ca",
-      "lastRemoteUpdatedAt": "2026-06-23T19:37:20.173Z"
+      "lastLocalHash": "c700efa7d3fb0712f32be98da79b57fe092e80c9e5da70ceda758f4ee1b73d50",
+      "lastRemoteUpdatedAt": "2026-07-02T17:58:52.117Z"
     },
     "tech-seo/schema-markup-guide.en.md": {
       "id": "69c716dd5b5ecd41db75bc90",
@@ -410,8 +410,8 @@
       "id": "69c716dd5b5ecd41db75bc90",
       "slug": "schema-markup-guide",
       "locale": "es",
-      "lastLocalHash": "e9f0f43cdd6471472c129ca4f77177a02f948f8b7a6739a562bda35625c44053",
-      "lastRemoteUpdatedAt": "2026-06-23T19:37:31.127Z"
+      "lastLocalHash": "4eb0bb3b52fca70890961d0edb154608a9a6cbbff9a8901fe43fd6e93c9e314a",
+      "lastRemoteUpdatedAt": "2026-07-02T17:59:05.605Z"
     },
     "tech-seo/ssr-vs-csr-seo.en.md": {
       "id": "69c716df5b5ecd41db75bcf5",
@@ -424,8 +424,8 @@
       "id": "69c716df5b5ecd41db75bcf5",
       "slug": "ssr-vs-csr-seo",
       "locale": "es",
-      "lastLocalHash": "d42d8523451b568d6cb1fbaa70cab70a6fce0f97461e71149daa8fd50241cdbb",
-      "lastRemoteUpdatedAt": "2026-06-23T19:37:47.311Z"
+      "lastLocalHash": "525417ef5c8dc01f21e5714794871ff97b2723fbfbe080745cd3db10f791bb3c",
+      "lastRemoteUpdatedAt": "2026-07-02T17:59:43.948Z"
     },
     "tech-seo/xml-sitemap-automation.en.md": {
       "id": "69c716e35b5ecd41db75be23",
@@ -438,8 +438,8 @@
       "id": "69c716e35b5ecd41db75be23",
       "slug": "xml-sitemap-automation",
       "locale": "es",
-      "lastLocalHash": "aa13c6bd8f438a7bc72379d8dc68df2600ba141feebb57c8e3d01161d13c7a90",
-      "lastRemoteUpdatedAt": "2026-06-23T19:38:44.977Z"
+      "lastLocalHash": "370c51efb9bde6549a9fc085ada5314416f928f9ace61130f771150c9a17e7e3",
+      "lastRemoteUpdatedAt": "2026-07-02T17:59:19.780Z"
     },
     "cs-fundamentals/experiencia-de-usuario.en.md": {
       "id": "69a5bd0b455ba5651633e895",
@@ -886,8 +886,8 @@
       "id": "6a3ad6115ea63c367da7c36f",
       "slug": "javascript-seo",
       "locale": "en",
-      "lastLocalHash": "b7b98e7e843725c6e5da50506c02499bedeb67805979ebccfdfc96667648d620",
-      "lastRemoteUpdatedAt": "2026-06-23T19:36:35.398Z"
+      "lastLocalHash": "169710008d2f7cc0b2c91a4f8a833b15b151cc69ce2e3204861f6daf598ba057",
+      "lastRemoteUpdatedAt": "2026-07-02T17:56:38.090Z"
     },
     "tech-seo/nextjs-seo.en.md": {
       "id": "69d46fc34493e02a7c056ad8",
@@ -907,8 +907,8 @@
       "id": "69d46ff54493e02a7c056c7b",
       "slug": "seo-on-page-guia",
       "locale": "es",
-      "lastLocalHash": "71fd892fcbc16d41bcaf9977640096e9aec0d2cbefb6b100ace8c77de773acb1",
-      "lastRemoteUpdatedAt": "2026-06-23T19:37:37.303Z"
+      "lastLocalHash": "64b63e9abef051c8290d412896a5d8e5ec441d4a8574e642bf61734a81c33bd5",
+      "lastRemoteUpdatedAt": "2026-07-02T17:56:13.382Z"
     },
     "tech-seo/structured-data-seo.en.md": {
       "id": "69d470074493e02a7c056d19",
@@ -944,6 +944,13 @@
       "locale": "es",
       "lastLocalHash": "7a8decab99e024cbceaf3919d1689a9084a9600d908a3b95aef8eefd6c3e5c1d",
       "lastRemoteUpdatedAt": "2026-06-23T19:38:22.486Z"
+    },
+    "tech-seo/javascript-seo.md": {
+      "id": "6a3ad6115ea63c367da7c36f",
+      "slug": "javascript-seo",
+      "locale": "es",
+      "lastLocalHash": "336f2742e93df684640ec9a8cd249b0beea9d2858dc682ca3377eb57151424fd",
+      "lastRemoteUpdatedAt": "2026-07-02T17:56:25.987Z"
     }
   }
 }

@@ -109,7 +109,7 @@ export default async function ContactPage({
   return (
     <main className="pt-16">
       <JsonLd schema={pageSchema} />
-      <ContactFormBlockComponent {...(contactBlock ?? defaultProps)} locale={locale} />
+      <ContactFormBlockComponent {...(contactBlock ?? defaultProps)} locale={locale} headingLevel="h1" />
     </main>
   )
 }

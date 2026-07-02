@@ -292,9 +292,22 @@ class ContentSyncManager {
 
     const categoryIds: string[] = []
     if (frontmatter.categoryTitle) {
+      // The derived slug (e.g. "Technical SEO" -> "technical-seo") does NOT always
+      // match the real category slug (e.g. "tech-seo"), which silently left posts
+      // uncategorized -> orphaned and served under /blog/general. Resolve by title
+      // first, then fall back to the derived slug, and warn if neither matches so
+      // the gap is visible instead of silent. Issue #89 (TECH-05).
       const slug = frontmatter.categoryTitle.toLowerCase().replace(/\s+/g, '-')
-      const id = await this.repo.resolveCategory(slug)
-      if (id) categoryIds.push(id)
+      const id =
+        (await this.repo.resolveCategoryByTitle(frontmatter.categoryTitle)) ??
+        (await this.repo.resolveCategory(slug))
+      if (id) {
+        categoryIds.push(id)
+      } else {
+        console.warn(
+          `⚠️  Category "${frontmatter.categoryTitle}" not found (tried title + slug "${slug}") — post will be uncategorized`,
+        )
+      }
     }
     for (const catSlug of frontmatter.categories ?? []) {
       const id = await this.repo.resolveCategory(catSlug)

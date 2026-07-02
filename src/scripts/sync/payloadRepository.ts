@@ -45,6 +45,10 @@ export class PayloadRepository {
     return this.resolveByField('categories', 'slug', slug)
   }
 
+  async resolveCategoryByTitle(title: string): Promise<string | null> {
+    return this.resolveByField('categories', 'title', title)
+  }
+
   // --- Post CRUD ---
 
   async findPostBySlug(slug: string): Promise<{ id: string; updatedAt: string } | null> {

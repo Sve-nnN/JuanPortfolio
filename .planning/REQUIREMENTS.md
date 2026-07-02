@@ -55,6 +55,46 @@ Convención severidad ↔ label GitHub: `seo:critical/high/medium/low`, `code/bu
 - Cambiar el proxy Cloudflare→Vercel salvo lo necesario para www/Rocket Loader.
 - Rehacer keyword research.
 
-## Traceability
-(Se completa al crear el roadmap — mapeo REQ-ID → fase.)
+## GitHub Issues (tanda audit-jul2026)
+
+| REQ-ID | Issue | Tipo | Fixable por código |
+|--------|-------|------|--------------------|
+| TECH-01 | #85 | duplicados/hreflang (crítico) | sí |
+| TECH-02 | #86 | og:image Cloudinary 400 | sí |
+| TECH-03 | #87 | authors 500 + ProfilePage | sí |
+| TECH-04 | #88 | 3 posts fuera del sitemap | sí |
+| TECH-05 | #89 | 5 huérfanos general/* | sí |
+| TECH-06 | #90 | 2 H1 home | sí |
+| TECH-07 | #91 | x-powered-by | sí |
+| SCH-01 | #92 | @graph sin @type | sí |
+| GEO-01 | #93 | llms.txt roto prod | sí (requiere logs Vercel) |
+| GEO-02 | #94 | llms-full.txt fantasma | sí |
+| PERF-01 | #95 | LCP render delay | sí |
+| BUG-01 | #96 | revalidatePost sin categoría | sí |
+| BUG-02 | #97 | triggerCWVScan URL 404 | sí |
+| BUG-03 | #98 | previousDoc._status | sí |
+| BUG-04 | #99 | internal-links apply falso positivo | sí |
+| BUG-05 | #100 | generateMetadata drafts | sí |
+| BUG-06 | #101 | generateStaticParams locale | sí |
+| PERF-02 | #102 | Rocket Loader | no (Cloudflare/Juan) |
+| PERF-03 | #103 | INP dashboard | no (Vercel/Juan) |
+| CNT-01 | #104 | javascript-seo title/meta | no (Payload/Juan) |
+| CNT-02 | #105 | FAQ /en idioma | no (Payload/Juan) |
+| CNT-03 | #106 | llms fullContent | no (Payload) +opcional código |
+| CNT-04 | #107 | ejemplo.com links | no (Payload/Juan) |
+| INFRA-01 | #12 (comentado) | www TLS | no (Cloudflare/Juan) |
+
+## Traceability (REQ → fase)
+
+| Fase | Requirements |
+|------|--------------|
+| 31 Routing canónico del blog | TECH-01, BUG-01, BUG-02, BUG-06 |
+| 32 Sitemap & enlazado interno | TECH-04, TECH-05 |
+| 33 Metadata, OG & schema | TECH-02, TECH-06, SCH-01, BUG-05 |
+| 34 Resiliencia runtime | TECH-03, GEO-01, GEO-02 |
+| 35 Bugs restantes & hardening | BUG-03, BUG-04, TECH-07 |
+| 36 Performance LCP | PERF-01 |
+| 37 Manual & verificación | PERF-02, PERF-03, CNT-01..04, INFRA-01 |
+
+Cobertura: 100% de los REQ mapeados a una fase.
 </content>

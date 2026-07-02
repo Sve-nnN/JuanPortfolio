@@ -8,8 +8,88 @@
 - ✅ **v1.3 Remediación SEO técnica (Ahrefs Site Audit)** — Phases 15-20 (shipped 2026-06-25)
 - ✅ **v1.4 Keyword targeting & Yoast-style SEO scoring** — Phases 21-24 (shipped 2026-06-26)
 - ✅ **v1.5 Limpieza y alineación del admin de Payload** — Phases 25-30 (shipped 2026-06-26)
+- 🚧 **v1.6 Auditoría integral & remediación (SEO + código)** — Phases 31-37 (en curso, iniciado 2026-07-02)
 
 ## Phases
+
+### 🚧 v1.6 Auditoría integral & remediación (SEO + código) — Phases 31-37
+
+Remediación de hallazgos del reporte SEO jul-2026 + crawl fresco + auditoría de código. 23 issues GitHub (#85-#107) + #12. Constante brownfield: 0 errores tsc nuevos sobre baseline (112 en tests/, 0 en src/), 776+ tests verdes, admin arranca.
+
+#### Phase 31: Routing canónico del blog (crítico)
+
+**Goal**: Un post = una URL canónica; las variantes de categoría dejan de duplicar y el hreflang se vuelve recíproco
+**Requirements**: TECH-01, BUG-01, BUG-02, BUG-06
+**Issues**: #85, #96, #97, #101
+**Success Criteria**:
+  1. `/blog/{cat-no-canónica}/{slug}` responde 301 a la categoría canónica (o 404 si categoría inválida)
+  2. canonical y `alternates.languages` se derivan de la categoría real del post en Payload, no de `params`
+  3. `revalidatePost` y `triggerCWVScan` usan la URL real `/blog/{categoría}/{slug}` (helper compartido)
+  4. `generateStaticParams` prerenderiza el slug correcto por locale
+**Gate**: tsc/tests verdes; verificación en `pnpm dev` de un 301 de variante
+
+#### Phase 32: Sitemap & enlazado interno
+
+**Goal**: Todo post publicado y accesible está en el sitemap y recibe ≥1 enlace interno
+**Requirements**: TECH-04, TECH-05
+**Issues**: #88, #89
+**Success Criteria**:
+  1. Los 3 posts hoy ausentes aparecen en `posts-sitemap.xml`
+  2. Los 5 posts `/blog/general/*` reciben enlace interno (listado de categoría completo)
+  3. Sin leaks: nada accesible fuera del sitemap ni huérfano
+
+#### Phase 33: Metadata, OG image & schema
+
+**Goal**: Preview social funciona en todo el blog, un solo H1 por página, JSON-LD con tipos reconocibles
+**Requirements**: TECH-02, TECH-06, SCH-01, BUG-05
+**Issues**: #86, #90, #92, #100
+**Success Criteria**:
+  1. og:image de posts con coma en el título devuelve 200 (doble-encode)
+  2. Home tiene exactamente 1 H1; `/contact` conserva su H1
+  3. JSON-LD consolidado en `@graph` único reconocible (sin "Unknown"), sin `@id` duplicados
+  4. `generateMetadata` no emite metadata de drafts
+
+#### Phase 34: Resiliencia runtime (authors 500 + llms.txt)
+
+**Goal**: Las rutas que consultan Payload en runtime no caen en cold-start ni sirven contenido roto
+**Requirements**: TECH-03, GEO-01, GEO-02
+**Issues**: #87, #93, #94
+**Success Criteria**:
+  1. `/authors/[slug]` estable (try/catch + cache) y emite ProfilePage/Person
+  2. `/llms.txt` sirve markdown válido en prod (no el string del catch)
+  3. `/llms-full.txt` deja de servir HTML del home (implementado o 404 limpio)
+
+#### Phase 35: Bugs restantes & hardening
+
+**Goal**: Cerrar los bugs de bajo riesgo y endurecer headers
+**Requirements**: BUG-03, BUG-04, TECH-07
+**Issues**: #98, #99, #91
+**Success Criteria**:
+  1. `revalidatePost` usa optional chaining; sin crash en create
+  2. `internal-links/apply` devuelve `success:false` si no aplica; no reescribe espurio
+  3. `x-powered-by` ausente en las respuestas
+
+#### Phase 36: Performance — LCP de la home
+
+**Goal**: Reducir el render delay de la home hacia LCP < 2500ms
+**Requirements**: PERF-01
+**Issues**: #95
+**Success Criteria**:
+  1. Bloques below-the-fold cargados con `next/dynamic`
+  2. Preloads de fuentes recortados al peso del H1
+  3. Animación del hero aislada en wrapper cliente; H1/CTAs server-rendered
+  4. Menos JS inicial medido (bundle de la home)
+
+#### Phase 37: Acciones manuales (Juan) & verificación final
+
+**Goal**: Dejar los items no-código accionables por Juan y verificar el milestone con re-crawl
+**Requirements**: PERF-02, PERF-03, CNT-01, CNT-02, CNT-03, CNT-04, INFRA-01
+**Issues**: #102, #103, #104, #105, #106, #107, #12
+**Success Criteria**:
+  1. Checklist claro de acciones Cloudflare (Rocket Loader, www TLS) y Vercel (INP) para Juan
+  2. Ediciones de contenido en Payload documentadas (javascript-seo meta, FAQ /en, ejemplo.com, llms fullContent)
+  3. Re-crawl/verificación de los fixes de código desplegados; issues de código cerrados
+
 
 <details>
 <summary>✅ v1.0 Render estático/ISR & Edge Caching (Phases 1-5) — SHIPPED</summary>

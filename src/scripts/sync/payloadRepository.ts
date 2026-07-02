@@ -45,6 +45,28 @@ export class PayloadRepository {
     return this.resolveByField('categories', 'slug', slug)
   }
 
+  async resolveCategoryByTitle(title: string): Promise<string | null> {
+    // Category titles are localized (e.g. slug "tech-seo" → es "SEO Técnico" /
+    // en "Technical SEO"). The frontmatter categoryTitle may be in either
+    // language, and a query without a locale only matches the default (es), so
+    // try both locales before giving up. Issue #89.
+    for (const locale of ['en', 'es']) {
+      try {
+        const found = await this.payload.find({
+          collection: 'categories',
+          where: { title: { equals: title } },
+          locale,
+          limit: 1,
+        })
+        const id = found.docs[0]?.id
+        if (id) return id as string
+      } catch {
+        // try next locale
+      }
+    }
+    return null
+  }
+
   // --- Post CRUD ---
 
   async findPostBySlug(slug: string): Promise<{ id: string; updatedAt: string } | null> {

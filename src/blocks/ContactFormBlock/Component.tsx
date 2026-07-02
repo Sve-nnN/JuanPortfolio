@@ -26,8 +26,14 @@ const iconMap = {
   github: Github,
 }
 
-export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale?: 'en' | 'es' }> = (props) => {
-  const { eyebrow, title, description, submitLabel = 'Enviar mensaje', contactInfo, sidebarTitle, sidebarDescription, socialProofText, locale = 'es' } = props
+export const ContactFormBlockComponent: React.FC<
+  ContactFormBlockType & { locale?: 'en' | 'es'; headingLevel?: 'h1' | 'h2' }
+> = (props) => {
+  const { eyebrow, title, description, submitLabel = 'Enviar mensaje', contactInfo, sidebarTitle, sidebarDescription, socialProofText, locale = 'es', headingLevel = 'h2' } = props
+  // The standalone /contact page passes headingLevel="h1" (it's that page's main
+  // heading). On the home the block is a section below the hero's <h1>, so it
+  // defaults to <h2> — otherwise the home has two <h1>. Issue #90.
+  const Heading = headingLevel
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -78,11 +84,9 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockType & { locale
                     </span>
                   )}
                   {title && (
-                    // This is the primary heading of the /contact page, so it
-                    // must be the page's single <h1> (the page had none). META-02.
-                    <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
+                    <Heading className="text-4xl md:text-6xl font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
                       {title}
-                    </h1>
+                    </Heading>
                   )}
                   {description && (
                     <p className="text-xl text-muted-foreground mb-12 leading-relaxed font-medium">

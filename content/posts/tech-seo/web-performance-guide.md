@@ -136,3 +136,4 @@ Estas estrategias se alinean con el objetivo de **mejorar el rendimiento de una 
 
 - [Guía Técnica de Core Web Vitals 2026: Optimiza LCP, CLS e INP con Código](/blog/general/core-web-vitals-guide)
 - [Guía de Core Web Vitals 2026: La Métrica de Oro del SEO](/blog/general/core-web-vitals-guide)
+- [Guía de Core Web Vitals 2026: La Métrica de Oro del SEO](https://juan-tech.com/blog/tech-seo/core-web-vitals-guide)

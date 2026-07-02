@@ -1,7 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access/authenticated'
 
 export const GSCMetrics: CollectionConfig = {
   slug: 'gsc-metrics',
+  labels: {
+    singular: { en: 'GSC Metric', es: 'Métrica GSC' },
+    plural: { en: 'GSC Metrics', es: 'Métricas GSC' },
+  },
   admin: {
     useAsTitle: 'query',
     defaultColumns: ['date', 'page', 'query', 'clicks', 'impressions', 'indexStatus'],
@@ -12,9 +17,9 @@ export const GSCMetrics: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: () => true, // Restrict to admin/cron in production
-    update: () => true,
-    delete: () => true,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

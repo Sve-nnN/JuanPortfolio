@@ -163,7 +163,7 @@ Además de Semrush, existen otras herramientas reconocidas que también pueden s
 -   **[Google Search Console](/blog/general/xml-sitemap-automation)**: Esencial para monitorear el rendimiento del sitio directamente desde Google, permitiendo detectar problemas de indexación y análisis de tráfico.
 -   **Moz Pro**: Ofrece herramientas para el análisis de la competencia, SEO on-page y seguimiento de palabras clave.
 -   **Screaming Frog**: Ideal para un análisis técnico profundo, permite rastrear sitios web y detectar problemas de SEO on-page como redirecciones y errores 404.
--   **GTmetrix**: Enfocada en el rendimiento, analiza la velocidad de carga del sitio web y brinda recomendaciones para optimizarla.
+-   **GTmetrix**: Enfocada en el rendimiento, analiza la [velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide) del sitio web y brinda recomendaciones para optimizarla.
 
 Utilizar una combinación de estas herramientas puede proporcionar una visión más completa del estado SEO de un sitio, facilitando la identificación de problemas y la planificación de acciones correctivas. Realizar auditorías regulares con el uso de estas herramientas no solo optimiza el sitio, sino que también contribuye a mantener su relevancia en un entorno digital competitivo.
 

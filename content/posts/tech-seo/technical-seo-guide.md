@@ -56,7 +56,7 @@ Cómo afecta el SEO técnico a la visibilidad en Google
 
 Un buen SEO técnico no solo mejora la visibilidad, sino que también impacta en los rankings de búsqueda. Los factores técnicos, como la [velocidad de carga](/blog/general/web-performance-guide) y la compatibilidad móvil, son considerados por Google en su algoritmo de clasificación.
 
-Velocidad de carga: Un sitio que carga rápidamente puede obtener posiciones más altas.
+[Velocidad de carga](https://juan-tech.com/blog/tech-seo/web-performance-guide): Un sitio que carga rápidamente puede obtener posiciones más altas.
 Compatibilidad móvil: La optimización para dispositivos móviles es esencial para el ranking.
 Seguridad: La implementación de HTTPS tiene un efecto positivo en el SEO.
 Optimización de la estructura del sitio
@@ -123,7 +123,7 @@ Realizar auditorías periódicas para asegurar el cumplimiento de los estándare
 
 Los [datos estructurados](/blog/general/schema-markup-guide) permiten que los motores de búsqueda comprendan el contenido de una página de manera más eficiente. A través de un marcado específico, se mejora la visibilidad y el rendimiento en los resultados de búsqueda.
 
-Introducción a datos estructurados y su impacto en SEO
+Introducción a [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) y su impacto en SEO
 
 Implementar datos estructurados ayuda a que el contenido de la página web sea interpretado correctamente por los motores de búsqueda. Esto no solo aumenta la probabilidad de aparición en resultados enriquecidos, sino que también influye en las tasas de clics.
 
@@ -241,7 +241,7 @@ El monitoreo y análisis del rendimiento técnico del SEO son fundamentales para
 
 Uso de [Google Search Console](/blog/general/xml-sitemap-automation) para rastreo y diagnóstico
 
-Google Search Console (GSC) proporciona información valiosa sobre el rendimiento y la visibilidad de un sitio. Permite diagnosticar problemas de rastreo, como errores 404 y problemas de indexación. Algunas de sus funcionalidades clave incluyen:
+[Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation) (GSC) proporciona información valiosa sobre el rendimiento y la visibilidad de un sitio. Permite diagnosticar problemas de rastreo, como errores 404 y problemas de indexación. Algunas de sus funcionalidades clave incluyen:
 
 Verificación del estado de indexación de cada página.
 Informes sobre el rendimiento de palabras clave.
@@ -293,7 +293,7 @@ Estas directivas contribuyen a mantener la calidad del contenido accesible para 
 
 Optimización del [Crawl Budget](/blog/general/robots-txt-best-practices) para sitios extensos
 
-El Crawl Budget se refiere a la cantidad de páginas que Google puede rastrear en un sitio. Para optimizar este presupuesto en sitios amplios, se deben considerar las siguientes acciones:
+El [Crawl Budget](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices) se refiere a la cantidad de páginas que Google puede rastrear en un sitio. Para optimizar este presupuesto en sitios amplios, se deben considerar las siguientes acciones:
 
 Eliminación de contenido duplicado o de baja calidad.
 Mejorar la estructura interna de enlaces, promoviendo páginas clave.

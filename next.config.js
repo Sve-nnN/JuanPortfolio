@@ -8,6 +8,9 @@ const NEXT_PUBLIC_SERVER_URL =
     : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000')
 
 const nextConfig = {
+  // Don't advertise the stack (`x-powered-by: Next.js, Payload`). Issue #91.
+  poweredByHeader: false,
+
   // The HTML /sitemap page aggregates every published doc; even parallelized it
   // can flirt with the default 60s per-page prerender cap on slower build
   // environments (Vercel). Give static generation more headroom so the build

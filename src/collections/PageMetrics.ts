@@ -1,18 +1,25 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access/authenticated'
 
 export const PageMetrics: CollectionConfig = {
   slug: 'page-metrics',
+  labels: {
+    singular: { en: 'Page Metric', es: 'Métrica de Página' },
+    plural: { en: 'Page Metrics', es: 'Métricas de Página' },
+  },
   admin: {
     useAsTitle: 'url',
     defaultColumns: ['url', 'mobile.score', 'lastScan'],
+    group: 'SEO',
     components: {
       beforeListTable: ['@/components/admin/ScanAllButton#ScanAllButton'],
     },
   },
   access: {
     read: () => true,
-    create: () => true, // Restrict this in production to admin/cron
-    update: () => true, // Restrict this in production to admin/cron
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

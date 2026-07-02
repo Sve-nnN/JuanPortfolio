@@ -24,6 +24,7 @@ import { generateSchema } from '@/utilities/generateSchema'
 import { extractFaqsFromLexical } from '@/utilities/extractFaqs'
 import { generateFAQSchema } from '@/utilities/schema'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getCanonicalCategorySlug } from '@/utilities/postUrl'
 import type { Media as MediaType } from '@/payload-types'
 
 // ISR: prerender published posts and revalidate hourly. draftMode() stays
@@ -36,38 +37,29 @@ export const revalidate = 3600
  */
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
-  const posts = await payload.find({
-    collection: 'posts',
-    limit: 1000,
-    depth: 2,
-    draft: false,
-    where: { _status: { equals: 'published' } },
-  })
-
-  const MONGO_ID_RE = /^[0-9a-f]{24}$/i
-  const locales = ['en', 'es']
+  const locales: Array<'en' | 'es'> = ['es', 'en']
   const params: Array<{ category: string; slug: string; locale: string }> = []
 
-  for (const post of posts.docs) {
-    const categories = post.categories
-    let categorySlug = 'general'
+  // Query per locale so each locale's params use that locale's slug (a post can
+  // have a different slug per language). Issue #101 (BUG-06).
+  for (const locale of locales) {
+    const posts = await payload.find({
+      collection: 'posts',
+      limit: 1000,
+      depth: 1,
+      draft: false,
+      locale,
+      where: { _status: { equals: 'published' } },
+    })
 
-    if (categories && categories.length > 0) {
-      const firstCategory = categories[0]
-      if (typeof firstCategory === 'object' && firstCategory.slug) {
-        categorySlug = MONGO_ID_RE.test(firstCategory.slug) ? 'general' : firstCategory.slug
-      } else if (typeof firstCategory === 'string') {
-        categorySlug = MONGO_ID_RE.test(firstCategory) ? 'general' : firstCategory
-      }
-    }
-
-    locales.forEach((locale) => {
+    for (const post of posts.docs) {
+      if (!post.slug) continue
       params.push({
-        category: categorySlug,
-        slug: post.slug || post.id || '',
+        category: getCanonicalCategorySlug(post),
+        slug: post.slug,
         locale,
       })
-    })
+    }
   }
 
   return params
@@ -103,16 +95,13 @@ export default async function PostPage({
 
   const localePrefix = locale === 'es' ? '' : '/en'
 
-  // If the category segment in the URL is a raw MongoDB ObjectID, permanently
-  // redirect to the canonical URL that uses the real category slug.
-  const MONGO_ID_RE = /^[0-9a-f]{24}$/i
-  if (MONGO_ID_RE.test(category)) {
-    const realCategory = post.categories?.[0]
-    const realSlug =
-      realCategory && typeof realCategory === 'object' && realCategory.slug
-        ? realCategory.slug
-        : 'general'
-    redirect(`${localePrefix}/blog/${realSlug}/${slug}`)
+  // A post has exactly one canonical category (its first). Any other category
+  // segment — a secondary category, a raw ObjectID, or a bogus string — serves
+  // identical content under a duplicate URL that self-canonicalizes. 301 to the
+  // canonical path so signals consolidate and hreflang stays reciprocal. Issue #85.
+  const canonicalCategory = getCanonicalCategorySlug(post)
+  if (category !== canonicalCategory) {
+    redirect(`${localePrefix}/blog/${canonicalCategory}/${slug}`)
   }
 
   const { minutes } = post.content?.content ? estimateReadingTimeFromLexical(post.content.content) : { minutes: 1 }
@@ -243,14 +232,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, locale: rawLocale, category } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
+  const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
+  // Mirror the page's filter: don't emit indexable metadata for drafts. Issue #100 (BUG-05).
   const postRes = await payload.find({
     collection: 'posts',
-    where: { slug: { equals: slug } },
+    where: {
+      and: [{ slug: { equals: slug } }, ...(draft ? [] : [{ _status: { equals: 'published' } }])],
+    },
+    draft,
     limit: 1,
     depth: 2,
     locale,
   })
   const post = postRes.docs[0]
-  return generateMeta({ doc: post, locale, path: `/blog/${category}/${slug}` })
+  // Canonical + hreflang from the post's real category, never from the requested
+  // params, so every category variant points at the same canonical URL. Issue #85.
+  const canonicalCategory = post ? getCanonicalCategorySlug(post) : category
+  return generateMeta({ doc: post, locale, path: `/blog/${canonicalCategory}/${slug}` })
 }

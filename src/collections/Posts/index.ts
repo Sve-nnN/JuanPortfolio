@@ -146,12 +146,13 @@ export const Posts: CollectionConfig<'posts'> = {
           ],
         },
         {
-          label: 'Meta',
+          label: { en: 'Meta', es: 'Meta' },
           fields: [
             {
               name: 'primaryKeyword',
               type: 'relationship',
               relationTo: 'keyword-metrics',
+              localized: true,
               admin: {
                 position: 'sidebar',
               },
@@ -204,7 +205,7 @@ export const Posts: CollectionConfig<'posts'> = {
         },
         {
           name: 'searchConsole',
-          label: 'Search Console',
+          label: { en: 'Search Console', es: 'Search Console' },
           fields: [
             {
               name: 'gscData',
@@ -219,7 +220,7 @@ export const Posts: CollectionConfig<'posts'> = {
         },
         {
           name: 'internalLinks',
-          label: 'Internal Links',
+          label: { en: 'Internal Links', es: 'Enlaces Internos' },
           fields: [
             {
               name: 'internalLinksTab',
@@ -303,6 +304,16 @@ export const Posts: CollectionConfig<'posts'> = {
         position: 'sidebar',
         components: {
           Field: '@/components/admin/IndexingControl#IndexingControl',
+        },
+      },
+    },
+    {
+      name: 'keywordScorePanel',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/KeywordScorePanel#KeywordScorePanel',
         },
       },
     },

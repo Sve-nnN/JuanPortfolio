@@ -158,6 +158,15 @@ export const JsonLd = ({
       return
     }
     const { ['@context']: _ctx, ...rest } = node as Record<string, unknown>
+    // Never emit a node without an @type: a typeless node in the @graph is what
+    // schema auditors report as "Unknown" and it carries no meaning. Guards
+    // against a malformed custom page.meta.jsonLD reaching the graph. Issue #92.
+    if (!('@type' in rest) || !rest['@type']) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('JsonLd: dropped a schema node without @type', rest)
+      }
+      return
+    }
     schemas.push(rest as Schema)
   }
   if (schema) {

@@ -1,10 +1,12 @@
 import type { CollectionAfterChangeHook } from 'payload'
 import { fetchPageMetrics, saveMetricsToPayload } from '@/scripts/seo/update-cwv'
+import { resolveCanonicalCategorySlug } from '@/utilities/postUrl'
+import type { Post } from '@/payload-types'
 
 export const triggerCWVScan: CollectionAfterChangeHook = async ({
   doc, // full document data
   operation, // create / update
-  req: _req, // full express request
+  req, // full payload request
 }) => {
   // Skip during bulk content sync / seeding (syncContent.ts sets this). Firing
   // PSI per post in a bulk push rate-limits the PageSpeed API (500s) and causes
@@ -21,7 +23,10 @@ export const triggerCWVScan: CollectionAfterChangeHook = async ({
   // We need the server URL to construct the full URL
   // This hook runs on the server, so we can access env vars directly
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
-  const postUrl = `${serverUrl}/blog/${doc.slug}` // Assuming default blog path structure
+  // Use the REAL post URL (/blog/{category}/{slug}); /blog/{slug} resolves to a
+  // category listing or 404, so PSI measured the wrong page. Issue #97 (BUG-02).
+  const category = await resolveCanonicalCategorySlug(req.payload, doc as Post)
+  const postUrl = `${serverUrl}/blog/${category}/${doc.slug}`
 
   // Fire and forget - don't await this so we don't block the UI
   // Note: Vercel serverless functions might terminate if we don't await.

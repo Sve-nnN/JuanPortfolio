@@ -1,40 +1,89 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: Remediación SEO técnica (Ahrefs Site Audit)
-status: code-complete
-last_updated: "2026-06-24"
-last_activity: 2026-06-24
+milestone: v1.6
+milestone_name: Auditoría integral & remediación (SEO + código)
+status: executing
+last_updated: "2026-07-02T16:50:00.000Z"
+last_activity: 2026-07-02 — v1.6 fases 31-36 código ejecutado y verificado; fase 37 (manual) pendiente de Juan
 progress:
-  total_phases: 6
+  total_phases: 7
   completed_phases: 6
-  total_plans: 6
-  completed_plans: 6
-  percent: 100
+  total_plans: 0
+  completed_plans: 0
+  percent: 86
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-24)
+See: .planning/PROJECT.md (updated 2026-06-26)
 
-**Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación.
-**Current focus:** Milestone v1.3 — código completo (fases 15-20), pendiente PR develop→main + deploy + re-crawl Ahrefs
+**Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación. Para v1.5: el admin de Payload solo contiene código vivo y coherente.
+**Current focus:** Milestone v1.5 roadmapped (fases 25-30). Refactor brownfield del admin: verificar runtime → borrar muerto → endurecer → consistencia.
 
 ## Current Position
 
-Phase: 20 of 20 — todas completas (fases 15-20)
-Plan: autónomo (discuss→fix→verify por fase)
-Status: code-complete; pendiente validación en producción (deploy + re-crawl)
-Last activity: 2026-06-24 — Ejecución autónoma v1.3 completa en rama seo/wikilink-remediation
+Phase: v1.6 fases 31-36 (código) COMPLETADAS y verificadas; fase 37 (manual/Juan) pendiente
+Plan: —
+Status: Código en branch `fix/v1.6-audit-remediation` (sin mergear a main). tsc 112 (baseline, 0 en src/), 779 tests verdes.
+Last activity: 2026-07-02 — remediación de código v1.6 completa; acciones manuales en JUAN-ACTIONS.md
 
-Progress: [██████████] 100% (código); validación Ahrefs pendiente post-deploy
+## Milestone v1.6 — Ejecución
+
+Branch: `fix/v1.6-audit-remediation`. 23 issues creados (#85-#107) + #12 comentado.
+
+| Fase | Issues | Estado |
+|------|--------|--------|
+| 31 Routing canónico blog | #85 #96 #97 #101 #98 #100 | ✅ código + cerrados |
+| 32 Sitemap & huérfanos | #89 (fixed), #88 (decisión Juan) | ✅ código; #88 abierto (dato) |
+| 33 Metadata/OG/schema | #86 #90 #92 | ✅ código + cerrados |
+| 34 Resiliencia runtime | #87 #93 #94 | ✅ código + cerrados |
+| 35 Bugs restantes | #99 #91 | ✅ código + cerrados |
+| 36 Performance LCP | #95 | ⚠️ levers seguros ya existían; resto = Juan (abierto) |
+| 37 Manual & verificación | #102 #103 #104 #105 #106 #107 #12 #88 #95 | ⏳ pendiente Juan (JUAN-ACTIONS.md) |
+
+**Issues cerrados (código, 12):** #85 #86 #87 #90 #91 #92 #93 #94 #96 #97 #98 #99 #100 #101.
+**Abiertos para Juan (11):** #12 #88 #95 #102 #103 #104 #105 #106 #107 (+ manual/contenido).
+
+**Próximo paso:** abrir PR de la branch → preview Vercel (build + verificación real) → mergear → re-crawl. Ver `.planning/research/audit-jul2026/JUAN-ACTIONS.md`.
+
+## Milestone v1.5 — Estructura de fases (histórico)
+
+## Milestone v1.5 — Estructura de fases
+
+| Phase | Goal | Requirements | Gate |
+|-------|------|--------------|------|
+| 25 | Verificación runtime de integraciones (Ahrefs/DinoRank/Indexing/GSC) | VERIFY-01 | Gate humano: Juan valida en `pnpm dev` antes de borrar nada |
+| 26 | Retirar plugin SEO fantasma preservando 4 módulos vivos | CLEAN-01 | tsc/vitest/admin verdes |
+| 27 | Colapsar `domains/` + borrar backups/re-exports | CLEAN-02, CLEAN-03 | tsc/vitest/admin verdes |
+| 28 | Limpieza de scripts one-off | SCRIPT-01 | package.json intacto, build verde |
+| 29 | Accesos endurecidos + assets unificados | SEC-01, ASSET-01 | cron sigue, imágenes 200 |
+| 30 | Consistencia admin (group/labels/nav) | CONSIST-01/02/03 | cosmético, tests verdes |
+
+**Constante brownfield (todas las fases 26-30):** no introducir errores nuevos de tsc sobre el baseline (114), tests verdes (775+), admin arranca tras regenerar el importMap.
+
+## Validaciones visuales pendientes (diferidas por Juan)
+
+- Fase 22: semáforo Yoast en sidebar (checklist en 22-VERIFICATION.md)
+- Fase 23: vista admin de cobertura (checklist en 23-VERIFICATION.md)
+
+## Deferred Items
+
+Items acknowledged y diferidos al cierre del milestone v1.5 (2026-06-26):
+
+| Category | Item | Status |
+|----------|------|--------|
+| verification | VERIFY-01 — gate runtime integraciones (Ahrefs/DinoRank/Indexing/GSC) | human_needed (checklist en 25-RUNTIME-CHECKLIST.md) |
+| requirement | ASSET-01 — migración storage Blob→Cloudinary | deferred a milestone propio (riesgo prod) |
+| verification | Fases 03/04/10 (milestones viejos) — visual | human_needed (ya shipped) |
+| verification | Fases 22/23 (v1.4) — visual admin | human_needed (diferido) |
 
 ## Performance Metrics
 
-**Velocity:**
-- Total plans completed: 0 (v1.3)
+**Velocity (v1.4 reference):**
+
+- Total plans completed: 4 fases / 7 plans (v1.4, fases 21-24)
 - Average duration: —
 - Total execution time: —
 
@@ -42,21 +91,31 @@ Progress: [██████████] 100% (código); validación Ahrefs pe
 
 ## Accumulated Context
 
-### Decisions
+### Decisions (v1.5)
 
-- **Causa raíz #1 primero:** `build-internal-links.ts` / `LinkInjector.ts` emiten `[[wikilink]]` crudo → explica 94 broken links + 159 broken images. Fix en Phase 15 antes de todo.
-- **`<html lang>` fijo en root + corrección cliente para `/en`:** El root layout no recibe locale por param; corrección cosmética aceptada.
-- **Ahrefs MCP insuficiente:** URLs afectadas se derivan del snapshot de crawl + grep del repo. Validación schema.org via MCP `schema-org` de mcp-hub.
+- **VERIFY-01 como gate primero (Phase 25):** Confirmar en runtime qué integraciones (Ahrefs/DinoRank/Indexing/GSC) funcionan ANTES de borrar código dependiente. Es checklist humano; Juan valida con credenciales reales en `pnpm dev` y el veredicto se registra aquí antes de tocar nada.
+- **CLEAN-01 conserva 4 módulos vivos (Phase 26):** Al borrar `src/plugins/seo/` se preservan y reubican `seoAnalyzer.ts`, `keywordCoverageAudit.ts`, `fields/seoFields.ts`, `types/keywordScore.ts` (destino propuesto `src/lib/seo/`). Consumidores que deben seguir vivos: `/api/seo/keyword-score`, `/api/seo/keyword-coverage`, `KeywordScorePanel`, `KeywordCoverageView`, script `audit-keywords`, `seoFields` en Users/Categories.
+- **CLEAN-02 mueve solo AdBanner (Phase 27):** El único vivo de `src/domains/**` es `ad-banners/domain/AdBanner.ts` (importado en `payload.config.ts:21`). Se mueve a `src/collections/`, se repunta la config y se borra el resto de `domains/`.
+- **SEC + ASSET juntos (Phase 29):** Son los dos cambios de comportamiento (no solo borrado); se agrupan porque ambos requieren verificación funcional (cron sigue escribiendo métricas; imágenes existentes siguen sirviéndose).
+- **CONSIST al final (Phase 30):** Cosmético (group/labels/nav) tras la limpieza estructural.
+
+### Decisions (v1.4, contexto previo)
+
+- **Reusa `seoAnalyzer.ts`:** El scorer del semáforo extiende `seoAnalyzer.ts` (módulo vivo que la Phase 26 debe preservar al reubicarlo).
+- **primaryKeyword localizado es/en en las 4 colecciones (24-01):** `localized: true` en Posts/Pages/Categories/Users; Mongo schemaless → sin migración.
 
 ### Blockers/Concerns
 
-- **Validación pendiente (humano):** nada está verificado en producción hasta PR develop→main + deploy Vercel + re-crawl Ahrefs. El sitio live aún muestra el comportamiento viejo.
-- **Partials (necesitan lista de URLs de Ahrefs, MCP Site Audit en plan insuficiente):** META-03 (titles cortos), META-04 (los 6 OG marcados), parte de META-01 (3er H1 missing, otras meta desc cortas), PERF-02 (6 slow pages), y los 14 schema errors exactos. Todo el schema que emite el sitio valida sin errores en mcp-hub.
-- **6 posts sin publicar** desenlazados (nextjs-portfolio, payloadcms-vs-strapi, payloadcms-tutorial, nextjs-server-components, payloadcms-seo, typescript-best-practices): los .md existen pero no están en Payload/sitemap. Publicarlos y re-enlazar es trabajo aparte.
-- **HREF-01** es corrección cliente/JS-render (trade-off documentado); raw HTML /en sigue lang=es.
+- **Baseline tsc 114 errores + 775+ tests:** Toda fase de limpieza (26-30) se mide contra este baseline: 0 errores nuevos, tests verdes, admin arranca con importMap regenerado.
+- **Gate Phase 25 pendiente:** No iniciar el borrado (fases 26+) hasta que Juan firme el checklist de integraciones con credenciales reales (caveats conocidos: login DinoRank, OAuth GSC, API key Ahrefs/Indexing).
+- **Overlap Cloudinary vs Vercel Blob:** Media usa Blob como storage real pero conviven botones Cloudinary; ASSET-01 (Phase 29) debe elegir una y borrar la otra sin romper imágenes existentes.
 
 ## Session Continuity
 
-Last session: 2026-06-24
-Stopped at: v1.3 code-complete (fases 15-20) en rama seo/wikilink-remediation. Siguiente: PR develop→main, deploy, re-crawl Ahrefs para validar.
+Last session: 2026-06-26T19:10:00.000Z
+Stopped at: Roadmap v1.5 creado (fases 25-30, cobertura 10/10).
 Resume file: None
+
+## Operator Next Steps
+
+- Start the next milestone with /gsd:new-milestone

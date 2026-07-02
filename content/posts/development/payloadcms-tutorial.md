@@ -126,3 +126,8 @@ Adhering to these best practices can significantly enhance the reliability and p
 - SEO en Payload CMS 2026: Guía de Configuración Técnica
 - Payload CMS vs Strapi 2026: ¿Cuál es el mejor Headless?
 - Mejores Prácticas de TypeScript 2026: Guía para Profesionales
+- [Cómo Crear un Portfolio con Next.js 2026: Guía Completa](https://juan-tech.com/blog/development/nextjs-portfolio)
+- [Next.js Server Components 2026: Guía Maestra de Arquitectura](https://juan-tech.com/blog/development/nextjs-server-components)
+- [SEO en Payload CMS 2026: Guía de Configuración Técnica](https://juan-tech.com/blog/development/payloadcms-seo)
+- [Payload CMS vs Strapi 2026: ¿Cuál es el mejor Headless?](https://juan-tech.com/blog/development/payloadcms-vs-strapi)
+- [Mejores Prácticas de TypeScript 2026: Guía para Profesionales](https://juan-tech.com/blog/development/typescript-best-practices)

@@ -18,7 +18,7 @@ import { Users } from './collections/Users'
 import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
 import Clientes from './collections/Clientes'
-import { AdBannersCollection } from './domains/content/ad-banners/domain/AdBanner'
+import { AdBannersCollection } from './collections/AdBanners'
 import Testimonials from './collections/Testimonials'
 import { KeywordMetrics } from './collections/KeywordMetrics'
 import { PageMetrics } from './collections/PageMetrics'
@@ -48,11 +48,18 @@ export default buildConfig({
         '@/components/admin/DomainRatingCard#DomainRatingCard',
         '@/components/admin/GSCSummary#GSCSummary',
       ],
-      afterNavLinks: ['@/components/admin/GSCDashboardLink#GSCDashboardLink'],
+      afterNavLinks: [
+        '@/components/admin/GSCDashboardLink#GSCDashboardLink',
+        '@/components/admin/KeywordCoverageLink#KeywordCoverageLink',
+      ],
       views: {
         GSCDashboard: {
           Component: '@/components/admin/GSCDashboard#GSCDashboard',
           path: '/gsc-dashboard',
+        },
+        KeywordCoverage: {
+          Component: '@/components/admin/KeywordCoverageView#KeywordCoverageView',
+          path: '/keyword-coverage',
         },
       },
     },

@@ -45,8 +45,15 @@ export function getCloudinaryOgWithTitle(url: string, title: string): string {
   const publicId = segments.slice(pidStart).join('/')
 
   // Truncate long titles and URL-encode for the Cloudinary text parameter.
+  // In an l_text layer, `,` and `/` are transformation-parameter separators.
+  // Cloudinary decodes the URL once before parsing the transform, so a single
+  // encode (`%2C`/`%2F`) decodes back to a raw separator and yields HTTP 400 —
+  // they must be DOUBLE-encoded (`%252C`/`%252F`) to survive as literal text.
+  // Titles with commas ("tipos, BST, AVL…") broke og:image across the blog. Issue #86.
   const truncated = title.length > 65 ? `${title.slice(0, 62)}...` : title
   const encodedTitle = encodeURIComponent(truncated)
+    .replace(/%2C/g, '%252C')
+    .replace(/%2F/g, '%252F')
 
   // Step 1 — base resize
   const baseTransform = 'w_1200,h_630,c_fill,g_auto,f_jpg,q_auto'

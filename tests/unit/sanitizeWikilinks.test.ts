@@ -18,6 +18,15 @@ describe('sanitizeWikilinks', () => {
     expect(body).toBe('- [Technical SEO](https://x.com/a) Guide')
   })
 
+  it('collapses double-wrapped links [[Text](url1)](url2) -> [Text](url1)', () => {
+    const { body, stripped } = sanitizeWikilinks(
+      'la [[velocidad](https://x.com/a)](/blog/general/a) importa',
+    )
+    expect(body).toBe('la [velocidad](https://x.com/a) importa')
+    expect(stripped).toBe(1)
+    expect(body.includes('[[')).toBe(false)
+  })
+
   it('leaves real markdown links untouched', () => {
     const input = 'see [SEO](/blog/seo/estrategia-seo) now'
     expect(sanitizeWikilinks(input).body).toBe(input)

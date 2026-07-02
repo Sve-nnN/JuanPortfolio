@@ -8,16 +8,20 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: v1.3 Remediación SEO técnica (Ahrefs Site Audit)
+## Current Milestone: v1.6 Auditoría integral & remediación (SEO + código) — jul 2026
 
-**Goal:** Cerrar las 35 categorías de issues del Site Audit de Ahrefs (project 7702617), atacando primero la causa raíz que genera ~80% del daño: wikilinks `[[slug|label]]` filtrándose crudos a hrefs e imágenes renderizadas.
+**Goal:** Auditar el sitio completo (crawl SEO fresco + revisión de código local), consolidar hallazgos en issues de GitHub accionables (error → causa → fix) y remediarlos cerrando cada uno.
 
 **Target features:**
-- Arreglar el sistema de internal-linking para que NUNCA emita `[[...]]` crudo (causa de broken links + broken images) y sanear el contenido ya publicado
-- Eliminar 404/4XX por links a posts inexistentes, categorías equivocadas y contenido de test; encadenar redirects legacy `/posts/*`
-- Corregir hreflang ↔ `<html lang>` por locale e imágenes rotas (incl. portrait vía `_next/image` 400)
-- Sanear indexabilidad: noindex fuera del sitemap, indexables dentro, robots.txt accesible, canonicals con inlinks
-- On-page: meta descriptions, H1 único, titles, Open Graph; datos estructurados sin errores schema.org; reducir peso de página
+- HTTP/recursos: corregir 4 páginas internas con error HTTP, 1 enlace externo roto, 2 recursos rotos (img + JS)
+- Duplicados/hreflang: consolidar 13 grupos de contenido duplicado exacto + 15 return-links hreflang faltantes
+- Schema/AEO: schemas de alto impacto (Person/ProfessionalService/Article/FAQPage) + datos estructurados orientados a IA + `llms.txt` estructurado
+- On-page: home con 2 H1 → 1 H1
+- Performance: LCP 4446ms→<2500ms, habilitar medición INP, Lighthouse 79→90+
+- Arquitectura interna: enlazado interno de 4 páginas huérfanas del sitemap
+- Code audit: bugs/errores en código Next/Payload → issues + fix
+
+Base: reporte SEO jul-2026 (14 hallazgos) + crawl fresco (SEO skills) + auditoría de código local.
 
 ## Requirements
 
@@ -33,25 +37,30 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 - ✓ CWV: Calendly diferido, imágenes right-sized, fix del gate de LCP → Perf 36→82, LCP 8.6→4.1s — v1.1
 - ✓ A11y footer + Ahrefs CSP → A11y 96, Best Practices 100 — v1.1
 - ✓ Cobertura GA4 completa vía dataLayer/GTM (conversiones + engagement), delegación global por `data-analytics`, doc GTM — v1.2
+- ✓ Remediación SEO técnica Ahrefs: wikilinks saneados + guard, links/imágenes/hreflang/sitemap/H1/OG/schema, author page peso, widget DR — v1.3 (pendiente re-crawl)
+- ✓ Keyword objetivo (`primaryKeyword`→keyword-metrics, localizado es/en) en Pages, Categorías y Autores (Posts ya lo tenían) — v1.4
+- ✓ Semáforo estilo Yoast en el sidebar del editor: 7 checks + score 0-100 ponderado, recálculo en vivo, stemming es/en (reusa `seoAnalyzer.ts`) — v1.4
+- ✓ Auditoría de cobertura repetible (script `audit:keywords` + vista admin, locale-aware) — v1.4
+- ✓ Keywords pobladas desde DinoRank: 136/136 mapeadas por locale + stubs needs-research — v1.4 (validación visual admin de 22/23 diferida)
+
+- ✓ Limpieza del admin: plugin SEO fantasma + 2 árboles DDD (`domains/`+`domain/`) + 12 scripts one-off + backups eliminados (~50 archivos) — v1.5
+- ✓ Accesos de colecciones de métricas endurecidos a `authenticated`; consistencia admin (group SEO, labels bilingües, nav sin emoji) — v1.5
 
 ### Active
 
-<!-- Scope actual. Milestone v1.3 — Remediación SEO técnica (Ahrefs Site Audit). -->
+<!-- Scope v1.6 — auditoría integral & remediación. REQ-IDs en REQUIREMENTS.md. -->
 
-- [ ] Internal-linking nunca emite `[[...]]` crudo; contenido publicado saneado (broken links/images resueltos)
-- [ ] 404/4XX a cero: links a posts inexistentes, categorías equivocadas, contenido de test, redirects legacy `/posts/*`
-- [ ] hreflang ↔ `<html lang>` consistente por locale; imágenes rotas resueltas (incl. portrait `_next/image` 400)
-- [ ] Indexabilidad: noindex fuera del sitemap, indexables dentro, robots.txt accesible, canonical con inlinks
-- [ ] On-page (meta desc, H1 único, titles, OG) + schema.org sin errores de validación + peso de página bajo límites
-- [ ] Widget de Domain Rating en el admin (endpoint público free de Ahrefs, 1/día cacheado, atribución de licencia)
+- Milestone v1.6: remediación de hallazgos del reporte SEO jul-2026 + crawl fresco + auditoría de código (issues de GitHub error/causa/fix, fix + close)
+
+**Diferidos de v1.5:** VERIFY-01 (gate runtime, checklist listo) · ASSET-01 (migración storage Blob→Cloudinary, milestone propio)
 
 ### Out of Scope
 
 <!-- Límites explícitos. -->
 
-- Rehacer la estrategia de internal-linking (keywords/anchors) — solo se arregla la emisión rota y se sanea, no se rediseña la lógica de selección
-- Reescribir o expandir contenido por calidad/E-E-A-T — este milestone es técnico, no editorial
-- Cambiar el modelo de contenido de Payload — no relacionado con los issues del audit
+- Rehacer el keyword research desde cero (se usa el existente de DinoRank)
+- Optimización on-page automática del contenido (el semáforo informa, no reescribe)
+- Cambiar el modelo de `keyword-metrics` más allá de relacionarlo con Pages
 - Rediseño visual del Header/Footer
 
 ## Context
@@ -76,6 +85,10 @@ Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el
 | `<html lang="es">` fijo en root + corrección cliente para `/en` | El root layout no recibe locale por param; evita `headers()` | — Pending |
 | Mover chrome y locale a nuevo `[locale]/layout.tsx` | Layout dentro de `[locale]` recibe param → apto ISR | — Pending |
 | Reescribir `/` → `/es` en middleware y borrar `(frontend)/page.tsx` | Home ES hereda el chrome del `[locale]/layout.tsx` | — Pending |
+| Semáforo Yoast: análisis server-side, UI dependency-light (v1.4) | `natural` (stemmer es/en) no debe bundlearse en el admin; endpoint debounced | ✓ Good |
+| `primaryKeyword` localizado es/en en las 4 colecciones (v1.4) | Sitio bilingüe → keyword distinta por locale; Mongo schemaless sin migración | ✓ Good |
+| Lógica de checks/auditoría sobre `seoAnalyzer.ts` (fuente única) (v1.4) | Panel y auditoría comparten el motor → sin drift | ✓ Good |
+| `fallbackLocale: false` en lecturas por-locale (v1.4) | Evita que el fallback es contamine la cobertura/no-clobber en en | ✓ Good |
 
 ## Evolution
 
@@ -95,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-24 — milestone v1.3 (remediación SEO técnica, Ahrefs Site Audit); v1.2 GA4 cerrado*
+*Last updated: 2026-07-02 — v1.6 (auditoría integral & remediación SEO+código) iniciado*

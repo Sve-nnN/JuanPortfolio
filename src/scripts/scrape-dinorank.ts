@@ -353,7 +353,7 @@ class DinoRankApiClient {
  * Creates a new DinoRank account using pure HTTP (no browser).
  * Optimized for speed and reliability.
  */
-export async function createDinoRankAccount(): Promise<{ email: string; password: string }> {
+export async function createDinoRankAccount(language: string = 'es', country: string = 'ES'): Promise<{ email: string; password: string }> {
   const email = `${randomStr(8)}${randomStr(4)}@gmail.com`
   const password = randomPassword()
   const registerUrl = 'https://dinorank.com/registro/?codPromo=dinoTrial25'

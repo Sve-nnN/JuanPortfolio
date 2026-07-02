@@ -14,20 +14,51 @@ type Props = {
   params: Promise<{ slug: string, locale: string }>
 }
 
+// ISR: prerender author pages and revalidate hourly. Prevents the per-request
+// Payload cold-start that returned intermittent 500s on /authors/[slug]. Issue #87.
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const users = await payload.find({
+      collection: 'users',
+      limit: 100,
+      pagination: false,
+      select: { slug: true },
+    })
+    const locales = ['es', 'en']
+    return users.docs
+      .filter((u) => u.slug)
+      .flatMap((u) => locales.map((locale) => ({ slug: u.slug as string, locale })))
+  } catch (error) {
+    console.error('authors generateStaticParams failed:', error)
+    return []
+  }
+}
+
 const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'users',
-    limit: 1,
-    where: { or: [{ slug: { equals: slug } }, { id: { equals: slug } }] },
-    pagination: false,
-    depth: 2,
-    locale,
-  })
-  return res.docs?.[0] || null
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const res = await payload.find({
+      collection: 'users',
+      limit: 1,
+      where: { or: [{ slug: { equals: slug } }, { id: { equals: slug } }] },
+      pagination: false,
+      depth: 2,
+      locale,
+    })
+    return res.docs?.[0] || null
+  } catch (error) {
+    // A transient DB/cold-start failure must not 500 the whole route; ISR will
+    // re-attempt on the next revalidation. Issue #87.
+    console.error('queryUserBySlug failed:', error)
+    return null
+  }
 }
 
 const queryPostsByAuthor = async (authorId: string, locale?: 'en' | 'es') => {
+  try {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
     collection: 'posts',
@@ -53,6 +84,10 @@ const queryPostsByAuthor = async (authorId: string, locale?: 'en' | 'es') => {
     },
   })
   return res.docs || []
+  } catch (error) {
+    console.error('queryPostsByAuthor failed:', error)
+    return []
+  }
 }
 
 export async function generateMetadata({
@@ -119,6 +154,20 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
     knowsAbout: expertise as string[],
     alumniOf,
   })
+  // Stable @id so the ProfilePage (and site-wide BlogPosting.author refs) can
+  // point at this Person entity. Issue #87.
+  ;(personSchema as Record<string, unknown>)['@id'] = `${authorUrl}#person`
+
+  // ProfilePage wraps the author's Person entity — the schema type Google
+  // recommends for author/profile pages. Issue #87.
+  const profilePageSchema = {
+    '@type': 'ProfilePage',
+    '@id': `${authorUrl}#profilepage`,
+    url: authorUrl,
+    name: user.name || undefined,
+    dateModified: (user as { updatedAt?: string }).updatedAt || undefined,
+    mainEntity: { '@id': `${authorUrl}#person` },
+  }
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -145,7 +194,7 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
     ],
   }
 
-  const combinedSchema = mergeSchemas([personSchema, breadcrumbSchema])
+  const combinedSchema = mergeSchemas([profilePageSchema, personSchema, breadcrumbSchema])
 
   return (
     <>

@@ -81,8 +81,7 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
               Blog
             </span>
           </nav>
-
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-display font-bold text-white drop-shadow-2xl leading-[0.9] tracking-tighter">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white drop-shadow-2xl leading-[0.9] tracking-tighter">
             {title}
           </h1>
 

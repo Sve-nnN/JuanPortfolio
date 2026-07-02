@@ -39,7 +39,7 @@ Los **[datos estructurados](/blog/general/schema-markup-guide) SEO** son una for
 
 ### El papel de Schema.org en el marcado semántico
 
-Schema.org es el vocabulario estandarizado que se utiliza para crear datos estructurados, y es fundamental en la implementación de **datos estructurados SEO**. Este vocabulario, desarrollado por los principales motores de búsqueda, como Google, Bing y Yahoo, ofrece una amplia gama de tipos y propiedades que se pueden utilizar para marcar el contenido. Su adopción permite que los webmasters comuniquen información clave sobre sus productos, servicios y contenido, mejorando así la relevancia y el contexto del sitio web. Al utilizar Schema.org, los sitios pueden beneficiarse de resultados más atractivos en las SERPs, lo que puede resultar en un incremento significativo en la visibilidad y en la tasa de clics.
+Schema.org es el vocabulario estandarizado que se utiliza para crear [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide), y es fundamental en la implementación de **datos estructurados SEO**. Este vocabulario, desarrollado por los principales motores de búsqueda, como Google, Bing y Yahoo, ofrece una amplia gama de tipos y propiedades que se pueden utilizar para marcar el contenido. Su adopción permite que los webmasters comuniquen información clave sobre sus productos, servicios y contenido, mejorando así la relevancia y el contexto del sitio web. Al utilizar Schema.org, los sitios pueden beneficiarse de resultados más atractivos en las SERPs, lo que puede resultar en un incremento significativo en la visibilidad y en la tasa de clics.
 
 ### Tipos de formatos para implementar datos estructurados
 

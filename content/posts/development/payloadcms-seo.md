@@ -47,7 +47,7 @@ Exploraremos cómo su potente API y funcionalidades específicas facilitan la ge
 
 ## Payload CMS y su arquitectura para SEO
 
-[Payload CMS](/blog/development/payload-cms-guide), siendo un sistema de gestión de contenido headless, se ha diseñado no solo para facilitar la creación y gestión de contenido, sino también para optimizar ese contenido para motores de búsqueda de manera efectiva. Su arquitectura moderna y flexible permite a los desarrolladores construir aplicaciones que cumplen con los estándares SEO más exigentes, adaptándose a las necesidades y estrategias de marketing digital actuales.
+[Payload CMS](/blog/development/payload-cms-guide), siendo un sistema de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) headless, se ha diseñado no solo para facilitar la creación y gestión de contenido, sino también para optimizar ese contenido para motores de búsqueda de manera efectiva. Su arquitectura moderna y flexible permite a los desarrolladores construir aplicaciones que cumplen con los estándares SEO más exigentes, adaptándose a las necesidades y estrategias de marketing digital actuales.
 
 ### Características clave de Payload CMS para optimización
 
@@ -111,7 +111,7 @@ El **renderizado del lado del servidor (SSR)** es una técnica que permite carga
 
 Los Core Web Vitals son métricas vitales que Google utiliza para evaluar la experiencia del usuario en un sitio web. Estas métricas incluyen la velocidad de carga, la interactividad y la estabilidad visual. Con Payload CMS y Next.js, se pueden implementar optimizaciones específicas que impacten directamente en estas métricas:
 
--   **Optimización de imágenes:** Utilizar formatos de imagen modernos como WebP y técnicas de carga diferida asegurará que solo se carguen las imágenes cuando sean visibles para el usuario, lo que reduce el tiempo de carga total.
+-   **[Optimización de imágenes](https://juan-tech.com/blog/development/nextjs-portfolio):** Utilizar formatos de imagen modernos como WebP y técnicas de carga diferida asegurará que solo se carguen las imágenes cuando sean visibles para el usuario, lo que reduce el tiempo de carga total.
 -   **Minificación y compresión de recursos:** Aplicar técnicas de minificación en CSS y JavaScript mediante Next.js podrá reducir el tamaño de los archivos, contribuyendo a un tiempo de respuesta más rápido.
 -   **Aprovechar el almacenamiento en caché:** Emplear estrategias de caching para optimizar la entrega de contenido y reducir la carga en el servidor, mejorando así la experiencia general del usuario.
 
@@ -129,3 +129,4 @@ Implementar estas estrategias avanzadas al utilizar Payload CMS junto con Next.j
 
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
+- [Tutorial de Payload CMS 2026: Guía Complete de Desarrollo](https://juan-tech.com/blog/development/payloadcms-tutorial)

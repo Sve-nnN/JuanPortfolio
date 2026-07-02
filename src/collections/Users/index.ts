@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { slugField } from '@/fields/slug'
-import { seoFields } from '@/plugins/seo/fields/seoFields'
+import { seoFields } from '@/utilities/seo/seoFields'
 
 import type { CollectionBeforeChangeHook } from 'payload'
 
@@ -245,6 +245,19 @@ export const Users: CollectionConfig = {
                 components: {
                   Field: '@/components/admin/LiveUrlLink',
                 },
+              },
+            },
+            {
+              name: 'primaryKeyword',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              localized: true,
+              label: {
+                en: 'Target Keyword',
+                es: 'Keyword Objetivo',
+              },
+              admin: {
+                position: 'sidebar',
               },
             },
           ],

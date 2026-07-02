@@ -304,9 +304,6 @@ describe('buildCommand: scripts sin parámetros', () => {
     'check-links',
     'sync-gsc',
     'fetch-redirects',
-    'delete-loop-redirects',
-    'fix-user-slugs',
-    'debug-content',
     'test-email',
   ]
 

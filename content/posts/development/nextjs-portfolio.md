@@ -89,7 +89,7 @@ Next.js, al estar basado en React, permite la construcción de componentes reuti
 
 ### Integración de contenido dinámico y manejo de imágenes
 
-Para mantener el contenido actualizado y dinámico, se puede integrar un sistema de gestión de contenido (CMS) o utilizar archivos Markdown. La gestión adecuada de imágenes es clave, no solo desde el punto de vista estético, sino también para optimizar el rendimiento. Utilizar **optimización de imágenes** en Next.js, como el componente `next/image`, ayuda a garantizar que las imágenes se carguen de manera eficiente y rápida, mejorando así la experiencia del usuario.
+Para mantener el contenido actualizado y dinámico, se puede integrar un sistema de [gestión de contenido](https://juan-tech.com/blog/development/payloadcms-vs-strapi) (CMS) o utilizar archivos Markdown. La gestión adecuada de imágenes es clave, no solo desde el punto de vista estético, sino también para optimizar el rendimiento. Utilizar **optimización de imágenes** en Next.js, como el componente `next/image`, ayuda a garantizar que las imágenes se carguen de manera eficiente y rápida, mejorando así la experiencia del usuario.
 
 ### Despliegue eficiente en plataformas especializadas
 
@@ -128,3 +128,4 @@ Al momento de elegir una plantilla para tu portafolio en Next.js, es importante 
 
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
 - Tutorial de Payload CMS 2026: Guía Complete de Desarrollo
+- [Tutorial de Payload CMS 2026: Guía Complete de Desarrollo](https://juan-tech.com/blog/development/payloadcms-tutorial)

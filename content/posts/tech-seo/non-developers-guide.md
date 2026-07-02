@@ -198,4 +198,4 @@ En resumen, el futuro de la documentación técnica se orienta hacia un enfoque 
 
 ## Ver también
 
-- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

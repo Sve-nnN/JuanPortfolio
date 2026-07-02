@@ -188,7 +188,7 @@ export const Pages: CollectionConfig<'pages'> = {
         },
         {
           name: 'searchConsole',
-          label: 'Search Console',
+          label: { en: 'Search Console', es: 'Search Console' },
           fields: [
             {
               name: 'gscData',
@@ -197,6 +197,32 @@ export const Pages: CollectionConfig<'pages'> = {
                 components: {
                   Field: '@/components/admin/GSCField#GSCField',
                 },
+              },
+            },
+          ],
+        },
+        {
+          label: {
+            en: 'Meta',
+            es: 'Meta',
+          },
+          fields: [
+            {
+              name: 'primaryKeyword',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              localized: true,
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'semanticKeywords',
+              type: 'relationship',
+              relationTo: 'keyword-metrics',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
               },
             },
           ],
@@ -220,6 +246,16 @@ export const Pages: CollectionConfig<'pages'> = {
       },
       custom: {
         collection: 'pages',
+      },
+    },
+    {
+      name: 'keywordScorePanel',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/KeywordScorePanel#KeywordScorePanel',
+        },
       },
     },
     {

@@ -1,106 +1,100 @@
-# Requirements: JuanPortfolio — Milestone v1.3 (Remediación SEO técnica · Ahrefs Site Audit)
+# Requirements — Milestone v1.6 (Auditoría integral & remediación SEO+código)
 
-**Defined:** 2026-06-24
-**Core Value:** Las páginas públicas se sirven rápido y cacheables desde el edge; el SEO técnico no puede emitir basura (links/imágenes rotos, hreflang inconsistente) que degrade indexación y ranking.
+Derivado de: reporte SEO jul-2026 + crawl fresco (SEO skills) + auditoría de código local.
+Detalle y evidencia: `.planning/research/audit-jul2026/` (01-technical, 02-schema, 03-performance, 04-geo, 05-code-rootcause, 06-code-bugs, SUMMARY).
 
-**Entrega:** El sitio crawleado por Ahrefs/Googlebot deja de exponer wikilinks `[[...]]` crudos, 404/4XX por links internos malos, imágenes rotas, hreflang/lang inconsistente y errores de schema. Las 35 categorías del audit bajan a cero (o a un residual justificado y documentado).
+Convención severidad ↔ label GitHub: `seo:critical/high/medium/low`, `code/bug`, bloque `seo/technical|schema|performance|content|geo|sitemap|infra`, tanda `audit-jul2026`.
 
-**Baseline (audit 2026-06-24T15:26:07Z, project 7702617):** 35 categorías. Causa raíz #1 = internal-linking emite `[[slug|label]]` crudo. La API de Site Audit de Ahrefs vía MCP devuelve `Insufficient plan`, así que las URLs afectadas se derivan del snapshot de crawl pegado + grep del repo. Validación de schema.org se hará con el MCP `schema-org` de mcp-hub.
+## v1.6 Requirements
 
-## v1 Requirements
+### SEO Técnico (routing / canonical / indexación)
+- [ ] **TECH-01** (crítico): La ruta `/blog/[category]/[slug]` valida la categoría — si `params.category` ≠ categoría real del post, responde 301 a la canónica (o 404); canonical y `alternates.languages` se derivan de la categoría real en Payload, no de `params`. Elimina los duplicados y corrige la reciprocidad hreflang.
+- [ ] **TECH-02** (alto): Las og:image de Cloudinary devuelven 200 en todos los posts (doble-codificar `,` y `/` en el overlay `l_text`).
+- [ ] **TECH-03** (medio): `/authors/[slug]` no lanza 500 en cold-start (query envuelta en try/catch + cache) y emite ProfilePage/Person.
+- [ ] **TECH-04** (medio): El `posts-sitemap.xml` incluye los 3 posts publicados+enlazados hoy ausentes (`cs-fundamentals/experiencia-de-usuario`, `cs-fundamentals/sql-vs-nosql`, `seo/guia-eeat`).
+- [ ] **TECH-05** (medio): Los 5 posts `/blog/general/*` huérfanos reciben ≥1 enlace interno entrante (listado de categoría completo).
+- [ ] **TECH-06** (medio): La home tiene exactamente 1 H1 (`ContactFormBlock` con `headingLevel` configurable, default h2; h1 solo en `/contact`).
+- [ ] **TECH-07** (bajo): `poweredByHeader: false` en `next.config` (no filtrar stack).
 
-### LINKS — Integridad de enlaces internos
+### Datos estructurados
+- [ ] **SCH-01** (medio): El JSON-LD por página se consolida en un `@graph` único con `@type` reconocibles (no más "Unknown"); sin duplicar `@id`.
 
-- [ ] **LINKS-01**: El pipeline de internal-linking (`build-internal-links.ts` / `LinkInjector.ts`) nunca escribe `[[slug|label]]` crudo en el contenido publicado; toda referencia se resuelve a un link válido con su URL canónica (categoría y locale correctos) o se omite
-- [ ] **LINKS-02**: El contenido ya publicado (markdown + Payload) se sanea: cero ocurrencias de `[[` / `]]` en el HTML renderizado de cualquier página
-- [ ] **LINKS-03**: Cero links internos a posts inexistentes; cada anchor interno apunta a una URL que responde 200 (resolver casos como `typescript-best-practices`, `payloadcms-tutorial`, `nextjs-server-components`, `payloadcms-vs-strapi` por locale)
-- [ ] **LINKS-04**: Los links internos usan la ruta con categoría correcta (ej. `/blog/cs-fundamentals/tablas-hash`, no `/blog/tablas-hash`) y el prefijo de locale correcto (`/en/...` solo si existe la traducción)
-- [ ] **LINKS-05**: Links internos no apuntan a URLs que redirigen; se actualizan al destino final (incl. legacy `/posts/*` → `/blog/*` que hoy dan 308)
-- [ ] **LINKS-06**: Contenido y rutas de test fuera de producción (ej. `/blog/test/see-also-test`) — no crawleable ni linkeado
+### Visibilidad IA (GEO/AEO)
+- [ ] **GEO-01** (alto): `/llms.txt` sirve markdown estructurado válido en producción (diagnosticar el fallo de query Payload que hoy devuelve el string del catch).
+- [ ] **GEO-02** (medio): `/llms-full.txt` deja de servir el HTML del home — o se implementa como ruta real, o se elimina y se quita de robots/referencias.
 
-### IMG — Imágenes
+### Performance
+- [ ] **PERF-01** (alto): LCP de la home < 2500ms — reducir render delay: `next/dynamic` para bloques below-the-fold, recortar preloads de fuentes al peso del H1, aislar la animación cliente del hero.
 
-- [ ] **IMG-01**: Cero imágenes rotas en páginas públicas; toda `<img>`/`og:image` resuelve a un asset que responde 200 (Ahrefs marca 159+2)
-- [ ] **IMG-02**: Las imágenes embebidas en contenido vía wikilink (`![[...]]` u `[[...]]`) se convierten a markdown de imagen con URL válida o se eliminan
-- [ ] **IMG-03**: El retrato del autor vía `_next/image?url=/api/media/file/juan-angulo-portrait-1.avif` deja de devolver 400 (loader / `remotePatterns` o servir el asset correcto)
+### Bugs de código
+- [ ] **BUG-01** (medio): `revalidatePost` invalida la URL real del post (`/blog/{categoría}/{slug}`), no `/blog/{slug}`.
+- [ ] **BUG-02** (medio): `triggerCWVScan` mide PSI sobre la URL real del post (helper de URL compartido con la página).
+- [ ] **BUG-03** (bajo): `revalidatePost` usa `previousDoc?._status` (optional chaining).
+- [ ] **BUG-04** (medio): El endpoint `internal-links/apply` devuelve `success:false` cuando el reemplazo no ocurre (no falso positivo ni reescritura espuria).
+- [ ] **BUG-05** (bajo): `generateMetadata` del post filtra `_status: published` (no fuga metadata de drafts).
+- [ ] **BUG-06** (bajo): `generateStaticParams` del post/página usa el slug correcto por locale.
 
-### HREF — Hreflang y atributo lang
+## Manual / Juan (no código — issues informativos)
+- [ ] **INFRA-01** (alto): www.juan-tech.com sirve TLS y redirige 301 al apex (DNS www proxied + Redirect Rule en Cloudflare). Reabrir/continuar issue #12.
+- [ ] **PERF-02** (alto): Cloudflare Rocket Loader OFF (panel → Speed → Optimization).
+- [ ] **PERF-03** (info): Revisar INP real en Vercel Speed Insights (ya instalado).
+- [ ] **CNT-01** (medio): Poblar title/meta del post `javascript-seo` (ES) → BlogPosting con headline y H1 correcto.
+- [ ] **CNT-02** (bajo): Traducir al inglés las 5 preguntas del FAQ del home que quedaron en español en `/en`.
+- [ ] **CNT-03** (bajo): Reescribir `fullContent` del global `llm` con estructura markdown (secciones).
+- [ ] **CNT-04** (bajo): Convertir los placeholders `www.ejemplo.com` del post seo-on-page en `<code>`/texto (no enlaces).
 
-- [ ] **HREF-01**: `<html lang>` coincide con el locale de cada página (es en raíz, en bajo `/en`) — resuelve el mismatch hreflang↔lang en ~90 páginas
-- [ ] **HREF-02**: Las anotaciones hreflang siguen correctas y recíprocas (es ↔ en) y apuntan a URLs 200 tras los fixes de LINKS
-
-### INDEX — Indexabilidad y sitemap
-
-- [ ] **INDEX-01**: El sitemap no incluye URLs noindex (los 8 casos salen del sitemap o pierden el noindex según corresponda)
-- [ ] **INDEX-02**: Las páginas indexables relevantes están en el sitemap (resolver los 22 "indexable page not in sitemap")
-- [ ] **INDEX-03**: `robots.txt` accesible y servido con 200 + content-type correcto
-- [ ] **INDEX-04**: La URL canónica reportada sin inlinks recibe al menos un enlace interno dofollow (o se ajusta su canonical)
-
-### META — On-page
-
-- [ ] **META-01**: Cada página indexable tiene meta description presente y de longitud adecuada (resolver missing ×5 y short ×8)
-- [ ] **META-02**: Cada página tiene exactamente un `<h1>` no vacío (resolver missing ×3 y multiple H1 ×22)
-- [ ] **META-03**: Titles sin quedar demasiado cortos y coincidiendo con el title de SERP donde aplique
-- [ ] **META-04**: Open Graph completo en las 6 páginas marcadas (og:title/description/image/url/type)
-
-### SCHEMA — Datos estructurados
-
-- [ ] **SCHEMA-01**: Los 14 errores de validación schema.org se corrigen; el JSON-LD valida con el MCP `schema-org` de mcp-hub sin errores
-
-### PERF — Peso de página
-
-- [ ] **PERF-01**: Ninguna página excede el límite de crawl de 2 MB de Googlebot; se reduce el HTML de las 2 páginas marcadas como demasiado grandes
-- [ ] **PERF-02**: Las 6 páginas "slow" se revisan; las que sigan lentas se documentan o se optimizan (continuidad del CWV de v1.1)
-
-### MONITOR — Monitoreo de Domain Rating en admin
-
-- [ ] **MONITOR-01**: El dashboard del admin (Payload) muestra el Domain Rating de `juan-tech.com` obtenido del endpoint público free de Ahrefs (`GET https://api.ahrefs.com/v3/public/domain-rating-free?target=juan-tech.com`, sin API key), con la atribución obligatoria "Domain Rating by Ahrefs" enlazada a ahrefs.com (requisito de la Domain Rating License)
-- [ ] **MONITOR-02**: El DR se obtiene a lo sumo 1 vez cada 24h; el valor se cachea server-side (p. ej. global de Payload `site-metrics` con `domainRating` + `fetchedAt`); las cargas del admin dentro de la ventana de 24h leen del cache sin volver a pegarle al endpoint
-- [ ] **MONITOR-03**: Si el fetch falla (timeout/red/error/respuesta inválida) degrada con gracia: muestra el último DR cacheado marcado como desactualizado y nunca rompe el render del dashboard
-
-## Future Requirements
-
-<!-- Diferido a milestones posteriores. -->
-
-- Rediseñar la lógica de selección de anchors/keywords del internal-linking (este milestone solo arregla la emisión y sanea)
-- Auditoría de calidad editorial / E-E-A-T del contenido
-- Monitoreo continuo automatizado del Site Audit (alertas ante regresiones)
+## Future Requirements (deferidos)
+- **AEO-FAQ**: Inyectar FAQPage/HowTo por post (131 encabezados en forma de pregunta ya existen) — enhancement AEO, milestone propio.
+- **BUG-07**: CWV floating promise en serverless → mover a `payload.jobs`/`waitUntil` (deuda reconocida).
+- Deuda menor informativa: `internalLinksCount` hardcodeado, try vacío en indexing route, guard de `CRON_SECRET`.
+- Diferidos de v1.5: VERIFY-01 (gate runtime), ASSET-01 (Blob→Cloudinary).
 
 ## Out of Scope
+- Fabricar AggregateRating/Review sin reseñas reales.
+- Rediseño visual de Header/Footer.
+- Cambiar el proxy Cloudflare→Vercel salvo lo necesario para www/Rocket Loader.
+- Rehacer keyword research.
 
-<!-- Excluido explícitamente con razón. -->
+## GitHub Issues (tanda audit-jul2026)
 
-- Reescritura de contenido por calidad (este milestone es técnico)
-- Cambios al modelo de contenido de Payload (no relacionado con los issues)
-- Rediseño visual del Header/Footer
-- Re-crawl manual en Ahrefs para validar (lo hace Juan; el MCP de Site Audit está en plan insuficiente)
+| REQ-ID | Issue | Tipo | Fixable por código |
+|--------|-------|------|--------------------|
+| TECH-01 | #85 | duplicados/hreflang (crítico) | sí |
+| TECH-02 | #86 | og:image Cloudinary 400 | sí |
+| TECH-03 | #87 | authors 500 + ProfilePage | sí |
+| TECH-04 | #88 | 3 posts fuera del sitemap | sí |
+| TECH-05 | #89 | 5 huérfanos general/* | sí |
+| TECH-06 | #90 | 2 H1 home | sí |
+| TECH-07 | #91 | x-powered-by | sí |
+| SCH-01 | #92 | @graph sin @type | sí |
+| GEO-01 | #93 | llms.txt roto prod | sí (requiere logs Vercel) |
+| GEO-02 | #94 | llms-full.txt fantasma | sí |
+| PERF-01 | #95 | LCP render delay | sí |
+| BUG-01 | #96 | revalidatePost sin categoría | sí |
+| BUG-02 | #97 | triggerCWVScan URL 404 | sí |
+| BUG-03 | #98 | previousDoc._status | sí |
+| BUG-04 | #99 | internal-links apply falso positivo | sí |
+| BUG-05 | #100 | generateMetadata drafts | sí |
+| BUG-06 | #101 | generateStaticParams locale | sí |
+| PERF-02 | #102 | Rocket Loader | no (Cloudflare/Juan) |
+| PERF-03 | #103 | INP dashboard | no (Vercel/Juan) |
+| CNT-01 | #104 | javascript-seo title/meta | no (Payload/Juan) |
+| CNT-02 | #105 | FAQ /en idioma | no (Payload/Juan) |
+| CNT-03 | #106 | llms fullContent | no (Payload) +opcional código |
+| CNT-04 | #107 | ejemplo.com links | no (Payload/Juan) |
+| INFRA-01 | #12 (comentado) | www TLS | no (Cloudflare/Juan) |
 
-## Traceability
+## Traceability (REQ → fase)
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| LINKS-01 | Phase 15 | Done |
-| LINKS-02 | Phase 15 | Done |
-| IMG-02 | Phase 15 | Done |
-| LINKS-03 | Phase 16 | Done |
-| LINKS-04 | Phase 16 | Done |
-| LINKS-05 | Phase 16 | Done |
-| LINKS-06 | Phase 16 | Done |
-| IMG-01 | Phase 17 | Done |
-| IMG-03 | Phase 17 | Done |
-| HREF-01 | Phase 17 | Done |
-| HREF-02 | Phase 17 | Done |
-| INDEX-01 | Phase 18 | Done |
-| INDEX-02 | Phase 18 | Done |
-| INDEX-03 | Phase 18 | Done |
-| INDEX-04 | Phase 18 | Done |
-| META-01 | Phase 19 | Done |
-| META-02 | Phase 19 | Done |
-| META-03 | Phase 19 | Done |
-| META-04 | Phase 19 | Done |
-| SCHEMA-01 | Phase 19 | Done |
-| PERF-01 | Phase 19 | Done |
-| PERF-02 | Phase 19 | Done (author select+redirect) |
-| MONITOR-01 | Phase 20 | Done |
-| MONITOR-02 | Phase 20 | Done |
-| MONITOR-03 | Phase 20 | Done |
+| Fase | Requirements |
+|------|--------------|
+| 31 Routing canónico del blog | TECH-01, BUG-01, BUG-02, BUG-06 |
+| 32 Sitemap & enlazado interno | TECH-04, TECH-05 |
+| 33 Metadata, OG & schema | TECH-02, TECH-06, SCH-01, BUG-05 |
+| 34 Resiliencia runtime | TECH-03, GEO-01, GEO-02 |
+| 35 Bugs restantes & hardening | BUG-03, BUG-04, TECH-07 |
+| 36 Performance LCP | PERF-01 |
+| 37 Manual & verificación | PERF-02, PERF-03, CNT-01..04, INFRA-01 |
+
+Cobertura: 100% de los REQ mapeados a una fase.
+</content>

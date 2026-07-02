@@ -118,4 +118,4 @@ Estas consideraciones no solo facilitan la vida del administrador web, sino que 
 
 ## Ver también
 
-- [Tech Seo Guide: [Guía de SEO Técnico](/blog/general/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

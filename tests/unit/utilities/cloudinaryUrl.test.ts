@@ -160,14 +160,19 @@ describe('getCloudinaryOgWithTitle', () => {
     expect(result).toContain('Gu%C3%ADa')
   })
 
-  it('URL-encodes commas (which are Cloudinary delimiters)', () => {
+  it('DOUBLE-encodes commas (Cloudinary l_text delimiters) — %252C, not %2C', () => {
+    // A single-encoded comma (%2C) decodes back to a raw delimiter and returns
+    // HTTP 400; it must be double-encoded to survive as literal text. Issue #86.
     const result = getCloudinaryOgWithTitle(RAW_URL, 'Foo, Bar')
-    expect(result).toContain('%2C')
+    expect(result).toContain('%252C')
+    // the text token must not contain a bare single-encoded comma
+    const textToken = (result.split('l_text:')[1] ?? '').split(',co_white')[0]
+    expect(textToken).not.toMatch(/%2C(?!5)/)
   })
 
-  it('URL-encodes slashes in the title', () => {
+  it('DOUBLE-encodes slashes in the title — %252F, not %2F', () => {
     const result = getCloudinaryOgWithTitle(RAW_URL, 'A/B Test')
-    expect(result).toContain('%2F')
+    expect(result).toContain('%252F')
   })
 
   // ── Title truncation ────────────────────────────────────────────────────

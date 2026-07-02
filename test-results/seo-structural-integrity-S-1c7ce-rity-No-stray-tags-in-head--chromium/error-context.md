@@ -1,0 +1,270 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - link "JCA" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: JCA
+      - generic [ref=e10]:
+        - img [ref=e11]
+        - textbox "Buscar..." [ref=e14]
+        - button "Submit" [ref=e15] [cursor=pointer]
+      - navigation [ref=e17]:
+        - link "Blog" [ref=e19] [cursor=pointer]:
+          - /url: /blog
+        - link "Sobre mí" [ref=e22] [cursor=pointer]:
+          - /url: /authors/juan-carlos-angulo
+      - generic [ref=e24]:
+        - button "ES / EN, switch to English" [ref=e25] [cursor=pointer]:
+          - img [ref=e26]
+          - generic [ref=e29]:
+            - generic [ref=e30]: ES
+            - generic [ref=e31]: /
+            - generic [ref=e32]: EN
+        - link "Contáctame" [ref=e34] [cursor=pointer]:
+          - /url: /#contact
+  - main [ref=e35]:
+    - generic [ref=e36]:
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: Arquitectura Web & Estrategia de Búsqueda
+          - heading "Ingeniería de Software aplicada al SEO Técnico Juan Carlos Angulo" [level=1] [ref=e43]:
+            - text: Ingeniería de Software aplicada al SEO Técnico
+            - generic [ref=e44]: Juan Carlos Angulo
+          - paragraph [ref=e46]: Ayudo a empresas y desarrolladores a construir sitios web rápidos, rastreables y escalables. Divulgación técnica sobre algoritmos, WPO y desarrollo moderno.
+          - generic [ref=e47]:
+            - link "Consultoría" [ref=e48] [cursor=pointer]:
+              - /url: /contact
+            - link "Ver Artículos Técnicos" [ref=e49] [cursor=pointer]:
+              - /url: /blog
+              - text: Ver Artículos Técnicos
+              - img [ref=e50]
+        - img "Juan Carlos Angulo" [ref=e57]
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e64]: Estrategia y datos. Más allá del código
+            - heading "Mi enfoque en Consultoría Técnica" [level=2] [ref=e65]
+          - paragraph [ref=e68]: No veo el SEO y el desarrollo web como disciplinas aisladas. Los motores de búsqueda modernos evalúan la limpieza del código, la velocidad de carga y la arquitectura de la información. Mi metodología se basa en auditar y construir soluciones donde la infraestructura técnica se convierte en el motor principal para el crecimiento orgánico, asegurando que tu web no solo funcione perfectamente, sino que domine en los resultados de búsqueda.
+          - link "Hablemos de tu proyecto" [ref=e69] [cursor=pointer]:
+            - /url: "#contact"
+            - text: Hablemos de tu proyecto
+            - img [ref=e70]
+        - generic [ref=e72]:
+          - generic [ref=e73]:
+            - img [ref=e75]
+            - heading "SEO Técnico" [level=3] [ref=e78]
+            - paragraph [ref=e79]: Optimización profunda de infraestructura, Rendering y esquema (Schema) para maximizar la visibilidad en motores de búsqueda.
+          - generic [ref=e80]:
+            - img [ref=e82]
+            - heading "Rendimiento web" [level=3] [ref=e84]
+            - paragraph [ref=e85]: Obsesión por el 100/100. Optimización de la ruta crítica de renderizado para tiempos de carga inmediatos.
+          - generic [ref=e86]:
+            - img [ref=e88]
+            - heading "Arquitectura escalable" [level=3] [ref=e90]
+            - paragraph [ref=e91]: Diseño de sistemas modulares y limpios. Código mantenible que facilita el crecimiento del proyecto sin deuda técnica.
+          - generic [ref=e92]:
+            - img [ref=e94]
+            - heading "Ingeniería de UX" [level=3] [ref=e96]
+            - paragraph [ref=e97]: Interfaces adaptables y accesibles (A11Y). Desarrollo Mobile-First real, no solo visual, sino funcional.
+      - generic [ref=e99]:
+        - generic [ref=e101]:
+          - heading "He trabajado con empresas increíbles" [level=2] [ref=e102]
+          - paragraph [ref=e103]: A lo largo de mi carrera, he colaborado con equipos de desarrollo, startups y empresas consolidadas para resolver cuellos de botella técnicos, optimizar sus presupuestos de rastreo (Crawl Budget) y escalar su tráfico orgánico. Estos son algunos de los proyectos a los que he ayudado a alcanzar sus objetivos mediante ingeniería sólida.
+        - generic [ref=e106]:
+          - img "Luxembourg Philarmonie" [ref=e108]
+          - img "Storybook App" [ref=e110]
+          - img "Pro Torque Diesel" [ref=e112]
+          - img "Aprendo SEO" [ref=e114]
+          - img "Cresory" [ref=e116]
+          - img "Estylopia" [ref=e118]
+          - img "Luxembourg Philarmonie" [ref=e120]
+          - img "Storybook App" [ref=e122]
+          - img "Pro Torque Diesel" [ref=e124]
+          - img "Aprendo SEO" [ref=e126]
+          - img "Cresory" [ref=e128]
+          - img "Estylopia" [ref=e130]
+          - img "Luxembourg Philarmonie" [ref=e132]
+          - img "Storybook App" [ref=e134]
+          - img "Pro Torque Diesel" [ref=e136]
+          - img "Aprendo SEO" [ref=e138]
+          - img "Cresory" [ref=e140]
+          - img "Estylopia" [ref=e142]
+          - img "Luxembourg Philarmonie" [ref=e144]
+          - img "Storybook App" [ref=e146]
+          - img "Pro Torque Diesel" [ref=e148]
+          - img "Aprendo SEO" [ref=e150]
+          - img "Cresory" [ref=e152]
+          - img "Estylopia" [ref=e154]
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - heading "Últimos análisis y guías técnicas" [level=2] [ref=e160]
+          - link "Ver todos los artículos" [ref=e161] [cursor=pointer]:
+            - /url: /blog
+            - text: Ver todos los artículos
+            - img [ref=e162]
+        - generic [ref=e164]:
+          - article [ref=e166] [cursor=pointer]:
+            - 'img "Tablas hash: Estructuras clave para un manejo eficiente de datos" [ref=e168]'
+            - generic [ref=e169]:
+              - 'heading "Tablas hash: Estructuras clave para un manejo eficiente de datos" [level=3] [ref=e170]':
+                - 'link "Tablas hash: Estructuras clave para un manejo eficiente de datos" [ref=e171]':
+                  - /url: /blog/general/tablas-hash
+              - paragraph [ref=e172]: "Qué son las tablas hash y para qué sirven: cómo trabajan las funciones de dispersión, cómo se resuelven las colisiones y ejemplos prácticos en Python."
+          - article [ref=e174] [cursor=pointer]:
+            - img "Post Image" [ref=e176]
+            - generic [ref=e179]: SEO Técnico
+          - article [ref=e181] [cursor=pointer]:
+            - img "Google Search Console" [ref=e183]
+            - generic [ref=e184]:
+              - generic [ref=e186]: Estrategia SEO
+              - heading "Google Search Console" [level=3] [ref=e187]:
+                - link "Google Search Console" [ref=e188]:
+                  - /url: /blog/seo/guia-google-search-console
+              - paragraph [ref=e189]: Descubre cómo Google Search Console mejora el rendimiento de tu sitio en búsquedas. Aprende a usar sus herramientas para optimizar tu SEO.
+      - generic [ref=e192]:
+        - heading "Qué dicen mis clientes" [level=2] [ref=e193]
+        - generic [ref=e195]:
+          - generic [ref=e196]: “Trabajar con Juan fue lo mejor”
+          - generic [ref=e198]:
+            - generic [ref=e199]: Patricia Ibarra
+            - generic [ref=e200]: CEO
+      - generic [ref=e206]:
+        - generic [ref=e208]:
+          - generic [ref=e209]: ¿Dudas?
+          - heading "Hablemos de tu proyecto" [level=1] [ref=e210]
+          - paragraph [ref=e211]: Ya sea que necesites una auditoría de SEO Técnico profunda, resolver problemas de indexación complejos o diseñar una arquitectura web escalable desde cero, estoy aquí para ayudarte a impulsar tu negocio.
+          - generic [ref=e212]:
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: Nombre completo
+                - textbox "Nombre completo" [ref=e216]:
+                  - /placeholder: Ej. Juan Pérez
+              - generic [ref=e217]:
+                - generic [ref=e218]: Correo electrónico
+                - textbox "Correo electrónico" [ref=e219]:
+                  - /placeholder: tu@email.com
+            - generic [ref=e220]:
+              - generic [ref=e221]: Tu mensaje
+              - textbox "Tu mensaje" [ref=e222]:
+                - /placeholder: ¿En qué puedo ayudarte?
+            - button "Enviar mensaje" [ref=e225] [cursor=pointer]:
+              - generic [ref=e226]: Enviar mensaje
+              - img [ref=e227]
+        - generic [ref=e230]:
+          - generic [ref=e231]:
+            - heading "Charlemos sobre tu próximo proyecto" [level=3] [ref=e232]
+            - paragraph [ref=e233]: Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!
+            - generic [ref=e235]:
+              - img [ref=e237]
+              - generic [ref=e240]:
+                - generic [ref=e241]: Mis proyectos de programación
+                - link "Github" [ref=e242] [cursor=pointer]:
+                  - /url: https://github.com/Sve-nnN
+          - generic [ref=e249]: Más de 50 proyectos completados
+      - generic [ref=e251]:
+        - generic [ref=e252]:
+          - generic [ref=e253]: FAQ
+          - heading "Preguntas frecuentes" [level=2] [ref=e254]
+        - generic [ref=e256]:
+          - generic [ref=e257]:
+            - img [ref=e259]
+            - generic [ref=e262]:
+              - heading "¿Cuál es la diferencia entre el SEO tradicional y tu consultoría de SEO Técnico?" [level=3] [ref=e263]
+              - paragraph [ref=e266]:
+                - text: El SEO tradicional prioriza la redacción de contenido y la adquisición de enlaces. Mi consultoría interviene la infraestructura de la web. Optimizo el
+                - strong [ref=e267]: Crawl Budget
+                - text: ", los patrones de renderizado y la"
+                - strong [ref=e268]: arquitectura de información
+                - text: para resolver cuellos de botella que impiden la correcta indexación de tu sitio.
+          - generic [ref=e269]:
+            - img [ref=e271]
+            - generic [ref=e274]:
+              - heading "¿Entregas solo la auditoría o también implementas los cambios en el código?" [level=3] [ref=e275]
+              - paragraph [ref=e278]: Cubro ambas fases. Detecto las vulnerabilidades de la infraestructura y diseño la solución técnica. Puedo implementar las mejoras directamente en el código base o documentar las tareas para guiar a tu equipo de desarrollo durante la ejecución.
+          - generic [ref=e279]:
+            - img [ref=e281]
+            - generic [ref=e284]:
+              - heading "¿En qué stack tecnológico y plataformas te especializas?" [level=3] [ref=e285]
+              - paragraph [ref=e288]:
+                - text: Trabajo principalmente con arquitecturas modernas y sistemas
+                - emphasis [ref=e289]: Headless
+                - text: . Mi enfoque técnico abarca frameworks como
+                - strong [ref=e290]: Next.js
+                - text: "y"
+                - strong [ref=e291]: React
+                - text: ", gestores de contenido como"
+                - strong [ref=e292]: PayloadCMS
+                - text: ", y plataformas de e-commerce como"
+                - strong [ref=e293]: Shopify
+                - text: y WordPress.
+          - generic [ref=e294]:
+            - img [ref=e296]
+            - generic [ref=e299]:
+              - heading "¿Cómo medimos el éxito de las optimizaciones implementadas?" [level=3] [ref=e300]
+              - paragraph [ref=e303]:
+                - text: Evaluamos el progreso mediante datos objetivos. Monitorizamos la mejora en las métricas de los
+                - strong [ref=e304]: Core Web Vitals
+                - text: (LCP, INP, CLS) para medir el rendimiento. A nivel de buscadores, medimos la corrección de errores en Google Search Console y el aumento del porcentaje de URLs válidas indexadas.
+          - generic [ref=e305]:
+            - img [ref=e307]
+            - generic [ref=e310]:
+              - heading "¿Cuál es el proceso para empezar a trabajar contigo?" [level=3] [ref=e311]
+              - paragraph [ref=e314]: Recomiendo iniciar con una auditoría de SEO Técnico inicial. Esto me permite evaluar la salud actual de tu infraestructura, identificar bloqueos de renderizado y establecer una hoja de ruta priorizada antes de comprometer recursos de desarrollo.
+      - generic [ref=e316]:
+        - generic [ref=e317]:
+          - heading "Nos tomamos un café?" [level=2] [ref=e318]
+          - paragraph [ref=e319]: Agenda una reunión conmigo para ayudarte!
+        - generic [ref=e324]: Cargando calendario…
+  - contentinfo [ref=e325]:
+    - generic [ref=e327]:
+      - generic [ref=e328]:
+        - generic [ref=e329]:
+          - link "Ir al inicio" [ref=e330] [cursor=pointer]:
+            - /url: /
+            - text: JCA
+          - paragraph [ref=e331]: Desarrollador Web & Especialista SEO. Creando experiencias digitales rápidas, accesibles y de alto impacto.
+        - generic [ref=e332]:
+          - generic [ref=e333]: Navegación
+          - list [ref=e335]:
+            - listitem [ref=e336]:
+              - link "Inicio" [ref=e337] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e338]:
+              - link "Blog" [ref=e339] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e340]:
+          - generic [ref=e341]: Últimos Posts
+          - list [ref=e343]:
+            - listitem [ref=e344]:
+              - 'link "Tablas hash: Estructuras clave para un manejo eficiente de datos" [ref=e345] [cursor=pointer]':
+                - /url: /blog/general/tablas-hash
+                - img [ref=e346]
+                - generic [ref=e349]: "Tablas hash: Estructuras clave para un manejo eficiente de datos"
+            - listitem [ref=e350]:
+              - link "Ver artículo" [ref=e351] [cursor=pointer]:
+                - /url: /blog/tech-seo/javascript-seo
+                - img [ref=e352]
+                - generic [ref=e355]: Ver artículo
+            - listitem [ref=e356]:
+              - link "Google Search Console" [ref=e357] [cursor=pointer]:
+                - /url: /blog/seo/guia-google-search-console
+                - img [ref=e358]
+                - generic [ref=e361]: Google Search Console
+            - listitem [ref=e362]:
+              - link "Canibalización SEO" [ref=e363] [cursor=pointer]:
+                - /url: /blog/seo/canibalizacion-seo
+                - img [ref=e364]
+                - generic [ref=e367]: Canibalización SEO
+      - generic [ref=e369]:
+        - paragraph [ref=e370]: Juan Carlos Angulo. Todos los derechos reservados.
+        - generic [ref=e371]:
+          - link "Privacidad" [ref=e372] [cursor=pointer]:
+            - /url: /privacy
+          - link "Términos" [ref=e373] [cursor=pointer]:
+            - /url: /terms
+          - link "Sitemap" [ref=e374] [cursor=pointer]:
+            - /url: /sitemap
+```

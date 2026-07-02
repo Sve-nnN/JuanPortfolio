@@ -8,19 +8,20 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: (ninguno — v1.5 shipped 2026-06-26)
+## Current Milestone: v1.6 Auditoría integral & remediación (SEO + código) — jul 2026
 
-**Goal:** Eliminar el código muerto del admin (plugin SEO fantasma, andamiaje DDD `domains/`, backups, scripts one-off), endurecer accesos de las colecciones de métricas, unificar consistencia (group/labels/nav) y estrategia de assets — con verificación runtime de integraciones antes de borrar nada dependiente.
+**Goal:** Auditar el sitio completo (crawl SEO fresco + revisión de código local), consolidar hallazgos en issues de GitHub accionables (error → causa → fix) y remediarlos cerrando cada uno.
 
 **Target features:**
-- Verificación runtime de integraciones (Ahrefs/DinoRank/Indexing/GSC) como gate previo a la limpieza
-- Borrado del plugin SEO casero nunca registrado (conservando seoAnalyzer/keywordCoverageAudit/seoFields/keywordScore reubicados)
-- Colapso del árbol `src/domains/**` (mover AdBanner a collections/, borrar el resto) + backups/re-exports huérfanos
-- Limpieza de scripts one-off/debug ya aplicados
-- Endurecer `access` de keyword-metrics/page-metrics/gsc-metrics; estrategia única de assets (Blob vs Cloudinary)
-- Consistencia admin: `group:'SEO'` uniforme, labels bilingües `{en,es}`, nav links con iconos del design system
+- HTTP/recursos: corregir 4 páginas internas con error HTTP, 1 enlace externo roto, 2 recursos rotos (img + JS)
+- Duplicados/hreflang: consolidar 13 grupos de contenido duplicado exacto + 15 return-links hreflang faltantes
+- Schema/AEO: schemas de alto impacto (Person/ProfessionalService/Article/FAQPage) + datos estructurados orientados a IA + `llms.txt` estructurado
+- On-page: home con 2 H1 → 1 H1
+- Performance: LCP 4446ms→<2500ms, habilitar medición INP, Lighthouse 79→90+
+- Arquitectura interna: enlazado interno de 4 páginas huérfanas del sitemap
+- Code audit: bugs/errores en código Next/Payload → issues + fix
 
-Inventario base: `.planning/admin-audit-v1.5.md`
+Base: reporte SEO jul-2026 (14 hallazgos) + crawl fresco (SEO skills) + auditoría de código local.
 
 ## Requirements
 
@@ -47,9 +48,9 @@ Inventario base: `.planning/admin-audit-v1.5.md`
 
 ### Active
 
-<!-- Scope actual. Próximo milestone por definir (/gsd:new-milestone). -->
+<!-- Scope v1.6 — auditoría integral & remediación. REQ-IDs en REQUIREMENTS.md. -->
 
-- (Sin milestone activo — próximo por definir)
+- Milestone v1.6: remediación de hallazgos del reporte SEO jul-2026 + crawl fresco + auditoría de código (issues de GitHub error/causa/fix, fix + close)
 
 **Diferidos de v1.5:** VERIFY-01 (gate runtime, checklist listo) · ASSET-01 (migración storage Blob→Cloudinary, milestone propio)
 
@@ -107,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-26 — v1.5 (limpieza del admin) shipped & archivado; próximo milestone por definir*
+*Last updated: 2026-07-02 — v1.6 (auditoría integral & remediación SEO+código) iniciado*

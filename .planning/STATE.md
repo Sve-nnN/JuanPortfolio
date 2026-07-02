@@ -1,16 +1,15 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.5
-milestone_name: Limpieza y alineación del admin de Payload
-status: Awaiting next milestone
-stopped_at: Roadmap v1.5 creado (fases 25-30, cobertura 10/10).
-last_updated: "2026-06-26T19:56:01.073Z"
-last_activity: 2026-06-26 — Milestone v1.5 completed and archived
+milestone: v1.6
+milestone_name: Auditoría integral & remediación (SEO + código)
+status: planning
+last_updated: "2026-07-02T15:56:37.753Z"
+last_activity: 2026-07-02
 progress:
-  total_phases: 16
+  total_phases: 0
   completed_phases: 0
   total_plans: 0
-  completed_plans: 4
+  completed_plans: 0
   percent: 0
 ---
 
@@ -25,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: Milestone v1.5 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-06-26 — Milestone v1.5 completed and archived
+Status: Defining requirements
+Last activity: 2026-07-02 — Milestone v1.6 started
 
 ## Milestone v1.5 — Estructura de fases
 

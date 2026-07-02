@@ -43,16 +43,33 @@ export async function POST(req: Request) {
     const { data: frontmatter, content: bodyText } = matter(raw)
     const lines = bodyText.split('\n')
 
-    // lineNumber is relative to the body (not the whole file), 1-based
+    // lineNumber is relative to the body (not the whole file), 1-based.
+    // Guard the range AND verify the replacement actually happened before
+    // writing — otherwise a stale suggestion (line shifted, keyword edited out)
+    // silently rewrote the file and reported success without inserting the link,
+    // and re-stringifying churned the frontmatter + triggered a spurious sync. Issue #99.
     const lineIdx = lineNumber - 1
-    if (lineIdx >= 0 && lineIdx < lines.length) {
-      const currentLine = lines[lineIdx]
-      const replaced = currentLine.replace(
-        new RegExp(`(?<![\\[\\w/])${escapeRegex(keyword)}(?![\\w])(?![^\\[]*\\])`, 'i'),
-        `[${keyword}](${targetUrl})`,
-      )
-      lines[lineIdx] = replaced
+    if (lineIdx < 0 || lineIdx >= lines.length) {
+      const response: ApplyLinkResponse = {
+        success: false,
+        message: `Line ${lineNumber} is out of range (file body has ${lines.length} lines); the suggestion is stale — re-run the analysis.`,
+      }
+      return NextResponse.json(response, { status: 409 })
     }
+
+    const currentLine = lines[lineIdx]
+    const replaced = currentLine.replace(
+      new RegExp(`(?<![\\[\\w/])${escapeRegex(keyword)}(?![\\w])(?![^\\[]*\\])`, 'i'),
+      `[${keyword}](${targetUrl})`,
+    )
+    if (replaced === currentLine) {
+      const response: ApplyLinkResponse = {
+        success: false,
+        message: `Keyword "${keyword}" was not found on line ${lineNumber}; the suggestion is stale — re-run the analysis.`,
+      }
+      return NextResponse.json(response, { status: 409 })
+    }
+    lines[lineIdx] = replaced
 
     const newContent = matter.stringify(lines.join('\n'), frontmatter)
     fs.writeFileSync(resolvedPath, newContent, 'utf-8')

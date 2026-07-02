@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Auditoría integral & remediación (SEO + código)
-status: planning
-last_updated: "2026-07-02T15:56:37.753Z"
-last_activity: 2026-07-02
+status: executing
+last_updated: "2026-07-02T16:50:00.000Z"
+last_activity: 2026-07-02 — v1.6 fases 31-36 código ejecutado y verificado; fase 37 (manual) pendiente de Juan
 progress:
-  total_phases: 0
-  completed_phases: 0
+  total_phases: 7
+  completed_phases: 6
   total_plans: 0
   completed_plans: 0
-  percent: 0
+  percent: 86
 ---
 
 # Project State
@@ -24,10 +24,31 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: v1.6 fases 31-36 (código) COMPLETADAS y verificadas; fase 37 (manual/Juan) pendiente
 Plan: —
-Status: Defining requirements
-Last activity: 2026-07-02 — Milestone v1.6 started
+Status: Código en branch `fix/v1.6-audit-remediation` (sin mergear a main). tsc 112 (baseline, 0 en src/), 779 tests verdes.
+Last activity: 2026-07-02 — remediación de código v1.6 completa; acciones manuales en JUAN-ACTIONS.md
+
+## Milestone v1.6 — Ejecución
+
+Branch: `fix/v1.6-audit-remediation`. 23 issues creados (#85-#107) + #12 comentado.
+
+| Fase | Issues | Estado |
+|------|--------|--------|
+| 31 Routing canónico blog | #85 #96 #97 #101 #98 #100 | ✅ código + cerrados |
+| 32 Sitemap & huérfanos | #89 (fixed), #88 (decisión Juan) | ✅ código; #88 abierto (dato) |
+| 33 Metadata/OG/schema | #86 #90 #92 | ✅ código + cerrados |
+| 34 Resiliencia runtime | #87 #93 #94 | ✅ código + cerrados |
+| 35 Bugs restantes | #99 #91 | ✅ código + cerrados |
+| 36 Performance LCP | #95 | ⚠️ levers seguros ya existían; resto = Juan (abierto) |
+| 37 Manual & verificación | #102 #103 #104 #105 #106 #107 #12 #88 #95 | ⏳ pendiente Juan (JUAN-ACTIONS.md) |
+
+**Issues cerrados (código, 12):** #85 #86 #87 #90 #91 #92 #93 #94 #96 #97 #98 #99 #100 #101.
+**Abiertos para Juan (11):** #12 #88 #95 #102 #103 #104 #105 #106 #107 (+ manual/contenido).
+
+**Próximo paso:** abrir PR de la branch → preview Vercel (build + verificación real) → mergear → re-crawl. Ver `.planning/research/audit-jul2026/JUAN-ACTIONS.md`.
+
+## Milestone v1.5 — Estructura de fases (histórico)
 
 ## Milestone v1.5 — Estructura de fases
 

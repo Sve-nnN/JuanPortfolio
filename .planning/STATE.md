@@ -6,7 +6,7 @@ status: planning
 last_updated: "2026-07-02T21:46:33.881Z"
 last_activity: 2026-07-02
 progress:
-  total_phases: 0
+  total_phases: 6
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,29 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación. Para v1.5: el admin de Payload solo contiene código vivo y coherente.
-**Current focus:** Milestone v1.5 roadmapped (fases 25-30). Refactor brownfield del admin: verificar runtime → borrar muerto → endurecer → consistencia.
+**Current focus:** Milestone v1.7 roadmapped (fases 38-43). Bajar LCP mobile home < 2500ms e INP < 200ms: medir INP de campo → hero server component + recorte JS (gate QA visual) → validar TBT/INP → recortar fuentes (gate QA visual) → cache edge Cloudflare → re-medición final.
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 38 (Medición de campo — INP real por interacción)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-07-02 — Milestone v1.7 started
+Status: Roadmapped, ready to plan Phase 38
+Last activity: 2026-07-02 — Milestone v1.7 roadmapped (fases 38-43)
+
+## Milestone v1.7 — Estructura de fases
+
+Numeración DEFAULT (continúa tras v1.6, que terminó en Phase 37). Requirements PERF-04 a PERF-11 (`.planning/REQUIREMENTS.md`). Baseline: `.planning/research/audit-jul2026/03-performance.md` (Unlighthouse mobile post-v1.6: Perf 0.37 · LCP 7.4s · TBT 2180ms · CLS 0.001).
+
+| Phase | Goal | Requirements | Gate |
+|-------|------|--------------|------|
+| 38 | Medición de campo — INP real por interacción (#103) | PERF-10 | Informa prioridad de 39-42 |
+| 39 | Hero → server component + recorte de JS inicial | PERF-04, PERF-05, PERF-06 | **QA visual obligatorio** (animación/layout hero) antes de mergear |
+| 40 | Validación de TBT/INP tras el recorte de JS | PERF-07 | Unlighthouse mobile + INP de campo |
+| 41 | Recorte de preloads de fuentes | PERF-08 | **QA visual obligatorio** (sin FOUT perceptible) antes de mergear |
+| 42 | Cache de HTML en el edge (Cloudflare) | PERF-09 | `cf-cache-status: HIT`, ISR y draft/preview intactos |
+| 43 | Re-medición final y procedimiento repetible | PERF-11 | Unlighthouse mobile post-milestone vs baseline |
+
+**Constantes en todas las fases:** QA visual obligatorio antes de mergear el refactor del hero (Phase 39) y el cambio de preloads de fuentes (Phase 41); no regresionar el H1/LCP-visible-en-SSR de v1.1; tsc baseline (0 nuevos en `src/`) y tests verdes; medir siempre en mobile con Unlighthouse (no PSI, que subestima).
 
 ## Milestone v1.6 — Ejecución
 

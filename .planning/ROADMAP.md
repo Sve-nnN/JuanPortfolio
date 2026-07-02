@@ -9,6 +9,7 @@
 - ✅ **v1.4 Keyword targeting & Yoast-style SEO scoring** — Phases 21-24 (shipped 2026-06-26)
 - ✅ **v1.5 Limpieza y alineación del admin de Payload** — Phases 25-30 (shipped 2026-06-26)
 - 🚧 **v1.6 Auditoría integral & remediación (SEO + código)** — Phases 31-37 (en curso, iniciado 2026-07-02)
+- 🚧 **v1.7 Rendimiento avanzado (Core Web Vitals)** — Phases 38-43 (roadmapped, iniciado 2026-07-02)
 
 ## Phases
 
@@ -90,6 +91,76 @@ Remediación de hallazgos del reporte SEO jul-2026 + crawl fresco + auditoría d
   2. Ediciones de contenido en Payload documentadas (javascript-seo meta, FAQ /en, ejemplo.com, llms fullContent)
   3. Re-crawl/verificación de los fixes de código desplegados; issues de código cerrados
 
+
+### 🚧 v1.7 Rendimiento avanzado (Core Web Vitals) — Phases 38-43
+
+Bajar LCP mobile de la home de 7.4s a < 2500ms y el INP a < 200ms recortando el JS de arranque (~27 chunks/~325KB gzip) y refactorizando el hero a server component, sin regresión visual (QA visual obligatorio) ni del H1/LCP-en-SSR logrado en v1.1. Requirements PERF-04 a PERF-11. Issues #95 (LCP), #103 (INP).
+
+#### Phase 38: Medición de campo — INP real por interacción
+
+**Goal**: Saber qué interacción concreta dispara INP > 200ms antes de optimizar a ciegas
+**Requirements**: PERF-10
+**Success Criteria**:
+  1. El INP emitido por el reporter `web-vitals`→GA4 (#103) es consultable por interacción y por página (evento GA4 con `interaction_id`/target o equivalente)
+  2. Se identifica y documenta cuál interacción concreta de la home excede 200ms (o se confirma que ninguna lo hace con el tráfico disponible)
+  3. La lectura de este INP de campo se usa para confirmar o ajustar la prioridad de las fases 39-42 (documentado en STATE.md)
+
+#### Phase 39: Hero server component + recorte de JS inicial
+
+**Goal**: El H1/LCP de la home deja de depender de la hidratación del hero, y el JS que ejecuta en el arranque baja de forma medible respecto al baseline (~27 chunks/~325KB gzip)
+**Depends on**: Phase 38
+**Requirements**: PERF-04, PERF-05, PERF-06
+**Success Criteria**:
+  1. El hero se sirve como server component; solo la animación parallax vive en un wrapper cliente chico (`'use client'`) que envuelve contenido ya renderizado en servidor
+  2. El H1 se pinta en el HTML de SSR sin depender de hidratación (sin regresión del fix de v1.1); mismo layout/copy
+  3. La animación de entrada/parallax es visualmente idéntica a la actual (misma curva, timing, layout) — confirmado por QA visual antes/después; si CSS puro iguala a framer-motion en el entrance, se reemplaza para no bundlear la librería en el above-the-fold
+  4. Bloques below-the-fold (Testimonials, FeaturedBlog, Contact, etc.) cargan con `next/dynamic`; el peso JS medido de la home baja frente al baseline de 27 chunks/~325KB gzip
+  5. tsc baseline (0 nuevos en `src/`) y tests verdes
+
+**Gate**: QA visual obligatorio del hero (antes/después, mobile + desktop) antes de mergear — no se avanza a Phase 40 sin el visto bueno
+
+#### Phase 40: Validación de TBT/INP tras el recorte de JS
+
+**Goal**: El recorte de JS de Phase 39 se traduce en una baja medible de TBT que habilite INP < 200ms
+**Depends on**: Phase 39
+**Requirements**: PERF-07
+**Success Criteria**:
+  1. TBT mobile de la home baja de ~2180ms (baseline) medido con Unlighthouse mobile tras el merge de Phase 39
+  2. El INP de campo (dataLayer→GA4, Phase 38) se re-consulta y confirma mejora frente a la lectura inicial, o se documenta por qué no
+  3. Si TBT/INP no alcanzan el objetivo, se identifica el siguiente cuello de botella concreto (no se cierra la fase con "mejoró un poco")
+
+#### Phase 41: Recorte de preloads de fuentes
+
+**Goal**: Solo la fuente del H1 se preloadea; el resto no compite por ancho de banda con el LCP, sin introducir FOUT perceptible
+**Depends on**: Phase 39
+**Requirements**: PERF-08
+**Success Criteria**:
+  1. Solo el peso de Array usado por el H1 (Bold/Extrabold) queda con `preload:true`; Geist Sans/Mono pasan a `preload:false` si no son above-the-fold
+  2. El HTML de la home baja de 5 a 1-2 `<link rel=preload as=font>`
+  3. QA visual confirma que no hay salto de texto (FOUT) perceptible en la carga de la home, mobile y desktop
+
+**Gate**: QA visual obligatorio del cambio de preloads antes de mergear
+
+#### Phase 42: Cache de HTML en el edge (Cloudflare)
+
+**Goal**: La home y los posts se sirven cacheados desde el edge de Cloudflare en visitas repetidas, sin romper el ISR de Next ni el bypass de draft/preview
+**Depends on**: Phase 39
+**Requirements**: PERF-09
+**Success Criteria**:
+  1. `curl -I` a la home y a un post en visita repetida devuelve `cf-cache-status: HIT` (hoy `DYNAMIC`)
+  2. El contenido servido respeta la ventana de revalidación ISR de Next (sin servir stale más allá de lo configurado)
+  3. `draftMode()`/preview sigue funcionando: una request en modo preview no se sirve desde la cache de Cloudflare
+
+#### Phase 43: Re-medición final y procedimiento repetible
+
+**Goal**: El milestone queda validado contra el baseline con números reproducibles, y queda un procedimiento que Juan puede repetir en el futuro
+**Depends on**: Phase 40, Phase 41, Phase 42
+**Requirements**: PERF-11
+**Success Criteria**:
+  1. `npx unlighthouse-ci --site https://juan-tech.com --urls /` corrido post-milestone da LCP < 2500ms e INP < 200ms mobile (o se documenta el gap remanente con causa identificada)
+  2. Los números antes/después (Perf score, LCP, TBT, CLS, INP) quedan registrados en STATE.md junto al baseline de `.planning/research/audit-jul2026/03-performance.md`
+  3. El procedimiento de re-medición queda documentado como comando reproducible (no ad-hoc) para usarlo en milestones futuros
+  4. Sin regresión de CLS (≤ 0.01) ni del H1-visible-en-SSR de v1.1; tsc baseline y tests verdes en el estado final del milestone
 
 <details>
 <summary>✅ v1.0 Render estático/ISR & Edge Caching (Phases 1-5) — SHIPPED</summary>
@@ -550,5 +621,11 @@ Plans:
 | 28. Limpieza de scripts one-off | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 | 29. Accesos endurecidos y assets unificados | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 | 30. Consistencia del admin | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
+| 38. Medición de campo — INP real por interacción | v1.7 | 0/? | Not started | - |
+| 39. Hero server component + recorte de JS inicial | v1.7 | 0/? | Not started | - |
+| 40. Validación de TBT/INP tras el recorte de JS | v1.7 | 0/? | Not started | - |
+| 41. Recorte de preloads de fuentes | v1.7 | 0/? | Not started | - |
+| 42. Cache de HTML en el edge (Cloudflare) | v1.7 | 0/? | Not started | - |
+| 43. Re-medición final y procedimiento repetible | v1.7 | 0/? | Not started | - |
 </content>
 </invoke>

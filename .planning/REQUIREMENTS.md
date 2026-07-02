@@ -50,4 +50,15 @@ Convención label GitHub: `seo:performance`, bloque `perf`, tanda `v1.7-cwv`.
 
 ## Traceability (REQ → fase)
 
-_Se completa cuando el roadmapper cree ROADMAP.md._
+| Requirement | Fase | Estado |
+|-------------|------|--------|
+| PERF-10 | Phase 38 | Pending |
+| PERF-04 | Phase 39 | Pending |
+| PERF-05 | Phase 39 | Pending |
+| PERF-06 | Phase 39 | Pending |
+| PERF-07 | Phase 40 | Pending |
+| PERF-08 | Phase 41 | Pending |
+| PERF-09 | Phase 42 | Pending |
+| PERF-11 | Phase 43 | Pending |
+
+Cobertura: 8/8 requirements v1.7 mapeados. Sin huérfanos.

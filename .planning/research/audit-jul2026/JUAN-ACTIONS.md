@@ -23,20 +23,36 @@ Los fixes de **código** ya están aplicados y verificados en la branch `fix/v1.
 ### #95 — LCP (parte opcional con QA visual)
 - Los levers seguros ya están en el código. Lo que queda (aislar framer-motion del hero, recortar preloads de fuentes) necesita QA visual tuya. Hacer #102 primero y medir antes de tocar el hero.
 
-## Contenido — Payload CMS
+## Contenido — YA aplicado por Claude en el markdown source (falta re-sync)
 
-### #104 — Post `javascript-seo` (ES) sin title/meta
-- Poblar `title` + `meta.title`/`meta.description` en ES (humanizado) → arregla H1 "Javascript Seo" y el BlogPosting sin headline.
+> **IMPORTANTE:** el contenido live se sirve desde la DB de Payload. Estos fixes ya están en el markdown de la branch, pero **para que lleguen a prod hay que `pnpm sync:content` (push markdown→DB)**. Durante la sesión el working tree se revirtió una vez desde la DB (tiene la versión vieja corrupta) — la branch tiene la versión buena.
+
+### #104 ✅ — Post `javascript-seo`
+- El `.en.md` estaba **truncado** (cortaba a mitad de un code block): lo completé.
+- **Creé la versión ES** (`javascript-seo.md`) que faltaba, humanizada, con title/meta/tldr. Arregla el H1 "Javascript Seo" y el BlogPosting sin headline.
+
+### #107 ✅ — Placeholders `www.ejemplo.com`
+- En `seo-on-page-guia.md`, pasé los `www.ejemplo.com/...` a `example.com` en backticks (code, no-link) para que el converter Lexical no los auto-linkee.
+
+### #108 ✅ — Wikilinks/enlaces anidados corruptos (10 posts)
+- Reparé los `[[Texto](url1)](url2)` doble/triple-envueltos → un solo link válido, en 10 posts.
+- Endurecí el guard `sanitizeWikilinks` para que colapse el doble-wrap en el próximo sync push.
+- Live todavía muestra wikilinks Obsidian crudos `[[slug|anchor]]` (DB vieja) → el `pnpm sync:content` los limpia (el guard + el markdown corregido).
+
+## Contenido — solo editable en el admin de Payload (DB, no hay source markdown)
 
 ### #105 — FAQ del home en `/en` con 5 preguntas en español
-- Traducir al inglés esas 5 Q&A en el locale `en` del bloque FAQ del home.
+- Traducir al inglés esas 5 Q&A en el locale `en` del bloque FAQ del home (global/página en Payload).
 
 ### #106 — llms.txt `fullContent` sin estructura
-- Reescribir el `fullContent` del global `llm` con subsecciones markdown (`## Servicios`, `## Sobre Juan`, `## Cómo contactar`).
-- (El código ya emite markdown estructurado y degrada bien; esto mejora el cuerpo.)
+- Reescribir el `fullContent` del global `llm` con subsecciones markdown. (El código de `/llms.txt` ya emite markdown estructurado y degrada bien.)
 
-### #107 — Placeholders `www.ejemplo.com` como enlaces reales
-- En el post `seo-on-page-guia`, convertir los `www.ejemplo.com` en `<code>`/texto (no enlaces).
+## Medición de performance (Unlighthouse)
+
+Corrí **Unlighthouse** (Chrome real, mobile) contra el home — números reales, peores que PSI:
+`Performance 0.52 · FCP 4.1s · LCP 8.6s · TTI 8.6s · TBT 310ms · CLS 0.001 · SEO 1.00`
+El LCP real (8.6s mobile) confirma que #102 (Rocket Loader OFF) es lo más urgente. Comando para reproducir:
+`npx unlighthouse-ci --site https://juan-tech.com --urls /`
 
 ## Decisión de dato
 

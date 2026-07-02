@@ -4,7 +4,7 @@
  */
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { notFound, redirect } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { PostHero } from '@/heros/PostHero'
 import { estimateReadingTimeFromLexical } from '@/utilities/estimateReadingTime'
@@ -101,7 +101,9 @@ export default async function PostPage({
   // canonical path so signals consolidate and hreflang stays reciprocal. Issue #85.
   const canonicalCategory = getCanonicalCategorySlug(post)
   if (category !== canonicalCategory) {
-    redirect(`${localePrefix}/blog/${canonicalCategory}/${slug}`)
+    // 308 permanent (not 307) so Google consolidates the duplicate variant's
+    // signals onto the canonical URL. Issue #85.
+    permanentRedirect(`${localePrefix}/blog/${canonicalCategory}/${slug}`)
   }
 
   const { minutes } = post.content?.content ? estimateReadingTimeFromLexical(post.content.content) : { minutes: 1 }

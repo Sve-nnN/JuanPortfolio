@@ -21,6 +21,7 @@ export type AnalyticsEvent =
   | 'search'
   | 'code_copied'
   | 'toc_navigation'
+  | 'web_vitals'
 
 export type AnalyticsParams = Record<string, string | number | boolean | null | undefined>
 

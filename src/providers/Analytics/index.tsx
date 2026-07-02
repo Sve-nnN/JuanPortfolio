@@ -52,6 +52,46 @@ export function AnalyticsProvider() {
     return () => document.removeEventListener('click', onClick, { capture: true })
   }, [])
 
+  // Core Web Vitals field measurement (issue #103). INP is a field-only metric
+  // (Lighthouse/PSI can't produce it) and CrUX has too little traffic to publish
+  // it, so we collect it from real users here and forward it to GA4 via the
+  // existing dataLayer — with attribution (which element/interaction caused it)
+  // so it also feeds the LCP/INP performance work. web-vitals is lazy-imported so
+  // it stays out of the critical bundle.
+  useEffect(() => {
+    let cancelled = false
+    import('@/vendor/web-vitals-attribution')
+      .then(({ onINP, onLCP, onCLS, onTTFB, onFCP }) => {
+        if (cancelled) return
+        const report = (metric: import('@/vendor/web-vitals-attribution').WebVitalMetric) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const a: Record<string, any> = metric.attribution || {}
+          const target =
+            a.interactionTarget || a.element || a.largestShiftTarget || a.eventTarget || undefined
+          trackEvent('web_vitals', {
+            metric: metric.name,
+            // INP/LCP/FCP/TTFB in ms (integer); CLS is unitless → ×1000 to keep it an integer.
+            value: metric.name === 'CLS' ? Math.round(metric.value * 1000) : Math.round(metric.value),
+            rating: metric.rating,
+            target: typeof target === 'string' ? target : undefined,
+            interaction: a.interactionType || undefined,
+            nav_type: metric.navigationType,
+          })
+        }
+        onINP(report)
+        onLCP(report)
+        onCLS(report)
+        onTTFB(report)
+        onFCP(report)
+      })
+      .catch(() => {
+        /* web-vitals failed to load — non-critical */
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   // Scroll depth milestones (ENG-01). GA4 Enhanced Measurement only fires at
   // 90%; we add 25/50/75/100, once each per page (reset on navigation).
   useEffect(() => {

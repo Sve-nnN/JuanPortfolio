@@ -8,20 +8,18 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: v1.6 Auditoría integral & remediación (SEO + código) — jul 2026
+## Current Milestone: v1.7 Rendimiento avanzado (Core Web Vitals) — jul 2026
 
-**Goal:** Auditar el sitio completo (crawl SEO fresco + revisión de código local), consolidar hallazgos en issues de GitHub accionables (error → causa → fix) y remediarlos cerrando cada uno.
+**Goal:** Bajar el LCP mobile de la home a < 2500ms y el INP a < 200ms recortando el JavaScript de arranque y refactorizando el hero, sin romper la animación/diseño (QA visual obligatorio).
 
 **Target features:**
-- HTTP/recursos: corregir 4 páginas internas con error HTTP, 1 enlace externo roto, 2 recursos rotos (img + JS)
-- Duplicados/hreflang: consolidar 13 grupos de contenido duplicado exacto + 15 return-links hreflang faltantes
-- Schema/AEO: schemas de alto impacto (Person/ProfessionalService/Article/FAQPage) + datos estructurados orientados a IA + `llms.txt` estructurado
-- On-page: home con 2 H1 → 1 H1
-- Performance: LCP 4446ms→<2500ms, habilitar medición INP, Lighthouse 79→90+
-- Arquitectura interna: enlazado interno de 4 páginas huérfanas del sitemap
-- Code audit: bugs/errores en código Next/Payload → issues + fix
+- Hero → server component con wrapper cliente chico solo para el parallax (H1/LCP deja de depender de la hidratación del hero)
+- Recorte de JS inicial: auditar ~27 chunks/~325KB gzip; `next/dynamic` agresivo below-the-fold; aislar/reducir framer-motion (evaluar entrance con CSS puro)
+- Recorte de preloads de fuentes al peso del H1 (Array Bold); `preload:false` en Geist Sans/Mono si no son above-the-fold (riesgo FOUT → QA visual)
+- Cache de HTML en edge de Cloudflare (hoy `cf-cache-status: DYNAMIC`) respetando el ISR de Next
+- Validación con field data: usar el INP real del reporter `web-vitals`→GA4 (#103) para priorizar, re-medir con Unlighthouse mobile
 
-Base: reporte SEO jul-2026 (14 hallazgos) + crawl fresco (SEO skills) + auditoría de código local.
+Base: medición Unlighthouse mobile post-v1.6 (Perf 0.37 · LCP 7.4s · TBT 2180ms). Detalle: `.planning/research/audit-jul2026/03-performance.md`. Issues #95 (LCP), #103 (INP).
 
 ## Requirements
 
@@ -48,9 +46,11 @@ Base: reporte SEO jul-2026 (14 hallazgos) + crawl fresco (SEO skills) + auditor�
 
 ### Active
 
-<!-- Scope v1.6 — auditoría integral & remediación. REQ-IDs en REQUIREMENTS.md. -->
+<!-- Scope v1.7 — rendimiento avanzado (Core Web Vitals). REQ-IDs en REQUIREMENTS.md. -->
 
-- Milestone v1.6: remediación de hallazgos del reporte SEO jul-2026 + crawl fresco + auditoría de código (issues de GitHub error/causa/fix, fix + close)
+- Milestone v1.7: LCP mobile home < 2500ms + INP < 200ms vía hero server component, recorte de JS/fuentes, cache edge y validación con field data
+
+**v1.6 (código shipped, branch `fix/v1.6-audit-remediation`):** 12 issues cerrados en código; acciones manuales de Juan pendientes (#12 #88 #95 #102-#107, JUAN-ACTIONS.md). El fix real del LCP (#95) se retoma aquí.
 
 **Diferidos de v1.5:** VERIFY-01 (gate runtime, checklist listo) · ASSET-01 (migración storage Blob→Cloudinary, milestone propio)
 
@@ -108,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-02 — v1.6 (auditoría integral & remediación SEO+código) iniciado*
+*Last updated: 2026-07-02 — v1.7 (rendimiento avanzado / Core Web Vitals) iniciado*

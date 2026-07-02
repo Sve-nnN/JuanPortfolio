@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.6
-milestone_name: Auditoría integral & remediación (SEO + código)
-status: executing
-last_updated: "2026-07-02T16:50:00.000Z"
-last_activity: 2026-07-02 — v1.6 fases 31-36 código ejecutado y verificado; fase 37 (manual) pendiente de Juan
+milestone: v1.7
+milestone_name: Rendimiento avanzado (Core Web Vitals)
+status: planning
+last_updated: "2026-07-02T21:46:33.881Z"
+last_activity: 2026-07-02
 progress:
-  total_phases: 7
-  completed_phases: 6
+  total_phases: 0
+  completed_phases: 0
   total_plans: 0
   completed_plans: 0
-  percent: 86
+  percent: 0
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: v1.6 fases 31-36 (código) COMPLETADAS y verificadas; fase 37 (manual/Juan) pendiente
+Phase: Not started (defining requirements)
 Plan: —
-Status: Código en branch `fix/v1.6-audit-remediation` (sin mergear a main). tsc 112 (baseline, 0 en src/), 779 tests verdes.
-Last activity: 2026-07-02 — remediación de código v1.6 completa; acciones manuales en JUAN-ACTIONS.md
+Status: Defining requirements
+Last activity: 2026-07-02 — Milestone v1.7 started
 
 ## Milestone v1.6 — Ejecución
 

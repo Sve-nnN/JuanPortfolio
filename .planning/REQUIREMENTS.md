@@ -1,100 +1,53 @@
-# Requirements — Milestone v1.6 (Auditoría integral & remediación SEO+código)
+# Requirements — Milestone v1.7 (Rendimiento avanzado / Core Web Vitals)
 
-Derivado de: reporte SEO jul-2026 + crawl fresco (SEO skills) + auditoría de código local.
-Detalle y evidencia: `.planning/research/audit-jul2026/` (01-technical, 02-schema, 03-performance, 04-geo, 05-code-rootcause, 06-code-bugs, SUMMARY).
+Derivado de: medición Unlighthouse mobile (Chrome real) post-v1.6 y análisis de causa raíz.
+Detalle y evidencia: `.planning/research/audit-jul2026/03-performance.md`. Issues asociados: #95 (LCP), #103 (INP).
 
-Convención severidad ↔ label GitHub: `seo:critical/high/medium/low`, `code/bug`, bloque `seo/technical|schema|performance|content|geo|sitemap|infra`, tanda `audit-jul2026`.
+**Baseline medido (mobile, post Rocket Loader OFF):** Perf 0.37 · FCP 2.7s · LCP 7.4s · TBT 2180ms · TTI 10.4s · CLS 0.001.
+**Causa raíz:** ~27 chunks JS (~325KB gzip) ejecutan de una y saturan el main thread; el hero es todo `'use client'` con framer-motion (`useScroll`/`useTransform`) → el H1/LCP depende de la hidratación.
 
-## v1.6 Requirements
+**Objetivos de salida (mobile):** LCP < 2500ms · INP < 200ms · sin regresión de CLS (≤ 0.01) · sin regresión visual del hero.
 
-### SEO Técnico (routing / canonical / indexación)
-- [ ] **TECH-01** (crítico): La ruta `/blog/[category]/[slug]` valida la categoría — si `params.category` ≠ categoría real del post, responde 301 a la canónica (o 404); canonical y `alternates.languages` se derivan de la categoría real en Payload, no de `params`. Elimina los duplicados y corrige la reciprocidad hreflang.
-- [ ] **TECH-02** (alto): Las og:image de Cloudinary devuelven 200 en todos los posts (doble-codificar `,` y `/` en el overlay `l_text`).
-- [ ] **TECH-03** (medio): `/authors/[slug]` no lanza 500 en cold-start (query envuelta en try/catch + cache) y emite ProfilePage/Person.
-- [ ] **TECH-04** (medio): El `posts-sitemap.xml` incluye los 3 posts publicados+enlazados hoy ausentes (`cs-fundamentals/experiencia-de-usuario`, `cs-fundamentals/sql-vs-nosql`, `seo/guia-eeat`).
-- [ ] **TECH-05** (medio): Los 5 posts `/blog/general/*` huérfanos reciben ≥1 enlace interno entrante (listado de categoría completo).
-- [ ] **TECH-06** (medio): La home tiene exactamente 1 H1 (`ContactFormBlock` con `headingLevel` configurable, default h2; h1 solo en `/contact`).
-- [ ] **TECH-07** (bajo): `poweredByHeader: false` en `next.config` (no filtrar stack).
+Convención label GitHub: `seo:performance`, bloque `perf`, tanda `v1.7-cwv`.
 
-### Datos estructurados
-- [ ] **SCH-01** (medio): El JSON-LD por página se consolida en un `@graph` único con `@type` reconocibles (no más "Unknown"); sin duplicar `@id`.
+## v1.7 Requirements
 
-### Visibilidad IA (GEO/AEO)
-- [ ] **GEO-01** (alto): `/llms.txt` sirve markdown estructurado válido en producción (diagnosticar el fallo de query Payload que hoy devuelve el string del catch).
-- [ ] **GEO-02** (medio): `/llms-full.txt` deja de servir el HTML del home — o se implementa como ruta real, o se elimina y se quita de robots/referencias.
+### Hero & render del LCP
+- [ ] **PERF-04** (alto): El H1 de la home se pinta en el HTML de SSR sin depender de la hidratación del hero — el hero se sirve como server component y solo la animación parallax vive en un wrapper cliente chico (`'use client'`) que envuelve el contenido ya renderizado en servidor.
+- [ ] **PERF-05** (alto): La animación de entrada/parallax del hero se preserva idéntica a la actual (misma curva, timing y layout); un QA visual antes/después lo confirma. Si framer-motion no aporta sobre CSS puro para el entrance, se reemplaza por CSS/transición nativa para no bundlear la librería en el above-the-fold.
 
-### Performance
-- [ ] **PERF-01** (alto): LCP de la home < 2500ms — reducir render delay: `next/dynamic` para bloques below-the-fold, recortar preloads de fuentes al peso del H1, aislar la animación cliente del hero.
+### Recorte de JavaScript inicial
+- [ ] **PERF-06** (alto): El JS que ejecuta en el arranque de la home baja de forma medible respecto del baseline (~27 chunks / ~325KB gzip) — bloques below-the-fold cargados con `next/dynamic` (sin SSR donde aplique) y framer-motion aislado a los componentes que realmente animan.
+- [ ] **PERF-07** (medio): El TBT mobile de la home baja de ~2180ms a un rango que permita INP < 200ms; se verifica con Unlighthouse mobile y con el INP de campo (#103).
 
-### Bugs de código
-- [ ] **BUG-01** (medio): `revalidatePost` invalida la URL real del post (`/blog/{categoría}/{slug}`), no `/blog/{slug}`.
-- [ ] **BUG-02** (medio): `triggerCWVScan` mide PSI sobre la URL real del post (helper de URL compartido con la página).
-- [ ] **BUG-03** (bajo): `revalidatePost` usa `previousDoc?._status` (optional chaining).
-- [ ] **BUG-04** (medio): El endpoint `internal-links/apply` devuelve `success:false` cuando el reemplazo no ocurre (no falso positivo ni reescritura espuria).
-- [ ] **BUG-05** (bajo): `generateMetadata` del post filtra `_status: published` (no fuga metadata de drafts).
-- [ ] **BUG-06** (bajo): `generateStaticParams` del post/página usa el slug correcto por locale.
+### Fuentes
+- [ ] **PERF-08** (medio): Solo la fuente del H1 (Array Bold) se preloadea; Geist Sans/Mono usan `preload:false` si no son above-the-fold, sin introducir FOUT visible (QA visual confirma que no hay salto de texto perceptible).
 
-## Manual / Juan (no código — issues informativos)
-- [ ] **INFRA-01** (alto): www.juan-tech.com sirve TLS y redirige 301 al apex (DNS www proxied + Redirect Rule en Cloudflare). Reabrir/continuar issue #12.
-- [ ] **PERF-02** (alto): Cloudflare Rocket Loader OFF (panel → Speed → Optimization).
-- [ ] **PERF-03** (info): Revisar INP real en Vercel Speed Insights (ya instalado).
-- [ ] **CNT-01** (medio): Poblar title/meta del post `javascript-seo` (ES) → BlogPosting con headline y H1 correcto.
-- [ ] **CNT-02** (bajo): Traducir al inglés las 5 preguntas del FAQ del home que quedaron en español en `/en`.
-- [ ] **CNT-03** (bajo): Reescribir `fullContent` del global `llm` con estructura markdown (secciones).
-- [ ] **CNT-04** (bajo): Convertir los placeholders `www.ejemplo.com` del post seo-on-page en `<code>`/texto (no enlaces).
+### Cache en el edge
+- [ ] **PERF-09** (medio): El HTML de la home y de los posts se sirve cacheado desde el edge de Cloudflare (`cf-cache-status: HIT` en visita repetida) respetando el ISR de Next, sin servir contenido stale más allá de la ventana de revalidación ni romper el bypass de draft/preview.
+
+### Medición & validación de campo
+- [ ] **PERF-10** (medio): El INP real emitido por el reporter `web-vitals`→GA4 (#103) es consultable por interacción/página, y se usa para identificar cuál interacción concreta excede 200ms antes de optimizar (no se optimiza a ciegas).
+- [ ] **PERF-11** (info): Existe un procedimiento repetible de re-medición mobile (`npx unlighthouse-ci --site https://juan-tech.com --urls /`) corrido antes y después del milestone, con los números registrados para comparar contra el baseline.
+
+## Restricciones (constantes en todas las fases)
+- **QA visual obligatorio** antes de mergear el refactor del hero y el cambio de preloads de fuentes: no romper la animación de entrada ni el layout.
+- No regresionar el LCP-visible-en-SSR ya logrado en v1.1 (el H1 pinta en el primer render).
+- Mantener tsc baseline (0 nuevos en `src/`) y tests verdes.
+- Medir siempre en mobile (Unlighthouse throttlea como campo; PSI subestima).
 
 ## Future Requirements (deferidos)
-- **AEO-FAQ**: Inyectar FAQPage/HowTo por post (131 encabezados en forma de pregunta ya existen) — enhancement AEO, milestone propio.
-- **BUG-07**: CWV floating promise en serverless → mover a `payload.jobs`/`waitUntil` (deuda reconocida).
-- Deuda menor informativa: `internalLinksCount` hardcodeado, try vacío en indexing route, guard de `CRON_SECRET`.
+- Cachear/optimizar rutas de blog/case-studies más allá de la home si la home no alcanza el objetivo sola.
+- Auditar imágenes/LCP de plantillas de contenido (posts) en un milestone propio.
+- Diferidos de v1.6 (acciones manuales de Juan): INFRA www TLS (#12), Rocket Loader ya OFF (#102), contenido (#104-#107).
 - Diferidos de v1.5: VERIFY-01 (gate runtime), ASSET-01 (Blob→Cloudinary).
 
 ## Out of Scope
-- Fabricar AggregateRating/Review sin reseñas reales.
-- Rediseño visual de Header/Footer.
-- Cambiar el proxy Cloudflare→Vercel salvo lo necesario para www/Rocket Loader.
-- Rehacer keyword research.
-
-## GitHub Issues (tanda audit-jul2026)
-
-| REQ-ID | Issue | Tipo | Fixable por código |
-|--------|-------|------|--------------------|
-| TECH-01 | #85 | duplicados/hreflang (crítico) | sí |
-| TECH-02 | #86 | og:image Cloudinary 400 | sí |
-| TECH-03 | #87 | authors 500 + ProfilePage | sí |
-| TECH-04 | #88 | 3 posts fuera del sitemap | sí |
-| TECH-05 | #89 | 5 huérfanos general/* | sí |
-| TECH-06 | #90 | 2 H1 home | sí |
-| TECH-07 | #91 | x-powered-by | sí |
-| SCH-01 | #92 | @graph sin @type | sí |
-| GEO-01 | #93 | llms.txt roto prod | sí (requiere logs Vercel) |
-| GEO-02 | #94 | llms-full.txt fantasma | sí |
-| PERF-01 | #95 | LCP render delay | sí |
-| BUG-01 | #96 | revalidatePost sin categoría | sí |
-| BUG-02 | #97 | triggerCWVScan URL 404 | sí |
-| BUG-03 | #98 | previousDoc._status | sí |
-| BUG-04 | #99 | internal-links apply falso positivo | sí |
-| BUG-05 | #100 | generateMetadata drafts | sí |
-| BUG-06 | #101 | generateStaticParams locale | sí |
-| PERF-02 | #102 | Rocket Loader | no (Cloudflare/Juan) |
-| PERF-03 | #103 | INP dashboard | no (Vercel/Juan) |
-| CNT-01 | #104 | javascript-seo title/meta | no (Payload/Juan) |
-| CNT-02 | #105 | FAQ /en idioma | no (Payload/Juan) |
-| CNT-03 | #106 | llms fullContent | no (Payload) +opcional código |
-| CNT-04 | #107 | ejemplo.com links | no (Payload/Juan) |
-| INFRA-01 | #12 (comentado) | www TLS | no (Cloudflare/Juan) |
+- Rediseño visual del hero (solo mover la lógica de render, no el diseño).
+- Cambiar el proxy Cloudflare→Vercel más allá de reglas de cache.
+- Rehacer keyword research o tocar contenido.
+- Rediseño de Header/Footer.
 
 ## Traceability (REQ → fase)
 
-| Fase | Requirements |
-|------|--------------|
-| 31 Routing canónico del blog | TECH-01, BUG-01, BUG-02, BUG-06 |
-| 32 Sitemap & enlazado interno | TECH-04, TECH-05 |
-| 33 Metadata, OG & schema | TECH-02, TECH-06, SCH-01, BUG-05 |
-| 34 Resiliencia runtime | TECH-03, GEO-01, GEO-02 |
-| 35 Bugs restantes & hardening | BUG-03, BUG-04, TECH-07 |
-| 36 Performance LCP | PERF-01 |
-| 37 Manual & verificación | PERF-02, PERF-03, CNT-01..04, INFRA-01 |
-
-Cobertura: 100% de los REQ mapeados a una fase.
-</content>
+_Se completa cuando el roadmapper cree ROADMAP.md._

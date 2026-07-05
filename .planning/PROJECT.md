@@ -8,18 +8,19 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: v1.7 Rendimiento avanzado (Core Web Vitals) — jul 2026
+## Current Milestone: v1.8 Refresh de UX/UI (sitio público) — jul 2026
 
-**Goal:** Bajar el LCP mobile de la home a < 2500ms y el INP a < 200ms recortando el JavaScript de arranque y refactorizando el hero, sin romper la animación/diseño (QA visual obligatorio).
+**Goal:** Pasar el skill `ui-ux-pro-max` por todos los componentes del sitio público, derivar un design-system refrescado (paleta/tipografía/espaciado/efectos/motion/a11y) y aplicarlo componente por componente para modernizar el look sin romper identidad ni regresionar el rendimiento de v1.7. QA visual obligatorio por superficie.
 
 **Target features:**
-- Hero → server component con wrapper cliente chico solo para el parallax (H1/LCP deja de depender de la hidratación del hero)
-- Recorte de JS inicial: auditar ~27 chunks/~325KB gzip; `next/dynamic` agresivo below-the-fold; aislar/reducir framer-motion (evaluar entrance con CSS puro)
-- Recorte de preloads de fuentes al peso del H1 (Array Bold); `preload:false` en Geist Sans/Mono si no son above-the-fold (riesgo FOUT → QA visual)
-- Cache de HTML en edge de Cloudflare (hoy `cf-cache-status: DYNAMIC`) respetando el ISR de Next
-- Validación con field data: usar el INP real del reporter `web-vitals`→GA4 (#103) para priorizar, re-medir con Unlighthouse mobile
+- Fundación design-system: correr `ui-ux-pro-max --design-system`, fijar tokens refrescados (paleta OKLCH, tipografía, spacing, radius, sombras, motion) y baseline de a11y en `globals.css`/`tailwind.config`
+- Refresh del chrome global (Header/Nav/mobile menu, Footer, Logo, Breadcrumbs, DynamicBackground)
+- Refresh de la home (About, FeaturedWorks/Clients/Blog, Testimonials, Results, CTAs, ContactForm)
+- Refresh de blog listing & archivo (ArchiveHeader, PostsGrid, Card, Pagination, Category*)
+- Refresh de post/artículo (PostHero, Content, RichText, Code, TOC, Sidebar, RelatedPosts, FAQ, AuthorCard)
+- Refresh de case studies + formularios/interactivos + primitivas UI compartidas (`components/ui/*`)
 
-Base: medición Unlighthouse mobile post-v1.6 (Perf 0.37 · LCP 7.4s · TBT 2180ms). Detalle: `.planning/research/audit-jul2026/03-performance.md`. Issues #95 (LCP), #103 (INP).
+Base: `.planning/MILESTONE-CONTEXT.md` (inventario ~60 componentes + tokens actuales). Herramienta: `ui-ux-pro-max` (design intelligence).
 
 ## Requirements
 
@@ -46,13 +47,15 @@ Base: medición Unlighthouse mobile post-v1.6 (Perf 0.37 · LCP 7.4s · TBT 2180
 
 ### Active
 
-<!-- Scope v1.7 — rendimiento avanzado (Core Web Vitals). REQ-IDs en REQUIREMENTS.md. -->
+<!-- Scope v1.8 — refresh de UX/UI del sitio público. REQ-IDs en REQUIREMENTS.md. -->
 
-- Milestone v1.7: LCP mobile home < 2500ms + INP < 200ms vía hero server component, recorte de JS/fuentes, cache edge y validación con field data
+- Milestone v1.8: refresh guiado por design-system (`ui-ux-pro-max`) de todos los componentes del sitio público, aplicado por superficie con QA visual
 
-**v1.6 (código shipped, branch `fix/v1.6-audit-remediation`):** 12 issues cerrados en código; acciones manuales de Juan pendientes (#12 #88 #95 #102-#107, JUAN-ACTIONS.md). El fix real del LCP (#95) se retoma aquí.
+**v1.7 (PARKEADA):** fases 39 (hero server component, `41a308d`) y 41 (preloads de fuentes, `c63b29d`) hechas + QA visual firmado. Fases abiertas para cuando Juan tenga data/acceso: 38 (INP field data), 40 (medición — bloqueada por disco lleno), 42 (cache edge Cloudflare), 43 (re-medición prod). Branch `feat/inp-web-vitals-103`.
 
-**Diferidos de v1.5:** VERIFY-01 (gate runtime, checklist listo) · ASSET-01 (migración storage Blob→Cloudinary, milestone propio)
+**v1.6 (código shipped, branch `fix/v1.6-audit-remediation`):** 12 issues cerrados; acciones manuales pendientes (JUAN-ACTIONS.md).
+
+**Diferidos de v1.5:** VERIFY-01 (gate runtime) · ASSET-01 (Blob→Cloudinary, milestone propio)
 
 ### Out of Scope
 
@@ -108,4 +111,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-02 — v1.7 (rendimiento avanzado / Core Web Vitals) iniciado*
+*Last updated: 2026-07-05 — v1.8 (refresh de UX/UI del sitio público) iniciado; v1.7 parkeada*

@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.7
-milestone_name: Rendimiento avanzado (Core Web Vitals)
-status: executing
-last_updated: "2026-07-05T00:00:00.000Z"
-last_activity: 2026-07-05 — Fases 39 y 41 completas (QA visual firmado); midiendo recorte de JS (build local) para Fase 40
+milestone: v1.8
+milestone_name: Refresh de UX/UI (sitio público)
+status: planning
+last_updated: "2026-07-05T18:14:52.413Z"
+last_activity: 2026-07-05
 progress:
-  total_phases: 6
-  completed_phases: 2
+  total_phases: 0
+  completed_phases: 0
   total_plans: 0
   completed_plans: 0
-  percent: 33
+  percent: 0
 ---
 
 # Project State
@@ -20,17 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación. Para v1.5: el admin de Payload solo contiene código vivo y coherente.
-**Current focus:** Milestone v1.7 roadmapped (fases 38-43). Bajar LCP mobile home < 2500ms e INP < 200ms: medir INP de campo → hero server component + recorte JS (gate QA visual) → validar TBT/INP → recortar fuentes (gate QA visual) → cache edge Cloudflare → re-medición final.
+**Current focus:** Milestone v1.8 — refresh de UX/UI del sitio público con `ui-ux-pro-max`, componente por componente con QA visual por superficie. v1.7 parkeada (39/41 hechas; 38/40/42/43 abiertas para Juan). Definiendo requirements.
 
 ## Current Position
 
-Phase: 39 (Hero server component + recorte de JS) — código hecho, gate QA visual pendiente
+Phase: Not started (defining requirements)
 Plan: —
-Status: Branch `feat/inp-web-vitals-103`, commit `41a308d`. tsc 112 baseline, tests verdes (2 int flaky no relacionados). Fase 38 diferida (sin field data GA4 todavía — reporter #103 recién mergeado).
-Last activity: 2026-07-04 — Fase 39 refactor del hero a server component + parallax CSS, framer-motion fuera del above-the-fold
-
-**Gate abierto (Juan):** QA visual mobile del hero antes de mergear — ver `.planning/phases/39-hero-server-component-recorte-de-js-inicial/39-VERIFICATION.md`.
-**Diferido:** Fase 38 (INP field data) hasta que GA4 acumule datos + Juan configure params/dimensiones en GTM/GA4 (ver instrucciones de sesión).
+Status: Defining requirements
+Last activity: 2026-07-05 — Milestone v1.8 started
 
 ## Milestone v1.7 — Estructura de fases
 

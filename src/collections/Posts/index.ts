@@ -267,6 +267,20 @@ export const Posts: CollectionConfig<'posts'> = {
       relationTo: 'users',
     },
     {
+      // Phase 56 (AUTHORS-02): additive relationship to the dedicated `authors`
+      // collection. Preferred source of truth for author reads; the `authors`→
+      // users field above stays as the live fallback until Phase 58.
+      name: 'postAuthors',
+      type: 'relationship',
+      relationTo: 'authors',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+        description:
+          'Autores desde la colección Authors (preferido). El campo authors→users queda como fallback hasta Phase 58.',
+      },
+    },
+    {
       name: 'populatedAuthors',
       type: 'array',
       access: {

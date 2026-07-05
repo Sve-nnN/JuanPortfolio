@@ -15,6 +15,7 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Authors } from './collections/Authors'
 import Works from './collections/Works'
 import CaseStudies from './collections/CaseStudies'
 import Clientes from './collections/Clientes'
@@ -125,6 +126,7 @@ export default buildConfig({
     Media,
     Categories,
     Users,
+    Authors,
     Works,
     CaseStudies,
     Clientes,

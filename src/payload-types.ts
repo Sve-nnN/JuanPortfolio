@@ -73,6 +73,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    authors: Author;
     works: Work;
     'case-studies': CaseStudy;
     clientes: Cliente;
@@ -99,6 +100,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    authors: AuthorsSelect<false> | AuthorsSelect<true>;
     works: WorksSelect<false> | WorksSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     clientes: ClientesSelect<false> | ClientesSelect<true>;
@@ -360,6 +362,10 @@ export interface Post {
   internalLinks?: {};
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
+  /**
+   * Autores desde la colección Authors (preferido). El campo authors→users queda como fallback hasta Phase 58.
+   */
+  postAuthors?: (string | Author)[] | null;
   populatedAuthors?:
     | {
         id?: string | null;
@@ -765,6 +771,118 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors".
+ */
+export interface Author {
+  id: string;
+  name: string;
+  role?: string | null;
+  /**
+   * Ej: Full-Stack Developer, Senior Software Engineer
+   */
+  jobTitle?: string | null;
+  bio?: string | null;
+  /**
+   * Temas en los que eres experto (mejora E-E-A-T)
+   */
+  expertise?:
+    | {
+        topic: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Links a perfiles profesionales (mejora autoridad)
+   */
+  socialMedia?: {
+    linkedin?: string | null;
+    github?: string | null;
+    twitter?: string | null;
+    website?: string | null;
+  };
+  /**
+   * Títulos académicos, certificaciones profesionales, cursos relevantes
+   */
+  education?:
+    | {
+        /**
+         * Ej: Master en Ingeniería, AWS Certified Developer
+         */
+        degree: string;
+        /**
+         * Ej: Universidad XYZ, Amazon Web Services
+         */
+        institution?: string | null;
+        /**
+         * Logo pequeño de la institución (opcional, se mostrará junto al nombre)
+         */
+        logo?: (string | null) | Media;
+        startDate?: string | null;
+        /**
+         * Dejar vacío si está en curso
+         */
+        endDate?: string | null;
+        /**
+         * Imagen del certificado o diploma (opcional)
+         */
+        certificate?: (string | null) | Media;
+        /**
+         * Detalles adicionales, logros, especialización
+         */
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  experience?:
+    | {
+        company?: string | null;
+        role?: string | null;
+        startDate?: string | null;
+        endDate?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  avatar?: (string | null) | Media;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string | null;
+  };
+  canonical?: string | null;
+  noindex?: boolean | null;
+  nofollow?: boolean | null;
+  og?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+    type?: ('website' | 'article') | null;
+  };
+  twitter?: {
+    card?: ('summary' | 'summary_large_image') | null;
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  seoScore?: number | null;
+  seoAnalysis?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  schema?: {
+    type?: ('WebPage' | 'Article') | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2575,6 +2693,10 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'authors';
+        value: string | Author;
+      } | null)
+    | ({
         relationTo: 'works';
         value: string | Work;
       } | null)
@@ -3359,6 +3481,7 @@ export interface PostsSelect<T extends boolean = true> {
   internalLinks?: T | {};
   publishedAt?: T;
   authors?: T;
+  postAuthors?: T;
   populatedAuthors?:
     | T
     | {
@@ -3635,6 +3758,89 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors_select".
+ */
+export interface AuthorsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  jobTitle?: T;
+  bio?: T;
+  expertise?:
+    | T
+    | {
+        topic?: T;
+        id?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        linkedin?: T;
+        github?: T;
+        twitter?: T;
+        website?: T;
+      };
+  education?:
+    | T
+    | {
+        degree?: T;
+        institution?: T;
+        logo?: T;
+        startDate?: T;
+        endDate?: T;
+        certificate?: T;
+        description?: T;
+        id?: T;
+      };
+  experience?:
+    | T
+    | {
+        company?: T;
+        role?: T;
+        startDate?: T;
+        endDate?: T;
+        description?: T;
+        id?: T;
+      };
+  avatar?: T;
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  canonical?: T;
+  noindex?: T;
+  nofollow?: T;
+  og?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        type?: T;
+      };
+  twitter?:
+    | T
+    | {
+        card?: T;
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  seoScore?: T;
+  seoAnalysis?: T;
+  schema?:
+    | T
+    | {
+        type?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,16 +1,15 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.8
-milestone_name: Refresh de UX/UI
-status: Awaiting next milestone
-stopped_at: Roadmap v1.8 creado (fases 44-51, cobertura 22/22).
-last_updated: "2026-07-05T21:39:10.909Z"
-last_activity: 2026-07-05 — Milestone v1.8 completed and archived
+milestone: v1.9
+milestone_name: Estandarización del admin de Payload
+status: planning
+last_updated: "2026-07-05T22:07:11.440Z"
+last_activity: 2026-07-05
 progress:
-  total_phases: 31
+  total_phases: 0
   completed_phases: 0
   total_plans: 0
-  completed_plans: 2
+  completed_plans: 0
   percent: 0
 ---
 
@@ -25,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: Milestone v1.8 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-07-05 — Milestone v1.8 completed and archived
+Status: Defining requirements
+Last activity: 2026-07-05 — Milestone v1.9 started
 
 ## Milestone v1.8 — Estructura de fases
 

@@ -8,19 +8,17 @@ Sitio personal y blog técnico de Juan (juan-tech.com), construido sobre Next.js
 
 Las páginas públicas (home y posts) deben servirse como HTML cacheado desde el edge para que carguen rápido y posicionen bien. Si todo lo demás falla, el rendimiento percibido y la cacheabilidad no pueden romperse.
 
-## Current Milestone: v1.8 Refresh de UX/UI (sitio público) — jul 2026
+## Current Milestone: v1.9 Estandarización del admin de Payload — jul 2026
 
-**Goal:** Pasar el skill `ui-ux-pro-max` por todos los componentes del sitio público, derivar un design-system refrescado (paleta/tipografía/espaciado/efectos/motion/a11y) y aplicarlo componente por componente para modernizar el look sin romper identidad ni regresionar el rendimiento de v1.7. QA visual obligatorio por superficie.
+**Goal:** Reducir las ~23+ secciones sueltas del admin a una nav agrupada y escalable, migrando los layouts singleton (Home, BlogListing, CaseStudiesListing) de globals a la colección `Pages` para poder crear/editar/duplicar páginas, tomando `aprendoclub` como modelo de referencia. Sin regresionar rendimiento/ISR, SEO ni el live preview.
 
 **Target features:**
-- Fundación design-system: correr `ui-ux-pro-max --design-system`, fijar tokens refrescados (paleta OKLCH, tipografía, spacing, radius, sombras, motion) y baseline de a11y en `globals.css`/`tailwind.config`
-- Refresh del chrome global (Header/Nav/mobile menu, Footer, Logo, Breadcrumbs, DynamicBackground)
-- Refresh de la home (About, FeaturedWorks/Clients/Blog, Testimonials, Results, CTAs, ContactForm)
-- Refresh de blog listing & archivo (ArchiveHeader, PostsGrid, Card, Pagination, Category*)
-- Refresh de post/artículo (PostHero, Content, RichText, Code, TOC, Sidebar, RelatedPosts, FAQ, AuthorCard)
-- Refresh de case studies + formularios/interactivos + primitivas UI compartidas (`components/ui/*`)
+- Migrar `Home`, `BlogListing`, `CaseStudiesListing` (globals con page-builder `layout: blocks`) → entradas de la colección `Pages` (creables/duplicables). Incluye ruteo de `/` (home ES) y QA de render/ISR/hreflang.
+- Nav agrupada en 4 grupos en el sidebar: **Contenido** (Pages, Posts, Categories, Authors, Media), **Sitio** (Site Settings, Header, Footer, Styles, LLM, Robots), **SEO/Métricas** (KeywordMetrics, PageMetrics, GSCMetrics, BrokenLinks, Redirects), **Marketing/Otros** (Works, CaseStudies, Clientes, Testimonials, AdBanners, Forms, Search).
+- Nueva colección **Authors** (relacionable con Posts; hoy no existe pese al `authors-sitemap`).
+- Limpieza/consolidación de globals redundantes (Styles/LLM/Robots) y agrupación coherente de la config del sitio.
 
-Base: `.planning/MILESTONE-CONTEXT.md` (inventario ~60 componentes + tokens actuales). Herramienta: `ui-ux-pro-max` (design intelligence).
+Referencia: `/Users/juan/Documents/Codigo/Arianna/aprendoclub/aprendoclub` (Payload; nav Contenido/Sitio; 1 global SiteSettings; page-builder en `Pages`). Riesgo principal: ruteo de la home ES (`/`) ya delicado por el trabajo ISR de v1.0/v1.7.
 
 ## Requirements
 
@@ -47,9 +45,11 @@ Base: `.planning/MILESTONE-CONTEXT.md` (inventario ~60 componentes + tokens actu
 
 ### Active
 
-<!-- Scope v1.8 — refresh de UX/UI del sitio público. REQ-IDs en REQUIREMENTS.md. -->
+<!-- Scope v1.9 — estandarización del admin de Payload. REQ-IDs en REQUIREMENTS.md. -->
 
-- Milestone v1.8: refresh guiado por design-system (`ui-ux-pro-max`) de todos los componentes del sitio público, aplicado por superficie con QA visual
+- Milestone v1.9: migración de globals singleton (Home/BlogListing/CaseStudiesListing) a la colección `Pages`, nav agrupada (Contenido/Sitio/SEO/Marketing), colección Authors, limpieza de globals
+
+**v1.8 (SHIPPED 2026-07-05):** refresh de UX/UI del sitio público guiado por `ui-ux-pro-max` (fases 44-51); design-system con tokens de motion+a11y, primitivas alineadas, headings/botones/densidad normalizados, hero terminal, forms con estados. Diferido: refresh fino del componente terminal/hero.
 
 **v1.7 (PARKEADA):** fases 39 (hero server component, `41a308d`) y 41 (preloads de fuentes, `c63b29d`) hechas + QA visual firmado. Fases abiertas para cuando Juan tenga data/acceso: 38 (INP field data), 40 (medición — bloqueada por disco lleno), 42 (cache edge Cloudflare), 43 (re-medición prod). Branch `feat/inp-web-vitals-103`.
 
@@ -111,4 +111,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-05 — v1.8 (refresh de UX/UI del sitio público) iniciado; v1.7 parkeada*
+*Last updated: 2026-07-05 — v1.9 (estandarización del admin de Payload) iniciado; v1.8 shipped; v1.7 parkeada*

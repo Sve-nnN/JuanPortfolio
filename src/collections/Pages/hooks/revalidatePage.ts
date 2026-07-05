@@ -15,6 +15,9 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
 
       revalidatePath(path)
       revalidateTag('pages-sitemap')
+      // Invalidate the tag-cached read (getCachedPageBySlug) for this slug so
+      // editing e.g. the `blog` Page refreshes /blog. Belt-and-suspenders with revalidatePath.
+      revalidateTag('pages_' + doc.slug)
     }
 
     // If the page was previously published, we need to revalidate the old path
@@ -25,6 +28,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
 
       revalidatePath(oldPath)
       revalidateTag('pages-sitemap')
+      revalidateTag('pages_' + previousDoc.slug)
     }
   }
   return doc

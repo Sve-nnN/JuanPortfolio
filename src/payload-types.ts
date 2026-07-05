@@ -273,6 +273,7 @@ export interface Page {
       | SimpleCtaBlock
       | ListingHeroBlock
       | PostsGridBlock
+      | LatestBlogPostsBlock
       | CaseStudiesGridBlock
       | PostSidebarBlock
       | RelatedPostsBlockType
@@ -1174,6 +1175,17 @@ export interface PostsGridBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'postsGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestBlogPostsBlock".
+ */
+export interface LatestBlogPostsBlock {
+  title?: string | null;
+  count?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestBlogPosts';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2717,6 +2729,7 @@ export interface PagesSelect<T extends boolean = true> {
               simpleCta?: T | SimpleCtaBlockSelect<T>;
               listingHero?: T | ListingHeroBlockSelect<T>;
               postsGrid?: T | PostsGridBlockSelect<T>;
+              latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
               caseStudiesGrid?: T | CaseStudiesGridBlockSelect<T>;
               postSidebar?: T | PostSidebarBlockSelect<T>;
               relatedPosts?: T | RelatedPostsBlockTypeSelect<T>;
@@ -2927,6 +2940,16 @@ export interface PostsGridBlockSelect<T extends boolean = true> {
         staggerChildren?: T;
         viewportAmount?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestBlogPostsBlock_select".
+ */
+export interface LatestBlogPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  count?: T;
   id?: T;
   blockName?: T;
 }
@@ -4412,17 +4435,6 @@ export interface FAQBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LatestBlogPostsBlock".
- */
-export interface LatestBlogPostsBlock {
-  title?: string | null;
-  count?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'latestBlogPosts';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "LatestCaseStudiesBlock".
  */
 export interface LatestCaseStudiesBlock {
@@ -4824,16 +4836,6 @@ export interface FAQBlockSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LatestBlogPostsBlock_select".
- */
-export interface LatestBlogPostsBlockSelect<T extends boolean = true> {
-  title?: T;
-  count?: T;
   id?: T;
   blockName?: T;
 }

@@ -27,6 +27,7 @@ import { ResultsSection } from '../../blocks/ResultsSection/config'
 import { CaseStudyHeader } from '../../blocks/CaseStudyHeader/config'
 import { PostArticleHeader } from '../../blocks/PostArticleHeader/config'
 import { BlogArchiveHeader } from '../../blocks/BlogArchiveHeader/config'
+import { LatestBlogPosts } from '../../blocks/LatestBlogPosts/config'
 import { FeaturedBlogPosts } from '../../blocks/FeaturedBlogPosts/config'
 import { FeaturedCaseStudies } from '../../blocks/FeaturedCaseStudies/config'
 import { AboutWithFeatures } from '../../blocks/AboutWithFeatures/config'
@@ -160,6 +161,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 // Bloques para páginas de listado
                 ListingHero,
                 PostsGrid,
+                LatestBlogPosts,
                 CaseStudiesGrid,
                 // Bloques para single post/case study
                 PostSidebar,

@@ -16,6 +16,8 @@
     "sync": "tsx -r dotenv/config src/scripts/syncContent.ts",
     "sync:keywords": "tsx -r dotenv/config src/scripts/syncKeywords.ts",
     "migrate:blog-listing": "tsx -r dotenv/config src/scripts/migrate-blog-listing-to-page.ts",
+    "migrate:authors": "tsx -r dotenv/config src/scripts/migrate-authors.ts",
+    "verify:authors": "tsx -r dotenv/config src/scripts/verify-authors-collection.ts",
     "migrate:case-studies-listing": "tsx -r dotenv/config src/scripts/migrate-case-studies-listing-to-page.ts",
     "populate:keywords": "tsx -r dotenv/config src/scripts/populate-keywords.ts",
     "audit:keywords": "tsx -r dotenv/config src/scripts/audit-keywords.ts",

@@ -7,10 +7,10 @@ last_updated: "2026-07-05T23:00:00.000Z"
 last_activity: 2026-07-05
 progress:
   total_phases: 8
-  completed_phases: 3
-  total_plans: 3
-  completed_plans: 3
-  percent: 38
+  completed_phases: 4
+  total_plans: 4
+  completed_plans: 4
+  percent: 50
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 55 (Migración del listado de case studies a Pages) — next
+Phase: 56 (Colección Authors) — next
 Plan: —
-Status: Phase 54 completada (13/13 en código; correr pnpm migrate:blog-listing + smoke diferidos → v1.9-JUAN-ACTIONS.md). PAGES-04 done.
-Last activity: 2026-07-05 — Phase 54 (migración blog a Pages, patrón getCachedPageBySlug) ejecutada y verificada
+Status: Phase 55 completada (11/11 en código; correr pnpm migrate:case-studies-listing + smoke diferidos). PAGES-05 done.
+Last activity: 2026-07-05 — Phase 55 (migración case studies a Pages, réplica patrón 54) ejecutada y verificada
 
 ## Milestone v1.9 — Estructura de fases
 

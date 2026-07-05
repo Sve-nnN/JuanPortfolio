@@ -166,7 +166,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
                   <CMSLink
                     {...data.cta.link}
                     locale={currentLocale}
-                    className="px-8 py-3 bg-primary text-primary-foreground text-base font-bold rounded-full shadow-lg hover:shadow-primary/25 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                    appearance="default"
                   />
                 </div>
               )}
@@ -226,7 +226,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale: server
                       <CMSLink
                         {...data.cta.link}
                         locale={currentLocale}
-                        className="w-full flex items-center justify-center py-4 bg-primary text-primary-foreground font-bold rounded-2xl shadow-xl active:scale-95 transition-transform"
+                        appearance="default"
+                        className="w-full"
                         onClick={() => setIsOpen(false)}
                       />
                     )}

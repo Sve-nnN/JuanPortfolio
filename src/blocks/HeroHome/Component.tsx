@@ -66,14 +66,14 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
             )}
 
             <h1
-              className="hero-item font-display-lcp font-extrabold text-foreground mb-8 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-6xl"
+              className="hero-item text-display font-display-lcp font-extrabold text-foreground mb-8 leading-[1.05] tracking-tight"
               style={{ animationDelay: nextDelay() }}
             >
               {title || 'Juan Carlos Angulo'}
               {subtitle && (
                 <>
                   <br />
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-4 font-bold text-2xl sm:text-3xl lg:text-4xl">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-4 font-bold text-xl sm:text-2xl lg:text-3xl">
                     {subtitle}
                   </span>
                 </>

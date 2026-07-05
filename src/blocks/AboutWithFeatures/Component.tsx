@@ -110,13 +110,13 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock & { locale?: 'en
                         delay: index % 2 * 0.2, 
                         ease: [0.25, 0.1, 0.25, 1] 
                       }}
-                      className="card-elevated p-10 group cursor-default border-t-[6px] border-t-primary/10"
+                      className="card-elevated p-6 md:p-8 group cursor-default border-t-4 border-t-primary/10"
                     >
-                      <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-700 shadow-inner group-hover:shadow-primary/20">
-                        <IconComponent className="w-8 h-8 group-hover:rotate-12 transition-transform duration-500" />
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-standard shadow-inner group-hover:shadow-primary/20">
+                        <IconComponent className="w-6 h-6 group-hover:rotate-12 transition-transform duration-500" />
                       </div>
-                      <h3 className="text-card-title font-bold text-foreground mb-6 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
-                      <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
+                      <h3 className="text-card-title font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
+                      <p className="text-base text-muted-foreground leading-relaxed font-medium">
                         {feature.description}
                       </p>
                     </m.div>

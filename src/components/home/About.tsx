@@ -4,9 +4,9 @@ import type { Page } from '@/payload-types'
 
 const About = ({ page }: { page?: Partial<Page> }) => {
   return (
-    <section className="py-20 md:py-28" id="about">
+    <section className="py-20 md:py-20" id="about">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div>
             <span className="text-primary font-semibold">Sobre mí</span>
             <h2 className="text-section font-display font-bold text-current mt-2 mb-6">

@@ -11,10 +11,10 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
   locale: _locale = 'es'
 }) => {
   return (
-    <section className="py-24 md:py-32 overflow-hidden bg-secondary">
+    <section className="py-16 md:py-20 overflow-hidden bg-secondary">
       <div className="container mx-auto px-4">
         {title && (
-          <div className="text-center mb-16 md:mb-24">
+          <div className="text-center mb-10 md:mb-14">
             <h2 className="text-section font-array font-bold tracking-tight uppercase opacity-20">
               {title}
             </h2>
@@ -27,7 +27,7 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
               &ldquo;
             </div>
             
-            <blockquote className="text-3xl md:text-5xl font-medium mb-16 leading-tight tracking-tight italic text-foreground">
+            <blockquote className="text-3xl md:text-5xl font-medium mb-10 leading-tight tracking-tight italic text-foreground">
               {quote}
             </blockquote>
             

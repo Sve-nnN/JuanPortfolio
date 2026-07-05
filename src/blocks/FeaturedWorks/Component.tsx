@@ -40,7 +40,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
   
   return (
     <LazyMotion features={domAnimation}>
-      <section className="py-24 md:py-48 bg-background relative overflow-hidden" id="works">
+      <section className="py-16 md:py-20 bg-background relative overflow-hidden" id="works">
         {/* Background Ambience */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full -z-10 pointer-events-none opacity-30">
           <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/5 rounded-full blur-[120px]" />
@@ -53,7 +53,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12"
+            className="flex flex-col md:flex-row justify-between items-end mb-14 gap-12"
           >
             <div className="max-w-4xl">
               <h2 className="text-section font-display font-bold tracking-tighter mb-10 text-foreground leading-[0.9]">
@@ -84,7 +84,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
             )}
           </m.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-12">
             {displayWorks.map((work, i) => (
               <m.div 
                 key={work.id}

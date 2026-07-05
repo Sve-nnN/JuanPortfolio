@@ -28,7 +28,7 @@ export const PostArticleHeader: React.FC<PostArticleHeaderBlock & { locale?: 'en
           {title}
         </h1>
 
-        <div className="flex flex-wrap items-center gap-x-10 gap-y-6 text-base md:text-lg text-muted-foreground mb-16 py-8 border-y border-border/50 font-medium">
+        <div className="flex flex-wrap items-center gap-x-10 gap-y-6 text-base md:text-lg text-muted-foreground mb-10 py-8 border-y border-border/50 font-medium">
           {authorData && (
             <div className="flex items-center gap-3">
               <div className="bg-primary/10 p-2 rounded-full">

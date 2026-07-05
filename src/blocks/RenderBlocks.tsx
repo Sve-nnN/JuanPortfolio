@@ -101,7 +101,7 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               if (index === 0) {
                 return (
-                  <div className="mb-16" key={key}>
+                  <div className="mb-10" key={key}>
                     <Block {...block} locale={locale} />
                   </div>
                 )

@@ -26,9 +26,9 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock & { locale
   if (testimonials.length === 0) return null
 
   return (
-    <section className="py-24 md:py-32 bg-background">
+    <section className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-4 text-center">
-        {title && <h2 className="text-section font-display font-bold text-center mb-24 tracking-tighter leading-tight">{title}</h2>}
+        {title && <h2 className="text-section font-display font-bold text-center mb-14 tracking-tighter leading-tight">{title}</h2>}
         
         <div className="flex flex-wrap justify-center gap-10 lg:gap-12">
           {testimonials.map((t, i) => {

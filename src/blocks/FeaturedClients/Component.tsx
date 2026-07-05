@@ -48,12 +48,12 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
   }
 
   return (
-    <section className="py-24 md:py-32 overflow-hidden bg-background relative">
+    <section className="py-16 md:py-20 overflow-hidden bg-background relative">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(clientsSchema) }}
       />
-      <div className="container mx-auto px-4 mb-16 md:mb-24 text-center">
+      <div className="container mx-auto px-4 mb-10 md:mb-14 text-center">
         <div className="max-w-4xl mx-auto">
           {title && (
             <h2 className="text-section font-display font-bold tracking-tighter mb-8 text-foreground">
@@ -76,7 +76,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
         <div className="flex overflow-hidden py-12">
           {autoScroll ? (
             <motion.div
-              className="flex gap-12 md:gap-24 items-center"
+              className="flex gap-12 md:gap-12 items-center"
               animate={{
                 x: [0, -100 * clientDocs.length],
               }}
@@ -145,7 +145,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
       </div>
 
       {ctaLabel && ctaUrl && (
-        <div className="container mx-auto px-4 mt-16 md:mt-24 text-center">
+        <div className="container mx-auto px-4 mt-16 md:mt-14 text-center">
           <CMSLink
             url={ctaUrl}
             label={ctaLabel}

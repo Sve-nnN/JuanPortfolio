@@ -7,7 +7,7 @@ export const IntroBlock: React.FC<IntroBlockProps & { locale?: 'en' | 'es' }> = 
   locale: _locale = 'es'
 }) => {
   return (
-    <section className="container mx-auto px-4 md:px-8 py-16 md:py-32">
+    <section className="container mx-auto px-4 md:px-8 py-16 md:py-20">
       <div className="max-w-5xl">
         <h2 className="text-display font-display font-bold tracking-tight mb-10 leading-[1.1] text-foreground">
           {heading}

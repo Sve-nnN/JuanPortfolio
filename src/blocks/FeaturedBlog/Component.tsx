@@ -36,11 +36,11 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
   const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <section id="blog" className="py-24 md:py-32 bg-background">
+    <section id="blog" className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         {(title || description) && (
-          <div className="text-center mb-20">
+          <div className="text-center mb-12">
             {title && (
               <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             )}
@@ -104,7 +104,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
 
         {/* CTA Button */}
         {ctaLabel && ctaUrl && (
-          <div className="text-center mt-20">
+          <div className="text-center mt-12">
             <Link
               className="btn btn-primary"
               href={`${localePrefix}${ctaUrl.startsWith('/') ? '' : '/'}${ctaUrl}`}

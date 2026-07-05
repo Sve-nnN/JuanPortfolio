@@ -18,8 +18,8 @@ export const SectionBlock: React.FC<SectionBlockProps & { locale?: 'en' | 'es' }
   const paddingClasses = {
     none: 'py-0',
     sm: 'py-12 md:py-20',
-    md: 'py-20 md:py-32',
-    lg: 'py-32 md:py-48',
+    md: 'py-20 md:py-20',
+    lg: 'py-20 md:py-20',
   }
 
   return (

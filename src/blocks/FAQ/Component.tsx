@@ -16,7 +16,7 @@ export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {
 
   return (
     <div className="my-32 scroll-mt-32 max-w-4xl mx-auto px-4" id="faq">
-      <div className="flex flex-col items-center mb-20 text-center">
+      <div className="flex flex-col items-center mb-12 text-center">
         <span className="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-widest uppercase text-primary bg-primary/10 rounded-full">
           FAQ
         </span>

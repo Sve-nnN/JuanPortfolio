@@ -9,8 +9,8 @@ export const CallToActionBlock: React.FC<CallToActionBlockProps & { locale?: 'en
   locale = 'es'
 }) => {
   return (
-    <section className="container mx-auto px-4 md:px-8 py-12 md:py-32">
-      <div className="card-elevated p-10 md:p-24 flex flex-col lg:flex-row items-center justify-between gap-16 overflow-hidden relative group cursor-default border-t-[8px] border-t-primary/20">
+    <section className="container mx-auto px-4 md:px-8 py-12 md:py-20">
+      <div className="card-elevated p-10 md:p-24 flex flex-col lg:flex-row items-center justify-between gap-10 overflow-hidden relative group cursor-default border-t-[8px] border-t-primary/20">
         <div className="relative z-10 max-w-3xl">
           {richText && (
             <RichText 

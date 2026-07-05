@@ -8,7 +8,7 @@ export const FeaturedBlogPosts: React.FC<FeaturedBlogPostsBlockType & { locale?:
   if (!posts || posts.length === 0) return null
 
   return (
-    <section className="py-12 md:py-24">
+    <section className="py-12 md:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {(title || description) && (
           <div className="max-w-3xl mb-12">

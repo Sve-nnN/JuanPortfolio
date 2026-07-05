@@ -32,8 +32,8 @@ export const CaseStudiesGrid: React.FC<CaseStudiesGridBlock & { locale?: 'en' | 
   const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-10">
         {caseStudies.map((cs) => (
           <div key={cs.id} className="card-elevated group flex flex-col h-full overflow-hidden border-t-[6px] border-t-primary/10 cursor-pointer">
             <Link href={`${localePrefix}/case-studies/${cs.slug}`} className="block relative aspect-video overflow-hidden">

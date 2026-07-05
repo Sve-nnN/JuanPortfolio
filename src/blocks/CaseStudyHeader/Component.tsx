@@ -13,7 +13,7 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock & { locale?: 'en' | 
   return (
     <section className="container mx-auto px-4 pt-16 pb-8">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           {eyebrow && (
             <span className="inline-block text-primary font-bold uppercase tracking-widest text-sm mb-6 bg-primary/10 px-4 py-1.5 rounded-full">
               {eyebrow}
@@ -30,7 +30,7 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock & { locale?: 'en' | 
         </div>
 
         {featuredImage && typeof featuredImage === 'object' && (
-          <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl mb-16">
+          <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl mb-10">
             <Media resource={featuredImage} fill className="object-cover" />
           </div>
         )}

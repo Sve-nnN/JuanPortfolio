@@ -80,10 +80,10 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
   }[gridColumns || '3']
 
   return (
-    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+    <AnimateOnScroll config={animation} className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
       {/* Category Filters */}
       {showCategories && categories.length > 0 && (
-        <div className="mb-20 flex flex-wrap justify-center gap-3">
+        <div className="mb-12 flex flex-wrap justify-center gap-3">
           <button className="btn btn-sm btn-primary">
             {locale === 'es' ? 'Todo' : 'All'}
           </button>

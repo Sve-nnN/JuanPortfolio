@@ -18,7 +18,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   }
 
   return (
-    <AnimateOnScroll config={animation} className="container py-16 md:py-24 lg:py-32">
+    <AnimateOnScroll config={animation} className="container py-16 md:py-16 lg:py-20">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-12 lg:gap-x-16">
         {columns &&
           columns.length > 0 &&

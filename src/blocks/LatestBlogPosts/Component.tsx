@@ -35,9 +35,9 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType & { locale?
   const localePrefix = locale === 'es' ? '' : '/en'
 
   return (
-    <section className="py-24 md:py-32 bg-background" id="latest-blog-posts">
+    <section className="py-16 md:py-20 bg-background" id="latest-blog-posts">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-10">
           <div className="max-w-3xl">
             <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">
               {displayTitle}
@@ -69,7 +69,7 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType & { locale?
             })}
           </div>
         ) : (
-          <div className="text-center py-24 bg-card rounded-[2rem] border border-border/50 shadow-inner">
+          <div className="text-center py-16 bg-card rounded-[2rem] border border-border/50 shadow-inner">
             <p className="text-muted-foreground text-xl font-medium leading-relaxed">
               {locale === 'es' ? 'No se encontraron artículos publicados recientemente.' : 'No recently published articles found.'}
             </p>

@@ -47,7 +47,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-10 items-center">
           {/* Text column — scroll parallax (y2 + opacity) via .hero-text */}
           <div className="hero-text text-center lg:text-left flex flex-col items-center lg:items-start">
             {badge && (

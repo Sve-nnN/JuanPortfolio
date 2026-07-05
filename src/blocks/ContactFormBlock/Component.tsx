@@ -66,7 +66,7 @@ export const ContactFormBlockComponent: React.FC<
   }
 
   return (
-    <section id="contact" className="py-24 md:py-32 overflow-hidden relative">
+    <section id="contact" className="py-16 md:py-20 overflow-hidden relative">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -245,7 +245,7 @@ export const ContactFormBlockComponent: React.FC<
                   <h3 className="text-3xl md:text-4xl font-display font-bold mb-10 tracking-tight leading-tight">
                     {sidebarTitle || (locale === 'es' ? 'Charlemos sobre tu próximo proyecto' : 'Let\'s chat about your next project')}
                   </h3>
-                  <p className="text-primary-foreground/90 mb-16 text-xl font-medium max-w-xs leading-relaxed">
+                  <p className="text-primary-foreground/90 mb-10 text-xl font-medium max-w-xs leading-relaxed">
                     {sidebarDescription || (locale === 'es'
                       ? 'Estoy disponible para proyectos freelance y colaboraciones. ¡Hablemos!'
                       : 'I am available for freelance projects and collaborations. Let\'s talk!')}

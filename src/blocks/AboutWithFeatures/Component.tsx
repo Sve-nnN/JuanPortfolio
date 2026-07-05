@@ -36,20 +36,20 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock & { locale?: 'en
 
   return (
     <LazyMotion features={domAnimation}>
-      <section className="py-24 md:py-48 bg-background relative" id="about">
+      <section className="py-16 md:py-20 bg-background relative" id="about">
         {/* Background Ambience */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none opacity-20">
           <div className="absolute top-[20%] -left-[10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[100px]" />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-12 items-start">
             <m.div 
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="space-y-12 lg:sticky lg:top-32"
+              className="space-y-8 lg:sticky lg:top-24"
             >
               <div>
                 {eyebrow && (

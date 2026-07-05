@@ -30,6 +30,7 @@ import { BlogArchiveHeader } from '../../blocks/BlogArchiveHeader/config'
 import { LatestBlogPosts } from '../../blocks/LatestBlogPosts/config'
 import { FeaturedBlogPosts } from '../../blocks/FeaturedBlogPosts/config'
 import { FeaturedCaseStudies } from '../../blocks/FeaturedCaseStudies/config'
+import { LatestCaseStudies } from '../../blocks/LatestCaseStudies/config'
 import { AboutWithFeatures } from '../../blocks/AboutWithFeatures/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
@@ -163,6 +164,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 PostsGrid,
                 LatestBlogPosts,
                 CaseStudiesGrid,
+                LatestCaseStudies,
                 // Bloques para single post/case study
                 PostSidebar,
                 RelatedPostsBlock,

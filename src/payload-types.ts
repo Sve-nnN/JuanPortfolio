@@ -275,6 +275,7 @@ export interface Page {
       | PostsGridBlock
       | LatestBlogPostsBlock
       | CaseStudiesGridBlock
+      | LatestCaseStudiesBlock
       | PostSidebarBlock
       | RelatedPostsBlockType
       | TableOfContentsBlock
@@ -1215,6 +1216,17 @@ export interface CaseStudiesGridBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'caseStudiesGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestCaseStudiesBlock".
+ */
+export interface LatestCaseStudiesBlock {
+  title?: string | null;
+  count?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestCaseStudies';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2731,6 +2743,7 @@ export interface PagesSelect<T extends boolean = true> {
               postsGrid?: T | PostsGridBlockSelect<T>;
               latestBlogPosts?: T | LatestBlogPostsBlockSelect<T>;
               caseStudiesGrid?: T | CaseStudiesGridBlockSelect<T>;
+              latestCaseStudies?: T | LatestCaseStudiesBlockSelect<T>;
               postSidebar?: T | PostSidebarBlockSelect<T>;
               relatedPosts?: T | RelatedPostsBlockTypeSelect<T>;
               tableOfContents?: T | TableOfContentsBlockSelect<T>;
@@ -2963,6 +2976,16 @@ export interface CaseStudiesGridBlockSelect<T extends boolean = true> {
   gridColumns?: T;
   showExcerpt?: T;
   showDate?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestCaseStudiesBlock_select".
+ */
+export interface LatestCaseStudiesBlockSelect<T extends boolean = true> {
+  title?: T;
+  count?: T;
   id?: T;
   blockName?: T;
 }
@@ -4435,17 +4458,6 @@ export interface FAQBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LatestCaseStudiesBlock".
- */
-export interface LatestCaseStudiesBlock {
-  title?: string | null;
-  count?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'latestCaseStudies';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TestimonialsCarouselBlock".
  */
 export interface TestimonialsCarouselBlock {
@@ -4836,16 +4848,6 @@ export interface FAQBlockSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LatestCaseStudiesBlock_select".
- */
-export interface LatestCaseStudiesBlockSelect<T extends boolean = true> {
-  title?: T;
-  count?: T;
   id?: T;
   blockName?: T;
 }

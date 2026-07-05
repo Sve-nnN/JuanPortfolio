@@ -5,9 +5,13 @@ import { LatestBlogPosts } from '@/blocks/LatestBlogPosts/config'
 import { BlogArchiveHeader } from '@/blocks/BlogArchiveHeader/config'
 
 import { revalidateBlogListing } from './hooks/revalidateBlogListing'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const BlogListing: GlobalConfig = {
   slug: 'blog-listing',
+  admin: {
+    group: ADMIN_GROUP.CONTENIDO,
+  },
   access: {
     read: () => true,
   },

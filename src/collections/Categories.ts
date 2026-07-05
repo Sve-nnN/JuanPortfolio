@@ -3,6 +3,7 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from '../fields/slug'
 import { seoFields } from '../utilities/seo/seoFields'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 import type { Field } from 'payload'
 
@@ -110,6 +111,7 @@ export const Categories: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: ADMIN_GROUP.CONTENIDO,
     useAsTitle: 'title',
   },
   fields: [

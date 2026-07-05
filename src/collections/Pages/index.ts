@@ -32,6 +32,7 @@ import { FeaturedCaseStudies } from '../../blocks/FeaturedCaseStudies/config'
 import { AboutWithFeatures } from '../../blocks/AboutWithFeatures/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -56,6 +57,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
+    group: ADMIN_GROUP.CONTENIDO,
     defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks'],
     livePreview: {
       url: ({ data, req }) =>

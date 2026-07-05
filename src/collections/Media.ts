@@ -13,6 +13,7 @@ import { getOptimizedCloudinaryUrl } from '../utilities/cloudinaryUrl'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,6 +24,7 @@ import fs from 'fs'
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
+    group: ADMIN_GROUP.CONTENIDO,
     useAsTitle: 'alt',
     components: {
       beforeListTable: ['@/components/admin/CloudinaryUploadAllButton#CloudinaryUploadAllButton'],

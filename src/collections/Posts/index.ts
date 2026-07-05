@@ -29,6 +29,7 @@ import { updateInternalLinksCount } from './hooks/updateInternalLinksCount'
 import { syncKeywordsAfterPostSave } from './hooks/syncKeywordsAfterPostSave'
 
 import { slugField } from '@/fields/slug'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -44,6 +45,7 @@ export const Posts: CollectionConfig<'posts'> = {
     authors: true,
   },
   admin: {
+    group: ADMIN_GROUP.CONTENIDO,
     defaultColumns: ['title', 'slug', 'updatedAt', 'gscClicks', 'internalLinksCount'],
     livePreview: {
       url: ({ data, req }) =>

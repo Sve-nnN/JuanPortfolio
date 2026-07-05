@@ -17,9 +17,13 @@ import { LatestBlogPosts } from '../../blocks/LatestBlogPosts/config'
 import { LatestCaseStudies } from '../../blocks/LatestCaseStudies/config'
 import { TestimonialsCarousel } from '../../blocks/TestimonialsCarousel/config'
 import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const Home: GlobalConfig = {
   slug: 'home',
+  admin: {
+    group: ADMIN_GROUP.CONTENIDO,
+  },
   access: {
     read: () => true,
   },

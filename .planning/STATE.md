@@ -24,10 +24,12 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 45 (primitivas UI) código hecho, gate QA pendiente. Próxima: 46 (chrome global).
+Phase: 45 ✅ (primitivas, /contact QA OK) + normalización de headings (cross-cutting, gate QA pendiente). Próxima: 46 (chrome).
 Plan: —
-Status: Fase 44 completa. Fase 45 (`6737537`): `components/ui/*` alineadas a tokens (transition-standard, cursor-pointer, 44px touch, rounded-md, z-scale). tsc 112 baseline. Dev en localhost:3000.
-Last activity: 2026-07-05 — Fase 45 (primitivas) código hecho; gate QA pendiente
+Status: Fase 45 `6737537`. **Headings normalizados** `d0a3278`: 27 headings en 20 bloques hardcodeaban text-4xl..text-9xl → 3 roles (`.text-display/.text-section/.text-card-title` en globals.css). Resuelve el "encabezados inconsistentes" que marcó Juan. tsc 112 baseline. Dev localhost:3000.
+Last activity: 2026-07-05 — Fase 45 + normalización global de headings; gate QA (home + páginas)
+
+**Escala de headings (canónica, en globals.css):** `.text-display` (4xl→6xl, títulos de página/hero), `.text-section` (3xl→5xl, títulos de sección), `.text-card-title` (xl→2xl, cards/items). Toda superficie 46-51 usa estos roles, no tamaños hardcodeados.
 
 **FOCO TRANSVERSAL (feedback Juan 2026-07-05):** tamaños de texto y de componentes. La escala anterior estaba inflada/invertida (h1 text-8xl; hero H1 text-6xl mobile→4xl desktop). Nueva escala progresiva y contenida en `docs/design-system.md` (sección "Escala tipográfica" + "Densidad"). **Toda superficie (45-51) debe right-sizear: reducir textos/paddings inflados por defecto.**
 

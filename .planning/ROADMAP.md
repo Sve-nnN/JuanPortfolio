@@ -852,7 +852,8 @@ Plans:
 | 42. Cache de HTML en el edge (Cloudflare) | v1.7 | 0/? | Not started | - |
 | 43. Re-medición final y procedimiento repetible | v1.7 | 0/? | Not started | - |
 | 44. Fundación design-system | v1.8 | ✅ Complete | QA OK (Juan) + escala tipográfica | 7cb58cb,c7bdb5a |
-| 45. Primitivas UI compartidas | v1.8 | code done | Gate QA visual (Juan) | 6737537 |
+| 45. Primitivas UI compartidas | v1.8 | ✅ Complete | QA /contact OK (Juan) | 6737537 |
+| 45b. Normalización de headings (cross-cutting) | v1.8 | code done | Gate QA (Juan) — home + páginas | d0a3278 |
 | 46. Chrome global | v1.8 | 0/? | Not started | - |
 | 47. Home | v1.8 | 0/? | Not started | - |
 | 48. Blog listing & archivo | v1.8 | 0/? | Not started | - |

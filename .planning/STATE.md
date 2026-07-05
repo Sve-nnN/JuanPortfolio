@@ -1,15 +1,16 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.8
-milestone_name: Refresh de UX/UI (sitio público)
-status: roadmapped
-last_updated: "2026-07-05T18:14:52.413Z"
-last_activity: 2026-07-05
+milestone_name: Refresh de UX/UI
+status: Awaiting next milestone
+stopped_at: Roadmap v1.8 creado (fases 44-51, cobertura 22/22).
+last_updated: "2026-07-05T21:39:10.909Z"
+last_activity: 2026-07-05 — Milestone v1.8 completed and archived
 progress:
-  total_phases: 8
+  total_phases: 31
   completed_phases: 0
   total_plans: 0
-  completed_plans: 0
+  completed_plans: 2
   percent: 0
 ---
 
@@ -24,22 +25,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: v1.8 CODE-COMPLETE (44-51). Dev en :3000. Falta: QA final por página (Juan) + hero refresh diferido + lifecycle.
+Phase: Milestone v1.8 complete
 Plan: —
-Status: v1.8 refrescado por passes cross-cutting: fundación+primitivas `7cb58cb`/`6737537`, headings `d0a3278`, botones `6ec4934`/`9fcda0d`, hero terminal `b63d224`, densidad `71598f4`/`3c9e841`/`3c9e841`. Forms ya tienen estados error/loading/disabled (FORM-01 ok). tsc 112 baseline. Home/blog/case-studies/contact 200. QA aprobado por Juan: contact, headings, hero, botones, densidad.
-Last activity: 2026-07-05 — v1.8 code-complete; forms verificados; dev limpio :3000
-
-**Para cerrar v1.8:** (1) QA final de Juan de blog/post/case-studies, (2) decidir el hero refresh diferido, (3) audit-milestone → complete. En paralelo (fuera de v1.8): audit SEO — deploy + publicar posts + borrar test post (Juan).
-
-**Escala de headings (canónica, en globals.css):** `.text-display` (4xl→6xl, títulos de página/hero), `.text-section` (3xl→5xl, títulos de sección), `.text-card-title` (xl→2xl, cards/items). Toda superficie 46-51 usa estos roles, no tamaños hardcodeados.
-
-**Botones unificados (2026-07-05, feedback Juan, `6ec4934`):** un solo sistema pill (rounded-full). Primitive `<Button>` = pill + tamaños token. Utilidades `.btn/.btn-primary/.btn-secondary/.btn-sm` (en globals.css, dentro de `@layer components` — OJO: `@apply` de clases custom como `transition-standard` rompe la regla en silencio, usar utilities core). CMSLink CTAs → `appearance` (primitive + tracking cta_click), NO inline hardcodeado. Filtros → `btn btn-sm`.
-
-**Hero (HeroHome) rediseñado terminal/code (`b63d224`), APROBADO por Juan.** DIFERIDO a fase futura: refrescar el componente terminal + hero (Juan tiene feedback pendiente). No re-tocar hasta que Juan lo traiga.
-
-**CAVEAT dev (2026-07-05):** cuidado con procesos `next dev` zombies — se acumularon 7 y uno servía CSS/HTML stale en :3000 (falsos bugs de estilos/hidratación). Antes de reiniciar dev: `pkill -9 -f next` y verificar puerto libre. El dev quedó en :3001.
-
-**FOCO TRANSVERSAL (feedback Juan 2026-07-05):** tamaños de texto y de componentes. La escala anterior estaba inflada/invertida (h1 text-8xl; hero H1 text-6xl mobile→4xl desktop). Nueva escala progresiva y contenida en `docs/design-system.md` (sección "Escala tipográfica" + "Densidad"). **Toda superficie (45-51) debe right-sizear: reducir textos/paddings inflados por defecto.**
+Status: Awaiting next milestone
+Last activity: 2026-07-05 — Milestone v1.8 completed and archived
 
 ## Milestone v1.8 — Estructura de fases
 
@@ -162,5 +151,4 @@ Resume file: None
 
 ## Operator Next Steps
 
-- Resolver permiso de ejecución de `ui-ux-pro-max` (deny rule de auto-mode) antes de arrancar Phase 44
-- Planear Phase 44 con /gsd:plan-phase 44
+- Start the next milestone with /gsd:new-milestone

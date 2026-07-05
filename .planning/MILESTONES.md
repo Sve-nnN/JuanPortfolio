@@ -1,5 +1,23 @@
 # Milestones: JuanPortfolio
 
+## v1.8 Refresh de UX/UI (sitio público) (Shipped: 2026-07-05)
+
+**Phases completed:** 8 (44-51), ejecutadas vía passes cross-cutting.
+
+**Key accomplishments:**
+
+- Fundación design-system con `ui-ux-pro-max`: tokens de motion + a11y baseline (focus-visible global, z-index scale, `.min-touch`, contraste muted), en `docs/design-system.md` (DS-01/02).
+- Primitivas `components/ui/*` alineadas a tokens (pill, transition, cursor, 44px touch) (UIKIT-01).
+- Headings normalizados: 27 headings (iban de text-4xl a text-9xl) → 3 roles (`.text-display/.text-section/.text-card-title`).
+- Botones unificados (sistema pill; CTAs de CMSLink a `appearance` + tracking); fix del hover del navbar CTA.
+- Hero rediseñado a layout terminal/code (server component, CSS puro, LCP=H1). Refresh fino del terminal DIFERIDO (Juan tiene feedback).
+- Densidad global: recorte de spacing/leads/paddings/borders/radii inflados en ~27 bloques.
+- Forms con estados error/loading/disabled (FORM-01). tsc 112 baseline; QA de Juan aprobado en contact/headings/hero/botones/densidad.
+
+**Diferido:** refresh fino del componente terminal/hero (milestone futuro).
+
+---
+
 ## v1.5 Limpieza y alineación del admin de Payload (Shipped: 2026-06-26)
 
 **Phases completed:** 6 phases (25-30)

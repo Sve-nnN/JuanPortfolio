@@ -22,7 +22,7 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 - [x] **PAGES-01**: El editor puede crear una página nueva desde la colección `Pages`, asignarle slug y publicarla en su ruta pública.
 - [x] **PAGES-02**: El editor puede duplicar una página existente como base para una nueva.
 - [ ] **PAGES-03**: El contenido de la Home se sirve desde una entrada editable de `Pages` en `/` (home ES), sin regresionar ISR/edge-cache ni el ruteo.
-- [ ] **PAGES-04**: El listado de blog (ex-`BlogListing`) se sirve desde una entrada editable de `Pages` en lugar del global.
+- [x] **PAGES-04**: El listado de blog (ex-`BlogListing`) se sirve desde una entrada editable de `Pages` en lugar del global.
 - [ ] **PAGES-05**: El listado de case studies (ex-`CaseStudiesListing`) se sirve desde una entrada editable de `Pages` en lugar del global.
 - [ ] **PAGES-06**: Los globals `home`/`bloglisting`/`casestudieslisting` se retiran del config y del render sin dejar rutas rotas ni datos huérfanos (migración de datos incluida).
 
@@ -71,7 +71,7 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 | PAGES-01 | Phase 53 | Done |
 | PAGES-02 | Phase 53 | Done |
 | PAGES-03 | Phase 57 | Pending |
-| PAGES-04 | Phase 54 | Pending |
+| PAGES-04 | Phase 54 | Done |
 | PAGES-05 | Phase 55 | Pending |
 | PAGES-06 | Phase 58 | Pending |
 | NAV-01 | Phase 52 | Done |

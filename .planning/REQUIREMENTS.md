@@ -34,9 +34,9 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 - [x] **NAV-05**: El admin no muestra secciones sueltas sin grupo; el orden de grupos es intencional y consistente (labels bilingües es/en).
 
 ### Colección Authors
-- [ ] **AUTHORS-01**: Existe una colección `Authors` editable en el admin (bajo Contenido).
-- [ ] **AUTHORS-02**: Un `Post` puede relacionarse con uno o más `Authors` vía campo relación.
-- [ ] **AUTHORS-03**: La author page pública y el `authors-sitemap` consumen la colección `Authors` sin romperse (paridad de datos actuales).
+- [x] **AUTHORS-01**: Existe una colección `Authors` editable en el admin (bajo Contenido).
+- [x] **AUTHORS-02**: Un `Post` puede relacionarse con uno o más `Authors` vía campo relación.
+- [x] **AUTHORS-03**: La author page pública y el `authors-sitemap` consumen la colección `Authors` sin romperse (paridad de datos actuales).
 
 ### Limpieza de globals
 - [ ] **CLEAN-01**: Se revisan los globals restantes (Styles, LLM, Robots) y se consolidan/reubican los redundantes de forma coherente con los grupos de nav, documentando la decisión.
@@ -79,9 +79,9 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 | NAV-03 | Phase 52 | Done |
 | NAV-04 | Phase 52 | Done |
 | NAV-05 | Phase 52 | Done |
-| AUTHORS-01 | Phase 56 | Pending |
-| AUTHORS-02 | Phase 56 | Pending |
-| AUTHORS-03 | Phase 56 | Pending |
+| AUTHORS-01 | Phase 56 | Done |
+| AUTHORS-02 | Phase 56 | Done |
+| AUTHORS-03 | Phase 56 | Done |
 | CLEAN-01 | Phase 58 | Pending |
 | CLEAN-02 | Phase 58 | Pending |
 | QA-01 | Phase 59 | Pending |

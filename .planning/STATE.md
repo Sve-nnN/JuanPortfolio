@@ -7,10 +7,10 @@ last_updated: "2026-07-05T23:00:00.000Z"
 last_activity: 2026-07-05
 progress:
   total_phases: 8
-  completed_phases: 4
-  total_plans: 4
-  completed_plans: 4
-  percent: 50
+  completed_phases: 5
+  total_plans: 5
+  completed_plans: 5
+  percent: 63
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 56 (Colección Authors) — next
+Phase: 57 (Migración de Home a Pages) — next
 Plan: —
-Status: Phase 55 completada (11/11 en código; correr pnpm migrate:case-studies-listing + smoke diferidos). PAGES-05 done.
-Last activity: 2026-07-05 — Phase 55 (migración case studies a Pages, réplica patrón 54) ejecutada y verificada
+Status: Phase 56 completada (6/6 en código, aditiva+fallback, deploy único seguro; correr migrate:authors+verify diferidos). AUTHORS-01/02/03 done.
+Last activity: 2026-07-05 — Phase 56 (colección Authors, aditiva postAuthors + read fallback) ejecutada y verificada
 
 ## Milestone v1.9 — Estructura de fases
 

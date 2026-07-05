@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 44 ✅ completa (QA firmado + escala tipográfica). Próxima: 45 (primitivas UI).
+Phase: 45 (primitivas UI) código hecho, gate QA pendiente. Próxima: 46 (chrome global).
 Plan: —
-Status: Fundación aplicada (`7cb58cb`) + escala tipográfica progresiva y hero right-sizing (`c7bdb5a`). tsc 112 baseline. Dev en localhost:3000. Disco destrabado (`.next` limpiado, 10GB libres).
-Last activity: 2026-07-05 — Fase 44 completa; arranca Fase 45 (primitivas `components/ui/*`)
+Status: Fase 44 completa. Fase 45 (`6737537`): `components/ui/*` alineadas a tokens (transition-standard, cursor-pointer, 44px touch, rounded-md, z-scale). tsc 112 baseline. Dev en localhost:3000.
+Last activity: 2026-07-05 — Fase 45 (primitivas) código hecho; gate QA pendiente
 
 **FOCO TRANSVERSAL (feedback Juan 2026-07-05):** tamaños de texto y de componentes. La escala anterior estaba inflada/invertida (h1 text-8xl; hero H1 text-6xl mobile→4xl desktop). Nueva escala progresiva y contenida en `docs/design-system.md` (sección "Escala tipográfica" + "Densidad"). **Toda superficie (45-51) debe right-sizear: reducir textos/paddings inflados por defecto.**
 

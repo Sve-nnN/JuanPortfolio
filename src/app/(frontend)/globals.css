@@ -170,6 +170,19 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
 }
 
+/* Heading size roles (design-system v1.8). ONE consistent scale por rol, para
+   terminar con los headings hardcodeados dispares (iban de text-4xl a text-9xl).
+   Solo setean tamaño → conservan font-display/weight/tracking de cada heading. */
+.text-display {
+  @apply text-4xl md:text-5xl lg:text-6xl;
+} /* títulos de página / hero de listados y headers */
+.text-section {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+} /* títulos de sección (home + bloques) */
+.text-card-title {
+  @apply text-xl md:text-2xl;
+} /* títulos de card / item */
+
 /* Interaction utilities (design-system v1.8, DS-02) */
 
 /* Minimum 44x44px hit area for icon-only / small controls (touch a11y). */

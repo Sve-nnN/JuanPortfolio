@@ -52,7 +52,7 @@ export const CaseStudiesGrid: React.FC<CaseStudiesGridBlock & { locale?: 'en' | 
             </Link>
             
             <div className="p-10 flex flex-col flex-grow">
-              <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 group-hover:text-primary transition-colors duration-300">
+              <h3 className="text-card-title font-display font-bold mb-6 group-hover:text-primary transition-colors duration-300">
                 <Link href={`${localePrefix}/case-studies/${cs.slug}`}>{cs.title}</Link>
               </h3>
               {cs.meta?.description && (

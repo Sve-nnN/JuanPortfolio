@@ -56,7 +56,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
             className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12"
           >
             <div className="max-w-4xl">
-              <h2 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter mb-10 text-foreground leading-[0.9]">
+              <h2 className="text-section font-display font-bold tracking-tighter mb-10 text-foreground leading-[0.9]">
                 {title}
               </h2>
               {description && (
@@ -115,7 +115,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
                 
                 <div className="p-12">
                   <div className="flex justify-between items-start mb-8">
-                    <h3 className="text-4xl md:text-5xl font-bold font-display tracking-tight group-hover:text-primary transition-colors duration-500 leading-tight">
+                    <h3 className="text-card-title font-bold font-display tracking-tight group-hover:text-primary transition-colors duration-500 leading-tight">
                       {work.title}
                     </h3>
                   </div>

@@ -39,7 +39,7 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType & { locale?
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
           <div className="max-w-3xl">
-            <h2 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-[1.1] tracking-tight">
+            <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">
               {displayTitle}
             </h2>
           </div>

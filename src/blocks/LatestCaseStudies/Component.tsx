@@ -44,7 +44,7 @@ export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock & { locale?: 'en
     <section className="py-24 md:py-32 bg-background" id="latest-case-studies">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-20">
-          <h2 className="text-5xl md:text-7xl font-display font-bold text-foreground mb-8 leading-[1.1] tracking-tight">
+          <h2 className="text-section font-display font-bold text-foreground mb-8 leading-[1.1] tracking-tight">
             {displayTitle}
           </h2>
         </div>
@@ -68,7 +68,7 @@ export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock & { locale?: 'en
                   <div className="text-xs text-primary font-bold uppercase tracking-widest mb-4 bg-primary/10 w-fit px-2.5 py-1 rounded-full">
                     {cs.publishedAt && formatDate(cs.publishedAt)}
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+                  <h3 className="text-card-title font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
                     <Link href={`${localePrefix}/case-studies/${cs.slug}`}>{cs.title}</Link>
                   </h3>
                   {cs.meta?.description && (

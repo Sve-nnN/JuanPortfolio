@@ -42,7 +42,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
         {(title || description) && (
           <div className="text-center mb-20">
             {title && (
-              <h2 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
+              <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             )}
             {description && <p className="mt-6 text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed max-w-3xl mx-auto">{description}</p>}
           </div>

@@ -20,7 +20,7 @@ export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {
         <span className="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-widest uppercase text-primary bg-primary/10 rounded-full">
           FAQ
         </span>
-        <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight text-foreground">
+        <h2 className="text-section font-display font-bold tracking-tight text-foreground">
           {title || 'Preguntas Frecuentes'}
         </h2>
         <div className="w-24 h-1.5 bg-primary/20 rounded-full mt-8" />
@@ -37,7 +37,7 @@ export const FAQBlock: React.FC<FAQProps> = ({ title, faqs }) => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground leading-tight m-0">
+              <h3 className="text-card-title font-bold tracking-tight text-foreground leading-tight m-0">
                 {faq.question}
               </h3>
               <div className="text-muted-foreground text-lg md:text-xl leading-relaxed font-medium prose prose-neutral dark:prose-invert max-w-none">

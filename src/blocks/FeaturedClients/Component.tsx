@@ -56,7 +56,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
       <div className="container mx-auto px-4 mb-16 md:mb-24 text-center">
         <div className="max-w-4xl mx-auto">
           {title && (
-            <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-8 text-foreground">
+            <h2 className="text-section font-display font-bold tracking-tighter mb-8 text-foreground">
               {title}
             </h2>
           )}

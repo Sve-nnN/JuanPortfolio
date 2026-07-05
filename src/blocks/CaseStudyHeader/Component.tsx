@@ -19,7 +19,7 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock & { locale?: 'en' | 
               {eyebrow}
             </span>
           )}
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter mb-8 leading-[0.9] text-foreground">
+          <h1 className="text-display font-display font-bold tracking-tighter mb-8 leading-[0.9] text-foreground">
             {title}
           </h1>
           {description && (

@@ -9,7 +9,7 @@ export const ResultsSection: React.FC<ResultsSectionBlock & { locale?: 'en' | 'e
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
+            <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             {description && (
               <p className="mt-6 text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">{description}</p>
             )}

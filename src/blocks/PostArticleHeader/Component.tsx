@@ -24,7 +24,7 @@ export const PostArticleHeader: React.FC<PostArticleHeaderBlock & { locale?: 'en
           </span>
         )}
         
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-12 leading-[1.05] tracking-tighter text-foreground">
+        <h1 className="text-display font-display font-bold mb-12 leading-[1.05] tracking-tighter text-foreground">
           {title}
         </h1>
 

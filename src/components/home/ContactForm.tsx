@@ -8,7 +8,7 @@ const ContactForm = () => {
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="p-8 md:p-12">
           <span className="text-primary font-semibold">Contacto</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-current mt-2 mb-4">
+          <h2 className="text-section font-display font-bold text-current mt-2 mb-4">
             Hablemos
           </h2>
           <p className="text-lg text-muted mb-8">

@@ -13,7 +13,7 @@ export const WorkCardsBlock: React.FC<Props> = ({ title, count = 6, showReadMore
   
   return (
     <section className="py-12 md:py-24">
-      {title && <h2 className="text-4xl md:text-6xl font-display font-bold mb-12 tracking-tight">{title}</h2>}
+      {title && <h2 className="text-section font-display font-bold mb-12 tracking-tight">{title}</h2>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
         {Array.from({ length: count }).map((_, i) => (
           <article key={i} className="card-elevated p-8 group border-t-[6px] border-t-primary/10">

@@ -15,7 +15,7 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
       <div className="container mx-auto px-4">
         {title && (
           <div className="text-center mb-16 md:mb-24">
-            <h2 className="text-4xl md:text-6xl font-array font-bold tracking-tight uppercase opacity-20">
+            <h2 className="text-section font-array font-bold tracking-tight uppercase opacity-20">
               {title}
             </h2>
           </div>

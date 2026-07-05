@@ -119,7 +119,7 @@ export const CalendlyEmbedBlock: React.FC<CalendlyEmbedBlockProps & { locale?: '
       {(title || subtitle) && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
           {title && (
-            <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight mb-6 text-foreground">
+            <h2 className="text-section font-display font-bold tracking-tight mb-6 text-foreground">
               {title}
             </h2>
           )}

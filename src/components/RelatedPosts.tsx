@@ -15,7 +15,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ posts, locale = 'es' }) => 
 
   return (
     <section className="mt-24 pt-16 border-t border-border/50">
-      <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 tracking-tight text-foreground">
+      <h2 className="text-section font-display font-bold mb-12 tracking-tight text-foreground">
         {locale === 'es' ? 'También te puede interesar' : 'You may also like'}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">

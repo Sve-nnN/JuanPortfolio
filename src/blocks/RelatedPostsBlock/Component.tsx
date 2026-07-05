@@ -9,7 +9,7 @@ export const RelatedPostsBlockComponent: React.FC<RelatedPostsBlockType & { loca
 
   return (
     <div className="related-posts mt-16 pt-16 border-t border-border">
-      {title && <h2 className="text-3xl font-display font-bold mb-8">{title}</h2>}
+      {title && <h2 className="text-section font-display font-bold mb-8">{title}</h2>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {posts.map((post) => {
           if (typeof post === 'string') return null

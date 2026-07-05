@@ -9,7 +9,7 @@ const About = ({ page }: { page?: Partial<Page> }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
             <span className="text-primary font-semibold">Sobre mí</span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-current mt-2 mb-6">
+            <h2 className="text-section font-display font-bold text-current mt-2 mb-6">
               Conoce al desarrollador
             </h2>
             <p className="text-muted mb-4 text-lg">

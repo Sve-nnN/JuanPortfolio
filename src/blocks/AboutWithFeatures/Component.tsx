@@ -58,7 +58,7 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock & { locale?: 'en
                   </span>
                 )}
                 {title && (
-                  <h2 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-[1.05] tracking-tight">
+                  <h2 className="text-section font-display font-bold text-foreground leading-[1.05] tracking-tight">
                     {title}
                   </h2>
                 )}
@@ -115,7 +115,7 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock & { locale?: 'en
                       <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-700 shadow-inner group-hover:shadow-primary/20">
                         <IconComponent className="w-8 h-8 group-hover:rotate-12 transition-transform duration-500" />
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-6 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
+                      <h3 className="text-card-title font-bold text-foreground mb-6 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
                       <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
                         {feature.description}
                       </p>

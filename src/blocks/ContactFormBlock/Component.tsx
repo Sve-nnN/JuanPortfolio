@@ -84,7 +84,7 @@ export const ContactFormBlockComponent: React.FC<
                     </span>
                   )}
                   {title && (
-                    <Heading className="text-4xl md:text-6xl font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
+                    <Heading className="text-section font-display font-bold text-foreground mt-2 mb-8 tracking-tight leading-[1.1]">
                       {title}
                     </Heading>
                   )}

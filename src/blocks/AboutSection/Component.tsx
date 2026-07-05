@@ -10,7 +10,7 @@ export const AboutSection: React.FC<AboutSectionBlockProps & { locale?: 'en' | '
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="order-2 lg:order-1">
-            <h2 className="text-4xl md:text-6xl font-array font-bold tracking-tighter mb-8 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <h2 className="text-section font-array font-bold tracking-tighter mb-8 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
               {title}
             </h2>
             <div className="prose prose-xl dark:prose-invert text-muted-foreground mb-12">

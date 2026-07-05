@@ -12,7 +12,7 @@ export const FeaturedBlogPosts: React.FC<FeaturedBlogPostsBlockType & { locale?:
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {(title || description) && (
           <div className="max-w-3xl mb-12">
-            {title && <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{title}</h2>}
+            {title && <h2 className="text-section font-display font-bold mb-4">{title}</h2>}
             {description && <p className="text-lg text-muted-foreground">{description}</p>}
           </div>
         )}

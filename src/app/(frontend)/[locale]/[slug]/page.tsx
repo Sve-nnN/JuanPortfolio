@@ -47,9 +47,9 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      // `blog` is served by the dedicated /blog folder route (shadows [slug]); excluding
-      // it here avoids duplicate params / double render. Phase 55 adds `case-studies-listing`.
-      return doc.slug !== 'home' && doc.slug !== 'blog'
+      // `blog` and `case-studies` are served by dedicated folder routes (shadow [slug]);
+      // excluding them here avoids duplicate params / double render.
+      return doc.slug !== 'home' && doc.slug !== 'blog' && doc.slug !== 'case-studies'
     })
     .flatMap(({ slug }) => {
       return locales.map((locale) => ({ slug, locale }))

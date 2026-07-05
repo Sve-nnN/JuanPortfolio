@@ -2,28 +2,35 @@
  * @file Defines the main case studies listing page.
  * @author Juan Carlos Angulo <juan@jcangulo.com>
  */
-import React from 'react'
+import React, { cache } from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import type { CaseStudiesListing } from '@/payload-types'
-import type { Metadata } from 'next'
+import { getCachedPageBySlug } from '@/utilities/getPages'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+import { draftMode } from 'next/headers'
+import type { Page } from '@/payload-types'
 import { generateMeta } from '@/utilities/generateMeta'
+import { Metadata } from 'next'
 import { JsonLd } from '@/components/JsonLd'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { generateCollectionPageSchema, generateBreadcrumbSchema } from '@/utilities/schema'
 
 /**
  * The main case studies listing page component.
- * It fetches the 'case-studies-listing' global from the CMS and renders its blocks.
- * If no blocks are configured, it displays a fallback message.
+ * It reads the Pages collection entry `slug: 'case-studies'` from the CMS and renders
+ * its content.layout blocks. If the entry does not exist yet (migration pending), it
+ * degrades gracefully to a fallback message instead of throwing.
  * @returns {Promise<React.ReactElement>} A promise that resolves to the case studies page component.
  */
 
-
+// ISR: prerender published /case-studies and revalidate hourly. The draftMode() branch
+// below stays bypass-cookie-gated, so only preview requests (with the cookie) render
+// dynamically. Public stays static ISR — no no-store/force-dynamic. Issue #20.
 export const revalidate = 3600
 export const dynamicParams = true
 
-// Enumerate the locales so /en/case-studies and /es/case-studies prerender as
-// static ISR HTML instead of being rendered dynamically on demand. Issue #20.
+// Enumerate the locales so /en/case-studies and /es/case-studies prerender as static ISR
+// HTML instead of being rendered dynamically on demand. Issue #20.
 export async function generateStaticParams() {
   return [{ locale: 'es' }, { locale: 'en' }]
 }
@@ -35,28 +42,48 @@ type Args = {
 }
 
 /**
- * Self-referential metadata for the case-studies listing. Without it the page
- * inherited the root layout's homepage canonical (cross-canonical to /).
- * SEO audit jun-2026, issue #14.
+ * Draft-aware, per-request fetch of the `case-studies` Page for live preview.
+ * Mirrors queryPageBySlug in [slug]/page.tsx: react cache(), draft:true,
+ * overrideAccess:true, depth:2. Never used on the public (non-draft) path.
  */
+const queryCaseStudiesPageDraft = cache(async (locale: 'en' | 'es'): Promise<Page | null> => {
+  const payload = await getPayload({ config: configPromise })
+  const result = await payload.find({
+    collection: 'pages',
+    draft: true,
+    limit: 1,
+    depth: 2,
+    pagination: false,
+    overrideAccess: true,
+    locale,
+    where: {
+      slug: {
+        equals: 'case-studies',
+      },
+    },
+  })
+  return result.docs?.[0] ?? null
+})
+
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { locale: rawLocale } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
-  const title = locale === 'es' ? 'Casos de estudio | Juan Tech' : 'Case studies | Juan Tech'
-  const description =
-    locale === 'es'
-      ? 'Proyectos reales de SEO técnico y desarrollo web con Next.js y Payload, con resultados medibles en tráfico orgánico y rendimiento.'
-      : 'Real technical SEO and web development projects with Next.js and Payload, with measurable organic-traffic and performance results.'
+  const page = (await getCachedPageBySlug('case-studies', 2, locale)().catch(() => null)) as Page | null
+  // generateMeta is source-agnostic (global vs page): hreflang/canonical stay correct.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return generateMeta({ doc: { title, meta: { description } } as any, locale, path: '/case-studies' })
+  return generateMeta({ doc: page as any, locale, path: '/case-studies' })
 }
 
 const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
+  const { isEnabled: draft } = await draftMode()
   const { locale: rawLocale } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
 
-  // Get case studies listing global with blocks
-  const caseStudiesGlobal = (await getCachedGlobal('case-studies-listing', 0, locale)().catch(() => null)) as CaseStudiesListing | null
+  // Draft branch (live preview): cookie-gated, uncached, draft-aware. Public path
+  // below stays exclusively on the tag-cached read to preserve ISR/x-vercel-cache HIT.
+  const page = draft
+    ? await queryCaseStudiesPageDraft(locale).catch(() => null)
+    : ((await getCachedPageBySlug('case-studies', 2, locale)().catch(() => null)) as Page | null)
 
   // CollectionPage + breadcrumb schema for the case-studies index. SEO audit #29.
   const localePrefix = locale === 'es' ? '' : '/en'
@@ -77,7 +104,7 @@ const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
     ],
   }
 
-  let layout = caseStudiesGlobal?.layout
+  let layout = page?.content?.layout
 
   // Handle case where layout might be an object due to previous localization setting
   if (layout && !Array.isArray(layout) && typeof layout === 'object') {
@@ -85,27 +112,33 @@ const CaseStudiesPage = async ({ params: paramsPromise }: Args) => {
     layout = layout[locale] || layout.es || []
   }
 
-  // If global has layout blocks, render them
+  // If the Page has layout blocks, render only content.layout (NOT page.hero — the
+  // listing hero is the ListingHero block inside layout, not the collection hero tab).
   if (layout && Array.isArray(layout) && layout.length > 0) {
     return (
       <main>
         <JsonLd schema={listingSchema} />
+        {draft && <LivePreviewListener />}
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <RenderBlocks blocks={layout as any} locale={locale} />
       </main>
     )
   }
 
-  // Fallback UI if no blocks configured
+  // Fallback UI if the Page 'case-studies' entry does not exist yet (migration pending)
+  // or has no blocks configured. Degrades safely instead of 500.
   const title =
-    caseStudiesGlobal && 'title' in caseStudiesGlobal ? caseStudiesGlobal.title : 'Casos de estudio'
+    page && 'title' in page ? page.title : locale === 'es' ? 'Casos de estudio' : 'Case studies'
   return (
     <main className="py-8">
       <JsonLd schema={listingSchema} />
+      {draft && <LivePreviewListener />}
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-8">{title}</h1>
         <p className="text-center text-muted">
-          Please configure blocks in the Case Studies Listing global in Payload admin.
+          {locale === 'es'
+            ? 'Por favor, configura los bloques en la página "case-studies" (colección Pages) en el panel de administración.'
+            : 'Please configure blocks in the "case-studies" Page (Pages collection) in Payload admin.'}
         </p>
       </div>
     </main>

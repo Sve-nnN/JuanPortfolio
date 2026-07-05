@@ -1,8 +1,9 @@
 ---
-status: human_needed
+status: passed
 phase: 41
 requirements: [PERF-08]
 commit: c63b29d
+human_qa: passed 2026-07-05 (Juan — fuentes idénticas, sin FOUT)
 ---
 
 # Phase 41 — Verification

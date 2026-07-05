@@ -4,7 +4,7 @@ milestone: v1.7
 milestone_name: Rendimiento avanzado (Core Web Vitals)
 status: executing
 last_updated: "2026-07-05T00:00:00.000Z"
-last_activity: 2026-07-05 — Fase 39 completa (QA visual firmado por Juan); arranca Fase 41 (fuentes)
+last_activity: 2026-07-05 — Fase 39 completa; Fase 41 (fuentes) código hecho, gate QA visual FOUT pendiente de Juan
 progress:
   total_phases: 6
   completed_phases: 1

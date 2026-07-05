@@ -624,7 +624,7 @@ Plans:
 | 38. Medición de campo — INP real por interacción | v1.7 | 0/? | Not started | - |
 | 39. Hero server component + recorte de JS inicial | v1.7 | ✅ Complete | QA visual OK (Juan 2026-07-05) | 41a308d |
 | 40. Validación de TBT/INP tras el recorte de JS | v1.7 | 0/? | Not started | - |
-| 41. Recorte de preloads de fuentes | v1.7 | 0/? | Not started | - |
+| 41. Recorte de preloads de fuentes | v1.7 | code done | Gate QA visual FOUT (Juan) | c63b29d |
 | 42. Cache de HTML en el edge (Cloudflare) | v1.7 | 0/? | Not started | - |
 | 43. Re-medición final y procedimiento repetible | v1.7 | 0/? | Not started | - |
 </content>

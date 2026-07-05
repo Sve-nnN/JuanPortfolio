@@ -948,7 +948,10 @@ Plans:
   2. El editor puede duplicar una página existente de `Pages` y la copia queda editable de forma independiente (slug distinto) sin afectar el original
   3. La página nueva/duplicada sirve con `x-vercel-cache: HIT` / ISR (sin `no-store`) en su ruta pública
 
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 53-01-PLAN.md — Field hooks beforeDuplicate (slug único + título sufijado) para habilitar duplicar Pages
 
 ### Phase 54: Migración del listado de blog a Pages
 

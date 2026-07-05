@@ -136,7 +136,7 @@ Optimizing pillar pages for search engines extends beyond content quality and re
 
 ### URL Structure and Site Architecture
 
-A well-structured URL is vital for both user experience and search engine indexing. Pillar pages should feature clean, descriptive URLs that reflect the topic they cover. For instance, a pillar page focused on SEO fundamentals might use a URL pattern like **www.example.com/seo-fundamentals**. This not only aids users in understanding the content but also enhances relevance signals for search engines. Additionally, the hierarchical organization of URLs should mirror the relationship between pillar pages and their respective clusters. This clear delineation reinforces the importance of the pillar in the overall site architecture, contributing to improved crawlability and indexing.
+A well-structured URL is vital for both user experience and search engine indexing. Pillar pages should feature clean, descriptive URLs that reflect the topic they cover. For instance, a pillar page focused on SEO fundamentals might use a URL pattern like `example.com/seo-fundamentals`. This not only aids users in understanding the content but also enhances relevance signals for search engines. Additionally, the hierarchical organization of URLs should mirror the relationship between pillar pages and their respective clusters. This clear delineation reinforces the importance of the pillar in the overall site architecture, contributing to improved crawlability and indexing.
 
 ### Optimizing Page Speed and Mobile Responsiveness
 

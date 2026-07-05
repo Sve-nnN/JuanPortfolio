@@ -11,6 +11,7 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { getServerSideURL } from '@/utilities/getURL'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 // Generadores simples para el plugin oficial
 // Nota: el plugin oficial puede funcionar sin estos, pero ayudan con valores por defecto.
@@ -37,6 +38,9 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
+      admin: {
+        group: ADMIN_GROUP.SEO,
+      },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -85,6 +89,9 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     formOverrides: {
+      admin: {
+        group: ADMIN_GROUP.MARKETING,
+      },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
@@ -105,11 +112,19 @@ export const plugins: Plugin[] = [
         })
       },
     },
+    formSubmissionOverrides: {
+      admin: {
+        group: ADMIN_GROUP.MARKETING,
+      },
+    },
   }),
   searchPlugin({
     collections: ['posts'],
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
+      admin: {
+        group: ADMIN_GROUP.MARKETING,
+      },
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields]
       },

@@ -993,7 +993,8 @@ Plans:
   3. La author page pública muestra la misma información que antes (nombre, bio, avatar, posts asociados), ahora leída desde `Authors`
   4. El `authors-sitemap` sigue generando las mismas URLs válidas, ahora derivadas de la colección `Authors`
 
-**Plans**: TBD
+**Plans**: 1 plan (Wave 1)
+- [ ] 56-01-PLAN.md — Colección Authors + campo aditivo postAuthors + helper resolvePostAuthors + cutover de las 11 superficies con fallback a users + scripts migrate:authors / verify:authors (RUN diferido a Juan)
 
 ### Phase 57: Migración de Home a Pages
 

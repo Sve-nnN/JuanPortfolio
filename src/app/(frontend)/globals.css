@@ -124,6 +124,13 @@
   font-family: var(--font-array) !important;
 }
 
+/* LCP heading: prefer the preloaded Array Bold instance, fall back to the full
+   Array family. Used on the home H1 so its (above-the-fold) weight is the one
+   we preload. CWV v1.7 (PERF-08). */
+.font-display-lcp {
+  font-family: var(--font-array-bold), var(--font-array), serif !important;
+}
+
 .font-body {
   font-family: var(--font-khand) !important;
 }

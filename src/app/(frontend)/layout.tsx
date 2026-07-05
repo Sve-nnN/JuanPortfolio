@@ -6,7 +6,6 @@ import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
 import localFont from 'next/font/local'
-import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import React from 'react'
 
@@ -43,6 +42,24 @@ const ArrayFont = localFont({
   ],
   variable: '--font-array',
   display: 'swap',
+  // Full Array family (Regular/Semibold/Bold) for headings, footer logo and
+  // prose. NOT preloaded: only the H1's Bold weight is above-the-fold (see
+  // ArrayBold below). These swap in below the fold. CWV v1.7 (PERF-08).
+  preload: false,
+})
+
+/**
+ * Array Bold only — the home H1 (LCP element) renders in this weight, so it's
+ * the single font we preload above the fold. Exposed as `--font-array-bold`
+ * and applied via the `.font-display-lcp` utility on the LCP heading. Keeping
+ * it a separate instance lets us preload just Bold without preloading the
+ * Regular/Semibold weights of the full family above. CWV v1.7 (PERF-08).
+ */
+const ArrayBold = localFont({
+  src: [{ path: './../../fonts/array/Array-Bold.woff2', weight: '700', style: 'normal' }],
+  variable: '--font-array-bold',
+  display: 'swap',
+  preload: true,
 })
 
 /**
@@ -76,7 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={cn(
         Khand.variable,
         ArrayFont.variable,
-        GeistSans.variable,
+        ArrayBold.variable,
         GeistMono.variable,
         'dark',
       )}

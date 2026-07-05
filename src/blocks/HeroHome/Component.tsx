@@ -66,7 +66,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
             )}
 
             <h1
-              className="hero-item font-display font-extrabold text-foreground mb-10 leading-[1.05] tracking-tight text-6xl md:text-4xl lg:text-5xl"
+              className="hero-item font-display-lcp font-extrabold text-foreground mb-10 leading-[1.05] tracking-tight text-6xl md:text-4xl lg:text-5xl"
               style={{ animationDelay: nextDelay() }}
             >
               {title || 'Juan Carlos Angulo'}

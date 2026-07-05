@@ -162,3 +162,79 @@
 .animate-blob-secondary {
   animation: blob-secondary 25s linear infinite;
 }
+
+/* ── Hero (HeroHome) — CSS-driven parallax + entrance ─────────────────────────
+   Phase 39 (CWV v1.7): the hero was a `'use client'` framer-motion tree, so the
+   H1 (LCP) depended on hydration and framer shipped in the above-the-fold bundle.
+   Now the entrance is pure CSS and the scroll parallax reads a single JS-set
+   custom property `--sy` (window.scrollY, rAF-throttled by HeroScroll.client).
+   The linear maps mirror the previous framer `useTransform` ranges exactly:
+     backdrop y : scrollY [0,500] → [0,200]px      (0.4 * sy)
+     text     y : scrollY [0,500] → [0,-150]px     (-0.3 * sy)
+     opacity    : scrollY [0,300] → [1,0]          (1 - sy/300)
+     media  scale: scrollY [0,500] → [1,0.9]        (1 - sy*0.0002)
+   Before hydration --sy is unset → var(--sy,0)=0 → identity transform, so the
+   first paint matches SSR and LCP no longer waits on JS. */
+
+.hero-backdrop {
+  transform: translate3d(0, clamp(0px, calc(var(--sy, 0) * 0.4px), 200px), 0);
+  opacity: clamp(0, calc(1 - var(--sy, 0) / 300), 1);
+  will-change: transform, opacity;
+}
+
+.hero-text {
+  transform: translate3d(0, clamp(-150px, calc(var(--sy, 0) * -0.3px), 0px), 0);
+  opacity: clamp(0, calc(1 - var(--sy, 0) / 300), 1);
+  will-change: transform, opacity;
+}
+
+.hero-media {
+  transform: scale(clamp(0.9, calc(1 - var(--sy, 0) * 0.0002), 1));
+  will-change: transform;
+}
+
+/* Entrance: slide-up, staggered via per-item animation-delay (matches the old
+   framer staggerChildren: 0.1 / duration 0.8 / cubic-bezier(.25,.1,.25,1)).
+   Opacity was already 1 throughout, so the entrance is translateY only. */
+@keyframes hero-rise {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.hero-item {
+  animation: hero-rise 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+/* Media entrance nests inside .hero-media so the scroll scale (outer) and the
+   entrance scale/rotate (inner) compose instead of overwriting each other —
+   mirrors framer merging `style={{scale}}` with `animate={{scale,rotate}}`. */
+@keyframes hero-media-in {
+  from {
+    transform: scale(0.85) rotate(8deg);
+  }
+  to {
+    transform: scale(1) rotate(3deg);
+  }
+}
+
+.hero-media-inner {
+  transform: rotate(3deg);
+  animation: hero-media-in 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-item,
+  .hero-media-inner {
+    animation: none;
+  }
+  .hero-backdrop,
+  .hero-text,
+  .hero-media {
+    transform: none;
+    opacity: 1;
+  }
+}

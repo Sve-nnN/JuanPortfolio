@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { authenticated } from '../access/authenticated'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const PageMetrics: CollectionConfig = {
   slug: 'page-metrics',
@@ -10,7 +11,7 @@ export const PageMetrics: CollectionConfig = {
   admin: {
     useAsTitle: 'url',
     defaultColumns: ['url', 'mobile.score', 'lastScan'],
-    group: 'SEO',
+    group: ADMIN_GROUP.SEO,
     components: {
       beforeListTable: ['@/components/admin/ScanAllButton#ScanAllButton'],
     },

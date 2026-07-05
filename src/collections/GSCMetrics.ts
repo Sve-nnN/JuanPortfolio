@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { authenticated } from '../access/authenticated'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const GSCMetrics: CollectionConfig = {
   slug: 'gsc-metrics',
@@ -10,7 +11,7 @@ export const GSCMetrics: CollectionConfig = {
   admin: {
     useAsTitle: 'query',
     defaultColumns: ['date', 'page', 'query', 'clicks', 'impressions', 'indexStatus'],
-    group: 'SEO',
+    group: ADMIN_GROUP.SEO,
     components: {
       beforeListTable: ['@/components/admin/GSCAnalysis#GSCAnalysis'],
     },

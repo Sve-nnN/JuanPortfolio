@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const BrokenLinks: CollectionConfig = {
   slug: 'broken-links',
@@ -9,7 +10,7 @@ export const BrokenLinks: CollectionConfig = {
   admin: {
     useAsTitle: 'url',
     defaultColumns: ['url', 'statusCode', 'sourcePage', 'lastChecked'],
-    group: 'SEO',
+    group: ADMIN_GROUP.SEO,
   },
   access: {
     read: () => true,

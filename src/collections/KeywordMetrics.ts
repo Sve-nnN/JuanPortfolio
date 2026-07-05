@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { authenticated } from '../access/authenticated'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const KeywordMetrics: CollectionConfig = {
     slug: 'keyword-metrics',
@@ -10,7 +11,7 @@ export const KeywordMetrics: CollectionConfig = {
     admin: {
         useAsTitle: 'keyword',
         defaultColumns: ['keyword', 'volume', 'difficulty', 'clicks', 'avgPosition'],
-        group: 'SEO',
+        group: ADMIN_GROUP.SEO,
     },
     access: {
         read: () => true,

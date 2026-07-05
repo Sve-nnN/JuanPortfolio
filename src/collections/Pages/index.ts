@@ -38,6 +38,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { syncKeywordsAfterPostSave } from '../Posts/hooks/syncKeywordsAfterPostSave'
 import { createRedirectOnSlugChange } from '../../hooks/createRedirectOnSlugChange'
+import { uniqueSlugBeforeDuplicate, suffixTitleBeforeDuplicate } from './hooks/beforeDuplicatePage'
 import { Section } from '../../blocks/Section/config'
 import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
 
@@ -84,6 +85,9 @@ export const Pages: CollectionConfig<'pages'> = {
       label: {
         en: 'Title',
         es: 'Título',
+      },
+      hooks: {
+        beforeDuplicate: [suffixTitleBeforeDuplicate],
       },
     },
 
@@ -279,7 +283,7 @@ export const Pages: CollectionConfig<'pages'> = {
         description: 'Estado de indexación en Google. Se actualiza con Check Status.',
       },
     },
-    slugField(),
+    slugField('title', { hooks: { beforeDuplicate: [uniqueSlugBeforeDuplicate] } }),
   ],
   hooks: {
     afterChange: [revalidatePage, createRedirectOnSlugChange, syncKeywordsAfterPostSave],

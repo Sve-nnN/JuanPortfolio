@@ -71,14 +71,14 @@ export const AboutWithFeatures: React.FC<AboutWithFeaturesBlock & { locale?: 'en
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="relative aspect-video rounded-[3rem] overflow-hidden shadow-2xl border-2 border-border/50"
+                  className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border-2 border-border/50"
                 >
                   <Media resource={image as MediaType} fill className="object-cover" />
                 </m.div>
               )}
 
               {description && (
-                <div className="text-muted-foreground text-xl md:text-2xl leading-relaxed prose-2xl dark:prose-invert font-medium max-w-xl">
+                <div className="text-muted-foreground text-lg md:text-xl leading-relaxed prose-lg dark:prose-invert font-medium max-w-xl">
                   <RichText data={description} enableGutter={false} />
                 </div>
               )}

@@ -44,7 +44,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
             {title && (
               <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             )}
-            {description && <p className="mt-6 text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed max-w-3xl mx-auto">{description}</p>}
+            {description && <p className="mt-6 text-lg md:text-xl text-muted-foreground font-medium leading-relaxed max-w-3xl mx-auto">{description}</p>}
           </div>
         )}
 
@@ -57,7 +57,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
               return (
                 <div
                   key={p.id}
-                  className="card-elevated overflow-hidden border-t-[6px] border-t-primary/10 group cursor-pointer"
+                  className="card-elevated overflow-hidden border-t-4 border-t-primary/10 group cursor-pointer"
                 >
                   <Link href={href}>
                     <div className="relative w-full h-56 overflow-hidden">

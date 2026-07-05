@@ -33,7 +33,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselBlock & { locale
         <div className="flex flex-wrap justify-center gap-10 lg:gap-12">
           {testimonials.map((t, i) => {
             return (
-              <div key={i} className="card-elevated max-w-md p-10 text-left group cursor-default border-t-[6px] border-t-primary/10">
+              <div key={i} className="card-elevated max-w-md p-10 text-left group cursor-default border-t-4 border-t-primary/10">
                 <div className="text-2xl md:text-3xl italic mb-10 leading-tight tracking-tight text-foreground font-medium">&ldquo;{t.testimonial}&rdquo;</div>
                 <div className="flex items-center gap-5 mt-auto">
                   {t.avatar && typeof t.avatar === 'object' && (

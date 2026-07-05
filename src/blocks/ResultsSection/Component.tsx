@@ -11,7 +11,7 @@ export const ResultsSection: React.FC<ResultsSectionBlock & { locale?: 'en' | 'e
           <div className="text-center mb-12">
             <h2 className="text-section font-display font-bold text-foreground leading-[1.1] tracking-tight">{title}</h2>
             {description && (
-              <p className="mt-6 text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">{description}</p>
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">{description}</p>
             )}
           </div>
 
@@ -20,7 +20,7 @@ export const ResultsSection: React.FC<ResultsSectionBlock & { locale?: 'en' | 'e
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="card-elevated p-10 text-center group cursor-default border-t-[6px] border-t-primary/10"
+                  className="card-elevated p-10 text-center group cursor-default border-t-4 border-t-primary/10"
                 >
                   <span className="text-6xl md:text-7xl font-bold text-primary block mb-4 tracking-tighter transition-transform duration-500 group-hover:scale-110">
                     {stat.value}

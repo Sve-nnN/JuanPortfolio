@@ -69,7 +69,7 @@ export const LatestBlogPostsBlock: React.FC<LatestBlogPostsBlockType & { locale?
             })}
           </div>
         ) : (
-          <div className="text-center py-16 bg-card rounded-[2rem] border border-border/50 shadow-inner">
+          <div className="text-center py-16 bg-card rounded-2xl border border-border/50 shadow-inner">
             <p className="text-muted-foreground text-xl font-medium leading-relaxed">
               {locale === 'es' ? 'No se encontraron artículos publicados recientemente.' : 'No recently published articles found.'}
             </p>

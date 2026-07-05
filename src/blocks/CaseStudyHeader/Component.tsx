@@ -23,7 +23,7 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderBlock & { locale?: 'en' | 
             {title}
           </h1>
           {description && (
-            <p className="text-xl md:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium">
               {description}
             </p>
           )}

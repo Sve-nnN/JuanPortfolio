@@ -145,7 +145,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
     <nav
       aria-label="Tabla de contenido"
       className={cn(
-        "card-elevated p-8 bg-card/80 backdrop-blur-xl border-t-[6px] border-t-primary/10",
+        "card-elevated p-8 bg-card/80 backdrop-blur-xl border-t-4 border-t-primary/10",
         variant === 'mobile' && "hidden lg:block" // Hide mobile handled separately
       )}
     >

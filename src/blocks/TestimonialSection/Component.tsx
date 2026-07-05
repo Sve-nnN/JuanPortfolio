@@ -22,7 +22,7 @@ export const TestimonialSection: React.FC<TestimonialSectionBlock & { locale?: '
         )}
 
         <div className="max-w-4xl mx-auto">
-          <div className="card-elevated p-10 md:p-20 flex flex-col items-center text-center relative group cursor-default border-t-[6px] border-t-primary/20">
+          <div className="card-elevated p-10 md:p-20 flex flex-col items-center text-center relative group cursor-default border-t-4 border-t-primary/20">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-5xl font-serif shadow-xl border-4 border-background">
               &ldquo;
             </div>

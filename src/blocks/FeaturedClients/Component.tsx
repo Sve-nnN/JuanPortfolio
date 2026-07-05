@@ -61,7 +61,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
             </h2>
           )}
           {description && (
-            <p className="text-xl md:text-3xl text-muted-foreground leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
               {description}
             </p>
           )}
@@ -98,7 +98,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
                 return (
                   <div
                     key={i}
-                    className="relative w-40 md:w-64 h-24 md:h-32 flex-shrink-0 flex items-center justify-center p-8 rounded-[2rem] bg-white border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
+                    className="relative w-40 md:w-64 h-24 md:h-32 flex-shrink-0 flex items-center justify-center p-8 rounded-2xl bg-white border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
                     {src && (
                       <Image
@@ -124,7 +124,7 @@ export const FeaturedClients: React.FC<FeaturedClientsBlock & { locale?: 'en' | 
                 return (
                   <div
                     key={i}
-                    className="relative w-40 md:w-64 h-24 md:h-32 flex items-center justify-center p-8 rounded-[2rem] bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
+                    className="relative w-40 md:w-64 h-24 md:h-32 flex items-center justify-center p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all group/logo shadow-sm hover:shadow-xl hover:-translate-y-1 duration-500"
                   >
                     {src && (
                       <Image

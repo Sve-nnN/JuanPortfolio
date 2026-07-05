@@ -16,7 +16,7 @@ export const WorkCardsBlock: React.FC<Props> = ({ title, count = 6, showReadMore
       {title && <h2 className="text-section font-display font-bold mb-12 tracking-tight">{title}</h2>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
         {Array.from({ length: count }).map((_, i) => (
-          <article key={i} className="card-elevated p-8 group border-t-[6px] border-t-primary/10">
+          <article key={i} className="card-elevated p-8 group border-t-4 border-t-primary/10">
             <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">Work {i + 1}</h3>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed font-medium">Descripción editable en el admin</p>
             {showReadMore && (

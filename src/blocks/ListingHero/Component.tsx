@@ -33,7 +33,7 @@ export const ListingHero: React.FC<ListingHeroBlock & { locale?: 'en' | 'es' }> 
             {title}
           </h1>
           {description && (
-            <p className="text-xl md:text-3xl lg:text-4xl text-muted-foreground leading-tight max-w-3xl font-medium">
+            <p className="text-lg md:text-xl text-muted-foreground leading-tight max-w-3xl font-medium">
               {description}
             </p>
           )}

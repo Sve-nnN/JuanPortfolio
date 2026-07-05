@@ -225,7 +225,7 @@ export default function RichText(props: Props) {
           'prose-pre:rounded-[1.5rem]',
           'prose-pre:shadow-inner',
           // Images - polished presentation
-          'prose-img:rounded-[2rem]',
+          'prose-img:rounded-2xl',
           'prose-img:shadow-2xl',
           'prose-img:my-16',
           // Lists - better spacing

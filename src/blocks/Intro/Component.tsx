@@ -14,7 +14,7 @@ export const IntroBlock: React.FC<IntroBlockProps & { locale?: 'en' | 'es' }> = 
         </h2>
         
         {body && (
-          <p className="text-xl md:text-3xl text-muted-foreground leading-relaxed mt-12 font-medium max-w-4xl">
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mt-12 font-medium max-w-4xl">
             {body}
           </p>
         )}

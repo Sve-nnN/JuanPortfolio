@@ -52,7 +52,7 @@ export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock & { locale?: 'en
         {cases.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
             {cases.map((cs) => (
-              <div key={cs.id} className="card-elevated group flex flex-col h-full overflow-hidden border-t-[6px] border-t-primary/10 cursor-pointer">
+              <div key={cs.id} className="card-elevated group flex flex-col h-full overflow-hidden border-t-4 border-t-primary/10 cursor-pointer">
                 <Link href={`${localePrefix}/case-studies/${cs.slug}`} className="block overflow-hidden relative aspect-[4/3] bg-muted">
                   {cs.content?.heroImage && (
                     <Media
@@ -87,7 +87,7 @@ export const LatestCaseStudies: React.FC<LatestCaseStudiesBlock & { locale?: 'en
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-card rounded-[2rem] border border-border/50 shadow-inner">
+          <div className="text-center py-16 bg-card rounded-2xl border border-border/50 shadow-inner">
             <p className="text-muted-foreground text-xl font-medium leading-relaxed">
               {locale === 'es' ? 'No se encontraron casos de estudio recientes.' : 'No recently published case studies found.'}
             </p>

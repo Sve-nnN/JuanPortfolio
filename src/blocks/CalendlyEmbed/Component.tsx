@@ -124,14 +124,14 @@ export const CalendlyEmbedBlock: React.FC<CalendlyEmbedBlockProps & { locale?: '
             </h2>
           )}
           {subtitle && (
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">{subtitle}</p>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">{subtitle}</p>
           )}
         </div>
       )}
 
       <div
         ref={containerRef}
-        className="relative rounded-[2rem] overflow-hidden border border-border/50 shadow-xl"
+        className="relative rounded-2xl overflow-hidden border border-border/50 shadow-xl"
         style={{ minHeight: widgetHeight }}
       >
         {(!inView || !scriptLoaded) && (

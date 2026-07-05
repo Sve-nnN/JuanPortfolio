@@ -54,7 +54,7 @@ export const PostArticleHeader: React.FC<PostArticleHeaderBlock & { locale?: 'en
         </div>
 
         {featuredImage && typeof featuredImage === 'object' && (
-          <div className="relative aspect-video rounded-[2.5rem] overflow-hidden shadow-2xl border border-border/50">
+          <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/50">
             <Media resource={featuredImage as MediaType} fill className="object-cover transition-transform duration-1000 hover:scale-105" />
           </div>
         )}

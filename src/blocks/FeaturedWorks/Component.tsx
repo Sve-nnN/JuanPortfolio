@@ -60,7 +60,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
                 {title}
               </h2>
               {description && (
-                <p className="text-xl md:text-3xl text-muted-foreground font-medium leading-tight max-w-2xl">
+                <p className="text-lg md:text-xl text-muted-foreground font-medium leading-tight max-w-2xl">
                   {description}
                 </p>
               )}
@@ -119,7 +119,7 @@ export const FeaturedWorks: React.FC<FeaturedWorksBlock & { locale?: 'en' | 'es'
                       {work.title}
                     </h3>
                   </div>
-                  <p className="text-xl md:text-2xl text-muted-foreground line-clamp-2 mb-12 leading-relaxed font-medium">
+                  <p className="text-lg md:text-xl text-muted-foreground line-clamp-2 mb-12 leading-relaxed font-medium">
                     {work.meta?.description}
                   </p>
                   <Link 

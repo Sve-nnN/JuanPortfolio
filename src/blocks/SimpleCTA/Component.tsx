@@ -20,7 +20,7 @@ export const SimpleCta: React.FC<SimpleCtaBlock & { locale?: 'en' | 'es' }> = (p
   return (
     <section className={`py-20 md:py-20 ${bgColorClass}`}>
       <div className="max-w-5xl mx-auto px-6 text-center">
-        {text && <p className="mb-10 text-2xl md:text-4xl font-display font-bold tracking-tight leading-tight">{text}</p>}
+        {text && <p className="mb-10 text-xl md:text-2xl font-display font-bold tracking-tight leading-tight">{text}</p>}
         {label && url && (
           <CMSLink
             url={url}

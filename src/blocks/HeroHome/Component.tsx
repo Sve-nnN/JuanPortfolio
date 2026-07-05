@@ -18,7 +18,7 @@ import { HeroScroll } from './HeroScroll.client'
  *
  * `staggerChildren: 0.1` is reproduced with per-item `animationDelay`.
  */
-const ITEM_DELAYS = ['0ms', '100ms', '200ms', '300ms']
+const ITEM_DELAYS = ['0ms', '80ms', '160ms', '240ms', '320ms']
 
 export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = (props) => {
   const {
@@ -52,103 +52,87 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
         />
       </div>
 
+      {/* Centered single-column hero. Scroll parallax (y + opacity) via .hero-text. */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Text content — scroll parallax (y2 + opacity) via .hero-text */}
-          <div className="hero-text text-center lg:text-left flex flex-col items-center lg:items-start lg:order-1">
-            {badge && (
-              <span
-                className="hero-item inline-flex items-center bg-primary/10 backdrop-blur-md border border-primary/20 text-primary text-xs font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full mb-8 shadow-sm"
-                style={{ animationDelay: nextDelay() }}
-              >
-                {badge}
-              </span>
+        <div className="hero-text max-w-3xl mx-auto flex flex-col items-center text-center">
+          {/* Avatar — small, circular, LCP-priority. Glow behind for the motion feel. */}
+          {media && typeof media === 'object' && (
+            <div
+              className="hero-item relative mb-8"
+              style={{ animationDelay: nextDelay() }}
+            >
+              <div className="absolute -inset-6 bg-gradient-to-tr from-primary/30 to-primary/5 rounded-full blur-2xl opacity-70 animate-pulse-slow" />
+              <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-border/60 shadow-xl bg-card ring-4 ring-primary/10">
+                <Media
+                  resource={media}
+                  fill
+                  priority
+                  width={256}
+                  height={256}
+                  size="128px"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          )}
+
+          {badge && (
+            <span
+              className="hero-item inline-flex items-center bg-primary/10 backdrop-blur-md border border-primary/20 text-primary text-xs font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full mb-6 shadow-sm"
+              style={{ animationDelay: nextDelay() }}
+            >
+              {badge}
+            </span>
+          )}
+
+          <h1
+            className="hero-item text-display font-display-lcp font-extrabold text-foreground mb-6 leading-[1.05] tracking-tight"
+            style={{ animationDelay: nextDelay() }}
+          >
+            {title || 'Juan Carlos Angulo'}
+            {subtitle && (
+              <>
+                <br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-3 font-bold text-xl sm:text-2xl lg:text-3xl">
+                  {subtitle}
+                </span>
+              </>
             )}
+          </h1>
 
-            <h1
-              className="hero-item text-display font-display-lcp font-extrabold text-foreground mb-8 leading-[1.05] tracking-tight"
-              style={{ animationDelay: nextDelay() }}
-            >
-              {title || 'Juan Carlos Angulo'}
-              {subtitle && (
-                <>
-                  <br />
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-4 font-bold text-xl sm:text-2xl lg:text-3xl">
-                    {subtitle}
-                  </span>
-                </>
-              )}
-            </h1>
-
-            {/* Description or RichText */}
-            <div
-              className="hero-item max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 text-center lg:text-left leading-relaxed font-medium"
-              style={{ animationDelay: nextDelay() }}
-            >
-              {richText ? (
-                <RichText
-                  className="prose-lg dark:prose-invert"
-                  data={richText}
-                  enableGutter={false}
-                />
-              ) : description ? (
-                <p>{description}</p>
-              ) : null}
-            </div>
-
-            <div
-              className="hero-item flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-              style={{ animationDelay: nextDelay() }}
-            >
-              {primaryCta && primaryCta.label && primaryCta.url && (
-                <CMSLink
-                  url={primaryCta.url}
-                  label={primaryCta.label}
-                  locale={locale}
-                  appearance="default"
-
-                />
-              )}
-              {secondaryCta && secondaryCta.label && secondaryCta.url && (
-                <CMSLink
-                  url={secondaryCta.url}
-                  label={secondaryCta.label}
-                  locale={locale}
-                  appearance="outline"
-
-                  className="group"
-                >
-                  <ArrowRight
-                    className="ml-3 group-hover:translate-x-2 transition-transform duration-500"
-                    size={24}
-                  />
-                </CMSLink>
-              )}
-            </div>
+          {/* Description or RichText */}
+          <div
+            className="hero-item max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground mb-9 leading-relaxed font-medium"
+            style={{ animationDelay: nextDelay() }}
+          >
+            {richText ? (
+              <RichText className="prose-lg dark:prose-invert" data={richText} enableGutter={false} />
+            ) : description ? (
+              <p>{description}</p>
+            ) : null}
           </div>
 
-          {/* Media/Image — scroll scale via .hero-media (outer), entrance
-              scale/rotate-in via .hero-media-inner (inner), so they compose. */}
-          <div className="hero-media relative flex justify-center items-center lg:order-2">
-            <div className="hero-media-inner relative flex justify-center items-center w-full">
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-primary/5 rounded-full blur-[100px] opacity-60 animate-pulse-slow"></div>
-              {media && typeof media === 'object' && (
-                <div className="relative w-60 h-60 md:w-72 md:h-72 lg:w-[24rem] lg:h-[24rem] rounded-[2.5rem] hover:rotate-0 transition-transform duration-700 ease-out overflow-hidden border-2 border-border/50 shadow-2xl bg-card">
-                  <Media
-                    resource={media}
-                    fill
-                    priority
-                    /* Cap the Cloudinary width: the portrait renders at most
-                       ~560px (lg) but was served at 756px. width/height drive
-                       the Cloudinary w_/h_ transform. CWV milestone v1.1. */
-                    width={448}
-                    height={448}
-                    size="(min-width: 1024px) 384px, (min-width: 768px) 288px, 240px"
-                    className="w-full h-full object-cover aspect-square"
-                  />
-                </div>
-              )}
-            </div>
+          <div
+            className="hero-item flex flex-col sm:flex-row items-center justify-center gap-4"
+            style={{ animationDelay: nextDelay() }}
+          >
+            {primaryCta && primaryCta.label && primaryCta.url && (
+              <CMSLink url={primaryCta.url} label={primaryCta.label} locale={locale} appearance="default" />
+            )}
+            {secondaryCta && secondaryCta.label && secondaryCta.url && (
+              <CMSLink
+                url={secondaryCta.url}
+                label={secondaryCta.label}
+                locale={locale}
+                appearance="outline"
+                className="group"
+              >
+                <ArrowRight
+                  className="ml-1 group-hover:translate-x-1 transition-transform duration-300"
+                  size={20}
+                />
+              </CMSLink>
+            )}
           </div>
         </div>
       </div>

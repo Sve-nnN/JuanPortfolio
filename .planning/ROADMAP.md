@@ -10,6 +10,7 @@
 - ✅ **v1.5 Limpieza y alineación del admin de Payload** — Phases 25-30 (shipped 2026-06-26)
 - 🚧 **v1.6 Auditoría integral & remediación (SEO + código)** — Phases 31-37 (en curso, iniciado 2026-07-02)
 - 🚧 **v1.7 Rendimiento avanzado (Core Web Vitals)** — Phases 38-43 (roadmapped, iniciado 2026-07-02)
+- 🚧 **v1.8 Refresh de UX/UI (sitio público)** — Phases 44-51 (roadmapped, iniciado 2026-07-05)
 
 ## Phases
 
@@ -161,6 +162,110 @@ Bajar LCP mobile de la home de 7.4s a < 2500ms y el INP a < 200ms recortando el 
   2. Los números antes/después (Perf score, LCP, TBT, CLS, INP) quedan registrados en STATE.md junto al baseline de `.planning/research/audit-jul2026/03-performance.md`
   3. El procedimiento de re-medición queda documentado como comando reproducible (no ad-hoc) para usarlo en milestones futuros
   4. Sin regresión de CLS (≤ 0.01) ni del H1-visible-en-SSR de v1.1; tsc baseline y tests verdes en el estado final del milestone
+
+### 🚧 v1.8 Refresh de UX/UI (sitio público) — Phases 44-51
+
+Pasar el skill `ui-ux-pro-max` por todos los componentes del sitio público, fijar un design-system refrescado (paleta OKLCH, tipografía, spacing, radius, sombras, motion, a11y) y aplicarlo componente por componente por superficie, con **QA visual obligatorio (Juan)** antes de mergear cada una. Refresh guiado por design-system, NO rebrand: identidad dark-mode-default intacta. Requirements DS-01/02, UIKIT-01, CHROME-01..04, HOME-01..05, BLOG-01..03, POST-01..04, CASE-01, FORM-01/02.
+
+**Constantes en todas las fases de superficie (46-51):**
+- **DoD del Pre-Delivery Checklist** (`.planning/REQUIREMENTS.md`): a11y (contraste ≥4.5:1, focus visible, touch targets ≥44px, aria-labels icon-only), `cursor-pointer` + hover sin layout shift, iconos SVG (Lucide) sin emojis, responsive 375/768/1024/1440 sin scroll horizontal, motion solo `transform`/`opacity` + `prefers-reduced-motion`.
+- **Sin regresión de v1.7**: hero SSR, animaciones CSS, preloads de fuentes, LCP/CLS intactos — ni de la identidad de marca.
+- **QA visual obligatorio (Juan)** por superficie antes de mergear.
+- tsc baseline (0 nuevos en `src/`) y tests verdes.
+
+#### Phase 44: Fundación design-system
+
+**Goal**: El design-system refrescado (tokens visuales y baseline de a11y/interacción) queda fijado una sola vez, documentado y listo para que el resto de fases lo consuma sin re-tocar fundamentos
+**Requirements**: DS-01, DS-02
+**Success Criteria**:
+  1. `ui-ux-pro-max --design-system` corre exitosamente sobre el portfolio (permiso de ejecución de `search.py` resuelto previamente — deny rule de auto-mode)
+  2. `globals.css`/`tailwind.config.js` documentan el design-system refrescado (paleta OKLCH partiendo de primary hue 250, tipografía, escala de spacing, radius base 1rem, sombras, lenguaje de motion)
+  3. Tokens de interacción (focus ring, hover/disabled) y z-index scale (10/20/30/50) quedan definidos una sola vez, listos para Fase 45+
+  4. tsc baseline (0 nuevos en `src/`) y tests verdes tras fijar los tokens (aún sin tocar componentes)
+**Gate**: Permiso de ejecución del skill `ui-ux-pro-max` resuelto antes de correr `--design-system` (deny rule de auto-mode)
+
+#### Phase 45: Primitivas UI compartidas
+
+**Goal**: Las primitivas de `components/ui/*` quedan alineadas al design-system fijado en Fase 44, de modo que todas las superficies posteriores las hereden sin re-tocarlas
+**Depends on**: Phase 44
+**Requirements**: UIKIT-01
+**Success Criteria**:
+  1. button, accordion, select, checkbox, label y demás primitivas de `components/ui/*` consumen los tokens de Fase 44 (paleta, radius, motion, focus ring)
+  2. Cumplen el DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion reduced-motion-safe)
+  3. QA visual (Juan) de las primitivas en aislamiento antes de mergear
+  4. Sin regresión de performance/identidad de marca v1.7; tsc baseline y tests verdes
+**Gate**: QA visual obligatorio (Juan) de las primitivas antes de mergear
+
+#### Phase 46: Chrome global
+
+**Goal**: Header, menú mobile, Footer, Logo, Breadcrumbs y DynamicBackground quedan refrescados y consistentes en todo el sitio
+**Depends on**: Phase 45
+**Requirements**: CHROME-01, CHROME-02, CHROME-03, CHROME-04
+**Success Criteria**:
+  1. Header (desktop + nav) y menú mobile (touch targets, focus trap, animación reduced-motion-safe) cumplen el DoD
+  2. Footer, Logo, Breadcrumbs y DynamicBackground consistentes con el sistema de Fases 44/45
+  3. DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion transform/opacity + reduced-motion) en las 4 resoluciones
+  4. Sin regresión de v1.7 (hero SSR intacto, CSS animations, font preloads, LCP/CLS) ni de identidad de marca
+**Gate**: QA visual obligatorio (Juan) del chrome en las 4 resoluciones antes de mergear
+
+#### Phase 47: Home
+
+**Goal**: Todas las secciones de la home (About, Results, FeaturedWorks/Clients/Blog, Testimonials, CTAs, ContactForm, HeroHome alineado) quedan refrescadas al sistema
+**Depends on**: Phase 46
+**Requirements**: HOME-01, HOME-02, HOME-03, HOME-04, HOME-05
+**Success Criteria**:
+  1. AboutSection/AboutWithFeatures, ResultsSection, FeaturedWorks/WorkCards, FeaturedClients/Carousel/Marquee, FeaturedBlog/LatestBlogPosts, Testimonials y CTAs cumplen el DoD
+  2. HeroHome queda alineado visualmente al sistema sin tocar su estructura server/parallax (sin reabrir el refactor de v1.7 Fase 39)
+  3. DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion reduced-motion-safe) por sección
+  4. Sin regresión de LCP/CLS de la home (v1.7) ni de identidad de marca
+**Gate**: QA visual obligatorio (Juan) de la home completa (scroll end-to-end) antes de mergear
+
+#### Phase 48: Blog listing & archivo
+
+**Goal**: El listado y archivo del blog (header, grid, card, paginación, categorías) queda refrescado y coherente
+**Depends on**: Phase 46
+**Requirements**: BLOG-01, BLOG-02, BLOG-03
+**Success Criteria**:
+  1. BlogArchiveHeader, ListingHero, BlogListingLayout, PostsGrid, ArchiveBlock, CollectionArchive y Card cumplen el DoD (hover de card sin layout shift)
+  2. Pagination/PageRange y CategoryExplore/CategoryFAQ refrescados y consistentes
+  3. DoD completo (a11y, responsive 375/768/1024/1440, motion reduced-motion-safe, SVG sin emojis)
+  4. Sin regresión de v1.7 (cache/ISR de listados, LCP/CLS) ni de identidad de marca
+**Gate**: QA visual obligatorio (Juan) del listado/archivo antes de mergear
+
+#### Phase 49: Post / artículo
+
+**Goal**: La plantilla de post/artículo completa (hero, contenido, TOC, sidebar, relacionados, FAQ, autor) queda refrescada
+**Depends on**: Phase 46
+**Requirements**: POST-01, POST-02, POST-03, POST-04
+**Success Criteria**:
+  1. PostHero/PostArticleHeader y Content/RichText/Code (line-height 1.5-1.75, line-length 65-75) cumplen el DoD
+  2. TableOfContents/TableOfContentsBlock, PostSidebar/SidebarBanners, RelatedPosts/RelatedPostsBlock, FAQ, AuthorCard y SGEAtomicAnswer refrescados
+  3. DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion reduced-motion-safe)
+  4. Sin regresión de v1.7 (LCP/CLS de lectura) ni de identidad de marca
+**Gate**: QA visual obligatorio (Juan) de un post completo (mobile+desktop, con código y TOC) antes de mergear
+
+#### Phase 50: Case studies
+
+**Goal**: Las superficies de case studies (header, grid, featured, latest) quedan refrescadas al sistema
+**Depends on**: Phase 46
+**Requirements**: CASE-01
+**Success Criteria**:
+  1. CaseStudyHeader, CaseStudiesGrid, FeaturedCaseStudies y LatestCaseStudies cumplen el DoD
+  2. Responsive 375/768/1024/1440 sin scroll horizontal; motion transform/opacity + reduced-motion
+  3. Sin regresión de performance ni de identidad de marca v1.7
+**Gate**: QA visual obligatorio (Juan) de case studies antes de mergear
+
+#### Phase 51: Formularios & interactivos
+
+**Goal**: Los formularios e interactivos (Form/FormBlock, ContactForm, Turnstile, CalendlyEmbed, Banner, Intro, MediaBlock, Section) quedan refrescados con estados claros
+**Depends on**: Phase 45
+**Requirements**: FORM-01, FORM-02
+**Success Criteria**:
+  1. Form/FormBlock, ContactForm y Turnstile muestran estados de error/loading claros, labels correctos y botón disabled durante el submit async
+  2. CalendlyEmbed, Banner, Intro, MediaBlock y Section consistentes con el sistema
+  3. DoD completo (a11y incl. labels en inputs, cursor-pointer + hover sin shift, responsive 375/768/1024/1440, motion reduced-motion-safe)
+  4. Sin regresión de v1.7 (Calendly diferido con IntersectionObserver sigue intacto) ni de identidad de marca
+**Gate**: QA visual obligatorio (Juan) de formularios (estado normal/error/loading) antes de mergear
 
 <details>
 <summary>✅ v1.0 Render estático/ISR & Edge Caching (Phases 1-5) — SHIPPED</summary>
@@ -597,6 +702,125 @@ Plans:
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 44: Fundación design-system
+
+**Goal**: El design-system refrescado (tokens visuales y baseline de a11y/interacción) queda fijado una sola vez, documentado y listo para que el resto de fases lo consuma sin re-tocar fundamentos
+**Requirements**: DS-01, DS-02
+**Success Criteria** (what must be TRUE):
+
+  1. `ui-ux-pro-max --design-system` corre exitosamente sobre el portfolio (permiso de ejecución de `search.py` resuelto previamente — deny rule de auto-mode)
+  2. `globals.css`/`tailwind.config.js` documentan el design-system refrescado (paleta OKLCH partiendo de primary hue 250, tipografía, escala de spacing, radius base 1rem, sombras, lenguaje de motion)
+  3. Tokens de interacción (focus ring, hover/disabled) y z-index scale (10/20/30/50) quedan definidos una sola vez, listos para Fase 45+
+  4. tsc baseline (0 nuevos en `src/`) y tests verdes tras fijar los tokens (aún sin tocar componentes)
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 45: Primitivas UI compartidas
+
+**Goal**: Las primitivas de `components/ui/*` quedan alineadas al design-system fijado en Fase 44, de modo que todas las superficies posteriores las hereden sin re-tocarlas
+**Depends on**: Phase 44
+**Requirements**: UIKIT-01
+**Success Criteria** (what must be TRUE):
+
+  1. button, accordion, select, checkbox, label y demás primitivas de `components/ui/*` consumen los tokens de Fase 44 (paleta, radius, motion, focus ring)
+  2. Cumplen el DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion reduced-motion-safe)
+  3. QA visual (Juan) de las primitivas en aislamiento antes de mergear
+  4. Sin regresión de performance/identidad de marca v1.7; tsc baseline y tests verdes
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 46: Chrome global
+
+**Goal**: Header, menú mobile, Footer, Logo, Breadcrumbs y DynamicBackground quedan refrescados y consistentes en todo el sitio
+**Depends on**: Phase 45
+**Requirements**: CHROME-01, CHROME-02, CHROME-03, CHROME-04
+**Success Criteria** (what must be TRUE):
+
+  1. Header (desktop + nav) y menú mobile (touch targets, focus trap, animación reduced-motion-safe) cumplen el DoD
+  2. Footer, Logo, Breadcrumbs y DynamicBackground consistentes con el sistema de Fases 44/45
+  3. DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion transform/opacity + reduced-motion) en las 4 resoluciones
+  4. Sin regresión de v1.7 (hero SSR intacto, CSS animations, font preloads, LCP/CLS) ni de identidad de marca
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 47: Home
+
+**Goal**: Todas las secciones de la home (About, Results, FeaturedWorks/Clients/Blog, Testimonials, CTAs, ContactForm, HeroHome alineado) quedan refrescadas al sistema
+**Depends on**: Phase 46
+**Requirements**: HOME-01, HOME-02, HOME-03, HOME-04, HOME-05
+**Success Criteria** (what must be TRUE):
+
+  1. AboutSection/AboutWithFeatures, ResultsSection, FeaturedWorks/WorkCards, FeaturedClients/Carousel/Marquee, FeaturedBlog/LatestBlogPosts, Testimonials y CTAs cumplen el DoD
+  2. HeroHome queda alineado visualmente al sistema sin tocar su estructura server/parallax (sin reabrir el refactor de v1.7 Fase 39)
+  3. DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion reduced-motion-safe) por sección
+  4. Sin regresión de LCP/CLS de la home (v1.7) ni de identidad de marca
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 48: Blog listing & archivo
+
+**Goal**: El listado y archivo del blog (header, grid, card, paginación, categorías) queda refrescado y coherente
+**Depends on**: Phase 46
+**Requirements**: BLOG-01, BLOG-02, BLOG-03
+**Success Criteria** (what must be TRUE):
+
+  1. BlogArchiveHeader, ListingHero, BlogListingLayout, PostsGrid, ArchiveBlock, CollectionArchive y Card cumplen el DoD (hover de card sin layout shift)
+  2. Pagination/PageRange y CategoryExplore/CategoryFAQ refrescados y consistentes
+  3. DoD completo (a11y, responsive 375/768/1024/1440, motion reduced-motion-safe, SVG sin emojis)
+  4. Sin regresión de v1.7 (cache/ISR de listados, LCP/CLS) ni de identidad de marca
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 49: Post / artículo
+
+**Goal**: La plantilla de post/artículo completa (hero, contenido, TOC, sidebar, relacionados, FAQ, autor) queda refrescada
+**Depends on**: Phase 46
+**Requirements**: POST-01, POST-02, POST-03, POST-04
+**Success Criteria** (what must be TRUE):
+
+  1. PostHero/PostArticleHeader y Content/RichText/Code (line-height 1.5-1.75, line-length 65-75) cumplen el DoD
+  2. TableOfContents/TableOfContentsBlock, PostSidebar/SidebarBanners, RelatedPosts/RelatedPostsBlock, FAQ, AuthorCard y SGEAtomicAnswer refrescados
+  3. DoD completo (a11y, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion reduced-motion-safe)
+  4. Sin regresión de v1.7 (LCP/CLS de lectura) ni de identidad de marca
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 50: Case studies
+
+**Goal**: Las superficies de case studies (header, grid, featured, latest) quedan refrescadas al sistema
+**Depends on**: Phase 46
+**Requirements**: CASE-01
+**Success Criteria** (what must be TRUE):
+
+  1. CaseStudyHeader, CaseStudiesGrid, FeaturedCaseStudies y LatestCaseStudies cumplen el DoD
+  2. Responsive 375/768/1024/1440 sin scroll horizontal; motion transform/opacity + reduced-motion
+  3. Sin regresión de performance ni de identidad de marca v1.7
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 51: Formularios & interactivos
+
+**Goal**: Los formularios e interactivos (Form/FormBlock, ContactForm, Turnstile, CalendlyEmbed, Banner, Intro, MediaBlock, Section) quedan refrescados con estados claros
+**Depends on**: Phase 45
+**Requirements**: FORM-01, FORM-02
+**Success Criteria** (what must be TRUE):
+
+  1. Form/FormBlock, ContactForm y Turnstile muestran estados de error/loading claros, labels correctos y botón disabled durante el submit async
+  2. CalendlyEmbed, Banner, Intro, MediaBlock y Section consistentes con el sistema
+  3. DoD completo (a11y incl. labels en inputs, cursor-pointer + hover sin shift, responsive 375/768/1024/1440, motion reduced-motion-safe)
+  4. Sin regresión de v1.7 (Calendly diferido con IntersectionObserver sigue intacto) ni de identidad de marca
+
+**Plans**: TBD
+**UI hint**: yes
+
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -627,5 +851,11 @@ Plans:
 | 41. Recorte de preloads de fuentes | v1.7 | ✅ Complete | QA FOUT OK (Juan 2026-07-05) | c63b29d |
 | 42. Cache de HTML en el edge (Cloudflare) | v1.7 | 0/? | Not started | - |
 | 43. Re-medición final y procedimiento repetible | v1.7 | 0/? | Not started | - |
-</content>
-</invoke>
+| 44. Fundación design-system | v1.8 | 0/? | Not started | - |
+| 45. Primitivas UI compartidas | v1.8 | 0/? | Not started | - |
+| 46. Chrome global | v1.8 | 0/? | Not started | - |
+| 47. Home | v1.8 | 0/? | Not started | - |
+| 48. Blog listing & archivo | v1.8 | 0/? | Not started | - |
+| 49. Post / artículo | v1.8 | 0/? | Not started | - |
+| 50. Case studies | v1.8 | 0/? | Not started | - |
+| 51. Formularios & interactivos | v1.8 | 0/? | Not started | - |

@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.8
 milestone_name: Refresh de UX/UI (sitio público)
-status: planning
+status: roadmapped
 last_updated: "2026-07-05T18:14:52.413Z"
 last_activity: 2026-07-05
 progress:
-  total_phases: 0
+  total_phases: 8
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,31 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación. Para v1.5: el admin de Payload solo contiene código vivo y coherente.
-**Current focus:** Milestone v1.8 — refresh de UX/UI del sitio público con `ui-ux-pro-max`, componente por componente con QA visual por superficie. v1.7 parkeada (39/41 hechas; 38/40/42/43 abiertas para Juan). Definiendo requirements.
+**Current focus:** Milestone v1.8 — refresh de UX/UI del sitio público con `ui-ux-pro-max`, componente por componente con QA visual por superficie. v1.7 parkeada (39/41 hechas; 38/40/42/43 abiertas para Juan). Roadmap creado (fases 44-51), listo para planear Phase 44.
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 44 (Fundación design-system) — not started
 Plan: —
-Status: Defining requirements
-Last activity: 2026-07-05 — Milestone v1.8 started
+Status: Roadmapped, ready to plan Phase 44
+Last activity: 2026-07-05 — Roadmap v1.8 creado (fases 44-51, cobertura 22/22)
+
+## Milestone v1.8 — Estructura de fases
+
+Numeración DEFAULT (continúa tras v1.7, que va hasta Phase 43 — parkeada, no se toca). Requirements DS-01/02, CHROME-01..04, HOME-01..05, BLOG-01..03, POST-01..04, CASE-01, FORM-01/02, UIKIT-01 (`.planning/REQUIREMENTS.md`). Orden de build: fundación (tokens) → primitivas compartidas → superficies (chrome, home, blog, post, case, forms), para no re-tocar tokens/primitivas una vez consumidos.
+
+| Phase | Goal | Requirements | Gate |
+|-------|------|--------------|------|
+| 44 | Fundación design-system (`ui-ux-pro-max --design-system`, tokens OKLCH/spacing/radius/motion, baseline a11y) | DS-01, DS-02 | Permiso de ejecución del skill (`search.py`, deny rule auto-mode) resuelto antes de correr el script |
+| 45 | Primitivas UI compartidas (`components/ui/*`) alineadas al sistema | UIKIT-01 | **QA visual obligatorio** (Juan) de las primitivas antes de mergear |
+| 46 | Chrome global (Header/mobile menu/Footer/Logo/Breadcrumbs/DynamicBackground) | CHROME-01..04 | **QA visual obligatorio** (Juan) en 375/768/1024/1440 |
+| 47 | Home (About/Results/FeaturedWorks/Clients/Blog/Testimonials/CTAs/ContactForm, HeroHome alineado) | HOME-01..05 | **QA visual obligatorio** (Juan) de la home end-to-end |
+| 48 | Blog listing & archivo (header, grid, card, paginación, categorías) | BLOG-01..03 | **QA visual obligatorio** (Juan) del listado/archivo |
+| 49 | Post/artículo (hero, contenido, TOC, sidebar, relacionados, FAQ, autor) | POST-01..04 | **QA visual obligatorio** (Juan) de un post completo |
+| 50 | Case studies (header, grid, featured, latest) | CASE-01 | **QA visual obligatorio** (Juan) de case studies |
+| 51 | Formularios & interactivos (Form/ContactForm/Turnstile/Calendly/Banner/Intro/Media/Section) | FORM-01/02 | **QA visual obligatorio** (Juan) de formularios (normal/error/loading) |
+
+**Constantes en todas las fases (44-51):** QA visual obligatorio por superficie (Juan) antes de mergear; DoD del Pre-Delivery Checklist (a11y contraste/focus/touch-targets, cursor-pointer + hover sin shift, SVG sin emojis, responsive 375/768/1024/1440, motion transform/opacity + reduced-motion); sin regresión de v1.7 (hero SSR, animaciones CSS, preloads de fuentes, LCP/CLS) ni de identidad de marca dark-mode-default; tsc baseline (0 nuevos en `src/`) y tests verdes; refresh guiado por design-system, no rebrand. Fase 44 requiere resolver el permiso de ejecución de `ui-ux-pro-max` (deny rule auto-mode) antes de correr `--design-system`.
 
 ## Milestone v1.7 — Estructura de fases
 
@@ -127,10 +144,11 @@ Items acknowledged y diferidos al cierre del milestone v1.5 (2026-06-26):
 
 ## Session Continuity
 
-Last session: 2026-06-26T19:10:00.000Z
-Stopped at: Roadmap v1.5 creado (fases 25-30, cobertura 10/10).
+Last session: 2026-07-05T18:14:52.413Z
+Stopped at: Roadmap v1.8 creado (fases 44-51, cobertura 22/22).
 Resume file: None
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd:new-milestone
+- Resolver permiso de ejecución de `ui-ux-pro-max` (deny rule de auto-mode) antes de arrancar Phase 44
+- Planear Phase 44 con /gsd:plan-phase 44

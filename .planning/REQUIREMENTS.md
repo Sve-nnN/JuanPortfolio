@@ -76,4 +76,29 @@ Un componente está refrescado cuando cumple el **Pre-Delivery Checklist** del s
 
 ## Traceability (REQ → fase)
 
-_Se completa cuando el roadmapper cree ROADMAP.md._
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| DS-01 | Phase 44 | Pending |
+| DS-02 | Phase 44 | Pending |
+| UIKIT-01 | Phase 45 | Pending |
+| CHROME-01 | Phase 46 | Pending |
+| CHROME-02 | Phase 46 | Pending |
+| CHROME-03 | Phase 46 | Pending |
+| CHROME-04 | Phase 46 | Pending |
+| HOME-01 | Phase 47 | Pending |
+| HOME-02 | Phase 47 | Pending |
+| HOME-03 | Phase 47 | Pending |
+| HOME-04 | Phase 47 | Pending |
+| HOME-05 | Phase 47 | Pending |
+| BLOG-01 | Phase 48 | Pending |
+| BLOG-02 | Phase 48 | Pending |
+| BLOG-03 | Phase 48 | Pending |
+| POST-01 | Phase 49 | Pending |
+| POST-02 | Phase 49 | Pending |
+| POST-03 | Phase 49 | Pending |
+| POST-04 | Phase 49 | Pending |
+| CASE-01 | Phase 50 | Pending |
+| FORM-01 | Phase 51 | Pending |
+| FORM-02 | Phase 51 | Pending |
+
+**Cobertura:** 22/22 requirements v1.8 mapeados. Sin huérfanos.

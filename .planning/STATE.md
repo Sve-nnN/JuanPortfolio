@@ -31,6 +31,8 @@ Last activity: 2026-07-05 — Fase 45 + normalización global de headings; gate 
 
 **Escala de headings (canónica, en globals.css):** `.text-display` (4xl→6xl, títulos de página/hero), `.text-section` (3xl→5xl, títulos de sección), `.text-card-title` (xl→2xl, cards/items). Toda superficie 46-51 usa estos roles, no tamaños hardcodeados.
 
+**Botones unificados (2026-07-05, feedback Juan, `6ec4934`):** un solo sistema pill (rounded-full). Primitive `<Button>` = pill + tamaños token. Utilidades `.btn/.btn-primary/.btn-secondary/.btn-sm` (en globals.css) para `<a>`/`<button>` crudos. CMSLink CTAs → `appearance` (primitive + tracking cta_click), NO inline hardcodeado. Filtros → `btn btn-sm`. Regla: nada de `py-5 px-10 rounded-[2rem]` ad-hoc; usar primitive o `.btn`.
+
 **FOCO TRANSVERSAL (feedback Juan 2026-07-05):** tamaños de texto y de componentes. La escala anterior estaba inflada/invertida (h1 text-8xl; hero H1 text-6xl mobile→4xl desktop). Nueva escala progresiva y contenida en `docs/design-system.md` (sección "Escala tipográfica" + "Densidad"). **Toda superficie (45-51) debe right-sizear: reducir textos/paddings inflados por defecto.**
 
 ## Milestone v1.8 — Estructura de fases

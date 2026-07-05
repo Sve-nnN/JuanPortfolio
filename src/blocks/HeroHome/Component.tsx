@@ -40,7 +40,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
 
   return (
     <HeroScroll
-      className="min-h-[calc(100vh-80px)] flex items-center pt-32 pb-20 relative overflow-hidden"
+      className="flex items-center pt-24 pb-16 md:pt-28 md:pb-20 relative overflow-hidden"
       id="home"
     >
       {/* Background Ambience — scroll parallax (y1 + opacity) via .hero-backdrop */}
@@ -53,7 +53,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Text content — scroll parallax (y2 + opacity) via .hero-text */}
           <div className="hero-text text-center lg:text-left flex flex-col items-center lg:items-start lg:order-1">
             {badge && (
@@ -133,7 +133,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
             <div className="hero-media-inner relative flex justify-center items-center w-full">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-primary/5 rounded-full blur-[100px] opacity-60 animate-pulse-slow"></div>
               {media && typeof media === 'object' && (
-                <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[35rem] lg:h-[35rem] rounded-[3rem] hover:rotate-0 transition-transform duration-700 ease-out overflow-hidden border-2 border-border/50 shadow-2xl bg-card">
+                <div className="relative w-60 h-60 md:w-72 md:h-72 lg:w-[24rem] lg:h-[24rem] rounded-[2.5rem] hover:rotate-0 transition-transform duration-700 ease-out overflow-hidden border-2 border-border/50 shadow-2xl bg-card">
                   <Media
                     resource={media}
                     fill
@@ -141,9 +141,9 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                     /* Cap the Cloudinary width: the portrait renders at most
                        ~560px (lg) but was served at 756px. width/height drive
                        the Cloudinary w_/h_ transform. CWV milestone v1.1. */
-                    width={640}
-                    height={640}
-                    size="(min-width: 1024px) 560px, (min-width: 768px) 384px, 288px"
+                    width={448}
+                    height={448}
+                    size="(min-width: 1024px) 384px, (min-width: 768px) 288px, 240px"
                     className="w-full h-full object-cover aspect-square"
                   />
                 </div>

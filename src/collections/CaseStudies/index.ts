@@ -19,6 +19,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateCaseStudy, revalidateCaseStudyDelete } from './hooks/revalidateCaseStudy'
 
 import { slugField } from '@/fields/slug'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 const CaseStudies: CollectionConfig = {
   slug: 'case-studies',
@@ -42,6 +43,7 @@ const CaseStudies: CollectionConfig = {
     },
   },
   admin: {
+    group: ADMIN_GROUP.MARKETING,
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {

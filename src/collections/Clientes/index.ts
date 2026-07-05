@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 const Clientes: CollectionConfig = {
     slug: 'clientes',
@@ -7,6 +8,7 @@ const Clientes: CollectionConfig = {
         plural: 'Clientes',
     },
     admin: {
+        group: ADMIN_GROUP.MARKETING,
         useAsTitle: 'name',
     },
     access: {

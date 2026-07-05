@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -7,6 +8,7 @@ export const Testimonials: CollectionConfig = {
     plural: 'Testimonials',
   },
   admin: {
+    group: ADMIN_GROUP.MARKETING,
     useAsTitle: 'author',
     defaultColumns: ['author', 'company', 'createdAt'],
   },

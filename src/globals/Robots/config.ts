@@ -36,7 +36,7 @@ export const Robots: GlobalConfig = {
     afterChange: [revalidateRobots],
   },
   admin: {
-    group: 'SEO',
+    group: ADMIN_GROUP.SITIO,
     description:
       'Controla el /robots.txt del sitio. Los sitemaps se agregan automáticamente y no se editan aquí.',
   },

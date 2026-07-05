@@ -2,9 +2,13 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  admin: {
+    group: ADMIN_GROUP.SITIO,
+  },
   access: {
     read: () => true,
   },

@@ -1,8 +1,12 @@
 import type { GlobalConfig } from 'payload'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const Styles: GlobalConfig = {
   slug: 'styles',
   label: 'Estilos Globales',
+  admin: {
+    group: ADMIN_GROUP.SITIO,
+  },
   access: {
     read: () => true,
   },

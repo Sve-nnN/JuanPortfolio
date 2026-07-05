@@ -1,9 +1,13 @@
 import type { GlobalConfig } from 'payload'
 import { anyone } from '../../access/anyone'
 import { authenticated } from '../../access/authenticated'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
+  admin: {
+    group: ADMIN_GROUP.SITIO,
+  },
   access: {
     read: anyone,
     update: authenticated,

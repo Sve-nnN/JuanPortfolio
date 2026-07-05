@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { revalidateLLM } from './hooks/revalidateLLM'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 export const LLM: GlobalConfig = {
   slug: 'llm',
@@ -10,7 +11,7 @@ export const LLM: GlobalConfig = {
     afterChange: [revalidateLLM],
   },
   admin: {
-    group: 'SEO',
+    group: ADMIN_GROUP.SITIO,
   },
   fields: [
     {

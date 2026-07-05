@@ -77,6 +77,7 @@ export const Users: CollectionConfig = {
     update: adminsAndUser,
   },
   admin: {
+    group: ADMIN_GROUP.SITIO,
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
   },

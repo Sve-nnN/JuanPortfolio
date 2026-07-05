@@ -14,12 +14,17 @@ const LiveUrlLink: React.FC<LiveUrlLinkProps> = (props) => {
   // Detect collection from path or field context
   const collection = props?.path?.includes('categories')
     ? 'categories'
-    : props?.path?.includes('users')
-      ? 'users'
-      : undefined
+    : props?.path?.includes('authors')
+      ? 'authors'
+      : props?.path?.includes('users')
+        ? 'users'
+        : undefined
 
   let basePath = ''
   if (collection === 'categories') basePath = '/blog/'
+  // Both the new Authors collection and the legacy users profile map to /authors/
+  // (users kept as fallback until Phase 58). Additive, non-destructive.
+  if (collection === 'authors') basePath = '/authors/'
   if (collection === 'users') basePath = '/authors/'
   if (!slug || !basePath) return null
   const url = `${basePath}${slug}`

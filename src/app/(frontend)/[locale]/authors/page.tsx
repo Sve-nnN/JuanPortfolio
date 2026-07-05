@@ -37,6 +37,10 @@ const getAuthors = async () => {
     const configPromise = (await import('@payload-config')).default
     const { getPayload } = await import('payload')
     const payload = await getPayload({ config: configPromise })
+    // Prefer the Authors collection; fall back to users when it is still empty
+    // (migration not yet run). Single-deploy safe. Phase 56 (AUTHORS-03).
+    const fromAuthors = await payload.find({ collection: 'authors', limit: 100, pagination: false })
+    if (fromAuthors.docs && fromAuthors.docs.length > 0) return fromAuthors.docs
     const res = await payload.find({ collection: 'users', limit: 100, pagination: false })
     return res.docs || []
   } catch {

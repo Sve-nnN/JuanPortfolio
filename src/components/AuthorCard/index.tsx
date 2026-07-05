@@ -1,11 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { User } from '@/payload-types'
+import type { NormalizedAuthor } from '@/utilities/resolvePostAuthors'
 import { cn } from '@/utilities/ui'
 
 export interface AuthorCardProps {
-  author: Pick<User, 'name' | 'jobTitle' | 'bio' | 'avatar' | 'slug' | 'socialMedia'>
+  // Accepts the normalized author shape so the card renders identically whether
+  // the source is postAuthors (Authors) or the legacy authors→users fallback.
+  author: Pick<NormalizedAuthor, 'name' | 'jobTitle' | 'bio' | 'avatar' | 'slug' | 'socialMedia'>
   className?: string
 }
 

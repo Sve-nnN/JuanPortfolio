@@ -14,8 +14,11 @@ const getAuthorsSitemap = unstable_cache(
       'https://example.com'
 
     try {
-      const results = await payload.find({
-        collection: 'users',
+      // Prefer the Authors collection; fall back to users when it is still empty
+      // (migration not yet run). URLs are identical because the slug is carried
+      // over verbatim. Single-deploy safe. Phase 56 (AUTHORS-03).
+      let results = await payload.find({
+        collection: 'authors',
         overrideAccess: true,
         depth: 0,
         limit: 1000,
@@ -30,6 +33,27 @@ const getAuthorsSitemap = unstable_cache(
           },
         },
       })
+
+      if (!results.docs || results.docs.length === 0) {
+        // Cast: User and Author both expose `slug` + `updatedAt`, the only fields
+        // read below. Keeps `results` a single inferred type across the fallback.
+        results = (await payload.find({
+          collection: 'users',
+          overrideAccess: true,
+          depth: 0,
+          limit: 1000,
+          pagination: false,
+          select: {
+            slug: true,
+            updatedAt: true,
+          },
+          where: {
+            slug: {
+              exists: true,
+            },
+          },
+        })) as unknown as typeof results
+      }
 
       const dateFallback = new Date().toISOString()
 

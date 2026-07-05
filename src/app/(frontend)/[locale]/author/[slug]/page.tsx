@@ -27,8 +27,43 @@ type Props = {
  * @param {'en' | 'es'} locale - The locale.
  * @returns {Promise<any>} A promise that resolves to the user data.
  */
-const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
+type ResolvedAuthorSource = 'authors' | 'users'
+
+// Resolve an author by slug: prefer the `authors` collection, fall back to `users`
+// (by slug, then id) when there is no Author match. Single-deploy safe regardless
+// of whether the migration has run. Phase 56 (AUTHORS-03). The resolved Author doc
+// is cast to `User` for render — `Authors` replicates the same fields verbatim.
+const queryUserBySlug = async (
+  slug: string,
+  locale?: 'en' | 'es',
+): Promise<{ doc: User; source: ResolvedAuthorSource } | null> => {
   const payload = await getPayload({ config: configPromise })
+  try {
+    let fromAuthors = await payload.find({
+      collection: 'authors',
+      limit: 1,
+      where: { slug: { equals: slug } },
+      pagination: false,
+      locale,
+      depth: 2,
+    })
+    if (!fromAuthors.docs?.[0]) {
+      fromAuthors = await payload.find({
+        collection: 'authors',
+        limit: 1,
+        where: { id: { equals: slug } },
+        pagination: false,
+        locale,
+        depth: 2,
+      })
+    }
+    if (fromAuthors.docs?.[0]) {
+      return { doc: fromAuthors.docs[0] as unknown as User, source: 'authors' }
+    }
+  } catch (error) {
+    console.error('queryAuthorBySlug (authors) failed:', error)
+  }
+
   let res = await payload.find({
     collection: 'users',
     limit: 1,
@@ -47,23 +82,29 @@ const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
       depth: 2,
     })
   }
-  return (res.docs?.[0] as User) || null
+  return res.docs?.[0] ? { doc: res.docs[0] as User, source: 'users' } : null
 }
 
 /**
- * Queries posts by a specific author.
+ * Queries posts by a specific author, matching on the resolved source.
  * @param {string} authorId - The author's ID.
+ * @param {ResolvedAuthorSource} source - Whether the profile resolved from Authors or users.
  * @param {'en' | 'es'} locale - The locale.
  * @returns {Promise<any[]>} A promise that resolves to an array of posts.
  */
-const queryPostsByAuthor = async (authorId: string, locale?: 'en' | 'es') => {
+const queryPostsByAuthor = async (
+  authorId: string,
+  source: ResolvedAuthorSource,
+  locale?: 'en' | 'es',
+) => {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
     collection: 'posts',
     limit: 50,
-    where: {
-      authors: { contains: authorId },
-    },
+    where:
+      source === 'authors'
+        ? { postAuthors: { contains: authorId } }
+        : { authors: { contains: authorId } },
     sort: '-publishedAt',
     locale,
   })
@@ -83,15 +124,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, locale: rawLocale } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'users',
-    limit: 1,
-    where: { slug: { equals: slug } },
-    depth: 2,
-    locale,
-  })
-  const user = res.docs[0]
+  const resolved = await queryUserBySlug(slug, locale)
+  const user = resolved?.doc
   return {
     title: user?.meta?.title || user?.name || (locale === 'es' ? 'Autor' : 'Author'),
     description: user?.meta?.description || user?.bio || '',
@@ -109,10 +143,11 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
   const localePrefix = locale === 'es' ? '' : '/en'
 
   if (!slug) return <p>{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
-  const user = await queryUserBySlug(slug, locale)
-  if (!user) return <p>{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
+  const resolved = await queryUserBySlug(slug, locale)
+  if (!resolved) return <p>{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
+  const user = resolved.doc
 
-  const posts = await queryPostsByAuthor(user.id, locale)
+  const posts = await queryPostsByAuthor(user.id, resolved.source, locale)
 
   const personSchema = generatePersonSchema({
     name: user.name,

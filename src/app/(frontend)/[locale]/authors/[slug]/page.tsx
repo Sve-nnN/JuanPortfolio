@@ -9,6 +9,7 @@ import { mergeSchemas } from '@/utilities/schema/mergeSchemas'
 import Script from 'next/script'
 import { Calendar, Building, GraduationCap, Briefcase } from 'lucide-react'
 import { generateMeta } from '@/utilities/generateMeta'
+import type { User } from '@/payload-types'
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>
@@ -21,25 +22,52 @@ export const revalidate = 3600
 export async function generateStaticParams() {
   try {
     const payload = await getPayload({ config: configPromise })
-    const users = await payload.find({
-      collection: 'users',
-      limit: 100,
-      pagination: false,
-      select: { slug: true },
-    })
+    // Union of Authors (preferred) and Users (fallback) slugs so no route is lost
+    // whether or not the migration has run. Dedupe by slug. Phase 56.
+    const [authors, users] = await Promise.all([
+      payload
+        .find({ collection: 'authors', limit: 1000, pagination: false, select: { slug: true } })
+        .catch(() => ({ docs: [] as Array<{ slug?: string | null }> })),
+      payload
+        .find({ collection: 'users', limit: 100, pagination: false, select: { slug: true } })
+        .catch(() => ({ docs: [] as Array<{ slug?: string | null }> })),
+    ])
+    const slugs = new Set<string>()
+    for (const d of [...authors.docs, ...users.docs]) {
+      if (d.slug) slugs.add(d.slug as string)
+    }
     const locales = ['es', 'en']
-    return users.docs
-      .filter((u) => u.slug)
-      .flatMap((u) => locales.map((locale) => ({ slug: u.slug as string, locale })))
+    return [...slugs].flatMap((slug) => locales.map((locale) => ({ slug, locale })))
   } catch (error) {
     console.error('authors generateStaticParams failed:', error)
     return []
   }
 }
 
-const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
+type ResolvedAuthorSource = 'authors' | 'users'
+
+// Resolve an author profile by slug. Prefers the `authors` collection; falls back
+// to `users` (by slug, then id) when there is no Author match — so a single deploy
+// is safe whether or not the migration has run. Phase 56 (AUTHORS-03).
+// The resolved doc is cast to `User` for render: `Authors` replicates the same
+// author-facing fields verbatim, so the JSX below is source-agnostic.
+const queryUserBySlug = async (
+  slug: string,
+  locale?: 'en' | 'es',
+): Promise<{ doc: User; source: ResolvedAuthorSource } | null> => {
   try {
     const payload = await getPayload({ config: configPromise })
+    const fromAuthors = await payload.find({
+      collection: 'authors',
+      limit: 1,
+      where: { or: [{ slug: { equals: slug } }, { id: { equals: slug } }] },
+      pagination: false,
+      depth: 2,
+      locale,
+    })
+    if (fromAuthors.docs?.[0]) {
+      return { doc: fromAuthors.docs[0] as unknown as User, source: 'authors' }
+    }
     const res = await payload.find({
       collection: 'users',
       limit: 1,
@@ -48,7 +76,7 @@ const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
       depth: 2,
       locale,
     })
-    return res.docs?.[0] || null
+    return res.docs?.[0] ? { doc: res.docs[0], source: 'users' } : null
   } catch (error) {
     // A transient DB/cold-start failure must not 500 the whole route; ISR will
     // re-attempt on the next revalidation. Issue #87.
@@ -57,14 +85,22 @@ const queryUserBySlug = async (slug: string, locale?: 'en' | 'es') => {
   }
 }
 
-const queryPostsByAuthor = async (authorId: string, locale?: 'en' | 'es') => {
+const queryPostsByAuthor = async (
+  authorId: string,
+  source: ResolvedAuthorSource,
+  locale?: 'en' | 'es',
+) => {
   try {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
     collection: 'posts',
     limit: 50,
     where: {
-      authors: { contains: authorId },
+      // Match on the source that resolved the profile: postAuthors for Authors,
+      // legacy authors→users for the fallback. Phase 56.
+      ...(source === 'authors'
+        ? { postAuthors: { contains: authorId } }
+        : { authors: { contains: authorId } }),
       _status: { equals: 'published' },
     },
     sort: '-publishedAt',
@@ -97,16 +133,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, locale: rawLocale } = await paramsPromise
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
-  const user = await queryUserBySlug(slug, locale)
+  const resolved = await queryUserBySlug(slug, locale)
 
-  if (!user) {
+  if (!resolved) {
     return {
       title: locale === 'es' ? 'Autor no encontrado' : 'Author not found',
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return generateMeta({ doc: user as any, locale, path: `/authors/${slug}` })
+  return generateMeta({ doc: resolved.doc as any, locale, path: `/authors/${slug}` })
 }
 
 export default async function AuthorPage({ params: paramsPromise }: Props) {
@@ -115,10 +151,11 @@ export default async function AuthorPage({ params: paramsPromise }: Props) {
   const localePrefix = locale === 'es' ? '' : '/en'
 
   if (!slug) return <p className="container py-24 text-center">{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
-  const user = await queryUserBySlug(slug, locale)
-  if (!user) return <p className="container py-24 text-center">{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
+  const resolved = await queryUserBySlug(slug, locale)
+  if (!resolved) return <p className="container py-24 text-center">{locale === 'es' ? 'Autor no encontrado' : 'Author not found'}</p>
+  const user = resolved.doc
 
-  const posts = await queryPostsByAuthor(user.id, locale)
+  const posts = await queryPostsByAuthor(user.id, resolved.source, locale)
 
   // Generate Person schema for E-E-A-T
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''

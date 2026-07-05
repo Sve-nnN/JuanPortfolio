@@ -1,25 +1,33 @@
 import type { CollectionAfterReadHook } from 'payload'
-import { User } from 'src/payload-types'
 
-// The `user` collection has access control locked so that users are not publicly accessible
-// This means that we need to populate the authors manually here to protect user privacy
-// GraphQL will not return mutated user data that differs from the underlying schema
-// So we use an alternative `populatedAuthors` field to populate the user data, hidden from the admin UI
+type MinimalAuthorDoc = { id: string; name?: string | null; slug?: string | null }
+
+// Populates the readonly `populatedAuthors` mirror consumed by PostHero and
+// generateSchema. Phase 56: prefer the new `postAuthors` (Authors collection);
+// fall back to the legacy `authors` (users) when postAuthors is empty. Both emit
+// the identical `{ id, name, slug }` shape so downstream renders are unchanged.
+// (The `users` collection is read-locked, which is the original reason this
+// mirror exists; `authors` is public but we keep the same mirror for parity.)
 export const populateAuthors: CollectionAfterReadHook = async ({
   doc,
   req: _req,
   req: { payload },
 }) => {
-  if (doc?.authors && doc?.authors?.length > 0) {
-    const authorDocs: User[] = []
+  // Prefer postAuthors → 'authors'; fall back to authors → 'users'. Phase 56.
+  const usePostAuthors = Array.isArray(doc?.postAuthors) && doc.postAuthors.length > 0
+  const source = usePostAuthors ? doc.postAuthors : doc?.authors
+  const sourceCollection: 'authors' | 'users' = usePostAuthors ? 'authors' : 'users'
 
-    for (const author of doc.authors) {
+  if (Array.isArray(source) && source.length > 0) {
+    const authorDocs: MinimalAuthorDoc[] = []
+
+    for (const author of source) {
       try {
-        const authorDoc = await payload.findByID({
+        const authorDoc = (await payload.findByID({
           id: typeof author === 'object' ? author?.id : author,
-          collection: 'users',
+          collection: sourceCollection,
           depth: 0,
-        })
+        })) as unknown as MinimalAuthorDoc
 
         if (authorDoc) {
           authorDocs.push(authorDoc)

@@ -72,13 +72,20 @@ export default async function SitemapPage({ params: paramsPromise }: Args) {
       sort: 'title',
       locale,
     }),
-    // Authors (Users)
+    // Authors (prefer the Authors collection; fallback below when still empty)
     payload.find({
-      collection: 'users',
+      collection: 'authors',
       limit: 1000,
       sort: 'name',
     }),
   ])
+
+  // Fall back to users when the Authors collection is still empty (migration not
+  // yet run). Both expose id/slug/name, the only fields rendered. Phase 56.
+  const authorDocs =
+    authors.docs && authors.docs.length > 0
+      ? authors.docs
+      : (await payload.find({ collection: 'users', limit: 1000, sort: 'name' })).docs
 
   const localePrefix = locale === 'es' ? '' : '/en'
 
@@ -222,7 +229,7 @@ export default async function SitemapPage({ params: paramsPromise }: Args) {
               <h2 className="text-2xl font-semibold text-foreground">{locale === 'es' ? 'Autores' : 'Authors'}</h2>
             </div>
             <ul className="space-y-3">
-              {authors.docs.map((author) => (
+              {authorDocs.map((author) => (
                 <li key={author.id}>
                   <Link
                     href={`${localePrefix}/authors/${author.slug}`}

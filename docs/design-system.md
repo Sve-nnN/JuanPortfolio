@@ -25,6 +25,33 @@ Reglas de lectura:
 - Prose: ancho de lectura **65–75ch** (`max-w-[70ch]` o prose por defecto). No dejar líneas full-width.
 - Headings `line-height` ~1.1 ✓.
 
+### Escala tipográfica (DS-01) — foco de Juan: textos NO oversized
+
+Root `font-size: 14px`. Escala **progresiva** (mobile ≤ desktop) y contenida (la anterior llegaba a `text-8xl`, invertida en el hero). Global en `globals.css`:
+
+| Elemento | Mobile | md | lg |
+|----------|--------|----|----|
+| h1 | text-4xl | text-5xl | text-6xl |
+| h2 | text-3xl | text-4xl | text-5xl |
+| h3 | text-2xl | text-3xl | — |
+| h4 | text-xl | text-2xl | — |
+| h5 | text-lg | text-xl | — |
+| h6 | text-base | text-lg | — |
+| body | text-base | | |
+| lead/intro | text-lg | text-xl | |
+
+- **Nunca invertir** el responsive (mobile más chico o igual que desktop, jamás al revés).
+- Textos de apoyo (descripciones, leads): tope `text-xl` en desktop, no `text-3xl`.
+
+### Densidad / tamaño de componentes (foco de Juan)
+
+La versión previa tenía botones/paddings inflados (`py-6 px-12 text-xl`, `gap-16/24`). Objetivo: **compacto y proporcionado**.
+
+- **Botones:** `py-3.5 px-8 text-base` (default), `py-2.5 px-5 text-sm` (small). No `py-6 px-12`.
+- **Gaps de sección:** `gap-8`/`gap-12`/`gap-16` según jerarquía; evitar `gap-24` salvo hero.
+- **Cards:** padding `p-6`/`p-8`, no `p-12`.
+- **Verificar en cada superficie:** ¿este tamaño de texto/componente es proporcionado o está inflado? Reducir por defecto.
+
 ## Spacing
 
 Escala base-4/8. Preferir los steps de Tailwind (`gap-4/6/8/12/16`, `p-*`) de forma consistente por tipo de componente; evitar valores arbitrarios salvo necesidad. Contenedores: un solo `max-w` por familia de página (no mezclar `max-w-6xl`/`7xl` al azar).

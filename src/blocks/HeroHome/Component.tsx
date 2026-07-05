@@ -66,14 +66,14 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
             )}
 
             <h1
-              className="hero-item font-display-lcp font-extrabold text-foreground mb-10 leading-[1.05] tracking-tight text-6xl md:text-4xl lg:text-5xl"
+              className="hero-item font-display-lcp font-extrabold text-foreground mb-8 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-6xl"
               style={{ animationDelay: nextDelay() }}
             >
               {title || 'Juan Carlos Angulo'}
               {subtitle && (
                 <>
                   <br />
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-6 font-bold text-3xl md:text-5xl lg:text-6xl">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50 block mt-4 font-bold text-2xl sm:text-3xl lg:text-4xl">
                     {subtitle}
                   </span>
                 </>
@@ -82,12 +82,12 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
 
             {/* Description or RichText */}
             <div
-              className="hero-item max-w-2xl text-xl md:text-3xl text-muted-foreground mb-14 text-center lg:text-left leading-relaxed font-medium"
+              className="hero-item max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 text-center lg:text-left leading-relaxed font-medium"
               style={{ animationDelay: nextDelay() }}
             >
               {richText ? (
                 <RichText
-                  className="prose-2xl dark:prose-invert"
+                  className="prose-lg dark:prose-invert"
                   data={richText}
                   enableGutter={false}
                 />
@@ -97,7 +97,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
             </div>
 
             <div
-              className="hero-item flex flex-col sm:flex-row gap-8 w-full sm:w-auto"
+              className="hero-item flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
               style={{ animationDelay: nextDelay() }}
             >
               {primaryCta && primaryCta.label && primaryCta.url && (
@@ -105,7 +105,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                   url={primaryCta.url}
                   label={primaryCta.label}
                   locale={locale}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-12 text-xl rounded-full transition-all shadow-2xl shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1.5 text-center active:scale-95"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3.5 px-8 text-base rounded-full transition-standard shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 text-center active:scale-95"
                 />
               )}
               {secondaryCta && secondaryCta.label && secondaryCta.url && (
@@ -113,7 +113,7 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                   url={secondaryCta.url}
                   label={secondaryCta.label}
                   locale={locale}
-                  className="bg-background/50 backdrop-blur-xl text-foreground border-2 border-border/50 hover:border-primary/50 font-bold py-6 px-12 text-xl rounded-full hover:bg-secondary/50 transition-all flex items-center justify-center group active:scale-95 shadow-lg"
+                  className="bg-background/50 backdrop-blur-xl text-foreground border-2 border-border/50 hover:border-primary/50 font-bold py-3.5 px-8 text-base rounded-full hover:bg-secondary/50 transition-standard flex items-center justify-center group active:scale-95 shadow-md"
                 >
                   <ArrowRight
                     className="ml-3 group-hover:translate-x-2 transition-transform duration-500"

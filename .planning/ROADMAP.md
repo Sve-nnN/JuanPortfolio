@@ -851,7 +851,7 @@ Plans:
 | 41. Recorte de preloads de fuentes | v1.7 | ✅ Complete | QA FOUT OK (Juan 2026-07-05) | c63b29d |
 | 42. Cache de HTML en el edge (Cloudflare) | v1.7 | 0/? | Not started | - |
 | 43. Re-medición final y procedimiento repetible | v1.7 | 0/? | Not started | - |
-| 44. Fundación design-system | v1.8 | 0/? | Not started | - |
+| 44. Fundación design-system | v1.8 | code done | Gate QA visual (Juan) | 7cb58cb |
 | 45. Primitivas UI compartidas | v1.8 | 0/? | Not started | - |
 | 46. Chrome global | v1.8 | 0/? | Not started | - |
 | 47. Home | v1.8 | 0/? | Not started | - |

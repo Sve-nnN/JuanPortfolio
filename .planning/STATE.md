@@ -24,10 +24,13 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 44 (Fundación design-system) — not started
+Phase: 44 (Fundación design-system) — código hecho, gate QA visual pendiente
 Plan: —
-Status: Roadmapped, ready to plan Phase 44
-Last activity: 2026-07-05 — Roadmap v1.8 creado (fases 44-51, cobertura 22/22)
+Status: Skill ui-ux-pro-max corrido (permiso dado por Juan); tokens motion/a11y/z-index + focus-visible + fix contraste aplicados. Commit `7cb58cb`. tsc 112 baseline. Sistema en `docs/design-system.md`.
+Last activity: 2026-07-05 — Fase 44 (fundación design-system) código hecho; gate QA visual pendiente antes de repintar superficies (45-51)
+
+**Gate abierto (Juan):** QA visual de la fundación — `.planning/phases/44-fundacion-design-system/44-VERIFICATION.md`.
+**Nota disco:** build local bloqueado por disco al 99% (`.next` 1.5GB) — afecta verificación de fases que requieran build.
 
 ## Milestone v1.8 — Estructura de fases
 

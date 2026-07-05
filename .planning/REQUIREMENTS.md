@@ -27,11 +27,11 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 - [ ] **PAGES-06**: Los globals `home`/`bloglisting`/`casestudieslisting` se retiran del config y del render sin dejar rutas rotas ni datos huérfanos (migración de datos incluida).
 
 ### Consolidación de la nav del admin
-- [ ] **NAV-01**: El contenido editorial (Pages, Posts, Categories, Authors, Media) aparece agrupado bajo **Contenido** en el sidebar.
-- [ ] **NAV-02**: La configuración del sitio (Site Settings, Header, Footer, Styles, LLM, Robots) aparece agrupada bajo **Sitio**.
-- [ ] **NAV-03**: Las herramientas SEO/métricas (KeywordMetrics, PageMetrics, GSCMetrics, BrokenLinks, Redirects) aparecen agrupadas bajo **SEO/Métricas**.
-- [ ] **NAV-04**: Las piezas de marketing/portfolio (Works, CaseStudies, Clientes, Testimonials, AdBanners, Forms, Search) aparecen agrupadas bajo **Marketing**.
-- [ ] **NAV-05**: El admin no muestra secciones sueltas sin grupo; el orden de grupos es intencional y consistente (labels bilingües es/en).
+- [x] **NAV-01**: El contenido editorial (Pages, Posts, Categories, Authors, Media) aparece agrupado bajo **Contenido** en el sidebar.
+- [x] **NAV-02**: La configuración del sitio (Site Settings, Header, Footer, Styles, LLM, Robots) aparece agrupada bajo **Sitio**.
+- [x] **NAV-03**: Las herramientas SEO/métricas (KeywordMetrics, PageMetrics, GSCMetrics, BrokenLinks, Redirects) aparecen agrupadas bajo **SEO/Métricas**.
+- [x] **NAV-04**: Las piezas de marketing/portfolio (Works, CaseStudies, Clientes, Testimonials, AdBanners, Forms, Search) aparecen agrupadas bajo **Marketing**.
+- [x] **NAV-05**: El admin no muestra secciones sueltas sin grupo; el orden de grupos es intencional y consistente (labels bilingües es/en).
 
 ### Colección Authors
 - [ ] **AUTHORS-01**: Existe una colección `Authors` editable en el admin (bajo Contenido).
@@ -74,11 +74,11 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 | PAGES-04 | Phase 54 | Pending |
 | PAGES-05 | Phase 55 | Pending |
 | PAGES-06 | Phase 58 | Pending |
-| NAV-01 | Phase 52 | Pending |
-| NAV-02 | Phase 52 | Pending |
-| NAV-03 | Phase 52 | Pending |
-| NAV-04 | Phase 52 | Pending |
-| NAV-05 | Phase 52 | Pending |
+| NAV-01 | Phase 52 | Done |
+| NAV-02 | Phase 52 | Done |
+| NAV-03 | Phase 52 | Done |
+| NAV-04 | Phase 52 | Done |
+| NAV-05 | Phase 52 | Done |
 | AUTHORS-01 | Phase 56 | Pending |
 | AUTHORS-02 | Phase 56 | Pending |
 | AUTHORS-03 | Phase 56 | Pending |

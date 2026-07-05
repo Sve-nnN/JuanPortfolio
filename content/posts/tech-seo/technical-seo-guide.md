@@ -93,7 +93,7 @@ Evitar bloqueos innecesarios que puedan afectar la indexación de contenido rele
 Revisar el archivo regularmente para asegurar que esté optimizado y acorde a cambios recientes en la estructura del sitio.
 Mejoras en la velocidad y [rendimiento web](/blog/general/web-performance-guide)
 
-La velocidad de carga es un factor crítico para mejorar la experiencia del usuario y optimizar el rendimiento de un sitio. Implementar estrategias efectivas puede minimizar el tiempo de carga y, a su vez, mejorar el posicionamiento en buscadores.
+La [velocidad de carga](https://juan-tech.com/blog/tech-seo/javascript-seo) es un factor crítico para mejorar la experiencia del usuario y optimizar el rendimiento de un sitio. Implementar estrategias efectivas puede minimizar el tiempo de carga y, a su vez, mejorar el posicionamiento en buscadores.
 
 Técnicas de compresión y optimización de imágenes
 

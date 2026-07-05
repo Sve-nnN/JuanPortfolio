@@ -42,7 +42,7 @@ Entender y aplicar correctamente estas métricas no solo mejorará la experienci
 
 ## Core Web Vitals: Fundamentos y Contexto
 
-Las **Core Web Vitals** son un conjunto de métricas clave desarrolladas por Google que se utilizan para evaluar la calidad de la experiencia del usuario en las páginas web. Este enfoque se centra principalmente en tres aspectos fundamentales: la velocidad de carga, la interactividad y la estabilidad visual. Estas métricas permiten a los desarrolladores y propietarios de sitios web tener un marco de referencia claro para mejorar la experiencia del usuario y, por ende, optimizar el rendimiento general de sus sitios.
+Las **Core Web Vitals** son un conjunto de métricas clave desarrolladas por Google que se utilizan para evaluar la calidad de la experiencia del usuario en las páginas web. Este enfoque se centra principalmente en tres aspectos fundamentales: la [velocidad de carga](https://juan-tech.com/blog/tech-seo/javascript-seo), la interactividad y la estabilidad visual. Estas métricas permiten a los desarrolladores y propietarios de sitios web tener un marco de referencia claro para mejorar la experiencia del usuario y, por ende, optimizar el rendimiento general de sus sitios.
 
 ### Origen e Importancia para la Experiencia del Usuario
 

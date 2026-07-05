@@ -52,7 +52,7 @@ La gestión centralizada del contenido en un headless CMS otorga varias ventajas
 
 ## Optimización SEO Técnica en Headless CMS
 
-La optimización SEO técnica en un CMS headless es vital para garantizar que el contenido no solo sea accesible, sino también indexable por los motores de búsqueda. Este enfoque implica una serie de prácticas que mejoran la visibilidad del contenido y su rendimiento en las SERPs. A continuación, se abordarán los aspectos más relevantes de esta optimización técnica.
+La optimización SEO técnica en un CMS headless es vital para garantizar que el contenido no solo sea accesible, sino también indexable por los motores de búsqueda. Este enfoque implica una serie de prácticas que mejoran la [visibilidad del contenido](https://juan-tech.com/blog/tech-seo/javascript-seo) y su rendimiento en las SERPs. A continuación, se abordarán los aspectos más relevantes de esta optimización técnica.
 
 ### Renderizado: SSR, SSG y CSR en Next.js
 

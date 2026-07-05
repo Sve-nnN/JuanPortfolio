@@ -160,8 +160,8 @@ Un error frecuente es enviar un `<div id="root"></div>` vacío y pintar todo des
 
 Nunca lo des por sentado. Verificá con las herramientas que renderizan la página como lo hace el rastreador:
 
-- **Inspección de URL** en Google Search Console muestra el HTML renderizado y los recursos que Google no pudo cargar.
-- **Prueba de resultados enriquecidos** confirma que tus datos estructurados sobreviven al renderizado.
+- **Inspección de URL** en [Google Search Console](https://juan-tech.com/blog/tech-seo/xml-sitemap-automation) muestra el HTML renderizado y los recursos que Google no pudo cargar.
+- **Prueba de resultados enriquecidos** confirma que tus [datos estructurados](https://juan-tech.com/blog/tech-seo/schema-markup-guide) sobreviven al renderizado.
 - Hacé `curl` a la respuesta cruda y buscá tu H1 y el cuerpo del texto. Si no está en el HTML crudo, depende de la ejecución de JavaScript.
 
 ## Errores comunes a evitar

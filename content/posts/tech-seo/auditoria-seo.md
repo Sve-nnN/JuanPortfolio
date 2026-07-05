@@ -45,7 +45,7 @@ El alcance de una auditoría SEO incluye diversos elementos, desde la estructura
 
 Los objetivos de una auditoría SEO son múltiples y varían según las necesidades específicas de cada sitio. En términos generales, se pueden resumir en los siguientes puntos clave:
 
-Primero, la identificación de problemas ocultos es fundamental. Esto incluye detectar errores que afectan la indexación y la rastreabilidad del sitio, así como otros factores como la optimización del contenido y la [velocidad de carga](/blog/general/web-performance-guide). La detección temprana de estos problemas puede ser crucial para evitar penalizaciones y mejorar el rendimiento general del sitio.
+Primero, la identificación de problemas ocultos es fundamental. Esto incluye detectar errores que afectan la indexación y la [rastreabilidad](https://juan-tech.com/blog/tech-seo/javascript-seo) del sitio, así como otros factores como la optimización del contenido y la [velocidad de carga](/blog/general/web-performance-guide). La detección temprana de estos problemas puede ser crucial para evitar penalizaciones y mejorar el rendimiento general del sitio.
 
 Otro objetivo importante es el establecimiento de un ciclo de optimización continua. A través de auditorías periódicas, se pueden evaluar las acciones implementadas previamente, identificar qué estrategias están funcionando y ajustar las que no lo están. Esto crea un entorno dinámico donde el sitio puede evolucionar según las demandas del mercado y de los motores de búsqueda.
 

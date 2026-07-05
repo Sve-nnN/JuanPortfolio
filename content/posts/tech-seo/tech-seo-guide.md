@@ -43,9 +43,9 @@ semantic_keywords:
 uploaded: true
 keyword: tech seo guide
 ---
-El **SEO técnico** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
+El **[SEO técnico](https://juan-tech.com/blog/tech-seo/robots-txt-best-practices)** es la disciplina de la ingeniería web encargada de optimizar la infraestructura de un código fuente y servidor para que los motores de búsqueda logren rastrear, renderizar y clasificar una url sin agotar su cuota de procesamiento. Es la base obligatoria antes de iniciar cualquier desarrollo de marketing de contenido.
 
-En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: Rastreabilidad, Rendimiento [Core Web Vitals](/blog/general/web-performance-guide) y Semántica Estructurada.
+En esta guía arquitectónica, te guiaré a través de los tres pilares del rendimiento técnico moderno aplicables para los algoritmos algorítmicos restrictivos de 2026: [Rastreabilidad](https://juan-tech.com/blog/tech-seo/javascript-seo), Rendimiento [Core Web Vitals](/blog/general/web-performance-guide) y Semántica Estructurada.
 
 ## 1. Fase de Rastreabilidad e Indexación Limitada
 

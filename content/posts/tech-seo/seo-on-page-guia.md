@@ -179,7 +179,7 @@ Redimensionamiento adaptativo
 
 Ajustar automáticamente los elementos según el dispositivo del usuario, mejorando tanto la velocidad como la experiencia.
 
-Estas prácticas no solo mejoran la experiencia del usuario, sino que también son relevantes para factores de clasificación en los motores de búsqueda. El uso de herramientas como un **on page seo checker tool** puede ayudar a identificar áreas que requieren optimización en términos de velocidad de carga.
+Estas prácticas no solo mejoran la experiencia del usuario, sino que también son relevantes para factores de clasificación en los motores de búsqueda. El uso de herramientas como un **on page seo checker tool** puede ayudar a identificar áreas que requieren optimización en términos de [velocidad de carga](https://juan-tech.com/blog/tech-seo/javascript-seo).
 
 ### Herramientas para medir y optimizar el rendimiento web
 

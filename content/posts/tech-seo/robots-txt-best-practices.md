@@ -206,7 +206,7 @@ Para asegurar que el archivo robots.txt funciona correctamente, es crucial valid
 -   Plugins para WordPress que ayudan en la gestión automatizada del archivo, asegurando que las mejores prácticas, como las de 'wordpress robots txt best practices', se sigan adecuadamente.
 -   Simuladores que permiten evaluar cómo las decisiones en el archivo impactan en el rastreo de las páginas del sitio.
 
-La correcta gestión del robots.txt es fundamental para optimizar el SEO de cualquier sitio web. Disciplinarse en la sintaxis, realizar pruebas y estar atento a los bloqueos no intencionados contribuirá a maximizar la visibilidad del contenido en los motores de búsqueda.
+La correcta gestión del robots.txt es fundamental para optimizar el SEO de cualquier sitio web. Disciplinarse en la sintaxis, realizar pruebas y estar atento a los bloqueos no intencionados contribuirá a maximizar la [visibilidad del contenido](https://juan-tech.com/blog/tech-seo/javascript-seo) en los motores de búsqueda.
 
 ## Estrategias avanzadas para administrar robots.txt
 
@@ -271,4 +271,4 @@ La monitorización continua y la resolución de problemas asociados al archivo r
 
 ## Ver también
 
-- [Tech Seo Guide: Guía de SEO Técnico para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)
+- [Tech Seo Guide: [Guía de SEO Técnico](https://juan-tech.com/blog/tech-seo/tech-seo-guide) para Desarrolladores: Rendimiento y ...](/blog/general/tech-seo-guide)

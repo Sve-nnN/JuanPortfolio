@@ -130,7 +130,7 @@ Existen múltiples elementos que pueden impactar la [velocidad de carga](https:/
 
 ### Optimización de imágenes y recursos estáticos
 
-Las imágenes son uno de los componentes más pesados de una página. Su optimización es esencial para mejorar la velocidad de carga. Algunos métodos incluyen:
+Las imágenes son uno de los componentes más pesados de una página. Su optimización es esencial para mejorar la [velocidad de carga](https://juan-tech.com/blog/tech-seo/javascript-seo). Algunos métodos incluyen:
 
 -   Comprimir imágenes usando herramientas como TinyPNG o ImageOptim.
 -   Utilizar formatos de imagen adecuados, como WebP, que ofrecen mejor calidad a menor tamaño.

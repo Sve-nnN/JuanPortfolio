@@ -90,7 +90,7 @@ Controlar y optimizar estas métricas es un paso crucial para mejorar el rendimi
 
 ## Evaluación de la Experiencia del Usuario y Clasificación de Rendimiento
 
-La evaluación del rendimiento web es fundamental para garantizar una experiencia satisfactoria al usuario. PageSpeed Insights no solo proporciona información sobre la velocidad de carga, sino que también clasifica la calidad de la experiencia del usuario mediante umbrales específicos que reflejan cómo cada métrica se relaciona con la percepción del rendimiento.
+La evaluación del rendimiento web es fundamental para garantizar una experiencia satisfactoria al usuario. PageSpeed Insights no solo proporciona información sobre la [velocidad de carga](https://juan-tech.com/blog/tech-seo/javascript-seo), sino que también clasifica la calidad de la experiencia del usuario mediante umbrales específicos que reflejan cómo cada métrica se relaciona con la percepción del rendimiento.
 
 ### Umbrales de Calidad y Significado de Colores
 

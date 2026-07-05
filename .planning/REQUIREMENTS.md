@@ -1,104 +1,71 @@
-# Requirements — Milestone v1.8 (Refresh de UX/UI del sitio público)
+# Requirements — Milestone v1.9 (Estandarización del admin de Payload)
 
-Derivado de: pedido de Juan (pasar `ui-ux-pro-max` por todos los componentes públicos y refrescarlos) + inventario y tokens actuales.
-Herramienta de ejecución: **ui-ux-pro-max** (design intelligence). Detalle de scope: histórico en el MILESTONE-CONTEXT consumido (ver PROJECT.md).
+Derivado de: pedido de Juan (reducir secciones del admin y poder crear/editar páginas; hoy son globals poco escalables) + codebase de referencia `aprendoclub` (nav Contenido/Sitio, page-builder en `Pages`, 1 global).
 
-**Enfoque:** refresh guiado por design-system (modernizar dentro de la identidad actual, dark-mode-default), NO rebrand. Aplicado por superficie con **QA visual obligatorio** antes de mergear cada una.
+**Enfoque:** refactor interno del admin de Payload. Migrar layouts singleton (globals con `layout: blocks`) a la colección `Pages` (creable/duplicable), agrupar la nav y sumar Authors, **sin regresionar** rendimiento/ISR, SEO (hreflang/canonical/`<html lang>`), live preview ni tests.
 
-Convención label GitHub: `ui`, `design`, bloque `refresh`, tanda `v1.8-uiux`.
+**Riesgo eje:** el ruteo de la home ES (`/`) ya es delicado por el trabajo ISR de v1.0/v1.7. Toda superficie pública migrada exige QA de render + visual antes de mergear.
 
-## Definición de "refrescado" (Definition of Done por componente)
+Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 
-Un componente está refrescado cuando cumple el **Pre-Delivery Checklist** del skill:
-- **A11y (CRITICAL):** contraste ≥ 4.5:1, focus states visibles, touch targets ≥ 44px, aria-labels en botones icon-only, labels en inputs.
-- **Interacción:** `cursor-pointer` en clickeables, hover con feedback sin layout shift, transiciones 150-300ms.
-- **Visual:** iconos SVG (Lucide) consistentes, sin emojis como iconos, sombras/espaciado/radius del sistema, spacing coherente.
-- **Responsive:** sin scroll horizontal, correcto en 375/768/1024/1440.
-- **Motion:** solo `transform`/`opacity` (compositor), respeta `prefers-reduced-motion`.
-- **Sin regresión:** identidad de marca intacta, y **no** se regresiona el rendimiento de v1.7 (hero SSR, animaciones CSS, preloads, LCP/CLS).
-- **Calidad:** tsc baseline (0 nuevos en `src/`), tests verdes.
+## Definition of Done (por superficie migrada)
 
-## v1.8 Requirements
+- La ruta pública renderiza idéntica a antes (paridad visual) y mantiene `x-vercel-cache: HIT` / ISR (sin `no-store`).
+- `hreflang`, `canonical` y `<html lang>` correctos por locale.
+- Live preview de Payload funciona sobre la nueva entrada de `Pages`.
+- El global migrado se retira del config sin rutas rotas ni datos huérfanos.
+- tsc baseline (0 nuevos en `src/`) y tests verdes.
 
-### Fundación design-system
-- [x] **DS-01**: Se corre `ui-ux-pro-max --design-system` para el portfolio y se fija un design-system refrescado documentado (paleta OKLCH, tipografía, escala de spacing, radius, sombras, lenguaje de motion) en `globals.css` + `tailwind.config.js`, partiendo de los tokens actuales (primary hue 250, radius 1rem, dark default).
-- [x] **DS-02**: Baseline de a11y y tokens de interacción (focus ring, estados hover/disabled, z-index scale 10/20/30/50) definidos una sola vez y consumidos por el resto de los componentes.
+## v1.9 Requirements
 
-### Chrome global
-- [x] **CHROME-01**: Header (desktop + nav) refrescado al sistema, cumpliendo el DoD.
-- [x] **CHROME-02**: Menú mobile del Header refrescado (touch targets, focus trap, animación reduced-motion-safe).
-- [x] **CHROME-03**: Footer refrescado al sistema.
-- [x] **CHROME-04**: Logo, Breadcrumbs y DynamicBackground refrescados/consistentes con el sistema.
+### Migración globals → colección Pages
+- [ ] **PAGES-01**: El editor puede crear una página nueva desde la colección `Pages`, asignarle slug y publicarla en su ruta pública.
+- [ ] **PAGES-02**: El editor puede duplicar una página existente como base para una nueva.
+- [ ] **PAGES-03**: El contenido de la Home se sirve desde una entrada editable de `Pages` en `/` (home ES), sin regresionar ISR/edge-cache ni el ruteo.
+- [ ] **PAGES-04**: El listado de blog (ex-`BlogListing`) se sirve desde una entrada editable de `Pages` en lugar del global.
+- [ ] **PAGES-05**: El listado de case studies (ex-`CaseStudiesListing`) se sirve desde una entrada editable de `Pages` en lugar del global.
+- [ ] **PAGES-06**: Los globals `home`/`bloglisting`/`casestudieslisting` se retiran del config y del render sin dejar rutas rotas ni datos huérfanos (migración de datos incluida).
 
-### Home
-- [x] **HOME-01**: Secciones de contenido de la home (AboutSection/AboutWithFeatures, ResultsSection) refrescadas.
-- [x] **HOME-02**: FeaturedWorks/WorkCards y FeaturedClients/ClientsCarousel/ClientsMarquee refrescados.
-- [x] **HOME-03**: FeaturedBlog/LatestBlogPosts y Testimonials (Section + Carousel) refrescados.
-- [x] **HOME-04**: CTAs de la home (SimpleCTA, CallToAction, ContactFormBlock) refrescados.
-- [x] **HOME-05**: HeroHome revisado con toque liviano (ya refactorizado en v1.7 — solo alinear al sistema sin tocar la estructura server/parallax).
+### Consolidación de la nav del admin
+- [ ] **NAV-01**: El contenido editorial (Pages, Posts, Categories, Authors, Media) aparece agrupado bajo **Contenido** en el sidebar.
+- [ ] **NAV-02**: La configuración del sitio (Site Settings, Header, Footer, Styles, LLM, Robots) aparece agrupada bajo **Sitio**.
+- [ ] **NAV-03**: Las herramientas SEO/métricas (KeywordMetrics, PageMetrics, GSCMetrics, BrokenLinks, Redirects) aparecen agrupadas bajo **SEO/Métricas**.
+- [ ] **NAV-04**: Las piezas de marketing/portfolio (Works, CaseStudies, Clientes, Testimonials, AdBanners, Forms, Search) aparecen agrupadas bajo **Marketing**.
+- [ ] **NAV-05**: El admin no muestra secciones sueltas sin grupo; el orden de grupos es intencional y consistente (labels bilingües es/en).
 
-### Blog listing & archivo
-- [x] **BLOG-01**: BlogArchiveHeader, ListingHero y BlogListingLayout refrescados.
-- [x] **BLOG-02**: PostsGrid, ArchiveBlock, CollectionArchive y Card refrescados (grid, hover de card sin shift).
-- [x] **BLOG-03**: Pagination/PageRange y CategoryExplore/CategoryFAQ refrescados.
+### Colección Authors
+- [ ] **AUTHORS-01**: Existe una colección `Authors` editable en el admin (bajo Contenido).
+- [ ] **AUTHORS-02**: Un `Post` puede relacionarse con uno o más `Authors` vía campo relación.
+- [ ] **AUTHORS-03**: La author page pública y el `authors-sitemap` consumen la colección `Authors` sin romperse (paridad de datos actuales).
 
-### Post / artículo
-- [x] **POST-01**: PostHero/PostArticleHeader refrescados.
-- [x] **POST-02**: Content/RichText/Code (tipografía de lectura, line-height 1.5-1.75, line-length 65-75, bloques de código) refrescados.
-- [x] **POST-03**: TableOfContents/TableOfContentsBlock, PostSidebar/SidebarBanners refrescados.
-- [x] **POST-04**: RelatedPosts/RelatedPostsBlock, FAQ, AuthorCard y SGEAtomicAnswer refrescados.
+### Limpieza de globals
+- [ ] **CLEAN-01**: Se revisan los globals restantes (Styles, LLM, Robots) y se consolidan/reubican los redundantes de forma coherente con los grupos de nav, documentando la decisión.
+- [ ] **CLEAN-02**: Documentar en el repo cómo crear una página nueva y qué global quedó como qué (guía corta para el editor/Juan).
 
-### Case studies
-- [x] **CASE-01**: CaseStudyHeader, CaseStudiesGrid, FeaturedCaseStudies, LatestCaseStudies refrescados.
-
-### Formularios & interactivos
-- [x] **FORM-01**: Form/FormBlock, ContactForm y Turnstile refrescados (estados de error/loading claros, labels, botón disabled en async).
-- [x] **FORM-02**: CalendlyEmbed, Banner, Intro, MediaBlock, Section refrescados/consistentes.
-
-### Primitivas UI compartidas
-- [x] **UIKIT-01**: `components/ui/*` (button, accordion, select, checkbox, label, etc.) alineadas al design-system refrescado — base que heredan todos los demás componentes.
+### QA & no-regresión (cross-cutting)
+- [ ] **QA-01**: Las rutas públicas migradas (`/`, blog, case studies) conservan ISR/edge-cache (`x-vercel-cache: HIT`, sin `no-store`) verificado.
+- [ ] **QA-02**: `hreflang`, `canonical` y `<html lang>` verificados correctos por locale post-migración.
+- [ ] **QA-03**: Live preview de Payload verificado sobre las páginas migradas.
+- [ ] **QA-04**: tsc baseline y suite de tests verdes al cierre del milestone.
 
 ## Future Requirements (deferidos)
-- Refresh del admin de Payload (interno; fuera de este milestone).
-- Rebrand visual completo (nueva identidad) — solo si Juan lo decide en un milestone propio.
-- Modo claro pulido a fondo (hoy dark es el default; el refresh mantiene ambos pero la prioridad es dark).
+- Nested docs / jerarquía de páginas (padre-hijo) para árboles de páginas grandes.
+- Page-builder unificado: fusionar la librería de bloques de `Home` y `Pages` en un set único curado.
+- Migración de storage Blob→Cloudinary (ASSET-01, milestone propio).
 
 ## Out of Scope
-- Admin de Payload.
+- Rediseño visual de las páginas públicas (eso fue v1.8; aquí paridad visual, no rebrand).
 - Reescritura de contenido/copy.
-- Nuevas páginas o features (esto es refresh de componentes existentes).
-- Cambios de modelo de datos / backend.
-- Regresionar los cambios de rendimiento de v1.7.
+- Nuevas features de sitio público más allá de la creación de páginas.
+- Cambiar el modelo de datos de las colecciones de métricas SEO.
 
 ## Dependencias / notas
-- **UIKIT-01 primero o temprano:** las primitivas alimentan a casi todo; conviene fijar el sistema (DS-01/02) y las primitivas antes de las superficies para no re-tocar.
-- **Herramienta:** `ui-ux-pro-max` requiere permiso para ejecutar su `search.py` (deny rule de auto-mode). Resolver antes de la fase de fundación (DS-01).
+- **PAGES-03 (Home) es la de mayor riesgo:** el ruteo de `/` cambió/es delicado por v1.0/v1.7. Conviene migrar primero listados (blog/case studies) para validar el patrón y dejar Home al final con QA reforzado.
+- **NAV** puede hacerse en paralelo/temprano (bajo riesgo: solo `admin.group`), da valor visible rápido.
+- **AUTHORS-03** depende de conocer cómo se resuelven hoy los autores (author page + sitemap) antes de introducir la colección.
 
 ## Traceability (REQ → fase)
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DS-01 | Phase 44 | Done |
-| DS-02 | Phase 44 | Done |
-| UIKIT-01 | Phase 45 | Done |
-| CHROME-01 | Phase 46 | Done |
-| CHROME-02 | Phase 46 | Done |
-| CHROME-03 | Phase 46 | Done |
-| CHROME-04 | Phase 46 | Done |
-| HOME-01 | Phase 47 | Done |
-| HOME-02 | Phase 47 | Done |
-| HOME-03 | Phase 47 | Done |
-| HOME-04 | Phase 47 | Done |
-| HOME-05 | Phase 47 | Done |
-| BLOG-01 | Phase 48 | Done |
-| BLOG-02 | Phase 48 | Done |
-| BLOG-03 | Phase 48 | Done |
-| POST-01 | Phase 49 | Done |
-| POST-02 | Phase 49 | Done |
-| POST-03 | Phase 49 | Done |
-| POST-04 | Phase 49 | Done |
-| CASE-01 | Phase 50 | Done |
-| FORM-01 | Phase 51 | Done |
-| FORM-02 | Phase 51 | Done |
-
-**Cobertura:** 22/22 requirements v1.8 mapeados. Sin huérfanos.
+| _(pendiente — lo completa el roadmapper)_ | — | — |

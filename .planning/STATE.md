@@ -31,7 +31,11 @@ Last activity: 2026-07-05 — Fase 45 + normalización global de headings; gate 
 
 **Escala de headings (canónica, en globals.css):** `.text-display` (4xl→6xl, títulos de página/hero), `.text-section` (3xl→5xl, títulos de sección), `.text-card-title` (xl→2xl, cards/items). Toda superficie 46-51 usa estos roles, no tamaños hardcodeados.
 
-**Botones unificados (2026-07-05, feedback Juan, `6ec4934`):** un solo sistema pill (rounded-full). Primitive `<Button>` = pill + tamaños token. Utilidades `.btn/.btn-primary/.btn-secondary/.btn-sm` (en globals.css) para `<a>`/`<button>` crudos. CMSLink CTAs → `appearance` (primitive + tracking cta_click), NO inline hardcodeado. Filtros → `btn btn-sm`. Regla: nada de `py-5 px-10 rounded-[2rem]` ad-hoc; usar primitive o `.btn`.
+**Botones unificados (2026-07-05, feedback Juan, `6ec4934`):** un solo sistema pill (rounded-full). Primitive `<Button>` = pill + tamaños token. Utilidades `.btn/.btn-primary/.btn-secondary/.btn-sm` (en globals.css, dentro de `@layer components` — OJO: `@apply` de clases custom como `transition-standard` rompe la regla en silencio, usar utilities core). CMSLink CTAs → `appearance` (primitive + tracking cta_click), NO inline hardcodeado. Filtros → `btn btn-sm`.
+
+**Hero (HeroHome) rediseñado terminal/code (`b63d224`), APROBADO por Juan.** DIFERIDO a fase futura: refrescar el componente terminal + hero (Juan tiene feedback pendiente). No re-tocar hasta que Juan lo traiga.
+
+**CAVEAT dev (2026-07-05):** cuidado con procesos `next dev` zombies — se acumularon 7 y uno servía CSS/HTML stale en :3000 (falsos bugs de estilos/hidratación). Antes de reiniciar dev: `pkill -9 -f next` y verificar puerto libre. El dev quedó en :3001.
 
 **FOCO TRANSVERSAL (feedback Juan 2026-07-05):** tamaños de texto y de componentes. La escala anterior estaba inflada/invertida (h1 text-8xl; hero H1 text-6xl mobile→4xl desktop). Nueva escala progresiva y contenida en `docs/design-system.md` (sección "Escala tipográfica" + "Densidad"). **Toda superficie (45-51) debe right-sizear: reducir textos/paddings inflados por defecto.**
 

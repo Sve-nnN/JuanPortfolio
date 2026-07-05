@@ -26,7 +26,9 @@ export const SimpleCta: React.FC<SimpleCtaBlock & { locale?: 'en' | 'es' }> = (p
             url={url}
             label={label}
             locale={locale}
-            className={`inline-block px-10 py-5 text-xl font-bold rounded-2xl transition-all shadow-xl hover:shadow-primary/20 hover:-translate-y-1 ${buttonClass}`}
+            appearance="default"
+
+            className={`shadow-xl hover:-translate-y-0.5 ${buttonClass}`}
           />
         )}
       </div>

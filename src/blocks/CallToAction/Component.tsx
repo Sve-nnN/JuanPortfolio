@@ -24,11 +24,12 @@ export const CallToActionBlock: React.FC<CallToActionBlockProps & { locale?: 'en
         <div className="relative z-10 flex flex-wrap gap-6 shrink-0 justify-center md:justify-start">
           {(links || []).map(({ link }, i) => {
             return (
-              <CMSLink 
-                key={i} 
-                {...link} 
+              <CMSLink
+                key={i}
+                {...link}
                 locale={locale}
-                className="px-10 py-5 text-xl font-bold rounded-[2rem] shadow-xl hover:shadow-primary/20 hover:-translate-y-1 transition-all" 
+                appearance={link?.appearance || 'default'}
+
               />
             )
           })}

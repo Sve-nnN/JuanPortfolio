@@ -96,7 +96,7 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
             <div className={`flex flex-wrap gap-3 mt-8 ${justifyClass}`}>
               <Link
                 href={`${localePrefix}/blog`}
-                className="px-6 py-2.5 text-lg font-bold rounded-full transition-all backdrop-blur-xl border bg-primary border-primary/50 text-white shadow-xl hover:shadow-primary/20"
+                className="btn btn-sm backdrop-blur-xl border bg-primary border-primary/50 text-white shadow-xl hover:shadow-primary/20"
               >
                 {locale === 'es' ? 'Todo' : 'All'}
               </Link>
@@ -104,7 +104,7 @@ export const BlogArchiveHeader: React.FC<BlogArchiveHeaderBlock & { locale?: 'en
                 <Link
                   key={category.id}
                   href={`${localePrefix}/blog/${category.slug}`}
-                  className="px-6 py-2.5 text-lg font-bold rounded-full transition-all backdrop-blur-xl border bg-white/10 border-white/20 text-white hover:bg-white/20 shadow-lg"
+                  className="btn btn-sm backdrop-blur-xl border bg-white/10 border-white/20 text-white hover:bg-white/20 shadow-lg"
                 >
                   {category.title}
                 </Link>

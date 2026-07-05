@@ -25,7 +25,7 @@ export const AboutSection: React.FC<AboutSectionBlockProps & { locale?: 'en' | '
                   label={ctaLabel}
                   appearance="default"
                   locale={locale}
-                  className="px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl hover:shadow-lg transition-all" 
+
                 />
               )}
             </div>

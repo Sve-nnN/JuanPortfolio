@@ -84,13 +84,13 @@ export const PostsGrid: React.FC<PostsGridProps> = async (props) => {
       {/* Category Filters */}
       {showCategories && categories.length > 0 && (
         <div className="mb-20 flex flex-wrap justify-center gap-3">
-          <button className="px-6 py-2.5 text-lg font-bold text-white bg-primary rounded-full shadow-lg shadow-primary/20 transition-all hover:shadow-xl active:scale-95">
+          <button className="btn btn-sm btn-primary">
             {locale === 'es' ? 'Todo' : 'All'}
           </button>
           {categories.map((cat) => (
             <button
               key={cat.id}
-              className="px-6 py-2.5 text-lg font-bold text-muted-foreground bg-secondary/50 rounded-full border border-border/50 hover:bg-secondary hover:text-foreground transition-all active:scale-95"
+              className="btn btn-sm btn-secondary"
             >
               {cat.title}
             </button>

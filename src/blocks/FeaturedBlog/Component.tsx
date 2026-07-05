@@ -106,7 +106,7 @@ export const FeaturedBlog: React.FC<FeaturedBlogBlock & { locale?: 'en' | 'es' }
         {ctaLabel && ctaUrl && (
           <div className="text-center mt-20">
             <Link
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-5 px-10 text-lg rounded-full transition-all shadow-xl hover:shadow-primary/20 hover:-translate-y-1 inline-block"
+              className="btn btn-primary"
               href={`${localePrefix}${ctaUrl.startsWith('/') ? '' : '/'}${ctaUrl}`}
             >
               {ctaLabel}

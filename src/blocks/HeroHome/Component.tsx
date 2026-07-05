@@ -105,7 +105,8 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                   url={primaryCta.url}
                   label={primaryCta.label}
                   locale={locale}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3.5 px-8 text-base rounded-full transition-standard shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 text-center active:scale-95"
+                  appearance="default"
+
                 />
               )}
               {secondaryCta && secondaryCta.label && secondaryCta.url && (
@@ -113,7 +114,9 @@ export const HeroHome: React.FC<HeroHomeBlockType & { locale?: 'en' | 'es' }> = 
                   url={secondaryCta.url}
                   label={secondaryCta.label}
                   locale={locale}
-                  className="bg-background/50 backdrop-blur-xl text-foreground border-2 border-border/50 hover:border-primary/50 font-bold py-3.5 px-8 text-base rounded-full hover:bg-secondary/50 transition-standard flex items-center justify-center group active:scale-95 shadow-md"
+                  appearance="outline"
+
+                  className="group"
                 >
                   <ArrowRight
                     className="ml-3 group-hover:translate-x-2 transition-transform duration-500"

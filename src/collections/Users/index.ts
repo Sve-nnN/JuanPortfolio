@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { slugField } from '@/fields/slug'
 import { seoFields } from '@/utilities/seo/seoFields'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 import type { CollectionBeforeChangeHook } from 'payload'
 

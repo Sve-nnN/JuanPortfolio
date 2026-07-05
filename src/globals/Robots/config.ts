@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { revalidateRobots } from './hooks/revalidateRobots'
+import { ADMIN_GROUP } from '@/utilities/adminGroups'
 
 // Default ASCII banner rendered from public/favicon.svg (chafa, ascii symbols).
 // Stored WITHOUT leading "#": the route handler prefixes each line as a comment.

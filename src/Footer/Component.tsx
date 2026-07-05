@@ -253,7 +253,7 @@ export async function Footer({ locale }: { locale?: 'en' | 'es' }) {
                     {locale === 'es' ? 'Términos' : 'Terms'}
                   </Link>
                   <Link
-                    href={`${localePrefix}/sitemap`}
+                    href="/sitemap"
                     className="hover:text-primary transition-colors border-b border-transparent hover:border-primary/20"
                   >
                     Sitemap

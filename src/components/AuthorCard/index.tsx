@@ -51,6 +51,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, className }) => 
                   alt={author.name || 'Author'}
                   width={80}
                   height={80}
+                  unoptimized
                   className="rounded-full object-cover"
                 />
               </Link>
@@ -60,6 +61,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, className }) => 
                 alt={author.name || 'Author'}
                 width={80}
                 height={80}
+                unoptimized
                 className="rounded-full object-cover"
               />
             )}

@@ -1,8 +1,10 @@
 ---
-status: human_needed
+status: passed
 phase: 44
 requirements: [DS-01, DS-02]
 commit: 7cb58cb
+human_qa: passed 2026-07-05 (Juan — fundación OK)
+addendum: c7bdb5a (escala tipográfica progresiva + hero right-sizing, por feedback de Juan sobre tamaños)
 ---
 
 # Phase 44 — Verification

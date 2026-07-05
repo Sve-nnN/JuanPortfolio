@@ -24,13 +24,12 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 44 (Fundación design-system) — código hecho, gate QA visual pendiente
+Phase: 44 ✅ completa (QA firmado + escala tipográfica). Próxima: 45 (primitivas UI).
 Plan: —
-Status: Skill ui-ux-pro-max corrido (permiso dado por Juan); tokens motion/a11y/z-index + focus-visible + fix contraste aplicados. Commit `7cb58cb`. tsc 112 baseline. Sistema en `docs/design-system.md`.
-Last activity: 2026-07-05 — Fase 44 (fundación design-system) código hecho; gate QA visual pendiente antes de repintar superficies (45-51)
+Status: Fundación aplicada (`7cb58cb`) + escala tipográfica progresiva y hero right-sizing (`c7bdb5a`). tsc 112 baseline. Dev en localhost:3000. Disco destrabado (`.next` limpiado, 10GB libres).
+Last activity: 2026-07-05 — Fase 44 completa; arranca Fase 45 (primitivas `components/ui/*`)
 
-**Gate abierto (Juan):** QA visual de la fundación — `.planning/phases/44-fundacion-design-system/44-VERIFICATION.md`.
-**Nota disco:** build local bloqueado por disco al 99% (`.next` 1.5GB) — afecta verificación de fases que requieran build.
+**FOCO TRANSVERSAL (feedback Juan 2026-07-05):** tamaños de texto y de componentes. La escala anterior estaba inflada/invertida (h1 text-8xl; hero H1 text-6xl mobile→4xl desktop). Nueva escala progresiva y contenida en `docs/design-system.md` (sección "Escala tipográfica" + "Densidad"). **Toda superficie (45-51) debe right-sizear: reducir textos/paddings inflados por defecto.**
 
 ## Milestone v1.8 — Estructura de fases
 

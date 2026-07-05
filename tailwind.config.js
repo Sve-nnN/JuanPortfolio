@@ -59,6 +59,26 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      // Design-system v1.8 (DS-02): intentional z-index scale — background/base,
+      // sticky/nav, dropdowns/overlays, modals/toasts. Avoids ad-hoc z-[9999].
+      zIndex: {
+        base: '0',
+        sticky: '10',
+        dropdown: '20',
+        overlay: '30',
+        modal: '50',
+      },
+      // Motion tokens mirrored from the CSS custom properties so utilities like
+      // `duration-base` / `ease-standard` are available in Tailwind.
+      transitionDuration: {
+        fast: '150ms',
+        base: '250ms',
+        slow: '400ms',
+      },
+      transitionTimingFunction: {
+        standard: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+        out: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
       colors: {
         border: "oklch(var(--border) / <alpha-value>)",
         input: "oklch(var(--input) / <alpha-value>)",

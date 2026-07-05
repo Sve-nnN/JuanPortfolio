@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 45 ✅ (primitivas, /contact QA OK) + normalización de headings (cross-cutting, gate QA pendiente). Próxima: 46 (chrome).
+Phase: 44 ✅ 45 ✅ · superficies 46-51 refrescadas vía passes cross-cutting (código hecho, gate QA de Juan por página). Dev en :3001.
 Plan: —
-Status: Fase 45 `6737537`. **Headings normalizados** `d0a3278`: 27 headings en 20 bloques hardcodeaban text-4xl..text-9xl → 3 roles (`.text-display/.text-section/.text-card-title` en globals.css). Resuelve el "encabezados inconsistentes" que marcó Juan. tsc 112 baseline. Dev localhost:3000.
-Last activity: 2026-07-05 — Fase 45 + normalización global de headings; gate QA (home + páginas)
+Status: v1.8 refrescado por passes globales (no phase-execute discreto — sin Skill tool): headings `d0a3278`, botones `6ec4934`/`9fcda0d`, hero terminal `b63d224`, densidad `71598f4`/`3c9e841`, fundación+primitivas `7cb58cb`/`6737537`. tsc 112 baseline. Home/blog/case-studies/contact 200. **Pendiente fino con ojo de Juan:** estados de forms (error/loading, 51), detalles post/case (49/50).
+Last activity: 2026-07-05 — Superficies 46-51 refrescadas (tipografía/botones/densidad/hero); QA por página pendiente
 
 **Escala de headings (canónica, en globals.css):** `.text-display` (4xl→6xl, títulos de página/hero), `.text-section` (3xl→5xl, títulos de sección), `.text-card-title` (xl→2xl, cards/items). Toda superficie 46-51 usa estos roles, no tamaños hardcodeados.
 

@@ -1,64 +1,79 @@
-# Requirements — Milestone v1.7 (Rendimiento avanzado / Core Web Vitals)
+# Requirements — Milestone v1.8 (Refresh de UX/UI del sitio público)
 
-Derivado de: medición Unlighthouse mobile (Chrome real) post-v1.6 y análisis de causa raíz.
-Detalle y evidencia: `.planning/research/audit-jul2026/03-performance.md`. Issues asociados: #95 (LCP), #103 (INP).
+Derivado de: pedido de Juan (pasar `ui-ux-pro-max` por todos los componentes públicos y refrescarlos) + inventario y tokens actuales.
+Herramienta de ejecución: **ui-ux-pro-max** (design intelligence). Detalle de scope: histórico en el MILESTONE-CONTEXT consumido (ver PROJECT.md).
 
-**Baseline medido (mobile, post Rocket Loader OFF):** Perf 0.37 · FCP 2.7s · LCP 7.4s · TBT 2180ms · TTI 10.4s · CLS 0.001.
-**Causa raíz:** ~27 chunks JS (~325KB gzip) ejecutan de una y saturan el main thread; el hero es todo `'use client'` con framer-motion (`useScroll`/`useTransform`) → el H1/LCP depende de la hidratación.
+**Enfoque:** refresh guiado por design-system (modernizar dentro de la identidad actual, dark-mode-default), NO rebrand. Aplicado por superficie con **QA visual obligatorio** antes de mergear cada una.
 
-**Objetivos de salida (mobile):** LCP < 2500ms · INP < 200ms · sin regresión de CLS (≤ 0.01) · sin regresión visual del hero.
+Convención label GitHub: `ui`, `design`, bloque `refresh`, tanda `v1.8-uiux`.
 
-Convención label GitHub: `seo:performance`, bloque `perf`, tanda `v1.7-cwv`.
+## Definición de "refrescado" (Definition of Done por componente)
 
-## v1.7 Requirements
+Un componente está refrescado cuando cumple el **Pre-Delivery Checklist** del skill:
+- **A11y (CRITICAL):** contraste ≥ 4.5:1, focus states visibles, touch targets ≥ 44px, aria-labels en botones icon-only, labels en inputs.
+- **Interacción:** `cursor-pointer` en clickeables, hover con feedback sin layout shift, transiciones 150-300ms.
+- **Visual:** iconos SVG (Lucide) consistentes, sin emojis como iconos, sombras/espaciado/radius del sistema, spacing coherente.
+- **Responsive:** sin scroll horizontal, correcto en 375/768/1024/1440.
+- **Motion:** solo `transform`/`opacity` (compositor), respeta `prefers-reduced-motion`.
+- **Sin regresión:** identidad de marca intacta, y **no** se regresiona el rendimiento de v1.7 (hero SSR, animaciones CSS, preloads, LCP/CLS).
+- **Calidad:** tsc baseline (0 nuevos en `src/`), tests verdes.
 
-### Hero & render del LCP
-- [ ] **PERF-04** (alto): El H1 de la home se pinta en el HTML de SSR sin depender de la hidratación del hero — el hero se sirve como server component y solo la animación parallax vive en un wrapper cliente chico (`'use client'`) que envuelve el contenido ya renderizado en servidor.
-- [ ] **PERF-05** (alto): La animación de entrada/parallax del hero se preserva idéntica a la actual (misma curva, timing y layout); un QA visual antes/después lo confirma. Si framer-motion no aporta sobre CSS puro para el entrance, se reemplaza por CSS/transición nativa para no bundlear la librería en el above-the-fold.
+## v1.8 Requirements
 
-### Recorte de JavaScript inicial
-- [ ] **PERF-06** (alto): El JS que ejecuta en el arranque de la home baja de forma medible respecto del baseline (~27 chunks / ~325KB gzip) — bloques below-the-fold cargados con `next/dynamic` (sin SSR donde aplique) y framer-motion aislado a los componentes que realmente animan.
-- [ ] **PERF-07** (medio): El TBT mobile de la home baja de ~2180ms a un rango que permita INP < 200ms; se verifica con Unlighthouse mobile y con el INP de campo (#103).
+### Fundación design-system
+- [ ] **DS-01**: Se corre `ui-ux-pro-max --design-system` para el portfolio y se fija un design-system refrescado documentado (paleta OKLCH, tipografía, escala de spacing, radius, sombras, lenguaje de motion) en `globals.css` + `tailwind.config.js`, partiendo de los tokens actuales (primary hue 250, radius 1rem, dark default).
+- [ ] **DS-02**: Baseline de a11y y tokens de interacción (focus ring, estados hover/disabled, z-index scale 10/20/30/50) definidos una sola vez y consumidos por el resto de los componentes.
 
-### Fuentes
-- [ ] **PERF-08** (medio): Solo la fuente del H1 (Array Bold) se preloadea; Geist Sans/Mono usan `preload:false` si no son above-the-fold, sin introducir FOUT visible (QA visual confirma que no hay salto de texto perceptible).
+### Chrome global
+- [ ] **CHROME-01**: Header (desktop + nav) refrescado al sistema, cumpliendo el DoD.
+- [ ] **CHROME-02**: Menú mobile del Header refrescado (touch targets, focus trap, animación reduced-motion-safe).
+- [ ] **CHROME-03**: Footer refrescado al sistema.
+- [ ] **CHROME-04**: Logo, Breadcrumbs y DynamicBackground refrescados/consistentes con el sistema.
 
-### Cache en el edge
-- [ ] **PERF-09** (medio): El HTML de la home y de los posts se sirve cacheado desde el edge de Cloudflare (`cf-cache-status: HIT` en visita repetida) respetando el ISR de Next, sin servir contenido stale más allá de la ventana de revalidación ni romper el bypass de draft/preview.
+### Home
+- [ ] **HOME-01**: Secciones de contenido de la home (AboutSection/AboutWithFeatures, ResultsSection) refrescadas.
+- [ ] **HOME-02**: FeaturedWorks/WorkCards y FeaturedClients/ClientsCarousel/ClientsMarquee refrescados.
+- [ ] **HOME-03**: FeaturedBlog/LatestBlogPosts y Testimonials (Section + Carousel) refrescados.
+- [ ] **HOME-04**: CTAs de la home (SimpleCTA, CallToAction, ContactFormBlock) refrescados.
+- [ ] **HOME-05**: HeroHome revisado con toque liviano (ya refactorizado en v1.7 — solo alinear al sistema sin tocar la estructura server/parallax).
 
-### Medición & validación de campo
-- [ ] **PERF-10** (medio): El INP real emitido por el reporter `web-vitals`→GA4 (#103) es consultable por interacción/página, y se usa para identificar cuál interacción concreta excede 200ms antes de optimizar (no se optimiza a ciegas).
-- [ ] **PERF-11** (info): Existe un procedimiento repetible de re-medición mobile (`npx unlighthouse-ci --site https://juan-tech.com --urls /`) corrido antes y después del milestone, con los números registrados para comparar contra el baseline.
+### Blog listing & archivo
+- [ ] **BLOG-01**: BlogArchiveHeader, ListingHero y BlogListingLayout refrescados.
+- [ ] **BLOG-02**: PostsGrid, ArchiveBlock, CollectionArchive y Card refrescados (grid, hover de card sin shift).
+- [ ] **BLOG-03**: Pagination/PageRange y CategoryExplore/CategoryFAQ refrescados.
 
-## Restricciones (constantes en todas las fases)
-- **QA visual obligatorio** antes de mergear el refactor del hero y el cambio de preloads de fuentes: no romper la animación de entrada ni el layout.
-- No regresionar el LCP-visible-en-SSR ya logrado en v1.1 (el H1 pinta en el primer render).
-- Mantener tsc baseline (0 nuevos en `src/`) y tests verdes.
-- Medir siempre en mobile (Unlighthouse throttlea como campo; PSI subestima).
+### Post / artículo
+- [ ] **POST-01**: PostHero/PostArticleHeader refrescados.
+- [ ] **POST-02**: Content/RichText/Code (tipografía de lectura, line-height 1.5-1.75, line-length 65-75, bloques de código) refrescados.
+- [ ] **POST-03**: TableOfContents/TableOfContentsBlock, PostSidebar/SidebarBanners refrescados.
+- [ ] **POST-04**: RelatedPosts/RelatedPostsBlock, FAQ, AuthorCard y SGEAtomicAnswer refrescados.
+
+### Case studies
+- [ ] **CASE-01**: CaseStudyHeader, CaseStudiesGrid, FeaturedCaseStudies, LatestCaseStudies refrescados.
+
+### Formularios & interactivos
+- [ ] **FORM-01**: Form/FormBlock, ContactForm y Turnstile refrescados (estados de error/loading claros, labels, botón disabled en async).
+- [ ] **FORM-02**: CalendlyEmbed, Banner, Intro, MediaBlock, Section refrescados/consistentes.
+
+### Primitivas UI compartidas
+- [ ] **UIKIT-01**: `components/ui/*` (button, accordion, select, checkbox, label, etc.) alineadas al design-system refrescado — base que heredan todos los demás componentes.
 
 ## Future Requirements (deferidos)
-- Cachear/optimizar rutas de blog/case-studies más allá de la home si la home no alcanza el objetivo sola.
-- Auditar imágenes/LCP de plantillas de contenido (posts) en un milestone propio.
-- Diferidos de v1.6 (acciones manuales de Juan): INFRA www TLS (#12), Rocket Loader ya OFF (#102), contenido (#104-#107).
-- Diferidos de v1.5: VERIFY-01 (gate runtime), ASSET-01 (Blob→Cloudinary).
+- Refresh del admin de Payload (interno; fuera de este milestone).
+- Rebrand visual completo (nueva identidad) — solo si Juan lo decide en un milestone propio.
+- Modo claro pulido a fondo (hoy dark es el default; el refresh mantiene ambos pero la prioridad es dark).
 
 ## Out of Scope
-- Rediseño visual del hero (solo mover la lógica de render, no el diseño).
-- Cambiar el proxy Cloudflare→Vercel más allá de reglas de cache.
-- Rehacer keyword research o tocar contenido.
-- Rediseño de Header/Footer.
+- Admin de Payload.
+- Reescritura de contenido/copy.
+- Nuevas páginas o features (esto es refresh de componentes existentes).
+- Cambios de modelo de datos / backend.
+- Regresionar los cambios de rendimiento de v1.7.
+
+## Dependencias / notas
+- **UIKIT-01 primero o temprano:** las primitivas alimentan a casi todo; conviene fijar el sistema (DS-01/02) y las primitivas antes de las superficies para no re-tocar.
+- **Herramienta:** `ui-ux-pro-max` requiere permiso para ejecutar su `search.py` (deny rule de auto-mode). Resolver antes de la fase de fundación (DS-01).
 
 ## Traceability (REQ → fase)
 
-| Requirement | Fase | Estado |
-|-------------|------|--------|
-| PERF-10 | Phase 38 | Pending |
-| PERF-04 | Phase 39 | Pending |
-| PERF-05 | Phase 39 | Pending |
-| PERF-06 | Phase 39 | Pending |
-| PERF-07 | Phase 40 | Pending |
-| PERF-08 | Phase 41 | Pending |
-| PERF-09 | Phase 42 | Pending |
-| PERF-11 | Phase 43 | Pending |
-
-Cobertura: 8/8 requirements v1.7 mapeados. Sin huérfanos.
+_Se completa cuando el roadmapper cree ROADMAP.md._

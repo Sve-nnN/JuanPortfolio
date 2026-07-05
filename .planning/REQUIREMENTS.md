@@ -68,4 +68,23 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| _(pendiente — lo completa el roadmapper)_ | — | — |
+| PAGES-01 | Phase 53 | Pending |
+| PAGES-02 | Phase 53 | Pending |
+| PAGES-03 | Phase 57 | Pending |
+| PAGES-04 | Phase 54 | Pending |
+| PAGES-05 | Phase 55 | Pending |
+| PAGES-06 | Phase 58 | Pending |
+| NAV-01 | Phase 52 | Pending |
+| NAV-02 | Phase 52 | Pending |
+| NAV-03 | Phase 52 | Pending |
+| NAV-04 | Phase 52 | Pending |
+| NAV-05 | Phase 52 | Pending |
+| AUTHORS-01 | Phase 56 | Pending |
+| AUTHORS-02 | Phase 56 | Pending |
+| AUTHORS-03 | Phase 56 | Pending |
+| CLEAN-01 | Phase 58 | Pending |
+| CLEAN-02 | Phase 58 | Pending |
+| QA-01 | Phase 59 | Pending |
+| QA-02 | Phase 59 | Pending |
+| QA-03 | Phase 59 | Pending |
+| QA-04 | Phase 59 | Pending |

@@ -11,6 +11,7 @@
 - 🚧 **v1.6 Auditoría integral & remediación (SEO + código)** — Phases 31-37 (en curso, iniciado 2026-07-02)
 - 🚧 **v1.7 Rendimiento avanzado (Core Web Vitals)** — Phases 38-43 (roadmapped, iniciado 2026-07-02)
 - ✅ **v1.8 Refresh de UX/UI (sitio público)** — Phases 44-51 (shipped 2026-07-05)
+- 🚧 **v1.9 Estandarización del admin de Payload** — Phases 52-59 (roadmapped, iniciado 2026-07-05)
 
 ## Phases
 
@@ -266,6 +267,107 @@ Pasar el skill `ui-ux-pro-max` por todos los componentes del sitio público, fij
   3. DoD completo (a11y incl. labels en inputs, cursor-pointer + hover sin shift, responsive 375/768/1024/1440, motion reduced-motion-safe)
   4. Sin regresión de v1.7 (Calendly diferido con IntersectionObserver sigue intacto) ni de identidad de marca
 **Gate**: QA visual obligatorio (Juan) de formularios (estado normal/error/loading) antes de mergear
+
+### 🚧 v1.9 Estandarización del admin de Payload — Phases 52-59
+
+Reducir las ~23+ secciones sueltas del admin a una nav agrupada (Contenido/Sitio/SEO-Métricas/Marketing), migrando los globals singleton con page-builder (Home, BlogListing, CaseStudiesListing) a la colección `Pages` (creable/duplicable), sumando una colección `Authors` real y limpiando los globals restantes — sin regresionar rendimiento/ISR, SEO ni live preview. Referencia: `aprendoclub` (nav Contenido/Sitio, 1 global SiteSettings, page-builder en Pages). Requirements PAGES-01..06, NAV-01..05, AUTHORS-01..03, CLEAN-01..02, QA-01..04.
+
+**Riesgo eje:** el ruteo de la home ES (`/`) ya es delicado por el trabajo ISR de v1.0/v1.7. Por eso NAV (bajo riesgo) va primero, los listados de blog/case studies migran antes que Home para validar el patrón, y Home queda al final con QA reforzado, seguida de retiro de globals y una fase de verificación cruzada final.
+
+#### Phase 52: Nav agrupada del admin
+
+**Goal**: El sidebar del admin agrupa toda sección existente en 4 grupos coherentes (Contenido, Sitio, SEO/Métricas, Marketing), sin secciones sueltas y con labels bilingües
+**Requirements**: NAV-01, NAV-02, NAV-03, NAV-04, NAV-05
+**Success Criteria**:
+  1. El sidebar muestra los grupos "Contenido", "Sitio", "SEO/Métricas" y "Marketing" en un orden intencional y consistente
+  2. Pages, Posts, Categories y Media aparecen bajo "Contenido" (Authors se sumará al grupo en Phase 56, al crearse)
+  3. Site Settings, Header, Footer, Styles, LLM y Robots aparecen bajo "Sitio"
+  4. KeywordMetrics, PageMetrics, GSCMetrics, BrokenLinks y Redirects aparecen bajo "SEO/Métricas"
+  5. Works, CaseStudies, Clientes, Testimonials, AdBanners, Forms y Search aparecen bajo "Marketing"; ninguna colección/global queda sin grupo, labels bilingües es/en
+**Gate**: Ninguno — cambio cosmético (`admin.group`), bajo riesgo
+
+#### Phase 53: Fundación de la colección Pages
+
+**Goal**: El editor puede crear una página nueva en `Pages` y duplicar una existente, validando el patrón antes de migrar los tres globals singleton
+**Depends on**: Phase 52
+**Requirements**: PAGES-01, PAGES-02
+**Success Criteria**:
+  1. El editor crea una entrada nueva en `Pages`, le asigna slug único y la publica; la ruta pública renderiza los bloques elegidos
+  2. El editor duplica una página existente y la copia queda editable de forma independiente (slug distinto) sin afectar el original
+  3. La página nueva/duplicada sirve con `x-vercel-cache: HIT` / ISR (sin `no-store`)
+**Gate**: Ninguno
+
+#### Phase 54: Migración del listado de blog a Pages
+
+**Goal**: El listado de blog (ex-global `BlogListing`) se sirve desde una entrada editable de `Pages`
+**Depends on**: Phase 53
+**Requirements**: PAGES-04
+**Success Criteria**:
+  1. La ruta del listado de blog renderiza el mismo contenido que antes (paridad visual), ahora desde `Pages`
+  2. La ruta conserva `x-vercel-cache: HIT` / ISR sin `no-store`
+  3. `hreflang`, `canonical` y `<html lang>` correctos por locale en la ruta migrada
+  4. Live preview de Payload funciona sobre la nueva entrada de `Pages`
+**Gate**: QA de render/SEO antes de mergear (paridad visual + ISR + hreflang)
+
+#### Phase 55: Migración del listado de case studies a Pages
+
+**Goal**: El listado de case studies (ex-global `CaseStudiesListing`) se sirve desde una entrada editable de `Pages`, replicando el patrón validado en Phase 54
+**Depends on**: Phase 54
+**Requirements**: PAGES-05
+**Success Criteria**:
+  1. La ruta del listado de case studies renderiza el mismo contenido que antes (paridad visual), ahora desde `Pages`
+  2. La ruta conserva `x-vercel-cache: HIT` / ISR sin `no-store`
+  3. `hreflang`, `canonical` y `<html lang>` correctos por locale en la ruta migrada
+  4. Live preview de Payload funciona sobre la nueva entrada de `Pages`
+**Gate**: QA de render/SEO antes de mergear (paridad visual + ISR + hreflang)
+
+#### Phase 56: Colección Authors
+
+**Goal**: Existe una colección `Authors` real, relacionable con `Posts`, consumida por la author page pública y el `authors-sitemap` sin romper la paridad de datos actual
+**Depends on**: Phase 52
+**Requirements**: AUTHORS-01, AUTHORS-02, AUTHORS-03
+**Success Criteria**:
+  1. `Authors` aparece en el admin bajo "Contenido", editable con los campos necesarios para reconstruir la author page actual
+  2. Un `Post` puede relacionarse con uno o más `Authors` vía campo relación, y la asociación persiste al guardar
+  3. La author page pública muestra la misma información que antes, ahora leída desde `Authors`
+  4. `authors-sitemap` sigue generando las mismas URLs válidas, ahora desde `Authors`
+**Gate**: Confirmar cómo se resuelven hoy los autores (author page + sitemap) antes de introducir la colección
+
+#### Phase 57: Migración de Home a Pages
+
+**Goal**: El contenido de la Home se sirve desde una entrada editable de `Pages` en `/` (home ES), sin regresionar ruteo/ISR/edge-cache — la superficie de mayor riesgo, migrada al final tras validar el patrón en Phases 54-55
+**Depends on**: Phase 55
+**Requirements**: PAGES-03
+**Success Criteria**:
+  1. La home ES (`/`) renderiza el mismo contenido que antes (paridad visual), ahora desde `Pages`
+  2. `/` mantiene `x-vercel-cache: HIT` / ISR sin `no-store`
+  3. `hreflang`, `canonical` y `<html lang>` correctos en `/` (es) y su contraparte `/en`
+  4. Live preview de Payload funciona sobre la entrada de `Pages` de la Home
+**Gate**: QA de render/SEO reforzado antes de mergear (mayor riesgo del milestone)
+
+#### Phase 58: Retiro de globals y limpieza
+
+**Goal**: Los globals `home`/`bloglisting`/`casestudieslisting` se retiran del config sin rutas rotas ni datos huérfanos; Styles/LLM/Robots quedan consolidados y documentados
+**Depends on**: Phase 57
+**Requirements**: PAGES-06, CLEAN-01, CLEAN-02
+**Success Criteria**:
+  1. Los globals `home`, `bloglisting` y `casestudieslisting` ya no existen en `payload.config.ts` ni en el admin; ninguna ruta pública depende de ellos
+  2. No quedan datos huérfanos (contenido migrado a `Pages` o descartado con decisión documentada)
+  3. Styles/LLM/Robots consolidados/reubicados de forma coherente con los grupos de nav de Phase 52, decisión documentada
+  4. Existe una guía corta en el repo sobre cómo crear una página nueva y qué global quedó con qué propósito
+**Gate**: Ninguno
+
+#### Phase 59: QA final y no-regresión
+
+**Goal**: Todas las superficies migradas (`/`, blog, case studies) pasan verificación cruzada de rendimiento, SEO por-locale, live preview y calidad de código antes de cerrar el milestone
+**Depends on**: Phase 58
+**Requirements**: QA-01, QA-02, QA-03, QA-04
+**Success Criteria**:
+  1. Las 3 rutas migradas sirven `x-vercel-cache: HIT` sin `no-store` (ISR/edge-cache intacto)
+  2. `hreflang`, `canonical` y `<html lang>` verificados correctos por locale en las 3 rutas
+  3. Live preview de Payload verificado end-to-end sobre las 3 páginas migradas
+  4. tsc baseline sin errores nuevos sobre `src/` y suite de tests verde al cierre del milestone
+**Gate**: Cierre de milestone — no mergear a main sin este gate en verde
 
 <details>
 <summary>✅ v1.0 Render estático/ISR & Edge Caching (Phases 1-5) — SHIPPED</summary>
@@ -820,6 +922,118 @@ Plans:
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 52: Nav agrupada del admin
+
+**Goal**: El sidebar del admin de Payload agrupa todas las secciones existentes en 4 grupos coherentes (Contenido, Sitio, SEO/Métricas, Marketing), sin secciones sueltas y con labels bilingües
+**Depends on**: Nothing (first phase — solo cambia `admin.group`, bajo riesgo)
+**Requirements**: NAV-01, NAV-02, NAV-03, NAV-04, NAV-05
+**Success Criteria** (what must be TRUE):
+
+  1. Al abrir el admin, el sidebar muestra los grupos "Contenido", "Sitio", "SEO/Métricas" y "Marketing" en un orden intencional y consistente
+  2. Pages, Posts, Categories y Media aparecen bajo "Contenido" (Authors se sumará al grupo en Phase 56, al crearse)
+  3. Site Settings, Header, Footer, Styles, LLM y Robots aparecen bajo "Sitio"
+  4. KeywordMetrics, PageMetrics, GSCMetrics, BrokenLinks y Redirects aparecen bajo "SEO/Métricas"
+  5. Works, CaseStudies, Clientes, Testimonials, AdBanners, Forms y Search aparecen bajo "Marketing"; ninguna colección/global queda sin grupo, y los labels son bilingües es/en
+
+**Plans**: TBD
+
+### Phase 53: Fundación de la colección Pages
+
+**Goal**: El editor puede crear una página nueva en `Pages`, asignarle slug y publicarla, y duplicar una página existente como base para otra — validando el patrón antes de migrar los tres globals singleton
+**Depends on**: Phase 52
+**Requirements**: PAGES-01, PAGES-02
+**Success Criteria** (what must be TRUE):
+
+  1. El editor puede crear una entrada nueva en `Pages`, asignarle un slug único y publicarla; la ruta pública correspondiente renderiza el contenido de los bloques elegidos
+  2. El editor puede duplicar una página existente de `Pages` y la copia queda editable de forma independiente (slug distinto) sin afectar el original
+  3. La página nueva/duplicada sirve con `x-vercel-cache: HIT` / ISR (sin `no-store`) en su ruta pública
+
+**Plans**: TBD
+
+### Phase 54: Migración del listado de blog a Pages
+
+**Goal**: El listado de blog (ex-global `BlogListing`) se sirve desde una entrada editable de `Pages`, validando el patrón de migración en una superficie de menor riesgo que Home
+**Depends on**: Phase 53
+**Requirements**: PAGES-04
+**Success Criteria** (what must be TRUE):
+
+  1. La ruta del listado de blog renderiza el mismo contenido que antes (paridad visual), ahora leído desde una entrada de `Pages`
+  2. La ruta conserva `x-vercel-cache: HIT` / ISR sin `no-store` tras la migración
+  3. `hreflang`, `canonical` y `<html lang>` son correctos por locale en la ruta migrada
+  4. El live preview de Payload funciona sobre la nueva entrada de `Pages` del listado de blog
+
+**Plans**: TBD
+
+### Phase 55: Migración del listado de case studies a Pages
+
+**Goal**: El listado de case studies (ex-global `CaseStudiesListing`) se sirve desde una entrada editable de `Pages`, replicando el patrón validado en Phase 54
+**Depends on**: Phase 54
+**Requirements**: PAGES-05
+**Success Criteria** (what must be TRUE):
+
+  1. La ruta del listado de case studies renderiza el mismo contenido que antes (paridad visual), ahora leído desde una entrada de `Pages`
+  2. La ruta conserva `x-vercel-cache: HIT` / ISR sin `no-store` tras la migración
+  3. `hreflang`, `canonical` y `<html lang>` son correctos por locale en la ruta migrada
+  4. El live preview de Payload funciona sobre la nueva entrada de `Pages` del listado de case studies
+
+**Plans**: TBD
+
+### Phase 56: Colección Authors
+
+**Goal**: Existe una colección `Authors` real en el admin, relacionable con `Posts`, y la author page pública junto con el `authors-sitemap` la consumen sin romper la paridad de datos actuales
+**Depends on**: Phase 52 (para heredar el grupo "Contenido" desde su creación)
+**Requirements**: AUTHORS-01, AUTHORS-02, AUTHORS-03
+**Success Criteria** (what must be TRUE):
+
+  1. La colección `Authors` aparece en el admin bajo el grupo "Contenido", editable con los campos necesarios para reconstruir la author page actual
+  2. Un `Post` puede relacionarse con uno o más `Authors` vía campo relación, y la asociación persiste al guardar
+  3. La author page pública muestra la misma información que antes (nombre, bio, avatar, posts asociados), ahora leída desde `Authors`
+  4. El `authors-sitemap` sigue generando las mismas URLs válidas, ahora derivadas de la colección `Authors`
+
+**Plans**: TBD
+
+### Phase 57: Migración de Home a Pages
+
+**Goal**: El contenido de la Home se sirve desde una entrada editable de `Pages` en `/` (home ES), sin regresionar el ruteo, el ISR ni el edge-cache — la superficie de mayor riesgo del milestone, migrada al final tras validar el patrón en Phases 54-55
+**Depends on**: Phase 55
+**Requirements**: PAGES-03
+**Success Criteria** (what must be TRUE):
+
+  1. La home ES (`/`) renderiza el mismo contenido que antes (paridad visual), ahora leído desde una entrada de `Pages`
+  2. `/` mantiene `x-vercel-cache: HIT` / ISR sin `no-store` tras la migración
+  3. `hreflang`, `canonical` y `<html lang>` son correctos tanto en `/` (es) como en su contraparte `/en`
+  4. El live preview de Payload funciona sobre la entrada de `Pages` de la Home
+
+**Plans**: TBD
+
+### Phase 58: Retiro de globals y limpieza
+
+**Goal**: Los globals `home`/`bloglisting`/`casestudieslisting` se retiran del config y del render sin rutas rotas ni datos huérfanos, y los globals restantes (Styles, LLM, Robots) quedan consolidados de forma coherente con los grupos de nav, con la decisión y la guía de uso documentadas
+**Depends on**: Phase 57 (los tres globals singleton deben estar migrados antes de retirarlos)
+**Requirements**: PAGES-06, CLEAN-01, CLEAN-02
+**Success Criteria** (what must be TRUE):
+
+  1. Los globals `home`, `bloglisting` y `casestudieslisting` ya no existen en `payload.config.ts` ni en el admin, y ninguna ruta pública depende de ellos
+  2. No quedan datos huérfanos: el contenido de esos globals fue migrado a las entradas de `Pages` correspondientes o descartado deliberadamente (decisión documentada)
+  3. Los globals restantes (Styles, LLM, Robots) están consolidados/reubicados de forma coherente con los grupos de nav de Phase 52, con la decisión documentada en el repo
+  4. Existe una guía corta en el repo que explica cómo crear una página nueva en `Pages` y qué global quedó con qué propósito
+
+**Plans**: TBD
+
+### Phase 59: QA final y no-regresión
+
+**Goal**: Todas las superficies públicas migradas (`/`, blog listing, case studies listing) pasan una verificación cruzada de rendimiento, SEO por-locale, live preview y calidad de código antes de cerrar el milestone
+**Depends on**: Phase 58
+**Requirements**: QA-01, QA-02, QA-03, QA-04
+**Success Criteria** (what must be TRUE):
+
+  1. Verificado en las 3 rutas migradas (`/`, blog, case studies) que sirven `x-vercel-cache: HIT` y sin `no-store` (ISR/edge-cache intacto)
+  2. `hreflang`, `canonical` y `<html lang>` verificados correctos por locale en las 3 rutas post-migración
+  3. Live preview de Payload verificado end-to-end sobre las 3 páginas migradas
+  4. tsc baseline sin errores nuevos sobre `src/` y la suite de tests verde al cierre del milestone
+
+**Plans**: TBD
+
 
 ## Progress
 
@@ -860,3 +1074,11 @@ Plans:
 | 49. Post / artículo | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
 | 50. Case studies | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
 | 51. Formularios & interactivos | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
+| 52. Nav agrupada del admin | v1.9 | 0/TBD | Not started | - |
+| 53. Fundación de la colección Pages | v1.9 | 0/TBD | Not started | - |
+| 54. Migración del listado de blog a Pages | v1.9 | 0/TBD | Not started | - |
+| 55. Migración del listado de case studies a Pages | v1.9 | 0/TBD | Not started | - |
+| 56. Colección Authors | v1.9 | 0/TBD | Not started | - |
+| 57. Migración de Home a Pages | v1.9 | 0/TBD | Not started | - |
+| 58. Retiro de globals y limpieza | v1.9 | 0/TBD | Not started | - |
+| 59. QA final y no-regresión | v1.9 | 0/TBD | Not started | - |

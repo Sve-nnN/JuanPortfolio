@@ -20,14 +20,31 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Páginas públicas rápidas y cacheables desde el edge; el SEO técnico no emite basura que degrade indexación. Para v1.5: el admin de Payload solo contiene código vivo y coherente.
-**Current focus:** Milestone v1.8 — refresh de UX/UI del sitio público con `ui-ux-pro-max`, componente por componente con QA visual por superficie. v1.7 parkeada (39/41 hechas; 38/40/42/43 abiertas para Juan). Roadmap creado (fases 44-51), listo para planear Phase 44.
+**Current focus:** Milestone v1.9 — estandarización del admin de Payload: nav agrupada, migración de globals singleton (Home/BlogListing/CaseStudiesListing) a la colección `Pages`, colección Authors, limpieza de globals. Roadmap creado (fases 52-59), listo para planear Phase 52. v1.8 shipped 2026-07-05. v1.7 parkeada (39/41 hechas; 38/40/42/43 abiertas para Juan).
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 52 (Nav agrupada del admin) — not started
 Plan: —
-Status: Defining requirements
-Last activity: 2026-07-05 — Milestone v1.9 started
+Status: Roadmap created, ready to plan Phase 52
+Last activity: 2026-07-05 — Roadmap v1.9 creado (fases 52-59, cobertura 20/20)
+
+## Milestone v1.9 — Estructura de fases
+
+Numeración CONTINÚA tras v1.8 (que terminó en Phase 51). Requirements PAGES-01..06, NAV-01..05, AUTHORS-01..03, CLEAN-01..02, QA-01..04 (`.planning/REQUIREMENTS.md`). Orden de build: nav (bajo riesgo, valor visible rápido) → fundación de Pages (crear/duplicar) → listados de blog/case studies (validan el patrón) → Authors (paralelo, tras nav) → Home (mayor riesgo, al final) → retiro de globals + limpieza → QA final.
+
+| Phase | Goal | Requirements | Gate |
+|-------|------|--------------|------|
+| 52 | Nav agrupada del admin (Contenido/Sitio/SEO-Métricas/Marketing) | NAV-01..05 | Ninguno — solo `admin.group`, bajo riesgo |
+| 53 | Fundación de la colección Pages (crear/duplicar página) | PAGES-01, PAGES-02 | Ninguno |
+| 54 | Migración del listado de blog a Pages | PAGES-04 | QA de render/SEO (paridad visual + ISR + hreflang) |
+| 55 | Migración del listado de case studies a Pages | PAGES-05 | QA de render/SEO (paridad visual + ISR + hreflang) |
+| 56 | Colección Authors (relación con Posts, author page, sitemap) | AUTHORS-01..03 | Confirmar cómo se resuelven hoy los autores antes de introducir la colección |
+| 57 | Migración de Home a Pages (`/`, mayor riesgo) | PAGES-03 | QA de render/SEO reforzado — mayor riesgo del milestone |
+| 58 | Retiro de globals (home/bloglisting/casestudieslisting) + limpieza (Styles/LLM/Robots) | PAGES-06, CLEAN-01/02 | Ninguno |
+| 59 | QA final y no-regresión (ISR/edge-cache, hreflang/canonical/lang, live preview, tsc+tests) | QA-01..04 | Cierre de milestone — no mergear a main sin este gate en verde |
+
+**Constantes en todas las fases (52-59):** Definition of Done por superficie migrada (paridad visual, `x-vercel-cache: HIT`/ISR sin `no-store`, hreflang/canonical/`<html lang>` correctos, live preview funcional, global retirado sin rutas rotas/datos huérfanos); tsc baseline (0 nuevos en `src/`) y tests verdes. Home (Phase 57) es la superficie de mayor riesgo — migra al final, tras validar el patrón en blog (54) y case studies (55).
 
 ## Milestone v1.8 — Estructura de fases
 
@@ -144,10 +161,10 @@ Items acknowledged y diferidos al cierre del milestone v1.5 (2026-06-26):
 
 ## Session Continuity
 
-Last session: 2026-07-05T18:14:52.413Z
-Stopped at: Roadmap v1.8 creado (fases 44-51, cobertura 22/22).
+Last session: 2026-07-05T22:07:11.440Z
+Stopped at: Roadmap v1.9 creado (fases 52-59, cobertura 20/20).
 Resume file: None
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd:new-milestone
+- Revisar/aprobar el roadmap v1.9 y luego planear Phase 52 con /gsd:plan-phase 52

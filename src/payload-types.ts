@@ -130,6 +130,7 @@ export interface Config {
     styles: Style;
     'site-settings': SiteSetting;
     llm: Llm;
+    robots: Robot;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -140,6 +141,7 @@ export interface Config {
     styles: StylesSelect<false> | StylesSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     llm: LlmSelect<false> | LlmSelect<true>;
+    robots: RobotsSelect<false> | RobotsSelect<true>;
   };
   locale: 'en' | 'es';
   user:
@@ -4583,6 +4585,34 @@ export interface Llm {
   createdAt?: string | null;
 }
 /**
+ * Controla el /robots.txt del sitio. Los sitemaps se agregan automáticamente y no se editan aquí.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "robots".
+ */
+export interface Robot {
+  id: string;
+  /**
+   * Arte ASCII que aparece como comentario al inicio del archivo (estilo Nike). Se antepone "#" a cada línea automáticamente. Dejá vacío para omitirlo.
+   */
+  asciiArt?: string | null;
+  /**
+   * Texto de marca debajo del logo (una línea por renglón). También se muestra como comentario.
+   */
+  message?: string | null;
+  /**
+   * Rutas que los crawlers NO deben rastrear. User-agent: * y Allow: / son fijos.
+   */
+  disallow?:
+    | {
+        path: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -4944,6 +4974,23 @@ export interface LlmSelect<T extends boolean = true> {
         title?: T;
         url?: T;
         description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "robots_select".
+ */
+export interface RobotsSelect<T extends boolean = true> {
+  asciiArt?: T;
+  message?: T;
+  disallow?:
+    | T
+    | {
+        path?: T;
         id?: T;
       };
   updatedAt?: T;

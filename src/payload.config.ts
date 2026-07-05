@@ -32,6 +32,7 @@ import { CaseStudiesListing } from './globals/CaseStudiesListing/config'
 import { Styles } from './globals/Styles/config'
 import { SiteSettings } from './globals/SiteSettings'
 import { LLM } from './globals/LLM/config'
+import { Robots } from './globals/Robots/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -135,7 +136,7 @@ export default buildConfig({
     BrokenLinks,
   ],
   cors: [getServerSideURL(), 'http://localhost:3000'].filter(Boolean),
-  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM],
+  globals: [Header, Footer, Home, BlogListing, CaseStudiesListing, Styles, SiteSettings, LLM, Robots],
   plugins: [
     ...plugins,
     mcpPlugin({

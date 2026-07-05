@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.7
 milestone_name: Rendimiento avanzado (Core Web Vitals)
 status: executing
-last_updated: "2026-07-04T00:00:00.000Z"
-last_activity: 2026-07-04 — Fase 39 (hero server component + recorte JS) código hecho; gate QA visual pendiente de Juan
+last_updated: "2026-07-05T00:00:00.000Z"
+last_activity: 2026-07-05 — Fase 39 completa (QA visual firmado por Juan); arranca Fase 41 (fuentes)
 progress:
   total_phases: 6
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 0
   completed_plans: 0
-  percent: 0
+  percent: 17
 ---
 
 # Project State

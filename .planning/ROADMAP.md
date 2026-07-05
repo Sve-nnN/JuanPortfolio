@@ -622,7 +622,7 @@ Plans:
 | 29. Accesos endurecidos y assets unificados | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 | 30. Consistencia del admin | v1.5 | 1/1 | ✅ Complete | 2026-06-26 |
 | 38. Medición de campo — INP real por interacción | v1.7 | 0/? | Not started | - |
-| 39. Hero server component + recorte de JS inicial | v1.7 | code done | Gate QA visual (Juan) | 41a308d |
+| 39. Hero server component + recorte de JS inicial | v1.7 | ✅ Complete | QA visual OK (Juan 2026-07-05) | 41a308d |
 | 40. Validación de TBT/INP tras el recorte de JS | v1.7 | 0/? | Not started | - |
 | 41. Recorte de preloads de fuentes | v1.7 | 0/? | Not started | - |
 | 42. Cache de HTML en el edge (Cloudflare) | v1.7 | 0/? | Not started | - |

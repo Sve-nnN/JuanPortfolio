@@ -1,8 +1,9 @@
 ---
-status: human_needed
+status: passed
 phase: 39
 requirements: [PERF-04, PERF-05, PERF-06]
 commit: 41a308d
+human_qa: passed 2026-07-05 (Juan — hero visualmente idéntico, mobile)
 ---
 
 # Phase 39 — Verification

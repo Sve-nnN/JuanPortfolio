@@ -10,7 +10,7 @@
 - ✅ **v1.5 Limpieza y alineación del admin de Payload** — Phases 25-30 (shipped 2026-06-26)
 - 🚧 **v1.6 Auditoría integral & remediación (SEO + código)** — Phases 31-37 (en curso, iniciado 2026-07-02)
 - 🚧 **v1.7 Rendimiento avanzado (Core Web Vitals)** — Phases 38-43 (roadmapped, iniciado 2026-07-02)
-- 🚧 **v1.8 Refresh de UX/UI (sitio público)** — Phases 44-51 (roadmapped, iniciado 2026-07-05)
+- ✅ **v1.8 Refresh de UX/UI (sitio público)** — Phases 44-51 (shipped 2026-07-05)
 
 ## Phases
 
@@ -854,9 +854,9 @@ Plans:
 | 44. Fundación design-system | v1.8 | ✅ Complete | QA OK (Juan) + escala tipográfica | 7cb58cb,c7bdb5a |
 | 45. Primitivas UI compartidas | v1.8 | ✅ Complete | QA /contact OK (Juan) | 6737537 |
 | 45b. Normalización de headings (cross-cutting) | v1.8 | code done | Gate QA (Juan) — home + páginas | d0a3278 |
-| 46. Chrome global | v1.8 | code done | Gate QA (Juan) — header CTA fijo, tokens | cross-cutting |
-| 47. Home | v1.8 | code done | Gate QA (Juan) — hero+secciones refrescadas | cross-cutting |
-| 48. Blog listing & archivo | v1.8 | code done | Gate QA (Juan) | cross-cutting |
-| 49. Post / artículo | v1.8 | code done | Gate QA (Juan) | cross-cutting |
-| 50. Case studies | v1.8 | code done | Gate QA (Juan) | cross-cutting |
-| 51. Formularios & interactivos | v1.8 | code done | Gate QA (Juan) | cross-cutting |
+| 46. Chrome global | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
+| 47. Home | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
+| 48. Blog listing & archivo | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
+| 49. Post / artículo | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
+| 50. Case studies | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|
+| 51. Formularios & interactivos | v1.8 | ✅ Complete | QA cross-cutting (Juan) | cross-cutting|

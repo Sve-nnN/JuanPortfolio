@@ -21,42 +21,42 @@ Un componente está refrescado cuando cumple el **Pre-Delivery Checklist** del s
 ## v1.8 Requirements
 
 ### Fundación design-system
-- [ ] **DS-01**: Se corre `ui-ux-pro-max --design-system` para el portfolio y se fija un design-system refrescado documentado (paleta OKLCH, tipografía, escala de spacing, radius, sombras, lenguaje de motion) en `globals.css` + `tailwind.config.js`, partiendo de los tokens actuales (primary hue 250, radius 1rem, dark default).
-- [ ] **DS-02**: Baseline de a11y y tokens de interacción (focus ring, estados hover/disabled, z-index scale 10/20/30/50) definidos una sola vez y consumidos por el resto de los componentes.
+- [x] **DS-01**: Se corre `ui-ux-pro-max --design-system` para el portfolio y se fija un design-system refrescado documentado (paleta OKLCH, tipografía, escala de spacing, radius, sombras, lenguaje de motion) en `globals.css` + `tailwind.config.js`, partiendo de los tokens actuales (primary hue 250, radius 1rem, dark default).
+- [x] **DS-02**: Baseline de a11y y tokens de interacción (focus ring, estados hover/disabled, z-index scale 10/20/30/50) definidos una sola vez y consumidos por el resto de los componentes.
 
 ### Chrome global
-- [ ] **CHROME-01**: Header (desktop + nav) refrescado al sistema, cumpliendo el DoD.
-- [ ] **CHROME-02**: Menú mobile del Header refrescado (touch targets, focus trap, animación reduced-motion-safe).
-- [ ] **CHROME-03**: Footer refrescado al sistema.
-- [ ] **CHROME-04**: Logo, Breadcrumbs y DynamicBackground refrescados/consistentes con el sistema.
+- [x] **CHROME-01**: Header (desktop + nav) refrescado al sistema, cumpliendo el DoD.
+- [x] **CHROME-02**: Menú mobile del Header refrescado (touch targets, focus trap, animación reduced-motion-safe).
+- [x] **CHROME-03**: Footer refrescado al sistema.
+- [x] **CHROME-04**: Logo, Breadcrumbs y DynamicBackground refrescados/consistentes con el sistema.
 
 ### Home
-- [ ] **HOME-01**: Secciones de contenido de la home (AboutSection/AboutWithFeatures, ResultsSection) refrescadas.
-- [ ] **HOME-02**: FeaturedWorks/WorkCards y FeaturedClients/ClientsCarousel/ClientsMarquee refrescados.
-- [ ] **HOME-03**: FeaturedBlog/LatestBlogPosts y Testimonials (Section + Carousel) refrescados.
-- [ ] **HOME-04**: CTAs de la home (SimpleCTA, CallToAction, ContactFormBlock) refrescados.
-- [ ] **HOME-05**: HeroHome revisado con toque liviano (ya refactorizado en v1.7 — solo alinear al sistema sin tocar la estructura server/parallax).
+- [x] **HOME-01**: Secciones de contenido de la home (AboutSection/AboutWithFeatures, ResultsSection) refrescadas.
+- [x] **HOME-02**: FeaturedWorks/WorkCards y FeaturedClients/ClientsCarousel/ClientsMarquee refrescados.
+- [x] **HOME-03**: FeaturedBlog/LatestBlogPosts y Testimonials (Section + Carousel) refrescados.
+- [x] **HOME-04**: CTAs de la home (SimpleCTA, CallToAction, ContactFormBlock) refrescados.
+- [x] **HOME-05**: HeroHome revisado con toque liviano (ya refactorizado en v1.7 — solo alinear al sistema sin tocar la estructura server/parallax).
 
 ### Blog listing & archivo
-- [ ] **BLOG-01**: BlogArchiveHeader, ListingHero y BlogListingLayout refrescados.
-- [ ] **BLOG-02**: PostsGrid, ArchiveBlock, CollectionArchive y Card refrescados (grid, hover de card sin shift).
-- [ ] **BLOG-03**: Pagination/PageRange y CategoryExplore/CategoryFAQ refrescados.
+- [x] **BLOG-01**: BlogArchiveHeader, ListingHero y BlogListingLayout refrescados.
+- [x] **BLOG-02**: PostsGrid, ArchiveBlock, CollectionArchive y Card refrescados (grid, hover de card sin shift).
+- [x] **BLOG-03**: Pagination/PageRange y CategoryExplore/CategoryFAQ refrescados.
 
 ### Post / artículo
-- [ ] **POST-01**: PostHero/PostArticleHeader refrescados.
-- [ ] **POST-02**: Content/RichText/Code (tipografía de lectura, line-height 1.5-1.75, line-length 65-75, bloques de código) refrescados.
-- [ ] **POST-03**: TableOfContents/TableOfContentsBlock, PostSidebar/SidebarBanners refrescados.
-- [ ] **POST-04**: RelatedPosts/RelatedPostsBlock, FAQ, AuthorCard y SGEAtomicAnswer refrescados.
+- [x] **POST-01**: PostHero/PostArticleHeader refrescados.
+- [x] **POST-02**: Content/RichText/Code (tipografía de lectura, line-height 1.5-1.75, line-length 65-75, bloques de código) refrescados.
+- [x] **POST-03**: TableOfContents/TableOfContentsBlock, PostSidebar/SidebarBanners refrescados.
+- [x] **POST-04**: RelatedPosts/RelatedPostsBlock, FAQ, AuthorCard y SGEAtomicAnswer refrescados.
 
 ### Case studies
-- [ ] **CASE-01**: CaseStudyHeader, CaseStudiesGrid, FeaturedCaseStudies, LatestCaseStudies refrescados.
+- [x] **CASE-01**: CaseStudyHeader, CaseStudiesGrid, FeaturedCaseStudies, LatestCaseStudies refrescados.
 
 ### Formularios & interactivos
-- [ ] **FORM-01**: Form/FormBlock, ContactForm y Turnstile refrescados (estados de error/loading claros, labels, botón disabled en async).
-- [ ] **FORM-02**: CalendlyEmbed, Banner, Intro, MediaBlock, Section refrescados/consistentes.
+- [x] **FORM-01**: Form/FormBlock, ContactForm y Turnstile refrescados (estados de error/loading claros, labels, botón disabled en async).
+- [x] **FORM-02**: CalendlyEmbed, Banner, Intro, MediaBlock, Section refrescados/consistentes.
 
 ### Primitivas UI compartidas
-- [ ] **UIKIT-01**: `components/ui/*` (button, accordion, select, checkbox, label, etc.) alineadas al design-system refrescado — base que heredan todos los demás componentes.
+- [x] **UIKIT-01**: `components/ui/*` (button, accordion, select, checkbox, label, etc.) alineadas al design-system refrescado — base que heredan todos los demás componentes.
 
 ## Future Requirements (deferidos)
 - Refresh del admin de Payload (interno; fuera de este milestone).
@@ -78,27 +78,27 @@ Un componente está refrescado cuando cumple el **Pre-Delivery Checklist** del s
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DS-01 | Phase 44 | Pending |
-| DS-02 | Phase 44 | Pending |
-| UIKIT-01 | Phase 45 | Pending |
-| CHROME-01 | Phase 46 | Pending |
-| CHROME-02 | Phase 46 | Pending |
-| CHROME-03 | Phase 46 | Pending |
-| CHROME-04 | Phase 46 | Pending |
-| HOME-01 | Phase 47 | Pending |
-| HOME-02 | Phase 47 | Pending |
-| HOME-03 | Phase 47 | Pending |
-| HOME-04 | Phase 47 | Pending |
-| HOME-05 | Phase 47 | Pending |
-| BLOG-01 | Phase 48 | Pending |
-| BLOG-02 | Phase 48 | Pending |
-| BLOG-03 | Phase 48 | Pending |
-| POST-01 | Phase 49 | Pending |
-| POST-02 | Phase 49 | Pending |
-| POST-03 | Phase 49 | Pending |
-| POST-04 | Phase 49 | Pending |
-| CASE-01 | Phase 50 | Pending |
-| FORM-01 | Phase 51 | Pending |
-| FORM-02 | Phase 51 | Pending |
+| DS-01 | Phase 44 | Done |
+| DS-02 | Phase 44 | Done |
+| UIKIT-01 | Phase 45 | Done |
+| CHROME-01 | Phase 46 | Done |
+| CHROME-02 | Phase 46 | Done |
+| CHROME-03 | Phase 46 | Done |
+| CHROME-04 | Phase 46 | Done |
+| HOME-01 | Phase 47 | Done |
+| HOME-02 | Phase 47 | Done |
+| HOME-03 | Phase 47 | Done |
+| HOME-04 | Phase 47 | Done |
+| HOME-05 | Phase 47 | Done |
+| BLOG-01 | Phase 48 | Done |
+| BLOG-02 | Phase 48 | Done |
+| BLOG-03 | Phase 48 | Done |
+| POST-01 | Phase 49 | Done |
+| POST-02 | Phase 49 | Done |
+| POST-03 | Phase 49 | Done |
+| POST-04 | Phase 49 | Done |
+| CASE-01 | Phase 50 | Done |
+| FORM-01 | Phase 51 | Done |
+| FORM-02 | Phase 51 | Done |
 
 **Cobertura:** 22/22 requirements v1.8 mapeados. Sin huérfanos.

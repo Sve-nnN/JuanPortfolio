@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.7
 milestone_name: Rendimiento avanzado (Core Web Vitals)
-status: planning
-last_updated: "2026-07-02T21:46:33.881Z"
-last_activity: 2026-07-02
+status: executing
+last_updated: "2026-07-04T00:00:00.000Z"
+last_activity: 2026-07-04 — Fase 39 (hero server component + recorte JS) código hecho; gate QA visual pendiente de Juan
 progress:
   total_phases: 6
   completed_phases: 0
@@ -24,10 +24,13 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 38 (Medición de campo — INP real por interacción)
+Phase: 39 (Hero server component + recorte de JS) — código hecho, gate QA visual pendiente
 Plan: —
-Status: Roadmapped, ready to plan Phase 38
-Last activity: 2026-07-02 — Milestone v1.7 roadmapped (fases 38-43)
+Status: Branch `feat/inp-web-vitals-103`, commit `41a308d`. tsc 112 baseline, tests verdes (2 int flaky no relacionados). Fase 38 diferida (sin field data GA4 todavía — reporter #103 recién mergeado).
+Last activity: 2026-07-04 — Fase 39 refactor del hero a server component + parallax CSS, framer-motion fuera del above-the-fold
+
+**Gate abierto (Juan):** QA visual mobile del hero antes de mergear — ver `.planning/phases/39-hero-server-component-recorte-de-js-inicial/39-VERIFICATION.md`.
+**Diferido:** Fase 38 (INP field data) hasta que GA4 acumule datos + Juan configure params/dimensiones en GTM/GA4 (ver instrucciones de sesión).
 
 ## Milestone v1.7 — Estructura de fases
 

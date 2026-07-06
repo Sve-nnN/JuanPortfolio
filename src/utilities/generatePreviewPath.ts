@@ -22,10 +22,17 @@ export const generatePreviewPath = ({ collection, slug, req }: Props) => {
   const locale = req.locale || 'es'
   const localePrefix = locale === 'es' ? '' : `/${locale}`
 
+  // The `home` Page must preview at `/` (es) or `/en` (en), not `/home`, since the
+  // home route lives at the locale root, not at the pages slug path.
+  const path =
+    collection === 'pages' && slug === 'home'
+      ? localePrefix || '/'
+      : `${localePrefix}${collectionPrefixMap[collection]}/${slug}`
+
   const encodedParams = new URLSearchParams({
     slug,
     collection,
-    path: `${localePrefix}${collectionPrefixMap[collection]}/${slug}`,
+    path,
     previewSecret: process.env.PREVIEW_SECRET || '',
   })
 

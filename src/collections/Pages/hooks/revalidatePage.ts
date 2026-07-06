@@ -14,6 +14,8 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
       const path = doc.slug === 'home' ? '/' : `/${doc.slug}`
 
       revalidatePath(path)
+      // Home renders at both locale roots; belt-and-suspenders refresh of the EN ISR HTML.
+      if (doc.slug === 'home') revalidatePath('/en')
       revalidateTag('pages-sitemap')
       // Invalidate the tag-cached read (getCachedPageBySlug) for this slug so
       // editing e.g. the `blog` Page refreshes /blog. Belt-and-suspenders with revalidatePath.
@@ -27,6 +29,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
       payload.logger.info(`Revalidating old page at path: ${oldPath}`)
 
       revalidatePath(oldPath)
+      if (previousDoc.slug === 'home') revalidatePath('/en')
       revalidateTag('pages-sitemap')
       revalidateTag('pages_' + previousDoc.slug)
     }
@@ -38,6 +41,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Page> = ({ doc, req: { 
   if (!context.disableRevalidate) {
     const path = doc?.slug === 'home' ? '/' : `/${doc?.slug}`
     revalidatePath(path)
+    if (doc?.slug === 'home') revalidatePath('/en')
     revalidateTag('pages-sitemap')
   }
 

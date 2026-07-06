@@ -271,6 +271,8 @@ export interface Page {
       | FeaturedWorksBlock
       | FeaturedClientsBlock
       | FeaturedBlogBlock
+      | FAQBlock
+      | TestimonialsCarouselBlock
       | ContactFormBlock
       | SimpleCtaBlock
       | ListingHeroBlock
@@ -1142,6 +1144,49 @@ export interface FeaturedBlogBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'featuredBlog';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock".
+ */
+export interface FAQBlock {
+  title?: string | null;
+  faqs?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsCarouselBlock".
+ */
+export interface TestimonialsCarouselBlock {
+  title?: string | null;
+  showRating?: boolean | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonialsCarousel';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2859,6 +2904,8 @@ export interface PagesSelect<T extends boolean = true> {
               featuredWorks?: T | FeaturedWorksBlockSelect<T>;
               featuredClients?: T | FeaturedClientsBlockSelect<T>;
               featuredBlog?: T | FeaturedBlogBlockSelect<T>;
+              faq?: T | FAQBlockSelect<T>;
+              testimonialsCarousel?: T | TestimonialsCarouselBlockSelect<T>;
               contactForm?: T | ContactFormBlockSelect<T>;
               simpleCta?: T | SimpleCtaBlockSelect<T>;
               listingHero?: T | ListingHeroBlockSelect<T>;
@@ -2997,6 +3044,33 @@ export interface FeaturedBlogBlockSelect<T extends boolean = true> {
   limit?: T;
   ctaLabel?: T;
   ctaUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  title?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsCarouselBlock_select".
+ */
+export interface TestimonialsCarouselBlockSelect<T extends boolean = true> {
+  title?: T;
+  showRating?: T;
+  limit?: T;
   id?: T;
   blockName?: T;
 }
@@ -4633,49 +4707,6 @@ export interface Home {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQBlock".
- */
-export interface FAQBlock {
-  title?: string | null;
-  faqs?:
-    | {
-        question: string;
-        answer: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'faq';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialsCarouselBlock".
- */
-export interface TestimonialsCarouselBlock {
-  title?: string | null;
-  showRating?: boolean | null;
-  limit?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'testimonialsCarousel';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "blog-listing".
  */
 export interface BlogListing {
@@ -5040,33 +5071,6 @@ export interface HomeSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQBlock_select".
- */
-export interface FAQBlockSelect<T extends boolean = true> {
-  title?: T;
-  faqs?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialsCarouselBlock_select".
- */
-export interface TestimonialsCarouselBlockSelect<T extends boolean = true> {
-  title?: T;
-  showRating?: T;
-  limit?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

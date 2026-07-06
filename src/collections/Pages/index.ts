@@ -43,6 +43,8 @@ import { createRedirectOnSlugChange } from '../../hooks/createRedirectOnSlugChan
 import { uniqueSlugBeforeDuplicate, suffixTitleBeforeDuplicate } from './hooks/beforeDuplicatePage'
 import { Section } from '../../blocks/Section/config'
 import { CalendlyEmbed } from '../../blocks/CalendlyEmbed/config'
+import { FAQ } from '../../blocks/FAQ/config'
+import { TestimonialsCarousel } from '../../blocks/TestimonialsCarousel/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -157,6 +159,8 @@ export const Pages: CollectionConfig<'pages'> = {
                 FeaturedWorks,
                 FeaturedClients,
                 FeaturedBlog,
+                FAQ,
+                TestimonialsCarousel,
                 ContactFormBlock,
                 SimpleCTA,
                 // Bloques para páginas de listado

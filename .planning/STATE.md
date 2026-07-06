@@ -7,10 +7,10 @@ last_updated: "2026-07-05T23:00:00.000Z"
 last_activity: 2026-07-05
 progress:
   total_phases: 8
-  completed_phases: 6
-  total_plans: 6
-  completed_plans: 6
-  percent: 75
+  completed_phases: 7
+  total_plans: 7
+  completed_plans: 7
+  percent: 88
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 58 (Retiro de globals y limpieza) — next
+Phase: 59 (QA final y no-regresión) — next
 Plan: —
-Status: Phase 57 completada (6/6 en código, fallback global, deploy no rompe /; correr migrate:home diferido). PAGES-03 done.
-Last activity: 2026-07-05 — Phase 57 (migración Home a Pages, fallback al global) ejecutada y verificada
+Status: Phase 58 completada (CLEAN-01/02 en main; PAGES-06 retiro destructivo en branch chore/v1.9-retire-globals, verificado passed). Gate: mergear branch solo post-migración.
+Last activity: 2026-07-05 — Phase 58 (retiro de globals en branch aparte + docs CLEAN) ejecutada y verificada
 
 ## Milestone v1.9 — Estructura de fases
 

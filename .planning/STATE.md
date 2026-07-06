@@ -7,10 +7,10 @@ last_updated: "2026-07-05T23:00:00.000Z"
 last_activity: 2026-07-05
 progress:
   total_phases: 8
-  completed_phases: 5
-  total_plans: 5
-  completed_plans: 5
-  percent: 63
+  completed_phases: 6
+  total_plans: 6
+  completed_plans: 6
+  percent: 75
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 57 (Migración de Home a Pages) — next
+Phase: 58 (Retiro de globals y limpieza) — next
 Plan: —
-Status: Phase 56 completada (6/6 en código, aditiva+fallback, deploy único seguro; correr migrate:authors+verify diferidos). AUTHORS-01/02/03 done.
-Last activity: 2026-07-05 — Phase 56 (colección Authors, aditiva postAuthors + read fallback) ejecutada y verificada
+Status: Phase 57 completada (6/6 en código, fallback global, deploy no rompe /; correr migrate:home diferido). PAGES-03 done.
+Last activity: 2026-07-05 — Phase 57 (migración Home a Pages, fallback al global) ejecutada y verificada
 
 ## Milestone v1.9 — Estructura de fases
 

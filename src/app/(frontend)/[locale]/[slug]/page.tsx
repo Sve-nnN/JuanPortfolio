@@ -17,7 +17,8 @@ import HomePage from '../home/HomePage'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import type { Home } from '@/payload-types'
+import type { Home, Page as PageType } from '@/payload-types'
+import { getCachedPageBySlug } from '@/utilities/getPages'
 import { generateSchema } from '@/utilities/generateSchema'
 import { getServerSideURL } from '@/utilities/getURL'
 
@@ -85,29 +86,40 @@ export default async function Page({ params: paramsPromise }: Args) {
   const locale = (['en', 'es'].includes(rawLocale) ? rawLocale : 'es') as 'en' | 'es'
   const url = (locale === 'es' ? '' : '/' + locale) + '/' + slug
 
-  // If this is the home slug, use the global 'home' instead of pages collection
+  // Home reads the Pages `home` entry (content.layout) with a FALLBACK to the
+  // `home` global when the Page does not exist yet (migration pending). This makes a
+  // single deploy safe: `/` renders IDENTICALLY pre-migration. The fallback is removed
+  // in Phase 58. Draft branch (live preview) is cookie-gated and uncached; the public
+  // path stays exclusively on the tag-cached read to preserve ISR/x-vercel-cache HIT.
   if (slug === 'home') {
-    const payload = await getPayload({ config: configPromise })
-    const homeGlobal = (await payload.findGlobal({
-      slug: 'home',
-      depth: 2,
-      draft,
-      locale,
-    })) as Home
+    // Draft-aware read for live preview (mirrors queryPageBySlug: cache(), draft:true,
+    // overrideAccess:true, depth:2). Never used on the public path.
+    const page = draft
+      ? await queryHomePageDraft(locale).catch(() => null)
+      : await getCachedPageBySlug('home', 2, locale)().catch(() => null)
+
+    // Derive layout with FALLBACK: prefer the Page content.layout; if the Page is
+    // absent, read the `home` global (identical to pre-migration render).
+    let layout = page?.content?.layout
+    if (!page) {
+      const payload = await getPayload({ config: configPromise })
+      const homeGlobal = (await payload.findGlobal({
+        slug: 'home',
+        depth: 2,
+        draft,
+        locale,
+      })) as Home
+      layout = homeGlobal.layout
+    }
 
     return (
       <main className="pb-24">
-        <JsonLd
-          isHome={true}
-          blocks={homeGlobal.layout}
-          locale={locale}
-          siteUrl={getServerSideURL()}
-        />
+        <JsonLd isHome={true} blocks={layout} locale={locale} siteUrl={getServerSideURL()} />
         <PageClient />
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
-        {/* HomePage will render content from the home global */}
-        <HomePage homeGlobal={homeGlobal} locale={locale} />
+        {/* HomePage renders the home layout (Pages content.layout or global fallback) */}
+        <HomePage layout={layout} locale={locale} />
       </main>
     )
   }
@@ -167,12 +179,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   const payload = await getPayload({ config: configPromise })
   if (slug === 'home') {
-    const homeGlobal = await payload.findGlobal({
-      slug: 'home',
-      locale,
-    })
+    // Read the Pages `home` entry with FALLBACK to the `home` global (migration pending).
+    // generateMeta is source-agnostic (validated on blog): hreflang/canonical/lang stay
+    // correct. No `path` is passed so the home canonical is unchanged.
+    const page = await getCachedPageBySlug('home', 2, locale)().catch(() => null)
+    const doc = page ?? (await payload.findGlobal({ slug: 'home', locale }))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return generateMeta({ doc: homeGlobal as any, locale })
+    return generateMeta({ doc: doc as any, locale })
   }
   if (slug === 'blog-listing') {
     const blogListingGlobal = await payload.findGlobal({
@@ -204,6 +217,30 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
  * @param {'en' | 'es' | 'all' | undefined} args.locale - The locale.
  * @returns {Promise<any>} A promise that resolves to the page data.
  */
+/**
+ * Draft-aware, per-request fetch of the `home` Page for live preview.
+ * Mirrors queryPageBySlug: react cache(), draft:true, overrideAccess:true, depth:2.
+ * Never used on the public (non-draft) path — that stays on getCachedPageBySlug.
+ */
+const queryHomePageDraft = cache(async (locale: 'en' | 'es'): Promise<PageType | null> => {
+  const payload = await getPayload({ config: configPromise })
+  const result = await payload.find({
+    collection: 'pages',
+    draft: true,
+    limit: 1,
+    depth: 2,
+    pagination: false,
+    overrideAccess: true,
+    locale,
+    where: {
+      slug: {
+        equals: 'home',
+      },
+    },
+  })
+  return result.docs?.[0] ?? null
+})
+
 const queryPageBySlug = cache(
   async ({ slug, locale }: { slug: string; locale?: 'en' | 'es' | 'all' | undefined }) => {
     const { isEnabled: draft } = await draftMode()

@@ -3,21 +3,20 @@
  * @author Juan Carlos Angulo <juan@jcangulo.com>
  */
 import React from 'react'
-import type { Home } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import Link from 'next/link'
 
 /**
  * The home page component.
- * It renders the blocks defined in the 'home' global from the CMS.
- * If no blocks are configured, it displays a setup guide.
+ * It renders the home `layout` blocks (from the Pages `home` entry or, as a
+ * fallback, the `home` global). If no blocks are configured, it displays a setup guide.
  * @param {object} props - The component props.
- * @param {Home} props.homeGlobal - The 'home' global data.
+ * @param {unknown} props.layout - The home layout blocks (Pages content.layout or global layout).
  * @returns {Promise<React.ReactElement>} A promise that resolves to the home page component.
  */
-const HomePage = async ({ homeGlobal, locale = 'es' }: { homeGlobal: Home, locale?: 'en' | 'es' }) => {
-  let layout = homeGlobal.layout
-  
+const HomePage = async ({ layout: layoutProp, locale = 'es' }: { layout: unknown; locale?: 'en' | 'es' }) => {
+  let layout = layoutProp
+
   // Handle case where layout might be an object due to previous localization setting
   if (layout && !Array.isArray(layout) && typeof layout === 'object') {
     // @ts-expect-error - Handling legacy localized layout

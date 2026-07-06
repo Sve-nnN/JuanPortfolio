@@ -1008,7 +1008,8 @@ Plans:
   3. `hreflang`, `canonical` y `<html lang>` son correctos tanto en `/` (es) como en su contraparte `/en`
   4. El live preview de Payload funciona sobre la entrada de `Pages` de la Home
 
-**Plans**: TBD
+**Plans**: 1 plan
+- [ ] 57-01-PLAN.md — Cutover Home a Pages (2 ramas home + fallback al global), bloques FAQ/TestimonialsCarousel, preview/revalidacion, script migrate:home
 
 ### Phase 58: Retiro de globals y limpieza
 

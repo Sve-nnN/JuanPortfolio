@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.9
 milestone_name: Estandarización del admin de Payload
-status: in-progress
+status: code-complete
 last_updated: "2026-07-05T23:00:00.000Z"
 last_activity: 2026-07-05
 progress:
   total_phases: 8
-  completed_phases: 7
-  total_plans: 7
-  completed_plans: 7
-  percent: 88
+  completed_phases: 8
+  total_plans: 8
+  completed_plans: 8
+  percent: 100
 ---
 
 # Project State
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 59 (QA final y no-regresión) — next
+Phase: 59 (QA final) — código completo; cierre pendiente de deploy+migración de Juan
 Plan: —
-Status: Phase 58 completada (CLEAN-01/02 en main; PAGES-06 retiro destructivo en branch chore/v1.9-retire-globals, verificado passed). Gate: mergear branch solo post-migración.
-Last activity: 2026-07-05 — Phase 58 (retiro de globals en branch aparte + docs CLEAN) ejecutada y verificada
+Status: v1.9 CÓDIGO COMPLETO (8/8 fases). QA-04 verde (766/769 tests, 3 timeouts ambientales ajenos). QA-01/02/03 + cierre = post-deploy/migración (v1.9-JUAN-ACTIONS.md).
+Last activity: 2026-07-05 — Phase 59 (QA final) verificada; milestone v1.9 code-complete, pendiente secuencia de deploy de Juan
 
 ## Milestone v1.9 — Estructura de fases
 

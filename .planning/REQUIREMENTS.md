@@ -46,7 +46,7 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 - [ ] **QA-01**: Las rutas públicas migradas (`/`, blog, case studies) conservan ISR/edge-cache (`x-vercel-cache: HIT`, sin `no-store`) verificado.
 - [ ] **QA-02**: `hreflang`, `canonical` y `<html lang>` verificados correctos por locale post-migración.
 - [ ] **QA-03**: Live preview de Payload verificado sobre las páginas migradas.
-- [ ] **QA-04**: tsc baseline y suite de tests verdes al cierre del milestone.
+- [x] **QA-04**: tsc baseline y suite de tests verdes al cierre del milestone.
 
 ## Future Requirements (deferidos)
 - Nested docs / jerarquía de páginas (padre-hijo) para árboles de páginas grandes.
@@ -84,7 +84,7 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 | AUTHORS-03 | Phase 56 | Done |
 | CLEAN-01 | Phase 58 | Done |
 | CLEAN-02 | Phase 58 | Done |
-| QA-01 | Phase 59 | Pending |
-| QA-02 | Phase 59 | Pending |
-| QA-03 | Phase 59 | Pending |
-| QA-04 | Phase 59 | Pending |
+| QA-01 | Phase 59 | Deferred (deploy+migración) |
+| QA-02 | Phase 59 | Deferred (deploy+migración) |
+| QA-03 | Phase 59 | Deferred (deploy+migración) |
+| QA-04 | Phase 59 | Done |

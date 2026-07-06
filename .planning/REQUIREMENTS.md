@@ -39,8 +39,8 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 - [x] **AUTHORS-03**: La author page pública y el `authors-sitemap` consumen la colección `Authors` sin romperse (paridad de datos actuales).
 
 ### Limpieza de globals
-- [ ] **CLEAN-01**: Se revisan los globals restantes (Styles, LLM, Robots) y se consolidan/reubican los redundantes de forma coherente con los grupos de nav, documentando la decisión.
-- [ ] **CLEAN-02**: Documentar en el repo cómo crear una página nueva y qué global quedó como qué (guía corta para el editor/Juan).
+- [x] **CLEAN-01**: Se revisan los globals restantes (Styles, LLM, Robots) y se consolidan/reubican los redundantes de forma coherente con los grupos de nav, documentando la decisión.
+- [x] **CLEAN-02**: Documentar en el repo cómo crear una página nueva y qué global quedó como qué (guía corta para el editor/Juan).
 
 ### QA & no-regresión (cross-cutting)
 - [ ] **QA-01**: Las rutas públicas migradas (`/`, blog, case studies) conservan ISR/edge-cache (`x-vercel-cache: HIT`, sin `no-store`) verificado.
@@ -82,8 +82,8 @@ Convención label GitHub: `payload`, `admin`, `refactor`, tanda `v1.9-admin`.
 | AUTHORS-01 | Phase 56 | Done |
 | AUTHORS-02 | Phase 56 | Done |
 | AUTHORS-03 | Phase 56 | Done |
-| CLEAN-01 | Phase 58 | Pending |
-| CLEAN-02 | Phase 58 | Pending |
+| CLEAN-01 | Phase 58 | Done |
+| CLEAN-02 | Phase 58 | Done |
 | QA-01 | Phase 59 | Pending |
 | QA-02 | Phase 59 | Pending |
 | QA-03 | Phase 59 | Pending |

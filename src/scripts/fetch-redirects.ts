@@ -111,13 +111,12 @@ async function fetchRedirects() {
         console.log(`✅ Redirects fetched and saved to ${outputPath}`)
         process.exit(0)
     } catch (error) {
-        const isPayloadInitError = error && typeof error === 'object' && 'payloadInitError' in error
-        if (isPayloadInitError) {
-            console.warn('⚠️ Payload not available (missing secrets). Skipping redirects fetch — using existing redirects.json.')
-            process.exit(0)
-        }
-        console.error('Error fetching redirects:', error)
-        process.exit(1)
+        // Build environments (e.g. Dokploy/Nixpacks buildkit) may not have
+        // network access to the database yet, not just a missing secret.
+        // Any failure here should degrade to the checked-in redirects.json
+        // rather than fail the whole production build.
+        console.warn('⚠️ Could not fetch redirects from Payload (DB unreachable or misconfigured during build). Skipping — using existing redirects.json.', error)
+        process.exit(0)
     }
 }
 
